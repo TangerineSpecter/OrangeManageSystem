@@ -13,7 +13,7 @@
 - 模版引擎：Thymeleaf
 - 依赖管理：Maven 3.3.9
 - 缓存框架：Redis 5.0.3
-- 安全框架：Spring Security
+- 安全框架：Shiro
 
 **前端框架：**
 - 基础框架：LayUI 2.4.5

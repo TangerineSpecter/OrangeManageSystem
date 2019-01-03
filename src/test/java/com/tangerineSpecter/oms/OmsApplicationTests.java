@@ -1,4 +1,4 @@
-package com.tangerineSpecter.OrangeManageSystem;
+package com.tangerineSpecter.oms;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>橘子管理系统</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="stylesheet" href="/css/index/amazeui.min.css">
+<link rel="stylesheet" href="/css/index/app.css">
+<link rel="stylesheet" href="/layui/css/layui.css">
+<script type="text/javascript"
+	src="/js/jquery/jquery.min.js"></script>
+<script src="/layui/layui.all.js"></script>
+</head>
+<body>
+	<div class="am-g myapp-login">
+		<div class="myapp-login-logo-block">
+			<div class="myapp-login-logo">
+				<img src="/img/index/weather.png">
+			</div>
+			<div class="myapp-login-logo-text">
+				<div class="myapp-login-logo-text">
+					<span>Orange</span>Manage
+					<div class="info">Meow~</div>
+				</div>
+			</div>
+
+			<div class="login-font">
+				<i><a href="/login.html" style="color: #E66B1A">登录</a> </i> or <span><a
+					href="/register.html" style="color: #FFFFFF">注册</a></span>
+			</div>
+			<div class="am-u-sm-10 login-am-center">
+				<div class="am-form">
+					<form id="register">
+						<div class="am-form-group">
+							<input type="text" id="username" name="username"
+								placeholder="帐号（英文或者数字）"
+								onkeyup="value=value.replace(/[\W]/g,'') "
+								onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))">
+						</div>
+
+						<div class="am-form-group">
+							<input type="password" id="password" name="password"
+								placeholder="密码（6~18位）"
+								onkeyup="value=value.replace(/[\W]/g,'') "
+								onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"
+								maxlength="18">
+						</div>
+
+						<div class="am-form-group">
+							<input type="password" id="confirm" name="confirm"
+								placeholder="确认密码" onkeyup="value=value.replace(/[\W]/g,'') "
+								onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))">
+						</div>
+					</form>
+					<p>
+						<button class="
+								am-btn am-btn-default"
+							onclick="submitForm()">注册</button>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="/js/index/amazeui.min.js"></script>
+	<script src="/js/index/app.js"></script>
+	<script src="/js/common.js"></script>
+	<script type="text/javascript">
+		$(document).keyup(function(event) {
+			if (event.keyCode == 13) {//按下Enter
+				submitForm();
+			}
+		});
+
+		//通过异步方式登录
+		function submitForm() {
+			console.log($('#password').val().length)
+			if ($('#username').val() == '' || $('#password').val() == '') {
+				layer.open({
+					title : '提示',
+					content : '请输入用户名或者密码！'
+				});
+				return;
+			}
+			if ($('#password').val() != $('#confirm').val()) {
+				layer.open({
+					title : '提示',
+					content : '输入密码不一致，请重新输入！'
+				});
+				return;
+			}
+<<<<<<< HEAD
+			$.post("/register", $('#register').serialize(), function(data) {
+				if (data.success) {
+					layer.open({
+						title : '提示',
+						content : '注册成功！',
+						yes : function(index, layero) {
+							//跳转到登录页
+							window.location = "/login.html";
+						}
+					});
+				} else {
+=======
+			$.post("/register", $("#register").serialize(), function(data) {
+				if (data.success) {
+>>>>>>> 06b02fdc74c3f1425014511377f221c87a8f67af
+					layui.use('layer', function() {
+						layer.open({
+							title : '提示',
+<<<<<<< HEAD
+=======
+							content : data.msg,
+							yes : function(index,layero){
+								//跳转到首页
+								window.location.href = "/login.html";
+							}
+						});
+					});
+				}else{
+					layui.use('layer', function() {
+						var layer = layui.layer;
+						layer.open({
+							title : '提示',
+>>>>>>> 06b02fdc74c3f1425014511377f221c87a8f67af
+							content : data.msg
+						});
+					});
+				}
+			}, "JSON")
+		}
+	</script>
+</body>
+</html>

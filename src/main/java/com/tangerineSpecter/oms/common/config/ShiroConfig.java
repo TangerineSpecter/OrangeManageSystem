@@ -8,6 +8,7 @@ import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.apache.shiro.mgt.SecurityManager;
 
 import com.tangerineSpecter.oms.common.security.MyShiroRealm;
 
@@ -53,6 +54,7 @@ public class ShiroConfig {
 		// 错误页面，认证不通过跳转
 		shiroFilterFactoryBean.setUnauthorizedUrl("/error");
 		shiroFilterFactoryBean.setFilterChainDefinitionMap(map);
+		System.out.println("Shiro拦截");
 		return shiroFilterFactoryBean;
 	}
 

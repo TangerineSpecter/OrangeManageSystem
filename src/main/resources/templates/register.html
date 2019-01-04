@@ -10,12 +10,9 @@
 <title>橘子管理系统</title>
 <meta name="renderer" content="webkit">
 <meta http-equiv="Cache-Control" content="no-siteapp" />
-<link rel="stylesheet" href="/css/index/amazeui.min.css">
+<link rel="stylesheet" href="./amazeUI/css/amazeui.min.css">
 <link rel="stylesheet" href="/css/index/app.css">
-<link rel="stylesheet" href="/layui/css/layui.css">
-<script type="text/javascript"
-	src="/js/jquery/jquery.min.js"></script>
-<script src="/layui/layui.all.js"></script>
+<script type="text/javascript" src="/js/jquery/jquery.min.js"></script>
 </head>
 <body>
 	<div class="am-g myapp-login">
@@ -67,7 +64,7 @@
 			</div>
 		</div>
 	</div>
-	<script src="/js/index/amazeui.min.js"></script>
+	<script src="/amazeUI/js/amazeui.min.js"></script>
 	<script src="/js/index/app.js"></script>
 	<script src="/js/common.js"></script>
 	<script type="text/javascript">
@@ -76,7 +73,6 @@
 				submitForm();
 			}
 		});
-
 		//通过异步方式登录
 		function submitForm() {
 			console.log($('#password').val().length)
@@ -100,13 +96,13 @@
 						layer.open({
 							title : '提示',
 							content : data.msg,
-							yes : function(index,layero){
+							yes : function(index, layero) {
 								//跳转到首页
 								window.location.href = "/login.html";
 							}
 						});
 					});
-				}else{
+				} else {
 					layui.use('layer', function() {
 						var layer = layui.layer;
 						layer.open({

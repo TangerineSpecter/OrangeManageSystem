@@ -10,12 +10,10 @@
 <title>橘子管理系统</title>
 <meta name="renderer" content="webkit">
 <meta http-equiv="Cache-Control" content="no-siteapp" />
-<link rel="stylesheet" href="./css/index/amazeui.min.css">
+<link rel="stylesheet" href="./amazeUI/css/amazeui.min.css">
 <link rel="stylesheet" href="./css/index/app.css">
-<link rel="stylesheet" href="./layui/css/layui.css">
 <link rel="stylesheet" href="./css/font-awesome/font-awesome.css">
 <script type="text/javascript" src="./js/jquery/jquery.min.js"></script>
-<script src="./layui/layui.js"></script>
 </head>
 <body>
 	<div class="am-g myapp-login">
@@ -54,7 +52,7 @@
 			</div>
 		</div>
 	</div>
-	<script src="/js/index/amazeui.min.js"></script>
+	<script src="/amazeUI/js/amazeui.min.js"></script>
 	<script src="/js/index/app.js"></script>
 	<script>
 		$(document).keyup(function(event) {
@@ -62,7 +60,6 @@
 				submitForm();
 			}
 		});
-
 		//通过异步方式登录
 		function submitForm() {
 			if ($('#username').val() == '' || $('#password').val() == '') {

@@ -31,7 +31,7 @@
 			</div>
 
 			<div class="login-font">
-				<i><a href="/login.html" style="color: #E66B1A">登录</a> </i> or <span><a
+				<i><a href="/login" style="color: #E66B1A">登录</a> </i> or <span><a
 					href="/register.html" style="color: #FFFFFF">注册</a></span>
 			</div>
 			<div class="am-u-sm-10 login-am-center">
@@ -85,7 +85,7 @@
 						var layer = layui.layer;
 						layer.open({
 							title : '提示',
-							content : data.msg,
+							content : data.errorDesc,
 							yes : function(index, layero) {
 								//跳转到首页
 								window.location.href = "/index";
@@ -97,7 +97,7 @@
 						var layer = layui.layer;
 						layer.open({
 							title : '提示',
-							content : data.msg
+							content : data.errorDesc
 						});
 					});
 				}

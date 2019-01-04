@@ -1,5 +1,7 @@
 package com.tangerineSpecter.oms.system.domain;
 
+import java.util.Date;
+
 import lombok.Data;
 
 @Data
@@ -9,8 +11,9 @@ public class SystemUser {
 	private String password;
 	private String nickName;
 	private String phoneNumber;
-	private Long createTime;
-	private Long updateTime;
+	private String city;
+	private Date createTime;
+	private Date updateTime;
 	private Integer admin;
 	private Integer isDel;
 }

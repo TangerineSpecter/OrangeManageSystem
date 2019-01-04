@@ -94,27 +94,11 @@
 				});
 				return;
 			}
-<<<<<<< HEAD
-			$.post("/register", $('#register').serialize(), function(data) {
-				if (data.success) {
-					layer.open({
-						title : '提示',
-						content : '注册成功！',
-						yes : function(index, layero) {
-							//跳转到登录页
-							window.location = "/login.html";
-						}
-					});
-				} else {
-=======
 			$.post("/register", $("#register").serialize(), function(data) {
 				if (data.success) {
->>>>>>> 06b02fdc74c3f1425014511377f221c87a8f67af
 					layui.use('layer', function() {
 						layer.open({
 							title : '提示',
-<<<<<<< HEAD
-=======
 							content : data.msg,
 							yes : function(index,layero){
 								//跳转到首页
@@ -127,7 +111,6 @@
 						var layer = layui.layer;
 						layer.open({
 							title : '提示',
->>>>>>> 06b02fdc74c3f1425014511377f221c87a8f67af
 							content : data.msg
 						});
 					});

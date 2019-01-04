@@ -1,9 +1,13 @@
 package com.tangerineSpecter.oms.system.web.controller;
 
-import java.util.Map;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.tangerineSpecter.oms.common.service.ServiceResult;
+import com.tangerineSpecter.oms.system.domain.pojo.AccountsParam;
+import com.tangerineSpecter.oms.system.service.system.SystemUserService;
 
 /**
  * 默认控制
@@ -15,6 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 public class IndexController {
+
+	@Autowired
+	private SystemUserService systemUserService;
 
 	/**
 	 * 默认页
@@ -39,9 +46,9 @@ public class IndexController {
 	/**
 	 * 登录
 	 */
+	@ResponseBody
 	@RequestMapping("/login")
-	public String login(Map<String, Object> model) {
-		System.out.println("登录");
-		return "login";
+	public ServiceResult login(AccountsParam model) {
+		return systemUserService.verifyLogin(model);
 	}
 }

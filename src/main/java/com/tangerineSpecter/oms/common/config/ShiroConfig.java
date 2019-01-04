@@ -50,6 +50,9 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/js/**", "anon");
         filterChainDefinitionMap.put("/img/**", "anon");
         filterChainDefinitionMap.put("/layui/**", "anon");
+        filterChainDefinitionMap.put("/login", "anon");
+        filterChainDefinitionMap.put("/register", "anon");
+        filterChainDefinitionMap.put("/index", "anon");
 		// 登出
 		filterChainDefinitionMap.put("/logout", "logout");
 		// 对所有用户认证
@@ -57,7 +60,7 @@ public class ShiroConfig {
 		// 登录
 		shiroFilterFactoryBean.setLoginUrl("/");
 		// 首页
-		shiroFilterFactoryBean.setSuccessUrl("/index");
+		//shiroFilterFactoryBean.setSuccessUrl("/index");
 		// 错误页面，认证不通过跳转
 		shiroFilterFactoryBean.setUnauthorizedUrl("/error");
 		shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);

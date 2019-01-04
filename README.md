@@ -13,7 +13,7 @@
 - 模版引擎：Thymeleaf
 - 依赖管理：Maven 3.3.9
 - 缓存框架：Redis 5.0.3
-- 安全框架：Spring Security
+- 安全框架：Shiro
 
 **前端框架：**
 - 基础框架：LayUI 2.4.5
@@ -28,6 +28,27 @@
 ### 1.集成lombok插件
 ```
 找到本地仓库中的lombok.jar，执行java -jar lombok.jar对IDE做集成
+```
+
+### 2.配置Maven setting
+```
+<mirror>
+	<id>alimaven</id>
+	<mirrorOf>central</mirrorOf>
+	<name>aliyun maven</name>
+	<url>http://maven.aliyun.com/nexus/content/repositories/central/</url>
+</mirror>
+<mirror>        
+	<id>nexus-aliyun</id>      
+     <name>nexus-aliyun</name>    
+     <url>http://maven.aliyun.com/nexus/content/groups/public</url>      
+     <mirrorOf>central</mirrorOf>        
+</mirror>
+```
+
+### 3.数据库初始化
+```
+执行resources目录下的oms.sql
 ```
 
 ## 关于

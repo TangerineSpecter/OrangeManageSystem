@@ -16,9 +16,32 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class IndexController {
 
+	/**
+	 * 默认页
+	 * 
+	 * @return
+	 */
 	@RequestMapping("/")
-	public String index(Map<String, Object> model) {
-		System.out.println("默认页");
+	public String loginPage() {
+		return "login";
+	}
+
+	/**
+	 * 首页
+	 * 
+	 * @return
+	 */
+	@RequestMapping("/index")
+	public String index() {
 		return "index";
+	}
+
+	/**
+	 * 登录
+	 */
+	@RequestMapping("/login")
+	public String login(Map<String, Object> model) {
+		System.out.println("登录");
+		return "login";
 	}
 }

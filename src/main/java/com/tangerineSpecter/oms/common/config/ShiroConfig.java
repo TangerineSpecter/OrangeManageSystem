@@ -42,18 +42,25 @@ public class ShiroConfig {
 	public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager) {
 		ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
 		shiroFilterFactoryBean.setSecurityManager(securityManager);
-		Map<String, String> map = new HashMap<String, String>();
+		//拦截器
+		Map<String, String> filterChainDefinitionMap = new HashMap<String, String>();
+		//filterChainDefinitionMap.put("/static/**", "anon");
+		filterChainDefinitionMap.put("/image/**", "anon");
+        filterChainDefinitionMap.put("/css/**", "anon");
+        filterChainDefinitionMap.put("/js/**", "anon");
+        filterChainDefinitionMap.put("/img/**", "anon");
+        filterChainDefinitionMap.put("/layui/**", "anon");
 		// 登出
-		map.put("/logout", "logout");
+		filterChainDefinitionMap.put("/logout", "logout");
 		// 对所有用户认证
-		map.put("/**", "authc");
+		filterChainDefinitionMap.put("/**", "authc");
 		// 登录
-		shiroFilterFactoryBean.setLoginUrl("/login");
+		shiroFilterFactoryBean.setLoginUrl("/");
 		// 首页
 		shiroFilterFactoryBean.setSuccessUrl("/index");
 		// 错误页面，认证不通过跳转
 		shiroFilterFactoryBean.setUnauthorizedUrl("/error");
-		shiroFilterFactoryBean.setFilterChainDefinitionMap(map);
+		shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 		System.out.println("Shiro拦截");
 		return shiroFilterFactoryBean;
 	}

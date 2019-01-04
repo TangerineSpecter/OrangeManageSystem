@@ -8,6 +8,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+/**
+ * 拦截器
+ * @author TangerineSpecter
+ * @Datetime 2019年1月4日 12:55:35
+ * @version v0.0.1
+ *
+ */
 public class CustomHandlerInterceptor implements HandlerInterceptor {
 
 	long start = System.currentTimeMillis();

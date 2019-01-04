@@ -7,6 +7,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 
 import com.tangerineSpecter.oms.common.interceptor.CustomHandlerInterceptor;
 
+/**
+ * 拦截器配置
+ * @author TangerineSpecter
+ * @Datetime 2019年1月4日
+ * @version v0.0.1
+ *
+ */
 @Configuration
 public class WebConfig extends WebMvcConfigurationSupport {
 

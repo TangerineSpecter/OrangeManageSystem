@@ -28,7 +28,7 @@ public class IndexController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping("/")
+	@RequestMapping(value = { "/", "login" })
 	public String loginPage() {
 		return "login";
 	}
@@ -47,8 +47,16 @@ public class IndexController {
 	 * 登录
 	 */
 	@ResponseBody
-	@RequestMapping("/login")
+	@RequestMapping("/userLogin")
 	public ServiceResult login(AccountsParam model) {
 		return systemUserService.verifyLogin(model);
+	}
+
+	/**
+	 * 注册页
+	 */
+	@RequestMapping("/register")
+	public String register() {
+		return "register";
 	}
 }

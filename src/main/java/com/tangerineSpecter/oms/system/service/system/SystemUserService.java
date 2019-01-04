@@ -23,14 +23,12 @@ public class SystemUserService {
 	 * 校验登录
 	 */
 	public ServiceResult verifyLogin(AccountsParam model) {
-		if (model != null && !StringUtils.isEmpty(model.getUsername()) && !StringUtils.isEmpty(model.getPassword())) {
-			SystemUser systemUser = systemUserMapper.getUserByUserName(model.getUsername());
-			SystemUser userNotExsit = systemUserMapper.getUserByLogin(model.getUsername(), model.getPassword());
-			if (systemUser == null) {
-				return ServiceResult.fail(RetCode.ACCOUNTS_NOT_EXSIT_CODE, RetCode.ACCOUNTS_NOT_EXSIT_DESC);
-			} else if (userNotExsit == null) {
-				return ServiceResult.fail(RetCode.ACCOUNTS_PASSWORD_ERROR_CODE, RetCode.ACCOUNTS_PASSWORD_ERROR_DESC);
-			}
+		SystemUser systemUser = systemUserMapper.getUserByUserName(model.getUsername());
+		SystemUser userNotExsit = systemUserMapper.getUserByLogin(model.getUsername(), model.getPassword());
+		if (systemUser == null) {
+			return ServiceResult.fail(RetCode.ACCOUNTS_NOT_EXSIT_CODE, RetCode.ACCOUNTS_NOT_EXSIT_DESC);
+		} else if (userNotExsit == null) {
+			return ServiceResult.fail(RetCode.ACCOUNTS_PASSWORD_ERROR_CODE, RetCode.ACCOUNTS_PASSWORD_ERROR_DESC);
 		}
 		return ServiceResult.success();
 	}

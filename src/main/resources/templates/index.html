@@ -23,6 +23,8 @@
 </head>
 
 <body data-type="index">
+	<div th:include="/common/_common :: weatherPlugin"></div>
+
 	<script src="./amazeUI/js/theme.js"></script>
 	<div class="am-g tpl-g admin-iframe">
 		<!-- 头部 -->
@@ -186,9 +188,9 @@
 						class="am-icon-table sidebar-nav-link-logo"></i> 表格
 				</a></li>
 				<li class="sidebar-nav-link"><a href="calendar.html"> <i
-						class="am-icon-calendar sidebar-nav-link-logo"></i> 日历
-						<!-- 气泡提醒 -->
-						<span class="am-badge am-badge-secondary sidebar-nav-link-logo-ico am-round am-fr am-margin-right-sm">6</span>
+						class="am-icon-calendar sidebar-nav-link-logo"></i> 日历 <!-- 气泡提醒 -->
+						<span
+						class="am-badge am-badge-secondary sidebar-nav-link-logo-ico am-round am-fr am-margin-right-sm">6</span>
 				</a></li>
 				<li class="sidebar-nav-link"><a href="form.html"> <i
 						class="am-icon-wpforms sidebar-nav-link-logo"></i> 表单
@@ -213,11 +215,14 @@
 								图文列表
 						</a></li>
 					</ul></li>
-				<li class="sidebar-nav-link"><a href="javascript:;" class="sidebar-nav-sub-title"> <i
+				<li class="sidebar-nav-link"><a href="javascript:;"
+					class="sidebar-nav-sub-title"> <i
 						class="am-icon-clone sidebar-nav-link-logo"></i> 系统设置 <span
 						class="am-icon-chevron-down am-fr am-margin-right-sm sidebar-nav-sub-ico"></span>
-				</a><ul class="sidebar-nav sidebar-nav-sub">
-						<li class="sidebar-nav-link"><a onclick="loadUrlContent('systemUser')"> <span
+				</a>
+				<ul class="sidebar-nav sidebar-nav-sub">
+						<li class="sidebar-nav-link"><a
+							onclick="loadUrlContent('systemUser')"> <span
 								class="am-icon-angle-right sidebar-nav-link-logo"></span> 后台管理员
 						</a></li>
 						<li class="sidebar-nav-link"><a href="table-list-img.html">
@@ -233,7 +238,8 @@
 				</a></li>
 			</ul>
 		</div>
-		<iframe id="contentUrl" src="/home" style="height: 100%; width: 100%;" frameborder="0"></iframe>
+		<iframe id="contentUrl" src="/home" style="height: 100%; width: 100%;"
+			frameborder="0"></iframe>
 	</div>
 	<script src="./amazeUI/js/amazeui.min.js"></script>
 	<script src="./amazeUI/js/amazeui.datatables.min.js"></script>

@@ -28,5 +28,46 @@
 			</div>
 		</div>
 	</footer>
+	<footer th:fragment="weatherPlugin">
+		<!-- 天气插件 -->
+		<script>
+			(function(T, h, i, n, k, P, a, g, e) {
+				g = function() {
+					P = h.createElement(i);
+					a = h.getElementsByTagName(i)[0];
+					P.src = k;
+					P.charset = "utf-8";
+					P.async = 1;
+					a.parentNode.insertBefore(P, a)
+				};
+				T["ThinkPageWeatherWidgetObject"] = n;
+				T[n] || (T[n] = function() {
+					(T[n].q = T[n].q || []).push(arguments)
+				});
+				T[n].l = +new Date();
+				if (T.attachEvent) {
+					T.attachEvent("onload", g)
+				} else {
+					T.addEventListener("load", g, false)
+				}
+			}(window, document, "script", "tpwidget",
+					"//widget.seniverse.com/widget/chameleon.js"))
+		</script>
+		<script>
+			tpwidget("init", {
+				"flavor" : "bubble",
+				"location" : "WS10730EM8EV",
+				"geolocation" : "enabled",
+				"position" : "bottom-right",
+				"margin" : "10px 10px",
+				"language" : "zh-chs",
+				"unit" : "c",
+				"theme" : "chameleon",
+				"uid" : "UDC433FB70",
+				"hash" : "5f9b5711c812d77911944f554fa0d41e"
+			});
+			tpwidget("show");
+		</script>
+	</footer>
 </body>
 </html>

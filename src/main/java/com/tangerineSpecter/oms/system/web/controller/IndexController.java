@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tangerineSpecter.oms.common.service.ServiceResult;
-import com.tangerineSpecter.oms.system.domain.pojo.AccountsParam;
+import com.tangerineSpecter.oms.system.domain.pojo.AccountsInfo;
 import com.tangerineSpecter.oms.system.service.system.SystemUserService;
 
 /**
@@ -25,8 +25,6 @@ public class IndexController {
 
 	/**
 	 * 默认页
-	 * 
-	 * @return
 	 */
 	@RequestMapping(value = { "/", "login" })
 	public String loginPage() {
@@ -35,8 +33,6 @@ public class IndexController {
 
 	/**
 	 * 首页
-	 * 
-	 * @return
 	 */
 	@RequestMapping("/index")
 	public String index() {
@@ -44,11 +40,19 @@ public class IndexController {
 	}
 
 	/**
+	 * 内容
+	 */
+	@RequestMapping("/home")
+	public String homePage() {
+		return "common/home";
+	}
+
+	/**
 	 * 登录
 	 */
 	@ResponseBody
 	@RequestMapping("/userLogin")
-	public ServiceResult login(AccountsParam model) {
+	public ServiceResult login(AccountsInfo model) {
 		return systemUserService.verifyLogin(model);
 	}
 

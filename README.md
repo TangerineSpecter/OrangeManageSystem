@@ -16,7 +16,7 @@
 - 安全框架：Shiro
 
 **前端框架：**
-- 基础框架：LayUI 2.4.5
+- 基础框架：AmazeUI 2.7.2
 - JavaScript框架：Jquery 3.3.1
 
 **开发环境：**

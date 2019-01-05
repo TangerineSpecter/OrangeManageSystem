@@ -28,6 +28,10 @@ public class ServiceResult {
 	 * 错误信息
 	 */
 	private String errorDesc;
+	/**
+	 * 返回数据
+	 */
+	private Object data;
 
 	private static ServiceResult result = new ServiceResult();
 
@@ -38,6 +42,17 @@ public class ServiceResult {
 		result.setSuccess(true);
 		result.setErrorCode(RetCode.SUCCESS_CODE);
 		result.setErrorDesc(RetCode.SUCCESS_DESC);
+		return result;
+	}
+
+	/**
+	 * 请求成功
+	 */
+	public static ServiceResult success(Object data) {
+		result.setSuccess(true);
+		result.setErrorCode(RetCode.SUCCESS_CODE);
+		result.setErrorDesc(RetCode.SUCCESS_DESC);
+		result.setData(data);
 		return result;
 	}
 

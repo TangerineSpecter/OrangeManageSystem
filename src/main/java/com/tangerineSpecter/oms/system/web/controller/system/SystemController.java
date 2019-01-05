@@ -1,7 +1,5 @@
 package com.tangerineSpecter.oms.system.web.controller.system;
 
-import javax.websocket.server.ServerEndpoint;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,9 +26,9 @@ public class SystemController {
 	/**
 	 * 后台管理员
 	 */
-	@RequestMapping("/systemUesr")
+	@RequestMapping("/systemUser")
 	public String loginPage() {
-		return "system/systemUesr";
+		return "system/systemUser";
 	}
 
 	/**
@@ -44,4 +42,5 @@ public class SystemController {
 		SystemInfoBean systemInfoBean = systemInfoService.getSystemInfo();
 		return ServiceResult.success(systemInfoBean);
 	}
+
 }

@@ -3,11 +3,7 @@ package com.tangerineSpecter.oms.common.utils;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.LineNumberReader;
-import java.lang.management.ManagementFactory;
-import java.lang.management.OperatingSystemMXBean;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,12 +35,17 @@ public class SystemUtils {
 	}
 
 	/**
-	 * 获取linux Cpu使用率
+	 * 获取Cpu使用率
 	 */
 	public static double getCpuUsageInfo() {
 		double cpuRatio = 0;
+		String osName = getOsName();
+		if (osName.indexOf("Windows") != -1) {
+			return 0;
+		}
 		try {
 			File file = new File(LINUX_CPU_INFO_FILE);
+			@SuppressWarnings("resource")
 			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
 			StringTokenizer token = new StringTokenizer(br.readLine());
 			token.nextToken();
@@ -78,6 +79,10 @@ public class SystemUtils {
 		Map<String, Object> map = new HashMap<String, Object>();
 		InputStreamReader inputs = null;
 		BufferedReader buffer = null;
+		String osName = getOsName();
+		if (osName.indexOf("Windows") != -1) {
+			return 0;
+		}
 		try {
 			inputs = new InputStreamReader(new FileInputStream(LINUX_MEMORY_INFO_FILE));
 			buffer = new BufferedReader(inputs);
@@ -125,6 +130,10 @@ public class SystemUtils {
 	public static double getDiskUsageInfo() throws Exception {
 		double totalHD = 0;
 		double usedHD = 0;
+		String osName = getOsName();
+		if (osName.indexOf("Windows") != -1) {
+			return 0;
+		}
 		Runtime rt = Runtime.getRuntime();
 		// df -hl 查看硬盘空间
 		Process p = rt.exec("df -hl");

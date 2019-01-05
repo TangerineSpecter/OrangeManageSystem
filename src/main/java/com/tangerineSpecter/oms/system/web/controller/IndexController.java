@@ -25,8 +25,6 @@ public class IndexController {
 
 	/**
 	 * 默认页
-	 * 
-	 * @return
 	 */
 	@RequestMapping(value = { "/", "login" })
 	public String loginPage() {
@@ -35,12 +33,18 @@ public class IndexController {
 
 	/**
 	 * 首页
-	 * 
-	 * @return
 	 */
 	@RequestMapping("/index")
 	public String index() {
 		return "index";
+	}
+
+	/**
+	 * 内容
+	 */
+	@RequestMapping("/home")
+	public String homePage() {
+		return "common/home";
 	}
 
 	/**

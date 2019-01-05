@@ -17,3 +17,10 @@ function initSystemInfo() {
 		}
 	})
 }
+
+/**
+ * 加载内容
+ */
+function loadUrlContent(url) {
+	$("#contentUrl").attr("src", url);
+}

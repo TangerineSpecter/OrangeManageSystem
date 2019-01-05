@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AccountsParam {
+public class AccountsInfo {
 	/** 帐号 */
 	private String username;
 	/** 密码 */

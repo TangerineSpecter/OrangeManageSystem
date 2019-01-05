@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tangerineSpecter.oms.common.service.ServiceResult;
-import com.tangerineSpecter.oms.system.domain.pojo.AccountsParam;
+import com.tangerineSpecter.oms.system.domain.pojo.AccountsInfo;
 import com.tangerineSpecter.oms.system.service.system.SystemUserService;
 
 /**
@@ -48,7 +48,7 @@ public class IndexController {
 	 */
 	@ResponseBody
 	@RequestMapping("/userLogin")
-	public ServiceResult login(AccountsParam model) {
+	public ServiceResult login(AccountsInfo model) {
 		return systemUserService.verifyLogin(model);
 	}
 

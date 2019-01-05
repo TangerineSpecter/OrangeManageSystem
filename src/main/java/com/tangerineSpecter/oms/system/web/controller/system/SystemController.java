@@ -1,7 +1,15 @@
 package com.tangerineSpecter.oms.system.web.controller.system;
 
+import javax.websocket.server.ServerEndpoint;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.tangerineSpecter.oms.common.service.ServiceResult;
+import com.tangerineSpecter.oms.system.domain.pojo.SystemInfoBean;
+import com.tangerineSpecter.oms.system.service.system.SystemInfoService;
 
 /**
  * 系统相关控制
@@ -14,11 +22,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class SystemController {
 
+	@Autowired
+	private SystemInfoService systemInfoService;
+
 	/**
 	 * 后台管理员
 	 */
-	@RequestMapping(value = { "/systemUesr" })
+	@RequestMapping("/systemUesr")
 	public String loginPage() {
 		return "system/systemUesr";
+	}
+
+	/**
+	 * 系统信息
+	 * 
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/systemInfo")
+	public ServiceResult getSystemInfo() {
+		SystemInfoBean systemInfoBean = systemInfoService.getSystemInfo();
+		return ServiceResult.success(systemInfoBean);
 	}
 }

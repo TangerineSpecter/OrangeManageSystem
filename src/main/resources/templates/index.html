@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Amaze UI Admin index Examples</title>
+    <title>橘子管理系统</title>
     <meta name="description" content="这是一个 index 页面">
     <meta name="keywords" content="index">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -28,7 +28,7 @@
             <!-- logo -->
             <div class="am-fl tpl-header-logo">
                 <a href="javascript:;">
-                    <img src="./amazeUI/img/logo.png" alt="">
+                    <img src="./amazeUI/img/logo.png" alt="" style="width:240px;">
                 </a>
             </div>
             <!-- 右侧内容 -->
@@ -123,7 +123,7 @@
                         </li>
                         <!-- 退出 -->
                         <li class="am-text-sm">
-                            <a href="javascript:;"> <span class="am-icon-sign-out"></span> 退出</a>
+                            <a href="/login.html"> <span class="am-icon-sign-out"></span> 退出</a>
                         </li>
                     </ul>
                 </div>
@@ -205,9 +205,9 @@
             <div class="container-fluid am-cf">
                 <div class="row">
                     <div class="am-u-sm-12 am-u-md-12 am-u-lg-9">
-                        <div class="page-header-heading">	<span class="am-icon-home page-header-heading-icon"></span> 部件首页	<small>Amaze UI</small>
+                        <div class="page-header-heading">	<span class="am-icon-home page-header-heading-icon"></span> 公告	<small>2019-05-02</small>
                         </div>
-                        <p class="page-header-description">Amaze UI 含近 20 个 CSS 组件、20 余 JS 组件，更有多个包含不同主题的 Web 组件。</p>
+                        <p class="page-header-description">丢失的猫咪今天在路上捡到了100元。</p>
                     </div>
                     <div class="am-u-lg-3 tpl-index-settings-button">
                         <button type="button" class="page-header-button">	<span class="am-icon-paint-brush"></span> 设置</button>
@@ -271,29 +271,26 @@
                     <div class="am-u-sm-12 am-u-md-4">
                         <div class="widget am-cf">
                             <div class="widget-head am-cf">
-                                <div class="widget-title am-fl">专用服务器负载</div>
+                                <div class="widget-title am-fl">服务器负载情况</div>
                                 <div class="widget-function am-fr">
                                     <a href="javascript:;" class="am-icon-cog"></a>
                                 </div>
                             </div>
                             <div class="widget-body widget-body-md am-fr">
-                                <div class="am-progress-title">CPU Load <span class="am-fr am-progress-title-more">28%
-										/ 100%</span>
+                                <div class="am-progress-title">CPU 使用率 <span id="cpuInfo" class="am-fr am-progress-title-more">0% / 100%</span>
                                 </div>
                                 <div class="am-progress">
-                                    <div class="am-progress-bar" style="width: 15%"></div>
+                                    <div id="cpuRatioValue" class="am-progress-bar" style="width: 0%"></div>
                                 </div>
-                                <div class="am-progress-title">CPU Load <span class="am-fr am-progress-title-more">28%
-										/ 100%</span>
-                                </div>
-                                <div class="am-progress">
-                                    <div class="am-progress-bar  am-progress-bar-warning" style="width: 75%"></div>
-                                </div>
-                                <div class="am-progress-title">CPU Load <span class="am-fr am-progress-title-more">28%
-										/ 100%</span>
+                                <div class="am-progress-title">内存 使用率 <span id="memoryInfo" class="am-fr am-progress-title-more">0% / 100%</span>
                                 </div>
                                 <div class="am-progress">
-                                    <div class="am-progress-bar am-progress-bar-danger" style="width: 35%"></div>
+                                    <div id="memoryRatioValue" class="am-progress-bar  am-progress-bar-warning" style="width: 0%"></div>
+                                </div>
+                                <div class="am-progress-title">硬盘 使用率 <span id="diskInfo" class="am-fr am-progress-title-more">0% / 100%</span>
+                                </div>
+                                <div class="am-progress">
+                                    <div id="diskRatioValue" class="am-progress-bar am-progress-bar-danger" style="width: 0%"></div>
                                 </div>
                             </div>
                         </div>
@@ -303,9 +300,9 @@
                     <div class="am-u-sm-12 am-u-md-12 am-u-lg-4 widget-margin-bottom-lg ">
                         <div class="tpl-user-card am-text-center widget-body-lg">
                             <div class="tpl-user-card-title">丢失的猫咪</div>
-                            <div class="achievement-subheading">月度最佳员工</div>
+                            <div class="achievement-subheading">月度人品值最高</div>
                             <img class="achievement-image" src="./amazeUI/img/user07.png" alt="">
-                            <div class="achievement-description">丢失的猫咪在 <strong>30天内</strong> 禁言了 <strong>200多</strong>人。</div>
+                            <div class="achievement-description">丢失的猫咪在 <strong>30天内</strong> 捡了 <strong>200多</strong>人名币。</div>
                         </div>
                     </div>
                     <div class="am-u-sm-12 am-u-md-12 am-u-lg-8 widget-margin-bottom-lg">
@@ -398,6 +395,7 @@
     <script src="./amazeUI/js/amazeui.datatables.min.js"></script>
     <script src="./amazeUI/js/dataTables.responsive.min.js"></script>
     <script src="./amazeUI/js/app.js"></script>
+    <script src="/js/omsJs/index/common.js"></script>
 </body>
 
 </html>

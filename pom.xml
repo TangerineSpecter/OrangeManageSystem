@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.tangerineSpecter</groupId>
 	<artifactId>OrangeManageSystem</artifactId>
-	<version>0.0.2</version>
+	<version>0.0.3</version>
 	<name>oms</name>
 	<description>This is TangerineSpecter Manage System Project.</description>
 

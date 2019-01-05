@@ -14,6 +14,7 @@
 <link rel="stylesheet" href="./amazeUI/css/amazeui.datatables.min.css" />
 <link rel="stylesheet" href="./amazeUI/css/app.css">
 <script src="./amazeUI/js/jquery.min.js"></script>
+<script src="./js/omsJs/system/systemUesr.js"></script>
 </head>
 
 <body data-type="widgets">
@@ -56,31 +57,18 @@
 									<th>昵称</th>
 									<th>城市</th>
 									<th>超级管理员</th>
+									<th>创建时间</th>
 									<th>操作</th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr class="gradeX">
-									<td>1</td>
-									<td>admin</td>
-									<td>橘子猫</td>
-									<td>深圳</td>
-									<td>是</td>
-									<td>
-										<div class="tpl-table-black-operation">
-											<a href="javascript:;"> <i class="am-icon-pencil"></i> 编辑
-											</a> <a href="javascript:;" class="tpl-table-black-operation-del">
-												<i class="am-icon-trash"></i> 删除
-											</a>
-										</div>
-									</td>
-								</tr>
-								<tr class="even gradeC">
-									<td>2</td>
-									<td>zhou123</td>
-									<td>风来西林</td>
-									<td>广西</td>
-									<td>否</td>
+								<tr class="gradeX" th:each="product:${systemUserList}">
+									<td th:text="${product.id}" />
+									<td th:text="${product.userName}" />
+									<td th:text="${product.nickName}" />
+									<td th:text="${product.city}" />
+									<td th:text="${product.admin==1?'是':'否'}" />
+									<td th:text="${product.createTime}" />
 									<td>
 										<div class="tpl-table-black-operation">
 											<a href="javascript:;"> <i class="am-icon-pencil"></i> 编辑
@@ -93,6 +81,15 @@
 								<!-- more data -->
 							</tbody>
 						</table>
+						<ul class="am-pagination">
+							<li class="am-disabled"><a href="#">&laquo;</a></li>
+							<li class="am-active"><a href="#">1</a></li>
+							<li><a href="#">2</a></li>
+							<li><a href="#">3</a></li>
+							<li><a href="#">4</a></li>
+							<li><a href="#">5</a></li>
+							<li><a href="#">&raquo;</a></li>
+						</ul>
 					</div>
 				</div>
 			</div>

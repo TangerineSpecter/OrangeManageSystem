@@ -12,8 +12,8 @@ public class SystemUser {
 	private String nickName;
 	private String phoneNumber;
 	private String city;
-	private Date createTime;
-	private Date updateTime;
+	private String createTime;
+	private String updateTime;
 	private Integer admin;
 	private Integer isDel;
 }

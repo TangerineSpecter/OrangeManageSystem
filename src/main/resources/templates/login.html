@@ -16,6 +16,8 @@
 <script type="text/javascript" src="./js/jquery/jquery.min.js"></script>
 </head>
 <body>
+	<div th:include="/common/_common :: model"></div>
+	
 	<div class="am-g myapp-login">
 		<div class="myapp-login-logo-block">
 			<div class="myapp-login-logo">
@@ -63,13 +65,7 @@
 		//通过异步方式登录
 		function submitForm() {
 			if ($('#username').val() == '' || $('#password').val() == '') {
-				layui.use('layer', function() {
-					var layer = layui.layer;
-					layer.open({
-						title : '提示',
-						content : '请输入用户名或者密码！'
-					});
-				});
+				$('#tip-model-btn').modal('open');
 				return;
 			}
 			var jsonData = {

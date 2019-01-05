@@ -1,18 +1,16 @@
 package com.tangerineSpecter.oms.system.service.system;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.druid.util.StringUtils;
 import com.tangerineSpecter.oms.common.constant.RetCode;
 import com.tangerineSpecter.oms.common.service.ServiceResult;
 import com.tangerineSpecter.oms.system.domain.SystemUser;
 import com.tangerineSpecter.oms.system.domain.pojo.AccountsInfo;
 import com.tangerineSpecter.oms.system.mapper.SystemUserMapper;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Service
 public class SystemUserService {
 
@@ -31,5 +29,12 @@ public class SystemUserService {
 			return ServiceResult.fail(RetCode.ACCOUNTS_PASSWORD_ERROR_CODE, RetCode.ACCOUNTS_PASSWORD_ERROR_DESC);
 		}
 		return ServiceResult.success();
+	}
+	
+	/**
+	 * 后台管理员列表
+	 */
+	public List<SystemUser> querySystemUserList() {
+		return systemUserMapper.selectAll();
 	}
 }

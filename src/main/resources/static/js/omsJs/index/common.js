@@ -1,5 +1,6 @@
 $(function() {
 	initSystemInfo();
+	initMenuBtn();
 })
 
 /**
@@ -7,7 +8,7 @@ $(function() {
  */
 function initSystemInfo() {
 	$("#today-time").html(getToday());
-	
+
 	$.post("/systemInfo", {}, function(result) {
 		if (result.success) {
 			var infoSuffix = "% / 100%";
@@ -33,21 +34,20 @@ function loadUrlContent(url) {
 }
 
 /**
+ * 首页菜单点击跳转
+ */
+function initMenuBtn() {
+	$("#menu a").click(function() {
+		var url = $(this).attr("id");
+		loadUrlContent(url);
+	})
+}
+
+/**
  * 获取今天日期
  */
 function getToday() {
 	var myDate = new Date();
-	return myDate.getFullYear() + "-" + (myDate.getMonth() + 1) + "-" + myDate.getDate();
+	return myDate.getFullYear() + "-" + (myDate.getMonth() + 1) + "-"
+			+ myDate.getDate();
 }
-
-
-
-
-
-
-
-
-
-
-
-

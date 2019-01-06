@@ -141,6 +141,9 @@
 										class="am-icon-bell"></i> 进入列表…
 								</a></li>
 							</ul></li>
+						<li class="am-hide-sm-only"><a href="javascript:;"
+							id="admin-fullscreen" class="tpl-header-list-link"><span
+								class="am-icon-arrows-alt"></span> <span class="admin-fullText">开启全屏</span></a></li>
 						<!-- 退出 -->
 						<li class="am-text-sm"><a href="/login.html"> <span
 								class="am-icon-sign-out"></span> 退出
@@ -177,7 +180,7 @@
 				</div>
 			</div>
 			<!-- 菜单 -->
-			<ul class="sidebar-nav">
+			<ul id="menu" class="sidebar-nav">
 				<li class="sidebar-nav-heading">Menu <span
 					class="sidebar-nav-heading-info"> 菜单列表</span>
 				</li>
@@ -185,9 +188,10 @@
 					class="active"> <i class="am-icon-home sidebar-nav-link-logo"></i>首页
 				</a></li>
 				<li class="sidebar-nav-link"><a href="tables.html"> <i
-						class="am-icon-table sidebar-nav-link-logo" onclick="loadUrlContent('tables')"></i> 表格
+						class="am-icon-table sidebar-nav-link-logo"
+						onclick="loadUrlContent('tables')"></i> 表格
 				</a></li>
-				<li class="sidebar-nav-link"><a onclick="loadUrlContent('calendar')"> <i
+				<li class="sidebar-nav-link"><a id="calendar"> <i
 						class="am-icon-calendar sidebar-nav-link-logo"></i> 日历 <!-- 气泡提醒 -->
 						<span
 						class="am-badge am-badge-secondary sidebar-nav-link-logo-ico am-round am-fr am-margin-right-sm">6</span>
@@ -221,8 +225,7 @@
 						class="am-icon-chevron-down am-fr am-margin-right-sm sidebar-nav-sub-ico"></span>
 				</a>
 					<ul class="sidebar-nav sidebar-nav-sub">
-						<li class="sidebar-nav-link"><a
-							onclick="loadUrlContent('systemUser')"> <span
+						<li class="sidebar-nav-link"><a id="systemUser"> <span
 								class="am-icon-angle-right sidebar-nav-link-logo"></span> 后台管理员
 						</a></li>
 						<li class="sidebar-nav-link"><a href="table-list-img.html">
@@ -233,7 +236,7 @@
 				<li class="sidebar-nav-link"><a href="login.html"> <i
 						class="am-icon-key sidebar-nav-link-logo"></i> 登录
 				</a></li>
-				<li class="sidebar-nav-link"><a onclick="loadUrlContent('errorPage')"> <i
+				<li class="sidebar-nav-link"><a id="errorPage"> <i
 						class="am-icon-tv sidebar-nav-link-logo"></i> 404错误
 				</a></li>
 			</ul>

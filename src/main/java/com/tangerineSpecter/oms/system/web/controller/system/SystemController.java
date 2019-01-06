@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tangerineSpecter.oms.common.service.ServiceResult;
+import com.tangerineSpecter.oms.system.domain.pojo.IndexDataBean;
 import com.tangerineSpecter.oms.system.domain.pojo.SystemInfoBean;
 import com.tangerineSpecter.oms.system.service.system.SystemInfoService;
 import com.tangerineSpecter.oms.system.service.system.SystemUserService;
@@ -48,6 +49,22 @@ public class SystemController {
 	}
 
 	/**
+	 * 日历
+	 */
+	@RequestMapping("/calendar")
+	public String calendar() {
+		return "system/calendar";
+	}
+
+	/**
+	 * 表格
+	 */
+	@RequestMapping("/tables")
+	public String tables() {
+		return "tables";
+	}
+
+	/**
 	 * 系统信息
 	 * 
 	 * @return
@@ -55,8 +72,9 @@ public class SystemController {
 	@ResponseBody
 	@RequestMapping("/systemInfo")
 	public ServiceResult getSystemInfo() {
-		SystemInfoBean systemInfoBean = systemInfoService.getSystemInfo();
-		return ServiceResult.success(systemInfoBean);
+		IndexDataBean indexData = new IndexDataBean();
+		indexData.setSystemInfo(systemInfoService.getSystemInfo());
+		return ServiceResult.success(indexData);
 	}
 
 }

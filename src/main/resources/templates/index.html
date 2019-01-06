@@ -22,8 +22,8 @@
 <script src="./amazeUI/js/jquery.min.js"></script>
 </head>
 
-<body data-type="index">
-	<div th:include="/common/_common :: weatherPlugin"></div>
+<body data-type="widgets">
+	<div th:include="./common/_common :: weatherPlugin"></div>
 
 	<script src="./amazeUI/js/theme.js"></script>
 	<div class="am-g tpl-g admin-iframe">
@@ -185,9 +185,9 @@
 					class="active"> <i class="am-icon-home sidebar-nav-link-logo"></i>首页
 				</a></li>
 				<li class="sidebar-nav-link"><a href="tables.html"> <i
-						class="am-icon-table sidebar-nav-link-logo"></i> 表格
+						class="am-icon-table sidebar-nav-link-logo" onclick="loadUrlContent('tables')"></i> 表格
 				</a></li>
-				<li class="sidebar-nav-link"><a href="calendar.html"> <i
+				<li class="sidebar-nav-link"><a onclick="loadUrlContent('calendar')"> <i
 						class="am-icon-calendar sidebar-nav-link-logo"></i> 日历 <!-- 气泡提醒 -->
 						<span
 						class="am-badge am-badge-secondary sidebar-nav-link-logo-ico am-round am-fr am-margin-right-sm">6</span>
@@ -220,7 +220,7 @@
 						class="am-icon-clone sidebar-nav-link-logo"></i> 系统设置 <span
 						class="am-icon-chevron-down am-fr am-margin-right-sm sidebar-nav-sub-ico"></span>
 				</a>
-				<ul class="sidebar-nav sidebar-nav-sub">
+					<ul class="sidebar-nav sidebar-nav-sub">
 						<li class="sidebar-nav-link"><a
 							onclick="loadUrlContent('systemUser')"> <span
 								class="am-icon-angle-right sidebar-nav-link-logo"></span> 后台管理员
@@ -233,7 +233,7 @@
 				<li class="sidebar-nav-link"><a href="login.html"> <i
 						class="am-icon-key sidebar-nav-link-logo"></i> 登录
 				</a></li>
-				<li class="sidebar-nav-link"><a href="404.html"> <i
+				<li class="sidebar-nav-link"><a onclick="loadUrlContent('errorPage')"> <i
 						class="am-icon-tv sidebar-nav-link-logo"></i> 404错误
 				</a></li>
 			</ul>

@@ -7,13 +7,16 @@ function initSystemInfo() {
 	$.post("/systemInfo", {}, function(result) {
 		if (result.success) {
 			var infoSuffix = "% / 100%";
-			$("#cpuInfo").html(result.data.cpuRatio + infoSuffix);
-			$("#memoryInfo").html(result.data.memoryRatio + infoSuffix);
-			$("#diskInfo").html(result.data.diskRatio + infoSuffix);
+			// 系统负载信息
+			var systemInfo = result.data.systemInfo;
 
-			$("#cpuRatioValue").css("width", result.data.cpuRatio + "%");
-			$("#memoryRatioValue").css("width", result.data.memoryRatio + "%");
-			$("#diskRatioValue").css("width", result.data.diskRatio + "%");
+			$("#cpuInfo").html(systemInfo.cpuRatio + infoSuffix);
+			$("#memoryInfo").html(systemInfo.memoryRatio + infoSuffix);
+			$("#diskInfo").html(systemInfo.diskRatio + infoSuffix);
+
+			$("#cpuRatioValue").css("width", systemInfo.cpuRatio + "%");
+			$("#memoryRatioValue").css("width", systemInfo.memoryRatio + "%");
+			$("#diskRatioValue").css("width", systemInfo.diskRatio + "%");
 		}
 	})
 }

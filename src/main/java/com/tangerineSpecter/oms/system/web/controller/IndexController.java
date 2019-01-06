@@ -63,4 +63,12 @@ public class IndexController {
 	public String register() {
 		return "register";
 	}
+
+	/**
+	 * 错误跳转
+	 */
+	@RequestMapping("/errorPage")
+	public String errorPage() {
+		return "system/404";
+	}
 }

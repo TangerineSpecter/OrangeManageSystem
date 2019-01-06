@@ -62,13 +62,13 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr class="gradeX" th:each="product:${systemUserList}">
-									<td th:text="${product.id}" />
-									<td th:text="${product.userName}" />
-									<td th:text="${product.nickName}" />
-									<td th:text="${product.city}" />
-									<td th:text="${product.admin==1?'是':'否'}" />
-									<td th:text="${product.createTime}" />
+								<tr class="gradeX" th:each="systemUser:${systemUserList}">
+									<td th:text="${systemUser.id}" />
+									<td th:text="${systemUser.userName}" />
+									<td th:text="${systemUser.nickName}" />
+									<td th:text="${systemUser.city}" />
+									<td th:text="${systemUser.admin==1?'是':'否'}" />
+									<td th:text="${systemUser.createTime}" />
 									<td>
 										<div class="tpl-table-black-operation">
 											<a href="javascript:;"> <i class="am-icon-pencil"></i> 编辑

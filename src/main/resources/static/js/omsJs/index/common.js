@@ -2,8 +2,12 @@ $(function() {
 	initSystemInfo();
 })
 
-// 系统信息初始化
+/**
+ * 系统信息初始化
+ */
 function initSystemInfo() {
+	$("#today-time").html(getToday());
+	
 	$.post("/systemInfo", {}, function(result) {
 		if (result.success) {
 			var infoSuffix = "% / 100%";
@@ -27,3 +31,23 @@ function initSystemInfo() {
 function loadUrlContent(url) {
 	$("#contentUrl").attr("src", url);
 }
+
+/**
+ * 获取今天日期
+ */
+function getToday() {
+	var myDate = new Date();
+	return myDate.getFullYear() + "-" + (myDate.getMonth() + 1) + "-" + myDate.getDate();
+}
+
+
+
+
+
+
+
+
+
+
+
+

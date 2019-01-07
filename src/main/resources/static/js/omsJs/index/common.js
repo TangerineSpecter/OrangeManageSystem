@@ -34,9 +34,10 @@ function loadUrlContent(url) {
 }
 
 /**
- * 首页菜单点击跳转
+ * 首页按钮初始化
  */
 function initMenuBtn() {
+	// 菜单跳转初始化
 	$("#menu a").click(function() {
 		var url = $(this).attr("id");
 		loadUrlContent(url);

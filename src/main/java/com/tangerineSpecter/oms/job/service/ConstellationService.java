@@ -1,5 +1,6 @@
 package com.tangerineSpecter.oms.job.service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -40,19 +41,31 @@ public class ConstellationService {
 	@Transactional
 	public void runData() {
 		log.info("[执行星座数据写入任务]");
+		// 待处理星座数据
+		List<String> noStarList = new ArrayList<>();
 		try {
 			String today = DateUtils.timeFormatToDay(new Date());
+			List<String> list = dataConstellationMapper.queryListByCreateTime(today);
 			for (String star : starList) {
+				if (!list.contains(star)) {
+					noStarList.add(star);
+				}
+			}
+			if (noStarList.isEmpty()) {
+				log.info("[星座定时任务执行完毕，当前没有需要插入的数据]");
+				return;
+			}
+			for (String star : noStarList) {
 				Map<String, Object> configBean = new HashMap<>();
 				configBean.put(ParamUtils.CONSNAME, star);
 				configBean.put(ParamUtils.KEY, CommonConstant.JUHE_API_CONSTELLATION_KEY);
 				configBean.put(ParamUtils.TYPE, TODAY);
 				String result = HttpUtils.interfaceInvoke(CommonConstant.JUHE_API_CONSTELLATION_URL, configBean);
-				System.out.println(result);
+				log.info(String.format("请求星座API成功获取数据:%s", result));
 				JSONObject starObj = JSONObject.parseObject(result);
 				dataConstellationMapper.insert(getDateConstellation(starObj));
 			}
-			log.info("[星座定时任务执行完毕]");
+			log.info(String.format("[星座定时任务执行完毕]，插入数据：", noStarList));
 		} catch (Exception e) {
 			log.warn("星座接口调用异常:%s", e);
 		}

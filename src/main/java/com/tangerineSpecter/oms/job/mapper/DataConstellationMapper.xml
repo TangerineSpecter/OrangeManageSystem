@@ -80,4 +80,12 @@
 		work_luck, create_time
 		from data_constellation
 	</select>
+	<select id="queryListByCreateTime" parameterType="java.lang.String"
+		resultType="java.lang.String">
+		select name
+		from
+		data_constellation
+		where create_time =
+		#{createTime}
+	</select>
 </mapper>

@@ -4,6 +4,7 @@ import com.tangerineSpecter.oms.job.domain.DataConstellation;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface DataConstellationMapper {
@@ -16,4 +17,9 @@ public interface DataConstellationMapper {
 	List<DataConstellation> selectAll();
 
 	int updateByPrimaryKey(DataConstellation record);
+
+	/**
+	 * 根据创建时间查询星座名字
+	 */
+	List<String> queryListByCreateTime(@Param("createTime") String create_time);
 }

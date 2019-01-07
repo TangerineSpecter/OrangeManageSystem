@@ -24,7 +24,7 @@ public class DataConstellation {
 	/** 时间（数字） */
 	private Integer date;
 	/** 综合指数 */
-	private String all;
+	private String allLuck;
 	/** 幸运色 */
 	private String color;
 	/** 健康指数 */
@@ -40,7 +40,7 @@ public class DataConstellation {
 	/** 今日概述 */
 	private String summary;
 	/** 工作指数 */
-	private String work;
+	private String workLuck;
 	/** 创建时间 */
 	private String createTime;
 }

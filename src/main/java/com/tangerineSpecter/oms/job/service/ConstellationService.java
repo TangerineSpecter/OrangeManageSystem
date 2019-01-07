@@ -65,16 +65,16 @@ public class ConstellationService {
 	private DataConstellation getDateConstellation(JSONObject starObj) {
 		DataConstellation dc = new DataConstellation();
 		dc.setName(starObj.getString("name"));
-		dc.setDateTime(starObj.getString("dateTime"));
+		dc.setDateTime(starObj.getString("datetime"));
 		dc.setDate(starObj.getInteger("date"));
-		dc.setAll(starObj.getString("all"));
+		dc.setAllLuck(starObj.getString("all"));
 		dc.setColor(starObj.getString("color"));
 		dc.setHealth(starObj.getString("health"));
 		dc.setLove(starObj.getString("love"));
 		dc.setMoney(starObj.getString("money"));
 		dc.setNumber(starObj.getInteger("number"));
 		dc.setQFriend(starObj.getString("QFriend"));
-		dc.setWork(starObj.getString("work"));
+		dc.setWorkLuck(starObj.getString("work"));
 		dc.setSummary(starObj.getString("summary"));
 		dc.setCreateTime(DateUtils.timeFormatToDay(new Date()));
 		return dc;

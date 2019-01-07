@@ -20,4 +20,7 @@ public class CommonConstant {
 
 	/** 空定义 */
 	public static final String NULL_KEY_STR = "";
+
+	/** 一小时 */
+	public static final Integer ONE_HOUR = 60 * 60 * 1000;
 }

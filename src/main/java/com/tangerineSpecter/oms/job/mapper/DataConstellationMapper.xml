@@ -1,64 +1,83 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.tangerineSpecter.oms.job.mapper.DataConstellationMapper" >
-  <resultMap id="BaseResultMap" type="com.tangerineSpecter.oms.job.domain.DataConstellation" >
-    <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="datetime" property="dateTime" jdbcType="VARCHAR" />
-    <result column="date" property="date" jdbcType="INTEGER" />
-    <result column="all" property="all" jdbcType="VARCHAR" />
-    <result column="color" property="color" jdbcType="VARCHAR" />
-    <result column="health" property="health" jdbcType="VARCHAR" />
-    <result column="love" property="love" jdbcType="VARCHAR" />
-    <result column="money" property="money" jdbcType="VARCHAR" />
-    <result column="number" property="number" jdbcType="INTEGER" />
-    <result column="QFriend" property="QFriend" jdbcType="VARCHAR" />
-    <result column="summary" property="summary" jdbcType="VARCHAR" />
-    <result column="work" property="work" jdbcType="VARCHAR" />
-    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
-  </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from data_constellation
-    where id = #{id,jdbcType=BIGINT}
-  </delete>
-  <insert id="insert" parameterType="com.tangerineSpecter.oms.job.domain.DataConstellation" useGeneratedKeys="true" keyProperty="id" >
-    insert into data_constellation (name, datetime, date, 
-      all, color, health, 
-      love, money, number, 
-      QFriend, summary, work, 
-      create_time)
-    values (#{name,jdbcType=VARCHAR}, #{dateTime,jdbcType=VARCHAR}, #{date,jdbcType=INTEGER}, 
-      #{all,jdbcType=VARCHAR}, #{color,jdbcType=VARCHAR}, #{health,jdbcType=VARCHAR}, 
-      #{love,jdbcType=VARCHAR}, #{money,jdbcType=VARCHAR}, #{number,jdbcType=INTEGER}, 
-      #{QFriend,jdbcType=VARCHAR}, #{summary,jdbcType=VARCHAR}, #{work,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=DATE})
-  </insert>
-  <update id="updateByPrimaryKey" parameterType="com.tangerineSpecter.oms.job.domain.DataConstellation" >
-    update data_constellation
-    set name = #{name,jdbcType=VARCHAR},
-      datetime = #{dateTime,jdbcType=VARCHAR},
-      date = #{date,jdbcType=INTEGER},
-      all = #{all,jdbcType=VARCHAR},
-      color = #{color,jdbcType=VARCHAR},
-      health = #{health,jdbcType=VARCHAR},
-      love = #{love,jdbcType=VARCHAR},
-      money = #{money,jdbcType=VARCHAR},
-      number = #{number,jdbcType=INTEGER},
-      QFriend = #{QFriend,jdbcType=VARCHAR},
-      summary = #{summary,jdbcType=VARCHAR},
-      work = #{work,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select id, name, datetime, date, all, color, health, love, money, number, QFriend, 
-    summary, work, create_time
-    from data_constellation
-    where id = #{id,jdbcType=BIGINT}
-  </select>
-  <select id="selectAll" resultMap="BaseResultMap" >
-    select id, name, datetime, date, all, color, health, love, money, number, QFriend, 
-    summary, work, create_time
-    from data_constellation
-  </select>
+<mapper namespace="com.tangerineSpecter.oms.job.mapper.DataConstellationMapper">
+	<resultMap id="BaseResultMap"
+		type="com.tangerineSpecter.oms.job.domain.DataConstellation">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="datetime" property="dateTime" jdbcType="VARCHAR" />
+		<result column="date" property="date" jdbcType="INTEGER" />
+		<result column="all_luck" property="allLuck" jdbcType="VARCHAR" />
+		<result column="color" property="color" jdbcType="VARCHAR" />
+		<result column="health" property="health" jdbcType="VARCHAR" />
+		<result column="love" property="love" jdbcType="VARCHAR" />
+		<result column="money" property="money" jdbcType="VARCHAR" />
+		<result column="number" property="number" jdbcType="INTEGER" />
+		<result column="QFriend" property="QFriend" jdbcType="VARCHAR" />
+		<result column="summary" property="summary" jdbcType="VARCHAR" />
+		<result column="work_luck" property="workLuck" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="VARCHAR" />
+	</resultMap>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		data_constellation
+		where id = #{id}
+	</delete>
+	<insert id="insert"
+		parameterType="com.tangerineSpecter.oms.job.domain.DataConstellation"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into data_constellation
+		(name, datetime, date,
+		all_luck, color, health,
+		love, money, number,
+		QFriend, summary, work_luck,
+		create_time)
+		values (#{name}, #{dateTime},
+		#{date},
+		#{allLuck}, #{color}, #{health},
+		#{love}, #{money}, #{number},
+		#{QFriend}, #{summary}, #{workLuck},
+		#{createTime})
+	</insert>
+	<update id="updateByPrimaryKey"
+		parameterType="com.tangerineSpecter.oms.job.domain.DataConstellation">
+		update data_constellation
+		set name = #{name},
+		datetime =
+		#{dateTime},
+		date = #{date},
+		all_luck = #{allLuck},
+		color = #{color},
+		health =
+		#{health},
+		love = #{love},
+		money = #{money},
+		number = #{number},
+		QFriend =
+		#{QFriend},
+		summary = #{summary},
+		work_luck = #{workLuck},
+		create_time =
+		#{createTime}
+		where id = #{id}
+	</update>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select id, name, datetime, date, all_luck, color,
+		health,
+		love, money, number,
+		QFriend,
+		summary, work_luck, create_time
+		from
+		data_constellation
+		where id = #{id}
+	</select>
+	<select id="selectAll" resultMap="BaseResultMap">
+		select id, name, datetime,
+		date, all_luck, color, health, love, money, number,
+		QFriend,
+		summary,
+		work_luck, create_time
+		from data_constellation
+	</select>
 </mapper>

@@ -4,7 +4,7 @@ import org.quartz.JobExecutionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
-import com.tangerineSpecter.oms.job.service.ConstellationService;
+import com.tangerineSpecter.oms.job.service.ConstellationQuartzService;
 
 /**
  * 星座数据任务
@@ -16,11 +16,11 @@ import com.tangerineSpecter.oms.job.service.ConstellationService;
 public class ConstellationDataQuartz extends QuartzJobBean {
 
 	@Autowired
-	private ConstellationService constellationService;
+	private ConstellationQuartzService constellationQuartzService;
 
 	@Override
 	protected void executeInternal(JobExecutionContext jobExecutionContext) {
-		constellationService.runData();
+		constellationQuartzService.runData();
 	}
 
 }

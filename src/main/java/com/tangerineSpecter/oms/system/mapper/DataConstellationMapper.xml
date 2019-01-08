@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.tangerineSpecter.oms.job.mapper.DataConstellationMapper">
+<mapper namespace="com.tangerineSpecter.oms.system.mapper.DataConstellationMapper">
 	<resultMap id="BaseResultMap"
-		type="com.tangerineSpecter.oms.job.domain.DataConstellation">
+		type="com.tangerineSpecter.oms.system.domain.DataConstellation">
 		<id column="id" property="id" jdbcType="BIGINT" />
 		<result column="name" property="name" jdbcType="VARCHAR" />
 		<result column="datetime" property="dateTime" jdbcType="VARCHAR" />
@@ -24,7 +24,7 @@
 		where id = #{id}
 	</delete>
 	<insert id="insert"
-		parameterType="com.tangerineSpecter.oms.job.domain.DataConstellation"
+		parameterType="com.tangerineSpecter.oms.system.domain.DataConstellation"
 		useGeneratedKeys="true" keyProperty="id">
 		insert into data_constellation
 		(name, datetime, date,
@@ -40,7 +40,7 @@
 		#{createTime})
 	</insert>
 	<update id="updateByPrimaryKey"
-		parameterType="com.tangerineSpecter.oms.job.domain.DataConstellation">
+		parameterType="com.tangerineSpecter.oms.system.domain.DataConstellation">
 		update data_constellation
 		set name = #{name},
 		datetime =

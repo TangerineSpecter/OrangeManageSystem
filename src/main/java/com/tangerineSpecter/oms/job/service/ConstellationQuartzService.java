@@ -16,14 +16,14 @@ import com.tangerineSpecter.oms.common.constant.CommonConstant;
 import com.tangerineSpecter.oms.common.utils.DateUtils;
 import com.tangerineSpecter.oms.common.utils.HttpUtils;
 import com.tangerineSpecter.oms.common.utils.ParamUtils;
-import com.tangerineSpecter.oms.job.domain.DataConstellation;
-import com.tangerineSpecter.oms.job.mapper.DataConstellationMapper;
+import com.tangerineSpecter.oms.system.domain.DataConstellation;
+import com.tangerineSpecter.oms.system.mapper.DataConstellationMapper;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-public class ConstellationService {
+public class ConstellationQuartzService {
 
 	/** 星座列表 */
 	List<String> starList = Arrays.asList("白羊座", "金牛座", "双子座", "巨蟹座", "狮子座", "处女座", "天秤座", "天蝎座", "射手座", "摩羯座", "水瓶座",

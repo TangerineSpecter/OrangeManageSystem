@@ -1,10 +1,11 @@
-package com.tangerineSpecter.oms.job.mapper;
+package com.tangerineSpecter.oms.system.mapper;
 
-import com.tangerineSpecter.oms.job.domain.DataConstellation;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import com.tangerineSpecter.oms.system.domain.DataConstellation;
 
 @Mapper
 public interface DataConstellationMapper {

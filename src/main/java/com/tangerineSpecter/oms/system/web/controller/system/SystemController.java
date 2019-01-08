@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tangerineSpecter.oms.common.service.ServiceResult;
@@ -35,16 +34,6 @@ public class SystemController {
 	public String systemUserPage(Model model) {
 		model.addAttribute(systemUseroService.querySystemUserList());
 		return "system/systemUser";
-	}
-
-	/**
-	 * 后台管理员列表
-	 */
-	@ResponseBody
-	@RequestMapping(path = "/systemUserList", method = RequestMethod.POST)
-	public ServiceResult systemUserList() {
-		System.out.println("管理员列表");
-		return ServiceResult.success(systemUseroService.querySystemUserList());
 	}
 
 	/**

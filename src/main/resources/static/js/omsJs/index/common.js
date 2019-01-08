@@ -42,6 +42,10 @@ function initMenuBtn() {
 		var url = $(this).attr("id");
 		loadUrlContent(url);
 	})
+	//帐号设置
+	$("#account-setting").click(function() {
+		loadUrlContent("accountSetting");
+	})
 }
 
 /**

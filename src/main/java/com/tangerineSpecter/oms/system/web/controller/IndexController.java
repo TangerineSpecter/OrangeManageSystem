@@ -65,6 +65,14 @@ public class IndexController {
 	}
 
 	/**
+	 * 帐号设置
+	 */
+	@RequestMapping("/accountSetting")
+	public String accountSetting() {
+		return "system/accountSetting";
+	}
+
+	/**
 	 * 错误跳转
 	 */
 	@RequestMapping("/errorPage")

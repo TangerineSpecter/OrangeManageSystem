@@ -8,7 +8,6 @@
 <link rel="icon" type="image/png" href="./amazeUI/i/favicon.png">
 <link rel="apple-touch-icon-precomposed"
 	href="./amazeUI/i/app-icon72x72@2x.png">
-<meta name="apple-mobile-web-app-title" content="Amaze UI" />
 <script src="./amazeUI/js/echarts.min.js"></script>
 <link rel="stylesheet" href="./amazeUI/css/amazeui.min.css" />
 <link rel="stylesheet" href="./amazeUI/css/amazeui.datatables.min.css" />
@@ -26,10 +25,10 @@
 				<div class="row">
 					<div class="am-u-sm-12 am-u-md-12 am-u-lg-9">
 						<div class="page-header-heading">
-							<span class="am-icon-home page-header-heading-icon"></span> 后台管理员
-							<small>SystemUser</small>
+							<span class="am-icon-home page-header-heading-icon"></span>
+							星座数据列表 <small>Constellaction</small>
 						</div>
-						<p class="page-header-description">对后台用户数据进行管理。</p>
+						<p class="page-header-description">对星座数据进行管理。</p>
 					</div>
 					<div class="am-u-lg-3 tpl-index-settings-button">
 						<button type="button" class="page-header-button">
@@ -53,22 +52,34 @@
 							<thead>
 								<tr>
 									<th>ID</th>
-									<th>帐号</th>
-									<th>昵称</th>
-									<th>城市</th>
-									<th>超级管理员</th>
-									<th>创建时间</th>
+									<th>星座名称</th>
+									<th>时间</th>
+									<th>综合指数</th>
+									<th>幸运色</th>
+									<th>健康指数</th>
+									<th>爱情指数</th>
+									<th>财运指数</th>
+									<th>幸运数字</th>
+									<th>速配星座</th>
+									<th>今日概述</th>
+									<th>工作指数</th>
 									<th>操作</th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr class="gradeX" th:each="systemUser:${systemUserList}">
-									<td th:text="${systemUser.id}" />
-									<td th:text="${systemUser.userName}" />
-									<td th:text="${systemUser.nickName}" />
-									<td th:text="${systemUser.city}" />
-									<td th:text="${systemUser.admin==1?'是':'否'}" />
-									<td th:text="${systemUser.createTime}" />
+								<tr class="gradeX" th:each="data:${dataConstellationList}">
+									<td th:text="${data.id}" />
+									<td th:text="${data.name}" />
+									<td th:text="${data.dateTime}" />
+									<td th:text="${data.allLuck}" />
+									<td th:text="${data.color}" />
+									<td th:text="${data.health}" />
+									<td th:text="${data.love}" />
+									<td th:text="${data.money}" />
+									<td th:text="${data.number}" />
+									<td th:text="${data.QFriend}" />
+									<td th:text="${data.summary}" />
+									<td th:text="${data.workLuck}" />
 									<td>
 										<div class="tpl-table-black-operation">
 											<a href="javascript:;"> <i class="am-icon-pencil"></i> 编辑

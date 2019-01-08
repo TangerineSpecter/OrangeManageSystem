@@ -63,4 +63,20 @@ public class IndexController {
 	public String register() {
 		return "register";
 	}
+
+	/**
+	 * 帐号设置
+	 */
+	@RequestMapping("/accountSetting")
+	public String accountSetting() {
+		return "system/accountSetting";
+	}
+
+	/**
+	 * 错误跳转
+	 */
+	@RequestMapping("/errorPage")
+	public String errorPage() {
+		return "system/404";
+	}
 }

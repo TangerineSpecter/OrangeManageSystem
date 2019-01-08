@@ -56,7 +56,7 @@
 		select id, username, nick_name,
 		phone_number, create_time,city,
 		update_time,
-		admin
+		admin,is_del
 		from
 		system_user
 	</select>

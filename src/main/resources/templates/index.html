@@ -22,7 +22,9 @@
 <script src="./amazeUI/js/jquery.min.js"></script>
 </head>
 
-<body data-type="index">
+<body data-type="widgets">
+	<div th:include="./common/_common :: weatherPlugin"></div>
+
 	<script src="./amazeUI/js/theme.js"></script>
 	<div class="am-g tpl-g admin-iframe">
 		<!-- 头部 -->
@@ -139,6 +141,9 @@
 										class="am-icon-bell"></i> 进入列表…
 								</a></li>
 							</ul></li>
+						<li class="am-hide-sm-only"><a href="javascript:;"
+							id="admin-fullscreen" class="tpl-header-list-link"><span
+								class="am-icon-arrows-alt"></span> <span class="admin-fullText">开启全屏</span></a></li>
 						<!-- 退出 -->
 						<li class="am-text-sm"><a href="/login.html"> <span
 								class="am-icon-sign-out"></span> 退出
@@ -169,26 +174,34 @@
 					<span class="user-panel-logged-in-text"> <i
 						class="am-icon-circle-o am-text-success tpl-user-panel-status-icon"></i>
 						丢失的猫咪
-					</span> <a href="javascript:;" class="tpl-user-panel-action-link"> <span
-						class="am-icon-pencil"></span> 账号设置
+					</span> <a href="javascript:;" class="tpl-user-panel-action-link"
+						id="account-setting"> <span class="am-icon-pencil"></span>
+						账号设置
 					</a>
 				</div>
 			</div>
 			<!-- 菜单 -->
-			<ul class="sidebar-nav">
+			<ul id="menu" class="sidebar-nav">
 				<li class="sidebar-nav-heading">Menu <span
 					class="sidebar-nav-heading-info"> 菜单列表</span>
 				</li>
 				<li class="sidebar-nav-link"><a href="index.html"
 					class="active"> <i class="am-icon-home sidebar-nav-link-logo"></i>首页
 				</a></li>
-				<li class="sidebar-nav-link"><a href="tables.html"> <i
-						class="am-icon-table sidebar-nav-link-logo"></i> 表格
-				</a></li>
-				<li class="sidebar-nav-link"><a href="calendar.html"> <i
-						class="am-icon-calendar sidebar-nav-link-logo"></i> 日历
-						<!-- 气泡提醒 -->
-						<span class="am-badge am-badge-secondary sidebar-nav-link-logo-ico am-round am-fr am-margin-right-sm">6</span>
+				<li class="sidebar-nav-link"><a href="javascript:;"
+					class="sidebar-nav-sub-title"> <i
+						class="am-icon-table sidebar-nav-link-logo"></i> 表格<span
+						class="am-icon-chevron-down am-fr am-margin-right-sm sidebar-nav-sub-ico"></span>
+				</a>
+					<ul class="sidebar-nav sidebar-nav-sub">
+						<li class="sidebar-nav-link"><a id="constellaction"> <span
+								class="am-icon-angle-right sidebar-nav-link-logo"></span> 星座列表
+						</a></li>
+					</ul></li>
+				<li class="sidebar-nav-link"><a id="calendar"> <i
+						class="am-icon-calendar sidebar-nav-link-logo"></i> 日历 <!-- 气泡提醒 -->
+						<span
+						class="am-badge am-badge-secondary sidebar-nav-link-logo-ico am-round am-fr am-margin-right-sm">6</span>
 				</a></li>
 				<li class="sidebar-nav-link"><a href="form.html"> <i
 						class="am-icon-wpforms sidebar-nav-link-logo"></i> 表单
@@ -213,11 +226,13 @@
 								图文列表
 						</a></li>
 					</ul></li>
-				<li class="sidebar-nav-link"><a href="javascript:;" class="sidebar-nav-sub-title"> <i
+				<li class="sidebar-nav-link"><a href="javascript:;"
+					class="sidebar-nav-sub-title"> <i
 						class="am-icon-clone sidebar-nav-link-logo"></i> 系统设置 <span
 						class="am-icon-chevron-down am-fr am-margin-right-sm sidebar-nav-sub-ico"></span>
-				</a><ul class="sidebar-nav sidebar-nav-sub">
-						<li class="sidebar-nav-link"><a onclick="loadUrlContent('systemUser')"> <span
+				</a>
+					<ul class="sidebar-nav sidebar-nav-sub">
+						<li class="sidebar-nav-link"><a id="systemUser"> <span
 								class="am-icon-angle-right sidebar-nav-link-logo"></span> 后台管理员
 						</a></li>
 						<li class="sidebar-nav-link"><a href="table-list-img.html">
@@ -228,12 +243,13 @@
 				<li class="sidebar-nav-link"><a href="login.html"> <i
 						class="am-icon-key sidebar-nav-link-logo"></i> 登录
 				</a></li>
-				<li class="sidebar-nav-link"><a href="404.html"> <i
+				<li class="sidebar-nav-link"><a id="errorPage"> <i
 						class="am-icon-tv sidebar-nav-link-logo"></i> 404错误
 				</a></li>
 			</ul>
 		</div>
-		<iframe id="contentUrl" src="/home" style="height: 100%; width: 100%;" frameborder="0"></iframe>
+		<iframe id="contentUrl" src="/home" style="height: 100%; width: 100%;"
+			frameborder="0"></iframe>
 	</div>
 	<script src="./amazeUI/js/amazeui.min.js"></script>
 	<script src="./amazeUI/js/amazeui.datatables.min.js"></script>

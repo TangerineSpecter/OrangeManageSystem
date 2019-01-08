@@ -4,11 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tangerineSpecter.oms.common.service.ServiceResult;
-import com.tangerineSpecter.oms.system.domain.pojo.SystemInfoBean;
+import com.tangerineSpecter.oms.system.domain.pojo.IndexDataBean;
 import com.tangerineSpecter.oms.system.service.system.SystemInfoService;
 import com.tangerineSpecter.oms.system.service.system.SystemUserService;
 
@@ -38,13 +37,19 @@ public class SystemController {
 	}
 
 	/**
-	 * 后台管理员列表
+	 * 日历
 	 */
-	@ResponseBody
-	@RequestMapping(path = "/systemUserList", method = RequestMethod.POST)
-	public ServiceResult systemUserList() {
-		System.out.println("管理员列表");
-		return ServiceResult.success(systemUseroService.querySystemUserList());
+	@RequestMapping("/calendar")
+	public String calendar() {
+		return "system/calendar";
+	}
+
+	/**
+	 * 表格
+	 */
+	@RequestMapping("/tables")
+	public String tables() {
+		return "tables";
 	}
 
 	/**
@@ -55,8 +60,9 @@ public class SystemController {
 	@ResponseBody
 	@RequestMapping("/systemInfo")
 	public ServiceResult getSystemInfo() {
-		SystemInfoBean systemInfoBean = systemInfoService.getSystemInfo();
-		return ServiceResult.success(systemInfoBean);
+		IndexDataBean indexData = new IndexDataBean();
+		indexData.setSystemInfo(systemInfoService.getSystemInfo());
+		return ServiceResult.success(indexData);
 	}
 
 }

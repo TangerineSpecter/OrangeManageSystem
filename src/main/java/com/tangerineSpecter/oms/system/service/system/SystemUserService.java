@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tangerineSpecter.oms.common.constant.RetCode;
-import com.tangerineSpecter.oms.common.service.ServiceResult;
+import com.tangerineSpecter.oms.common.result.ServiceResult;
 import com.tangerineSpecter.oms.system.domain.SystemUser;
 import com.tangerineSpecter.oms.system.domain.pojo.AccountsInfo;
 import com.tangerineSpecter.oms.system.mapper.SystemUserMapper;

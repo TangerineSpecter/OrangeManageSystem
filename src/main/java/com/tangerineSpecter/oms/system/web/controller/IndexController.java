@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.tangerineSpecter.oms.common.service.ServiceResult;
+import com.tangerineSpecter.oms.common.result.ServiceResult;
 import com.tangerineSpecter.oms.system.domain.pojo.AccountsInfo;
 import com.tangerineSpecter.oms.system.service.system.SystemUserService;
 

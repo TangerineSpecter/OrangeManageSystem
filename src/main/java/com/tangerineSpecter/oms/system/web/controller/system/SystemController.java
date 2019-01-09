@@ -6,7 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.tangerineSpecter.oms.common.service.ServiceResult;
+import com.tangerineSpecter.oms.common.result.ServiceResult;
 import com.tangerineSpecter.oms.system.domain.pojo.IndexDataBean;
 import com.tangerineSpecter.oms.system.service.system.SystemInfoService;
 import com.tangerineSpecter.oms.system.service.system.SystemUserService;

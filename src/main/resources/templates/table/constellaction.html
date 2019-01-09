@@ -67,7 +67,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr class="gradeX" th:each="data:${dataConstellationList}">
+								<tr class="gradeX" th:each="data:${list}">
 									<td th:text="${data.id}" />
 									<td th:text="${data.name}" />
 									<td th:text="${data.dateTime}" />
@@ -93,13 +93,13 @@
 							</tbody>
 						</table>
 						<ul class="am-pagination">
-							<li class="am-disabled"><a href="#">&laquo;</a></li>
-							<li class="am-active"><a href="#">1</a></li>
-							<li><a href="#">2</a></li>
-							<li><a href="#">3</a></li>
-							<li><a href="#">4</a></li>
-							<li><a href="#">5</a></li>
-							<li><a href="#">&raquo;</a></li>
+							<li><a th:href="@{/constellaction(page=${page}-1)}">&laquo;</a></li>
+							<li class="am-active"><a th:href="@{/constellaction(page=${page})}" th:text="${page}"></a></li>
+							<li><a th:href="@{/constellaction(page=${page}+1)}" th:text="${page} + 1"></a></li>
+							<li><a th:href="@{/constellaction(page=${page}+2)}" th:text="${page} + 2"></a></li>
+							<li><a th:href="@{/constellaction(page=${page}+3)}" th:text="${page} + 3"></a></li>
+							<li><a th:href="@{/constellaction(page=${page}+4)}" th:text="${page} + 4"></a></li>
+							<li><a th:href="@{/constellaction(page=${page}+1)}">&raquo;</a></li>
 						</ul>
 					</div>
 				</div>

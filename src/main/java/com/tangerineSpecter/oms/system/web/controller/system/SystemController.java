@@ -6,7 +6,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.tangerineSpecter.oms.common.query.SystemUserQueryObject;
 import com.tangerineSpecter.oms.common.result.ServiceResult;
+import com.tangerineSpecter.oms.common.utils.ServiceKey;
 import com.tangerineSpecter.oms.system.domain.pojo.IndexDataBean;
 import com.tangerineSpecter.oms.system.service.system.SystemInfoService;
 import com.tangerineSpecter.oms.system.service.system.SystemUserService;
@@ -30,9 +32,9 @@ public class SystemController {
 	/**
 	 * 后台管理员
 	 */
-	@RequestMapping("/systemUser")
-	public String systemUserPage(Model model) {
-		model.addAttribute(systemUseroService.querySystemUserList());
+	@RequestMapping(ServiceKey.System.SYSTEM_USER_PAGE_LIST)
+	public String systemUserPage(Model model, SystemUserQueryObject qo) {
+		systemUseroService.querySystemUserList(model, qo);
 		return "system/systemUser";
 	}
 
@@ -45,20 +47,12 @@ public class SystemController {
 	}
 
 	/**
-	 * 表格
-	 */
-	@RequestMapping("/tables")
-	public String tables() {
-		return "tables";
-	}
-
-	/**
 	 * 系统信息
 	 * 
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping("/systemInfo")
+	@RequestMapping(ServiceKey.System.SYSTEM_INFO)
 	public ServiceResult getSystemInfo() {
 		IndexDataBean indexData = new IndexDataBean();
 		indexData.setSystemInfo(systemInfoService.getSystemInfo());

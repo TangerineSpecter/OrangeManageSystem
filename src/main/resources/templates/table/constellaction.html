@@ -45,13 +45,13 @@
 							<a href="javascript:;" class="am-icon-cog"></a>
 						</div>
 					</div>
-					<div class="widget-body  widget-body-lg am-fr">
+					<div class="widget-body  widget-body-lg am-fr am-scrollable-horizontal">
 						<table width="100%"
-							class="am-table am-table-bordered am-table-striped am-table-hover"
+							class="am-table am-table-bordered am-table-striped am-table-hover am-text-nowrap"
 							id="example-r">
 							<thead>
 								<tr>
-									<th>ID</th>
+									<th>序号</th>
 									<th>星座名称</th>
 									<th>时间</th>
 									<th>综合指数</th>
@@ -61,14 +61,13 @@
 									<th>财运指数</th>
 									<th>幸运数字</th>
 									<th>速配星座</th>
-									<th>今日概述</th>
 									<th>工作指数</th>
-									<th>操作</th>
+									<th>今日概述</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr class="gradeX" th:each="data:${list}">
-									<td th:text="${data.id}" />
+									<td th:text="${dataStat.count}" />
 									<td th:text="${data.name}" />
 									<td th:text="${data.dateTime}" />
 									<td th:text="${data.allLuck}" />
@@ -78,29 +77,13 @@
 									<td th:text="${data.money}" />
 									<td th:text="${data.number}" />
 									<td th:text="${data.QFriend}" />
-									<td th:text="${data.summary}" />
 									<td th:text="${data.workLuck}" />
-									<td>
-										<div class="tpl-table-black-operation">
-											<a href="javascript:;"> <i class="am-icon-pencil"></i> 编辑
-											</a> <a href="javascript:;" class="tpl-table-black-operation-del">
-												<i class="am-icon-trash"></i> 删除
-											</a>
-										</div>
-									</td>
+									<td th:text="${data.summary}" />
 								</tr>
 								<!-- more data -->
 							</tbody>
 						</table>
-						<ul class="am-pagination">
-							<li><a th:href="@{/constellaction(page=${page}-1)}">&laquo;</a></li>
-							<li class="am-active"><a th:href="@{/constellaction(page=${page})}" th:text="${page}"></a></li>
-							<li><a th:href="@{/constellaction(page=${page}+1)}" th:text="${page} + 1"></a></li>
-							<li><a th:href="@{/constellaction(page=${page}+2)}" th:text="${page} + 2"></a></li>
-							<li><a th:href="@{/constellaction(page=${page}+3)}" th:text="${page} + 3"></a></li>
-							<li><a th:href="@{/constellaction(page=${page}+4)}" th:text="${page} + 4"></a></li>
-							<li><a th:href="@{/constellaction(page=${page}+1)}">&raquo;</a></li>
-						</ul>
+						<div th:include="./common/_common :: pagination"></div>
 					</div>
 				</div>
 			</div>

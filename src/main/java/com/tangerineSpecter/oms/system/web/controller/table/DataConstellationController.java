@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.tangerineSpecter.oms.common.query.ConstellactionQueryObject;
+import com.tangerineSpecter.oms.common.utils.ServiceKey;
 import com.tangerineSpecter.oms.system.service.table.DataConstellationService;
 
 /**
@@ -24,10 +25,9 @@ public class DataConstellationController {
 	/**
 	 * 星座页面
 	 */
-	@RequestMapping("/constellaction")
+	@RequestMapping(ServiceKey.Constellation.CONSTELLATION_PAGE_LIST)
 	public String constellactionPage(Model model, ConstellactionQueryObject qo) {
 		dataConstellationService.queryForPage(model, qo);
-		System.out.println(model);
 		return "table/constellaction";
 	}
 }

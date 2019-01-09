@@ -69,5 +69,18 @@
 			tpwidget("show");
 		</script>
 	</footer>
+	<!-- 分页栏 -->
+	<footer th:fragment="pagination">
+		<ul class="am-pagination">
+			<li><a th:href="@{${url}(page=${page}-1)}">&laquo;</a></li>
+			<li class="am-active"><a th:href="@{${url}(page=${page})}"
+				th:text="${page}"></a></li>
+			<li><a th:href="@{${url}(page=${page}+1)}" th:text="${page} + 1"></a></li>
+			<li><a th:href="@{${url}(page=${page}+2)}" th:text="${page} + 2"></a></li>
+			<li><a th:href="@{${url}(page=${page}+3)}" th:text="${page} + 3"></a></li>
+			<li><a th:href="@{${url}(page=${page}+4)}" th:text="${page} + 4"></a></li>
+			<li><a th:href="@{${url}(page=${page}+1)}">&raquo;</a></li>
+		</ul>
+	</footer>
 </body>
 </html>

@@ -78,4 +78,20 @@
 		system_user
 		where username = #{username}
 	</select>
+	<select id="queryForPage" resultMap="BaseResultMap">
+		select id, username,
+		nick_name,
+		phone_number, create_time,city,
+		update_time,
+		admin,is_del
+		from
+		system_user
+		<if test="page!=null">
+			limit #{start},#{size}
+		</if>
+	</select>
+	<select id="queryForPageCount" resultType="java.lang.Long">
+		select Count(*) from
+		system_user
+	</select>
 </mapper>

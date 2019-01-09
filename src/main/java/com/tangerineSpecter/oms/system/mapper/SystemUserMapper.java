@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.tangerineSpecter.oms.common.query.SystemUserQueryObject;
 import com.tangerineSpecter.oms.system.domain.SystemUser;
 
 @Mapper
@@ -25,4 +26,8 @@ public interface SystemUserMapper {
 	int createUserByRegister(SystemUser record);
 
 	SystemUser getUserByUserName(@Param("username") String username);
+
+	List<SystemUser> queryForPage(SystemUserQueryObject qo);
+
+	Long queryForPageCount(SystemUserQueryObject qo);
 }

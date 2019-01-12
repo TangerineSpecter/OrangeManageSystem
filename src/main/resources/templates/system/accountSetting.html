@@ -14,10 +14,12 @@
 <link rel="stylesheet" href="./amazeUI/css/amazeui.datatables.min.css" />
 <link rel="stylesheet" href="./amazeUI/css/app.css">
 <script src="./amazeUI/js/jquery.min.js"></script>
+<script src="./js/omsJs/system/accountSetting.js"></script>
 </head>
 
 <body data-type="widgets">
 	<script src="./amazeUI/js/theme.js"></script>
+	<div th:include="./common/_common :: model"></div>
 	<div class="am-g tpl-g">
 		<!-- 内容区域 -->
 		<div class="tpl-content-wrapper">
@@ -31,8 +33,7 @@
 							</div>
 						</div>
 						<div class="widget-body am-fr">
-							<form class="am-form tpl-form-border-form tpl-form-border-br"
-								th:action="@{/systemUser/update.action}" th:method="post" th:object="${systemUesr}">
+							<form class="am-form tpl-form-border-form tpl-form-border-br" id="systemUser-form">
 								<input name="id" th:value="${systemUserInfo.id}" style="display: none;" />
 								<div class="am-form-group">
 									<label for="user-weibo" class="am-u-sm-3 am-form-label">头像
@@ -112,7 +113,7 @@
 								</div>
 								<div class="am-form-group">
 									<div class="am-u-sm-9 am-u-sm-push-3">
-										<button type="submit"
+										<button type="button" id="saveBtn"
 											class="am-btn am-btn-primary tpl-btn-bg-color-success ">保存</button>
 									</div>
 								</div>

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tangerineSpecter.oms.common.result.ServiceResult;
+import com.tangerineSpecter.oms.common.utils.ServiceKey;
 import com.tangerineSpecter.oms.system.domain.pojo.AccountsInfo;
 import com.tangerineSpecter.oms.system.service.system.SystemUserService;
 
@@ -70,10 +71,9 @@ public class IndexController {
 	/**
 	 * 帐号设置
 	 */
-	@RequestMapping(value = "/accountSetting", method = RequestMethod.GET)
+	@RequestMapping(value = ServiceKey.System.SYSTEM_USER_SETTING, method = RequestMethod.GET)
 	public String accountSetting(Model model, @RequestParam(name = "id") Long id) {
 		systemUserService.getSystemInfo(model, id);
-		System.out.println(model);
 		return "system/accountSetting";
 	}
 

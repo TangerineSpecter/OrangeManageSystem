@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tangerineSpecter.oms.common.result.ServiceResult;
+import com.tangerineSpecter.oms.common.utils.ServiceKey;
 import com.tangerineSpecter.oms.system.domain.SystemUser;
 import com.tangerineSpecter.oms.system.service.system.SystemUserService;
 
@@ -28,7 +29,7 @@ public class SystemUesrController {
 	 * 保存系统用户信息
 	 */
 	@ResponseBody
-	@RequestMapping("/systemUser/update")
+	@RequestMapping(ServiceKey.System.SYSTEM_USER_UPDATE)
 	public ServiceResult update(@Valid SystemUser systemUser) {
 		return systemUserService.updateSystemUserInfo(systemUser);
 	}

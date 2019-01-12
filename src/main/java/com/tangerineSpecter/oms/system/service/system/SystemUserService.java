@@ -2,6 +2,7 @@ package com.tangerineSpecter.oms.system.service.system;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import com.tangerineSpecter.oms.common.constant.RetCode;
@@ -41,5 +42,21 @@ public class SystemUserService {
 	public void querySystemUserList(Model model, SystemUserQueryObject qo) {
 		pageResultService.queryForPage(model, systemUserMapper.queryForPage(qo), systemUserMapper.queryForPageCount(qo),
 				qo.getPage(), ServiceKey.System.SYSTEM_USER_PAGE_LIST);
+	}
+
+	/**
+	 * 获取管理员信息
+	 */
+	public void getSystemInfo(Model model, Long id) {
+		model.addAttribute("systemUserInfo", systemUserMapper.selectByPrimaryKey(id));
+	}
+
+	/**
+	 * 更新账户信息
+	 */
+	@Transactional
+	public ServiceResult updateSystemUserInfo(SystemUser systemUser) {
+		systemUserMapper.updateByPrimaryKey(systemUser);
+		return ServiceResult.success();
 	}
 }

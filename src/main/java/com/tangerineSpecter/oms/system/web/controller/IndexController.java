@@ -2,7 +2,10 @@ package com.tangerineSpecter.oms.system.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tangerineSpecter.oms.common.result.ServiceResult;
@@ -67,8 +70,10 @@ public class IndexController {
 	/**
 	 * 帐号设置
 	 */
-	@RequestMapping("/accountSetting")
-	public String accountSetting() {
+	@RequestMapping(value = "/accountSetting", method = RequestMethod.GET)
+	public String accountSetting(Model model, @RequestParam(name = "id") Long id) {
+		systemUserService.getSystemInfo(model, id);
+		System.out.println(model);
 		return "system/accountSetting";
 	}
 

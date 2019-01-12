@@ -44,7 +44,7 @@ function initMenuBtn() {
 	})
 	//帐号设置
 	$("#account-setting").click(function() {
-		loadUrlContent("accountSetting");
+		loadUrlContent("accountSetting?id=1");
 	})
 }
 

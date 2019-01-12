@@ -2,8 +2,6 @@ package com.tangerineSpecter.oms.system.domain;
 
 import javax.validation.constraints.NotEmpty;
 
-import org.springframework.context.annotation.Primary;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

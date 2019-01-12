@@ -17,6 +17,7 @@
 
 **前端框架：**
 - 基础框架：AmazeUI 2.7.2
+- 基础库支持：Bootstrap 3.3.7
 - JavaScript框架：Jquery 3.3.1
 
 **开发环境：**
@@ -49,6 +50,14 @@
 ### 3.数据库初始化
 ```
 执行resources目录下的oms.sql
+```
+
+### 4.代码生成器的使用
+```
+1.配置generatorConfig.xml生成实体的表名
+2.右键项目-->Maven build
+3.配置指令：mybatis-generator:generate
+4.Run运行
 ```
 
 ## 关于

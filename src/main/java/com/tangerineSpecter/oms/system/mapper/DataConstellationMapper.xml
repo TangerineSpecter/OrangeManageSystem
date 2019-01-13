@@ -87,4 +87,19 @@
 		where create_time =
 		#{createTime}
 	</select>
+	<select id="queryForPage" resultMap="BaseResultMap">
+		select id, name, datetime,
+		date, all_luck, color, health, love, money, number,
+		QFriend,
+		summary,
+		work_luck, create_time
+		from data_constellation
+		order by create_time desc,id desc
+		<if test="page!=null">
+			limit #{start},#{size}
+		</if>
+	</select>
+	<select id="queryForPageCount" resultType="java.lang.Long">
+		select Count(*) from data_constellation
+	</select>
 </mapper>

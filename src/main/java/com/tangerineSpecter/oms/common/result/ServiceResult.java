@@ -1,4 +1,4 @@
-package com.tangerineSpecter.oms.common.service;
+package com.tangerineSpecter.oms.common.result;
 
 import com.tangerineSpecter.oms.common.constant.RetCode;
 

@@ -4,11 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.tangerineSpecter.oms.common.service.ServiceResult;
-import com.tangerineSpecter.oms.system.domain.pojo.IndexDataBean;
-import com.tangerineSpecter.oms.system.service.system.SystemInfoService;
+import com.tangerineSpecter.oms.common.query.SystemUserQueryObject;
+import com.tangerineSpecter.oms.common.utils.ServiceKey;
 import com.tangerineSpecter.oms.system.service.system.SystemUserService;
 
 /**
@@ -23,16 +21,14 @@ import com.tangerineSpecter.oms.system.service.system.SystemUserService;
 public class SystemController {
 
 	@Autowired
-	private SystemInfoService systemInfoService;
-	@Autowired
 	private SystemUserService systemUseroService;
 
 	/**
 	 * 后台管理员
 	 */
-	@RequestMapping("/systemUser")
-	public String systemUserPage(Model model) {
-		model.addAttribute(systemUseroService.querySystemUserList());
+	@RequestMapping(ServiceKey.System.SYSTEM_USER_PAGE_LIST)
+	public String systemUserPage(Model model, SystemUserQueryObject qo) {
+		systemUseroService.querySystemUserList(model, qo);
 		return "system/systemUser";
 	}
 
@@ -42,27 +38,6 @@ public class SystemController {
 	@RequestMapping("/calendar")
 	public String calendar() {
 		return "system/calendar";
-	}
-
-	/**
-	 * 表格
-	 */
-	@RequestMapping("/tables")
-	public String tables() {
-		return "tables";
-	}
-
-	/**
-	 * 系统信息
-	 * 
-	 * @return
-	 */
-	@ResponseBody
-	@RequestMapping("/systemInfo")
-	public ServiceResult getSystemInfo() {
-		IndexDataBean indexData = new IndexDataBean();
-		indexData.setSystemInfo(systemInfoService.getSystemInfo());
-		return ServiceResult.success(indexData);
 	}
 
 }

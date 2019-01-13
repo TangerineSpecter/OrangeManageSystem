@@ -7,8 +7,13 @@
 		<result column="username" property="userName" jdbcType="VARCHAR" />
 		<result column="password" property="password" jdbcType="VARCHAR" />
 		<result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+		<result column="avatar" property="avatar" jdbcType="VARCHAR" />
+		<result column="sex" property="sex" jdbcType="TINYINT" />
 		<result column="phone_number" property="phoneNumber" jdbcType="VARCHAR" />
+		<result column="email" property="email" jdbcType="VARCHAR" />
 		<result column="city" property="city" jdbcType="VARCHAR" />
+		<result column="birthday" property="birthday" jdbcType="VARCHAR" />
+		<result column="brief" property="brief" jdbcType="VARCHAR" />
 		<result column="create_time" property="createTime" jdbcType="VARCHAR" />
 		<result column="update_time" property="updateTime" jdbcType="VARCHAR" />
 		<result column="admin" property="admin" jdbcType="TINYINT" />
@@ -33,23 +38,23 @@
 	</insert>
 	<update id="updateByPrimaryKey" parameterType="com.tangerineSpecter.oms.system.domain.SystemUser">
 		update system_user
-		set username = #{userName},
-		nick_name = #{nickName},
-		password =
-		#{password},
+		set nick_name = #{nickName},
+		avatar = #{avatar},
+		sex = #{sex},
 		phone_number = #{phoneNumber},
-		create_time = #{createTime},
-		update_time = #{updateTime},
-		admin = #{admin}
+		email = #{email},
+		city = #{city},
+		birthday = #{birthday},
+		brief = #{brief}
 		where id = #{id}
 	</update>
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
 		parameterType="java.lang.Long">
-		select id, username, nick_name, phone_number,
-		create_time,city,
-		update_time,
-		admin
-		from system_user
+		select id, nick_name,avatar,sex, phone_number,
+		email,city,birthday,brief,
+		create_time,update_time,admin
+		from
+		system_user
 		where id = #{id}
 	</select>
 	<select id="selectAll" resultMap="BaseResultMap">
@@ -77,5 +82,21 @@
 		from
 		system_user
 		where username = #{username}
+	</select>
+	<select id="queryForPage" resultMap="BaseResultMap">
+		select id, username,
+		nick_name,
+		phone_number, create_time,city,
+		update_time,
+		admin,is_del
+		from
+		system_user
+		<if test="page!=null">
+			limit #{start},#{size}
+		</if>
+	</select>
+	<select id="queryForPageCount" resultType="java.lang.Long">
+		select Count(*) from
+		system_user
 	</select>
 </mapper>

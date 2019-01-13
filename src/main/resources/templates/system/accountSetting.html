@@ -5,19 +5,22 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta http-equiv="Cache-Control" content="no-siteapp" />
-<link rel="icon" type="image/png" href="./amazeUI/i/favicon.png">
-<link rel="apple-touch-icon-precomposed"
-	href="./amazeUI/i/app-icon72x72@2x.png">
-<meta name="apple-mobile-web-app-title" content="Amaze UI" />
 <script src="./amazeUI/js/echarts.min.js"></script>
 <link rel="stylesheet" href="./amazeUI/css/amazeui.min.css" />
 <link rel="stylesheet" href="./amazeUI/css/amazeui.datatables.min.css" />
 <link rel="stylesheet" href="./amazeUI/css/app.css">
 <script src="./amazeUI/js/jquery.min.js"></script>
+<script src="./amazeUI/js/amazeui.min.js"></script>
+<script src="./amazeUI/js/amazeui.datatables.min.js"></script>
+<script src="./amazeUI/js/dataTables.responsive.min.js"></script>
+<script src="./amazeUI/js/app.js"></script>
+<script src="./js/omsJs/system/accountSetting.js"></script>
+<script src="./js/omsJs/common.js"></script>
 </head>
 
 <body data-type="widgets">
 	<script src="./amazeUI/js/theme.js"></script>
+	<div th:include="./common/_common :: modal"></div>
 	<div class="am-g tpl-g">
 		<!-- 内容区域 -->
 		<div class="tpl-content-wrapper">
@@ -31,7 +34,10 @@
 							</div>
 						</div>
 						<div class="widget-body am-fr">
-							<form class="am-form tpl-form-border-form tpl-form-border-br">
+							<form class="am-form tpl-form-border-form tpl-form-border-br"
+								id="systemUser-form">
+								<input name="id" th:value="${systemUserInfo.id}"
+									style="display: none;" />
 								<div class="am-form-group">
 									<label for="user-weibo" class="am-u-sm-3 am-form-label">头像
 										<span class="tpl-form-line-small-title">Images</span>
@@ -49,12 +55,13 @@
 									</div>
 								</div>
 								<div class="am-form-group">
-									<label for="user-name" class="am-u-sm-3 am-form-label">姓名
-										/ <span class="tpl-form-line-small-title">Name</span>
+									<label for="user-name" class="am-u-sm-3 am-form-label">昵称
+										/ <span class="tpl-form-line-small-title">NickName</span>
 									</label>
 									<div class="am-u-sm-9">
 										<input type="text" class="tpl-form-input" id="user-name"
-											placeholder="输入你的姓名 / Name"> <small>输入你的名字，让我们记住你。</small>
+											placeholder="输入你的昵称 / NickName" name="nickName"
+											th:value="${systemUserInfo.nickName}">
 									</div>
 								</div>
 								<div class="am-form-group">
@@ -63,8 +70,8 @@
 									</label>
 									<div class="am-u-sm-9">
 										<input type="text" class="am-form-field tpl-form-no-bg"
-											placeholder="输入你的电子邮箱 / Email" data-am-datepicker=""
-											readonly="">
+											placeholder="输入你的电子邮箱 / Email" name="email"
+											th:value="${systemUserInfo.email}">
 									</div>
 								</div>
 								<div class="am-form-group">
@@ -73,27 +80,31 @@
 									</label>
 									<div class="am-u-sm-9">
 										<input type="text" class="am-form-field tpl-form-no-bg"
-											placeholder="输入你的城市/ City" data-am-datepicker="" readonly="">
+											placeholder="输入你的城市/ City" name="city"
+											th:value="${systemUserInfo.city}">
 									</div>
 								</div>
 								<div class="am-form-group">
-									<label for="user-phone" class="am-u-sm-3 am-form-label">超级管理员
-										/ <span class="tpl-form-line-small-title">admin</span>
+									<label for="user-email" class="am-u-sm-3 am-form-label">生日
+										/ <span class="tpl-form-line-small-title"> Birthday</span>
+									</label>
+									<div class="am-u-sm-9">
+										<input type="text" class="am-form-field tpl-form-no-bg"
+											placeholder="输入你的生日/ Birthday" data-am-datepicker=""
+											readonly="" th:value="${systemUserInfo.birthday}"
+											name="birthday">
+									</div>
+								</div>
+								<div class="am-form-group">
+									<label for="user-phone" class="am-u-sm-3 am-form-label">性别
+										/ <span class="tpl-form-line-small-title">sex</span>
 									</label>
 									<div class="am-u-sm-9">
 										<select data-am-selected="{searchBox: 1}"
-											style="display: none;">
-											<option value="1">是</option>
-											<option value="0">否</option>
+											style="display: none;" name="sex">
+											<option th:selected="${systemUserInfo.sex}" value="0">男</option>
+											<option th:selected="${systemUserInfo.sex}" value="1">女</option>
 										</select>
-									</div>
-								</div>
-								<div class="am-form-group">
-									<label class="am-u-sm-3 am-form-label">SEO关键字 <span
-										class="tpl-form-line-small-title">SEO</span>
-									</label>
-									<div class="am-u-sm-9">
-										<input type="text" placeholder="输入SEO关键字">
 									</div>
 								</div>
 								<div class="am-form-group">
@@ -102,12 +113,13 @@
 									</label>
 									<div class="am-u-sm-9">
 										<textarea class="" rows="10" id="user-intro"
-											placeholder="请输入个人简介"></textarea>
+											placeholder="请输入个人简介" th:text="${systemUserInfo.brief}"
+											name="brief"></textarea>
 									</div>
 								</div>
 								<div class="am-form-group">
 									<div class="am-u-sm-9 am-u-sm-push-3">
-										<button type="button"
+										<button type="button" id="saveBtn"
 											class="am-btn am-btn-primary tpl-btn-bg-color-success ">保存</button>
 									</div>
 								</div>
@@ -118,10 +130,6 @@
 			</div>
 		</div>
 	</div>
-	<script src="./amazeUI/js/amazeui.min.js"></script>
-	<script src="./amazeUI/js/amazeui.datatables.min.js"></script>
-	<script src="./amazeUI/js/dataTables.responsive.min.js"></script>
-	<script src="./amazeUI/js/app.js"></script>
 </body>
 
 </html>

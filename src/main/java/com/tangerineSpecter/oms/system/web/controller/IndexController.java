@@ -2,11 +2,16 @@ package com.tangerineSpecter.oms.system.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.tangerineSpecter.oms.common.service.ServiceResult;
+import com.tangerineSpecter.oms.common.result.ServiceResult;
+import com.tangerineSpecter.oms.common.utils.ServiceKey;
 import com.tangerineSpecter.oms.system.domain.pojo.AccountsInfo;
+import com.tangerineSpecter.oms.system.service.system.SystemInfoService;
 import com.tangerineSpecter.oms.system.service.system.SystemUserService;
 
 /**
@@ -22,6 +27,8 @@ public class IndexController {
 
 	@Autowired
 	private SystemUserService systemUserService;
+	@Autowired
+	private SystemInfoService systemInfoService;
 
 	/**
 	 * 默认页
@@ -42,8 +49,9 @@ public class IndexController {
 	/**
 	 * 内容
 	 */
-	@RequestMapping("/home")
-	public String homePage() {
+	@RequestMapping(ServiceKey.System.SYSTEM_HOME)
+	public String homePage(Model model) {
+		model.addAttribute("systemInfo", systemInfoService.getSystemInfo());
 		return "common/home";
 	}
 
@@ -67,8 +75,9 @@ public class IndexController {
 	/**
 	 * 帐号设置
 	 */
-	@RequestMapping("/accountSetting")
-	public String accountSetting() {
+	@RequestMapping(value = ServiceKey.System.SYSTEM_USER_SETTING, method = RequestMethod.GET)
+	public String accountSetting(Model model, @RequestParam(name = "id") Long id) {
+		systemUserService.getSystemInfo(model, id);
 		return "system/accountSetting";
 	}
 

@@ -4,22 +4,19 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>橘子管理系统</title>
-<meta name="description" content="这是一个 index 页面">
-<meta name="keywords" content="index">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="renderer" content="webkit">
 <meta http-equiv="Cache-Control" content="no-siteapp" />
-<link rel="icon" type="image/png" href="./amazeUI/i/favicon.png">
-<link rel="apple-touch-icon-precomposed"
-	href="./amazeUI/i/app-icon72x72@2x.png">
-<meta name="apple-mobile-web-app-title" content="Amaze UI" />
+<title>橘子管理系统</title>
 <script src="./amazeUI/js/echarts.min.js"></script>
 <link rel="stylesheet" href="./amazeUI/css/amazeui.min.css" />
 <link rel="stylesheet" href="./amazeUI/css/amazeui.datatables.min.css" />
 <link rel="stylesheet" href="./amazeUI/css/app.css">
 <link rel="stylesheet" href="./css/oms/index/common.css">
 <script src="./amazeUI/js/jquery.min.js"></script>
+<script src="./amazeUI/js/amazeui.min.js"></script>
+<script src="./amazeUI/js/amazeui.datatables.min.js"></script>
+<script src="./amazeUI/js/dataTables.responsive.min.js"></script>
+<script src="./amazeUI/js/app.js"></script>
+<script src="/js/omsJs/index/index.js"></script>
 </head>
 
 <body data-type="widgets">
@@ -218,12 +215,8 @@
 						class="am-icon-chevron-down am-fr am-margin-right-sm sidebar-nav-sub-ico"></span>
 				</a>
 					<ul class="sidebar-nav sidebar-nav-sub">
-						<li class="sidebar-nav-link"><a href="table-list.html"> <span
-								class="am-icon-angle-right sidebar-nav-link-logo"></span> 文字列表
-						</a></li>
-						<li class="sidebar-nav-link"><a href="table-list-img.html">
-								<span class="am-icon-angle-right sidebar-nav-link-logo"></span>
-								图文列表
+						<li class="sidebar-nav-link"><a id="constellaction"> <span
+								class="am-icon-angle-right sidebar-nav-link-logo"></span> 星座列表
 						</a></li>
 					</ul></li>
 				<li class="sidebar-nav-link"><a href="javascript:;"
@@ -240,9 +233,6 @@
 								系统字典
 						</a></li>
 					</ul></li>
-				<li class="sidebar-nav-link"><a href="login.html"> <i
-						class="am-icon-key sidebar-nav-link-logo"></i> 登录
-				</a></li>
 				<li class="sidebar-nav-link"><a id="errorPage"> <i
 						class="am-icon-tv sidebar-nav-link-logo"></i> 404错误
 				</a></li>
@@ -251,11 +241,6 @@
 		<iframe id="contentUrl" src="/home" style="height: 100%; width: 100%;"
 			frameborder="0"></iframe>
 	</div>
-	<script src="./amazeUI/js/amazeui.min.js"></script>
-	<script src="./amazeUI/js/amazeui.datatables.min.js"></script>
-	<script src="./amazeUI/js/dataTables.responsive.min.js"></script>
-	<script src="./amazeUI/js/app.js"></script>
-	<script src="/js/omsJs/index/common.js"></script>
 </body>
 
 </html>

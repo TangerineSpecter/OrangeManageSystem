@@ -6,10 +6,10 @@ $(function() {
 			url : '/systemUser/update',
 			data : $("#systemUser-form").serialize(),
 			success : function(result) {
-				$('#tip-model-btn').modal();
+				promptModal("保存成功");
 			},
 			error : function(result) {
-				console.log("失败");
+				promptModal(result.errorDesc);
 			}
 		});
 	})

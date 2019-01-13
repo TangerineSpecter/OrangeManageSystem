@@ -5,18 +5,22 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta http-equiv="Cache-Control" content="no-siteapp" />
-<meta name="apple-mobile-web-app-title" content="Amaze UI" />
 <script src="./amazeUI/js/echarts.min.js"></script>
 <link rel="stylesheet" href="./amazeUI/css/amazeui.min.css" />
 <link rel="stylesheet" href="./amazeUI/css/amazeui.datatables.min.css" />
 <link rel="stylesheet" href="./amazeUI/css/app.css">
 <script src="./amazeUI/js/jquery.min.js"></script>
+<script src="./amazeUI/js/amazeui.min.js"></script>
+<script src="./amazeUI/js/amazeui.datatables.min.js"></script>
+<script src="./amazeUI/js/dataTables.responsive.min.js"></script>
+<script src="./amazeUI/js/app.js"></script>
 <script src="./js/omsJs/system/accountSetting.js"></script>
+<script src="./js/omsJs/common.js"></script>
 </head>
 
 <body data-type="widgets">
 	<script src="./amazeUI/js/theme.js"></script>
-	<div th:include="./common/_common :: model"></div>
+	<div th:include="./common/_common :: modal"></div>
 	<div class="am-g tpl-g">
 		<!-- 内容区域 -->
 		<div class="tpl-content-wrapper">
@@ -30,8 +34,10 @@
 							</div>
 						</div>
 						<div class="widget-body am-fr">
-							<form class="am-form tpl-form-border-form tpl-form-border-br" id="systemUser-form">
-								<input name="id" th:value="${systemUserInfo.id}" style="display: none;" />
+							<form class="am-form tpl-form-border-form tpl-form-border-br"
+								id="systemUser-form">
+								<input name="id" th:value="${systemUserInfo.id}"
+									style="display: none;" />
 								<div class="am-form-group">
 									<label for="user-weibo" class="am-u-sm-3 am-form-label">头像
 										<span class="tpl-form-line-small-title">Images</span>
@@ -74,7 +80,8 @@
 									</label>
 									<div class="am-u-sm-9">
 										<input type="text" class="am-form-field tpl-form-no-bg"
-											placeholder="输入你的城市/ City" name="city" th:value="${systemUserInfo.city}">
+											placeholder="输入你的城市/ City" name="city"
+											th:value="${systemUserInfo.city}">
 									</div>
 								</div>
 								<div class="am-form-group">
@@ -84,7 +91,8 @@
 									<div class="am-u-sm-9">
 										<input type="text" class="am-form-field tpl-form-no-bg"
 											placeholder="输入你的生日/ Birthday" data-am-datepicker=""
-											readonly="" th:value="${systemUserInfo.birthday}" name="birthday">
+											readonly="" th:value="${systemUserInfo.birthday}"
+											name="birthday">
 									</div>
 								</div>
 								<div class="am-form-group">
@@ -105,7 +113,8 @@
 									</label>
 									<div class="am-u-sm-9">
 										<textarea class="" rows="10" id="user-intro"
-											placeholder="请输入个人简介" th:text="${systemUserInfo.brief}" name="brief"></textarea>
+											placeholder="请输入个人简介" th:text="${systemUserInfo.brief}"
+											name="brief"></textarea>
 									</div>
 								</div>
 								<div class="am-form-group">
@@ -121,10 +130,6 @@
 			</div>
 		</div>
 	</div>
-	<script src="./amazeUI/js/amazeui.min.js"></script>
-	<script src="./amazeUI/js/amazeui.datatables.min.js"></script>
-	<script src="./amazeUI/js/dataTables.responsive.min.js"></script>
-	<script src="./amazeUI/js/app.js"></script>
 </body>
 
 </html>

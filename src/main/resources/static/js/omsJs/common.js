@@ -1,1 +1,5 @@
-// 公共引入js\css管理
+//提示框
+function promptModal(content) {
+	$("#prompt-modal-content").html(content);
+	$("#prompt-modal").modal();
+}

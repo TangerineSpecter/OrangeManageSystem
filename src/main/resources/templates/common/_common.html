@@ -5,29 +5,19 @@
 <script src="./js/omsJs/_initJs.js"></script>
 </head>
 <body>
-	<footer th:fragment="model">
+	<footer th:fragment="modal">
 		<!-- 提示框 -->
-		<div class="am-modal am-modal-no-btn" tabindex="-1" id="tip-model">
-			<div class="am-modal-dialog">
-				<div class="am-modal-hd">
-					提示 <a href="javascript: void(0)" class="am-close am-close-spin"
-						data-am-modal-close>&times;</a>
-				</div>
-				<div class="am-modal-bd">Modal 内容。本 Modal 无法通过遮罩层关闭。</div>
-			</div>
-		</div>
-
-		<!-- 确定提示框 -->
-		<div class="am-modal am-modal-alert" tabindex="-1" id="tip-model-btn">
+		<div class="am-modal am-modal-alert" tabindex="-1" id="prompt-modal">
 			<div class="am-modal-dialog">
 				<div class="am-modal-hd">提示</div>
-				<div class="am-modal-bd">操作成功！</div>
+				<div class="am-modal-bd" id="prompt-modal-content"></div>
 				<div class="am-modal-footer">
 					<span class="am-modal-btn">确定</span>
 				</div>
 			</div>
 		</div>
 	</footer>
+
 	<footer th:fragment="weatherPlugin">
 		<!-- 天气插件 -->
 		<script>
@@ -69,6 +59,7 @@
 			tpwidget("show");
 		</script>
 	</footer>
+
 	<!-- 分页栏 -->
 	<footer th:fragment="pagination">
 		<ul class="am-pagination">

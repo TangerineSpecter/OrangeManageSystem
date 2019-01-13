@@ -29,7 +29,8 @@
 			<div class="row">
 				<div class="am-u-sm-12 am-u-md-12 am-u-lg-9">
 					<div class="page-header-heading">
-						<span class="am-icon-home page-header-heading-icon"></span> 公告 <small id="today-time"></small>
+						<span class="am-icon-home page-header-heading-icon"></span> 公告 <small
+							id="today-time"></small>
 					</div>
 					<p class="page-header-description">丢失的猫咪今天在路上捡到了100元。</p>
 				</div>
@@ -116,30 +117,32 @@
 						</div>
 						<div class="widget-body widget-body-md am-fr">
 							<div class="am-progress-title">
-								CPU 使用率 <span id="cpuInfo" class="am-fr am-progress-title-more">0%
-									/ 100%</span>
+								CPU 使用率 <span id="cpuInfo" class="am-fr am-progress-title-more"
+									th:text="${systemInfo.cpuRatio}+ '% / 100%'">0% / 100%</span>
 							</div>
 							<div class="am-progress">
 								<div id="cpuRatioValue" class="am-progress-bar"
-									style="width: 0%"></div>
+									th:style="'width:' + ${systemInfo.cpuRatio}+'%'"></div>
 							</div>
 							<div class="am-progress-title">
 								内存 使用率 <span id="memoryInfo"
-									class="am-fr am-progress-title-more">0% / 100%</span>
+									class="am-fr am-progress-title-more"
+									th:text="${systemInfo.memoryRatio}+ '% / 100%'">0% /
+									100%</span>
 							</div>
 							<div class="am-progress">
 								<div id="memoryRatioValue"
 									class="am-progress-bar  am-progress-bar-warning"
-									style="width: 0%"></div>
+									th:style="'width:' + ${systemInfo.memoryRatio}+'%'"></div>
 							</div>
 							<div class="am-progress-title">
-								硬盘 使用率 <span id="diskInfo" class="am-fr am-progress-title-more">0%
-									/ 100%</span>
+								硬盘 使用率 <span id="diskInfo" class="am-fr am-progress-title-more"
+									th:text="${systemInfo.diskRatio}+ '% / 100%'">0% / 100%</span>
 							</div>
 							<div class="am-progress">
 								<div id="diskRatioValue"
 									class="am-progress-bar am-progress-bar-danger"
-									style="width: 0%"></div>
+									th:style="'width:' + ${systemInfo.diskRatio}+'%'"></div>
 							</div>
 						</div>
 					</div>

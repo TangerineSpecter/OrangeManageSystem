@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.tangerineSpecter.oms.common.result.ServiceResult;
 import com.tangerineSpecter.oms.common.utils.ServiceKey;
 import com.tangerineSpecter.oms.system.domain.pojo.AccountsInfo;
+import com.tangerineSpecter.oms.system.service.system.SystemInfoService;
 import com.tangerineSpecter.oms.system.service.system.SystemUserService;
 
 /**
@@ -26,6 +27,8 @@ public class IndexController {
 
 	@Autowired
 	private SystemUserService systemUserService;
+	@Autowired
+	private SystemInfoService systemInfoService;
 
 	/**
 	 * 默认页
@@ -46,8 +49,9 @@ public class IndexController {
 	/**
 	 * 内容
 	 */
-	@RequestMapping("/home")
-	public String homePage() {
+	@RequestMapping(ServiceKey.System.SYSTEM_HOME)
+	public String homePage(Model model) {
+		model.addAttribute("systemInfo", systemInfoService.getSystemInfo());
 		return "common/home";
 	}
 

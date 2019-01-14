@@ -87,6 +87,9 @@
 				success : function(data) {
 					if (data.success) {
 						promptModal("登录成功");
+						$("#prompt-modal").on("closed.modal.amui", function() {
+							window.location.href = "/index";
+						})
 					} else {
 						promptModal(data.errorDesc);
 					}

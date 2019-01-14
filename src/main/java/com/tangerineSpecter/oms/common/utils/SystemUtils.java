@@ -5,9 +5,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
+
+import com.tangerineSpecter.oms.common.constant.CommonConstant;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,6 +36,23 @@ public class SystemUtils {
 	public static String getOsName() {
 		String osName = System.getProperty("os.name");
 		return osName;
+	}
+
+	/**
+	 * 获取本机ip地址
+	 * 
+	 * @return
+	 */
+	public static String getLocalhostIP() {
+		String ip = CommonConstant.NULL_KEY_STR;
+		InetAddress address;
+		try {
+			address = InetAddress.getLocalHost();
+			ip = address.getHostAddress();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+		return ip;
 	}
 
 	/**

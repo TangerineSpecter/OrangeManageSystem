@@ -31,4 +31,15 @@ public class DateUtils {
 		}
 		return CommonConstant.NULL_KEY_STR;
 	}
+
+	/**
+	 * 获取指定格式的当前时间
+	 * 
+	 * @param format
+	 *            格式,如:yyyy-MM-dd
+	 * @return
+	 */
+	public static String getSimpleFormat(String format) {
+		return new SimpleDateFormat(format).format(new Date());
+	}
 }

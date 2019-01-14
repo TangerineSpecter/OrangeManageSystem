@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.tangerineSpecter</groupId>
 	<artifactId>OrangeManageSystem</artifactId>
-	<version>0.0.5</version>
+	<version>0.1.0</version>
 	<name>oms</name>
 	<description>This is TangerineSpecter Manage System Project.</description>
 
@@ -79,6 +79,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<!-- 基础包支持 -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.8.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

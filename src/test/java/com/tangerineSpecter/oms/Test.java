@@ -1,17 +1,19 @@
 package com.tangerineSpecter.oms;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.security.NoSuchAlgorithmException;
 
-import com.tangerineSpecter.oms.common.utils.HttpUtils;
+import com.tangerineSpecter.oms.common.constant.CommonConstant;
+import com.tangerineSpecter.oms.common.utils.MD5Utils;
 
 public class Test {
 
 	public static void main(String[] args) {
-		Map<String, Object> data = new HashMap<>();
-		data.put("consName", "狮子座");
-		data.put("type", "today");
-		data.put("key", "47f6796c7b8b99c47c176d56adf4f0a8");
-		HttpUtils.interfaceInvoke("http://web.juhe.cn:8080/constellation/getAll", data);
+		try {
+			String md5Pwd = MD5Utils.getMD5Pwd("123456", CommonConstant.SALT);
+			System.out.println(md5Pwd);
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

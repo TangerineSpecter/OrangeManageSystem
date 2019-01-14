@@ -13,8 +13,20 @@
 <link rel="stylesheet" href="./amazeUI/css/amazeui.min.css">
 <link rel="stylesheet" href="/css/oms/index/app.css">
 <script type="text/javascript" src="/js/jquery/jquery.min.js"></script>
+<script src="./js/omsJs/common.js"></script>
 </head>
 <body>
+	<!-- 提示框 -->
+	<div class="am-modal am-modal-alert" tabindex="-1" id="prompt-modal">
+		<div class="am-modal-dialog">
+			<div class="am-modal-hd">提示</div>
+			<div class="am-modal-bd" id="prompt-modal-content"></div>
+			<div class="am-modal-footer">
+				<span class="am-modal-btn">确定</span>
+			</div>
+		</div>
+	</div>
+
 	<div class="am-g myapp-login">
 		<div class="myapp-login-logo-block">
 			<div class="myapp-login-logo">
@@ -75,43 +87,7 @@
 		});
 		//通过异步方式登录
 		function submitForm() {
-			console.log($('#password').val().length)
-			if ($('#username').val() == '' || $('#password').val() == '') {
-				layer.open({
-					title : '提示',
-					content : '请输入用户名或者密码！'
-				});
-				return;
-			}
-			if ($('#password').val() != $('#confirm').val()) {
-				layer.open({
-					title : '提示',
-					content : '输入密码不一致，请重新输入！'
-				});
-				return;
-			}
-			$.post("/register", $("#register").serialize(), function(data) {
-				if (data.success) {
-					layui.use('layer', function() {
-						layer.open({
-							title : '提示',
-							content : data.msg,
-							yes : function(index, layero) {
-								//跳转到首页
-								window.location.href = "/login.html";
-							}
-						});
-					});
-				} else {
-					layui.use('layer', function() {
-						var layer = layui.layer;
-						layer.open({
-							title : '提示',
-							content : data.msg
-						});
-					});
-				}
-			}, "JSON")
+			promptModal("暂未开放注册！");
 		}
 	</script>
 </body>

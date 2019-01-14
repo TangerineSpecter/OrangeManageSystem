@@ -41,7 +41,7 @@ public class ServiceResult {
 	public static ServiceResult success() {
 		result.setSuccess(true);
 		result.setErrorCode(RetCode.SUCCESS_CODE);
-		result.setErrorDesc(RetCode.SUCCESS_DESC);
+		result.setErrorDesc(RetCode.SUCCESS_CODE_DESC);
 		return result;
 	}
 
@@ -51,7 +51,7 @@ public class ServiceResult {
 	public static ServiceResult success(Object data) {
 		result.setSuccess(true);
 		result.setErrorCode(RetCode.SUCCESS_CODE);
-		result.setErrorDesc(RetCode.SUCCESS_DESC);
+		result.setErrorDesc(RetCode.SUCCESS_CODE_DESC);
 		result.setData(data);
 		return result;
 	}
@@ -62,7 +62,7 @@ public class ServiceResult {
 	public static ServiceResult fail() {
 		result.setSuccess(false);
 		result.setErrorCode(RetCode.FAIL_CODE);
-		result.setErrorDesc(RetCode.FAIL_DESC);
+		result.setErrorDesc(RetCode.FAIL_CODE_DESC);
 		return result;
 	}
 

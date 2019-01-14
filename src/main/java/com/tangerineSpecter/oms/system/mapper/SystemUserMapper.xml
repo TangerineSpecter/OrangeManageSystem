@@ -50,18 +50,17 @@
 	</update>
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
 		parameterType="java.lang.Long">
-		select id, nick_name,avatar,sex, phone_number,
+		select id,username, nick_name,avatar,sex, phone_number,
 		email,city,birthday,brief,
-		create_time,update_time,admin
+		create_time,update_time,admin,is_del
 		from
 		system_user
 		where id = #{id}
 	</select>
 	<select id="selectAll" resultMap="BaseResultMap">
-		select id, username, nick_name,
-		phone_number, create_time,city,
-		update_time,
-		admin,is_del
+		select id,username, nick_name,avatar,sex, phone_number,
+		email,city,birthday,brief,
+		create_time,update_time,admin,is_del
 		from
 		system_user
 	</select>
@@ -84,11 +83,9 @@
 		where username = #{username}
 	</select>
 	<select id="queryForPage" resultMap="BaseResultMap">
-		select id, username,
-		nick_name,
-		phone_number, create_time,city,
-		update_time,
-		admin,is_del
+		select id,username, nick_name,avatar,sex, phone_number,
+		email,city,birthday,brief,
+		create_time,update_time,admin,is_del
 		from
 		system_user
 		<if test="page!=null">

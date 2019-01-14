@@ -52,6 +52,9 @@
 									<th>ID</th>
 									<th>帐号</th>
 									<th>昵称</th>
+									<th>性别</th>
+									<th>邮箱</th>
+									<th>生日</th>
 									<th>城市</th>
 									<th>超级管理员</th>
 									<th>创建时间</th>
@@ -63,6 +66,9 @@
 									<td th:text="${systemUser.id}" />
 									<td th:text="${systemUser.userName}" />
 									<td th:text="${systemUser.nickName}" />
+									<td th:text="${systemUser.sex==0?'男':'女'}" />
+									<td th:text="${systemUser.email}" />
+									<td th:text="${systemUser.birthday}" />
 									<td th:text="${systemUser.city}" />
 									<td th:text="${systemUser.admin==1?'是':'否'}" />
 									<td th:text="${systemUser.createTime}" />

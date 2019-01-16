@@ -65,7 +65,7 @@ public class ConstellationQuartzService {
 				JSONObject starObj = JSONObject.parseObject(result);
 				dataConstellationMapper.insert(getDateConstellation(starObj));
 			}
-			log.info(String.format("[星座定时任务执行完毕]，插入数据：", noStarList));
+			log.info(String.format("[星座定时任务执行完毕]，插入数据：%s", noStarList.size()));
 		} catch (Exception e) {
 			log.warn("星座接口调用异常:%s", e);
 		}

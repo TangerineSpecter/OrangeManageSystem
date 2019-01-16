@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="./amazeUI/css/amazeui.datatables.min.css" />
 <link rel="stylesheet" href="./amazeUI/css/app.css">
 <script src="./amazeUI/js/jquery.min.js"></script>
+<script src="./js/omsJs/data/constellaction.js"></script>
 </head>
 
 <body data-type="widgets">
@@ -36,12 +37,25 @@
 			<div class="row-content am-cf">
 				<div class="widget am-cf">
 					<div class="widget-head am-cf">
-						<div class="widget-title am-fl">查询</div>
+						<form id="queryForm" method="post" action="/constellaction">
+							<div class="widget-title am-fl">
+								<span>查询：</span> <select id="star" name="star"
+									data-am-selected="{maxHeight: 130}">
+								</select> <input id="queryDay" name="queryDay" type="text"
+									style="height: 37px; margin-left: 20px;" class="tpl-form-input"
+									placeholder="查询日期" data-am-datepicker readonly required />
+								<button id="queryBtn" type="button"
+									class="am-btn am-btn-primary am-radius">
+									<i class="am-icon-search am-icon-fw"></i>
+								</button>
+							</div>
+						</form>
 						<div class="widget-function am-fr">
 							<a href="javascript:;" class="am-icon-cog"></a>
 						</div>
 					</div>
-					<div class="widget-body  widget-body-lg am-fr am-scrollable-horizontal">
+					<div
+						class="widget-body  widget-body-lg am-fr am-scrollable-horizontal">
 						<table width="100%"
 							class="am-table am-table-bordered am-table-striped am-table-hover am-text-nowrap"
 							id="example-r">

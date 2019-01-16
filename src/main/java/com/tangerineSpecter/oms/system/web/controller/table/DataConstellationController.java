@@ -28,6 +28,6 @@ public class DataConstellationController {
 	@RequestMapping(ServiceKey.Constellation.CONSTELLATION_PAGE_LIST)
 	public String constellactionPage(Model model, ConstellactionQueryObject qo) {
 		dataConstellationService.queryForPage(model, qo);
-		return "table/constellaction";
+		return "data/constellaction";
 	}
 }

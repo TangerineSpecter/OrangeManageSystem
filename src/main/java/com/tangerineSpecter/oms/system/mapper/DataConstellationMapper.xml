@@ -94,6 +94,14 @@
 		summary,
 		work_luck, create_time
 		from data_constellation
+	 	<where>
+	 		<if test="star!='' and star!=null">
+	 			and name = #{star}
+	 		</if>
+	 		<if test="queryDay!='' and queryDay!=null">
+	 			and create_time = #{queryDay}
+	 		</if>
+	 	</where>
 		order by create_time desc,id desc
 		<if test="page!=null">
 			limit #{start},#{size}
@@ -101,5 +109,13 @@
 	</select>
 	<select id="queryForPageCount" resultType="java.lang.Long">
 		select Count(*) from data_constellation
+		<where>
+	 		<if test="star!='' and star!=null">
+	 			and name = #{star}
+	 		</if>
+	 		<if test="queryDay!='' and queryDay!=null">
+	 			and create_time = #{queryDay}
+	 		</if>
+	 	</where>
 	</select>
 </mapper>

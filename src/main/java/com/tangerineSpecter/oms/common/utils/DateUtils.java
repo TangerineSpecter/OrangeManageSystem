@@ -17,7 +17,7 @@ public class DateUtils {
 	/** 默认格式 */
 	private static final String DEFAULT_FORMAT = "yyyy-MM-dd";
 	/** 星座 */
-	private static final String STAR = "摩羯水瓶双鱼牡羊金牛双子巨蟹狮子处女天秤天蝎射手魔羯";
+	private static final String STAR = "摩羯水瓶双鱼牡羊金牛双子巨蟹狮子处女天秤天蝎射手摩羯";
 
 	/**
 	 * 将时间转换成指定格式 yyyy-MM-dd 精确到天

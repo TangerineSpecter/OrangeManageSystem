@@ -24,7 +24,7 @@
 						<span class="am-icon-home page-header-heading-icon"></span> 公告 <small
 							id="today-time"></small>
 					</div>
-					<p class="page-header-description">丢失的猫咪今天在路上捡到了100元。</p>
+					<p class="page-header-description" th:text="${notice}"></p>
 				</div>
 				<div class="am-u-lg-3 tpl-index-settings-button">
 					<button type="button" class="page-header-button">
@@ -141,16 +141,11 @@
 				</div>
 			</div>
 			<div class="row am-cf">
-				<div
-					class="am-u-sm-12 am-u-md-12 am-u-lg-4 widget-margin-bottom-lg ">
+				<div class="am-u-sm-12 am-u-md-12 am-u-lg-4 widget-margin-bottom-lg ">
 					<div class="tpl-user-card am-text-center widget-body-lg">
 						<div class="tpl-user-card-title">丢失的猫咪</div>
-						<div class="achievement-subheading">月度人品值最高</div>
-						<img class="achievement-image" src="./amazeUI/img/user07.png"
-							alt="">
-						<div class="achievement-description">
-							丢失的猫咪在 <strong>30天内</strong> 捡了 <strong>200多</strong>人名币。
-						</div>
+						<div class="widget-body-md widget-body am-fr"
+							id="star-echarts"></div>
 					</div>
 				</div>
 				<div class="am-u-sm-12 am-u-md-12 am-u-lg-8 widget-margin-bottom-lg">
@@ -250,6 +245,6 @@
 	<script src="./amazeUI/js/amazeui.datatables.min.js"></script>
 	<script src="./amazeUI/js/dataTables.responsive.min.js"></script>
 	<script src="./amazeUI/js/app.js"></script>
-	<script src="/js/omsJs/index/index.js"></script>
+	<script src="./js/omsJs/index/index.js"></script>
 </body>
 </html>

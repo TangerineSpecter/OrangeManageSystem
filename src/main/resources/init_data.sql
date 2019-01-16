@@ -1,5 +1,5 @@
 /* 系统用户数据初始化 */
-INSERT INTO `oms`.`system_user` (`id`, `username`, `password`, `nick_name`, `avatar`, `sex`, `phone_number`, `email`, `city`, `birthday`, `brief`, `create_time`, `update_time`, `admin`, `is_del`) VALUES ('1', 'admin', '123456', '丢失的猫咪', NULL, '0', NULL, '993033472@qq.com', 'shenzhen', '2019-01-13', '哈哈11', '2019-01-04 23:01:08', NULL, '1', '0');
+INSERT INTO `oms`.`system_user` (`id`, `username`, `password`, `nick_name`, `avatar`, `sex`, `phone_number`, `email`, `city`, `birthday`, `brief`, `create_time`, `update_time`, `admin`, `is_del`) VALUES ('1', 'admin', 'f37187234b2f5ad61cca6c93083c6ffa', '丢失的猫咪', NULL, '0', NULL, '993033472@qq.com', 'shenzhen', '2019-01-13', '哈哈11', '2019-01-04 23:01:08', NULL, '1', '0');
 
 /* 星座数据初始化 */
 INSERT INTO `oms`.`data_constellation` (`id`, `name`, `datetime`, `date`, `all_luck`, `color`, `health`, `love`, `money`, `number`, `QFriend`, `summary`, `work_luck`, `create_time`) VALUES ('61', '白羊座', '2019年01月13日', '20190113', '40%', '粉红', '60%', '40%', '20%', '7', '白羊座', '今天心里充满了干劲，元气满满的一天。感觉有很多事情要做。但是要注意别把这份干劲花在网购、娱乐上了。另外今天脾气会有些大，与另一半相处时不要太自我了。', '20%', '2019-01-13');

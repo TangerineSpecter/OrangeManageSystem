@@ -95,7 +95,7 @@
 		work_luck, create_time
 		from data_constellation
 	 	<where>
-	 		<if test="star!='' and star!=null">
+	 		<if test="star!=null and star!='-1'">
 	 			and name = #{star}
 	 		</if>
 	 		<if test="queryDay!='' and queryDay!=null">
@@ -110,7 +110,7 @@
 	<select id="queryForPageCount" resultType="java.lang.Long">
 		select Count(*) from data_constellation
 		<where>
-	 		<if test="star!='' and star!=null">
+	 		<if test="star!=null and star!='-1'">
 	 			and name = #{star}
 	 		</if>
 	 		<if test="queryDay!='' and queryDay!=null">

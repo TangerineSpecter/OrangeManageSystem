@@ -5,9 +5,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
+
+import com.tangerineSpecter.oms.common.constant.CommonConstant;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,13 +39,30 @@ public class SystemUtils {
 	}
 
 	/**
+	 * 获取本机ip地址
+	 * 
+	 * @return
+	 */
+	public static String getLocalhostIP() {
+		String ip = CommonConstant.NULL_KEY_STR;
+		InetAddress address;
+		try {
+			address = InetAddress.getLocalHost();
+			ip = address.getHostAddress();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+		return ip;
+	}
+
+	/**
 	 * 获取Cpu使用率
 	 */
 	public static double getCpuUsageInfo() {
 		double cpuRatio = 0;
 		String osName = getOsName();
 		if (osName.indexOf("Windows") != -1) {
-			return 0;
+			return 30;
 		}
 		try {
 			File file = new File(LINUX_CPU_INFO_FILE);
@@ -81,7 +102,7 @@ public class SystemUtils {
 		BufferedReader buffer = null;
 		String osName = getOsName();
 		if (osName.indexOf("Windows") != -1) {
-			return 0;
+			return 40;
 		}
 		try {
 			inputs = new InputStreamReader(new FileInputStream(LINUX_MEMORY_INFO_FILE));
@@ -132,7 +153,7 @@ public class SystemUtils {
 		double usedHD = 0;
 		String osName = getOsName();
 		if (osName.indexOf("Windows") != -1) {
-			return 0;
+			return 50;
 		}
 		Runtime rt = Runtime.getRuntime();
 		// df -hl 查看硬盘空间

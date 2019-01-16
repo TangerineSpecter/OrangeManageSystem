@@ -17,10 +17,17 @@ public class CommonConstant {
 	public static final String JUHE_API_CONSTELLATION_KEY = "47f6796c7b8b99c47c176d56adf4f0a8";
 	/** 聚合数据--星座Url */
 	public static final String JUHE_API_CONSTELLATION_URL = "http://web.juhe.cn:8080/constellation/getAll";
+	/** key */
+	public static final String SALT = "orange";
 
 	/** 空定义 */
 	public static final String NULL_KEY_STR = "";
 
 	/** 一小时 */
 	public static final Integer ONE_HOUR = 60 * 60 * 1000;
+
+	/** 默认格式 */
+	public static final String DEFAULT_FORMAT = "yyyy-MM-dd";
+	/** 时间格式——精确到秒 */
+	public static final String DEFAULT_FORMAT_SECOND = "yyyy-MM-dd HH:mm:ss";
 }

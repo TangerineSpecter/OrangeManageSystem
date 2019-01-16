@@ -1,8 +1,11 @@
 package com.tangerineSpecter.oms.system.web.controller;
 
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tangerineSpecter.oms.common.result.ServiceResult;
 import com.tangerineSpecter.oms.common.utils.ServiceKey;
+import com.tangerineSpecter.oms.system.domain.SystemUser;
 import com.tangerineSpecter.oms.system.domain.pojo.AccountsInfo;
 import com.tangerineSpecter.oms.system.service.system.SystemInfoService;
 import com.tangerineSpecter.oms.system.service.system.SystemUserService;
@@ -31,18 +35,28 @@ public class IndexController {
 	private SystemInfoService systemInfoService;
 
 	/**
-	 * 默认页
+	 * 登录页
 	 */
-	@RequestMapping(value = { "/", "login" })
+	@GetMapping(ServiceKey.System.SYSTEM_LOGIN)
 	public String loginPage() {
 		return "login";
 	}
 
 	/**
+	 * 默认页
+	 */
+	@RequestMapping(ServiceKey.System.SYSTEM_DEFAULT)
+	public String defaultPage() {
+		return "redirect:/index";
+	}
+
+	/**
 	 * 首页
 	 */
-	@RequestMapping("/index")
-	public String index() {
+	@RequestMapping(ServiceKey.System.SYSTEM_INDEX_PAGE)
+	public String index(Model model) {
+		SystemUser systemUser = (SystemUser) SecurityUtils.getSubject().getPrincipal();
+		model.addAttribute("systemUser", systemUser);
 		return "index";
 	}
 
@@ -52,6 +66,8 @@ public class IndexController {
 	@RequestMapping(ServiceKey.System.SYSTEM_HOME)
 	public String homePage(Model model) {
 		model.addAttribute("systemInfo", systemInfoService.getSystemInfo());
+		model.addAttribute("managerInfo", systemInfoService.getManagerInfo());
+		System.out.println(model);
 		return "common/home";
 	}
 
@@ -59,7 +75,7 @@ public class IndexController {
 	 * 登录
 	 */
 	@ResponseBody
-	@RequestMapping("/userLogin")
+	@PostMapping(ServiceKey.System.SYSTEM_LOGIN)
 	public ServiceResult login(AccountsInfo model) {
 		return systemUserService.verifyLogin(model);
 	}
@@ -67,7 +83,7 @@ public class IndexController {
 	/**
 	 * 注册页
 	 */
-	@RequestMapping("/register")
+	@RequestMapping(ServiceKey.System.SYSTEM_REGISTER)
 	public String register() {
 		return "register";
 	}

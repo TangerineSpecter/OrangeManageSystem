@@ -74,7 +74,7 @@ var pageData = {
                 type: 'line',
                 stack: '总量',
                 areaStyle: { normal: {} },
-                data: [120, 132, 101, 134, 90],
+                data: [120, 132, 101, 134, 90, 122, 150],
                 itemStyle: {
                     normal: {
                         color: '#1cabdb',

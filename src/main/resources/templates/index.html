@@ -6,17 +6,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta http-equiv="Cache-Control" content="no-siteapp" />
 <title>橘子管理系统</title>
-<script src="./amazeUI/js/echarts.min.js"></script>
 <link rel="stylesheet" href="./amazeUI/css/amazeui.min.css" />
 <link rel="stylesheet" href="./amazeUI/css/amazeui.datatables.min.css" />
 <link rel="stylesheet" href="./amazeUI/css/app.css">
 <link rel="stylesheet" href="./css/oms/index/common.css">
 <script src="./amazeUI/js/jquery.min.js"></script>
-<script src="./amazeUI/js/amazeui.min.js"></script>
-<script src="./amazeUI/js/amazeui.datatables.min.js"></script>
-<script src="./amazeUI/js/dataTables.responsive.min.js"></script>
-<script src="./amazeUI/js/app.js"></script>
-<script src="/js/omsJs/index/index.js"></script>
 </head>
 
 <body data-type="widgets">
@@ -51,7 +45,8 @@
 					<ul>
 						<!-- 欢迎语 -->
 						<li class="am-text-sm tpl-header-navbar-welcome"><a
-							href="javascript:;">欢迎你, <span>丢失的猫咪</span>
+							href="javascript:;">欢迎你, <span
+								th:text="${systemUser.nickName}">管理员</span>
 						</a></li>
 						<!-- 新邮件 -->
 						<li class="am-dropdown tpl-dropdown" data-am-dropdown><a
@@ -142,7 +137,7 @@
 							id="admin-fullscreen" class="tpl-header-list-link"><span
 								class="am-icon-arrows-alt"></span> <span class="admin-fullText">开启全屏</span></a></li>
 						<!-- 退出 -->
-						<li class="am-text-sm"><a href="/login.html"> <span
+						<li class="am-text-sm"><a href="/logout"> <span
 								class="am-icon-sign-out"></span> 退出
 						</a></li>
 					</ul>
@@ -170,7 +165,7 @@
 					</div>
 					<span class="user-panel-logged-in-text"> <i
 						class="am-icon-circle-o am-text-success tpl-user-panel-status-icon"></i>
-						丢失的猫咪
+						<span th:text="${systemUser.nickName}"> 管理员 </span>
 					</span> <a href="javascript:;" class="tpl-user-panel-action-link"
 						id="account-setting"> <span class="am-icon-pencil"></span>
 						账号设置
@@ -241,6 +236,13 @@
 		<iframe id="contentUrl" src="/home" style="height: 100%; width: 100%;"
 			frameborder="0"></iframe>
 	</div>
+	<script src="./echarts/js/echarts.min.js"></script>
+	<script src="./echarts/theme/macarons.js"></script>
+	<script src="./amazeUI/js/amazeui.min.js"></script>
+	<script src="./amazeUI/js/amazeui.datatables.min.js"></script>
+	<script src="./amazeUI/js/dataTables.responsive.min.js"></script>
+	<script src="./amazeUI/js/app.js"></script>
+	<script src="/js/omsJs/index/index.js"></script>
 </body>
 
 </html>

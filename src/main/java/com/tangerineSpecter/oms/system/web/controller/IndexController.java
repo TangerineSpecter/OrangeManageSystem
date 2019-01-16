@@ -66,6 +66,8 @@ public class IndexController {
 	@RequestMapping(ServiceKey.System.SYSTEM_HOME)
 	public String homePage(Model model) {
 		model.addAttribute("systemInfo", systemInfoService.getSystemInfo());
+		model.addAttribute("managerInfo", systemInfoService.getManagerInfo());
+		System.out.println(model);
 		return "common/home";
 	}
 

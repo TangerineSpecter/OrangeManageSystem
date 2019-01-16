@@ -62,7 +62,7 @@ public class SystemUtils {
 		double cpuRatio = 0;
 		String osName = getOsName();
 		if (osName.indexOf("Windows") != -1) {
-			return 0;
+			return 30;
 		}
 		try {
 			File file = new File(LINUX_CPU_INFO_FILE);
@@ -102,7 +102,7 @@ public class SystemUtils {
 		BufferedReader buffer = null;
 		String osName = getOsName();
 		if (osName.indexOf("Windows") != -1) {
-			return 0;
+			return 40;
 		}
 		try {
 			inputs = new InputStreamReader(new FileInputStream(LINUX_MEMORY_INFO_FILE));
@@ -153,7 +153,7 @@ public class SystemUtils {
 		double usedHD = 0;
 		String osName = getOsName();
 		if (osName.indexOf("Windows") != -1) {
-			return 0;
+			return 50;
 		}
 		Runtime rt = Runtime.getRuntime();
 		// df -hl 查看硬盘空间

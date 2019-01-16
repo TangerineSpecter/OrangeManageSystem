@@ -28,4 +28,9 @@ public interface DataConstellationMapper {
 	 * 根据创建时间查询星座名字
 	 */
 	List<String> queryListByCreateTime(@Param("createTime") String create_time);
+
+	/**
+	 * 根据星座名称获取最近数据
+	 */
+	DataConstellation getConstellactionByName(@Param("starName") String name);
 }

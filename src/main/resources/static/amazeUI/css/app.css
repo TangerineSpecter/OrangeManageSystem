@@ -496,6 +496,9 @@ ul.tpl-dropdown-content .tpl-dropdown-menu-messages-item .menu-messages-content 
 .widget-body-md {
   height: 200px;
 }
+.widget-body-mds {
+  height: 300px;
+}
 .widget-body-lg {
   min-height: 330px;
 }
@@ -1028,7 +1031,7 @@ ul.tpl-dropdown-content .tpl-dropdown-menu-messages-item .menu-messages-content 
   padding: 6px 0;
 }
 .theme-white .am-progress {
-  height: 12px;
+  height: 15px;
 }
 .theme-white .am-progress-title {
   font-size: 14px;

@@ -20,6 +20,12 @@ function getToday() {
 }
 
 function initStarECharts() {
+	var allLuck = removeLastOne($("#allLuck").val());
+	var health = removeLastOne($("#health").val());
+	var love = removeLastOne($("#love").val());
+	var money = removeLastOne($("#money").val());
+	var workLuck = removeLastOne($("#workLuck").val());
+	
 	var myChart = echarts.init(document.getElementById('star-echarts'),
 			"macarons");
 	var option = {
@@ -44,7 +50,7 @@ function initStarECharts() {
 				max : 100
 			} ],
 			center : [ '50%', '50%' ],
-			radius : 50,
+			radius : 105,
 			splitLine : {
 				show : true,
 			}
@@ -65,8 +71,8 @@ function initStarECharts() {
 				}
 			},
 			data : [ {
-				value : [ 20, 70, 20, 20, 40 ],
-				name : '星运图'
+				value : [ allLuck, health, love, money, workLuck ],
+				name : $("#starName").val()
 			} ]
 		} ]
 	};

@@ -20,13 +20,17 @@ function getToday() {
 }
 
 function initStarECharts() {
-	var myChart = echarts.init(document.getElementById('star-echarts'));
+	var myChart = echarts.init(document.getElementById('star-echarts'),
+			"macarons");
 	var option = {
 		tooltip : {
 			trigger : 'axis'
 		},
 		radar : [ {
 			indicator : [ {
+				text : '综合',
+				max : 100
+			}, {
 				text : '健康',
 				max : 100
 			}, {
@@ -40,7 +44,10 @@ function initStarECharts() {
 				max : 100
 			} ],
 			center : [ '50%', '50%' ],
-			radius : 50
+			radius : 50,
+			splitLine : {
+				show : true,
+			}
 		} ],
 		series : [ {
 			type : 'radar',
@@ -49,13 +56,16 @@ function initStarECharts() {
 			},
 			itemStyle : {
 				normal : {
+					lineStyle : {
+						color : "#00b2ff" // 图表中各个图区域的边框线颜色
+					},
 					areaStyle : {
 						type : 'default'
 					}
 				}
 			},
 			data : [ {
-				value : [ 60, 73, 85, 40 ],
+				value : [ 20, 70, 20, 20, 40 ],
 				name : '星运图'
 			} ]
 		} ]

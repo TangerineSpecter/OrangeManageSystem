@@ -28,6 +28,4 @@ public interface SystemUserMapper {
 	SystemUser getUserByUserName(@Param("username") String username);
 
 	List<SystemUser> queryForPage(SystemUserQueryObject qo);
-
-	Long queryForPageCount(SystemUserQueryObject qo);
 }

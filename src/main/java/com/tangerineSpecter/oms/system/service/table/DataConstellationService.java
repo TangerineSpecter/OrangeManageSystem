@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.tangerineSpecter.oms.common.query.ConstellactionQueryObject;
 import com.tangerineSpecter.oms.common.utils.ServiceKey;
 import com.tangerineSpecter.oms.system.domain.DataConstellation;
@@ -28,8 +30,10 @@ public class DataConstellationService {
 	 * 分页查询
 	 */
 	public void queryForPage(Model model, ConstellactionQueryObject qo) {
-		pageResultService.queryForPage(model, dataConstellationMapper.queryForPage(qo),
-				dataConstellationMapper.queryForPageCount(qo), qo.getPage(),
-				ServiceKey.Constellation.CONSTELLATION_PAGE_LIST);
+		PageHelper.startPage(qo.getPage(), qo.getSize());
+		List<DataConstellation> pageList = dataConstellationMapper.queryForPage(qo);
+		PageInfo<DataConstellation> constellationInfo = new PageInfo<>(pageList);
+		pageResultService.queryForPage(model, constellationInfo.getList(), constellationInfo.getTotal(), qo.getPage(),
+				constellationInfo.getPages(), ServiceKey.Constellation.CONSTELLATION_PAGE_LIST);
 	}
 }

@@ -62,15 +62,42 @@
 
 	<!-- 分页栏 -->
 	<footer th:fragment="pagination">
-		<ul class="am-pagination">
-			<li><a th:href="@{${url}(page=${page}-1)}">&laquo;</a></li>
-			<li class="am-active"><a th:href="@{${url}(page=${page})}"
-				th:text="${page}"></a></li>
-			<li><a th:href="@{${url}(page=${page}+1)}" th:text="${page} + 1"></a></li>
-			<li><a th:href="@{${url}(page=${page}+2)}" th:text="${page} + 2"></a></li>
-			<li><a th:href="@{${url}(page=${page}+3)}" th:text="${page} + 3"></a></li>
-			<li><a th:href="@{${url}(page=${page}+4)}" th:text="${page} + 4"></a></li>
-			<li><a th:href="@{${url}(page=${page}+1)}">&raquo;</a></li>
+		<ul th:if="${totalPage}>=5" class="am-pagination">
+			<li th:class="${currentPage==1}?am-disabled"><a
+				th:href="@{${url}(page=${currentPage}-1)}">&laquo;</a></li>
+			<li th:class="${currentPage}<=(${totalPage} - 4)?am-active"><a
+				th:href="@{${url}(page= (${currentPage} + 4<=${totalPage}?(${currentPage}):${totalPage}-4) )}"
+				th:text="(${currentPage} + 4<=${totalPage}?(${currentPage}):${totalPage}-4)"></a></li>
+			<li th:class="${currentPage}==(${totalPage} - 3)?am-active"><a
+				th:href="@{${url}(page= (${currentPage} + 4<=${totalPage}?(${currentPage} + 1):${totalPage}-3) )}"
+				th:text="(${currentPage} + 4<=${totalPage}?(${currentPage} + 1):${totalPage}-3)"></a></li>
+			<li th:class="${currentPage}==(${totalPage} - 2)?am-active"><a
+				th:href="@{${url}(page= (${currentPage} + 4<=${totalPage}?(${currentPage} + 2):${totalPage}-2) )}"
+				th:text="(${currentPage} + 4<=${totalPage}?(${currentPage} + 2):${totalPage}-2)"></a></li>
+			<li th:class="${currentPage}==(${totalPage} - 1)?am-active"><a
+				th:href="@{${url}(page= (${currentPage} + 4<=${totalPage}?(${currentPage} + 3):${totalPage}-1) )}"
+				th:text="(${currentPage} + 4<=${totalPage}?(${currentPage} + 3):${totalPage}-1)"></a></li>
+			<li th:class="${currentPage}==${totalPage}?am-active"><a
+				th:href="@{${url}(page= (${currentPage} + 4<=${totalPage}?(${currentPage} + 4):${totalPage}) )}"
+				th:text="(${currentPage} + 4<=${totalPage}?(${currentPage} + 4):${totalPage})"></a></li>
+			<li th:class="${currentPage}==${totalPage}?am-disabled"><a
+				th:href="@{${url}(page=${currentPage}+1)}">&raquo;</a></li>
+		</ul>
+		<ul th:if="${totalPage}<5" class="am-pagination">
+			<li th:class="${currentPage==1}?am-disabled"><a
+				th:href="@{${url}(page=${currentPage}-1)}">&laquo;</a></li>
+			<li th:if="${totalPage}>=1" th:class="${currentPage}==1?am-active"><a
+				th:href="@{${url}(page=1)}" th:text="1"></a></li>
+			<li th:if="${totalPage}>=2" th:class="${currentPage}==2?am-active"><a
+				th:href="@{${url}(page=2)}" th:text="2"></a></li>
+			<li th:if="${totalPage}>=3" th:class="${currentPage}==3?am-active"><a
+				th:href="@{${url}(page=3)}" th:text="3"></a></li>
+			<li th:if="${totalPage}>=4" th:class="${currentPage}==4?am-active"><a
+				th:href="@{${url}(page=4)}" th:text="4"></a></li>
+			<li th:if="${totalPage}>=5" th:class="${currentPage}==5?am-active"><a
+				th:href="@{${url}(page=5)}" th:text="5"></a></li>
+			<li th:class="${currentPage}==${totalPage}?am-disabled"><a
+				th:href="@{${url}(page=${currentPage}+1)}">&raquo;</a></li>
 		</ul>
 	</footer>
 </body>

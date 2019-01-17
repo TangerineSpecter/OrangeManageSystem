@@ -104,20 +104,6 @@
 			</if>
 		</where>
 		order by create_time desc,id desc
-		<if test="page!=null">
-			limit #{start},#{size}
-		</if>
-	</select>
-	<select id="queryForPageCount" resultType="java.lang.Long">
-		select Count(*) from data_constellation
-		<where>
-			<if test="star!=null and star!='-1'">
-				and name = #{star}
-			</if>
-			<if test="queryDay!='' and queryDay!=null">
-				and create_time = #{queryDay}
-			</if>
-		</where>
 	</select>
 	<select id="getConstellactionByName" resultMap="BaseResultMap"
 		parameterType="java.lang.String">

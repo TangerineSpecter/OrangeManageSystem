@@ -27,4 +27,6 @@ public class ManagerInfoBean {
 	private String money;
 	/** 工作指数 */
 	private String workLuck;
+	/** 公告 */
+	private String notice;
 }

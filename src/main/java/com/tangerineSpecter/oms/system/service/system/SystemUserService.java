@@ -1,6 +1,7 @@
 package com.tangerineSpecter.oms.system.service.system;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -12,12 +13,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.tangerineSpecter.oms.common.constant.CommonConstant;
 import com.tangerineSpecter.oms.common.constant.RetCode;
 import com.tangerineSpecter.oms.common.query.SystemUserQueryObject;
 import com.tangerineSpecter.oms.common.result.ServiceResult;
 import com.tangerineSpecter.oms.common.utils.MD5Utils;
 import com.tangerineSpecter.oms.common.utils.ServiceKey;
+import com.tangerineSpecter.oms.system.domain.DataConstellation;
 import com.tangerineSpecter.oms.system.domain.SystemUser;
 import com.tangerineSpecter.oms.system.domain.pojo.AccountsInfo;
 import com.tangerineSpecter.oms.system.mapper.SystemUserMapper;
@@ -63,8 +67,12 @@ public class SystemUserService {
 	 * 后台管理员列表
 	 */
 	public void querySystemUserList(Model model, SystemUserQueryObject qo) {
-		pageResultService.queryForPage(model, systemUserMapper.queryForPage(qo), systemUserMapper.queryForPageCount(qo),
-				qo.getPage(), ServiceKey.System.SYSTEM_USER_PAGE_LIST);
+		PageHelper.startPage(qo.getPage(), qo.getSize());
+		List<SystemUser> pageList = systemUserMapper.queryForPage(qo);
+		//得到分页结果对象
+		PageInfo<SystemUser> systemUserInfo = new PageInfo<>(pageList);
+		pageResultService.queryForPage(model, systemUserInfo.getList(), systemUserInfo.getTotal(), qo.getPage(),
+				ServiceKey.System.SYSTEM_USER_PAGE_LIST);
 	}
 
 	/**

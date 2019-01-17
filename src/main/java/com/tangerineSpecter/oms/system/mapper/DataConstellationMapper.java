@@ -22,8 +22,6 @@ public interface DataConstellationMapper {
 
 	List<DataConstellation> queryForPage(ConstellactionQueryObject qo);
 
-	Long queryForPageCount(ConstellactionQueryObject qo);
-
 	/**
 	 * 根据创建时间查询星座名字
 	 */

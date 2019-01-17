@@ -21,7 +21,6 @@ import com.tangerineSpecter.oms.common.query.SystemUserQueryObject;
 import com.tangerineSpecter.oms.common.result.ServiceResult;
 import com.tangerineSpecter.oms.common.utils.MD5Utils;
 import com.tangerineSpecter.oms.common.utils.ServiceKey;
-import com.tangerineSpecter.oms.system.domain.DataConstellation;
 import com.tangerineSpecter.oms.system.domain.SystemUser;
 import com.tangerineSpecter.oms.system.domain.pojo.AccountsInfo;
 import com.tangerineSpecter.oms.system.mapper.SystemUserMapper;
@@ -69,10 +68,10 @@ public class SystemUserService {
 	public void querySystemUserList(Model model, SystemUserQueryObject qo) {
 		PageHelper.startPage(qo.getPage(), qo.getSize());
 		List<SystemUser> pageList = systemUserMapper.queryForPage(qo);
-		//得到分页结果对象
+		// 得到分页结果对象
 		PageInfo<SystemUser> systemUserInfo = new PageInfo<>(pageList);
 		pageResultService.queryForPage(model, systemUserInfo.getList(), systemUserInfo.getTotal(), qo.getPage(),
-				ServiceKey.System.SYSTEM_USER_PAGE_LIST);
+				systemUserInfo.getPages(), ServiceKey.System.SYSTEM_USER_PAGE_LIST);
 	}
 
 	/**

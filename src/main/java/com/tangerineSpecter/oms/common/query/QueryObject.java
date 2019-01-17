@@ -20,8 +20,4 @@ public class QueryObject {
 	/** 默认一页十条 */
 	private Integer size = 10;
 
-//	public Integer getStart() {
-//		this.page = (this.page > 0 ? this.page : 1);
-//		return (this.page - 1) * this.size;
-//	}
 }

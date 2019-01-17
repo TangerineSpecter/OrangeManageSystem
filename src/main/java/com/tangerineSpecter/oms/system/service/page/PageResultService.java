@@ -1,6 +1,5 @@
 package com.tangerineSpecter.oms.system.service.page;
 
-import java.util.Collections;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -29,14 +28,11 @@ public class PageResultService {
 	 * @param requestUrl
 	 *            请求地址
 	 */
-	public void queryForPage(Model model, List<?> list, Long total, Integer page, String requestUrl) {
-		model.addAttribute("page", page);
+	public void queryForPage(Model model, List<?> list, Long total, Integer page, Integer totalPage,
+			String requestUrl) {
+		model.addAttribute("currentPage", page);
+		model.addAttribute("totalPage", totalPage);
 		model.addAttribute("url", requestUrl);
-		if (total == 0) {
-			model.addAttribute("list", Collections.emptyList());
-			model.addAttribute("total", 0);
-			return;
-		}
 		model.addAttribute("list", list);
 		model.addAttribute("total", total.intValue());
 	}

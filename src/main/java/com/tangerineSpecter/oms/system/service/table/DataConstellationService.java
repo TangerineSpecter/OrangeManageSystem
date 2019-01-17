@@ -34,6 +34,6 @@ public class DataConstellationService {
 		List<DataConstellation> pageList = dataConstellationMapper.queryForPage(qo);
 		PageInfo<DataConstellation> constellationInfo = new PageInfo<>(pageList);
 		pageResultService.queryForPage(model, constellationInfo.getList(), constellationInfo.getTotal(), qo.getPage(),
-				ServiceKey.Constellation.CONSTELLATION_PAGE_LIST);
+				constellationInfo.getPages(), ServiceKey.Constellation.CONSTELLATION_PAGE_LIST);
 	}
 }

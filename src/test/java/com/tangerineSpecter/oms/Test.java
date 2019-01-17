@@ -10,6 +10,5 @@ public class Test {
 			System.out.println(Integer.valueOf(s));
 		}
 		String starNameByDate = DateUtils.getStarNameByDate("2011-12-29");
-		System.out.println(starNameByDate);
 	}
 }

@@ -32,6 +32,8 @@ public class ConstellationQuartzService {
 	private final String TODAY = "today";
 	@Autowired
 	private DataConstellationMapper dataConstellationMapper;
+	/** 成功错误码 */
+	private final String SUCCESS_CODE = "0";
 
 	/**
 	 * 执行星座数据
@@ -43,6 +45,8 @@ public class ConstellationQuartzService {
 		log.info("[执行星座数据写入任务]");
 		// 待处理星座数据
 		List<String> noStarList = new ArrayList<>();
+		// 插入条数
+		int count = 0;
 		try {
 			String today = DateUtils.timeFormatToDay(new Date());
 			List<String> list = dataConstellationMapper.queryListByCreateTime(today);
@@ -60,14 +64,22 @@ public class ConstellationQuartzService {
 				configBean.put(ParamUtils.CONSNAME, star);
 				configBean.put(ParamUtils.KEY, CommonConstant.JUHE_API_CONSTELLATION_KEY);
 				configBean.put(ParamUtils.TYPE, TODAY);
-				String result = HttpUtils.interfaceInvoke(CommonConstant.JUHE_API_CONSTELLATION_URL, configBean);
-				log.info(String.format("请求星座API成功获取数据:%s", result));
+				String result = HttpUtils.interfaceInvoke(CommonConstant.JUHE_API_CONSTELLATION_URL, configBean,
+						"POST");
+				log.info(String.format("[请求星座API成功获取数据]:star:%s,result:%s", star, result));
 				JSONObject starObj = JSONObject.parseObject(result);
-				dataConstellationMapper.insert(getDateConstellation(starObj));
+				String resultcode = starObj.getString("error_code");
+				if (resultcode.equals(SUCCESS_CODE)) {
+					dataConstellationMapper.insert(getDateConstellation(starObj));
+					count++;
+				} else {
+					log.error(String.format("[星座接口请求数据异常],error_code:%s; reason:%s", starObj.getString("error_code"),
+							starObj.getString("reason")));
+				}
 			}
-			log.info(String.format("[星座定时任务执行完毕]，插入数据：%s", noStarList.size()));
+			log.info(String.format("[星座定时任务执行完毕]，插入数据：%s", count));
 		} catch (Exception e) {
-			log.warn("星座接口调用异常:%s", e);
+			log.warn(String.format("[星座接口调用异常]:%s", e));
 		}
 	}
 

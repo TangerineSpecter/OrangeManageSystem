@@ -970,11 +970,19 @@ ul.tpl-dropdown-content .tpl-dropdown-menu-messages-item .menu-messages-content 
   font-size: 12px;
 }
 .theme-white .tpl-table-black-operation a {
-  border: 1px solid #36c6d3;
-  color: #36c6d3;
+  border: 1px solid #5eb95e;
+  color: #5eb95e;
 }
 .theme-white .tpl-table-black-operation a:hover {
-  background: #36c6d3;
+  background: #5eb95e;
+  color: #fff;
+}
+.theme-white .tpl-table-black-operation a.tpl-table-black-operation-ing {
+  border: 1px solid #23abf0;
+  color: #23abf0;
+}
+.theme-white .tpl-table-black-operation a.tpl-table-black-operation-ing:hover {
+  background: #23abf0;
   color: #fff;
 }
 .theme-white .tpl-table-black-operation a.tpl-table-black-operation-del {

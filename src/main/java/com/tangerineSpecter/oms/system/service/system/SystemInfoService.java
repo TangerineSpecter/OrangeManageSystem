@@ -42,7 +42,7 @@ public class SystemInfoService {
 			info.setMemoryRatio((int) SystemUtils.getMemoryUsageInfo());
 			info.setDiskRatio((int) SystemUtils.getDiskUsageInfo());
 		} catch (Exception e) {
-			log.error("系统信息获取异常，{}", e);
+			log.error("[系统信息获取异常]:", e);
 		}
 		return info;
 	}

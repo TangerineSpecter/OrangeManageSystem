@@ -57,7 +57,7 @@ public class HttpUtils {
 				conn.setRequestMethod("POST");
 				conn.setDoOutput(true);
 			} else {
-				log.error(String.format("[接口请求方法错误]:%s", method));
+				log.error(String.format("[接口请求方法错误]:{}", method));
 				return result;
 			}
 			// //设置通用的请求属性
@@ -98,7 +98,7 @@ public class HttpUtils {
 			is.close();
 		} catch (Exception e) {
 			e.printStackTrace();
-			log.error("接口调用失败,{}", e);
+			log.error("[接口调用失败]:", e);
 			throw new RuntimeException();
 		} finally {
 			if (conn != null) {

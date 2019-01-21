@@ -1,5 +1,8 @@
 package com.tangerineSpecter.oms;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class Test {
 
 	public static void main(String[] args) {
@@ -7,8 +10,10 @@ public class Test {
 		for (String s : split) {
 			System.out.println(Integer.valueOf(s));
 		}
-		// String starNameByDate = DateUtils.getStarNameByDate("2011-12-29");
-		String a = "post";
-		System.out.println(a.toUpperCase().equals("POST"));
+		try {
+			int a = 1 / 0;
+		} catch (Exception e) {
+			log.error("接口请求异常:{}", e);
+		}
 	}
 }

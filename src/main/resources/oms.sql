@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2019-01-13 00:52:05
+Date: 2019-01-22 20:58:09
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -35,7 +35,7 @@ CREATE TABLE `data_constellation` (
   `work_luck` varchar(8) DEFAULT '' COMMENT '工作指数',
   `create_time` date DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8 COMMENT='星座信息表';
+) ENGINE=InnoDB AUTO_INCREMENT=174 DEFAULT CHARSET=utf8 COMMENT='星座信息表';
 
 -- ----------------------------
 -- Table structure for system_user
@@ -59,3 +59,18 @@ CREATE TABLE `system_user` (
   `is_del` tinyint(2) DEFAULT '0' COMMENT '删除状态（0：未删除；1：已删除）',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for work_collection
+-- ----------------------------
+DROP TABLE IF EXISTS `work_collection`;
+CREATE TABLE `work_collection` (
+  `id` bigint(13) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) DEFAULT NULL COMMENT '标题',
+  `content` varchar(255) DEFAULT NULL COMMENT '内容',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `type` tinyint(3) DEFAULT NULL COMMENT '类型：（1:网址）',
+  `sort` int(10) DEFAULT '0' COMMENT '排序',
+  `is_del` tinyint(2) DEFAULT '0' COMMENT '删除状态（0：未删除；1：已删除）',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='内容收藏表';

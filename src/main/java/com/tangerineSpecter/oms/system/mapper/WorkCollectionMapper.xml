@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tangerineSpecter.oms.system.mapper.WorkCollectionMapper">
+	<resultMap id="BaseResultMap"
+		type="com.tangerineSpecter.oms.system.domain.WorkCollection">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="content" property="content" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="type" property="type" jdbcType="TINYINT" />
+		<result column="sort" property="sort" jdbcType="INTEGER" />
+		<result column="is_del" property="isDel" jdbcType="TINYINT" />
+	</resultMap>
+	<insert id="insert" parameterType="com.tangerineSpecter.oms.system.domain.WorkCollection"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into work_collection
+		(title, content, remark,
+		type, sort, is_del)
+		values
+		(#{title},
+		#{content},
+		#{remark},
+		#{type},
+		#{sort}, #{isDel})
+	</insert>
+	<update id="updateByPrimaryKey" parameterType="com.tangerineSpecter.oms.system.domain.WorkCollection">
+		update
+		work_collection
+		set title = #{title},
+		content = #{content},
+		remark = #{remark},
+		type = #{type},
+		sort = #{sort},
+		is_del = #{isDel}
+		where id = #{id}
+	</update>
+	<select id="queryForPage" resultMap="BaseResultMap">
+		select id, title, content, remark,
+		type, sort, is_del
+		from work_collection
+		<where>
+			<if test="type!=null">
+				and type = #{type}
+			</if>
+			and is_del = 0
+		</where>
+		order by sort desc
+	</select>
+</mapper>

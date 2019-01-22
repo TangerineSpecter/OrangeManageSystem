@@ -66,7 +66,7 @@ public class ConstellationQuartzService {
 				configBean.put(ParamUtils.TYPE, TODAY);
 				String result = HttpUtils.interfaceInvoke(CommonConstant.JUHE_API_CONSTELLATION_URL, configBean,
 						"POST");
-				log.info(String.format("[请求星座API成功获取数据]:star:{},result:{}", star, result));
+				log.info("[请求星座API成功获取数据]:star:{},result:{}", star, result);
 				JSONObject starObj = JSONObject.parseObject(result);
 				String resultcode = starObj.getString("error_code");
 				if (resultcode.equals(SUCCESS_CODE)) {
@@ -77,9 +77,9 @@ public class ConstellationQuartzService {
 							starObj.getString("reason")));
 				}
 			}
-			log.info(String.format("[星座定时任务执行完毕],插入数据：{}", count));
+			log.info("[星座定时任务执行完毕],插入数据：{}", count);
 		} catch (Exception e) {
-			log.warn(String.format("[星座接口调用异常]:", e));
+			log.warn("[星座接口调用异常]:", e);
 		}
 	}
 

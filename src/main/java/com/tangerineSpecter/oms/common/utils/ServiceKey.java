@@ -33,4 +33,8 @@ public class ServiceKey {
 		public static final String CONSTELLATION_PAGE_LIST = "/constellaction";
 	}
 
+	public class Work {
+		/** 收藏页面 */
+		public static final String COLLECTION_PAGE_LIST = "/collection";
+	}
 }

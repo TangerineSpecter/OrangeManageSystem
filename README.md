@@ -17,8 +17,7 @@
 - 分页插件：PageHelper 1.2.5
 
 **前端框架：**
-- 基础框架：AmazeUI 2.7.2
-- 基础库支持：Bootstrap 3.3.7
+- 基础框架：Bootstrap 4.1.3
 - JavaScript框架：Jquery 3.3.1
 
 **开发环境：**

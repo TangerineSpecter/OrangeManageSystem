@@ -19,6 +19,7 @@
 **前端框架：**
 - 基础框架：Bootstrap 4.1.3
 - JavaScript框架：Jquery 3.3.1
+- 分页插件：Bootstrap-Paginator 1.0
 
 **开发环境：**
 - 数据库：Mysql 5.7

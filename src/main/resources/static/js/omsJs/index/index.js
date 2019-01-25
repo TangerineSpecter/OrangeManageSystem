@@ -18,6 +18,11 @@ function initMenuBtn() {
 		var url = $(this).attr("id");
 		loadUrlContent(url);
 	})
+	// 系统菜单跳转初始化
+	$("#system-menu a").click(function() {
+		var url = $(this).attr("id");
+		loadUrlContent(url);
+	})
 	// 帐号设置
 	$("#account-setting").click(function() {
 		loadUrlContent("accountSetting?id=1");

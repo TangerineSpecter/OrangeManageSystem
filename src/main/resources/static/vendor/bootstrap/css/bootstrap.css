@@ -596,6 +596,13 @@ pre code {
   margin-left: -15px;
 }
 
+.row-search {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+
 .no-gutters {
   margin-right: 0;
   margin-left: 0;

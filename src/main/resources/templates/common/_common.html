@@ -1,10 +1,49 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
+<!-- 公共css -->
+<head th:fragment="common_header">
 <meta charset="UTF-8">
-<script src="./js/omsJs/_initJs.js"></script>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>橘子管理系统</title>
+<meta name="description" content="">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="all,follow">
+<!-- Bootstrap CSS-->
+<link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
+<!-- Bootstrap-buttons CSS-->
+<link rel="stylesheet" href="vendor/bootstrap/css/buttons.css">
+<!-- Font Awesome CSS-->
+<link rel="stylesheet"
+	href="vendor/font-awesome/css/font-awesome.min.css">
+<!-- Fontastic Custom icon font-->
+<link rel="stylesheet" href="css/fontastic.css">
+<!-- Google fonts - Poppins -->
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css?family=Poppins:300,400,700">
+<!-- theme stylesheet-->
+<link rel="stylesheet" href="css/style.default.css"
+	id="theme-stylesheet">
+<!-- Custom stylesheet - for your changes-->
+<link rel="stylesheet" href="css/custom.css">
+<!-- Favicon-->
+<link rel="shortcut icon" href="img/favicon.ico">
 </head>
 <body>
+	<footer th:fragment="modal">
+		<!-- 提示框（Modal） -->
+		<div class="modal fade" id="prompt-modal" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title" id="myModalLabel">提示</h4>
+					</div>
+					<div class="modal-body" id="prompt-modal-content"></div>
+				</div>
+			</div>
+		</div>
+	</footer>
 	<footer th:fragment="modal">
 		<!-- 提示框（Modal） -->
 		<div class="modal fade" id="prompt-modal" tabindex="-1" role="dialog"
@@ -90,5 +129,21 @@
 				th:href="@{${url}(page=${currentPage}+1)}">下一页</a></li>
 		</ul>
 	</footer>
+	<!-- 公共js -->
+	<div th:fragment="common_js">
+		<!-- JavaScript files-->
+		<script src="vendor/jquery/jquery.min.js"></script>
+		<script src="vendor/popper.js/umd/popper.min.js"></script>
+		<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+		<script src="vendor/bootstrap/js/bootstrap-paginator.js"></script>
+		<script src="vendor/bootstrap/js/bootstrap-table.js"></script>
+		<script src="vendor/bootstrap/locale/bootstrap-table-zh-CN.js"></script>
+		<script src="vendor/jquery.cookie/jquery.cookie.js"></script>
+		<script src="vendor/chart.js/Chart.min.js"></script>
+		<script src="vendor/jquery-validation/jquery.validate.min.js"></script>
+		<!-- Main File-->
+		<script src="js/front.js"></script>
+		<script src="./js/omsJs/common.js"></script>
+	</div>
 </body>
 </html>

@@ -4,6 +4,45 @@
 <meta charset="utf-8">
 </head>
 <body>
+	<!-- 新增 -->
+	<div class="modal fade" id="add-modal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="exampleModalLabel">新增收藏</h4>
+				</div>
+				<div class="modal-body">
+					<form id="modal-data" method="post">
+						<input name="id" style="display: none;" />
+						<div class="form-group">
+							<label>标题</label> <input type="text"
+								class="form-control" name="title" placeholder="在此输入标题">
+						</div>
+						<div class="form-group">
+							<label>内容</label> <input type="text"
+								class="form-control" name="content" placeholder="在此输入内容">
+						</div>
+						<div class="form-group">
+							<label>备注</label> <input type="text"
+								class="form-control" name="remark" placeholder="在此输入备注">
+						</div>
+						<div class="form-group">
+							<label>类型</label> <select name="type"
+								class="form-control mb-3">
+								<option value="1">网站</option>
+							</select>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					<button id="submit" type="button" class="btn btn-primary">提交</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<div class="content-inner">
 		<section class="tables">
 			<div class="container-fluid">
@@ -18,7 +57,8 @@
 									<form id="queryForm" method="post" action="/collection">
 										<div class="form-group row-search">
 											<div class="col-sm-2">
-												<button id="createBtn" type="button" class="btn btn-primary">新增收藏</button>
+												<button id="createBtn" type="button"
+													class="button button-primary">新增</button>
 											</div>
 											<div class="col-sm-2">
 												<select id="type" name="type" class="form-control mb-3">
@@ -26,7 +66,10 @@
 												</select>
 											</div>
 											<div class="col-sm-2">
-												<button id="queryBtn" type="button" class="btn btn-primary">搜索</button>
+												<button id="queryBtn"
+													class="button button-royal button-action button-box">
+													<i class="icon-interface-windows"></i>
+												</button>
 											</div>
 										</div>
 									</form>
@@ -48,14 +91,10 @@
 												<td th:text="${data.remark}" />
 												<td>
 													<div class="tpl-table-black-operation">
-														<a href="javascript:;"
-															th:onclick="'javascript:window.open(''+${data.content}+'');'">
-															<i class="am-icon-reply"></i> 跳转
-														</a> <a href="javascript:;"
-															th:onclick="|javascript:window.open(${dataStat.count})|"
-															class="tpl-table-black-operation-del"> <i
-															class="am-icon-trash"></i> 删除
-														</a>
+														<button type="button" class="button button-highlight"
+															th:onclick="'javascript:window.open(''+${data.content}+'');'">跳转</button>
+														<button type="button" class="button button-caution"
+															th:onclick="'javascript:window.open(''+${data.content}+'');'">删除</button>
 													</div>
 												</td>
 											</tr>
@@ -70,5 +109,6 @@
 		</section>
 	</div>
 	<div th:replace="./common/_common::common_js"></div>
+	<script src="./js/omsJs/work/collection.js"></script>
 </body>
 </html>

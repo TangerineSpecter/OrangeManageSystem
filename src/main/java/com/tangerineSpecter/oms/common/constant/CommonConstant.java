@@ -26,8 +26,27 @@ public class CommonConstant {
 	/** 一小时 */
 	public static final Integer ONE_HOUR = 60 * 60 * 1000;
 
+	/** 未删除 */
+	public static final Integer IS_DEL_NO = 0;
+	/** 已删除 */
+	public static final Integer IS_DEL_YES = 1;
+
 	/** 默认格式 */
 	public static final String DEFAULT_FORMAT = "yyyy-MM-dd";
 	/** 时间格式——精确到秒 */
 	public static final String DEFAULT_FORMAT_SECOND = "yyyy-MM-dd HH:mm:ss";
+
+	/**
+	 * 基本常量
+	 */
+	public static class Number {
+		/** 数字0 */
+		public static final Integer COMMON_NUMBER_ZERO = 0;
+		/** 数字1 */
+		public static final Integer COMMON_NUMBER_FIRST = 1;
+		/** 数字2 */
+		public static final Integer COMMON_NUMBER_SECOND = 2;
+		/** 数字3 */
+		public static final Integer COMMON_NUMBER_THIRD = 3;
+	}
 }

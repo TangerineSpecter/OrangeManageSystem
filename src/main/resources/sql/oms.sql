@@ -70,7 +70,7 @@ CREATE TABLE `work_collection` (
   `content` varchar(255) DEFAULT NULL COMMENT '内容',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
   `type` tinyint(3) DEFAULT NULL COMMENT '类型：（1:网址）',
-  `sort` int(10) DEFAULT '0' COMMENT '排序',
-  `is_del` tinyint(2) DEFAULT '0' COMMENT '删除状态（0：未删除；1：已删除）',
+  `sort` int(10) NOT NULL DEFAULT '0' COMMENT '排序',
+  `is_del` tinyint(2) NOT NULL DEFAULT '0' COMMENT '删除状态（0：未删除；1：已删除）',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='内容收藏表';

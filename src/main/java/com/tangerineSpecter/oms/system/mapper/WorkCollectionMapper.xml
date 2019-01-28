@@ -34,6 +34,10 @@
 		is_del = #{isDel}
 		where id = #{id}
 	</update>
+	<delete id="delete" parameterType="java.lang.Long">
+		delete from work_collection
+		where id = #{id}
+	</delete>
 	<select id="queryForPage" resultMap="BaseResultMap">
 		select id, title, content, remark,
 		type, sort, is_del

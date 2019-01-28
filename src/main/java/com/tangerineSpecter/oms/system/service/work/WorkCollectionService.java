@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.yaml.snakeyaml.scanner.Constant;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -45,6 +44,15 @@ public class WorkCollectionService {
 		data.setSort(CommonConstant.Number.COMMON_NUMBER_ZERO);
 		data.setIsDel(CommonConstant.IS_DEL_NO);
 		workCollectionMapper.insert(data);
+		return ServiceResult.success();
+	}
+	
+	/**
+	 * 删除收藏
+	 */
+	@Transactional
+	public ServiceResult delete(Long id) {
+		workCollectionMapper.delete(id);
 		return ServiceResult.success();
 	}
 }

@@ -38,5 +38,7 @@ public class ServiceKey {
 		public static final String COLLECTION_PAGE_LIST = "/collection";
 		/** 新增收藏 */
 		public static final String COLLECTION_ADD = "/collection/add";
+		/** 删除收藏 */
+		public static final String COLLECTION_DELETE = "/collection/delete";
 	}
 }

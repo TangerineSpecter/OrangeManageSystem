@@ -12,7 +12,30 @@ $(function() {
 // 创建
 function create() {
 	$("#add-modal").modal();
+	$("#add-modal").on("show.bs.modal", function(e) {
+		$("#modal-data")[0].reset();
+	});
 	url = "/collection/add"
+}
+
+// 删除
+function del(id) {
+	url = "/collection/delete"
+	$.ajax({
+		type : "post",
+		url : url,
+		data : {
+			"id" : id
+		},
+		dataType : "json",
+		success : function(data) {
+			if (data.success) {
+				promptModal("删除成功");
+			} else {
+				promptModal(data.errorDesc);
+			}
+		}
+	})
 }
 
 // 提交

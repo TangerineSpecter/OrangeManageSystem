@@ -44,4 +44,15 @@ public class WorkCollectionController {
 	public ServiceResult insert(WorkCollection data) {
 		return workCollectionService.insert(data);
 	}
+	
+	/**
+	 * 删除收藏
+	 * 
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(ServiceKey.Work.COLLECTION_DELETE)
+	public ServiceResult delete(Long id) {
+		return workCollectionService.delete(id);
+	}
 }

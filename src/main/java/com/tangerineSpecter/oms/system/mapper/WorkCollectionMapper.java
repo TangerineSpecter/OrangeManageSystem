@@ -12,6 +12,8 @@ public interface WorkCollectionMapper {
 	int insert(WorkCollection record);
 
 	int updateByPrimaryKey(WorkCollection record);
+	
+	void delete(Long id);
 
 	List<WorkCollection> queryForPage(WorkCollectionQueryObject qo);
 }

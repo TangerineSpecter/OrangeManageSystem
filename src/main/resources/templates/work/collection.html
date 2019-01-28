@@ -43,6 +43,7 @@
 		</div>
 	</div>
 
+	<div th:include="./common/_common :: modal"></div>
 	<div class="content-inner">
 		<section class="tables">
 			<div class="container-fluid">
@@ -57,8 +58,7 @@
 									<form id="queryForm" method="post" action="/collection">
 										<div class="form-group row-search">
 											<div class="col-sm-2">
-												<button id="createBtn" type="button"
-													class="button button-primary">新增</button>
+												<button id="createBtn" type="button" class="btn btn-success">新增</button>
 											</div>
 											<div class="col-sm-2">
 												<select id="type" name="type" class="form-control mb-3">
@@ -84,7 +84,8 @@
 											</tr>
 										</thead>
 										<tbody>
-											<tr class="gradeX" th:each="data:${list}">
+											<tr th:if="${#lists.isEmpty(list)}" class="gradeX"><td colspan="5" style="text-align:center;font-weight:bold;">暂无数据</td></tr>
+											<tr th:unless="${#lists.isEmpty(list)}" class="gradeX" th:each="data:${list}">
 												<td th:text="${dataStat.count}" />
 												<td th:text="${data.title}" />
 												<td th:text="${data.content}" />
@@ -92,9 +93,9 @@
 												<td>
 													<div class="tpl-table-black-operation">
 														<button type="button" class="button button-highlight button-small button-border"
-															th:onclick="'javascript:window.open(''+${data.content}+'');'"><span>跳转</span></button>
+															th:onclick="'javascript:window.open(''+${data.content}+'');'">跳转</button>
 														<button type="button" class="button button-caution button-small button-border"
-															th:onclick="'javascript:window.open(''+${data.content}+'');'"><span>删除</span></button>
+														 th:onclick="|del((${data.id}))|">删除</button>
 													</div>
 												</td>
 											</tr>

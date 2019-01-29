@@ -9,5 +9,8 @@ function promptModal(content) {
 
 // 去除最后一位字符串
 function removeLastOne(str) {
+	if(str == '' || str == undefined) {
+		return '';
+	}
 	return str.substring(0, str.length - 1);
 }

@@ -4,6 +4,13 @@
 <meta charset="utf-8">
 </head>
 <body>
+	<input type="hidden" th:value="${managerInfo.starName}" id="starName" />
+	<input type="hidden" th:value="${managerInfo.allLuck}" id="allLuck" />
+	<input type="hidden" th:value="${managerInfo.health}" id="health" />
+	<input type="hidden" th:value="${managerInfo.love}" id="love" />
+	<input type="hidden" th:value="${managerInfo.money}" id="money" />
+	<input type="hidden" th:value="${managerInfo.workLuck}" id="workLuck" />
+
 	<div class="content-inner">
 		<!-- Dashboard Counts Section-->
 		<section class="dashboard-counts no-padding-bottom">
@@ -329,10 +336,7 @@
 								<h3>今日运势</h3>
 								<small>Today Luck</small>
 								<div class="chart text-center">
-									<div class="text">
-										<strong>90</strong><br> <span>Hours</span>
-									</div>
-									<canvas id="pieChart"></canvas>
+									<canvas id="star-echarts"></canvas>
 								</div>
 							</div>
 						</div>
@@ -681,5 +685,6 @@
 	</div>
 	<div th:replace="./common/_common::common_js"></div>
 	<script src="js/charts-home.js"></script>
+	<script src="/js/omsJs/index/home.js"></script>
 </body>
 </html>

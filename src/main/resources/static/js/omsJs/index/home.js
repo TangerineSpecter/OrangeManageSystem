@@ -25,7 +25,7 @@ function initStarECharts() {
 	var love = removeLastOne($("#love").val());
 	var money = removeLastOne($("#money").val());
 	var workLuck = removeLastOne($("#workLuck").val());
-	
+
 	var myChart = echarts.init(document.getElementById('star-echarts'),
 			"macarons");
 	var option = {
@@ -51,6 +51,8 @@ function initStarECharts() {
 			} ],
 			center : [ '50%', '50%' ],
 			radius : 105,
+			shape : 'circle',
+			splitNumber : 5, // 雷达图圈数设置
 			splitLine : {
 				show : true,
 			}
@@ -62,6 +64,7 @@ function initStarECharts() {
 			},
 			itemStyle : {
 				normal : {
+					color: '#00b2ff',
 					lineStyle : {
 						color : "#00b2ff" // 图表中各个图区域的边框线颜色
 					},

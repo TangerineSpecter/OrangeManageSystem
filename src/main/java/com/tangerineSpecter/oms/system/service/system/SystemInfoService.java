@@ -37,12 +37,11 @@ public class SystemInfoService {
 	public SystemInfoBean getSystemInfo() {
 		SystemInfoBean info = new SystemInfoBean();
 		try {
-			info.setOsName(SystemUtils.getOsName());
-			info.setCpuRatio((int) SystemUtils.getCpuUsageInfo());
-			info.setMemoryRatio((int) SystemUtils.getMemoryUsageInfo());
-			info.setDiskRatio((int) SystemUtils.getDiskUsageInfo());
+			info.setOsName(SystemUtils.getOsName()).setCpuRatio((int) SystemUtils.getCpuUsageInfo())
+					.setMemoryRatio((int) SystemUtils.getMemoryUsageInfo())
+					.setDiskRatio((int) SystemUtils.getDiskUsageInfo());
 		} catch (Exception e) {
-			log.error("系统信息获取异常，{}", e);
+			log.error("[系统信息获取异常]:", e);
 		}
 		return info;
 	}
@@ -57,13 +56,9 @@ public class SystemInfoService {
 		String starName = DateUtils.getStarNameByDate(birthday);
 		DataConstellation data = dataConstellationMapper.getConstellactionByName(starName);
 		if (data != null) {
-			info.setStarName(data.getName());
-			info.setAllLuck(data.getAllLuck());
-			info.setLove(data.getLove());
-			info.setHealth(data.getHealth());
-			info.setWorkLuck(data.getWorkLuck());
-			info.setMoney(data.getMoney());
-			info.setNotice(getNotice(info));
+			info.setStarName(data.getName()).setAllLuck(data.getAllLuck()).setLove(data.getLove())
+					.setHealth(data.getHealth()).setWorkLuck(data.getWorkLuck()).setMoney(data.getMoney())
+					.setNotice(getNotice(info));
 		}
 		return info;
 	}

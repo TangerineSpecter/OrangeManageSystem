@@ -79,7 +79,7 @@
 				value=""/> -->
 		</javaClientGenerator>
 
-		<table tableName="data_constellation">
+		<table tableName="work_collection">
 			<!-- 参考 javaModelGenerator 的 constructorBased属性 -->
 			<property name="constructorBased" value="false" />
 			<generatedKey column="id" sqlStatement="JDBC" />

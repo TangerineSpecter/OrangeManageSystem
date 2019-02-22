@@ -45,8 +45,8 @@ public class MyShiroRealm extends AuthorizingRealm {
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
 		String userName = (String) token.getPrincipal();
 		String password = new String((char[]) token.getCredentials());
-		log.info("用户：{" + userName + "}在时间{" + DateUtils.getSimpleFormat(CommonConstant.DEFAULT_FORMAT_SECOND)
-				+ "}进行了登录,登录地址{" + SystemUtils.getLocalhostIP() + "}");
+		log.info("用户：{}在时间{}进行了登录,登录地址{}", userName, DateUtils.getSimpleFormat(CommonConstant.DEFAULT_FORMAT_SECOND),
+				SystemUtils.getLocalhostIP());
 
 		SystemUser systemUser = systemUserMapper.getUserByUserName(userName);
 		if (systemUser == null) {

@@ -3,6 +3,7 @@ package com.tangerineSpecter.oms.system.domain.pojo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 /**
  * 管理员个人信息
@@ -14,6 +15,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Accessors(chain = true)
 public class ManagerInfoBean {
 	/** 星座 */
 	private String starName;

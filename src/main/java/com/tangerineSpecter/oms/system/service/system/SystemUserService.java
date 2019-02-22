@@ -50,13 +50,13 @@ public class SystemUserService {
 			Subject subject = SecurityUtils.getSubject();
 			subject.login(token);
 		} catch (UnknownAccountException e) {
-			log.error(String.format("帐号登录异常：%s", e));
+			log.error("[帐号登录异常]:", e);
 			return ServiceResult.fail(RetCode.ACCOUNTS_NOT_EXSIT_CODE, RetCode.ACCOUNTS_NOT_EXSIT_CODE_DESC);
 		} catch (NoSuchAlgorithmException e) {
-			log.error(String.format("帐号登录异常：%s", e));
+			log.error("[帐号登录异常]:", e);
 			return ServiceResult.fail(RetCode.ACCOUNTS_PASSWORD_ERROR_CODE, RetCode.ACCOUNTS_PASSWORD_ERROR_CODE_DESC);
 		} catch (IncorrectCredentialsException e) {
-			log.error(String.format("帐号登录异常：%s", e));
+			log.error("[帐号登录异常]:", e);
 			return ServiceResult.fail(RetCode.ACCOUNTS_PASSWORD_ERROR_CODE, RetCode.ACCOUNTS_PASSWORD_ERROR_CODE_DESC);
 		}
 		return ServiceResult.success();

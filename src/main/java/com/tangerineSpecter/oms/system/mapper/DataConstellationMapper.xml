@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.tangerineSpecter.oms.system.mapper.DataConstellationMapper">
+<mapper
+	namespace="com.tangerineSpecter.oms.system.mapper.DataConstellationMapper">
 	<resultMap id="BaseResultMap"
 		type="com.tangerineSpecter.oms.system.domain.DataConstellation">
 		<id column="id" property="id" jdbcType="BIGINT" />
 		<result column="name" property="name" jdbcType="VARCHAR" />
-		<result column="datetime" property="dateTime" jdbcType="VARCHAR" />
+		<result column="datetime" property="dateTime"
+			jdbcType="VARCHAR" />
 		<result column="date" property="date" jdbcType="INTEGER" />
 		<result column="all_luck" property="allLuck" jdbcType="VARCHAR" />
 		<result column="color" property="color" jdbcType="VARCHAR" />
@@ -15,9 +17,19 @@
 		<result column="number" property="number" jdbcType="INTEGER" />
 		<result column="QFriend" property="QFriend" jdbcType="VARCHAR" />
 		<result column="summary" property="summary" jdbcType="VARCHAR" />
-		<result column="work_luck" property="workLuck" jdbcType="VARCHAR" />
-		<result column="create_time" property="createTime" jdbcType="VARCHAR" />
+		<result column="work_luck" property="workLuck"
+			jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime"
+			jdbcType="VARCHAR" />
 	</resultMap>
+	<sql id="Base_Column_List">
+		name, datetime, date,
+		all_luck, color, health,
+		love, money, number,
+		QFriend,
+		summary, work_luck,
+		create_time
+	</sql>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
 		delete from
 		data_constellation
@@ -27,11 +39,9 @@
 		parameterType="com.tangerineSpecter.oms.system.domain.DataConstellation"
 		useGeneratedKeys="true" keyProperty="id">
 		insert into data_constellation
-		(name, datetime, date,
-		all_luck, color, health,
-		love, money, number,
-		QFriend, summary, work_luck,
-		create_time)
+		(
+		<include refid="Base_Column_List" />
+		)
 		values (#{name}, #{dateTime},
 		#{date},
 		#{allLuck}, #{color}, #{health},
@@ -63,21 +73,13 @@
 	</update>
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
 		parameterType="java.lang.Long">
-		select id, name, datetime, date, all_luck, color,
-		health,
-		love, money, number,
-		QFriend,
-		summary, work_luck, create_time
+		select *
 		from
 		data_constellation
 		where id = #{id}
 	</select>
 	<select id="selectAll" resultMap="BaseResultMap">
-		select id, name, datetime,
-		date, all_luck, color, health, love, money, number,
-		QFriend,
-		summary,
-		work_luck, create_time
+		select *
 		from data_constellation
 	</select>
 	<select id="queryListByCreateTime" resultType="java.lang.String">
@@ -88,12 +90,7 @@
 		#{createTime}
 	</select>
 	<select id="queryForPage" resultMap="BaseResultMap">
-		select id, name, datetime,
-		date, all_luck, color, health, love, money,
-		number,
-		QFriend,
-		summary,
-		work_luck, create_time
+		select *
 		from data_constellation
 		<where>
 			<if test="star!=null and star!='-1'">
@@ -107,11 +104,7 @@
 	</select>
 	<select id="getConstellactionByName" resultMap="BaseResultMap"
 		parameterType="java.lang.String">
-		select id, name, datetime, date, all_luck, color,
-		health,
-		love, money, number,
-		QFriend,
-		summary, work_luck, create_time
+		select *
 		from
 		data_constellation
 		where name like "%${starName}%"

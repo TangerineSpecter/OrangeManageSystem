@@ -1,248 +1,232 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
-<head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-<title>橘子管理系统</title>
-<link rel="stylesheet" href="./amazeUI/css/amazeui.min.css" />
-<link rel="stylesheet" href="./amazeUI/css/amazeui.datatables.min.css" />
-<link rel="stylesheet" href="./amazeUI/css/app.css">
-<link rel="stylesheet" href="./css/oms/index/common.css">
-<script src="./amazeUI/js/jquery.min.js"></script>
+<head th:replace="./common/_common :: common_header">
 </head>
-
-<body data-type="widgets">
+<body>
 	<div th:include="./common/_common :: weatherPlugin"></div>
-
-	<script src="./amazeUI/js/theme.js"></script>
-	<div class="am-g tpl-g admin-iframe">
-		<!-- 头部 -->
-		<header>
-			<!-- logo -->
-			<div class="am-fl tpl-header-logo">
-				<a href="javascript:;"> <img src="./amazeUI/img/logo.png" alt=""
-					style="width: 240px;">
-				</a>
-			</div>
-			<!-- 右侧内容 -->
-			<div class="tpl-header-fluid">
-				<!-- 侧边切换 -->
-				<div class="am-fl tpl-header-switch-button am-icon-list">
-					<span> </span>
-				</div>
-				<!-- 搜索 -->
-				<div class="am-fl tpl-header-search">
-					<form class="tpl-header-search-form" action="javascript:;">
-						<button class="tpl-header-search-btn am-icon-search"></button>
-						<input class="tpl-header-search-box" type="text"
-							placeholder="搜索内容...">
+	<div class="page">
+		<!-- Main Navbar-->
+		<header class="header">
+			<nav class="navbar">
+				<!-- Search Box-->
+				<div class="search-box">
+					<button class="dismiss">
+						<i class="icon-close"></i>
+					</button>
+					<form id="searchForm" action="#" role="search">
+						<input type="search" placeholder="你想要搜索的是..." class="form-control">
 					</form>
 				</div>
-				<!-- 其它功能-->
-				<div class="am-fr tpl-header-navbar">
-					<ul>
-						<!-- 欢迎语 -->
-						<li class="am-text-sm tpl-header-navbar-welcome"><a
-							href="javascript:;">欢迎你, <span
-								th:text="${systemUser.nickName}">管理员</span>
-						</a></li>
-						<!-- 新邮件 -->
-						<li class="am-dropdown tpl-dropdown" data-am-dropdown><a
-							href="javascript:;"
-							class="am-dropdown-toggle tpl-dropdown-toggle"
-							data-am-dropdown-toggle> <i class="am-icon-envelope"></i> <span
-								class="am-badge am-badge-success am-round item-feed-badge">4</span>
-						</a> <!-- 弹出列表 -->
-							<ul class="am-dropdown-content tpl-dropdown-content">
-								<li class="tpl-dropdown-menu-messages"><a
-									href="javascript:;"
-									class="tpl-dropdown-menu-messages-item am-cf">
-										<div class="menu-messages-ico">
-											<img src="./amazeUI/img/user04.png" alt="">
-										</div>
-										<div class="menu-messages-time">3小时前</div>
-										<div class="menu-messages-content">
-											<div class="menu-messages-content-title">
-												<i class="am-icon-circle-o am-text-success"></i> <span>夕风色</span>
+				<div class="container-fluid">
+					<div
+						class="navbar-holder d-flex align-items-center justify-content-between">
+						<!-- Navbar Header-->
+						<div class="navbar-header">
+							<!-- Navbar Brand -->
+							<a href="index.html"
+								class="navbar-brand d-none d-sm-inline-block">
+								<div class="brand-text d-none d-lg-inline-block">
+									<img src="img/logo.png" alt="" style="width: 220px;">
+								</div>
+								<div class="brand-text d-none d-sm-inline-block d-lg-none">
+									<strong>BD</strong>
+								</div>
+							</a>
+							<!-- Toggle Button-->
+							<a id="toggle-btn" href="#" class="menu-btn active"><span></span><span></span><span></span></a>
+						</div>
+						<!-- Navbar Menu -->
+						<ul
+							class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
+							<!-- Search-->
+							<li class="nav-item d-flex align-items-center"><a
+								id="search" href="#"><i class="icon-search"></i></a></li>
+							<!-- Notifications-->
+							<li class="nav-item dropdown"><a id="notifications"
+								rel="nofollow" data-target="#" href="#" data-toggle="dropdown"
+								aria-haspopup="true" aria-expanded="false" class="nav-link"><i
+									class="fa fa-bell-o"></i><span
+									class="badge bg-red badge-corner">12</span></a>
+								<ul aria-labelledby="notifications" class="dropdown-menu">
+									<li><a rel="nofollow" href="#" class="dropdown-item">
+											<div class="notification">
+												<div class="notification-content">
+													<i class="fa fa-envelope bg-green"></i>你有6条新消息
+												</div>
+												<div class="notification-time">
+													<small>4分钟以前</small>
+												</div>
 											</div>
-											<div class="am-text-truncate">Amaze UI 的诞生，依托于 GitHub
-												及其他技术社区上一些优秀的资源；Amaze UI 的成长，则离不开用户的支持。</div>
-											<div class="menu-messages-content-time">2016-09-21 下午
-												16:40</div>
-										</div>
-								</a></li>
-								<li class="tpl-dropdown-menu-messages"><a
-									href="javascript:;"
-									class="tpl-dropdown-menu-messages-item am-cf">
-										<div class="menu-messages-ico">
-											<img src="./amazeUI/img/user02.png" alt="">
-										</div>
-										<div class="menu-messages-time">5天前</div>
-										<div class="menu-messages-content">
-											<div class="menu-messages-content-title">
-												<i class="am-icon-circle-o am-text-warning"></i> <span>丢失的猫咪</span>
+									</a></li>
+									<li><a rel="nofollow" href="#" class="dropdown-item">
+											<div class="notification">
+												<div class="notification-content">
+													<i class="fa fa-twitter bg-blue"></i>You have 2 followers
+												</div>
+												<div class="notification-time">
+													<small>4 minutes ago</small>
+												</div>
 											</div>
-											<div class="am-text-truncate">为了能最准确的传达所描述的问题，
-												建议你在反馈时附上演示，方便我们理解。</div>
-											<div class="menu-messages-content-time">2016-09-16 上午
-												09:23</div>
-										</div>
-								</a></li>
-								<li class="tpl-dropdown-menu-messages"><a
-									href="javascript:;"
-									class="tpl-dropdown-menu-messages-item am-cf"> <i
-										class="am-icon-circle-o"></i> 进入列表…
-								</a></li>
-							</ul></li>
-						<!-- 新提示 -->
-						<li class="am-dropdown" data-am-dropdown><a
-							href="javascript:;" class="am-dropdown-toggle"
-							data-am-dropdown-toggle> <i class="am-icon-bell"></i> <span
-								class="am-badge am-badge-warning am-round item-feed-badge">5</span>
-						</a> <!-- 弹出列表 -->
-							<ul class="am-dropdown-content tpl-dropdown-content">
-								<li class="tpl-dropdown-menu-notifications"><a
-									href="javascript:;"
-									class="tpl-dropdown-menu-notifications-item am-cf">
-										<div class="tpl-dropdown-menu-notifications-title">
-											<i class="am-icon-line-chart"></i> <span> 有6笔新的销售订单</span>
-										</div>
-										<div class="tpl-dropdown-menu-notifications-time">12分钟前</div>
-								</a></li>
-								<li class="tpl-dropdown-menu-notifications"><a
-									href="javascript:;"
-									class="tpl-dropdown-menu-notifications-item am-cf">
-										<div class="tpl-dropdown-menu-notifications-title">
-											<i class="am-icon-star"></i> <span> 有3个来自人事部的消息</span>
-										</div>
-										<div class="tpl-dropdown-menu-notifications-time">30分钟前</div>
-								</a></li>
-								<li class="tpl-dropdown-menu-notifications"><a
-									href="javascript:;"
-									class="tpl-dropdown-menu-notifications-item am-cf">
-										<div class="tpl-dropdown-menu-notifications-title">
-											<i class="am-icon-folder-o"></i> <span> 上午开会记录存档</span>
-										</div>
-										<div class="tpl-dropdown-menu-notifications-time">1天前</div>
-								</a></li>
-								<li class="tpl-dropdown-menu-notifications"><a
-									href="javascript:;"
-									class="tpl-dropdown-menu-notifications-item am-cf"> <i
-										class="am-icon-bell"></i> 进入列表…
-								</a></li>
-							</ul></li>
-						<li class="am-hide-sm-only"><a href="javascript:;"
-							id="admin-fullscreen" class="tpl-header-list-link"><span
-								class="am-icon-arrows-alt"></span> <span class="admin-fullText">开启全屏</span></a></li>
-						<!-- 退出 -->
-						<li class="am-text-sm"><a href="/logout"> <span
-								class="am-icon-sign-out"></span> 退出
-						</a></li>
-					</ul>
-				</div>
-			</div>
-		</header>
-		<!-- 风格切换 -->
-		<div class="tpl-skiner">
-			<div class="tpl-skiner-toggle am-icon-cog"></div>
-			<div class="tpl-skiner-content">
-				<div class="tpl-skiner-content-title">选择主题</div>
-				<div class="tpl-skiner-content-bar">
-					<span class="skiner-color skiner-white" data-color="theme-white"></span>
-					<span class="skiner-color skiner-black" data-color="theme-black"></span>
-				</div>
-			</div>
-		</div>
-		<!-- 侧边导航栏 -->
-		<div class="left-sidebar">
-			<!-- 用户信息 -->
-			<div class="tpl-sidebar-user-panel">
-				<div class="tpl-user-panel-slide-toggleable">
-					<div class="tpl-user-panel-profile-picture">
-						<img src="./amazeUI/img/user04.png" alt="">
+									</a></li>
+									<li><a rel="nofollow" href="#" class="dropdown-item">
+											<div class="notification">
+												<div class="notification-content">
+													<i class="fa fa-upload bg-orange"></i>Server Rebooted
+												</div>
+												<div class="notification-time">
+													<small>4 minutes ago</small>
+												</div>
+											</div>
+									</a></li>
+									<li><a rel="nofollow" href="#" class="dropdown-item">
+											<div class="notification">
+												<div class="notification-content">
+													<i class="fa fa-twitter bg-blue"></i>You have 2 followers
+												</div>
+												<div class="notification-time">
+													<small>10 minutes ago</small>
+												</div>
+											</div>
+									</a></li>
+									<li><a rel="nofollow" href="#"
+										class="dropdown-item all-notifications text-center"> <strong>view
+												all notifications </strong></a></li>
+								</ul></li>
+							<!-- Messages                        -->
+							<li class="nav-item dropdown"><a id="messages"
+								rel="nofollow" data-target="#" href="#" data-toggle="dropdown"
+								aria-haspopup="true" aria-expanded="false" class="nav-link"><i
+									class="fa fa-envelope-o"></i><span
+									class="badge bg-orange badge-corner">10</span></a>
+								<ul aria-labelledby="notifications" class="dropdown-menu">
+									<li><a rel="nofollow" href="#"
+										class="dropdown-item d-flex">
+											<div class="msg-profile">
+												<img src="img/avatar-1.jpg" alt="..."
+													class="img-fluid rounded-circle">
+											</div>
+											<div class="msg-body">
+												<h3 class="h5">Jason Doe</h3>
+												<span>Sent You Message</span>
+											</div>
+									</a></li>
+									<li><a rel="nofollow" href="#"
+										class="dropdown-item d-flex">
+											<div class="msg-profile">
+												<img src="img/avatar-2.jpg" alt="..."
+													class="img-fluid rounded-circle">
+											</div>
+											<div class="msg-body">
+												<h3 class="h5">Frank Williams</h3>
+												<span>Sent You Message</span>
+											</div>
+									</a></li>
+									<li><a rel="nofollow" href="#"
+										class="dropdown-item d-flex">
+											<div class="msg-profile">
+												<img src="img/avatar-3.jpg" alt="..."
+													class="img-fluid rounded-circle">
+											</div>
+											<div class="msg-body">
+												<h3 class="h5">Ashley Wood</h3>
+												<span>Sent You Message</span>
+											</div>
+									</a></li>
+									<li><a rel="nofollow" href="#"
+										class="dropdown-item all-notifications text-center"> <strong>Read
+												all messages </strong></a></li>
+								</ul></li>
+							<!-- Languages dropdown    -->
+							<li class="nav-item dropdown"><a id="languages"
+								rel="nofollow" data-target="#" href="#" data-toggle="dropdown"
+								aria-haspopup="true" aria-expanded="false"
+								class="nav-link language dropdown-toggle"><img
+									src="img/flags/16/CN.png" alt="English"><span
+									class="d-none d-sm-inline-block">中文</span></a>
+								<ul aria-labelledby="languages" class="dropdown-menu">
+									<li><a rel="nofollow" href="#" class="dropdown-item">
+											<img src="img/flags/16/GB.png" alt="English" class="mr-2">English
+									</a></li>
+									<li><a rel="nofollow" href="#" class="dropdown-item">
+											<img src="img/flags/16/FR.png" alt="English" class="mr-2">Français
+									</a></li>
+								</ul></li>
+							<!-- Logout    -->
+							<li class="nav-item"><a href="/logout"
+								class="nav-link logout"> <span class="d-none d-sm-inline">退出</span><i
+									class="fa fa-sign-out"></i></a></li>
+						</ul>
 					</div>
-					<span class="user-panel-logged-in-text"> <i
-						class="am-icon-circle-o am-text-success tpl-user-panel-status-icon"></i>
-						<span th:text="${systemUser.nickName}"> 管理员 </span>
-					</span> <a href="javascript:;" class="tpl-user-panel-action-link"
-						id="account-setting"> <span class="am-icon-pencil"></span>
-						账号设置
-					</a>
 				</div>
+			</nav>
+		</header>
+		<div class="page-content d-flex align-items-stretch">
+			<!-- Side Navbar -->
+			<nav class="side-navbar">
+				<!-- Sidebar Header-->
+				<div class="sidebar-header d-flex align-items-center">
+					<div class="avatar">
+						<img src="img/avatar-1.jpg" alt="..."
+							class="img-fluid rounded-circle">
+					</div>
+					<div class="title">
+						<h1 class="h4" th:text="${systemUser.nickName}">Fuck you</h1>
+						<a href="javascript:;" id="account-setting">帐号设置</a>
+					</div>
+				</div>
+				<!-- Sidebar Navidation Menus-->
+				<span class="heading">Menu 菜单</span>
+				<ul id="menu" class="list-unstyled">
+					<li class="active"><a href="index.html"> <i
+							class="icon-home"></i>主页
+					</a></li>
+					<li><a href="#personDropdown" aria-expanded="false"
+						data-toggle="collapse"> <i class="icon-slideshare"></i>个人管理
+					</a>
+						<ul id="personDropdown" class="collapse list-unstyled ">
+							<li><a href="#"><i class="icon-street-view"></i>状况管理</a></li>
+							<li><a href="#"><i class="icon-file-word-o"></i>文章管理</a></li>
+							<li><a href="#"><i class="icon-calendar-check-o"></i>计划任务</a></li>
+							<li><a href="#"><i class="icon-trophy"></i>成就管理</a></li>
+						</ul></li>
+					<li><a href="#workDropdown" aria-expanded="false"
+						data-toggle="collapse"> <i class="icon-twitch"></i>乐趣印记
+					</a>
+						<ul id="workDropdown" class="collapse list-unstyled ">
+							<li><a id="collection"><i class="icon-folder-open-o"></i>内容收藏</a></li>
+						</ul></li>
+					<li><a href="#exampledropdownDropdown" aria-expanded="false"
+						data-toggle="collapse"> <i class="icon-wrench"></i>小工具
+					</a>
+						<ul id="exampledropdownDropdown" class="collapse list-unstyled ">
+							<li><a href="#"><i class="icon-qrcode"></i>二维码生成</a></li>
+						</ul></li>
+				</ul>
+				<span class="heading">System 系统相关</span>
+				<ul id="system-menu" class="list-unstyled">
+					<li><a href="#dataDropdown" aria-expanded="false"
+						data-toggle="collapse"> <i class="icon-table"></i>数据列表
+					</a>
+						<ul id="dataDropdown" class="collapse list-unstyled ">
+							<li><a id="constellaction"><i
+									class="icon-star-o"></i>星座列表</a></li>
+						</ul></li>
+					<li><a href="#systemDropdown" aria-expanded="false"
+						data-toggle="collapse"> <i class="icon-cog"></i>系统设置
+					</a>
+						<ul id="systemDropdown" class="collapse list-unstyled ">
+							<li><a id="systemUser"><i class="icon-user"></i>后台管理员</a></li>
+						</ul></li>
+				</ul>
+			</nav>
+			<div class="content-inner">
+				<iframe id="contentUrl" src="home.html"
+					style="height: 100%; width: 100%;" frameborder="0"></iframe>
 			</div>
-			<!-- 菜单 -->
-			<ul id="menu" class="sidebar-nav">
-				<li class="sidebar-nav-heading">Menu <span
-					class="sidebar-nav-heading-info"> 菜单列表</span>
-				</li>
-				<li class="sidebar-nav-link"><a href="index.html"
-					class="active"> <i class="am-icon-home sidebar-nav-link-logo"></i>首页
-				</a></li>
-				<li class="sidebar-nav-link"><a href="javascript:;"
-					class="sidebar-nav-sub-title"> <i
-						class="am-icon-slideshare sidebar-nav-link-logo"></i> 个人记录<span
-						class="am-icon-chevron-down am-fr am-margin-right-sm sidebar-nav-sub-ico"></span>
-				</a>
-					<ul class="sidebar-nav sidebar-nav-sub">
-						<li class="sidebar-nav-link"><a id="constellaction"> <span
-								class="am-icon-smile-o sidebar-nav-link-logo"></span> 状况管理
-						</a></li>
-						<li class="sidebar-nav-link"><a id="constellaction"> <span
-								class="am-icon-diamond sidebar-nav-link-logo"></span> 成就管理
-						</a></li>
-					</ul></li>
-				<li class="sidebar-nav-link"><a id="calendar"> <i
-						class="am-icon-calendar sidebar-nav-link-logo"></i> 计划任务 <!-- 气泡提醒 -->
-						<span
-						class="am-badge am-badge-secondary sidebar-nav-link-logo-ico am-round am-fr am-margin-right-sm">6</span>
-				</a></li>
-				<li class="sidebar-nav-link"><a href="javascript:;"
-					class="sidebar-nav-sub-title"> <i
-						class="am-icon-chain sidebar-nav-link-logo"></i> 小工具<span
-						class="am-icon-chevron-down am-fr am-margin-right-sm sidebar-nav-sub-ico"></span>
-				</a>
-					<ul class="sidebar-nav sidebar-nav-sub">
-						<li class="sidebar-nav-link"><a id="constellaction"> <span
-								class="am-icon-qrcode sidebar-nav-link-logo"></span> 二维码生成
-						</a></li>
-					</ul></li>
-				<li class="sidebar-nav-heading">System<span
-					class="sidebar-nav-heading-info"> 系统相关</span>
-				</li>
-				<li class="sidebar-nav-link"><a href="javascript:;"
-					class="sidebar-nav-sub-title"> <i
-						class="am-icon-table sidebar-nav-link-logo"></i> 数据列表 <span
-						class="am-icon-chevron-down am-fr am-margin-right-sm sidebar-nav-sub-ico"></span>
-				</a>
-					<ul class="sidebar-nav sidebar-nav-sub">
-						<li class="sidebar-nav-link"><a id="constellaction"> <span
-								class="am-icon-star-o sidebar-nav-link-logo"></span> 星座列表
-						</a></li>
-					</ul></li>
-				<li class="sidebar-nav-link"><a href="javascript:;"
-					class="sidebar-nav-sub-title"> <i
-						class="am-icon-gear sidebar-nav-link-logo"></i> 系统设置 <span
-						class="am-icon-chevron-down am-fr am-margin-right-sm sidebar-nav-sub-ico"></span>
-				</a>
-					<ul class="sidebar-nav sidebar-nav-sub">
-						<li class="sidebar-nav-link"><a id="systemUser"> <span
-								class="am-icon-male sidebar-nav-link-logo"></span> 后台管理员
-						</a></li>
-					</ul></li>
-			</ul>
 		</div>
-		<iframe id="contentUrl" src="/home" style="height: 100%; width: 100%;"
-			frameborder="0"></iframe>
 	</div>
-	<script src="./echarts/js/echarts.min.js"></script>
-	<script src="./echarts/theme/macarons.js"></script>
-	<script src="./amazeUI/js/amazeui.min.js"></script>
-	<script src="./amazeUI/js/amazeui.datatables.min.js"></script>
-	<script src="./amazeUI/js/dataTables.responsive.min.js"></script>
-	<script src="./amazeUI/js/app.js"></script>
+	<div th:replace="./common/_common::common_js"></div>
+	<script src="js/charts-home.js"></script>
 	<script src="/js/omsJs/index/index.js"></script>
 </body>
-
 </html>

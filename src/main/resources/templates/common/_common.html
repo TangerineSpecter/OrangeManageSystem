@@ -1,18 +1,61 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
+<!-- 公共css -->
+<head th:fragment="common_header">
 <meta charset="UTF-8">
-<script src="./js/omsJs/_initJs.js"></script>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>橘子管理系统</title>
+<meta name="description" content="">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="all,follow">
+<!-- Bootstrap CSS-->
+<link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
+<!-- Bootstrap-buttons CSS-->
+<link rel="stylesheet" href="vendor/bootstrap/css/buttons.css">
+<!-- Bootstrap-table CSS-->
+<link rel="stylesheet" href="css/bootstrap-table.scss">
+<!-- Font Awesome CSS-->
+<link rel="stylesheet"
+	href="vendor/font-awesome/css/font-awesome.min.css">
+<!-- Fontastic Custom icon font-->
+<link rel="stylesheet" href="vendor/fontastic-icons/styles.css">
+<!-- Google fonts - Poppins -->
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css?family=Poppins:300,400,700">
+<!-- theme stylesheet-->
+<link rel="stylesheet" href="css/style.default.css"
+	id="theme-stylesheet">
+<!-- Custom stylesheet - for your changes-->
+<link rel="stylesheet" href="css/custom.css">
+<!-- Favicon-->
+<link rel="shortcut icon" href="img/favicon.ico">
 </head>
 <body>
 	<footer th:fragment="modal">
-		<!-- 提示框 -->
-		<div class="am-modal am-modal-alert" tabindex="-1" id="prompt-modal">
-			<div class="am-modal-dialog">
-				<div class="am-modal-hd">提示</div>
-				<div class="am-modal-bd" id="prompt-modal-content"></div>
-				<div class="am-modal-footer">
-					<span class="am-modal-btn">确定</span>
+		<!-- 提示框（Modal） -->
+		<div class="modal fade" id="prompt-modal" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title" id="myModalLabel">提示</h4>
+					</div>
+					<div class="modal-body" id="prompt-modal-content"></div>
+				</div>
+			</div>
+		</div>
+	</footer>
+	<footer th:fragment="modal">
+		<!-- 提示框（Modal） -->
+		<div class="modal fade" id="prompt-modal" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title" id="myModalLabel">提示</h4>
+					</div>
+					<div class="modal-body" id="prompt-modal-content"></div>
 				</div>
 			</div>
 		</div>
@@ -62,43 +105,48 @@
 
 	<!-- 分页栏 -->
 	<footer th:fragment="pagination">
-		<ul th:if="${totalPage}>=5" class="am-pagination">
-			<li th:class="${currentPage==1}?am-disabled"><a
-				th:href="@{${url}(page=${currentPage}-1)}">&laquo;</a></li>
-			<li th:class="${currentPage}<=(${totalPage} - 4)?am-active"><a
-				th:href="@{${url}(page= (${currentPage} + 4<=${totalPage}?(${currentPage}):${totalPage}-4) )}"
-				th:text="(${currentPage} + 4<=${totalPage}?(${currentPage}):${totalPage}-4)"></a></li>
-			<li th:class="${currentPage}==(${totalPage} - 3)?am-active"><a
-				th:href="@{${url}(page= (${currentPage} + 4<=${totalPage}?(${currentPage} + 1):${totalPage}-3) )}"
-				th:text="(${currentPage} + 4<=${totalPage}?(${currentPage} + 1):${totalPage}-3)"></a></li>
-			<li th:class="${currentPage}==(${totalPage} - 2)?am-active"><a
-				th:href="@{${url}(page= (${currentPage} + 4<=${totalPage}?(${currentPage} + 2):${totalPage}-2) )}"
-				th:text="(${currentPage} + 4<=${totalPage}?(${currentPage} + 2):${totalPage}-2)"></a></li>
-			<li th:class="${currentPage}==(${totalPage} - 1)?am-active"><a
-				th:href="@{${url}(page= (${currentPage} + 4<=${totalPage}?(${currentPage} + 3):${totalPage}-1) )}"
-				th:text="(${currentPage} + 4<=${totalPage}?(${currentPage} + 3):${totalPage}-1)"></a></li>
-			<li th:class="${currentPage}==${totalPage}?am-active"><a
-				th:href="@{${url}(page= (${currentPage} + 4<=${totalPage}?(${currentPage} + 4):${totalPage}) )}"
-				th:text="(${currentPage} + 4<=${totalPage}?(${currentPage} + 4):${totalPage})"></a></li>
-			<li th:class="${currentPage}==${totalPage}?am-disabled"><a
-				th:href="@{${url}(page=${currentPage}+1)}">&raquo;</a></li>
-		</ul>
-		<ul th:if="${totalPage}<5" class="am-pagination">
-			<li th:class="${currentPage==1}?am-disabled"><a
-				th:href="@{${url}(page=${currentPage}-1)}">&laquo;</a></li>
-			<li th:if="${totalPage}>=1" th:class="${currentPage}==1?am-active"><a
-				th:href="@{${url}(page=1)}" th:text="1"></a></li>
-			<li th:if="${totalPage}>=2" th:class="${currentPage}==2?am-active"><a
-				th:href="@{${url}(page=2)}" th:text="2"></a></li>
-			<li th:if="${totalPage}>=3" th:class="${currentPage}==3?am-active"><a
-				th:href="@{${url}(page=3)}" th:text="3"></a></li>
-			<li th:if="${totalPage}>=4" th:class="${currentPage}==4?am-active"><a
-				th:href="@{${url}(page=4)}" th:text="4"></a></li>
-			<li th:if="${totalPage}>=5" th:class="${currentPage}==5?am-active"><a
-				th:href="@{${url}(page=5)}" th:text="5"></a></li>
-			<li th:class="${currentPage}==${totalPage}?am-disabled"><a
-				th:href="@{${url}(page=${currentPage}+1)}">&raquo;</a></li>
+		<ul class="pagination pagination-lg">
+			<li th:class="${currentPage==1}?'disabled' : ''"><a
+				th:href="@{${url}(page=${currentPage}-1)}">上一页</a></li>
+			<li th:if="${currentPage-3 >=1}"><a
+				th:href="@{${url}(page=${currentPage}-3)}"
+				th:text="${currentPage -3}">1</a></li>
+			<li th:if="${currentPage-2 >=1}"><a
+				th:href="@{${url}(page=${currentPage}-2)}"
+				th:text="${currentPage -2}">1</a></li>
+			<li th:if="${currentPage-1 >=1}"><a
+				th:href="@{${url}(page=${currentPage}-1)}"
+				th:text="${currentPage -1}">1</a></li>
+			<li class="active"><a href="#" th:text="${currentPage}">1</a></li>
+			<li th:if="${currentPage+1 <=totalPage}"><a
+				th:href="@{${url}(page=${currentPage}+1)}"
+				th:text="${currentPage +1}">1</a></li>
+			<li th:if="${currentPage+2 <=totalPage}"><a
+				th:href="@{${url}(page=${currentPage}+2)}"
+				th:text="${currentPage +2}">1</a></li>
+			<li th:if="${currentPage+3 <=totalPage}"><a
+				th:href="@{${url}(page=${currentPage}+3)}"
+				th:text="${currentPage +3}">1</a></li>
+			<li th:class="${currentPage==totalPage}?'disabled' : ''"><a
+				th:href="@{${url}(page=${currentPage}+1)}">下一页</a></li>
 		</ul>
 	</footer>
+	<!-- 公共js -->
+	<div th:fragment="common_js">
+		<!-- JavaScript files-->
+		<script src="vendor/jquery/jquery.min.js"></script>
+		<script src="vendor/popper.js/umd/popper.min.js"></script>
+		<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+		<script src="vendor/bootstrap/js/bootstrap-paginator.js"></script>
+		<script src="vendor/bootstrap/js/bootstrap-table.js"></script>
+		<script src="vendor/bootstrap/locale/bootstrap-table-zh-CN.js"></script>
+		<script src="vendor/jquery.cookie/jquery.cookie.js"></script>
+		<script src="vendor/chart.js/Chart.min.js"></script>
+		<script src="vendor/echarts/echarts.min.js"></script>
+		<script src="vendor/jquery-validation/jquery.validate.min.js"></script>
+		<!-- Main File-->
+		<script src="js/front.js"></script>
+		<script src="./js/omsJs/common.js"></script>
+	</div>
 </body>
 </html>

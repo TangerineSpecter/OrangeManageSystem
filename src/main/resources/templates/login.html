@@ -1,68 +1,71 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:replace="./common/_common :: common_header">
 <meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>橘子管理系统</title>
-<meta name="renderer" content="webkit">
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-<link rel="stylesheet" href="./amazeUI/css/amazeui.min.css">
-<link rel="stylesheet" href="./css/oms/index/app.css">
-<link rel="stylesheet" href="./css/font-awesome/font-awesome.css">
-<script src="./js/jquery/jquery.min.js"></script>
-<script src="./amazeUI/js/amazeui.min.js"></script>
-<script src="./js/omsJs/common.js"></script>
 </head>
 <body>
-	<!-- 提示框 -->
-	<div class="am-modal am-modal-alert" tabindex="-1" id="prompt-modal">
-		<div class="am-modal-dialog">
-			<div class="am-modal-hd">提示</div>
-			<div class="am-modal-bd" id="prompt-modal-content"></div>
-			<div class="am-modal-footer">
-				<span class="am-modal-btn">确定</span>
+	<!-- 提示框（Modal） -->
+	<div class="modal fade" id="prompt-modal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="myModalLabel">提示</h4>
+				</div>
+				<div class="modal-body" id="prompt-modal-content"></div>
 			</div>
 		</div>
 	</div>
 
-	<div class="am-g myapp-login">
-		<div class="myapp-login-logo-block">
-			<div class="myapp-login-logo">
-				<img src="./img/index/weather.png">
-			</div>
-			<div class="myapp-login-logo-text">
-				<div class="myapp-login-logo-text">
-					<span>Orange</span>Manage
-					<div class="info">Meow~</div>
-				</div>
-			</div>
-
-			<div class="login-font">
-				<i><a href="/login" style="color: #E66B1A">登录</a> </i> or <span><a
-					href="/register" style="color: #FFFFFF">注册</a></span>
-			</div>
-			<div class="am-u-sm-10 login-am-center">
-				<div class="am-form">
-					<form id="login">
-						<div class="am-form-group">
-							<input type="text" id="username" name="username" placeholder="帐号"
-								style="color: background;"
-								onkeyup="value=value.replace(/[^\w\.\/]/ig,'')">
+	<div class="page login-page">
+		<div class="container d-flex align-items-center">
+			<div class="form-holder has-shadow">
+				<div class="row">
+					<!-- Logo & Information Panel-->
+					<div class="col-lg-6">
+						<div class="info d-flex align-items-center">
+							<div class="content">
+								<div class="logo">
+									<h1>欢迎使用</h1>
+								</div>
+								<p>橘子管理系统</p>
+							</div>
 						</div>
-						<div class="am-form-group">
-							<input type="password" id="password" name="password"
-								placeholder="密码">
+					</div>
+					<!-- Form Panel    -->
+					<div class="col-lg-6 bg-white">
+						<div class="form d-flex align-items-center">
+							<div class="content">
+								<form id="login" method="post" class="form-validate">
+									<div class="form-group">
+										<input id="username" type="text" name="username" required
+											data-msg="Please enter your username" class="input-material">
+										<label for="login-username" class="label-material">用户名</label>
+									</div>
+									<div class="form-group">
+										<input id="password" type="password" name="password" required
+											data-msg="Please enter your password" class="input-material">
+										<label for="login-password" class="label-material">密码</label>
+									</div>
+									<a onclick="submitForm()" class="btn btn-primary">登录</a>
+									<!-- This should be submit button but I replaced it with <a> for demo purposes-->
+								</form>
+								<a href="#" class="forgot-pass">忘记密码?</a><br> <small>没有帐号?
+								</small><a href="/register.html" class="signup">注册</a>
+							</div>
 						</div>
-					</form>
-					<p>
-						<button class="am-btn am-btn-default" onclick="submitForm()">登录</button>
-					</p>
+					</div>
 				</div>
 			</div>
 		</div>
+		<div class="copyrights text-center">
+			<p>
+				Design by <a href="#" class="external">Bootstrapious</a>
+				<!-- Please do not remove the backlink to us unless you support further theme's development at https://bootstrapious.com/donate. It is part of the license conditions. Thank you for understanding :)-->
+			</p>
+		</div>
 	</div>
-	<script src="/amazeUI/js/amazeui.min.js"></script>
-	<script src="/js/omsJs/index/app.js"></script>
+	<div th:replace="./common/_common::common_js"></div>
 	<script>
 		$(document).keyup(function(event) {
 			if (event.keyCode == 13) {//按下Enter
@@ -87,7 +90,7 @@
 				success : function(data) {
 					if (data.success) {
 						promptModal("登录成功");
-						$("#prompt-modal").on("closed.modal.amui", function() {
+						$("#prompt-modal").on("hidden.bs.modal", function() {
 							window.location.href = "/index";
 						})
 					} else {

@@ -1,34 +1,35 @@
-package com.tangerineSpecter.oms.system.mapper;
+package com.tangerinespecter.oms.system.mapper;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.tangerineSpecter.oms.common.query.ConstellactionQueryObject;
-import com.tangerineSpecter.oms.system.domain.DataConstellation;
+import com.tangerinespecter.oms.common.query.ConstellactionQueryObject;
+import com.tangerinespecter.oms.system.domain.DataConstellation;
 
 @Mapper
 public interface DataConstellationMapper {
-	int deleteByPrimaryKey(Long id);
 
-	int insert(DataConstellation record);
+    int deleteByPrimaryKey(Long id);
 
-	DataConstellation selectByPrimaryKey(Long id);
+    int insert(DataConstellation record);
 
-	List<DataConstellation> selectAll();
+    DataConstellation selectByPrimaryKey(Long id);
 
-	int updateByPrimaryKey(DataConstellation record);
+    List<DataConstellation> selectAll();
 
-	List<DataConstellation> queryForPage(ConstellactionQueryObject qo);
+    int updateByPrimaryKey(DataConstellation record);
 
-	/**
-	 * 根据创建时间查询星座名字
-	 */
-	List<String> queryListByCreateTime(@Param("createTime") String create_time);
+    List<DataConstellation> queryForPage(ConstellactionQueryObject qo);
 
-	/**
-	 * 根据星座名称获取最近数据
-	 */
-	DataConstellation getConstellactionByName(@Param("starName") String name);
+    /**
+     * 根据创建时间查询星座名字
+     */
+    List<String> queryListByCreateTime(@Param("createTime") String createTime);
+
+    /**
+     * 根据星座名称获取最近数据
+     */
+    DataConstellation getConstellationByName(@Param("starName") String name);
 }

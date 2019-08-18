@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.tangerinespecter.oms.common.query.ConstellactionQueryObject;
-import com.tangerinespecter.oms.system.domain.DataConstellation;
+import com.tangerinespecter.oms.system.dao.entity.DataConstellation;
 
 @Mapper
 public interface DataConstellationMapper {

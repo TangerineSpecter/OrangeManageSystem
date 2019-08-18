@@ -4,7 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.tangerinespecter.oms.common.query.ConstellactionQueryObject;
 import com.tangerinespecter.oms.common.utils.ServiceKey;
-import com.tangerinespecter.oms.system.domain.DataConstellation;
+import com.tangerinespecter.oms.system.dao.entity.DataConstellation;
 import com.tangerinespecter.oms.system.mapper.DataConstellationMapper;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
 import org.springframework.stereotype.Service;

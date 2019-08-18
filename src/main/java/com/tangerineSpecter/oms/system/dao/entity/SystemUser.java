@@ -1,4 +1,4 @@
-package com.tangerinespecter.oms.system.domain;
+package com.tangerinespecter.oms.system.dao.entity;
 
 import javax.validation.constraints.NotEmpty;
 

@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.tangerinespecter.oms.common.query.SystemUserQueryObject;
-import com.tangerinespecter.oms.system.domain.SystemUser;
+import com.tangerinespecter.oms.system.dao.entity.SystemUser;
 
 @Mapper
 public interface SystemUserMapper {

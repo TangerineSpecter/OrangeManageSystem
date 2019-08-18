@@ -7,16 +7,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSONObject;
 import com.tangerinespecter.oms.common.constant.CommonConstant;
 import com.tangerinespecter.oms.common.utils.DateUtils;
 import com.tangerinespecter.oms.common.utils.HttpUtils;
 import com.tangerinespecter.oms.common.utils.ParamUtils;
-import com.tangerinespecter.oms.system.domain.DataConstellation;
+import com.tangerinespecter.oms.system.dao.entity.DataConstellation;
 import com.tangerinespecter.oms.system.mapper.DataConstellationMapper;
 
 import lombok.extern.slf4j.Slf4j;

@@ -6,7 +6,7 @@ import com.tangerinespecter.oms.common.constant.CommonConstant;
 import com.tangerinespecter.oms.common.query.WorkCollectionQueryObject;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.common.utils.ServiceKey;
-import com.tangerinespecter.oms.system.domain.WorkCollection;
+import com.tangerinespecter.oms.system.dao.entity.WorkCollection;
 import com.tangerinespecter.oms.system.mapper.WorkCollectionMapper;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
 import org.springframework.stereotype.Service;

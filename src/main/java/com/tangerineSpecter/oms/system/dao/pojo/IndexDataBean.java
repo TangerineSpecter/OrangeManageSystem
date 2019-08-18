@@ -1,4 +1,4 @@
-package com.tangerinespecter.oms.system.domain.pojo;
+package com.tangerinespecter.oms.system.dao.pojo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

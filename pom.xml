@@ -8,7 +8,7 @@
 		<version>2.1.1.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.tangerineSpecter</groupId>
+	<groupId>com.tangerinespecter</groupId>
 	<artifactId>OrangeManageSystem</artifactId>
 	<version>0.2.0</version>
 	<name>oms</name>

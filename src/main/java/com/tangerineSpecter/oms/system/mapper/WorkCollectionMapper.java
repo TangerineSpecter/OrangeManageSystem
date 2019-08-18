@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.tangerinespecter.oms.common.query.WorkCollectionQueryObject;
-import com.tangerinespecter.oms.system.domain.WorkCollection;
+import com.tangerinespecter.oms.system.dao.entity.WorkCollection;
 
 @Mapper
 public interface WorkCollectionMapper {

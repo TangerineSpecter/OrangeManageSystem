@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper
-        namespace="com.tangerineSpecter.oms.system.mapper.DataConstellationMapper">
+        namespace="com.tangerinespecter.oms.system.mapper.DataConstellationMapper">
     <resultMap id="BaseResultMap"
-               type="com.tangerinespecter.oms.system.domain.DataConstellation">
+               type="com.tangerinespecter.oms.system.dao.entity.DataConstellation">
         <id column="id" property="id" jdbcType="BIGINT"/>
         <result column="name" property="name" jdbcType="VARCHAR"/>
         <result column="datetime" property="dateTime"
@@ -15,7 +15,7 @@
         <result column="love" property="love" jdbcType="VARCHAR"/>
         <result column="money" property="money" jdbcType="VARCHAR"/>
         <result column="number" property="number" jdbcType="INTEGER"/>
-        <result column="QFriend" property="QFriend" jdbcType="VARCHAR"/>
+        <result column="QFriend" property="qFriend" jdbcType="VARCHAR"/>
         <result column="summary" property="summary" jdbcType="VARCHAR"/>
         <result column="work_luck" property="workLuck"
                 jdbcType="VARCHAR"/>
@@ -36,7 +36,7 @@
 		where id = #{id}
 	</delete>
     <insert id="insert"
-            parameterType="com.tangerinespecter.oms.system.domain.DataConstellation"
+            parameterType="com.tangerinespecter.oms.system.dao.entity.DataConstellation"
             useGeneratedKeys="true" keyProperty="id">
         insert into data_constellation
         (
@@ -50,7 +50,7 @@
         #{createTime})
     </insert>
     <update id="updateByPrimaryKey"
-            parameterType="com.tangerinespecter.oms.system.domain.DataConstellation">
+            parameterType="com.tangerinespecter.oms.system.dao.entity.DataConstellation">
 		update data_constellation
 		set name = #{name},
 		datetime =

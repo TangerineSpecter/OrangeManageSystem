@@ -8,13 +8,15 @@ import com.alibaba.druid.util.StringUtils;
 import com.tangerinespecter.oms.common.constant.CommonConstant;
 import com.tangerinespecter.oms.common.utils.DateUtils;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
-import com.tangerinespecter.oms.system.domain.DataConstellation;
-import com.tangerinespecter.oms.system.domain.SystemUser;
-import com.tangerinespecter.oms.system.domain.pojo.ManagerInfoBean;
-import com.tangerinespecter.oms.system.domain.pojo.SystemInfoBean;
+import com.tangerinespecter.oms.system.dao.entity.DataConstellation;
+import com.tangerinespecter.oms.system.dao.entity.SystemUser;
+import com.tangerinespecter.oms.system.dao.pojo.ManagerInfoBean;
+import com.tangerinespecter.oms.system.dao.pojo.SystemInfoBean;
 import com.tangerinespecter.oms.system.mapper.DataConstellationMapper;
 
 import lombok.extern.slf4j.Slf4j;
+
+import javax.annotation.Resource;
 
 /**
  * 系统相关Service
@@ -26,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 public class SystemInfoService {
-    @Autowired
+    @Resource
     private DataConstellationMapper dataConstellationMapper;
 
     private final Integer luck_threshold = 70;

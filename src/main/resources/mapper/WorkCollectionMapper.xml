@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper
-        namespace="com.tangerineSpecter.oms.system.mapper.WorkCollectionMapper">
+        namespace="com.tangerinespecter.oms.system.mapper.WorkCollectionMapper">
     <resultMap id="BaseResultMap"
-               type="com.tangerinespecter.oms.system.domain.WorkCollection">
+               type="com.tangerinespecter.oms.system.dao.entity.WorkCollection">
         <id column="id" property="id" jdbcType="BIGINT"/>
         <result column="title" property="title" jdbcType="VARCHAR"/>
         <result column="content" property="content" jdbcType="VARCHAR"/>
@@ -16,7 +16,7 @@
 		title, content, remark, type, sort, is_del
 	</sql>
     <insert id="insert"
-            parameterType="com.tangerinespecter.oms.system.domain.WorkCollection"
+            parameterType="com.tangerinespecter.oms.system.dao.entity.WorkCollection"
             useGeneratedKeys="true" keyProperty="id">
         insert into work_collection
         (
@@ -29,7 +29,7 @@
         #{sort}, #{isDel})
     </insert>
     <update id="updateByPrimaryKey"
-            parameterType="com.tangerinespecter.oms.system.domain.WorkCollection">
+            parameterType="com.tangerinespecter.oms.system.dao.entity.WorkCollection">
 		update
 		work_collection
 		set title = #{title},

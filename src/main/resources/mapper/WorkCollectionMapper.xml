@@ -1,52 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper
-        namespace="com.tangerinespecter.oms.system.mapper.WorkCollectionMapper">
-    <resultMap id="BaseResultMap"
-               type="com.tangerinespecter.oms.system.dao.entity.WorkCollection">
-        <id column="id" property="id" jdbcType="BIGINT"/>
-        <result column="title" property="title" jdbcType="VARCHAR"/>
-        <result column="content" property="content" jdbcType="VARCHAR"/>
-        <result column="remark" property="remark" jdbcType="VARCHAR"/>
-        <result column="type" property="type" jdbcType="TINYINT"/>
-        <result column="sort" property="sort" jdbcType="INTEGER"/>
-        <result column="is_del" property="isDel" jdbcType="TINYINT"/>
-    </resultMap>
+<mapper namespace="com.tangerinespecter.oms.system.mapper.WorkCollectionMapper">
     <sql id="Base_Column_List">
 		title, content, remark, type, sort, is_del
 	</sql>
-    <insert id="insert"
-            parameterType="com.tangerinespecter.oms.system.dao.entity.WorkCollection"
-            useGeneratedKeys="true" keyProperty="id">
-        insert into work_collection
-        (
-        <include refid="Base_Column_List"/>
-        ) values
-        (#{title},
-        #{content},
-        #{remark},
-        #{type},
-        #{sort}, #{isDel})
-    </insert>
-    <update id="updateByPrimaryKey"
-            parameterType="com.tangerinespecter.oms.system.dao.entity.WorkCollection">
-		update
-		work_collection
-		set title = #{title},
-		content =
-		#{content},
-		remark = #{remark},
-		type = #{type},
-		sort = #{sort},
-		is_del =
-		#{isDel}
-		where id = #{id}
-	</update>
-    <delete id="delete" parameterType="java.lang.Long">
-		delete from work_collection
-		where id = #{id}
-	</delete>
-    <select id="queryForPage" resultMap="BaseResultMap">
+    <select id="queryForPage" resultType="com.tangerinespecter.oms.system.dao.entity.WorkCollection">
         select *
         from work_collection
         <where>

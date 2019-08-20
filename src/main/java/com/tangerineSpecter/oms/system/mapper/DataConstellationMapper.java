@@ -1,25 +1,16 @@
 package com.tangerinespecter.oms.system.mapper;
 
-import java.util.List;
-
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.tangerinespecter.oms.common.query.ConstellactionQueryObject;
+import com.tangerinespecter.oms.system.dao.entity.DataConstellation;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.tangerinespecter.oms.common.query.ConstellactionQueryObject;
-import com.tangerinespecter.oms.system.dao.entity.DataConstellation;
+import java.util.List;
 
 @Mapper
-public interface DataConstellationMapper {
+public interface DataConstellationMapper extends BaseMapper<DataConstellation> {
 
-    int deleteByPrimaryKey(Long id);
-
-    int insert(DataConstellation record);
-
-    DataConstellation selectByPrimaryKey(Long id);
-
-    List<DataConstellation> selectAll();
-
-    int updateByPrimaryKey(DataConstellation record);
 
     List<DataConstellation> queryForPage(ConstellactionQueryObject qo);
 

@@ -1,30 +1,25 @@
 package com.tangerinespecter.oms.system.mapper;
 
-import java.util.List;
-
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.tangerinespecter.oms.common.query.SystemUserQueryObject;
+import com.tangerinespecter.oms.system.dao.entity.SystemUser;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.tangerinespecter.oms.common.query.SystemUserQueryObject;
-import com.tangerinespecter.oms.system.dao.entity.SystemUser;
+import java.util.List;
 
 @Mapper
-public interface SystemUserMapper {
-
-    int deleteByPrimaryKey(Long id);
-
-    int insert(SystemUser record);
-
-    SystemUser selectByPrimaryKey(Long id);
-
-    List<SystemUser> selectAll();
-
-    int updateByPrimaryKey(SystemUser record);
+public interface SystemUserMapper extends BaseMapper<SystemUser> {
 
     SystemUser getUserByLogin(@Param("username") String username, @Param("password") String password);
 
     int createUserByRegister(SystemUser record);
 
+    /**
+     * 根据用户名获取用户信息
+     *
+     * @param username 用户名
+     */
     SystemUser getUserByUserName(@Param("username") String username);
 
     List<SystemUser> queryForPage(SystemUserQueryObject qo);

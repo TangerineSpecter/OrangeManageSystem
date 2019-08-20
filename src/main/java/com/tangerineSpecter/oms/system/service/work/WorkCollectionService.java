@@ -10,7 +10,6 @@ import com.tangerinespecter.oms.system.dao.entity.WorkCollection;
 import com.tangerinespecter.oms.system.mapper.WorkCollectionMapper;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import javax.annotation.Resource;
@@ -38,7 +37,6 @@ public class WorkCollectionService {
     /**
      * 新增收藏
      */
-    @Transactional
     public ServiceResult insert(WorkCollection data) {
         data.setSort(CommonConstant.Number.COMMON_NUMBER_ZERO);
         data.setIsDel(CommonConstant.IS_DEL_NO);
@@ -49,9 +47,8 @@ public class WorkCollectionService {
     /**
      * 删除收藏
      */
-    @Transactional
     public ServiceResult delete(Long id) {
-        workCollectionMapper.delete(id);
+        workCollectionMapper.deleteById(id);
         return ServiceResult.success();
     }
 }

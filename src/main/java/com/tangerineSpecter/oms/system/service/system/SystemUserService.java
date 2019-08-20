@@ -37,8 +37,6 @@ public class SystemUserService {
 
     /**
      * 校验登录
-     *
-     * @throws NoSuchAlgorithmException
      */
     public ServiceResult verifyLogin(AccountsInfo model) {
         String md5Pwd;
@@ -73,15 +71,14 @@ public class SystemUserService {
      * 获取管理员信息
      */
     public void getSystemInfo(Model model, Long id) {
-        model.addAttribute("systemUserInfo", systemUserMapper.selectByPrimaryKey(id));
+        model.addAttribute("systemUserInfo", systemUserMapper.selectById(id));
     }
 
     /**
      * 更新账户信息
      */
-    @Transactional
     public ServiceResult updateSystemUserInfo(SystemUser systemUser) {
-        systemUserMapper.updateByPrimaryKey(systemUser);
+        systemUserMapper.updateById(systemUser);
         return ServiceResult.success();
     }
 }

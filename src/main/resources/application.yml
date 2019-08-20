@@ -29,7 +29,7 @@ spring:
       filters: stat,wall
       # Spring监控AOP切入点，如x.y.z.service.*,配置多个英文逗号分隔
       aop-patterns: com.springboot.servie.*
-      
+
       # WebStatFilter配置
       web-stat-filter:
         enabled: true
@@ -37,7 +37,7 @@ spring:
         url-pattern: /*
         # 忽略过滤的格式
         exclusions: '*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*'
-      
+
       # StatViewServlet配置 
       stat-view-servlet:
         enabled: true
@@ -52,8 +52,8 @@ spring:
         # allow: 127.0.0.1
         #　IP黑名单（共同存在时，deny优先于allow）
         # deny: 192.168.1.218
-      
+
       # 配置StatFilter
-      filter: 
-        stat: 
+      filter:
+        stat:
           log-slow-sql: true

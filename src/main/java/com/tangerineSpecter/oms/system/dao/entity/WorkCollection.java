@@ -1,6 +1,7 @@
 package com.tangerinespecter.oms.system.dao.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,7 @@ import lombok.NoArgsConstructor;
  * @Date 2019年1月22日
  */
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class WorkCollection {

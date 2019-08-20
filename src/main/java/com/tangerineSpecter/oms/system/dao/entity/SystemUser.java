@@ -3,6 +3,7 @@ package com.tangerinespecter.oms.system.dao.entity;
 import javax.validation.constraints.NotEmpty;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +15,7 @@ import lombok.NoArgsConstructor;
  * @Date 2019年1月7日
  */
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class SystemUser {

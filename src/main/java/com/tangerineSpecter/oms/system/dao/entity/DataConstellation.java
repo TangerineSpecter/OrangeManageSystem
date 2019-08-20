@@ -1,6 +1,7 @@
 package com.tangerinespecter.oms.system.dao.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,7 @@ import lombok.NoArgsConstructor;
  * @Date 2019年1月7日
  */
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class DataConstellation {
@@ -24,7 +26,7 @@ public class DataConstellation {
     /**
      * 时间（中文）
      */
-    private String dateTime;
+    private String datetime;
     /**
      * 时间（数字）
      */
@@ -56,7 +58,7 @@ public class DataConstellation {
     /**
      * 速配星座
      */
-    private String qFriend;
+    private String Qfriend;
 
     /**
      * 今日概述

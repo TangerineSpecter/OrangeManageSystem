@@ -1,27 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper
-        namespace="com.tangerinespecter.oms.system.mapper.DataConstellationMapper">
-    <resultMap id="BaseResultMap"
-               type="com.tangerinespecter.oms.system.dao.entity.DataConstellation">
-        <id column="id" property="id" jdbcType="BIGINT"/>
-        <result column="name" property="name" jdbcType="VARCHAR"/>
-        <result column="datetime" property="dateTime"
-                jdbcType="VARCHAR"/>
-        <result column="date" property="date" jdbcType="INTEGER"/>
-        <result column="all_luck" property="allLuck" jdbcType="VARCHAR"/>
-        <result column="color" property="color" jdbcType="VARCHAR"/>
-        <result column="health" property="health" jdbcType="VARCHAR"/>
-        <result column="love" property="love" jdbcType="VARCHAR"/>
-        <result column="money" property="money" jdbcType="VARCHAR"/>
-        <result column="number" property="number" jdbcType="INTEGER"/>
-        <result column="QFriend" property="qFriend" jdbcType="VARCHAR"/>
-        <result column="summary" property="summary" jdbcType="VARCHAR"/>
-        <result column="work_luck" property="workLuck"
-                jdbcType="VARCHAR"/>
-        <result column="create_time" property="createTime"
-                jdbcType="VARCHAR"/>
-    </resultMap>
+<mapper namespace="com.tangerinespecter.oms.system.mapper.DataConstellationMapper">
     <sql id="Base_Column_List">
 		name, datetime, date,
 		all_luck, color, health,
@@ -30,65 +9,13 @@
 		summary, work_luck,
 		create_time
 	</sql>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-		delete from
-		data_constellation
-		where id = #{id}
-	</delete>
-    <insert id="insert"
-            parameterType="com.tangerinespecter.oms.system.dao.entity.DataConstellation"
-            useGeneratedKeys="true" keyProperty="id">
-        insert into data_constellation
-        (
-        <include refid="Base_Column_List"/>
-        )
-        values (#{name}, #{dateTime},
-        #{date},
-        #{allLuck}, #{color}, #{health},
-        #{love}, #{money}, #{number},
-        #{QFriend}, #{summary}, #{workLuck},
-        #{createTime})
-    </insert>
-    <update id="updateByPrimaryKey"
-            parameterType="com.tangerinespecter.oms.system.dao.entity.DataConstellation">
-		update data_constellation
-		set name = #{name},
-		datetime =
-		#{dateTime},
-		date = #{date},
-		all_luck = #{allLuck},
-		color = #{color},
-		health =
-		#{health},
-		love = #{love},
-		money = #{money},
-		number = #{number},
-		QFriend =
-		#{QFriend},
-		summary = #{summary},
-		work_luck = #{workLuck},
-		create_time =
-		#{createTime}
-		where id = #{id}
-	</update>
-    <select id="selectByPrimaryKey" resultMap="BaseResultMap"
-            parameterType="java.lang.Long">
-		select *
-		from
-		data_constellation
-		where id = #{id}
-	</select>
-    <select id="selectAll" resultMap="BaseResultMap">
-		select *
-		from data_constellation
-	</select>
     <select id="queryListByCreateTime" resultType="java.lang.String">
 		select name
 		from
 		data_constellation
 		where create_time = #{createTime}
 	</select>
-    <select id="queryForPage" resultMap="BaseResultMap">
+    <select id="queryForPage" resultType="com.tangerinespecter.oms.system.dao.entity.DataConstellation">
         select *
         from data_constellation
         <where>
@@ -101,7 +28,7 @@
         </where>
         order by create_time desc,id desc
     </select>
-    <select id="getConstellationByName" resultMap="BaseResultMap"
+    <select id="getConstellationByName" resultType="com.tangerinespecter.oms.system.dao.entity.DataConstellation"
             parameterType="java.lang.String">
 		select *
 		from

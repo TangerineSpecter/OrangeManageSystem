@@ -22,7 +22,7 @@ public class DataConstellationService {
     private PageResultService pageResultService;
 
     public List<DataConstellation> queryListAll() {
-        return dataConstellationMapper.selectAll();
+        return dataConstellationMapper.selectList(null);
     }
 
     /**

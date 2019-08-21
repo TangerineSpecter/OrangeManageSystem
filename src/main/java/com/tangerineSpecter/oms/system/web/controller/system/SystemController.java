@@ -34,7 +34,7 @@ public class SystemController {
     /**
      * 日历
      */
-    @RequestMapping("/calendar")
+    @RequestMapping(ServiceKey.System.SYSTEM_USER_CALENDAR)
     public String calendar() {
         return "system/calendar";
     }

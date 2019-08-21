@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 
 /**
@@ -18,16 +20,20 @@ import javax.validation.Valid;
  * @version v0.0.5
  * @DateTime 2019年1月11日
  */
-@Controller
+@RestController
 public class SystemUserController {
 
-    @Autowired
+    @Resource
     private SystemUserService systemUserService;
+
+    @RequestMapping(ServiceKey.System.SYSTEM_USER_INSERT)
+    public ServiceResult insert(@Valid SystemUser systemUser) throws Exception {
+        return systemUserService.insertSystemUserInfo(systemUser);
+    }
 
     /**
      * 保存系统用户信息
      */
-    @ResponseBody
     @RequestMapping(ServiceKey.System.SYSTEM_USER_UPDATE)
     public ServiceResult update(@Valid SystemUser systemUser) {
         return systemUserService.updateSystemUserInfo(systemUser);

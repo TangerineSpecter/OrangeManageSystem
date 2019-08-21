@@ -8,7 +8,7 @@
     <select id="getUserByLogin" resultType="com.tangerinespecter.oms.system.dao.entity.SystemUser">
 		select *
 		from system_user
-		where username = #{username}
+		where username = #{userName}
 		and password = #{password}
 	</select>
     <insert id="createUserByRegister"
@@ -22,11 +22,16 @@
 		select *
 		from
 		system_user
-		where username = #{username}
+		where username = #{userName}
 	</select>
     <select id="queryForPage" resultType="com.tangerinespecter.oms.system.dao.entity.SystemUser">
 		select *
-		from
-		system_user
+		from system_user
+	</select>
+    <select id="selectOneByUserName" resultType="com.tangerinespecter.oms.system.dao.entity.SystemUser">
+		select *
+		from system_user
+		where username = #{userName}
+		and is_del = 0
 	</select>
 </mapper>

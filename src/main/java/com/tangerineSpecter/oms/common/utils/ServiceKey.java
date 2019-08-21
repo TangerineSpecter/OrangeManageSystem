@@ -31,6 +31,10 @@ public class ServiceKey {
          */
         public static final String SYSTEM_USER_PAGE_LIST = "/systemUser";
         /**
+         * 添加系统管理员
+         */
+        public static final String SYSTEM_USER_INSERT = "/systemUser/insert";
+        /**
          * 管理员信息更新
          */
         public static final String SYSTEM_USER_UPDATE = "/systemUser/update";

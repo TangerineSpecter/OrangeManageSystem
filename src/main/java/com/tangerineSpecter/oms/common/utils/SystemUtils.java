@@ -165,7 +165,10 @@ public class SystemUtils {
         double totalHD = 0;
         double usedHD = 0;
         String osName = getOsName();
-        if ("Windows".contains(osName)) {
+            if ("Windows".contains(osName)) {
+            return 50;
+        }
+        if (osName.contains("Mac")) {
             return 50;
         }
         Runtime rt = Runtime.getRuntime();

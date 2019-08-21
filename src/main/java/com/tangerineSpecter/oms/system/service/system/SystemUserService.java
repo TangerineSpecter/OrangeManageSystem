@@ -1,5 +1,6 @@
 package com.tangerinespecter.oms.system.service.system;
 
+import cn.hutool.core.util.StrUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.tangerinespecter.oms.common.constant.CommonConstant;
@@ -19,7 +20,6 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import javax.annotation.Resource;
@@ -79,6 +79,25 @@ public class SystemUserService {
      */
     public ServiceResult updateSystemUserInfo(SystemUser systemUser) {
         systemUserMapper.updateById(systemUser);
+        return ServiceResult.success();
+    }
+
+    public ServiceResult insertSystemUserInfo(SystemUser systemUser) throws Exception {
+        if (StrUtil.isBlank(systemUser.getUsername()) || StrUtil.isBlank(systemUser.getPassword())) {
+            return ServiceResult.paramError();
+        }
+        SystemUser user = systemUserMapper.selectOneByUserName(systemUser.getUsername());
+        if (user != null) {
+            return ServiceResult.fail(RetCode.REGISTER_REPEAT_CODE, RetCode.REGISTER_REPEAT_CODE_DESC);
+        }
+        String password = MD5Utils.getMd5Pwd(systemUser.getPassword(), CommonConstant.SALT);
+        SystemUser userInfo = SystemUser.builder().username(systemUser.getUsername()).password(password)
+                .admin(systemUser.getAdmin()).avatar(systemUser.getAvatar())
+                .city(systemUser.getCity()).birthday(systemUser.getBirthday())
+                .email(systemUser.getEmail()).brief(systemUser.getBrief())
+                .nickName(systemUser.getNickName()).sex(systemUser.getSex())
+                .phoneNumber(systemUser.getPhoneNumber()).isDel(CommonConstant.IS_DEL_NO).build();
+        systemUserMapper.insert(userInfo);
         return ServiceResult.success();
     }
 }

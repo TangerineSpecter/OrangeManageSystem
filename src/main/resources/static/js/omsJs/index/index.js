@@ -25,6 +25,6 @@ function initMenuBtn() {
 	})
 	// 帐号设置
 	$("#account-setting").click(function() {
-		loadUrlContent("accountSetting?id=1");
+		loadUrlContent("accountSetting?id=1164031608038096897");
 	})
 }

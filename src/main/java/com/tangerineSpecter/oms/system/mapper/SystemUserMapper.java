@@ -11,7 +11,7 @@ import java.util.List;
 @Mapper
 public interface SystemUserMapper extends BaseMapper<SystemUser> {
 
-    SystemUser getUserByLogin(@Param("username") String username, @Param("password") String password);
+    SystemUser getUserByLogin(@Param("userName") String username, @Param("password") String password);
 
     int createUserByRegister(SystemUser record);
 
@@ -20,7 +20,14 @@ public interface SystemUserMapper extends BaseMapper<SystemUser> {
      *
      * @param username 用户名
      */
-    SystemUser getUserByUserName(@Param("username") String username);
+    SystemUser getUserByUserName(@Param("userName") String username);
 
     List<SystemUser> queryForPage(SystemUserQueryObject qo);
+
+    /**
+     * 根据用户账号查询信息
+     *
+     * @param userName 用户名
+     */
+    SystemUser selectOneByUserName(@Param("userName") String userName);
 }

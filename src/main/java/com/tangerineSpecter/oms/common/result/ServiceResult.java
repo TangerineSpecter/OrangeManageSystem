@@ -66,6 +66,16 @@ public class ServiceResult {
     }
 
     /**
+     * 参数错误
+     */
+    public static ServiceResult paramError() {
+        result.setSuccess(false);
+        result.setErrorCode(RetCode.PARAM_ERROR);
+        result.setErrorDesc(RetCode.PARAM_ERROR_DESC);
+        return result;
+    }
+
+    /**
      * 请求失败
      */
     public static ServiceResult fail(Integer errorCode, String errorDesc) {

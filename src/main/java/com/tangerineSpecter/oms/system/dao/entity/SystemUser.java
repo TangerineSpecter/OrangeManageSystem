@@ -23,7 +23,7 @@ public class SystemUser {
     /**
      * 帐号
      */
-    private String userName;
+    private String username;
     /**
      * 密码
      */

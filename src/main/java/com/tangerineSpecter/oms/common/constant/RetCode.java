@@ -34,4 +34,10 @@ public class RetCode {
      */
     public static final Integer ACCOUNTS_NOT_EXIST_CODE = 102;
     public static final String ACCOUNTS_NOT_EXIST_CODE_DESC = "您输入的帐号不存在，请注册后重新登录！";
+
+    /**
+     * 参数错误
+     */
+    public static final Integer PARAM_ERROR = 200;
+    public static final String PARAM_ERROR_DESC = "参数错误";
 }

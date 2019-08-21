@@ -1,9 +1,5 @@
 package com.tangerinespecter.oms.system.service.system;
 
-import org.apache.shiro.SecurityUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.alibaba.druid.util.StringUtils;
 import com.tangerinespecter.oms.common.constant.CommonConstant;
 import com.tangerinespecter.oms.common.utils.DateUtils;
@@ -13,8 +9,9 @@ import com.tangerinespecter.oms.system.dao.entity.SystemUser;
 import com.tangerinespecter.oms.system.dao.pojo.ManagerInfoBean;
 import com.tangerinespecter.oms.system.dao.pojo.SystemInfoBean;
 import com.tangerinespecter.oms.system.mapper.DataConstellationMapper;
-
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.SecurityUtils;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 

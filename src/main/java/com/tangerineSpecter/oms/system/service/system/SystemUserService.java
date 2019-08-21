@@ -47,10 +47,10 @@ public class SystemUserService {
             subject.login(token);
         } catch (UnknownAccountException e) {
             log.error("[帐号登录异常]:", e);
-            return ServiceResult.fail(RetCode.ACCOUNTS_NOT_EXIST_CODE, RetCode.ACCOUNTS_NOT_EXIST_CODE_DESC);
+            return ServiceResult.error(RetCode.ACCOUNTS_NOT_EXIST);
         } catch (NoSuchAlgorithmException | IncorrectCredentialsException e) {
             log.error("[帐号登录异常]:", e);
-            return ServiceResult.fail(RetCode.ACCOUNTS_PASSWORD_ERROR_CODE, RetCode.ACCOUNTS_PASSWORD_ERROR_CODE_DESC);
+            return ServiceResult.error(RetCode.ACCOUNTS_PASSWORD_ERROR);
         }
         return ServiceResult.success();
     }
@@ -88,7 +88,7 @@ public class SystemUserService {
         }
         SystemUser user = systemUserMapper.selectOneByUserName(systemUser.getUsername());
         if (user != null) {
-            return ServiceResult.fail(RetCode.REGISTER_REPEAT_CODE, RetCode.REGISTER_REPEAT_CODE_DESC);
+            return ServiceResult.error(RetCode.REGISTER_REPEAT);
         }
         String password = MD5Utils.getMd5Pwd(systemUser.getPassword(), CommonConstant.SALT);
         SystemUser userInfo = SystemUser.builder().username(systemUser.getUsername()).password(password)

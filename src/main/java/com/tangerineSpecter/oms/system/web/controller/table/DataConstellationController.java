@@ -1,13 +1,11 @@
 package com.tangerinespecter.oms.system.web.controller.table;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.tangerinespecter.oms.common.query.ConstellationQueryObject;
+import com.tangerinespecter.oms.common.utils.ServiceKey;
+import com.tangerinespecter.oms.system.service.table.DataConstellationService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import com.tangerinespecter.oms.common.query.ConstellactionQueryObject;
-import com.tangerinespecter.oms.common.utils.ServiceKey;
-import com.tangerinespecter.oms.system.service.table.DataConstellationService;
 
 import javax.annotation.Resource;
 
@@ -28,7 +26,7 @@ public class DataConstellationController {
      * 星座页面
      */
     @RequestMapping(ServiceKey.Constellation.CONSTELLATION_PAGE_LIST)
-    public String constellationPage(Model model, ConstellactionQueryObject qo) {
+    public String constellationPage(Model model, ConstellationQueryObject qo) {
         dataConstellationService.queryForPage(model, qo);
         return "data/constellaction";
     }

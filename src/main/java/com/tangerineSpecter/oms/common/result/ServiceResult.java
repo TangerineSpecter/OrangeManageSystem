@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ServiceResult {
+public class ServiceResult<T> {
     /**
      * 返回状态
      */
@@ -30,58 +30,48 @@ public class ServiceResult {
     /**
      * 返回数据
      */
-    private Object data;
+    private T data;
 
     private static ServiceResult result = new ServiceResult();
 
-    /**
-     * 请求成功
-     */
-    public static ServiceResult success() {
-        result.setSuccess(true);
-        result.setErrorCode(RetCode.SUCCESS_CODE);
-        result.setErrorDesc(RetCode.SUCCESS_CODE_DESC);
-        return result;
+    private ServiceResult(boolean success, int errorCode, String errorDesc) {
+        this.success = success;
+        this.errorCode = errorCode;
+        this.errorDesc = errorDesc;
     }
 
     /**
      * 请求成功
      */
-    public static ServiceResult success(Object data) {
-        result.setSuccess(true);
-        result.setErrorCode(RetCode.SUCCESS_CODE);
-        result.setErrorDesc(RetCode.SUCCESS_CODE_DESC);
-        result.setData(data);
-        return result;
+    public static ServiceResult success() {
+        return new ServiceResult(true, RetCode.SUCCESS.getErrorCode(), RetCode.SUCCESS.getErrorDesc());
+    }
+
+    /**
+     * 请求成功
+     */
+    public static <T> ServiceResult<T> success(T data) {
+        return new ServiceResult<>(true, RetCode.SUCCESS.getErrorCode(), RetCode.SUCCESS.getErrorDesc(), data);
     }
 
     /**
      * 请求失败
      */
     public static ServiceResult fail() {
-        result.setSuccess(false);
-        result.setErrorCode(RetCode.FAIL_CODE);
-        result.setErrorDesc(RetCode.FAIL_CODE_DESC);
-        return result;
+        return new ServiceResult(false, RetCode.FAIL.getErrorCode(), RetCode.FAIL.getErrorDesc());
     }
 
     /**
      * 参数错误
      */
     public static ServiceResult paramError() {
-        result.setSuccess(false);
-        result.setErrorCode(RetCode.PARAM_ERROR);
-        result.setErrorDesc(RetCode.PARAM_ERROR_DESC);
-        return result;
+        return new ServiceResult(false, RetCode.PARAM_ERROR.getErrorCode(), RetCode.PARAM_ERROR.getErrorDesc());
     }
 
     /**
      * 请求失败
      */
-    public static ServiceResult fail(Integer errorCode, String errorDesc) {
-        result.setSuccess(false);
-        result.setErrorCode(errorCode);
-        result.setErrorDesc(errorDesc);
-        return result;
+    public static ServiceResult error(RetCode rc) {
+        return new ServiceResult(false, rc.getErrorCode(), rc.getErrorDesc());
     }
 }

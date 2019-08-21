@@ -47,10 +47,10 @@ public class MyShiroRealm extends AuthorizingRealm {
 
         SystemUser systemUser = systemUserMapper.getUserByUserName(userName);
         if (systemUser == null) {
-            throw new UnknownAccountException(RetCode.ACCOUNTS_NOT_EXIST_CODE_DESC);
+            throw new UnknownAccountException(RetCode.ACCOUNTS_NOT_EXIST.getErrorDesc());
         }
         if (!password.equals(systemUser.getPassword())) {
-            throw new IncorrectCredentialsException(RetCode.ACCOUNTS_PASSWORD_ERROR_CODE_DESC);
+            throw new IncorrectCredentialsException(RetCode.ACCOUNTS_PASSWORD_ERROR.getErrorDesc());
         }
         return new SimpleAuthenticationInfo(systemUser, password, userName);
     }

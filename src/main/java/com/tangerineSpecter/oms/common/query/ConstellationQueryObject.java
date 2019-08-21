@@ -16,7 +16,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ConstellactionQueryObject extends QueryObject {
+public class ConstellationQueryObject extends QueryObject {
     /**
      * 查询星座
      */

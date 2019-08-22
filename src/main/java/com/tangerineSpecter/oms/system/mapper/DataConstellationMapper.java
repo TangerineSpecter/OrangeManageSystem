@@ -2,7 +2,7 @@ package com.tangerinespecter.oms.system.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.tangerinespecter.oms.common.query.ConstellationQueryObject;
-import com.tangerinespecter.oms.system.dao.entity.DataConstellation;
+import com.tangerinespecter.oms.system.domain.entity.DataConstellation;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

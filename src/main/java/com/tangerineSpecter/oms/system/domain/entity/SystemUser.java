@@ -1,4 +1,4 @@
-package com.tangerinespecter.oms.system.dao.entity;
+package com.tangerinespecter.oms.system.domain.entity;
 
 import javax.validation.constraints.NotEmpty;
 
@@ -61,6 +61,18 @@ public class SystemUser {
      * 简介
      */
     private String brief;
+    /**
+     * 盐
+     */
+    private String salt;
+    /**
+     * 登录次数
+     */
+    private Integer loginCount;
+    /**
+     * 最后登录时间
+     */
+    private String lastLoginDate;
     /**
      * 创建时间
      */

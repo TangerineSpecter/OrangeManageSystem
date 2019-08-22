@@ -2,7 +2,7 @@ package com.tangerinespecter.oms.system.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.tangerinespecter.oms.common.query.WorkCollectionQueryObject;
-import com.tangerinespecter.oms.system.dao.entity.WorkCollection;
+import com.tangerinespecter.oms.system.domain.entity.WorkCollection;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

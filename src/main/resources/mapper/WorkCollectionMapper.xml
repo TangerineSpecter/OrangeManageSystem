@@ -4,7 +4,7 @@
     <sql id="Base_Column_List">
 		title, content, remark, type, sort, is_del
 	</sql>
-    <select id="queryForPage" resultType="com.tangerinespecter.oms.system.dao.entity.WorkCollection">
+    <select id="queryForPage" resultType="com.tangerinespecter.oms.system.domain.entity.WorkCollection">
         select *
         from work_collection
         <where>

@@ -23,7 +23,7 @@ public class CommonConstant {
     /**
      * key
      */
-    public static final String SALT = "orange";
+    public static final String SALT = "orange666";
 
     /**
      * 空定义

@@ -2,7 +2,7 @@ package com.tangerinespecter.oms.common.security;
 
 import com.tangerinespecter.oms.common.utils.DateUtils;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
-import com.tangerinespecter.oms.system.dao.entity.SystemUser;
+import com.tangerinespecter.oms.system.domain.entity.SystemUser;
 import com.tangerinespecter.oms.system.mapper.SystemUserMapper;
 import com.tangerinespecter.oms.common.constant.CommonConstant;
 import com.tangerinespecter.oms.common.constant.RetCode;

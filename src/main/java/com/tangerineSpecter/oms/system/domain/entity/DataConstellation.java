@@ -1,4 +1,4 @@
-package com.tangerinespecter.oms.system.dao.entity;
+package com.tangerinespecter.oms.system.domain.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

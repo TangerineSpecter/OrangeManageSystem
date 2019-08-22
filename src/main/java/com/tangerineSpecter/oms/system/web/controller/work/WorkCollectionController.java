@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.tangerinespecter.oms.common.query.WorkCollectionQueryObject;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.common.utils.ServiceKey;
-import com.tangerinespecter.oms.system.dao.entity.WorkCollection;
+import com.tangerinespecter.oms.system.domain.entity.WorkCollection;
 import com.tangerinespecter.oms.system.service.work.WorkCollectionService;
 
 /**

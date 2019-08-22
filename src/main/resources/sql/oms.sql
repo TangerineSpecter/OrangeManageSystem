@@ -1,19 +1,21 @@
 /*
-Navicat MySQL Data Transfer
+ Navicat Premium Data Transfer
 
-Source Server         : localhost
-Source Server Version : 50717
-Source Host           : localhost:3306
-Source Database       : oms
+ Source Server         : 本地连接
+ Source Server Type    : MySQL
+ Source Server Version : 80017
+ Source Host           : localhost:3306
+ Source Schema         : oms
 
-Target Server Type    : MYSQL
-Target Server Version : 50717
-File Encoding         : 65001
+ Target Server Type    : MySQL
+ Target Server Version : 80017
+ File Encoding         : 65001
 
-Date: 2019-01-22 20:58:09
+ Date: 23/08/2019 01:59:14
 */
 
-SET FOREIGN_KEY_CHECKS=0;
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
 -- Table structure for data_constellation
@@ -35,7 +37,7 @@ CREATE TABLE `data_constellation` (
   `work_luck` varchar(8) DEFAULT '' COMMENT '工作指数',
   `create_time` date DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=174 DEFAULT CHARSET=utf8 COMMENT='星座信息表';
+) ENGINE=InnoDB AUTO_INCREMENT=1164580241682800642 DEFAULT CHARSET=utf8 COMMENT='星座信息表';
 
 -- ----------------------------
 -- Table structure for system_user
@@ -53,12 +55,15 @@ CREATE TABLE `system_user` (
   `city` varchar(255) DEFAULT NULL COMMENT '城市',
   `birthday` date DEFAULT NULL COMMENT '生日',
   `brief` varchar(255) DEFAULT NULL COMMENT '简介',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `login_count` int(11) DEFAULT '0' COMMENT '登录次数',
+  `last_login_date` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '最后一次登录时间',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `salt` varchar(10) DEFAULT NULL COMMENT '盐',
   `admin` tinyint(2) DEFAULT '0' COMMENT '是否超级管理员（0：不是；1：是）',
   `is_del` tinyint(2) DEFAULT '0' COMMENT '删除状态（0：未删除；1：已删除）',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1164595569015955458 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for work_collection
@@ -74,3 +79,5 @@ CREATE TABLE `work_collection` (
   `is_del` tinyint(2) NOT NULL DEFAULT '0' COMMENT '删除状态（0：未删除；1：已删除）',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='内容收藏表';
+
+SET FOREIGN_KEY_CHECKS = 1;

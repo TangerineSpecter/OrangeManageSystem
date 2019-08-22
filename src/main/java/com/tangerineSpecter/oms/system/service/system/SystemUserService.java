@@ -1,6 +1,10 @@
 package com.tangerinespecter.oms.system.service.system;
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.crypto.SecureUtil;
+import cn.hutool.crypto.digest.DigestAlgorithm;
+import cn.hutool.crypto.digest.Digester;
+import cn.hutool.crypto.digest.HMac;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.tangerinespecter.oms.common.constant.CommonConstant;
@@ -9,9 +13,10 @@ import com.tangerinespecter.oms.common.query.SystemUserQueryObject;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.common.utils.MD5Utils;
 import com.tangerinespecter.oms.common.utils.ServiceKey;
-import com.tangerinespecter.oms.system.dao.entity.SystemUser;
-import com.tangerinespecter.oms.system.dao.pojo.AccountsInfo;
+import com.tangerinespecter.oms.system.domain.entity.SystemUser;
+import com.tangerinespecter.oms.system.domain.pojo.AccountsInfo;
 import com.tangerinespecter.oms.system.mapper.SystemUserMapper;
+import com.tangerinespecter.oms.system.service.helper.SystemHelper;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
@@ -34,24 +39,31 @@ public class SystemUserService {
     private SystemUserMapper systemUserMapper;
     @Resource
     private PageResultService pageResultService;
+    @Resource
+    private SystemHelper systemHelper;
 
     /**
      * 校验登录
      */
     public ServiceResult verifyLogin(AccountsInfo model) {
-        String md5Pwd;
+        SystemUser systemUser = systemUserMapper.selectOneByUserName(model.getUsername());
+        if (systemUser == null) {
+            return ServiceResult.error(RetCode.ACCOUNTS_NOT_EXIST);
+        }
         try {
-            md5Pwd = MD5Utils.getMd5Pwd(model.getPassword(), CommonConstant.SALT);
+            String md5Pwd = systemHelper.handleUserPassword(model.getPassword(), systemUser.getSalt());
             UsernamePasswordToken token = new UsernamePasswordToken(model.getUsername(), md5Pwd);
             Subject subject = SecurityUtils.getSubject();
             subject.login(token);
         } catch (UnknownAccountException e) {
             log.error("[帐号登录异常]:", e);
             return ServiceResult.error(RetCode.ACCOUNTS_NOT_EXIST);
-        } catch (NoSuchAlgorithmException | IncorrectCredentialsException e) {
+        } catch (IncorrectCredentialsException e) {
             log.error("[帐号登录异常]:", e);
             return ServiceResult.error(RetCode.ACCOUNTS_PASSWORD_ERROR);
         }
+        systemUser.setLoginCount(systemUser.getLoginCount() + 1);
+        systemUserMapper.updateById(systemUser);
         return ServiceResult.success();
     }
 
@@ -90,14 +102,17 @@ public class SystemUserService {
         if (user != null) {
             return ServiceResult.error(RetCode.REGISTER_REPEAT);
         }
-        String password = MD5Utils.getMd5Pwd(systemUser.getPassword(), CommonConstant.SALT);
+        String userSlat = systemHelper.createUserSlat();
+        String password = systemHelper.handleUserPassword(systemUser.getPassword(), userSlat);
         SystemUser userInfo = SystemUser.builder().username(systemUser.getUsername()).password(password)
                 .admin(systemUser.getAdmin()).avatar(systemUser.getAvatar())
                 .city(systemUser.getCity()).birthday(systemUser.getBirthday())
                 .email(systemUser.getEmail()).brief(systemUser.getBrief())
                 .nickName(systemUser.getNickName()).sex(systemUser.getSex())
-                .phoneNumber(systemUser.getPhoneNumber()).isDel(CommonConstant.IS_DEL_NO).build();
+                .phoneNumber(systemUser.getPhoneNumber()).isDel(CommonConstant.IS_DEL_NO)
+                .salt(userSlat).build();
         systemUserMapper.insert(userInfo);
         return ServiceResult.success();
     }
+
 }

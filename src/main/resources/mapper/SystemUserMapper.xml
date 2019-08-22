@@ -5,30 +5,30 @@
 		username, nick_name, password, phone_number, create_time,
 		update_time, admin
 	</sql>
-    <select id="getUserByLogin" resultType="com.tangerinespecter.oms.system.dao.entity.SystemUser">
+    <select id="getUserByLogin" resultType="com.tangerinespecter.oms.system.domain.entity.SystemUser">
 		select *
 		from system_user
 		where username = #{userName}
 		and password = #{password}
 	</select>
     <insert id="createUserByRegister"
-            parameterType="com.tangerinespecter.oms.system.dao.entity.SystemUser"
+            parameterType="com.tangerinespecter.oms.system.domain.entity.SystemUser"
             useGeneratedKeys="true" keyProperty="id">
 		insert into system_user (username,
 		password,create_time)
 		values (#{userName}, #{password}, #{createTime})
 	</insert>
-    <select id="getUserByUserName" resultType="com.tangerinespecter.oms.system.dao.entity.SystemUser">
+    <select id="getUserByUserName" resultType="com.tangerinespecter.oms.system.domain.entity.SystemUser">
 		select *
 		from
 		system_user
 		where username = #{userName}
 	</select>
-    <select id="queryForPage" resultType="com.tangerinespecter.oms.system.dao.entity.SystemUser">
+    <select id="queryForPage" resultType="com.tangerinespecter.oms.system.domain.entity.SystemUser">
 		select *
 		from system_user
 	</select>
-    <select id="selectOneByUserName" resultType="com.tangerinespecter.oms.system.dao.entity.SystemUser">
+    <select id="selectOneByUserName" resultType="com.tangerinespecter.oms.system.domain.entity.SystemUser">
 		select *
 		from system_user
 		where username = #{userName}

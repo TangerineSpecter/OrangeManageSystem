@@ -1,8 +1,9 @@
-package com.tangerinespecter.oms.common.utils;
+package com.tangerinespecter.oms.system.service.helper;
 
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
@@ -18,7 +19,8 @@ import java.util.concurrent.TimeUnit;
  * @date 2019年08月24日02:09:11
  */
 @Slf4j
-public class RedisUtils {
+@Service
+public class RedisHelper {
 
     @Resource
     private RedisTemplate<String, Object> redisTemplate;

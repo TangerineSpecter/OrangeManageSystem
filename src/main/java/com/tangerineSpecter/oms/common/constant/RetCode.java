@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Arrays;
+
 /**
  * @author TangerineSpecter
  */
@@ -44,4 +46,10 @@ public class RetCode {
      * 参数错误
      */
     public static final RetCode PARAM_ERROR = new RetCode(200, "参数错误");
+
+    public RetCode fillArgs(Object... args) {
+        int errorCode = this.errorCode;
+        String errorDesc = this.errorDesc + ":" + Arrays.toString(args);
+        return new RetCode(errorCode, errorDesc);
+    }
 }

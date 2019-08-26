@@ -18,6 +18,7 @@ import com.tangerinespecter.oms.system.service.system.SystemInfoService;
 import com.tangerinespecter.oms.system.service.system.SystemUserService;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 
 /**
  * 默认控制
@@ -76,7 +77,7 @@ public class IndexController {
      */
     @ResponseBody
     @PostMapping(ServiceKey.System.SYSTEM_LOGIN)
-    public ServiceResult login(AccountsInfo model) {
+    public ServiceResult login(@Valid AccountsInfo model) {
         return systemUserService.verifyLogin(model);
     }
 

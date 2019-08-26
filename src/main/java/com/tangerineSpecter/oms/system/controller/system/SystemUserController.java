@@ -1,4 +1,4 @@
-package com.tangerinespecter.oms.system.web.controller.system;
+package com.tangerinespecter.oms.system.controller.system;
 
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.common.utils.ServiceKey;

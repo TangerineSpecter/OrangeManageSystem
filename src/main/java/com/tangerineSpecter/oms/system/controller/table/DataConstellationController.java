@@ -1,4 +1,4 @@
-package com.tangerinespecter.oms.system.web.controller.table;
+package com.tangerinespecter.oms.system.controller.table;
 
 import com.tangerinespecter.oms.common.query.ConstellationQueryObject;
 import com.tangerinespecter.oms.common.utils.ServiceKey;

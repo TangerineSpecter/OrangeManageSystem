@@ -1,4 +1,4 @@
-package com.tangerinespecter.oms.system.web.controller;
+package com.tangerinespecter.oms.system.controller;
 
 import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Controller;

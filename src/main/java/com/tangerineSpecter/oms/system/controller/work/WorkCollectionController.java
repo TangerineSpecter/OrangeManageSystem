@@ -1,4 +1,4 @@
-package com.tangerinespecter.oms.system.web.controller.work;
+package com.tangerinespecter.oms.system.controller.work;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

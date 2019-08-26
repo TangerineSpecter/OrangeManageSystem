@@ -28,6 +28,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class SystemUserService {
     /**
      * 校验登录
      */
-    public ServiceResult verifyLogin(AccountsInfo model) {
+    public ServiceResult verifyLogin(@Valid AccountsInfo model) {
         SystemUser systemUser = systemUserMapper.selectOneByUserName(model.getUsername());
         if (systemUser == null) {
             return ServiceResult.error(RetCode.ACCOUNTS_NOT_EXIST);

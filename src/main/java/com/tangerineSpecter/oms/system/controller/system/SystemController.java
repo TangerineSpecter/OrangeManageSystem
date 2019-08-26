@@ -1,4 +1,4 @@
-package com.tangerinespecter.oms.system.web.controller.system;
+package com.tangerinespecter.oms.system.controller.system;
 
 import com.tangerinespecter.oms.common.query.SystemUserQueryObject;
 import com.tangerinespecter.oms.common.utils.ServiceKey;

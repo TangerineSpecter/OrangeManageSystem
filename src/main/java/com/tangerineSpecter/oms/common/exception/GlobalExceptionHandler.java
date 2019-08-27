@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.rmi.ServerError;
 import java.util.List;
 
 /**
@@ -24,6 +25,10 @@ public class GlobalExceptionHandler {
     //定义拦截的异常类型，Exception拦截所有异常
     @ExceptionHandler(value = Exception.class)
     public ServiceResult exceptionHandler(HttpServletRequest request, Exception exception) {
+        if (exception instanceof GlobalException) {
+            GlobalException globalException = (GlobalException) exception;
+            return ServiceResult.error(globalException.getRetCode());
+        }
         //是否是绑定异常
         if (exception instanceof BindException) {
             BindException bindException = (BindException) exception;

@@ -15,7 +15,6 @@ public class AccountsInfo {
      * 帐号
      */
     @NotNull
-    @IsMobile
     private String username;
     /**
      * 密码

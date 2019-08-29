@@ -1,232 +1,96 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="./common/_common :: common_header">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>layout 后台大布局 - Layui</title>
+    <link rel="stylesheet" href="layui/css/layui.css">
 </head>
-<body>
-	<div th:include="./common/_common :: weatherPlugin"></div>
-	<div class="page">
-		<!-- Main Navbar-->
-		<header class="header">
-			<nav class="navbar">
-				<!-- Search Box-->
-				<div class="search-box">
-					<button class="dismiss">
-						<i class="icon-close"></i>
-					</button>
-					<form id="searchForm" action="#" role="search">
-						<input type="search" placeholder="你想要搜索的是..." class="form-control">
-					</form>
-				</div>
-				<div class="container-fluid">
-					<div
-						class="navbar-holder d-flex align-items-center justify-content-between">
-						<!-- Navbar Header-->
-						<div class="navbar-header">
-							<!-- Navbar Brand -->
-							<a href="index.html"
-								class="navbar-brand d-none d-sm-inline-block">
-								<div class="brand-text d-none d-lg-inline-block">
-									<img src="img/logo.png" alt="" style="width: 220px;">
-								</div>
-								<div class="brand-text d-none d-sm-inline-block d-lg-none">
-									<strong>BD</strong>
-								</div>
-							</a>
-							<!-- Toggle Button-->
-							<a id="toggle-btn" href="#" class="menu-btn active"><span></span><span></span><span></span></a>
-						</div>
-						<!-- Navbar Menu -->
-						<ul
-							class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
-							<!-- Search-->
-							<li class="nav-item d-flex align-items-center"><a
-								id="search" href="#"><i class="icon-search"></i></a></li>
-							<!-- Notifications-->
-							<li class="nav-item dropdown"><a id="notifications"
-								rel="nofollow" data-target="#" href="#" data-toggle="dropdown"
-								aria-haspopup="true" aria-expanded="false" class="nav-link"><i
-									class="fa fa-bell-o"></i><span
-									class="badge bg-red badge-corner">12</span></a>
-								<ul aria-labelledby="notifications" class="dropdown-menu">
-									<li><a rel="nofollow" href="#" class="dropdown-item">
-											<div class="notification">
-												<div class="notification-content">
-													<i class="fa fa-envelope bg-green"></i>你有6条新消息
-												</div>
-												<div class="notification-time">
-													<small>4分钟以前</small>
-												</div>
-											</div>
-									</a></li>
-									<li><a rel="nofollow" href="#" class="dropdown-item">
-											<div class="notification">
-												<div class="notification-content">
-													<i class="fa fa-twitter bg-blue"></i>You have 2 followers
-												</div>
-												<div class="notification-time">
-													<small>4 minutes ago</small>
-												</div>
-											</div>
-									</a></li>
-									<li><a rel="nofollow" href="#" class="dropdown-item">
-											<div class="notification">
-												<div class="notification-content">
-													<i class="fa fa-upload bg-orange"></i>Server Rebooted
-												</div>
-												<div class="notification-time">
-													<small>4 minutes ago</small>
-												</div>
-											</div>
-									</a></li>
-									<li><a rel="nofollow" href="#" class="dropdown-item">
-											<div class="notification">
-												<div class="notification-content">
-													<i class="fa fa-twitter bg-blue"></i>You have 2 followers
-												</div>
-												<div class="notification-time">
-													<small>10 minutes ago</small>
-												</div>
-											</div>
-									</a></li>
-									<li><a rel="nofollow" href="#"
-										class="dropdown-item all-notifications text-center"> <strong>view
-												all notifications </strong></a></li>
-								</ul></li>
-							<!-- Messages                        -->
-							<li class="nav-item dropdown"><a id="messages"
-								rel="nofollow" data-target="#" href="#" data-toggle="dropdown"
-								aria-haspopup="true" aria-expanded="false" class="nav-link"><i
-									class="fa fa-envelope-o"></i><span
-									class="badge bg-orange badge-corner">10</span></a>
-								<ul aria-labelledby="notifications" class="dropdown-menu">
-									<li><a rel="nofollow" href="#"
-										class="dropdown-item d-flex">
-											<div class="msg-profile">
-												<img src="img/avatar-1.jpg" alt="..."
-													class="img-fluid rounded-circle">
-											</div>
-											<div class="msg-body">
-												<h3 class="h5">Jason Doe</h3>
-												<span>Sent You Message</span>
-											</div>
-									</a></li>
-									<li><a rel="nofollow" href="#"
-										class="dropdown-item d-flex">
-											<div class="msg-profile">
-												<img src="img/avatar-2.jpg" alt="..."
-													class="img-fluid rounded-circle">
-											</div>
-											<div class="msg-body">
-												<h3 class="h5">Frank Williams</h3>
-												<span>Sent You Message</span>
-											</div>
-									</a></li>
-									<li><a rel="nofollow" href="#"
-										class="dropdown-item d-flex">
-											<div class="msg-profile">
-												<img src="img/avatar-3.jpg" alt="..."
-													class="img-fluid rounded-circle">
-											</div>
-											<div class="msg-body">
-												<h3 class="h5">Ashley Wood</h3>
-												<span>Sent You Message</span>
-											</div>
-									</a></li>
-									<li><a rel="nofollow" href="#"
-										class="dropdown-item all-notifications text-center"> <strong>Read
-												all messages </strong></a></li>
-								</ul></li>
-							<!-- Languages dropdown    -->
-							<li class="nav-item dropdown"><a id="languages"
-								rel="nofollow" data-target="#" href="#" data-toggle="dropdown"
-								aria-haspopup="true" aria-expanded="false"
-								class="nav-link language dropdown-toggle"><img
-									src="img/flags/16/CN.png" alt="English"><span
-									class="d-none d-sm-inline-block">中文</span></a>
-								<ul aria-labelledby="languages" class="dropdown-menu">
-									<li><a rel="nofollow" href="#" class="dropdown-item">
-											<img src="img/flags/16/GB.png" alt="English" class="mr-2">English
-									</a></li>
-									<li><a rel="nofollow" href="#" class="dropdown-item">
-											<img src="img/flags/16/FR.png" alt="English" class="mr-2">Français
-									</a></li>
-								</ul></li>
-							<!-- Logout    -->
-							<li class="nav-item"><a href="/logout"
-								class="nav-link logout"> <span class="d-none d-sm-inline">退出</span><i
-									class="fa fa-sign-out"></i></a></li>
-						</ul>
-					</div>
-				</div>
-			</nav>
-		</header>
-		<div class="page-content d-flex align-items-stretch">
-			<!-- Side Navbar -->
-			<nav class="side-navbar">
-				<!-- Sidebar Header-->
-				<div class="sidebar-header d-flex align-items-center">
-					<div class="avatar">
-						<img src="img/avatar-1.jpg" alt="..."
-							class="img-fluid rounded-circle">
-					</div>
-					<div class="title">
-						<h1 class="h4" th:text="${systemUser.nickName}">Fuck you</h1>
-						<a href="javascript:;" id="account-setting">帐号设置</a>
-					</div>
-				</div>
-				<!-- Sidebar Navidation Menus-->
-				<span class="heading">Menu 菜单</span>
-				<ul id="menu" class="list-unstyled">
-					<li class="active"><a href="index.html"> <i
-							class="icon-home"></i>主页
-					</a></li>
-					<li><a href="#personDropdown" aria-expanded="false"
-						data-toggle="collapse"> <i class="icon-slideshare"></i>个人管理
-					</a>
-						<ul id="personDropdown" class="collapse list-unstyled ">
-							<li><a href="#"><i class="icon-street-view"></i>状况管理</a></li>
-							<li><a href="#"><i class="icon-file-word-o"></i>文章管理</a></li>
-							<li><a href="#"><i class="icon-calendar-check-o"></i>计划任务</a></li>
-							<li><a href="#"><i class="icon-trophy"></i>成就管理</a></li>
-						</ul></li>
-					<li><a href="#workDropdown" aria-expanded="false"
-						data-toggle="collapse"> <i class="icon-twitch"></i>乐趣印记
-					</a>
-						<ul id="workDropdown" class="collapse list-unstyled ">
-							<li><a id="collection"><i class="icon-folder-open-o"></i>内容收藏</a></li>
-						</ul></li>
-					<li><a href="#exampledropdownDropdown" aria-expanded="false"
-						data-toggle="collapse"> <i class="icon-wrench"></i>小工具
-					</a>
-						<ul id="exampledropdownDropdown" class="collapse list-unstyled ">
-							<li><a href="#"><i class="icon-qrcode"></i>二维码生成</a></li>
-						</ul></li>
-				</ul>
-				<span class="heading">System 系统相关</span>
-				<ul id="system-menu" class="list-unstyled">
-					<li><a href="#dataDropdown" aria-expanded="false"
-						data-toggle="collapse"> <i class="icon-table"></i>数据列表
-					</a>
-						<ul id="dataDropdown" class="collapse list-unstyled ">
-							<li><a id="constellaction"><i
-									class="icon-star-o"></i>星座列表</a></li>
-						</ul></li>
-					<li><a href="#systemDropdown" aria-expanded="false"
-						data-toggle="collapse"> <i class="icon-cog"></i>系统设置
-					</a>
-						<ul id="systemDropdown" class="collapse list-unstyled ">
-							<li><a id="systemUser"><i class="icon-user"></i>后台管理员</a></li>
-						</ul></li>
-				</ul>
-			</nav>
-			<div class="content-inner">
-				<iframe id="contentUrl" src="home.html"
-					style="height: 100%; width: 100%;" frameborder="0"></iframe>
-			</div>
-		</div>
-	</div>
-	<div th:replace="./common/_common::common_js"></div>
-	<script src="js/charts-home.js"></script>
-	<script src="/js/omsJs/index/index.js"></script>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">橘子管理系统</div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item"><a href="">控制台</a></li>
+            <li class="layui-nav-item"><a href="">商品管理</a></li>
+            <li class="layui-nav-item"><a href="">用户</a></li>
+            <li class="layui-nav-item">
+                <a href="javascript:;">其它系统</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">邮件管理</a></dd>
+                    <dd><a href="">消息管理</a></dd>
+                    <dd><a href="">授权管理</a></dd>
+                </dl>
+            </li>
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+                    贤心
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">基本资料</a></dd>
+                    <dd><a href="">安全设置</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="">退了</a></li>
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">个人管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;">状况管理</a></dd>
+                        <dd><a href="javascript:;">文章管理</a></dd>
+                        <dd><a href="javascript:;">计划任务</a></dd>
+                        <dd><a href="">成就管理</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a class="" href="javascript:;">乐趣印记</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;">内容收藏</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a class="" href="javascript:;">小工具</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;">二维码生成</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">系统设置</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;">后台管理员</a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <div style="padding: 15px;">内容主体区域</div>
+    </div>
+
+    <div class="layui-footer">
+        <!-- 底部固定区域 -->
+        © layui.com - 底部固定区域
+    </div>
+</div>
+<script src="layui/layui.js"></script>
+<script>
+    //JavaScript代码区域
+    layui.use('element', function () {
+        var element = layui.element;
+
+    });
+</script>
 </body>
 </html>

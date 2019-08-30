@@ -1,21 +1,19 @@
 package com.tangerinespecter.oms.system.service.system;
 
+import cn.hutool.core.lang.UUID;
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.crypto.SecureUtil;
-import cn.hutool.crypto.digest.DigestAlgorithm;
-import cn.hutool.crypto.digest.Digester;
-import cn.hutool.crypto.digest.HMac;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.tangerinespecter.oms.common.constant.CommonConstant;
 import com.tangerinespecter.oms.common.constant.RetCode;
 import com.tangerinespecter.oms.common.query.SystemUserQueryObject;
 import com.tangerinespecter.oms.common.result.ServiceResult;
-import com.tangerinespecter.oms.common.utils.MD5Utils;
 import com.tangerinespecter.oms.common.utils.ServiceKey;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;
 import com.tangerinespecter.oms.system.domain.pojo.AccountsInfo;
 import com.tangerinespecter.oms.system.mapper.SystemUserMapper;
+import com.tangerinespecter.oms.system.service.helper.RedisHelper;
 import com.tangerinespecter.oms.system.service.helper.SystemHelper;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
 import lombok.extern.slf4j.Slf4j;
@@ -24,17 +22,21 @@ import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.checkerframework.checker.units.qual.C;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 @Slf4j
 @Service
 public class SystemUserService {
+
+    private final String COOKIE_NAME_TOKEN = "token";
 
     @Resource
     private SystemUserMapper systemUserMapper;
@@ -42,11 +44,13 @@ public class SystemUserService {
     private PageResultService pageResultService;
     @Resource
     private SystemHelper systemHelper;
+    @Resource
+    private RedisHelper redisHelper;
 
     /**
      * 校验登录
      */
-    public ServiceResult verifyLogin(@Valid AccountsInfo model) {
+    public ServiceResult verifyLogin(HttpServletResponse response, @Valid AccountsInfo model) {
         SystemUser systemUser = systemUserMapper.selectOneByUserName(model.getUsername());
         if (systemUser == null) {
             return ServiceResult.error(RetCode.ACCOUNTS_NOT_EXIST);
@@ -65,6 +69,13 @@ public class SystemUserService {
         }
         systemUser.setLoginCount(systemUser.getLoginCount() + 1);
         systemUserMapper.updateById(systemUser);
+        //生成Cookie
+        String token = IdUtil.simpleUUID();
+        redisHelper.set(token, systemUser);
+        Cookie cookie = new Cookie(COOKIE_NAME_TOKEN, token);
+        //cookie.setMaxAge();
+        cookie.setPath("/");
+        response.addCookie(cookie);
         return ServiceResult.success();
     }
 

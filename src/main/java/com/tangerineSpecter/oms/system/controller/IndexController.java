@@ -18,6 +18,7 @@ import com.tangerinespecter.oms.system.service.system.SystemInfoService;
 import com.tangerinespecter.oms.system.service.system.SystemUserService;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 /**
@@ -69,7 +70,7 @@ public class IndexController {
         model.addAttribute("systemInfo", systemInfoService.getSystemInfo());
         model.addAttribute("managerInfo", systemInfoService.getManagerInfo());
         System.out.println(model);
-        return "common/home";
+        return "home.html_bak";
     }
 
     /**
@@ -77,8 +78,8 @@ public class IndexController {
      */
     @ResponseBody
     @PostMapping(ServiceKey.System.SYSTEM_LOGIN)
-    public ServiceResult login(@Valid AccountsInfo model) {
-        return systemUserService.verifyLogin(model);
+    public ServiceResult login(HttpServletResponse response, @Valid AccountsInfo model) {
+        return systemUserService.verifyLogin(response, model);
     }
 
     /**

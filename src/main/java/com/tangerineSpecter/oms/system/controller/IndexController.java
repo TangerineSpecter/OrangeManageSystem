@@ -70,7 +70,7 @@ public class IndexController {
         model.addAttribute("systemInfo", systemInfoService.getSystemInfo());
         model.addAttribute("managerInfo", systemInfoService.getManagerInfo());
         System.out.println(model);
-        return "home.html_bak";
+        return "common/home";
     }
 
     /**

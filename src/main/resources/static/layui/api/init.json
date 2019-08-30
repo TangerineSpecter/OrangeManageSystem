@@ -5,7 +5,7 @@
   "homeInfo": {
     "title": "首页",
     "icon": "fa fa-home",
-    "href": "/common/home.html?mpi=m-p-i-0"
+    "href": "home"
   },
   "logoInfo": {
     "title": "橘子管理后台",

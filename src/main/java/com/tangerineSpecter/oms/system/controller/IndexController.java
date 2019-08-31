@@ -106,4 +106,12 @@ public class IndexController {
     public String errorPage() {
         return "system/404";
     }
+
+    /**
+     * 菜单管理
+     */
+    @RequestMapping("/menuSetting")
+    public String menuPage() {
+        return "layout/menuSetting";
+    }
 }

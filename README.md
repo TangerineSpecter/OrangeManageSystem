@@ -18,6 +18,7 @@
 
 **前端框架：**
 - 基础框架：Bootstrap 4.1.3
+- 后台框架：Layui 2.5.4
 - JavaScript框架：Jquery 3.3.1
 - 分页插件：Bootstrap-Paginator 1.0
 
@@ -30,7 +31,10 @@
 
 ### 1.集成lombok插件
 ```
-找到本地仓库中的lombok.jar，执行java -jar lombok.jar对IDE做集成
+1.Eclipse:
+    找到本地仓库中的lombok.jar，执行java -jar lombok.jar对IDE做集成
+2.IDEA:
+    设置->Plugins搜索lambok插件安装
 ```
 
 ### 2.配置Maven setting
@@ -66,3 +70,7 @@
 ```
 主要用于对技术的探讨和学习。
 ```
+
+## 相关参考资源
+
+- [LayuiMini管理后台](https://github.com/zhongshaofa/layuimini/)

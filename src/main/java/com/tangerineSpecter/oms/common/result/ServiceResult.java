@@ -31,6 +31,10 @@ public class ServiceResult<T> {
      * 返回数据
      */
     private T data;
+    /**
+     * 总数
+     */
+    private Integer total;
 
     private static ServiceResult result = new ServiceResult();
 
@@ -38,6 +42,13 @@ public class ServiceResult<T> {
         this.success = success;
         this.errorCode = errorCode;
         this.errorDesc = errorDesc;
+    }
+
+    private ServiceResult(boolean success, int errorCode, String errorDesc, T data) {
+        this.success = success;
+        this.errorCode = errorCode;
+        this.errorDesc = errorDesc;
+        this.data = data;
     }
 
     /**
@@ -52,6 +63,13 @@ public class ServiceResult<T> {
      */
     public static <T> ServiceResult<T> success(T data) {
         return new ServiceResult<>(true, RetCode.SUCCESS.getErrorCode(), RetCode.SUCCESS.getErrorDesc(), data);
+    }
+
+    /**
+     * 返回页面结果
+     */
+    public static <T> ServiceResult<T> pageSuccess(T data, Integer total) {
+        return new ServiceResult<>(true, RetCode.SUCCESS.getErrorCode(), RetCode.SUCCESS.getErrorDesc(), data, total);
     }
 
     /**

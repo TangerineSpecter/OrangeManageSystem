@@ -116,7 +116,7 @@ public class SystemInfoService {
         //找出所有一级菜单
         Map<String, MenuChildInfo> menuMap = new LinkedHashMap<>();
         for (SystemMenu menu : list) {
-            if (menu.getPid() == null) {
+            if (menu.getPid() == null || menu.getPid() == -1) {
                 menuMap.put(menu.getTitle(), MenuChildInfo.builder().title(menu.getTitle())
                         .icon(menu.getIcon()).href(menu.getHref()).target(menu.getTarget())
                         .id(menu.getId()).child(getChildMenuInfo(menu.getId(), list)).build());

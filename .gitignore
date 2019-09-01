@@ -1,5 +1,7 @@
 /target/
 !.mvn/wrapper/maven-wrapper.jar
+/src/main/resources/application-prod.yml
+/src/main/resources/application-prod.properties
 
 ### STS ###
 .apt_generated

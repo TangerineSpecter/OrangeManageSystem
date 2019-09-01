@@ -141,7 +141,9 @@ layui.define(["element", "jquery"], function (exports) {
                 var menuList = val.child;
                 $.each(menuList, function (index, menu) {
                     leftMenuHtml += '<li class="layui-nav-item">\n';
-                    if (menu.child != undefined && menu.child != []) {
+                    console.log(menu);
+                    console.log(menu.child != undefined && menu.child != [] && menu.child != null);
+                    if (menu.child != undefined && menu.child != [] && menu.child != null) {
                         leftMenuHtml += '<a href="javascript:;" class="layui-menu-tips" ><i class="' + menu.icon + '"></i><span class="layui-left-nav"> ' + menu.title + '</span> </a>';
                         var buildChildHtml = function (html, child, menuParameId) {
                             html += '<dl class="layui-nav-child">\n';

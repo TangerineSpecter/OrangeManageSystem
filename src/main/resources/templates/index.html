@@ -103,7 +103,8 @@
             element = layui.element,
             layer = layui.layer;
 
-        layuimini.init('layui/api/init.json');
+        //layuimini.init('layui/api/init.json');
+        layuimini.init('/initHome');
 
         $('.login-out').on("click", function () {
             layer.msg('退出登录成功', function () {

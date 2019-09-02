@@ -2,151 +2,136 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <!-- 公共css -->
 <head th:fragment="common_header">
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>橘子管理系统</title>
-<meta name="description" content="">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="all,follow">
-<!-- Bootstrap CSS-->
-<link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
-<!-- Bootstrap-buttons CSS-->
-<link rel="stylesheet" href="vendor/bootstrap/css/buttons.css">
-<!-- Bootstrap-table CSS-->
-<link rel="stylesheet" href="css/bootstrap-table.scss">
-<!-- Font Awesome CSS-->
-<link rel="stylesheet"
-	href="vendor/font-awesome/css/font-awesome.min.css">
-<!-- Fontastic Custom icon font-->
-<link rel="stylesheet" href="vendor/fontastic-icons/styles.css">
-<!-- Google fonts - Poppins -->
-<link rel="stylesheet"
-	href="https://fonts.googleapis.com/css?family=Poppins:300,400,700">
-<!-- theme stylesheet-->
-<link rel="stylesheet" href="css/style.default.css"
-	id="theme-stylesheet">
-<!-- Custom stylesheet - for your changes-->
-<link rel="stylesheet" href="css/custom.css">
-<!-- Favicon-->
-<link rel="shortcut icon" href="img/favicon.ico">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>橘子管理系统</title>
+    <meta name="description" content="">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="robots" content="all,follow">
+    <!-- Bootstrap CSS-->
+    <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
+    <!-- Bootstrap-buttons CSS-->
+    <link rel="stylesheet" href="vendor/bootstrap/css/buttons.css">
+    <!-- Bootstrap-table CSS-->
+    <link rel="stylesheet" href="css/bootstrap-table.scss">
+    <!-- Font Awesome CSS-->
+    <link rel="stylesheet"
+          href="vendor/font-awesome/css/font-awesome.min.css">
+    <!-- Fontastic Custom icon font-->
+    <link rel="stylesheet" href="vendor/fontastic-icons/styles.css">
+    <!-- Google fonts - Poppins -->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Poppins:300,400,700">
+    <!-- theme stylesheet-->
+    <link rel="stylesheet" href="css/style.default.css"
+          id="theme-stylesheet">
+    <!-- Custom stylesheet - for your changes-->
+    <link rel="stylesheet" href="css/custom.css">
+    <!-- Favicon-->
+    <link rel="shortcut icon" href="img/favicon.ico">
 </head>
 <body>
-	<footer th:fragment="modal">
-		<!-- 提示框（Modal） -->
-		<div class="modal fade" id="prompt-modal" tabindex="-1" role="dialog"
-			aria-labelledby="myModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h4 class="modal-title" id="myModalLabel">提示</h4>
-					</div>
-					<div class="modal-body" id="prompt-modal-content"></div>
-				</div>
-			</div>
-		</div>
-	</footer>
-	<footer th:fragment="modal">
-		<!-- 提示框（Modal） -->
-		<div class="modal fade" id="prompt-modal" tabindex="-1" role="dialog"
-			aria-labelledby="myModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h4 class="modal-title" id="myModalLabel">提示</h4>
-					</div>
-					<div class="modal-body" id="prompt-modal-content"></div>
-				</div>
-			</div>
-		</div>
-	</footer>
+<footer th:fragment="modal">
+    <!-- 提示框（Modal） -->
+    <div class="modal fade" id="prompt-modal" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">提示</h4>
+                </div>
+                <div class="modal-body" id="prompt-modal-content"></div>
+            </div>
+        </div>
+    </div>
+</footer>
+<footer th:fragment="weatherPlugin">
+    <!-- 天气插件 -->
+    <script>
+        (function (T, h, i, n, k, P, a, g, e) {
+            g = function () {
+                P = h.createElement(i);
+                a = h.getElementsByTagName(i)[0];
+                P.src = k;
+                P.charset = "utf-8";
+                P.async = 1;
+                a.parentNode.insertBefore(P, a)
+            };
+            T["ThinkPageWeatherWidgetObject"] = n;
+            T[n] || (T[n] = function () {
+                (T[n].q = T[n].q || []).push(arguments)
+            });
+            T[n].l = +new Date();
+            if (T.attachEvent) {
+                T.attachEvent("onload", g)
+            } else {
+                T.addEventListener("load", g, false)
+            }
+        }(window, document, "script", "tpwidget",
+            "//widget.seniverse.com/widget/chameleon.js"))
+    </script>
+    <script>
+        tpwidget("init", {
+            "flavor": "bubble",
+            "location": "WS10730EM8EV",
+            "geolocation": "enabled",
+            "position": "bottom-right",
+            "margin": "10px 10px",
+            "language": "zh-chs",
+            "unit": "c",
+            "theme": "chameleon",
+            "uid": "UDC433FB70",
+            "hash": "5f9b5711c812d77911944f554fa0d41e"
+        });
+        tpwidget("show");
+    </script>
+</footer>
 
-	<footer th:fragment="weatherPlugin">
-		<!-- 天气插件 -->
-		<script>
-			(function(T, h, i, n, k, P, a, g, e) {
-				g = function() {
-					P = h.createElement(i);
-					a = h.getElementsByTagName(i)[0];
-					P.src = k;
-					P.charset = "utf-8";
-					P.async = 1;
-					a.parentNode.insertBefore(P, a)
-				};
-				T["ThinkPageWeatherWidgetObject"] = n;
-				T[n] || (T[n] = function() {
-					(T[n].q = T[n].q || []).push(arguments)
-				});
-				T[n].l = +new Date();
-				if (T.attachEvent) {
-					T.attachEvent("onload", g)
-				} else {
-					T.addEventListener("load", g, false)
-				}
-			}(window, document, "script", "tpwidget",
-					"//widget.seniverse.com/widget/chameleon.js"))
-		</script>
-		<script>
-			tpwidget("init", {
-				"flavor" : "bubble",
-				"location" : "WS10730EM8EV",
-				"geolocation" : "enabled",
-				"position" : "bottom-right",
-				"margin" : "10px 10px",
-				"language" : "zh-chs",
-				"unit" : "c",
-				"theme" : "chameleon",
-				"uid" : "UDC433FB70",
-				"hash" : "5f9b5711c812d77911944f554fa0d41e"
-			});
-			tpwidget("show");
-		</script>
-	</footer>
-
-	<!-- 分页栏 -->
-	<footer th:fragment="pagination">
-		<ul class="pagination pagination-lg">
-			<li th:class="${currentPage==1}?'disabled' : ''"><a
-				th:href="@{${url}(page=${currentPage}-1)}">上一页</a></li>
-			<li th:if="${currentPage-3 >=1}"><a
-				th:href="@{${url}(page=${currentPage}-3)}"
-				th:text="${currentPage -3}">1</a></li>
-			<li th:if="${currentPage-2 >=1}"><a
-				th:href="@{${url}(page=${currentPage}-2)}"
-				th:text="${currentPage -2}">1</a></li>
-			<li th:if="${currentPage-1 >=1}"><a
-				th:href="@{${url}(page=${currentPage}-1)}"
-				th:text="${currentPage -1}">1</a></li>
-			<li class="active"><a href="#" th:text="${currentPage}">1</a></li>
-			<li th:if="${currentPage+1 <=totalPage}"><a
-				th:href="@{${url}(page=${currentPage}+1)}"
-				th:text="${currentPage +1}">1</a></li>
-			<li th:if="${currentPage+2 <=totalPage}"><a
-				th:href="@{${url}(page=${currentPage}+2)}"
-				th:text="${currentPage +2}">1</a></li>
-			<li th:if="${currentPage+3 <=totalPage}"><a
-				th:href="@{${url}(page=${currentPage}+3)}"
-				th:text="${currentPage +3}">1</a></li>
-			<li th:class="${currentPage==totalPage}?'disabled' : ''"><a
-				th:href="@{${url}(page=${currentPage}+1)}">下一页</a></li>
-		</ul>
-	</footer>
-	<!-- 公共js -->
-	<div th:fragment="common_js">
-		<!-- JavaScript files-->
-		<script src="vendor/jquery/jquery.min.js"></script>
-		<script src="vendor/popper.js/umd/popper.min.js"></script>
-		<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-		<script src="vendor/bootstrap/js/bootstrap-paginator.js"></script>
-		<script src="vendor/bootstrap/js/bootstrap-table.js"></script>
-		<script src="vendor/bootstrap/locale/bootstrap-table-zh-CN.js"></script>
-		<script src="vendor/jquery.cookie/jquery.cookie.js"></script>
-		<script src="vendor/chart.js/Chart.min.js"></script>
-		<script src="vendor/echarts/echarts.min.js"></script>
-		<script src="vendor/jquery-validation/jquery.validate.min.js"></script>
-		<!-- Main File-->
-		<script src="js/front.js"></script>
-		<script src="./js/omsJs/common.js"></script>
-	</div>
+<!-- 分页栏
+<footer th:fragment="pagination">
+    <ul class="pagination pagination-lg">
+        <li th:class="${currentPage==1}?'disabled' : ''"><a
+            th:href="@{${url}(page=${currentPage}-1)}">上一页</a></li>
+        <li th:if="${currentPage-3 >=1}"><a
+            th:href="@{${url}(page=${currentPage}-3)}"
+            th:text="${currentPage -3}">1</a></li>
+        <li th:if="${currentPage-2 >=1}"><a
+            th:href="@{${url}(page=${currentPage}-2)}"
+            th:text="${currentPage -2}">1</a></li>
+        <li th:if="${currentPage-1 >=1}"><a
+            th:href="@{${url}(page=${currentPage}-1)}"
+            th:text="${currentPage -1}">1</a></li>
+        <li class="active"><a href="#" th:text="${currentPage}">1</a></li>
+        <li th:if="${currentPage+1 <=totalPage}"><a
+            th:href="@{${url}(page=${currentPage}+1)}"
+            th:text="${currentPage +1}">1</a></li>
+        <li th:if="${currentPage+2 <=totalPage}"><a
+            th:href="@{${url}(page=${currentPage}+2)}"
+            th:text="${currentPage +2}">1</a></li>
+        <li th:if="${currentPage+3 <=totalPage}"><a
+            th:href="@{${url}(page=${currentPage}+3)}"
+            th:text="${currentPage +3}">1</a></li>
+        <li th:class="${currentPage==totalPage}?'disabled' : ''"><a
+            th:href="@{${url}(page=${currentPage}+1)}">下一页</a></li>
+    </ul>
+</footer> -->
+<!-- 公共js -->
+<div th:fragment="common_js">
+    <!-- JavaScript files-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/popper.js/umd/popper.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap-paginator.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap-table.js"></script>
+    <script src="vendor/bootstrap/locale/bootstrap-table-zh-CN.js"></script>
+    <script src="vendor/jquery.cookie/jquery.cookie.js"></script>
+    <script src="vendor/chart.js/Chart.min.js"></script>
+    <script src="vendor/echarts/echarts.min.js"></script>
+    <script src="vendor/jquery-validation/jquery.validate.min.js"></script>
+    <!-- Main File-->
+    <script src="js/front.js"></script>
+    <script src="./js/omsJs/common.js"></script>
+</div>
 </body>
 </html>

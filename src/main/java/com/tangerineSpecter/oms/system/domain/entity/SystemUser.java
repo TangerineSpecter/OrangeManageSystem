@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 /**
  * 系统管理员信息表
@@ -16,6 +17,7 @@ import lombok.NoArgsConstructor;
  */
 @Data
 @Builder
+@Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
 public class SystemUser {
@@ -55,7 +57,6 @@ public class SystemUser {
     /**
      * 生日
      */
-    @NotEmpty(message = "生日不能为空")
     private String birthday;
     /**
      * 简介

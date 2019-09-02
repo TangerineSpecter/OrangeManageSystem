@@ -3,8 +3,14 @@ package com.tangerinespecter.oms.system.controller.system;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.common.utils.ServiceKey;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;
+import com.tangerinespecter.oms.system.domain.vo.SystemUserInfoVo;
 import com.tangerinespecter.oms.system.service.system.SystemUserService;
+import org.apache.shiro.SecurityUtils;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -17,22 +23,41 @@ import javax.validation.Valid;
  * @version v0.0.5
  * @DateTime 2019年1月11日
  */
-@RestController
+@Controller
 public class SystemUserController {
 
     @Resource
     private SystemUserService systemUserService;
 
-    @RequestMapping(ServiceKey.System.SYSTEM_USER_INSERT)
+    /**
+     * 帐号设置
+     */
+    @RequestMapping(value = "/accountSetting", method = RequestMethod.GET)
+    public String accountSetting(Model model) {
+        SystemUser systemUser = (SystemUser) SecurityUtils.getSubject().getPrincipal();
+        model.addAttribute("systemUser", systemUser);
+        return "system/accountSetting";
+    }
+
+    /**
+     * 添加系统管理员
+     *
+     * @param systemUser
+     * @return
+     * @throws Exception
+     */
+    @ResponseBody
+    @RequestMapping("/systemUser/insert")
     public ServiceResult insert(@Valid SystemUser systemUser) throws Exception {
         return systemUserService.insertSystemUserInfo(systemUser);
     }
 
     /**
-     * 保存系统用户信息
+     * 修改系统用户信息
      */
-    @RequestMapping(ServiceKey.System.SYSTEM_USER_UPDATE)
-    public ServiceResult update(@Valid SystemUser systemUser) {
-        return systemUserService.updateSystemUserInfo(systemUser);
+    @ResponseBody
+    @RequestMapping("/systemUser/update")
+    public ServiceResult update(@Valid SystemUserInfoVo vo) {
+        return systemUserService.updateSystemUserInfo(vo);
     }
 }

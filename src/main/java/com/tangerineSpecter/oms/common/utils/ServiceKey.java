@@ -35,18 +35,6 @@ public class ServiceKey {
          */
         public static final String SYSTEM_USER_CALENDAR = "/calendar";
         /**
-         * 添加系统管理员
-         */
-        public static final String SYSTEM_USER_INSERT = "/systemUser/insert";
-        /**
-         * 管理员信息更新
-         */
-        public static final String SYSTEM_USER_UPDATE = "/systemUser/update";
-        /**
-         * 管理员帐号设置
-         */
-        public static final String SYSTEM_USER_SETTING = "/accountSetting";
-        /**
          * 系统主页
          */
         public static final String SYSTEM_HOME = "/home";

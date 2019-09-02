@@ -85,15 +85,6 @@ public class IndexController {
     }
 
     /**
-     * 帐号设置
-     */
-    @RequestMapping(value = ServiceKey.System.SYSTEM_USER_SETTING, method = RequestMethod.GET)
-    public String accountSetting(Model model, @RequestParam(name = "id") Long id) {
-        systemUserService.getSystemInfo(model, id);
-        return "system/accountSetting";
-    }
-
-    /**
      * 错误跳转
      */
     @RequestMapping("/errorPage")

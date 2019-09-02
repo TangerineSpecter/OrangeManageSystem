@@ -8,6 +8,8 @@ import cn.hutool.crypto.asymmetric.SignAlgorithm;
 import cn.hutool.crypto.digest.DigestAlgorithm;
 import cn.hutool.crypto.digest.Digester;
 import com.tangerinespecter.oms.common.constant.CommonConstant;
+import com.tangerinespecter.oms.system.domain.entity.SystemUser;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Service;
 
 /**
@@ -49,5 +51,23 @@ public class SystemHelper {
         int randomInt = RandomUtil.randomInt(10);
         String sub = IdUtil.randomUUID().substring(4, 11);
         return handleUserPassword(sub).substring(randomInt, randomInt + 6);
+    }
+
+    /**
+     * 刷新当前用户session
+     *
+     * @param info
+     */
+    public void refreshSession(SystemUser info) {
+        SystemUser systemUser = (SystemUser) SecurityUtils.getSubject().getPrincipal();
+        systemUser.setUsername(info.getUsername());
+        systemUser.setPhoneNumber(info.getPhoneNumber());
+        systemUser.setCity(info.getCity());
+        systemUser.setSex(info.getSex());
+        systemUser.setEmail(info.getEmail());
+        systemUser.setAvatar(info.getAvatar());
+        systemUser.setBrief(info.getBrief());
+        systemUser.setBirthday(info.getBirthday());
+        systemUser.setNickName(info.getNickName());
     }
 }

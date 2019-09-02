@@ -12,6 +12,7 @@ import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.common.utils.ServiceKey;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;
 import com.tangerinespecter.oms.system.domain.pojo.AccountsInfo;
+import com.tangerinespecter.oms.system.domain.vo.SystemUserInfoVo;
 import com.tangerinespecter.oms.system.mapper.SystemUserMapper;
 import com.tangerinespecter.oms.system.service.helper.RedisHelper;
 import com.tangerinespecter.oms.system.service.helper.SystemHelper;
@@ -53,7 +54,7 @@ public class SystemUserService {
     public ServiceResult verifyLogin(HttpServletResponse response, @Valid AccountsInfo model) {
         SystemUser systemUser = systemUserMapper.selectOneByUserName(model.getUsername());
         if (systemUser == null) {
-            return ServiceResult.error(RetCode.ACCOUNTS_NOT_EXIST);
+            return ServiceResult.error(RetCode.REGISTER_ACCOUNTS_NOT_EXIST);
         }
         try {
             String md5Pwd = systemHelper.handleUserPassword(model.getPassword(), systemUser.getSalt());
@@ -62,7 +63,7 @@ public class SystemUserService {
             subject.login(token);
         } catch (UnknownAccountException e) {
             log.error("[帐号登录异常]:", e);
-            return ServiceResult.error(RetCode.ACCOUNTS_NOT_EXIST);
+            return ServiceResult.error(RetCode.REGISTER_ACCOUNTS_NOT_EXIST);
         } catch (IncorrectCredentialsException e) {
             log.error("[帐号登录异常]:", e);
             return ServiceResult.error(RetCode.ACCOUNTS_PASSWORD_ERROR);
@@ -101,8 +102,20 @@ public class SystemUserService {
     /**
      * 更新账户信息
      */
-    public ServiceResult updateSystemUserInfo(SystemUser systemUser) {
-        systemUserMapper.updateById(systemUser);
+    public ServiceResult updateSystemUserInfo(SystemUserInfoVo systemUser) {
+        if (systemUser.getId() == null) {
+            return ServiceResult.success();
+        }
+        SystemUser info = systemUserMapper.selectById(systemUser.getId());
+        if (info == null) {
+            return ServiceResult.error(RetCode.ACCOUNTS_NOT_EXIST);
+        }
+        info.setNickName(systemUser.getNickName()).setSex(systemUser.getSex())
+                .setCity(systemUser.getCity()).setBrief(systemUser.getBrief())
+                .setEmail(systemUser.getEmail()).setPhoneNumber(systemUser.getPhoneNumber())
+                .setSex(systemUser.getSex());
+        systemUserMapper.updateById(info);
+        systemHelper.refreshSession(info);
         return ServiceResult.success();
     }
 

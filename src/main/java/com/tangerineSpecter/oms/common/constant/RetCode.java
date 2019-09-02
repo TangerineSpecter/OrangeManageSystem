@@ -20,12 +20,12 @@ public class RetCode {
     /**
      * 成功
      */
-    public static final RetCode SUCCESS = new RetCode(0, "成功");
+    public static final RetCode SUCCESS = new RetCode(0, "操作成功");
 
     /**
      * 失败
      */
-    public static final RetCode FAIL = new RetCode(1, "失败");
+    public static final RetCode FAIL = new RetCode(1, "操作失败");
 
     /**
      * 帐号已被注册
@@ -38,9 +38,14 @@ public class RetCode {
     public static final RetCode ACCOUNTS_PASSWORD_ERROR = new RetCode(101, "密码错误，请重新确认后登录！");
 
     /**
+     * 注册帐号不存在
+     */
+    public static final RetCode REGISTER_ACCOUNTS_NOT_EXIST = new RetCode(102, "您输入的帐号不存在，请注册后重新登录！");
+
+    /**
      * 帐号不存在
      */
-    public static final RetCode ACCOUNTS_NOT_EXIST = new RetCode(102, "您输入的帐号不存在，请注册后重新登录！");
+    public static final RetCode ACCOUNTS_NOT_EXIST = new RetCode(102, "帐号不存在！");
 
     /**
      * 参数错误

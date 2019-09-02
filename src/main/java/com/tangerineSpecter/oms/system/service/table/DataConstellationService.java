@@ -3,6 +3,7 @@ package com.tangerinespecter.oms.system.service.table;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.tangerinespecter.oms.common.query.ConstellationQueryObject;
+import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.common.utils.ServiceKey;
 import com.tangerinespecter.oms.system.domain.entity.DataConstellation;
 import com.tangerinespecter.oms.system.mapper.DataConstellationMapper;
@@ -18,21 +19,14 @@ public class DataConstellationService {
 
     @Resource
     private DataConstellationMapper dataConstellationMapper;
-    @Resource
-    private PageResultService pageResultService;
-
-    public List<DataConstellation> queryListAll() {
-        return dataConstellationMapper.selectList(null);
-    }
 
     /**
      * 分页查询
      */
-    public void queryForPage(Model model, ConstellationQueryObject qo) {
-        PageHelper.startPage(qo.getPage(), qo.getSize());
+    public ServiceResult queryForPage(ConstellationQueryObject qo) {
+        PageHelper.startPage(qo.getPage(), qo.getLimit());
         List<DataConstellation> pageList = dataConstellationMapper.queryForPage(qo);
         PageInfo<DataConstellation> constellationInfo = new PageInfo<>(pageList);
-        pageResultService.queryForPage(model, constellationInfo.getList(), constellationInfo.getTotal(), qo.getPage(),
-                constellationInfo.getPages(), ServiceKey.Constellation.CONSTELLATION_PAGE_LIST);
+        return ServiceResult.pageSuccess(pageList, constellationInfo.getTotal());
     }
 }

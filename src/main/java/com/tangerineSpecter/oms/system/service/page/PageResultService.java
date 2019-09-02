@@ -19,16 +19,13 @@ public class PageResultService {
      * 分页处理
      *
      * @param model
-     * @param list       列表
-     * @param total      总数
-     * @param page       页数
-     * @param requestUrl 请求地址
+     * @param list  列表
+     * @param total 总数
+     * @param page  页数
      */
-    public void queryForPage(Model model, List<?> list, Long total, Integer page, Integer totalPage,
-                             String requestUrl) {
+    public void queryForPage(Model model, List<?> list, Long total, Integer page, Integer totalPage) {
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPage", totalPage);
-        model.addAttribute("url", requestUrl);
         model.addAttribute("list", list);
         model.addAttribute("total", total.intValue());
     }

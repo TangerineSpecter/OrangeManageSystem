@@ -22,11 +22,11 @@ public class ServiceResult<T> {
     /**
      * 错误码
      */
-    private Integer errorCode;
+    private Integer code;
     /**
      * 错误信息
      */
-    private String errorDesc;
+    private String msg;
     /**
      * 返回数据
      */
@@ -34,20 +34,20 @@ public class ServiceResult<T> {
     /**
      * 总数
      */
-    private Integer total;
+    private Long count;
 
     private static ServiceResult result = new ServiceResult();
 
-    private ServiceResult(boolean success, int errorCode, String errorDesc) {
+    private ServiceResult(boolean success, int code, String msg) {
         this.success = success;
-        this.errorCode = errorCode;
-        this.errorDesc = errorDesc;
+        this.code = code;
+        this.msg = msg;
     }
 
-    private ServiceResult(boolean success, int errorCode, String errorDesc, T data) {
+    private ServiceResult(boolean success, int code, String msg, T data) {
         this.success = success;
-        this.errorCode = errorCode;
-        this.errorDesc = errorDesc;
+        this.code = code;
+        this.msg = msg;
         this.data = data;
     }
 
@@ -68,7 +68,7 @@ public class ServiceResult<T> {
     /**
      * 返回页面结果
      */
-    public static <T> ServiceResult<T> pageSuccess(T data, Integer total) {
+    public static <T> ServiceResult<T> pageSuccess(T data, Long total) {
         return new ServiceResult<>(true, RetCode.SUCCESS.getErrorCode(), RetCode.SUCCESS.getErrorDesc(), data, total);
     }
 

@@ -20,9 +20,9 @@
                 <input type="text" name="id" class="layui-input" th:value="${systemUser.id}" style="display:none;">
                 <label class="layui-form-label required">管理账号</label>
                 <div class="layui-input-block">
-                    <input type="text" name="username" lay-verify="required" lay-reqtext="管理账号不能为空"
+                    <input type="text" name="username" lay-verify="required" lay-reqtext="管理账号不能为空" readonly="readonly"
                            placeholder="请输入管理账号" value="admin" class="layui-input" th:value="${systemUser.username}">
-                    <tip>填写自己管理账号的名称。</tip>
+                    <tip>账号名称不可做修改。</tip>
                 </div>
             </div>
             <div class="layui-form-item">
@@ -90,9 +90,9 @@
 <div th:replace="./common/_layui_common::common_js"></div>
 <script>
     layui.use(['form', 'laydate'], function () {
-        var form = layui.form
-            , layer = layui.layer
-            , laydate = layui.laydate;
+        var form = layui.form,
+            layer = layui.layer,
+            laydate = layui.laydate;
 
         //日期
         laydate.render({
@@ -104,7 +104,7 @@
             console.log(data.field);
             $.post('/systemUser/update', data.field, function (result) {
                 console.log(result);
-                layer.alert(JSON.stringify(result.errorDesc), {
+                layer.alert(JSON.stringify(result.msg), {
                     title: '提示'
                 });
             }, "JSON");

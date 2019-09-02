@@ -84,12 +84,12 @@ public class SystemUserService {
      * 后台管理员列表
      */
     public void querySystemUserList(Model model, SystemUserQueryObject qo) {
-        PageHelper.startPage(qo.getPage(), qo.getSize());
+        PageHelper.startPage(qo.getPage(), qo.getLimit());
         List<SystemUser> pageList = systemUserMapper.queryForPage(qo);
         // 得到分页结果对象
         PageInfo<SystemUser> systemUserInfo = new PageInfo<>(pageList);
         pageResultService.queryForPage(model, systemUserInfo.getList(), systemUserInfo.getTotal(), qo.getPage(),
-                systemUserInfo.getPages(), ServiceKey.System.SYSTEM_USER_PAGE_LIST);
+                systemUserInfo.getPages());
     }
 
     /**

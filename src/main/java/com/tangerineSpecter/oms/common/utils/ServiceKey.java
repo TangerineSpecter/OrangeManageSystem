@@ -40,13 +40,6 @@ public class ServiceKey {
         public static final String SYSTEM_HOME = "/home";
     }
 
-    public static class Constellation {
-        /**
-         * 星座页面
-         */
-        public static final String CONSTELLATION_PAGE_LIST = "/constellaction";
-    }
-
     public static class Work {
         /**
          * 收藏页面

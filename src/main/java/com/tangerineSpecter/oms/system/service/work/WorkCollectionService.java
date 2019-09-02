@@ -27,11 +27,11 @@ public class WorkCollectionService {
      * 分页查询
      */
     public void queryForPage(Model model, WorkCollectionQueryObject qo) {
-        PageHelper.startPage(qo.getPage(), qo.getSize());
+        PageHelper.startPage(qo.getPage(), qo.getLimit());
         List<WorkCollection> pageList = workCollectionMapper.queryForPage(qo);
         PageInfo<WorkCollection> collectionInfo = new PageInfo<>(pageList);
         pageResultService.queryForPage(model, collectionInfo.getList(), collectionInfo.getTotal(), qo.getPage(),
-                collectionInfo.getPages(), ServiceKey.Work.COLLECTION_PAGE_LIST);
+                collectionInfo.getPages());
     }
 
     /**

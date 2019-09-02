@@ -15,6 +15,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class QueryObject {
+
+    /**
+     * 搜索参数
+     */
+    private String searchParams;
     /**
      * 默认第一页
      */
@@ -22,6 +27,6 @@ public class QueryObject {
     /**
      * 默认一页十条
      */
-    private Integer size = 10;
+    private Integer limit = 10;
 
 }

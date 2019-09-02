@@ -17,6 +17,6 @@ public class MenuSettingService {
 
     public ServiceResult<Object> listInfo() {
         List<SystemMenu> list = systemMenuMapper.selectList(null);
-        return ServiceResult.pageSuccess(list, list.size());
+        return ServiceResult.pageSuccess(list, (long) list.size());
     }
 }

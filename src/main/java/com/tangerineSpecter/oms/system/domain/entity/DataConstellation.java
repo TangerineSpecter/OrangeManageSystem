@@ -1,5 +1,7 @@
 package com.tangerinespecter.oms.system.domain.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,6 +20,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class DataConstellation {
 
+    @TableId(type = IdType.AUTO)
     private Long id;
     /**
      * 星座名称

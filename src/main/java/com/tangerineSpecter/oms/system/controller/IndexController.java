@@ -41,7 +41,7 @@ public class IndexController {
     /**
      * 默认页
      */
-    @RequestMapping(ServiceKey.System.SYSTEM_DEFAULT)
+    @RequestMapping("/")
     public String defaultPage() {
         return "redirect:/index";
     }
@@ -49,7 +49,7 @@ public class IndexController {
     /**
      * 首页
      */
-    @RequestMapping(ServiceKey.System.SYSTEM_INDEX_PAGE)
+    @RequestMapping("/index")
     public String index(Model model) {
         SystemUser systemUser = (SystemUser) SecurityUtils.getSubject().getPrincipal();
         model.addAttribute("systemUser", systemUser);
@@ -61,9 +61,8 @@ public class IndexController {
      */
     @RequestMapping(ServiceKey.System.SYSTEM_HOME)
     public String homePage(Model model) {
-        model.addAttribute("systemInfo", systemInfoService.getSystemInfo());
-        model.addAttribute("managerInfo", systemInfoService.getManagerInfo());
-        System.out.println(model);
+        //model.addAttribute("systemInfo", systemInfoService.getSystemInfo());
+        //model.addAttribute("managerInfo", systemInfoService.getManagerInfo());
         return "common/home";
     }
 
@@ -90,14 +89,6 @@ public class IndexController {
     @RequestMapping("/errorPage")
     public String errorPage() {
         return "system/404";
-    }
-
-    /**
-     * 菜单管理
-     */
-    @RequestMapping("/menuSetting")
-    public String menuPage() {
-        return "layout/menuSetting";
     }
 
 }

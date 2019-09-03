@@ -19,4 +19,12 @@ public class PageController {
     public String constellationPage() {
         return "data/constellation";
     }
+
+    /**
+     * 系统配置
+     */
+    @RequestMapping("/systemSetting")
+    public String systemSetting() {
+        return "system/systemSetting";
+    }
 }

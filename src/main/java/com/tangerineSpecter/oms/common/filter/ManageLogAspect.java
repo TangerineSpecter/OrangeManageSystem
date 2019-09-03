@@ -38,12 +38,11 @@ public class ManageLogAspect {
 
     static {
         serviceKey.add(ServiceKey.System.SYSTEM_USER_PAGE_LIST);
-        serviceKey.add(ServiceKey.Constellation.CONSTELLATION_PAGE_LIST);
         serviceKey.add(ServiceKey.Work.COLLECTION_PAGE_LIST);
         serviceKey.add(ServiceKey.System.SYSTEM_USER_CALENDAR);
     }
 
-    @Pointcut("execution(* com.tangerinespecter.oms.system.web.controller..*.*(..))")
+    @Pointcut("execution(* com.tangerinespecter.oms.system.controller..*.*(..))")
     public void controllerAopPointCut() {
     }
 

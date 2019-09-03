@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="UTF-8">
-        <title>menu</title>
-        <link rel="stylesheet" href="layui/lib/layui-v2.5.4/css/layui.css" media="all">
-        <link rel="stylesheet" href="layui/css/public.css" media="all">
+    <head th:replace="./common/_layui_common :: common_header">
         <style>
             .layui-btn:not(.layui-btn-lg ):not(.layui-btn-sm):not(.layui-btn-xs) {
                 height: 34px;
@@ -20,6 +16,7 @@
                     <div class="layui-btn-group">
                         <button class="layui-btn" id="btn-expand">全部展开</button>
                         <button class="layui-btn" id="btn-fold">全部折叠</button>
+                        <button class="layui-btn" id="btn-add">添加</button>
                     </div>
                     <table id="munu-table" class="layui-table" lay-filter="munu-table"></table>
                 </div>
@@ -30,14 +27,13 @@
             <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>
             <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
         </script>
-
-        <script src="layui/lib/layui-v2.5.4/layui.js" charset="utf-8"></script>
-        <script src="layui/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+        <div th:replace="./common/_layui_common::common_js"></div>
         <script>
-            layui.use(['table', 'treetable'], function () {
+            layui.use(['table', 'treetable', 'layuimini'], function () {
                 var $ = layui.jquery;
                 var table = layui.table;
                 var treetable = layui.treetable;
+                var layuimini = layui.layuimini;
 
                 // 渲染表格
                 layer.load(2);
@@ -49,7 +45,6 @@
                     elem: '#munu-table',
                     treeDefaultClose: false,//是否默认折叠
                     treeLinkage: false,//父级展开时是否自动展开所有子级
-                    //url: 'layui/api/menus.json',
                     url: '/system/menu/list',
                     page: false,
                     cols: [
@@ -61,10 +56,12 @@
                             {field: 'sort', width: 80, align: 'center', title: '排序号'},
                             {
                                 field: 'pid', width: 80, align: 'center', templet: function (d) {
-                                    if (d.pid == null || d.pid == -1) {
-                                        return '<span class="layui-badge layui-bg-blue">目录</span>';
-                                    } else {
-                                        return '<span class="layui-badge-rim">菜单</span>';
+                                    if (d.pid == null || d.pid === -1 || d.level === 0) {
+                                        return '<span class="layui-badge layui-bg-blue">导航</span>';
+                                    } else if (d.level === 1) {
+                                        return '<span class="layui-badge-rim">目录</span>';
+                                    } else if (d.level === 2) {
+                                        return '<span class="layui-badge-rim layui-bg-cyan">菜单</span>';
                                     }
                                 }, title: '类型'
                             },
@@ -74,6 +71,11 @@
                     done: function () {
                         layer.closeAll('loading');
                     }
+                });
+
+                $('#btn-add').click(function () {
+                    parent.layuimini.addTab('/system/menu/addPage', '/system/menu/addPage', '添加菜单', true);
+                    parent.layuimini.changeTab("/system/menu/addPage");
                 });
 
                 $('#btn-expand').click(function () {
@@ -90,7 +92,12 @@
                     var layEvent = obj.event;
 
                     if (layEvent === 'del') {
-                        layer.msg('删除' + data.id);
+                        $.post('/system/menu/delete', {
+                            id: data.id
+                        }, function () {
+                            layer.msg('删除成功');
+                            $(".layui-tab-item.layui-show", window.parent.document).find("iframe")[0].contentWindow.location.reload();
+                        }, "JSON");
                     } else if (layEvent === 'edit') {
                         layer.msg('修改' + data.id);
                     }

@@ -11,10 +11,6 @@ public class ServiceKey {
 
     public class System {
         /**
-         * 系统默认路径
-         */
-        public static final String SYSTEM_DEFAULT = "/";
-        /**
          * 系统登录
          */
         public static final String SYSTEM_LOGIN = "/login";
@@ -22,10 +18,6 @@ public class ServiceKey {
          * 系统注册
          */
         public static final String SYSTEM_REGISTER = "/register";
-        /**
-         * 系统主页
-         */
-        public static final String SYSTEM_INDEX_PAGE = "/index";
         /**
          * 管理员页面
          */

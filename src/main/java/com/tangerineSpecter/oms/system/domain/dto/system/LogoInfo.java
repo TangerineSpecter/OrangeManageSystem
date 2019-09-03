@@ -20,7 +20,7 @@ public class LogoInfo {
     /**
      * 跳转地址
      */
-    private String href = "home";
+    private String href = "/";
     /**
      * 跳转方式
      */

@@ -12,9 +12,9 @@
                 <form class="layui-form layui-form-pane" action="">
                     <div class="layui-form-item">
                         <div class="layui-inline">
-                            <label class="layui-form-label">星座</label>
+                            <label class="layui-form-label">操作内容</label>
                             <div class="layui-input-inline">
-                                <input type="text" name="star" autocomplete="off" class="layui-input">
+                                <input type="text" name="operation" autocomplete="off" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-inline">
@@ -49,22 +49,30 @@
 
         table.render({
             elem: '#currentTableId',
-            url: '/table/constellation/list',
+            url: '/system/log/list',
             cols: [
                 [
                     {type: "checkbox", width: 50, fixed: "left"},
                     {field: 'id', width: 80, title: 'ID', sort: true},
-                    {field: 'name', width: 100, title: '星座名称'},
-                    {field: 'datetime', width: 150, title: '时间', sort: true},
-                    {field: 'color', width: 80, title: '幸运色'},
-                    {field: 'allLuck', width: 100, title: '综合指数', sort: true},
-                    {field: 'health', width: 100, title: '健康指数', sort: true},
-                    {field: 'love', width: 100, title: '爱情指数', sort: true},
-                    {field: 'money', width: 100, title: '财运指数', sort: true},
-                    {field: 'workLuck', width: 100, title: '工作指数', sort: true},
-                    {field: 'number', width: 100, title: '幸运数字'},
-                    {field: 'qfriend', width: 100, title: '速配星座'},
-                    {field: 'summary', minWidth: 150, title: '今日概述', fixed: "right"}
+                    {field: 'username', width: 100, title: '操作人'},
+                    {field: 'eventDesc', width: 100, title: '操作事件'},
+                    {field: 'method', width: 250, title: '操作方法'},
+                    {field: 'params', width: 250, title: '操作参数'},
+                    {field: 'operation', width: 150, title: '操作内容'},
+                    {
+                        field: 'time', width: 100, title: '操作耗时', sort: true, templet: function (d) {
+                            if (d.time <= 1000) {
+                                return '<span class="layui-badge layui-bg-green">' + d.time + ' ms</span>';
+                            } else if (d.time > 1000 && d.time <= 5000) {
+                                return '<span class="layui-badge layui-bg-orange">' + d.time + ' ms</span>';
+                            } else if (d.time > 5000) {
+                                return '<span class="layui-badge layui-bg">' + d.time + ' ms</span>';
+                            }
+
+                        }
+                    },
+                    {field: 'ip', width: 150, title: 'IP地址'},
+                    {field: 'createTime', minWidth: 200, title: '操作时间', sort: true}
                 ]
             ],
             limits: [10, 15, 20, 25, 50, 100],
@@ -93,9 +101,6 @@
             console.log(obj)
         });
     });
-</script>
-<script>
-
 </script>
 
 </body>

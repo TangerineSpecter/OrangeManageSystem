@@ -1,7 +1,8 @@
 package com.tangerinespecter.oms.system.controller.system;
 
+import com.tangerinespecter.oms.common.enums.LogOperation;
+import com.tangerinespecter.oms.common.listener.LoggerInfo;
 import com.tangerinespecter.oms.common.result.ServiceResult;
-import com.tangerinespecter.oms.common.utils.ServiceKey;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;
 import com.tangerinespecter.oms.system.domain.vo.SystemUserInfoVo;
 import com.tangerinespecter.oms.system.service.system.SystemUserService;
@@ -11,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
@@ -40,7 +40,6 @@ public class SystemUserController {
     }
 
 
-
     /**
      * 添加系统管理员
      *
@@ -50,6 +49,7 @@ public class SystemUserController {
      */
     @ResponseBody
     @RequestMapping("/systemUser/insert")
+    @LoggerInfo(value = "用户添加管理员", event = LogOperation.EVENT_ADD)
     public ServiceResult insert(@Valid SystemUser systemUser) throws Exception {
         return systemUserService.insertSystemUserInfo(systemUser);
     }
@@ -59,6 +59,7 @@ public class SystemUserController {
      */
     @ResponseBody
     @RequestMapping("/systemUser/update")
+    @LoggerInfo(value = "用户更新管理员", event = LogOperation.EVENT_UPDATE)
     public ServiceResult update(@Valid SystemUserInfoVo vo) {
         return systemUserService.updateSystemUserInfo(vo);
     }

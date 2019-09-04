@@ -12,6 +12,8 @@ import com.tangerinespecter.oms.system.domain.entity.SystemUser;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * 系统帮助类
  *
@@ -70,4 +72,5 @@ public class SystemHelper {
         systemUser.setBirthday(info.getBirthday());
         systemUser.setNickName(info.getNickName());
     }
+
 }

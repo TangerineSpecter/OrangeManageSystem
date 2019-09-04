@@ -1,7 +1,6 @@
 package com.tangerinespecter.oms.system.controller.system;
 
 import com.tangerinespecter.oms.common.query.SystemUserQueryObject;
-import com.tangerinespecter.oms.common.utils.ServiceKey;
 import com.tangerinespecter.oms.system.domain.dto.system.HomePageDataDto;
 import com.tangerinespecter.oms.system.service.system.SystemInfoService;
 import com.tangerinespecter.oms.system.service.system.SystemUserService;
@@ -39,7 +38,7 @@ public class SystemInfoController {
     /**
      * 后台管理员
      */
-    @RequestMapping(ServiceKey.System.SYSTEM_USER_PAGE_LIST)
+    @RequestMapping("/systemUser")
     public String systemUserPage(Model model, SystemUserQueryObject qo) {
         systemUserService.querySystemUserList(model, qo);
         return "system/systemUser";
@@ -48,7 +47,7 @@ public class SystemInfoController {
     /**
      * 日历
      */
-    @RequestMapping(ServiceKey.System.SYSTEM_USER_CALENDAR)
+    @RequestMapping("/calendar")
     public String calendar() {
         return "system/calendar";
     }

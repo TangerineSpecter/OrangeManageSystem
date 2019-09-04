@@ -1,15 +1,19 @@
 package com.tangerinespecter.oms.system.controller;
 
+import com.tangerinespecter.oms.common.enums.LogOperation;
+import com.tangerinespecter.oms.common.listener.LoggerInfo;
 import com.tangerinespecter.oms.common.result.ServiceResult;
-import com.tangerinespecter.oms.common.utils.ServiceKey;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;
-import com.tangerinespecter.oms.system.domain.pojo.AccountsInfo;
+import com.tangerinespecter.oms.system.domain.pojo.AccountInfo;
 import com.tangerinespecter.oms.system.service.system.SystemInfoService;
 import com.tangerinespecter.oms.system.service.system.SystemUserService;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -33,7 +37,7 @@ public class IndexController {
     /**
      * 登录页
      */
-    @GetMapping(ServiceKey.System.SYSTEM_LOGIN)
+    @GetMapping("/login")
     public String loginPage() {
         return "login";
     }
@@ -59,7 +63,8 @@ public class IndexController {
     /**
      * 内容
      */
-    @RequestMapping(ServiceKey.System.SYSTEM_HOME)
+    @RequestMapping("/home")
+    @LoggerInfo(value = "用户访问首页", event = LogOperation.EVENT_VISIT)
     public String homePage(Model model) {
         //model.addAttribute("systemInfo", systemInfoService.getSystemInfo());
         //model.addAttribute("managerInfo", systemInfoService.getManagerInfo());
@@ -70,15 +75,15 @@ public class IndexController {
      * 登录
      */
     @ResponseBody
-    @PostMapping(ServiceKey.System.SYSTEM_LOGIN)
-    public ServiceResult login(HttpServletResponse response, @Valid AccountsInfo model) {
+    @PostMapping("/login")
+    public ServiceResult login(HttpServletResponse response, @Valid AccountInfo model) {
         return systemUserService.verifyLogin(response, model);
     }
 
     /**
      * 注册页
      */
-    @RequestMapping(ServiceKey.System.SYSTEM_REGISTER)
+    @RequestMapping("/register")
     public String register() {
         return "register";
     }

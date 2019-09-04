@@ -1,6 +1,5 @@
 package com.tangerinespecter.oms.system.controller.work;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,9 +7,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tangerinespecter.oms.common.query.WorkCollectionQueryObject;
 import com.tangerinespecter.oms.common.result.ServiceResult;
-import com.tangerinespecter.oms.common.utils.ServiceKey;
 import com.tangerinespecter.oms.system.domain.entity.WorkCollection;
 import com.tangerinespecter.oms.system.service.work.WorkCollectionService;
+
+import javax.annotation.Resource;
 
 /**
  * 收藏信息相关控制
@@ -22,13 +22,13 @@ import com.tangerinespecter.oms.system.service.work.WorkCollectionService;
 @Controller
 public class WorkCollectionController {
 
-    @Autowired
+    @Resource
     private WorkCollectionService workCollectionService;
 
     /**
      * 收藏页面
      */
-    @RequestMapping(ServiceKey.Work.COLLECTION_PAGE_LIST)
+    @RequestMapping("/collection")
     public String constellationPage(Model model, WorkCollectionQueryObject qo) {
         workCollectionService.queryForPage(model, qo);
         return "work/collection";
@@ -38,7 +38,7 @@ public class WorkCollectionController {
      * 新增收藏
      */
     @ResponseBody
-    @RequestMapping(ServiceKey.Work.COLLECTION_ADD)
+    @RequestMapping("/collection/add")
     public ServiceResult insert(WorkCollection data) {
         return workCollectionService.insert(data);
     }
@@ -47,7 +47,7 @@ public class WorkCollectionController {
      * 删除收藏
      */
     @ResponseBody
-    @RequestMapping(ServiceKey.Work.COLLECTION_DELETE)
+    @RequestMapping("/collection/delete")
     public ServiceResult delete(Long id) {
         return workCollectionService.delete(id);
     }

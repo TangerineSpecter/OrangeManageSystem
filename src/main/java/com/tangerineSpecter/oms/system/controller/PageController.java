@@ -13,14 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class PageController {
 
     /**
-     * 星座页面
-     */
-    @RequestMapping("/constellation")
-    public String constellationPage() {
-        return "data/constellation";
-    }
-
-    /**
      * 系统配置
      */
     @RequestMapping("/systemSetting")

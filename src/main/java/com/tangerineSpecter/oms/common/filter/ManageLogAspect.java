@@ -2,19 +2,26 @@ package com.tangerinespecter.oms.common.filter;
 
 
 import com.alibaba.fastjson.JSON;
-import com.tangerinespecter.oms.common.utils.ServiceKey;
+import com.tangerinespecter.oms.common.listener.LoggerInfo;
+import com.tangerinespecter.oms.common.utils.SystemUtils;
+import com.tangerinespecter.oms.system.domain.entity.SystemLog;
+import com.tangerinespecter.oms.system.domain.entity.SystemUser;
+import com.tangerinespecter.oms.system.mapper.SystemLogMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.lang.JoinPoint;
+import org.apache.shiro.SecurityUtils;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.List;
+import java.lang.reflect.Method;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -26,6 +33,9 @@ import java.util.concurrent.Executors;
 @Component
 public class ManageLogAspect {
 
+    @Resource
+    private SystemLogMapper systemLogMapper;
+
     private static final Executor executor = Executors.newFixedThreadPool(20, r -> {
         Thread t = new Thread(r);
         t.setName("log-aspect-" + t.getId());
@@ -34,33 +44,45 @@ public class ManageLogAspect {
         return t;
     });
 
-    private static List<String> serviceKey = new ArrayList<>();
-
-    static {
-        serviceKey.add(ServiceKey.System.SYSTEM_USER_PAGE_LIST);
-        serviceKey.add(ServiceKey.Work.COLLECTION_PAGE_LIST);
-        serviceKey.add(ServiceKey.System.SYSTEM_USER_CALENDAR);
-    }
-
     @Pointcut("execution(* com.tangerinespecter.oms.system.controller..*.*(..))")
     public void controllerAopPointCut() {
     }
 
-
-    @Before("controllerAopPointCut()")
-    public void controllerReturnBefore(JoinPoint joinPoint) {
+    @Around("controllerAopPointCut()")
+    public Object controllerReturnBefore(ProceedingJoinPoint joinPoint) throws Throwable {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
-        String token = request.getHeader("token");
-        executor.execute(() -> logAccess(token, joinPoint.getArgs(), request.getRequestURI()));
+        SystemUser systemUser = (SystemUser) SecurityUtils.getSubject().getPrincipal();
+
+        Method methodSignature = ((MethodSignature) joinPoint.getSignature()).getMethod();
+        LoggerInfo loggerInfo = methodSignature.getAnnotation(LoggerInfo.class);
+        String method = joinPoint.getSignature().getDeclaringTypeName() + "." + methodSignature.getName();
+        String hostAddress = SystemUtils.getIpAddr(request);
+        long startTime = System.currentTimeMillis();
+        Object proceed = joinPoint.proceed();
+        long endTime = System.currentTimeMillis();
+        executor.execute(() -> {
+            logAccess(systemUser, joinPoint.getArgs(), request.getRequestURI(), method, hostAddress, (endTime - startTime), loggerInfo);
+        });
+        return proceed;
     }
 
 
-    private void logAccess(String token, Object[] args, String url) {
+    private void logAccess(SystemUser systemUser, Object[] args, String url, String method, String ipAddress, long requestTime, LoggerInfo loggerInfo) {
+        if (systemUser == null) {
+            return;
+        }
         try {
-            String userStr = "【TangerineSpecter】";
-            if (!serviceKey.contains(url)) {
-                log.info("接口日志记录, 请求url: {}, 用户信息: {}, 请求参数: {}, token：{}", url, userStr, JSON.toJSONString(args), token);
+            for (int index = 0; index < args.length; index++) {
+                if (args[index] instanceof MultipartFile) {
+                    args[index] = ((MultipartFile) args[index]).getOriginalFilename();
+                }
+            }
+            if (loggerInfo != null && !loggerInfo.ignore()) {
+                SystemLog systemLog = SystemLog.builder().method(method).username(systemUser.getUsername()).operation(loggerInfo.value())
+                        .params(JSON.toJSONString(args)).time(requestTime).event(loggerInfo.event().getValue()).ip(ipAddress).build();
+                systemLogMapper.insert(systemLog);
+                log.info("接口日志记录, 请求url: {}, 用户信息: {}, 请求参数: {}", url, systemUser.getUsername(), JSON.toJSONString(args));
             }
         } catch (Exception e) {
             log.error("记录用户访问信息出错", e);

@@ -1,5 +1,7 @@
 package com.tangerinespecter.oms.system.controller.system;
 
+import com.tangerinespecter.oms.common.enums.LogOperation;
+import com.tangerinespecter.oms.common.listener.LoggerInfo;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.vo.SystemMenuInfoVo;
 import com.tangerinespecter.oms.system.service.system.MenuSettingService;
@@ -29,7 +31,7 @@ public class MenuSettingController {
     /**
      * 菜单管理
      */
-    @RequestMapping("/menu-setting")
+    @RequestMapping("/page")
     public String menuPage() {
         return "layout/menuSetting";
     }
@@ -61,6 +63,7 @@ public class MenuSettingController {
      */
     @ResponseBody
     @RequestMapping("/insert")
+    @LoggerInfo(value = "添加菜单", event = LogOperation.EVENT_ADD)
     public ServiceResult insertInfo(@Valid() SystemMenuInfoVo vo) {
         return menuSettingService.insertInfo(vo);
     }
@@ -73,6 +76,7 @@ public class MenuSettingController {
      */
     @ResponseBody
     @RequestMapping("/delete")
+    @LoggerInfo(value = "删除菜单", event = LogOperation.EVENT_DELETE)
     public ServiceResult deleteInfo(@RequestParam("id") Long id) {
         return menuSettingService.deleteInfo(id);
     }

@@ -52,6 +52,8 @@ public class MyShiroRealm extends AuthorizingRealm {
         if (!password.equals(systemUser.getPassword())) {
             throw new IncorrectCredentialsException(RetCode.ACCOUNTS_PASSWORD_ERROR.getErrorDesc());
         }
+        log.info("用户：{}在时间{}进行了登录,登录地址{}", userName, DateUtils.getSimpleFormat(CommonConstant.DEFAULT_FORMAT_SECOND),
+                SystemUtils.getLocalhostIP());
         return new SimpleAuthenticationInfo(systemUser, password, userName);
     }
 

@@ -19,11 +19,19 @@ import javax.annotation.Resource;
  * @Date 2019年1月8日
  */
 @Controller
-@RequestMapping("/constellation")
+@RequestMapping("/table/constellation")
 public class DataConstellationController {
 
     @Resource
     private DataConstellationService dataConstellationService;
+
+    /**
+     * 星座页面
+     */
+    @RequestMapping("/page")
+    public String constellationPage() {
+        return "data/constellation";
+    }
 
     /**
      * 星座列表

@@ -1,4 +1,4 @@
-package com.tangerinespecter.oms.system.domain.vo;
+package com.tangerinespecter.oms.system.domain.vo.system;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -3,7 +3,7 @@ package com.tangerinespecter.oms.system.controller.system;
 import com.tangerinespecter.oms.common.enums.LogOperation;
 import com.tangerinespecter.oms.common.listener.LoggerInfo;
 import com.tangerinespecter.oms.common.result.ServiceResult;
-import com.tangerinespecter.oms.system.domain.vo.SystemMenuInfoVo;
+import com.tangerinespecter.oms.system.domain.vo.system.SystemMenuInfoVo;
 import com.tangerinespecter.oms.system.service.system.MenuSettingService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,7 +31,7 @@ public class MenuSettingController {
      * 菜单管理
      */
     @RequestMapping("/page")
-    public String menuPage() {
+    public String pageInfo() {
         return "layout/menuSetting";
     }
 

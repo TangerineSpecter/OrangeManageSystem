@@ -29,7 +29,7 @@ public class DataConstellationController {
      * 星座页面
      */
     @RequestMapping("/page")
-    public String constellationPage() {
+    public String pageInfo() {
         return "data/constellation";
     }
 

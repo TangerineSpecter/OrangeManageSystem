@@ -27,7 +27,7 @@ public class SystemLogController {
      * 日志
      */
     @RequestMapping("/page")
-    public String constellationPage() {
+    public String pageInfo() {
         return "system/logger";
     }
 

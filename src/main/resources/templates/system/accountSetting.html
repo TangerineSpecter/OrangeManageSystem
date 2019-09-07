@@ -101,7 +101,6 @@
 
         //监听提交
         form.on('submit(saveBtn)', function (data) {
-            console.log(data.field);
             $.post('/systemUser/update', data.field, function (result) {
                 console.log(result);
                 layer.alert(JSON.stringify(result.msg), {

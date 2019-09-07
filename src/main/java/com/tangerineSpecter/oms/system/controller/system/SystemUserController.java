@@ -5,7 +5,7 @@ import com.tangerinespecter.oms.common.listener.LoggerInfo;
 import com.tangerinespecter.oms.common.query.SystemUserQueryObject;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;
-import com.tangerinespecter.oms.system.domain.vo.SystemUserInfoVo;
+import com.tangerinespecter.oms.system.domain.vo.system.SystemUserInfoVo;
 import com.tangerinespecter.oms.system.service.system.SystemUserService;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Controller;

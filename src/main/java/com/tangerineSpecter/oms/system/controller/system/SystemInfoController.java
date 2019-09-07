@@ -36,15 +36,6 @@ public class SystemInfoController {
     }
 
     /**
-     * 后台管理员
-     */
-    @RequestMapping("/systemUser")
-    public String systemUserPage(Model model, SystemUserQueryObject qo) {
-        systemUserService.querySystemUserList(model, qo);
-        return "system/systemUser";
-    }
-
-    /**
      * 日历
      */
     @RequestMapping("/calendar")

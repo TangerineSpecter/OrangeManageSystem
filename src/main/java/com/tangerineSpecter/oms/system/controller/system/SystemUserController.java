@@ -2,6 +2,7 @@ package com.tangerinespecter.oms.system.controller.system;
 
 import com.tangerinespecter.oms.common.enums.LogOperation;
 import com.tangerinespecter.oms.common.listener.LoggerInfo;
+import com.tangerinespecter.oms.common.query.SystemUserQueryObject;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;
 import com.tangerinespecter.oms.system.domain.vo.SystemUserInfoVo;
@@ -24,6 +25,7 @@ import javax.validation.Valid;
  * @DateTime 2019年1月11日
  */
 @Controller
+@RequestMapping("/systemUser")
 public class SystemUserController {
 
     @Resource
@@ -39,6 +41,22 @@ public class SystemUserController {
         return "system/accountSetting";
     }
 
+    /**
+     * 后台管理员
+     */
+    @RequestMapping("/page")
+    public String systemUserPage() {
+        return "system/systemUser";
+    }
+
+    /**
+     * 后台管理员
+     */
+    @ResponseBody
+    @RequestMapping("/list")
+    public ServiceResult listInfo(SystemUserQueryObject qo) {
+        return systemUserService.querySystemUserList(qo);
+    }
 
     /**
      * 添加系统管理员
@@ -48,7 +66,7 @@ public class SystemUserController {
      * @throws Exception
      */
     @ResponseBody
-    @RequestMapping("/systemUser/insert")
+    @RequestMapping("/insert")
     @LoggerInfo(value = "用户添加管理员", event = LogOperation.EVENT_ADD)
     public ServiceResult insert(@Valid SystemUser systemUser) throws Exception {
         return systemUserService.insertSystemUserInfo(systemUser);
@@ -58,7 +76,7 @@ public class SystemUserController {
      * 修改系统用户信息
      */
     @ResponseBody
-    @RequestMapping("/systemUser/update")
+    @RequestMapping("/update")
     @LoggerInfo(value = "用户更新管理员", event = LogOperation.EVENT_UPDATE)
     public ServiceResult update(@Valid SystemUserInfoVo vo) {
         return systemUserService.updateSystemUserInfo(vo);

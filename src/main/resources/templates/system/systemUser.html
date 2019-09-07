@@ -1,61 +1,119 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="./common/_common :: common_header">
-    <meta charset="utf-8">
+<head th:replace="./common/_layui_common :: common_header">
+    <meta charset="UTF-8">
 </head>
 <body>
-<div class="content-inner">
-    <section class="tables">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card">
-                        <div class="card-header d-flex align-items-center">
-                            <h3 class="h4">后台管理员</h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-striped table-hover">
-                                    <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>帐号</th>
-                                        <th>昵称</th>
-                                        <th>性别</th>
-                                        <th>邮箱</th>
-                                        <th>生日</th>
-                                        <th>城市</th>
-                                        <th>超级管理员</th>
-                                        <th>创建时间</th>
-                                        <th>操作</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr class="gradeX" th:each="systemUser:${list}">
-                                        <td th:text="${systemUser.id}"/>
-                                        <td th:text="${systemUser.username}"/>
-                                        <td th:text="${systemUser.nickName}"/>
-                                        <td th:text="${systemUser.sex==0?'男':'女'}"/>
-                                        <td th:text="${systemUser.email}"/>
-                                        <td th:text="${systemUser.birthday}"/>
-                                        <td th:text="${systemUser.city}"/>
-                                        <td th:text="${systemUser.admin==1?'是':'否'}"/>
-                                        <td th:text="${systemUser.createTime}"/>
-                                        <td>
-                                            <button type="button" class="btn btn-warning btn-sm">冻结</button>
-                                            <button type="button" class="btn btn-danger btn-sm">删除</button>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <fieldset class="layui-elem-field layuimini-search">
+            <legend>搜索信息</legend>
+            <div style="margin: 10px 10px 10px 10px">
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">星座</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="star" autocomplete="off" class="layui-input">
                             </div>
                         </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">查询日期</label>
+                            <div class="layui-input-inline">
+                                <input type="text" id="queryDay" name="queryDay" autocomplete="off" class="layui-input"
+                                       placeholder="yyyy-MM-dd">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <a class="layui-btn" lay-submit="" lay-filter="data-search-btn">搜索</a>
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
-        </div>
-    </section>
+        </fieldset>
+        <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+    </div>
 </div>
-<div th:replace="./common/_common::common_js"></div>
+<div th:replace="./common/_layui_common::common_js"></div>
+<script>
+    layui.use(['form', 'table', 'laydate'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table,
+            laydate = layui.laydate;
+
+        //日期
+        laydate.render({
+            elem: '#queryDay'
+        });
+
+        table.render({
+            elem: '#currentTableId',
+            url: '/systemUser/list',
+            cols: [
+                [
+                    {type: "checkbox", width: 50, fixed: "left"},
+                    {field: 'id', width: 100, title: 'ID', sort: true},
+                    {field: 'username', width: 80, title: '账号'},
+                    {field: 'nickName', width: 120, title: '昵称'},
+                    {
+                        field: 'sex', width: 80, title: '性别', templet: function (d) {
+                            if (d.sex === -1) {
+                                return "未知";
+                            } else if (d.sex === 0) {
+                                return "男";
+                            } else if (d.sex === 1) {
+                                return "女";
+                            }
+                        }
+                    },
+                    {field: 'email', width: 200, title: '邮箱'},
+                    {field: 'birthday', width: 150, title: '生日'},
+                    {field: 'city', width: 100, title: '城市'},
+                    {
+                        field: 'admin', width: 100, title: '超级管理员', templet: function (d) {
+                            if (d.admin === 0) {
+                                return "不是";
+                            } else {
+                                return "是";
+                            }
+                        }
+                    },
+                    {field: 'loginCount', minWidth: 80, title: '登录次数'},
+                    {field: 'lastLoginDate', minWidth: 150, title: '最后登录时间'},
+                    {field: 'createTime', minWidth: 150, title: '创建时间', fixed: "right"}
+                ]
+            ],
+            limits: [10, 15, 20, 25, 50, 100],
+            limit: 10,
+            page: true
+        });
+
+        // 监听搜索操作
+        form.on('submit(data-search-btn)', function (data) {
+            var result = JSON.stringify(data.field);
+            //执行搜索重载
+            table.reload('currentTableId', {
+                page: {
+                    curr: 1
+                }
+                , where: {
+                    searchParams: result
+                }
+            }, 'data');
+
+            return false;
+        });
+
+        //监听表格复选框选择
+        table.on('checkbox(currentTableFilter)', function (obj) {
+            console.log(obj)
+        });
+    });
+</script>
+<script>
+
+</script>
+
 </body>
 </html>

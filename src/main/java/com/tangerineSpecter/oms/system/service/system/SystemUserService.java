@@ -1,5 +1,6 @@
 package com.tangerinespecter.oms.system.service.system;
 
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -64,6 +65,8 @@ public class SystemUserService {
             return ServiceResult.error(RetCode.ACCOUNTS_PASSWORD_ERROR);
         }
         systemUser.setLoginCount(systemUser.getLoginCount() + 1);
+        systemUser.setLastLoginDate(DateUtil.now());
+        systemUser.setUpdateTime(DateUtil.now());
         systemUserMapper.updateById(systemUser);
         //生成Cookie
 //        String token = IdUtil.simpleUUID();
@@ -78,13 +81,12 @@ public class SystemUserService {
     /**
      * 后台管理员列表
      */
-    public void querySystemUserList(Model model, SystemUserQueryObject qo) {
+    public ServiceResult querySystemUserList(SystemUserQueryObject qo) {
         PageHelper.startPage(qo.getPage(), qo.getLimit());
         List<SystemUser> pageList = systemUserMapper.queryForPage(qo);
         // 得到分页结果对象
         PageInfo<SystemUser> systemUserInfo = new PageInfo<>(pageList);
-        pageResultService.queryForPage(model, systemUserInfo.getList(), systemUserInfo.getTotal(), qo.getPage(),
-                systemUserInfo.getPages());
+        return ServiceResult.pageSuccess(pageList, systemUserInfo.getTotal());
     }
 
     /**

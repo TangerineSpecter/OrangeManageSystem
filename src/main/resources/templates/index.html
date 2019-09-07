@@ -43,8 +43,8 @@
 
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
-                <a href="javascript:;" data-refresh="消息中心"><i class="fa fa-bell"></i><span
-                        class="layui-badge-dot"></span></a>
+                <a href="javascript:;" data-refresh="消息中心"><i class="fa fa-bell"></i><span id="notice-badge"
+                                                                                           class="layui-badge-dot"></span></a>
             </li>
             <li class="layui-nav-item">
                 <a href="javascript:;" data-refresh="刷新"><i class="fa fa-refresh"></i></a>
@@ -103,6 +103,7 @@
     </div>
 
 </div>
+<script src="layui/lib/jquery-3.4.1/jquery-3.4.1.min.js" charset="utf-8"></script>
 <script src="layui/lib/layui-v2.5.4/layui.js" charset="utf-8"></script>
 <script src="layui/js/lay-config.js" charset="utf-8"></script>
 <script>
@@ -113,6 +114,31 @@
 
         layuimini.init('/initHome');
 
+    });
+
+    //jsp页面js脚本
+    var source = new EventSource('/system/notice/push');//发送消息
+    s = '';
+    source.addEventListener('message', function (e) {
+        console.log(e.data);
+        console.log(e.data === "false");
+        if (e.data === "true") {
+            $("#notice-badge").show();
+        } else {
+            $("#notice-badge").hide();
+        }
+    }, false);//添加客户端的监听
+
+    source.addEventListener('open', function (e) {
+        console.log("连接打开");
+    }, false);
+
+    source.addEventListener('error', function (e) {
+        if (e.currentTarget.readyState === EventSource.CLOSED) {
+            console.log("连接关闭");
+        } else {
+            console.log(e.currentTarget.readyState);
+        }
     });
 </script>
 </body>

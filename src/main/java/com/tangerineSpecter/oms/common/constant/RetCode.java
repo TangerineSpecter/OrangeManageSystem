@@ -48,6 +48,16 @@ public class RetCode {
     public static final RetCode ACCOUNTS_NOT_EXIST = new RetCode(102, "帐号不存在！");
 
     /**
+     * 系统菜单不存在
+     */
+    public static final RetCode SYSTEM_MENU_NOT_EXIST = new RetCode(103, "系统菜单不存在！");
+
+    /**
+     * 菜单下存在子级菜单
+     */
+    public static final RetCode SYSTEM_MENU_CHILD_EXIST = new RetCode(104, "菜单下存在子级菜单，不能删除！");
+
+    /**
      * 参数错误
      */
     public static final RetCode PARAM_ERROR = new RetCode(200, "参数错误");

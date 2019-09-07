@@ -10,9 +10,11 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SystemMenuInfoVo {
+
+    private Long id;
     @NotBlank(message = "菜单标题不能为空")
     private String title;
-    @NotBlank(message = "跳转链接不能为空")
+
     private String href;
 
     private Long pid;

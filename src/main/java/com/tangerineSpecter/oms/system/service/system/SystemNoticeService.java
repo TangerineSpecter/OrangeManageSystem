@@ -1,0 +1,41 @@
+package com.tangerinespecter.oms.system.service.system;
+
+import cn.hutool.core.util.RandomUtil;
+import com.tangerinespecter.oms.system.mapper.SystemNoticeMapper;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.io.PrintWriter;
+
+@Service
+public class SystemNoticeService {
+
+    @Resource
+    private SystemNoticeMapper systemNoticeMapper;
+
+    public void push(HttpServletResponse response) {
+        response.setContentType("text/event-stream");
+        response.setCharacterEncoding("utf-8");
+        while (true) {
+            try {
+                int i = RandomUtil.randomInt(20);
+                Thread.sleep(30 * 1000);
+                PrintWriter pw = response.getWriter();
+                if (i % 2 == 0) {
+                    pw.write("data:true\n\n");
+                } else {
+                    pw.write("data:false\n\n");
+                }
+                pw.flush();
+                //检测页面关闭，断开连接
+                if (pw.checkError()) {
+                    return;
+                }
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    }
+}

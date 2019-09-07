@@ -7,7 +7,6 @@ import com.tangerinespecter.oms.system.domain.vo.SystemMenuInfoVo;
 import com.tangerinespecter.oms.system.service.system.MenuSettingService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -42,7 +41,7 @@ public class MenuSettingController {
     @RequestMapping("/addPage")
     public String addMenuPage(Model model) {
         model.addAttribute("menuList", menuSettingService.listInfo());
-        return "system/addMenuSetting";
+        return "/system/addEditMenuSetting";
     }
 
     /**
@@ -66,6 +65,30 @@ public class MenuSettingController {
     @LoggerInfo(value = "添加菜单", event = LogOperation.EVENT_ADD)
     public ServiceResult insertInfo(@Valid() SystemMenuInfoVo vo) {
         return menuSettingService.insertInfo(vo);
+    }
+
+    /**
+     * 编辑菜单
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/update")
+    @LoggerInfo(value = "编辑菜单", event = LogOperation.EVENT_UPDATE)
+    public ServiceResult updateInfo(@Valid() SystemMenuInfoVo vo) {
+        return menuSettingService.updateInfo(vo);
+    }
+
+    /**
+     * 菜单信息
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/info")
+    @LoggerInfo(value = "菜单信息", event = LogOperation.EVENT_ADD, ignore = true)
+    public ServiceResult detailInfo(@RequestParam("id") Long id) {
+        return menuSettingService.detailInfo(id);
     }
 
     /**

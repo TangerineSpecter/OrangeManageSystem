@@ -41,7 +41,7 @@ public class MenuSettingController {
     @RequestMapping("/addPage")
     public String addMenuPage(Model model) {
         model.addAttribute("menuList", menuSettingService.listInfo());
-        return "/system/addEditMenuSetting";
+        return "system/addEditMenuSetting";
     }
 
     /**

@@ -27,7 +27,7 @@ public class QrCodeToolController {
 
     @RequestMapping("/page")
     public String pageInfo() {
-        return "qrCode1";
+        return "tools/qrCode";
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.tangerinespecter.oms.system.service.tools;
 
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.extra.qrcode.QrCodeUtil;
 import com.tangerinespecter.oms.common.result.ServiceResult;
@@ -24,13 +25,14 @@ public class QrCodeToolService {
 
     public ServiceResult createQrCode(QrCodeInfoVo vo) {
         String uuid = IdUtil.randomUUID();
-        String qrPath = QrCodePath + uuid + QrFileName;
-        File dir = new File(qrPath);
+        String qrPath = DateUtil.today() + "/" + uuid + QrFileName;
+        String savePath = QrCodePath + qrPath;
+        File dir = new File(savePath);
         if (!dir.exists()) {
             dir.getParentFile().mkdirs();
         }
-        QrCodeUtil.generate(vo.getContent(), vo.getWidth(), vo.getHeight(), new File(qrPath));
-        String viewPath = QrViewPath + uuid + QrFileName;
+        QrCodeUtil.generate(vo.getContent(), vo.getWidth(), vo.getHeight(), new File(savePath));
+        String viewPath = QrViewPath + qrPath;
         return ServiceResult.success(viewPath);
     }
 

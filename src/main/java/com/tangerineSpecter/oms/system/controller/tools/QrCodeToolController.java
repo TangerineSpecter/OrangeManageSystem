@@ -1,5 +1,7 @@
 package com.tangerinespecter.oms.system.controller.tools;
 
+import com.tangerinespecter.oms.common.enums.LogOperation;
+import com.tangerinespecter.oms.common.listener.LoggerInfo;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.vo.tools.QrCodeInfoVo;
 import com.tangerinespecter.oms.system.service.tools.QrCodeToolService;
@@ -25,7 +27,7 @@ public class QrCodeToolController {
 
     @RequestMapping("/page")
     public String pageInfo() {
-        return "tools/qrCode";
+        return "qrCode1";
     }
 
     /**
@@ -35,6 +37,7 @@ public class QrCodeToolController {
      */
     @ResponseBody
     @RequestMapping("/create")
+    @LoggerInfo(value = "创建二维码", event = LogOperation.EVENT_ADD)
     public ServiceResult createQrCode(@Valid QrCodeInfoVo vo) {
         return qrCodeToolService.createQrCode(vo);
     }

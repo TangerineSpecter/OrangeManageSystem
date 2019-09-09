@@ -1,6 +1,7 @@
 package com.tangerinespecter.oms.system.service.system;
 
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -25,6 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.List;
@@ -72,7 +74,7 @@ public class SystemUserService {
 //        String token = IdUtil.simpleUUID();
 //        redisHelper.set(token, systemUser);
 //        Cookie cookie = new Cookie(COOKIE_NAME_TOKEN, token);
-        //cookie.setMaxAge();
+//        cookie.setMaxAge(1);
 //        cookie.setPath("/");
 //        response.addCookie(cookie);
         return ServiceResult.success();

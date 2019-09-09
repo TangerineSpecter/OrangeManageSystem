@@ -18,7 +18,7 @@ public class TestRedisTemple {
     @Test
     public void testRedis() {
         //redisHelper.set("test1", "hello world");
-        Object test1 = redisHelper.get("test1");
-        System.out.println(test1.toString());
+        //Object test1 = redisHelper.get("test1");
+        //System.out.println(test1.toString());
     }
 }

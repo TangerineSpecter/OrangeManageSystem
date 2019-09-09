@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 /**
  * 系统日志表
  *
@@ -18,7 +20,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SystemLog {
+public class SystemLog implements Serializable {
 
     @TableId(type = IdType.AUTO)
     private Long id;

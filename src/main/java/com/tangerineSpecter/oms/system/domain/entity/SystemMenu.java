@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 /**
  * 系统菜单表
  *
@@ -19,7 +21,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("system_menu")
-public class SystemMenu {
+public class SystemMenu implements Serializable {
 
     @TableId(type = IdType.AUTO)
     private Long id;

@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 /**
  * 星座运势表
  *
@@ -18,7 +20,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DataConstellation {
+public class DataConstellation implements Serializable {
 
     @TableId(type = IdType.AUTO)
     private Long id;

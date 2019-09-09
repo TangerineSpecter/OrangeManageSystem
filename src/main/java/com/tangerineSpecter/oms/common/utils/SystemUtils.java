@@ -1,7 +1,9 @@
 package com.tangerinespecter.oms.common.utils;
 
 import com.tangerinespecter.oms.common.constant.CommonConstant;
+import com.tangerinespecter.oms.system.domain.entity.SystemUser;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.SecurityUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
@@ -48,6 +50,19 @@ public class SystemUtils {
      */
     public static String getOsName() {
         return System.getProperty("os.name");
+    }
+
+    /**
+     * 获取登录管理员ID
+     *
+     * @return
+     */
+    public static Long getSystemUserId() {
+        SystemUser systemUser = (SystemUser) SecurityUtils.getSubject().getPrincipal();
+        if (systemUser == null) {
+            return -1L;
+        }
+        return systemUser.getId();
     }
 
     /**
@@ -185,7 +200,7 @@ public class SystemUtils {
         double totalHD = 0;
         double usedHD = 0;
         String osName = getOsName();
-            if ("Windows".contains(osName)) {
+        if ("Windows".contains(osName)) {
             return 50;
         }
         if (osName.contains("Mac")) {

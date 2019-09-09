@@ -11,6 +11,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+
 /**
  * 系统管理员信息表
  *
@@ -23,7 +25,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class SystemUser {
+public class SystemUser implements Serializable {
 
     @TableId(type = IdType.AUTO)
     private Long id;

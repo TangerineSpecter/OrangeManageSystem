@@ -2,9 +2,11 @@ package com.tangerinespecter.oms.system.controller;
 
 import com.tangerinespecter.oms.common.enums.LogOperation;
 import com.tangerinespecter.oms.common.listener.LoggerInfo;
+import com.tangerinespecter.oms.common.redis.PageModelKey;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;
 import com.tangerinespecter.oms.system.domain.pojo.AccountInfo;
+import com.tangerinespecter.oms.system.service.page.PageResultService;
 import com.tangerinespecter.oms.system.service.system.SystemInfoService;
 import com.tangerinespecter.oms.system.service.system.SystemUserService;
 import org.apache.shiro.SecurityUtils;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -33,13 +36,16 @@ public class IndexController {
     private SystemUserService systemUserService;
     @Resource
     private SystemInfoService systemInfoService;
+    @Resource
+    private PageResultService pageResultService;
 
     /**
      * 登录页
      */
-    @GetMapping("/login")
-    public String loginPage() {
-        return "login";
+    @ResponseBody
+    @GetMapping(value = "/login", produces = "text/html;charset=UTF-8")
+    public String loginPage(HttpServletRequest request, HttpServletResponse response, Model model) {
+        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getLoginPageKey, "login");
     }
 
     /**
@@ -53,22 +59,24 @@ public class IndexController {
     /**
      * 首页
      */
-    @RequestMapping("/index")
-    public String index(Model model) {
+    @ResponseBody
+    @RequestMapping(value = "/index", produces = "text/html;charset=UTF-8")
+    public String index(HttpServletRequest request, HttpServletResponse response, Model model) {
         SystemUser systemUser = (SystemUser) SecurityUtils.getSubject().getPrincipal();
         model.addAttribute("systemUser", systemUser);
-        return "index";
+        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getSystemIndexPageKey, "index");
     }
 
     /**
      * 内容
      */
-    @RequestMapping("/home")
+    @ResponseBody
+    @RequestMapping(value = "/home", produces = "text/html;charset=UTF-8")
     @LoggerInfo(value = "用户访问首页", event = LogOperation.EVENT_VISIT)
-    public String homePage(Model model) {
+    public String homePage(HttpServletRequest request, HttpServletResponse response, Model model) {
         //model.addAttribute("systemInfo", systemInfoService.getSystemInfo());
         //model.addAttribute("managerInfo", systemInfoService.getManagerInfo());
-        return "common/home";
+        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getSystemHomePageKey, "common/home");
     }
 
     /**

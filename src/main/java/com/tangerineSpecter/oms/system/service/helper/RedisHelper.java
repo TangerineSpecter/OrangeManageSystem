@@ -1,6 +1,7 @@
 package com.tangerinespecter.oms.system.service.helper;
 
 import cn.hutool.core.util.StrUtil;
+import com.tangerinespecter.oms.common.redis.KeyPrefix;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -100,11 +101,12 @@ public class RedisHelper {
      * @param key 键
      * @return 值
      */
-    public Object get(String key) {
+    public Object get(KeyPrefix prefix, String key) {
         if (StrUtil.isBlank(key)) {
             return null;
         }
-        return redisTemplate.opsForValue().get(key);
+        String realKey = prefix.getPrefix() + key;
+        return redisTemplate.opsForValue().get(realKey);
     }
 
     /**
@@ -114,9 +116,15 @@ public class RedisHelper {
      * @param value 值
      * @return true成功 false失败
      */
-    public boolean set(String key, Object value) {
+    public boolean set(KeyPrefix prefix, String key, Object value) {
         try {
-            redisTemplate.opsForValue().set(key, value);
+            String realKey = prefix.getPrefix() + key;
+            int time = prefix.getExpireSeconds();
+            if (time > 0) {
+                redisTemplate.opsForValue().set(realKey, value, time, TimeUnit.SECONDS);
+            } else {
+                redisTemplate.opsForValue().set(realKey, value);
+            }
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -132,12 +140,13 @@ public class RedisHelper {
      * @param time  时间(秒) time要大于0 如果time小于等于0 将设置无限期
      * @return true成功 false 失败
      */
-    public boolean set(String key, Object value, long time) {
+    public boolean set(KeyPrefix prefix, String key, Object value, long time) {
         try {
+            String realKey = prefix.getPrefix() + key;
             if (time > 0) {
-                redisTemplate.opsForValue().set(key, value, time, TimeUnit.SECONDS);
+                redisTemplate.opsForValue().set(realKey, value, time, TimeUnit.SECONDS);
             } else {
-                set(key, value);
+                set(prefix, key, value);
             }
             return true;
         } catch (Exception e) {

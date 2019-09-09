@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 /**
  * 收藏表
  *
@@ -18,7 +20,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class WorkCollection {
+public class WorkCollection implements Serializable {
 
     @TableId(type = IdType.AUTO)
     private Long id;

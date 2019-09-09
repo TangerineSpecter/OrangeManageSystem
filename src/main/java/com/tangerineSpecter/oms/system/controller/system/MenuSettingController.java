@@ -2,8 +2,10 @@ package com.tangerinespecter.oms.system.controller.system;
 
 import com.tangerinespecter.oms.common.enums.LogOperation;
 import com.tangerinespecter.oms.common.listener.LoggerInfo;
+import com.tangerinespecter.oms.common.redis.PageModelKey;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.vo.system.SystemMenuInfoVo;
+import com.tangerinespecter.oms.system.service.page.PageResultService;
 import com.tangerinespecter.oms.system.service.system.MenuSettingService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 /**
@@ -26,13 +30,16 @@ public class MenuSettingController {
 
     @Resource
     private MenuSettingService menuSettingService;
+    @Resource
+    private PageResultService pageResultService;
 
     /**
      * 菜单管理
      */
-    @RequestMapping("/page")
-    public String pageInfo() {
-        return "layout/menuSetting";
+    @ResponseBody
+    @RequestMapping(value = "/page", produces = "text/html;charset=UTF-8")
+    public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
+        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getSystemMenuPageKey, "layout/menuSetting");
     }
 
     /**

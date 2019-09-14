@@ -52,7 +52,7 @@ public class ManageLogAspect {
     public Object controllerReturnBefore(ProceedingJoinPoint joinPoint) throws Throwable {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
-        SystemUser systemUser = (SystemUser) SecurityUtils.getSubject().getPrincipal();
+        SystemUser systemUser = SystemUtils.getCurrentUser();
 
         Method methodSignature = ((MethodSignature) joinPoint.getSignature()).getMethod();
         LoggerInfo loggerInfo = methodSignature.getAnnotation(LoggerInfo.class);

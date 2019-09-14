@@ -61,7 +61,7 @@ public class SystemInfoService {
      */
     public ManagerInfoBean getManagerInfo() {
         ManagerInfoBean info = new ManagerInfoBean();
-        SystemUser systemUser = (SystemUser) SecurityUtils.getSubject().getPrincipal();
+        SystemUser systemUser = SystemUtils.getCurrentUser();
         String birthday = systemUser.getBirthday();
         String starName = DateUtils.getStarNameByDate(birthday);
         DataConstellation data = dataConstellationMapper.getConstellationByName(starName);

@@ -1,28 +1,28 @@
 #!/bin/sh
 RESOURCE_NAME=OrangeManageSystem.jar
- 
-tpid=`ps -ef|grep $RESOURCE_NAME|grep -v grep|grep -v kill|awk '{print $2}'`
+
+tpid=$(ps -ef | grep $RESOURCE_NAME | grep -v grep | grep -v kill | awk '{print $2}')
 if [ ${tpid} ]; then
-echo 'Stop Process...'
-kill -15 $tpid
+  echo 'Stop Process...'
+  kill -15 $tpid
 fi
 sleep 5
-tpid=`ps -ef|grep $RESOURCE_NAME|grep -v grep|grep -v kill|awk '{print $2}'`
+tpid=$(ps -ef | grep $RESOURCE_NAME | grep -v grep | grep -v kill | awk '{print $2}')
 if [ ${tpid} ]; then
-echo 'Kill Process!'
-kill -9 $tpid
+  echo 'Kill Process!'
+  kill -9 $tpid
 else
-echo 'Stop Success!'
+  echo 'Stop Success!'
 fi
- 
-tpid=`ps -ef|grep $RESOURCE_NAME|grep -v grep|grep -v kill|awk '{print $2}'`
+
+tpid=$(ps -ef | grep $RESOURCE_NAME | grep -v grep | grep -v kill | awk '{print $2}')
 if [ ${tpid} ]; then
-    echo 'App is running.'
+  echo 'App is running.'
 else
-    echo 'App is NOT running.'
+  echo 'App is NOT running.'
 fi
- 
+
 rm -f tpid
 nohup java -jar ./$RESOURCE_NAME --spring.profiles.active=test &
-echo $! > tpid
+echo $! >tpid
 echo Start Success!

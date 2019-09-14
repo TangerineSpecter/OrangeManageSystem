@@ -1,5 +1,9 @@
 package com.tangerinespecter.oms.common.utils;
 
+import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.RandomUtil;
+import cn.hutool.crypto.digest.DigestAlgorithm;
+import cn.hutool.crypto.digest.Digester;
 import com.tangerinespecter.oms.common.constant.CommonConstant;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;
 import lombok.extern.slf4j.Slf4j;
@@ -53,16 +57,75 @@ public class SystemUtils {
     }
 
     /**
+     * 获取当前登录用户信息
+     *
+     * @return
+     */
+    public static SystemUser getCurrentUser() {
+        return (SystemUser) SecurityUtils.getSubject().getPrincipal();
+    }
+
+    /**
      * 获取登录管理员ID
      *
      * @return
      */
     public static Long getSystemUserId() {
-        SystemUser systemUser = (SystemUser) SecurityUtils.getSubject().getPrincipal();
+        SystemUser systemUser = getCurrentUser();
         if (systemUser == null) {
             return -1L;
         }
         return systemUser.getId();
+    }
+
+    /**
+     * 处理用户密码
+     *
+     * @param password
+     * @return
+     */
+    public static String handleUserPassword(String password, String salt) {
+        password = password.charAt(5) + password.charAt(2) + password + password.charAt(0) + salt;
+        return handleUserPassword(password);
+    }
+
+    /**
+     * 处理用户密码
+     *
+     * @param password
+     * @return
+     */
+    private static String handleUserPassword(String password) {
+        Digester md5 = new Digester(DigestAlgorithm.MD5);
+        password = password.charAt(5) + password.charAt(2) + password + password.charAt(0);
+        return md5.digestHex(password + CommonConstant.SALT);
+    }
+
+    /**
+     * 随机生成用户salt
+     */
+    public static String createUserSlat() {
+        int randomInt = RandomUtil.randomInt(10);
+        String sub = IdUtil.randomUUID().substring(4, 11);
+        return handleUserPassword(sub).substring(randomInt, randomInt + 6);
+    }
+
+    /**
+     * 刷新当前用户session
+     *
+     * @param info
+     */
+    public static void refreshSession(SystemUser info) {
+        SystemUser systemUser = getCurrentUser();
+        systemUser.setUsername(info.getUsername());
+        systemUser.setPhoneNumber(info.getPhoneNumber());
+        systemUser.setCity(info.getCity());
+        systemUser.setSex(info.getSex());
+        systemUser.setEmail(info.getEmail());
+        systemUser.setAvatar(info.getAvatar());
+        systemUser.setBrief(info.getBrief());
+        systemUser.setBirthday(info.getBirthday());
+        systemUser.setNickName(info.getNickName());
     }
 
     /**

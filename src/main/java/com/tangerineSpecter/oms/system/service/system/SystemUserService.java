@@ -1,7 +1,6 @@
 package com.tangerinespecter.oms.system.service.system;
 
 import cn.hutool.core.date.DateUtil;
-import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -9,13 +8,12 @@ import com.tangerinespecter.oms.common.constant.CommonConstant;
 import com.tangerinespecter.oms.common.constant.RetCode;
 import com.tangerinespecter.oms.common.query.SystemUserQueryObject;
 import com.tangerinespecter.oms.common.result.ServiceResult;
+import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;
 import com.tangerinespecter.oms.system.domain.pojo.AccountInfo;
 import com.tangerinespecter.oms.system.domain.vo.system.SystemUserInfoVo;
 import com.tangerinespecter.oms.system.mapper.SystemUserMapper;
 import com.tangerinespecter.oms.system.service.helper.RedisHelper;
-import com.tangerinespecter.oms.system.service.helper.SystemHelper;
-import com.tangerinespecter.oms.system.service.page.PageResultService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -26,7 +24,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import javax.annotation.Resource;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.List;
@@ -40,10 +37,6 @@ public class SystemUserService {
     @Resource
     private SystemUserMapper systemUserMapper;
     @Resource
-    private PageResultService pageResultService;
-    @Resource
-    private SystemHelper systemHelper;
-    @Resource
     private RedisHelper redisHelper;
 
     /**
@@ -55,7 +48,7 @@ public class SystemUserService {
             return ServiceResult.error(RetCode.REGISTER_ACCOUNTS_NOT_EXIST);
         }
         try {
-            String md5Pwd = systemHelper.handleUserPassword(model.getPassword(), systemUser.getSalt());
+            String md5Pwd = SystemUtils.handleUserPassword(model.getPassword(), systemUser.getSalt());
             UsernamePasswordToken token = new UsernamePasswordToken(model.getUsername(), md5Pwd);
             Subject subject = SecurityUtils.getSubject();
             subject.login(token);
@@ -114,7 +107,7 @@ public class SystemUserService {
                 .setEmail(systemUser.getEmail()).setPhoneNumber(systemUser.getPhoneNumber())
                 .setSex(systemUser.getSex());
         systemUserMapper.updateById(info);
-        systemHelper.refreshSession(info);
+        SystemUtils.refreshSession(info);
         return ServiceResult.success();
     }
 
@@ -126,8 +119,8 @@ public class SystemUserService {
         if (user != null) {
             return ServiceResult.error(RetCode.REGISTER_REPEAT);
         }
-        String userSlat = systemHelper.createUserSlat();
-        String password = systemHelper.handleUserPassword(systemUser.getPassword(), userSlat);
+        String userSlat = SystemUtils.createUserSlat();
+        String password = SystemUtils.handleUserPassword(systemUser.getPassword(), userSlat);
         SystemUser userInfo = SystemUser.builder().username(systemUser.getUsername()).password(password)
                 .admin(systemUser.getAdmin()).avatar(systemUser.getAvatar())
                 .city(systemUser.getCity()).birthday(systemUser.getBirthday())

@@ -26,6 +26,10 @@ public class RetCode {
      * 失败
      */
     public static final RetCode FAIL = new RetCode(1, "操作失败");
+    /**
+     * 操作频繁
+     */
+    public static final RetCode BUSY = new RetCode(2, "操作频繁");
 
     /**
      * 帐号已被注册
@@ -56,6 +60,10 @@ public class RetCode {
      * 菜单下存在子级菜单
      */
     public static final RetCode SYSTEM_MENU_CHILD_EXIST = new RetCode(104, "菜单下存在子级菜单，不能删除！");
+    /**
+     * 登录超时
+     */
+    public static final RetCode LOGIN_TIMEOUT = new RetCode(105, "登录超时，请重新进行登录！");
 
     /**
      * 参数错误

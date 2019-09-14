@@ -29,6 +29,12 @@
             </properties>
         </profile>
         <profile>
+            <id>test</id>
+            <properties>
+                <deploy.type>test</deploy.type>
+            </properties>
+        </profile>
+        <profile>
             <id>prod</id>
             <properties>
                 <deploy.type>prod</deploy.type>
@@ -164,6 +170,9 @@
         <resources>
             <resource>
                 <directory>src/main/profiles/${deploy.type}</directory>
+                <excludes>
+                    <exclude>**/*.yml</exclude>
+                </excludes>
             </resource>
             <resource>
                 <directory>src/main/resources/</directory>

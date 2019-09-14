@@ -4,6 +4,7 @@ import com.tangerinespecter.oms.common.enums.LogOperation;
 import com.tangerinespecter.oms.common.listener.LoggerInfo;
 import com.tangerinespecter.oms.common.query.SystemUserQueryObject;
 import com.tangerinespecter.oms.common.result.ServiceResult;
+import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;
 import com.tangerinespecter.oms.system.domain.vo.system.SystemUserInfoVo;
 import com.tangerinespecter.oms.system.service.system.SystemUserService;
@@ -36,7 +37,7 @@ public class SystemUserController {
      */
     @RequestMapping(value = "/accountSetting", method = RequestMethod.GET)
     public String accountSetting(Model model) {
-        SystemUser systemUser = (SystemUser) SecurityUtils.getSubject().getPrincipal();
+        SystemUser systemUser = SystemUtils.getCurrentUser();
         model.addAttribute("systemUser", systemUser);
         return "system/accountSetting";
     }

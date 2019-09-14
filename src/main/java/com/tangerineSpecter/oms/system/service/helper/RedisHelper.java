@@ -162,11 +162,12 @@ public class RedisHelper {
      * @param delta 要增加几(大于0)
      * @return
      */
-    public long incr(String key, long delta) {
+    public long incr(KeyPrefix prefix, String key, long delta) {
         if (delta < 0) {
             throw new RuntimeException("递增因子必须大于0");
         }
-        return redisTemplate.opsForValue().increment(key, delta);
+        String realKey = prefix.getPrefix() + key;
+        return redisTemplate.opsForValue().increment(realKey, delta);
     }
 
     /**

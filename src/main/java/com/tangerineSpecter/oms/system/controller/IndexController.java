@@ -4,6 +4,7 @@ import com.tangerinespecter.oms.common.enums.LogOperation;
 import com.tangerinespecter.oms.common.listener.LoggerInfo;
 import com.tangerinespecter.oms.common.redis.PageModelKey;
 import com.tangerinespecter.oms.common.result.ServiceResult;
+import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;
 import com.tangerinespecter.oms.system.domain.pojo.AccountInfo;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
@@ -62,7 +63,7 @@ public class IndexController {
     @ResponseBody
     @RequestMapping(value = "/index", produces = "text/html;charset=UTF-8")
     public String index(HttpServletRequest request, HttpServletResponse response, Model model) {
-        SystemUser systemUser = (SystemUser) SecurityUtils.getSubject().getPrincipal();
+        SystemUser systemUser = SystemUtils.getCurrentUser();
         model.addAttribute("systemUser", systemUser);
         return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getSystemIndexPageKey, "index");
     }

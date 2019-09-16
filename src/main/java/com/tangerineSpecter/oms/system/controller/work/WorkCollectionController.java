@@ -1,14 +1,13 @@
 package com.tangerinespecter.oms.system.controller.work;
 
+import com.tangerinespecter.oms.common.query.WorkCollectionQueryObject;
+import com.tangerinespecter.oms.common.result.ServiceResult;
+import com.tangerinespecter.oms.system.domain.entity.WorkCollection;
+import com.tangerinespecter.oms.system.service.work.IWorkCollectionService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.tangerinespecter.oms.common.query.WorkCollectionQueryObject;
-import com.tangerinespecter.oms.common.result.ServiceResult;
-import com.tangerinespecter.oms.system.domain.entity.WorkCollection;
-import com.tangerinespecter.oms.system.service.work.WorkCollectionService;
 
 import javax.annotation.Resource;
 
@@ -23,7 +22,7 @@ import javax.annotation.Resource;
 public class WorkCollectionController {
 
     @Resource
-    private WorkCollectionService workCollectionService;
+    private IWorkCollectionService workCollectionService;
 
     /**
      * 收藏页面

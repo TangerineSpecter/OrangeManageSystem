@@ -7,8 +7,7 @@ import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;
 import com.tangerinespecter.oms.system.domain.vo.system.SystemUserInfoVo;
-import com.tangerinespecter.oms.system.service.system.SystemUserService;
-import org.apache.shiro.SecurityUtils;
+import com.tangerinespecter.oms.system.service.system.ISystemUserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +29,7 @@ import javax.validation.Valid;
 public class SystemUserController {
 
     @Resource
-    private SystemUserService systemUserService;
+    private ISystemUserService systemUserService;
 
     /**
      * 帐号设置

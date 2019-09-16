@@ -4,7 +4,7 @@ import com.tangerinespecter.oms.common.enums.LogOperation;
 import com.tangerinespecter.oms.common.listener.LoggerInfo;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.vo.tools.QrCodeInfoVo;
-import com.tangerinespecter.oms.system.service.tools.QrCodeToolService;
+import com.tangerinespecter.oms.system.service.tools.IQrCodeToolService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,7 +23,7 @@ import javax.validation.Valid;
 public class QrCodeToolController {
 
     @Resource
-    private QrCodeToolService qrCodeToolService;
+    private IQrCodeToolService qrCodeToolService;
 
     @RequestMapping("/page")
     public String pageInfo() {

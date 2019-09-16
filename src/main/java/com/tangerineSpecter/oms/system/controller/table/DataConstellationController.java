@@ -4,7 +4,7 @@ import com.tangerinespecter.oms.common.query.ConstellationQueryObject;
 import com.tangerinespecter.oms.common.redis.PageModelKey;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
-import com.tangerinespecter.oms.system.service.table.DataConstellationService;
+import com.tangerinespecter.oms.system.service.table.IDataConstellationService;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 public class DataConstellationController {
 
     @Resource
-    private DataConstellationService dataConstellationService;
+    private IDataConstellationService dataConstellationService;
     @Resource
     private PageResultService pageResultService;
 

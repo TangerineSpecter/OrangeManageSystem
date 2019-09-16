@@ -1,4 +1,4 @@
-package com.tangerinespecter.oms.system.service.system;
+package com.tangerinespecter.oms.system.service.system.impl;
 
 import com.alibaba.druid.util.StringUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -14,6 +14,7 @@ import com.tangerinespecter.oms.system.domain.pojo.ManagerInfoBean;
 import com.tangerinespecter.oms.system.domain.pojo.SystemInfoBean;
 import com.tangerinespecter.oms.system.dao.DataConstellationMapper;
 import com.tangerinespecter.oms.system.dao.SystemMenuMapper;
+import com.tangerinespecter.oms.system.service.system.ISystemInfoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +33,7 @@ import java.util.Map;
  */
 @Slf4j
 @Service
-public class SystemInfoService {
+public class SystemInfoServiceImpl implements ISystemInfoService {
     @Resource
     private DataConstellationMapper dataConstellationMapper;
     @Resource
@@ -43,6 +44,7 @@ public class SystemInfoService {
     /**
      * 获取系统信息
      */
+    @Override
     public SystemInfoBean getSystemInfo() {
         SystemInfoBean info = new SystemInfoBean();
         try {
@@ -58,6 +60,7 @@ public class SystemInfoService {
     /**
      * 获取管理员相关信息
      */
+    @Override
     public ManagerInfoBean getManagerInfo() {
         ManagerInfoBean info = new ManagerInfoBean();
         SystemUser systemUser = SystemUtils.getCurrentUser();
@@ -95,12 +98,12 @@ public class SystemInfoService {
         return notice;
     }
 
+    @Override
     public HomePageDataDto initHome() {
         QueryWrapper<SystemMenu> queryWrapper = new QueryWrapper<>();
         queryWrapper.orderBy(true, false, "sort");
         List<SystemMenu> list = systemMenuMapper.selectList(queryWrapper);
-        HomePageDataDto dto = HomePageDataDto.builder().menuInfo(getMenuChildInfo(list)).build();
-        return dto;
+        return HomePageDataDto.builder().menuInfo(getMenuChildInfo(list)).build();
     }
 
     /**
@@ -110,8 +113,6 @@ public class SystemInfoService {
      * @return 菜单
      */
     private Map<String, MenuChildInfo> getMenuChildInfo(List<SystemMenu> list) {
-        //最后的结果
-        List<MenuChildInfo> parentMenu = new ArrayList<>();
         //找出所有一级菜单
         Map<String, MenuChildInfo> menuMap = new LinkedHashMap<>();
         for (SystemMenu menu : list) {
@@ -121,10 +122,6 @@ public class SystemInfoService {
                         .id(menu.getId()).child(getChildMenuInfo(menu.getId(), list)).build());
             }
         }
-        //设置子级菜单
-        for (MenuChildInfo pMenu : parentMenu) {
-            pMenu.setChild(getChildMenuInfo(pMenu.getId(), list));
-        }
         return menuMap;
     }
 
@@ -133,7 +130,6 @@ public class SystemInfoService {
      *
      * @param pid      父菜单
      * @param rootMenu 根目录
-     * @return
      */
     private List<MenuChildInfo> getChildMenuInfo(Long pid, List<SystemMenu> rootMenu) {
         if (pid == null) {

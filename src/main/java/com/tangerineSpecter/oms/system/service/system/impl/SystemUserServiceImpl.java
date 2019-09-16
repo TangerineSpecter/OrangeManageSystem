@@ -1,4 +1,4 @@
-package com.tangerinespecter.oms.system.service.system;
+package com.tangerinespecter.oms.system.service.system.impl;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
@@ -9,11 +9,12 @@ import com.tangerinespecter.oms.common.constants.RetCode;
 import com.tangerinespecter.oms.common.query.SystemUserQueryObject;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
+import com.tangerinespecter.oms.system.dao.SystemUserMapper;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;
 import com.tangerinespecter.oms.system.domain.pojo.AccountInfo;
 import com.tangerinespecter.oms.system.domain.vo.system.SystemUserInfoVo;
-import com.tangerinespecter.oms.system.dao.SystemUserMapper;
 import com.tangerinespecter.oms.system.service.helper.RedisHelper;
+import com.tangerinespecter.oms.system.service.system.ISystemUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -30,7 +31,7 @@ import java.util.List;
 
 @Slf4j
 @Service
-public class SystemUserService {
+public class SystemUserServiceImpl implements ISystemUserService {
 
     private final String COOKIE_NAME_TOKEN = "token";
 
@@ -42,6 +43,7 @@ public class SystemUserService {
     /**
      * 校验登录
      */
+    @Override
     public ServiceResult verifyLogin(HttpServletResponse response, @Valid AccountInfo model) {
         SystemUser systemUser = systemUserMapper.selectOneByUserName(model.getUsername());
         if (systemUser == null) {
@@ -76,6 +78,7 @@ public class SystemUserService {
     /**
      * 后台管理员列表
      */
+    @Override
     public ServiceResult querySystemUserList(SystemUserQueryObject qo) {
         PageHelper.startPage(qo.getPage(), qo.getLimit());
         List<SystemUser> pageList = systemUserMapper.queryForPage(qo);
@@ -87,6 +90,7 @@ public class SystemUserService {
     /**
      * 获取管理员信息
      */
+    @Override
     public void getSystemInfo(Model model, Long id) {
         model.addAttribute("systemUserInfo", systemUserMapper.selectById(id));
     }
@@ -94,6 +98,7 @@ public class SystemUserService {
     /**
      * 更新账户信息
      */
+    @Override
     public ServiceResult updateSystemUserInfo(SystemUserInfoVo systemUser) {
         if (systemUser.getId() == null) {
             return ServiceResult.success();
@@ -111,7 +116,8 @@ public class SystemUserService {
         return ServiceResult.success();
     }
 
-    public ServiceResult insertSystemUserInfo(SystemUser systemUser) throws Exception {
+    @Override
+    public ServiceResult insertSystemUserInfo(SystemUser systemUser) {
         if (StrUtil.isBlank(systemUser.getUsername()) || StrUtil.isBlank(systemUser.getPassword())) {
             return ServiceResult.paramError();
         }

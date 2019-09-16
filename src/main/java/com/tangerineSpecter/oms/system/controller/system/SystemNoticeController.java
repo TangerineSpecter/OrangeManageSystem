@@ -1,6 +1,6 @@
 package com.tangerinespecter.oms.system.controller.system;
 
-import com.tangerinespecter.oms.system.service.system.SystemNoticeService;
+import com.tangerinespecter.oms.system.service.system.ISystemNoticeService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 public class SystemNoticeController {
 
     @Resource
-    private SystemNoticeService systemNoticeService;
+    private ISystemNoticeService systemNoticeService;
 
     /**
      * 实现服务器推送

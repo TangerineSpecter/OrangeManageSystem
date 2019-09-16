@@ -8,9 +8,8 @@ import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;
 import com.tangerinespecter.oms.system.domain.pojo.AccountInfo;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
-import com.tangerinespecter.oms.system.service.system.SystemInfoService;
-import com.tangerinespecter.oms.system.service.system.SystemUserService;
-import org.apache.shiro.SecurityUtils;
+import com.tangerinespecter.oms.system.service.system.ISystemInfoService;
+import com.tangerinespecter.oms.system.service.system.ISystemUserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,9 +33,9 @@ import javax.validation.Valid;
 public class IndexController {
 
     @Resource
-    private SystemUserService systemUserService;
+    private ISystemUserService systemUserService;
     @Resource
-    private SystemInfoService systemInfoService;
+    private ISystemInfoService systemInfoService;
     @Resource
     private PageResultService pageResultService;
 

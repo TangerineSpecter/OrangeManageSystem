@@ -6,7 +6,7 @@ import com.tangerinespecter.oms.common.redis.PageModelKey;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.vo.system.SystemMenuInfoVo;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
-import com.tangerinespecter.oms.system.service.system.MenuSettingService;
+import com.tangerinespecter.oms.system.service.system.IMenuSetting;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +29,7 @@ import javax.validation.Valid;
 public class MenuSettingController {
 
     @Resource
-    private MenuSettingService menuSettingService;
+    private IMenuSetting menuSettingService;
     @Resource
     private PageResultService pageResultService;
 

@@ -1,10 +1,11 @@
-package com.tangerinespecter.oms.system.service.tools;
+package com.tangerinespecter.oms.system.service.tools.impl;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.extra.qrcode.QrCodeUtil;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.vo.tools.QrCodeInfoVo;
+import com.tangerinespecter.oms.system.service.tools.IQrCodeToolService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,7 @@ import javax.validation.Valid;
 import java.io.File;
 
 @Service
-public class QrCodeToolService {
+public class QrCodeToolServiceImpl implements IQrCodeToolService {
 
     @Value("${qrcode.path}")
     private String QrCodePath;
@@ -23,6 +24,7 @@ public class QrCodeToolService {
      */
     private String QrFileName = "/qrcode.jpg";
 
+    @Override
     public ServiceResult createQrCode(QrCodeInfoVo vo) {
         String uuid = IdUtil.randomUUID();
         String qrPath = DateUtil.today() + "/" + uuid + QrFileName;

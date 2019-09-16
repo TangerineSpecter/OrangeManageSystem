@@ -1,4 +1,4 @@
-package com.tangerinespecter.oms.system.service.work;
+package com.tangerinespecter.oms.system.service.work.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -8,6 +8,7 @@ import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.entity.WorkCollection;
 import com.tangerinespecter.oms.system.dao.WorkCollectionMapper;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
+import com.tangerinespecter.oms.system.service.work.IWorkCollectionService;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -15,7 +16,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @Service
-public class WorkCollectionService {
+public class WorkCollectionServiceImpl implements IWorkCollectionService {
 
     @Resource
     private WorkCollectionMapper workCollectionMapper;
@@ -25,6 +26,7 @@ public class WorkCollectionService {
     /**
      * 分页查询
      */
+    @Override
     public void queryForPage(Model model, WorkCollectionQueryObject qo) {
         PageHelper.startPage(qo.getPage(), qo.getLimit());
         List<WorkCollection> pageList = workCollectionMapper.queryForPage(qo);
@@ -36,6 +38,7 @@ public class WorkCollectionService {
     /**
      * 新增收藏
      */
+    @Override
     public ServiceResult insert(WorkCollection data) {
         data.setSort(CommonConstant.Number.COMMON_NUMBER_ZERO);
         data.setIsDel(CommonConstant.IS_DEL_NO);
@@ -46,6 +49,7 @@ public class WorkCollectionService {
     /**
      * 删除收藏
      */
+    @Override
     public ServiceResult delete(Long id) {
         workCollectionMapper.deleteById(id);
         return ServiceResult.success();

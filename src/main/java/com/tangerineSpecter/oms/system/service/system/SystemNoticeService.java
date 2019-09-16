@@ -1,7 +1,7 @@
 package com.tangerinespecter.oms.system.service.system;
 
 import cn.hutool.core.util.RandomUtil;
-import com.tangerinespecter.oms.system.mapper.SystemNoticeMapper;
+import com.tangerinespecter.oms.system.dao.SystemNoticeMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

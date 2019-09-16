@@ -2,7 +2,7 @@ package com.tangerinespecter.oms.job.init;
 
 import com.tangerinespecter.oms.common.constants.CommonConstant;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;
-import com.tangerinespecter.oms.system.mapper.SystemUserMapper;
+import com.tangerinespecter.oms.system.dao.SystemUserMapper;
 import com.tangerinespecter.oms.system.service.system.SystemUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;

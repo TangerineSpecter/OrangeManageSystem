@@ -12,7 +12,7 @@ import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;
 import com.tangerinespecter.oms.system.domain.pojo.AccountInfo;
 import com.tangerinespecter.oms.system.domain.vo.system.SystemUserInfoVo;
-import com.tangerinespecter.oms.system.mapper.SystemUserMapper;
+import com.tangerinespecter.oms.system.dao.SystemUserMapper;
 import com.tangerinespecter.oms.system.service.helper.RedisHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;

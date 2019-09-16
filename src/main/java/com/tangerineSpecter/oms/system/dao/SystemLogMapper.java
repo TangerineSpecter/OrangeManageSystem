@@ -1,4 +1,4 @@
-package com.tangerinespecter.oms.system.mapper;
+package com.tangerinespecter.oms.system.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.tangerinespecter.oms.common.query.SystemLogQueryObject;

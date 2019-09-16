@@ -6,7 +6,7 @@ import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.system.domain.entity.Permission;
 import com.tangerinespecter.oms.system.domain.entity.Role;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;
-import com.tangerinespecter.oms.system.mapper.SystemUserMapper;
+import com.tangerinespecter.oms.system.dao.SystemUserMapper;
 import com.tangerinespecter.oms.common.constants.CommonConstant;
 import com.tangerinespecter.oms.common.constants.RetCode;
 import lombok.extern.slf4j.Slf4j;

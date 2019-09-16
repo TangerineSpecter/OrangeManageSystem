@@ -15,7 +15,7 @@ import com.tangerinespecter.oms.common.utils.DateUtils;
 import com.tangerinespecter.oms.common.utils.HttpUtils;
 import com.tangerinespecter.oms.common.utils.ParamUtils;
 import com.tangerinespecter.oms.system.domain.entity.DataConstellation;
-import com.tangerinespecter.oms.system.mapper.DataConstellationMapper;
+import com.tangerinespecter.oms.system.dao.DataConstellationMapper;
 
 import lombok.extern.slf4j.Slf4j;
 

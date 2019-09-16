@@ -4,7 +4,7 @@ import com.tangerinespecter.oms.common.constants.RetCode;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.entity.SystemMenu;
 import com.tangerinespecter.oms.system.domain.vo.system.SystemMenuInfoVo;
-import com.tangerinespecter.oms.system.mapper.SystemMenuMapper;
+import com.tangerinespecter.oms.system.dao.SystemMenuMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

@@ -1,6 +1,6 @@
 package com.tangerinespecter.oms.common.exception;
 
-import com.tangerinespecter.oms.common.constant.RetCode;
+import com.tangerinespecter.oms.common.constants.RetCode;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import org.springframework.validation.BindException;
 import org.springframework.validation.ObjectError;
@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.rmi.ServerError;
 import java.util.List;
 
 /**

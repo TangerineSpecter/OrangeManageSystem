@@ -1,6 +1,6 @@
 package com.tangerinespecter.oms.job.init;
 
-import com.tangerinespecter.oms.common.constant.CommonConstant;
+import com.tangerinespecter.oms.common.constants.CommonConstant;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;
 import com.tangerinespecter.oms.system.mapper.SystemUserMapper;
 import com.tangerinespecter.oms.system.service.system.SystemUserService;

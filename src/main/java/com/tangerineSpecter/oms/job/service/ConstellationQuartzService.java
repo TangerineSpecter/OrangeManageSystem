@@ -10,7 +10,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.tangerinespecter.oms.common.constant.CommonConstant;
+import com.tangerinespecter.oms.common.constants.CommonConstant;
 import com.tangerinespecter.oms.common.utils.DateUtils;
 import com.tangerinespecter.oms.common.utils.HttpUtils;
 import com.tangerinespecter.oms.common.utils.ParamUtils;

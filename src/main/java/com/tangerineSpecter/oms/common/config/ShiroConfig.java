@@ -27,7 +27,7 @@ public class ShiroConfig {
     @Bean
     public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
-        // 设置securityManager
+        // 设置securityManager  DefaultFilter.class
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         // 登录的url
         shiroFilterFactoryBean.setLoginUrl("/login");
@@ -53,7 +53,9 @@ public class ShiroConfig {
         // 登出
         filterChainDefinitionMap.put("/logout", "logout");
         filterChainDefinitionMap.put("/", "anon");
-        // 除上以外所有url都必须所有用户认证通过才可以访问
+        // index必须用户认证通过才可以访问
+        filterChainDefinitionMap.put("/index", "authc");
+        // 除上以外所有url都必须所有用户登录才可以访问
         filterChainDefinitionMap.put("/**", "user");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         log.info("Shiro拦截器加载成功");

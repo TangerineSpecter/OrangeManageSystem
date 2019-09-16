@@ -4,7 +4,7 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.crypto.digest.DigestAlgorithm;
 import cn.hutool.crypto.digest.Digester;
-import com.tangerinespecter.oms.common.constant.CommonConstant;
+import com.tangerinespecter.oms.common.constants.CommonConstant;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;

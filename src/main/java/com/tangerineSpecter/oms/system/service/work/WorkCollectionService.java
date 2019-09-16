@@ -2,7 +2,7 @@ package com.tangerinespecter.oms.system.service.work;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.tangerinespecter.oms.common.constant.CommonConstant;
+import com.tangerinespecter.oms.common.constants.CommonConstant;
 import com.tangerinespecter.oms.common.query.WorkCollectionQueryObject;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.entity.WorkCollection;

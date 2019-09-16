@@ -1,6 +1,6 @@
 package com.tangerinespecter.oms.common.exception;
 
-import com.tangerinespecter.oms.common.constant.RetCode;
+import com.tangerinespecter.oms.common.constants.RetCode;
 import lombok.Getter;
 
 /**

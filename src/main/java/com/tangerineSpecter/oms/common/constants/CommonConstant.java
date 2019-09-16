@@ -1,4 +1,4 @@
-package com.tangerinespecter.oms.common.constant;
+package com.tangerinespecter.oms.common.constants;
 
 /**
  * 默认常量类

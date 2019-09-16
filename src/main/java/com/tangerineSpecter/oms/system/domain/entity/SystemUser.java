@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 系统管理员信息表
@@ -97,4 +99,12 @@ public class SystemUser implements Serializable {
      * 删除状态（0：未删除；1：已删除）
      */
     private Integer isDel;
+    /**
+     * 权限
+     */
+    private Set<Permission> permissions = new HashSet<>();
+    /**
+     * 管理员角色
+     */
+    private Set<Role> roles = new HashSet<>();
 }

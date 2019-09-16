@@ -1,4 +1,4 @@
-package com.tangerinespecter.oms.common.constant;
+package com.tangerinespecter.oms.common.constants;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

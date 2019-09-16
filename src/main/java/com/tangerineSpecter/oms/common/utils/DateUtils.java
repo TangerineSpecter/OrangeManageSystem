@@ -1,7 +1,7 @@
 package com.tangerinespecter.oms.common.utils;
 
 import cn.hutool.core.util.StrUtil;
-import com.tangerinespecter.oms.common.constant.CommonConstant;
+import com.tangerinespecter.oms.common.constants.CommonConstant;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

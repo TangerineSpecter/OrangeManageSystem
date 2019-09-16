@@ -1,6 +1,6 @@
 package com.tangerinespecter.oms.system.service.system;
 
-import com.tangerinespecter.oms.common.constant.RetCode;
+import com.tangerinespecter.oms.common.constants.RetCode;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.entity.SystemMenu;
 import com.tangerinespecter.oms.system.domain.vo.system.SystemMenuInfoVo;

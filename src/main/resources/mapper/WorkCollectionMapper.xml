@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.tangerinespecter.oms.system.dao.WorkCollectionMapper">
+<mapper namespace="com.tangerinespecter.oms.system.mapper.WorkCollectionMapper">
     <sql id="Base_Column_List">
 		title, content, remark, type, sort, is_del
 	</sql>

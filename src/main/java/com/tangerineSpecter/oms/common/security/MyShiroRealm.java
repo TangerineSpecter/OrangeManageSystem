@@ -6,7 +6,7 @@ import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.system.domain.entity.Permission;
 import com.tangerinespecter.oms.system.domain.entity.Role;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;
-import com.tangerinespecter.oms.system.dao.SystemUserMapper;
+import com.tangerinespecter.oms.system.mapper.SystemUserMapper;
 import com.tangerinespecter.oms.common.constants.CommonConstant;
 import com.tangerinespecter.oms.common.constants.RetCode;
 import lombok.extern.slf4j.Slf4j;
@@ -71,7 +71,6 @@ public class MyShiroRealm extends AuthorizingRealm {
         String password = new String((char[]) token.getCredentials());
         log.info("用户：{}在时间{}进行了登录,登录地址{}", userName, DateUtils.getSimpleFormat(CommonConstant.DEFAULT_FORMAT_SECOND),
                 SystemUtils.getLocalhostIP());
-
         SystemUser systemUser = systemUserMapper.getUserByUserName(userName);
         if (systemUser == null) {
             throw new UnknownAccountException(RetCode.REGISTER_ACCOUNTS_NOT_EXIST.getErrorDesc());
@@ -81,6 +80,7 @@ public class MyShiroRealm extends AuthorizingRealm {
         }
         log.info("用户：{}在时间{}进行了登录,登录地址{}", userName, DateUtils.getSimpleFormat(CommonConstant.DEFAULT_FORMAT_SECOND),
                 SystemUtils.getLocalhostIP());
+
         return new SimpleAuthenticationInfo(systemUser, password, userName);
     }
 

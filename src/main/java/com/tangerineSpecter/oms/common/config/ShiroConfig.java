@@ -1,5 +1,6 @@
 package com.tangerinespecter.oms.common.config;
 
+import com.tangerinespecter.oms.common.security.CredentialMatcher;
 import com.tangerinespecter.oms.common.security.MyShiroRealm;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.mgt.SecurityManager;
@@ -7,6 +8,7 @@ import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -24,8 +26,8 @@ public class ShiroConfig {
     /**
      * Filter工厂，设置对应的过滤条件和跳转条件
      */
-    @Bean
-    public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager) {
+    @Bean("shiroFilterFactoryBean")
+    public ShiroFilterFactoryBean shiroFilterFactoryBean(@Qualifier("securityManager") SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         // 设置securityManager  DefaultFilter.class
         shiroFilterFactoryBean.setSecurityManager(securityManager);
@@ -63,24 +65,30 @@ public class ShiroConfig {
     }
 
     /**
-     * 将自己的验证方式加入容器
+     * 权限管理，配置主要是Realm的管理认证
      */
-    @Bean
-    public MyShiroRealm myShiroRealm() {
-        // 配置Realm
-        MyShiroRealm myShiroRealm = new MyShiroRealm();
-        return myShiroRealm;
+    @Bean("securityManager")
+    public SecurityManager securityManager(@Qualifier("myShiroRealm") MyShiroRealm myShiroRealm) {
+        // 配置SecurityManager，并注入shiroRealm
+        DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
+        securityManager.setRealm(myShiroRealm);
+        return securityManager;
     }
 
     /**
-     * 权限管理，配置主要是Realm的管理认证
+     * 将自己的验证方式加入容器
      */
-    @Bean
-    public SecurityManager securityManager() {
-        // 配置SecurityManager，并注入shiroRealm
-        DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-        securityManager.setRealm(myShiroRealm());
-        return securityManager;
+    @Bean("myShiroRealm")
+    public MyShiroRealm myShiroRealm(@Qualifier("credentialMatcher") CredentialMatcher credentialMatcher) {
+        // 配置Realm
+        MyShiroRealm myShiroRealm = new MyShiroRealm();
+        myShiroRealm.setCredentialsMatcher(credentialMatcher);
+        return myShiroRealm;
+    }
+
+    @Bean("credentialMatcher")
+    public CredentialMatcher credentialMatcher() {
+        return new CredentialMatcher();
     }
 
     @Bean(name = "lifecycleBeanPostProcessor")

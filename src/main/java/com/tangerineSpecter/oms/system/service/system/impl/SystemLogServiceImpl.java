@@ -6,7 +6,7 @@ import com.tangerinespecter.oms.common.enums.LogOperation;
 import com.tangerinespecter.oms.common.query.SystemLogQueryObject;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.dto.system.LoggerListDto;
-import com.tangerinespecter.oms.system.dao.SystemLogMapper;
+import com.tangerinespecter.oms.system.mapper.SystemLogMapper;
 import com.tangerinespecter.oms.system.service.system.ISystemLogService;
 import org.springframework.stereotype.Service;
 

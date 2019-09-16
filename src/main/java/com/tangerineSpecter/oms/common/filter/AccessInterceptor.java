@@ -50,8 +50,8 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
                     throw new GlobalException(RetCode.LOGIN_TIMEOUT);
                 }
             }
-            String requestURI = request.getRequestURI();
-            String key = requestURI + "_" + currentUser.getId();
+            String requestUrl = request.getRequestURI();
+            String key = requestUrl + "_" + currentUser.getId();
             Integer count = (Integer) redisHelper.get(AccessKey.access, key);
             if (count == null) {
                 redisHelper.set(AccessKey.access, key, 1, accessLimit.seconds());

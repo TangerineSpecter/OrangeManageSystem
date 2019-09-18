@@ -20,7 +20,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -79,13 +82,30 @@ public class ManageLogAspect {
             }
             if (loggerInfo != null && !loggerInfo.ignore()) {
                 SystemLog systemLog = SystemLog.builder().method(method).username(systemUser.getUsername()).operation(loggerInfo.value())
-                        .params(JSON.toJSONString(args)).time(requestTime).event(loggerInfo.event().getValue()).ip(ipAddress).build();
+                        .params(JSON.toJSONString(handlerParams(args))).time(requestTime).event(loggerInfo.event().getValue()).ip(ipAddress).build();
                 systemLogMapper.insert(systemLog);
-                log.info("接口日志记录, 请求url: {}, 用户信息: {}, 请求参数: {}", url, systemUser.getUsername(), JSON.toJSONString(args));
+                log.info("接口日志记录, 请求url: {}, 用户信息: {}, 请求参数: {}", url, systemUser.getUsername(), JSON.toJSONString(handlerParams(args)));
             }
         } catch (Exception e) {
             log.error("记录用户访问信息出错", e);
         }
+    }
+
+    /**
+     * 处理参数
+     *
+     * @param args
+     * @return
+     */
+    private List<Object> handlerParams(Object[] args) {
+        List<Object> params = new ArrayList<>();
+        for (Object param : args) {
+            if (param instanceof HttpServletRequest || param instanceof HttpServletResponse) {
+                continue;
+            }
+            params.add(param);
+        }
+        return params;
     }
 
 }

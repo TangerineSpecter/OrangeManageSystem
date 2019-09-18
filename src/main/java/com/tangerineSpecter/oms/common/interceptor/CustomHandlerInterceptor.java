@@ -3,6 +3,8 @@ package com.tangerinespecter.oms.common.interceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -13,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @version v0.0.1
  * @Datetime 2019年1月4日 12:55:35
  */
+@Service
 public class CustomHandlerInterceptor implements HandlerInterceptor {
 
     @Override

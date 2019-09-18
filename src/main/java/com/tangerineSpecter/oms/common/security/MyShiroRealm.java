@@ -18,6 +18,7 @@ import org.apache.shiro.subject.PrincipalCollection;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -43,7 +44,8 @@ public class MyShiroRealm extends AuthorizingRealm {
         List<String> permissionList = new ArrayList<>();
         //获取当前用户角色
         List<String> roleNameList = new ArrayList<>();
-        Set<Role> roleSet = currentUser.getRoles();
+        Set<Role> roleSet = new HashSet<>();
+        //currentUser.getRoles();
         if (!CollUtil.isEmpty(roleSet)) {
             for (Role role : roleSet) {
                 roleNameList.add(role.getName());

@@ -9,5 +9,5 @@ public class AccessKey extends BasePrefixKey {
     /**
      * 访问限流缓存
      */
-    public static AccessKey access = new AccessKey("access_:");
+    public static AccessKey access = new AccessKey("access:");
 }

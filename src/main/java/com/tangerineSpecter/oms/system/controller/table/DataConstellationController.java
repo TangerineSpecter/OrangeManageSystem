@@ -1,5 +1,6 @@
 package com.tangerinespecter.oms.system.controller.table;
 
+import com.tangerinespecter.oms.common.listener.AccessLimit;
 import com.tangerinespecter.oms.common.query.ConstellationQueryObject;
 import com.tangerinespecter.oms.common.redis.PageModelKey;
 import com.tangerinespecter.oms.common.result.ServiceResult;
@@ -40,6 +41,7 @@ public class DataConstellationController {
     /**
      * 星座列表
      */
+    @AccessLimit(maxCount = 10)
     @RequestMapping("/list")
     public ServiceResult listInfo(ConstellationQueryObject qo) {
         return dataConstellationService.queryForPage(qo);

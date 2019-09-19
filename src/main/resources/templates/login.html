@@ -1,104 +1,104 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="./common/_common :: common_header">
-<meta charset="utf-8">
+    <meta charset="utf-8">
 </head>
 <body>
-	<!-- 提示框（Modal） -->
-	<div class="modal fade" id="prompt-modal" tabindex="-1" role="dialog"
-		aria-labelledby="myModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h4 class="modal-title" id="myModalLabel">提示</h4>
-				</div>
-				<div class="modal-body" id="prompt-modal-content"></div>
-			</div>
-		</div>
-	</div>
+<!-- 提示框（Modal） -->
+<div class="modal fade" id="prompt-modal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">提示</h4>
+            </div>
+            <div class="modal-body" id="prompt-modal-content"></div>
+        </div>
+    </div>
+</div>
 
-	<div class="page login-page">
-		<div class="container d-flex align-items-center">
-			<div class="form-holder has-shadow">
-				<div class="row">
-					<!-- Logo & Information Panel-->
-					<div class="col-lg-6">
-						<div class="info d-flex align-items-center">
-							<div class="content">
-								<div class="logo">
-									<h1>欢迎使用</h1>
-								</div>
-								<p>橘子管理系统</p>
-							</div>
-						</div>
-					</div>
-					<!-- Form Panel    -->
-					<div class="col-lg-6 bg-white">
-						<div class="form d-flex align-items-center">
-							<div class="content">
-								<form id="login" method="post" class="form-validate">
-									<div class="form-group">
-										<input id="username" type="text" name="username" required
-											data-msg="Please enter your username" class="input-material">
-										<label for="login-username" class="label-material">用户名</label>
-									</div>
-									<div class="form-group">
-										<input id="password" type="password" name="password" required
-											data-msg="Please enter your password" class="input-material">
-										<label for="login-password" class="label-material">密码</label>
-									</div>
-									<a onclick="submitForm()" class="btn btn-primary">登录</a>
-									<!-- This should be submit button but I replaced it with <a> for demo purposes-->
-								</form>
-								<a href="#" class="forgot-pass">忘记密码?</a><br> <small>没有帐号?
-								</small><a href="/register.html" class="signup">注册</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="copyrights text-center">
-			<p>
-				Design by <a href="#" class="external">Bootstrapious</a>
-				<!-- Please do not remove the backlink to us unless you support further theme's development at https://bootstrapious.com/donate. It is part of the license conditions. Thank you for understanding :)-->
-			</p>
-		</div>
-	</div>
-	<div th:replace="./common/_common::common_js"></div>
-	<script>
-		$(document).keyup(function(event) {
-			if (event.keyCode == 13) {//按下Enter
-				submitForm();
-			}
-		});
-		//通过异步方式登录
-		function submitForm() {
-			if ($('#username').val() == '' || $('#password').val() == '') {
-				promptModal("用户名或者密码为空");
-				return;
-			}
-			var jsonData = {
-				username : $('#username').val(),
-				password : $('#password').val()
-			}
-			$.ajax({
-				type : "post",
-				url : "/login",
-				data : $("#login").serialize(),
-				dataType : "json",
-				success : function(data) {
-					if (data.success) {
-						promptModal("登录成功");
-						$("#prompt-modal").on("hidden.bs.modal", function() {
-							window.location.href = "/index";
-						})
-					} else {
-						promptModal(data.msg);
-					}
-				}
-			})
-		}
-	</script>
+<div class="page login-page">
+    <div class="container d-flex align-items-center">
+        <div class="form-holder has-shadow">
+            <div class="row">
+                <!-- Logo & Information Panel-->
+                <div class="col-lg-6">
+                    <div class="info d-flex align-items-center">
+                        <div class="content">
+                            <div class="logo">
+                                <h1>欢迎使用</h1>
+                            </div>
+                            <p>橘子管理系统</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Form Panel    -->
+                <div class="col-lg-6 bg-white">
+                    <div class="form d-flex align-items-center">
+                        <div class="content">
+                            <form id="login" method="post" class="form-validate">
+                                <div class="form-group">
+                                    <input id="username" type="text" name="username" required
+                                           data-msg="Please enter your username" class="input-material">
+                                    <label for="login-username" class="label-material">用户名</label>
+                                </div>
+                                <div class="form-group">
+                                    <input id="password" type="password" name="password" required
+                                           data-msg="Please enter your password" class="input-material">
+                                    <label for="login-password" class="label-material">密码</label>
+                                </div>
+                                <a onclick="submitForm()" class="btn btn-primary">登录</a>
+                                <!-- This should be submit button but I replaced it with <a> for demo purposes-->
+                            </form>
+                            <a href="#" class="forgot-pass">忘记密码?</a><br> <small>没有帐号?
+                        </small><a href="/register.html" class="signup">注册</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="copyrights text-center">
+        <p>
+            Github by <a href="https://github.com/TangerineSpecter" class="external">TangerineSpecter</a>
+        </p>
+    </div>
+</div>
+<div th:replace="./common/_common::common_js"></div>
+<script>
+    $(document).keyup(function (event) {
+        if (event.keyCode == 13) {//按下Enter
+            submitForm();
+        }
+    });
+
+    //通过异步方式登录
+    function submitForm() {
+        if ($('#username').val() == '' || $('#password').val() == '') {
+            promptModal("用户名或者密码为空");
+            return;
+        }
+        var jsonData = {
+            username: $('#username').val(),
+            password: $('#password').val()
+        }
+        $.ajax({
+            type: "post",
+            url: "/login",
+            data: $("#login").serialize(),
+            dataType: "json",
+            success: function (data) {
+                if (data.success) {
+                    promptModal("登录成功");
+                    $("#prompt-modal").on("hidden.bs.modal", function () {
+                        window.location.href = "/index";
+                    })
+                } else {
+                    promptModal(data.msg);
+                }
+            }
+        })
+    }
+</script>
 </body>
 </html>

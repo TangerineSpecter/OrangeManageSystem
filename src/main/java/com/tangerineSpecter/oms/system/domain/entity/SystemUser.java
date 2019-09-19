@@ -5,6 +5,7 @@ import javax.validation.constraints.NotEmpty;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,6 +28,7 @@ import java.util.Set;
 @Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
+@TableName(value = "system_user", resultMap = "systemUserMap")
 public class SystemUser implements Serializable {
 
     @TableId(type = IdType.AUTO)
@@ -100,11 +102,11 @@ public class SystemUser implements Serializable {
      */
     private Integer isDel;
     /**
-     * 权限
-     */
-    //private Set<Permission> permissions = new HashSet<>();
-    /**
      * 管理员角色
      */
-    //private Set<Role> roles = new HashSet<>();
+    private Set<Role> roles = new HashSet<>();
+    /**
+     * 角色权限
+     */
+    private Set<Permission> permissions = new HashSet<>();
 }

@@ -10,7 +10,7 @@ public interface IWorkCollectionService {
     /**
      * 分页查询
      */
-    void queryForPage(Model model, WorkCollectionQueryObject qo);
+    ServiceResult queryForPage(Model model, WorkCollectionQueryObject qo);
 
     /**
      * 新增收藏

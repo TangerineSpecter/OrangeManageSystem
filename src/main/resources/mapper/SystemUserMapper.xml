@@ -1,37 +1,72 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tangerinespecter.oms.system.mapper.SystemUserMapper">
+    <resultMap id="systemUserMap" type="com.tangerinespecter.oms.system.domain.entity.SystemUser">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="nick_name" property="nickName"/>
+        <result column="avatar" property="avatar"/>
+        <result column="sex" property="sex"/>
+        <result column="phone_number" property="phoneNumber"/>
+        <result column="email" property="email"/>
+        <result column="city" property="city"/>
+        <result column="birthday" property="birthday"/>
+        <result column="brief" property="brief"/>
+        <result column="login_count" property="loginCount"/>
+        <result column="last_login_date" property="lastLoginDate"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="salt" property="salt"/>
+        <result column="admin" property="admin"/>
+        <result column="is_del" property="isDel"/>
+        <collection property="roles" ofType="com.tangerinespecter.oms.system.domain.entity.Role">
+            <id column="id" property="id"/>
+            <result column="name" property="name"/>
+            <collection property="permissions" ofType="com.tangerinespecter.oms.system.domain.entity.Permission">
+                <id column="id" property="id"/>
+                <result column="name" property="name"/>
+                <result column="url" property="url"/>
+            </collection>
+        </collection>
+    </resultMap>
     <sql id="Base_Column_List">
-		username, nick_name, password, phone_number, create_time,
+        username, nick_name, password, phone_number, create_time,
 		update_time, admin
-	</sql>
+    </sql>
     <select id="getUserByLogin" resultType="com.tangerinespecter.oms.system.domain.entity.SystemUser">
-		select *
-		from system_user
-		where username = #{userName}
-		and password = #{password}
-	</select>
+        select *
+        from system_user
+        where username = #{userName}
+          and password = #{password}
+    </select>
     <insert id="createUserByRegister"
             parameterType="com.tangerinespecter.oms.system.domain.entity.SystemUser"
             useGeneratedKeys="true" keyProperty="id">
-		insert into system_user (username,
-		password,create_time)
-		values (#{userName}, #{password}, #{createTime})
-	</insert>
+        insert into system_user (username, password, create_time)
+        values (#{userName}, #{password}, #{createTime})
+    </insert>
     <select id="getUserByUserName" resultType="com.tangerinespecter.oms.system.domain.entity.SystemUser">
-		select *
-		from
-		system_user
-		where username = #{userName}
-	</select>
+        select *
+        from system_user
+        where username = #{userName}
+    </select>
     <select id="queryForPage" resultType="com.tangerinespecter.oms.system.domain.entity.SystemUser">
-		select *
-		from system_user
-	</select>
-    <select id="selectOneByUserName" resultType="com.tangerinespecter.oms.system.domain.entity.SystemUser">
-		select *
-		from system_user
-		where username = #{userName}
-		and is_del = 0
-	</select>
+        select *
+        from system_user
+    </select>
+    <select id="selectOneByUserName" resultMap="systemUserMap">
+        select u.*, r.*, p.*
+        from system_user u
+                 INNER JOIN user_role ur
+                            ON ur.uid = u.id
+                 INNER JOIN role r
+                            ON r.id = ur.rid
+                 INNER JOIN permission_role pr
+                            ON pr.rid = r.id
+                 INNER JOIN permission p
+                            ON pr.pid = p.id
+        where u.username = #{userName}
+          and u.is_del = 0
+    </select>
 </mapper>

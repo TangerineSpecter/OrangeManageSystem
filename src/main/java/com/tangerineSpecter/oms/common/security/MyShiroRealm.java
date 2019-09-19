@@ -40,12 +40,11 @@ public class MyShiroRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principal) {
-        SystemUser currentUser = SystemUtils.getCurrentUser();
+        SystemUser currentUser = systemUserMapper.selectOneByUserName(SystemUtils.getCurrentUser().getUsername());
         List<String> permissionList = new ArrayList<>();
         //获取当前用户角色
         List<String> roleNameList = new ArrayList<>();
-        Set<Role> roleSet = new HashSet<>();
-        //currentUser.getRoles();
+        Set<Role> roleSet = currentUser.getRoles();
         if (!CollUtil.isEmpty(roleSet)) {
             for (Role role : roleSet) {
                 roleNameList.add(role.getName());
@@ -82,8 +81,18 @@ public class MyShiroRealm extends AuthorizingRealm {
         }
         log.info("用户：{}在时间{}进行了登录,登录地址{}", userName, DateUtils.getSimpleFormat(CommonConstant.DEFAULT_FORMAT_SECOND),
                 SystemUtils.getLocalhostIP());
-
         return new SimpleAuthenticationInfo(systemUser, password, userName);
     }
 
+    /**
+     * 获取权限授权信息，如果缓存中存在，则直接从缓存中获取，否则就重新获取， 登录成功后调用
+     */
+    @Override
+    protected AuthorizationInfo getAuthorizationInfo(PrincipalCollection principals) {
+        if (principals == null) {
+            return null;
+        }
+        //实际项目中这里可以设置缓存，从缓存中读取
+        return doGetAuthorizationInfo(principals);
+    }
 }

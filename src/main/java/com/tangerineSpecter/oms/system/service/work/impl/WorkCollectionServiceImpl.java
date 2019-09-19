@@ -20,19 +20,16 @@ public class WorkCollectionServiceImpl implements IWorkCollectionService {
 
     @Resource
     private WorkCollectionMapper workCollectionMapper;
-    @Resource
-    private PageResultService pageResultService;
 
     /**
      * 分页查询
      */
     @Override
-    public void queryForPage(Model model, WorkCollectionQueryObject qo) {
+    public ServiceResult queryForPage(Model model, WorkCollectionQueryObject qo) {
         PageHelper.startPage(qo.getPage(), qo.getLimit());
         List<WorkCollection> pageList = workCollectionMapper.queryForPage(qo);
         PageInfo<WorkCollection> collectionInfo = new PageInfo<>(pageList);
-        pageResultService.queryForPage(model, collectionInfo.getList(), collectionInfo.getTotal(), qo.getPage(),
-                collectionInfo.getPages());
+        return ServiceResult.pageSuccess(pageList, collectionInfo.getTotal());
     }
 
     /**

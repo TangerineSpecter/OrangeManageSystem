@@ -30,4 +30,6 @@ public class Role {
     private String name;
 
     private Set<Permission> permissions = new HashSet<>();
+
+    private Set<SystemUser> users = new HashSet<>();
 }

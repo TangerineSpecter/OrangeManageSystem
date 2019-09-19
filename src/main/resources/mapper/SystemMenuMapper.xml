@@ -3,8 +3,8 @@
 <mapper namespace="com.tangerinespecter.oms.system.mapper.SystemMenuMapper">
 
     <select id="selectByPid" resultType="com.tangerinespecter.oms.system.domain.entity.SystemMenu">
-		select *
-		from system_menu
-		where pid = #{pid}
-	</select>
+        select *
+        from system_menu
+        where pid = #{pid}
+    </select>
 </mapper>

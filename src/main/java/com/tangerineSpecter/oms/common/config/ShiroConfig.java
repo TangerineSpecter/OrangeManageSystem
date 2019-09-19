@@ -3,11 +3,14 @@ package com.tangerinespecter.oms.common.config;
 import com.tangerinespecter.oms.common.security.CredentialMatcher;
 import com.tangerinespecter.oms.common.security.MyShiroRealm;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.cache.MemoryConstrainedCacheManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
+import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.servlet.SimpleCookie;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,8 +43,11 @@ public class ShiroConfig {
 
         // 拦截器
         LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
+        //配置shiro拦截器链
+        //authc 需要认证
+        //anon  不需要认证
+        //user  验证通过或RememberMe登录的都可以
         // 定义filterChain，静态资源不拦截
-        // filterChainDefinitionMap.put("/static/**", "anon");
         filterChainDefinitionMap.put("/css/**", "anon");
         filterChainDefinitionMap.put("/js/**", "anon");
         filterChainDefinitionMap.put("/img/**", "anon");
@@ -72,6 +78,7 @@ public class ShiroConfig {
         // 配置SecurityManager，并注入shiroRealm
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(myShiroRealm);
+        securityManager.setRememberMeManager(rememberMeManager());
         return securityManager;
     }
 
@@ -82,6 +89,7 @@ public class ShiroConfig {
     public MyShiroRealm myShiroRealm(@Qualifier("credentialMatcher") CredentialMatcher credentialMatcher) {
         // 配置Realm
         MyShiroRealm myShiroRealm = new MyShiroRealm();
+        myShiroRealm.setCacheManager(new MemoryConstrainedCacheManager());
         myShiroRealm.setCredentialsMatcher(credentialMatcher);
         return myShiroRealm;
     }
@@ -95,6 +103,33 @@ public class ShiroConfig {
     public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
         // Shiro生命周期处理器
         return new LifecycleBeanPostProcessor();
+    }
+
+    /**
+     * cookie管理对象;
+     *
+     * @return
+     */
+    @Bean
+    public CookieRememberMeManager rememberMeManager() {
+        CookieRememberMeManager cookieRememberMeManager = new CookieRememberMeManager();
+        cookieRememberMeManager.setCookie(rememberMeCookie());
+        return cookieRememberMeManager;
+    }
+
+    /**
+     * 记住我Cookie
+     *
+     * @return
+     */
+    @Bean
+    public SimpleCookie rememberMeCookie() {
+        log.info("======ShiroConfiguration.rememberMeCookie()========================");
+        //这个参数是cookie的名称，对应前端的checkbox的name = rememberMe
+        SimpleCookie simpleCookie = new SimpleCookie("rememberMe");
+        //<!-- 记住我cookie生效时间30天 ,单位秒;-->
+        simpleCookie.setMaxAge(259200);
+        return simpleCookie;
     }
 
     /**

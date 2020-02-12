@@ -32,13 +32,20 @@
     </resultMap>
     <sql id="Base_Column_List">
         username, nick_name, password, phone_number, create_time,
-		update_time, admin
+        update_time, admin
     </sql>
+    <update id="updateLoginCountById">
+        update system_user
+        set last_login_date = #{lastLoginDate},
+        update_time = #{updateTime},
+        login_count = login_count + 1
+        where id = #{id}
+    </update>
     <select id="getUserByLogin" resultType="com.tangerinespecter.oms.system.domain.entity.SystemUser">
         select *
         from system_user
         where username = #{userName}
-          and password = #{password}
+        and password = #{password}
     </select>
     <insert id="createUserByRegister"
             parameterType="com.tangerinespecter.oms.system.domain.entity.SystemUser"
@@ -58,15 +65,15 @@
     <select id="selectOneByUserName" resultMap="systemUserMap">
         select u.*, r.*, p.*
         from system_user u
-                 INNER JOIN user_role ur
-                            ON ur.uid = u.id
-                 INNER JOIN role r
-                            ON r.id = ur.rid
-                 INNER JOIN permission_role pr
-                            ON pr.rid = r.id
-                 INNER JOIN permission p
-                            ON pr.pid = p.id
+        INNER JOIN user_role ur
+        ON ur.uid = u.id
+        INNER JOIN role r
+        ON r.id = ur.rid
+        INNER JOIN permission_role pr
+        ON pr.rid = r.id
+        INNER JOIN permission p
+        ON pr.pid = p.id
         where u.username = #{userName}
-          and u.is_del = 0
+        and u.is_del = 0
     </select>
 </mapper>

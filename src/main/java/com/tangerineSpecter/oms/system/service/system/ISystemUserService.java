@@ -10,17 +10,20 @@ import org.springframework.ui.Model;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+/**
+ * @author TangerineSpecter
+ */
 public interface ISystemUserService {
 
     /**
      * 校验登录
      */
-    ServiceResult verifyLogin(HttpServletResponse response, @Valid AccountInfo model);
+    ServiceResult<Object> verifyLogin(HttpServletResponse response, @Valid AccountInfo model);
 
     /**
      * 后台管理员列表
      */
-    ServiceResult querySystemUserList(SystemUserQueryObject qo);
+    ServiceResult<Object> querySystemUserList(SystemUserQueryObject qo);
 
     /**
      * 获取管理员信息
@@ -30,13 +33,13 @@ public interface ISystemUserService {
     /**
      * 更新账户信息
      */
-    ServiceResult updateSystemUserInfo(SystemUserInfoVo systemUser);
+    ServiceResult<Object> updateSystemUserInfo(SystemUserInfoVo systemUser);
 
     /**
      * 创建管理员
      *
-     * @param systemUser
-     * @return
+     * @param systemUser 管理员信息
+     * @return 创建结果
      */
-    ServiceResult insertSystemUserInfo(SystemUser systemUser);
+    ServiceResult<Object> insertSystemUserInfo(SystemUser systemUser);
 }

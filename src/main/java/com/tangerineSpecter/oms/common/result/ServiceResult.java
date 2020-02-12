@@ -54,7 +54,7 @@ public class ServiceResult<T> {
     /**
      * 请求成功
      */
-    public static ServiceResult success() {
+    public static ServiceResult<Object> success() {
         return new ServiceResult(true, RetCode.SUCCESS.getErrorCode(), RetCode.SUCCESS.getErrorDesc());
     }
 
@@ -82,14 +82,14 @@ public class ServiceResult<T> {
     /**
      * 参数错误
      */
-    public static ServiceResult paramError() {
+    public static ServiceResult<Object> paramError() {
         return new ServiceResult(false, RetCode.PARAM_ERROR.getErrorCode(), RetCode.PARAM_ERROR.getErrorDesc());
     }
 
     /**
      * 请求失败
      */
-    public static ServiceResult error(RetCode rc) {
+    public static ServiceResult<Object> error(RetCode rc) {
         return new ServiceResult(false, rc.getErrorCode(), rc.getErrorDesc());
     }
 }

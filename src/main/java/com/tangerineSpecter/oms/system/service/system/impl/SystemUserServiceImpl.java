@@ -29,6 +29,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.List;
 
+/**
+ * @author TangerineSpecter
+ */
 @Slf4j
 @Service
 public class SystemUserServiceImpl implements ISystemUserService {
@@ -44,7 +47,7 @@ public class SystemUserServiceImpl implements ISystemUserService {
      * 校验登录
      */
     @Override
-    public ServiceResult verifyLogin(HttpServletResponse response, @Valid AccountInfo model) {
+    public ServiceResult<Object> verifyLogin(HttpServletResponse response, @Valid AccountInfo model) {
         SystemUser systemUser = systemUserMapper.selectOneByUserName(model.getUsername());
         if (systemUser == null) {
             return ServiceResult.error(RetCode.REGISTER_ACCOUNTS_NOT_EXIST);
@@ -61,10 +64,7 @@ public class SystemUserServiceImpl implements ISystemUserService {
             log.error("[帐号登录异常]:", e);
             return ServiceResult.error(RetCode.ACCOUNTS_PASSWORD_ERROR);
         }
-        systemUser.setLoginCount(systemUser.getLoginCount() + 1);
-        systemUser.setLastLoginDate(DateUtil.now());
-        systemUser.setUpdateTime(DateUtil.now());
-        systemUserMapper.updateById(systemUser);
+        systemUserMapper.updateLoginCountById(systemUser.getId(), DateUtil.now(), DateUtil.now());
         //生成Cookie
 //        String token = IdUtil.simpleUUID();
 //        redisHelper.set(token, systemUser);
@@ -79,7 +79,7 @@ public class SystemUserServiceImpl implements ISystemUserService {
      * 后台管理员列表
      */
     @Override
-    public ServiceResult querySystemUserList(SystemUserQueryObject qo) {
+    public ServiceResult<Object> querySystemUserList(SystemUserQueryObject qo) {
         PageHelper.startPage(qo.getPage(), qo.getLimit());
         List<SystemUser> pageList = systemUserMapper.queryForPage(qo);
         // 得到分页结果对象
@@ -99,7 +99,7 @@ public class SystemUserServiceImpl implements ISystemUserService {
      * 更新账户信息
      */
     @Override
-    public ServiceResult updateSystemUserInfo(SystemUserInfoVo systemUser) {
+    public ServiceResult<Object> updateSystemUserInfo(SystemUserInfoVo systemUser) {
         if (systemUser.getId() == null) {
             return ServiceResult.success();
         }
@@ -117,7 +117,7 @@ public class SystemUserServiceImpl implements ISystemUserService {
     }
 
     @Override
-    public ServiceResult insertSystemUserInfo(SystemUser systemUser) {
+    public ServiceResult<Object> insertSystemUserInfo(SystemUser systemUser) {
         if (StrUtil.isBlank(systemUser.getUsername()) || StrUtil.isBlank(systemUser.getPassword())) {
             return ServiceResult.paramError();
         }

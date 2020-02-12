@@ -11,9 +11,12 @@ import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
+import org.springframework.aop.framework.DefaultAopProxyFactory;
+import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import sun.nio.ch.DefaultAsynchronousChannelProvider;
 
 import java.util.LinkedHashMap;
 
@@ -55,7 +58,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/vendor/**", "anon");
 
         filterChainDefinitionMap.put("/register", "anon");
-        filterChainDefinitionMap.put("/userLogin", "anon");
+        filterChainDefinitionMap.put("/login", "anon");
         // druid数据源监控页面不拦截
         filterChainDefinitionMap.put("/druid/**", "anon");
         // 登出
@@ -136,9 +139,21 @@ public class ShiroConfig {
      * 加入注解的使用，不加入这个注解不生效
      */
     @Bean
-    public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager) {
+    public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(@Qualifier("securityManager") SecurityManager securityManager) {
         AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
         authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
         return authorizationAttributeSourceAdvisor;
+    }
+
+    /**
+     * Shiro代理配置
+     *
+     * @return
+     */
+    @Bean
+    public DefaultAdvisorAutoProxyCreator defaultAsynchronousChannelProvider() {
+        DefaultAdvisorAutoProxyCreator creator = new DefaultAdvisorAutoProxyCreator();
+        creator.setProxyTargetClass(true);
+        return creator;
     }
 }

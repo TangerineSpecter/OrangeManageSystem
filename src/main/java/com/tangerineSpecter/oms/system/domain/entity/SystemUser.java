@@ -1,8 +1,8 @@
 package com.tangerinespecter.oms.system.domain.entity;
 
-import javax.validation.constraints.NotEmpty;
-
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -75,6 +75,10 @@ public class SystemUser implements Serializable {
      */
     private String salt;
     /**
+     * 部门id
+     */
+    private Long deptId;
+    /**
      * 登录次数
      */
     private Integer loginCount;
@@ -101,9 +105,9 @@ public class SystemUser implements Serializable {
     /**
      * 管理员角色
      */
-    private Set<Role> roles = new HashSet<>();
+    private Set<SystemRole> roles = new HashSet<>();
     /**
      * 角色权限
      */
-    private Set<Permission> permissions = new HashSet<>();
+    private Set<SystemPermission> permissions = new HashSet<>();
 }

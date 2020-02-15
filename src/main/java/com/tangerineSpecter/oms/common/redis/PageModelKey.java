@@ -44,4 +44,8 @@ public class PageModelKey extends BasePrefixKey {
      * 收藏管理菜单缓存
      */
     public static PageModelKey getWorkCollectionPageKey = new PageModelKey("work_collection_page:", 5 * 60);
+    /**
+     * 部门菜单缓存
+     */
+    public static PageModelKey getSystemDeptPageKey = new PageModelKey("system_dept_page:", 5 * 60);
 }

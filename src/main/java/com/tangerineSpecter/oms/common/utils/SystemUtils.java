@@ -2,6 +2,7 @@ package com.tangerinespecter.oms.common.utils;
 
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.RandomUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.digest.DigestAlgorithm;
 import cn.hutool.crypto.digest.Digester;
 import com.tangerinespecter.oms.common.constants.CommonConstant;
@@ -47,6 +48,14 @@ public class SystemUtils {
      * 无数据
      */
     private static final String DEFAULT_NONE = "none";
+    /**
+     * 部门Level分隔符
+     */
+    public final static String LEVEL_SEPARATOR = ".";
+    /**
+     * 部门Level根路径
+     */
+    public final static String LEVEL_ROOT = "0";
 
 
     /**
@@ -323,5 +332,20 @@ public class SystemUtils {
         BigDecimal b1 = new BigDecimal(precent);
         precent = b1.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         return Math.round(precent);
+    }
+
+    /**
+     * 生成当前部门的Level
+     *
+     * @param parenLevel 父级部门的level
+     * @param parentId   父级部门ID
+     * @return 生成的部门Level, 如0.1.2
+     */
+    public static String calculateLevel(String parenLevel, Long parentId) {
+        if (StrUtil.isBlank(parenLevel)) {
+            return LEVEL_ROOT;
+        } else {
+            return StrUtil.join(parenLevel, LEVEL_SEPARATOR, parentId);
+        }
     }
 }

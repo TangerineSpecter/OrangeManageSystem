@@ -1,14 +1,14 @@
 package com.tangerinespecter.oms.common.security;
 
 import cn.hutool.core.collection.CollUtil;
-import com.tangerinespecter.oms.common.utils.DateUtils;
-import com.tangerinespecter.oms.common.utils.SystemUtils;
-import com.tangerinespecter.oms.system.domain.entity.Permission;
-import com.tangerinespecter.oms.system.domain.entity.Role;
-import com.tangerinespecter.oms.system.domain.entity.SystemUser;
-import com.tangerinespecter.oms.system.mapper.SystemUserMapper;
 import com.tangerinespecter.oms.common.constants.CommonConstant;
 import com.tangerinespecter.oms.common.constants.RetCode;
+import com.tangerinespecter.oms.common.utils.DateUtils;
+import com.tangerinespecter.oms.common.utils.SystemUtils;
+import com.tangerinespecter.oms.system.domain.entity.SystemPermission;
+import com.tangerinespecter.oms.system.domain.entity.SystemRole;
+import com.tangerinespecter.oms.system.domain.entity.SystemUser;
+import com.tangerinespecter.oms.system.mapper.SystemUserMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -18,7 +18,6 @@ import org.apache.shiro.subject.PrincipalCollection;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -44,14 +43,14 @@ public class MyShiroRealm extends AuthorizingRealm {
         List<String> permissionList = new ArrayList<>();
         //获取当前用户角色
         List<String> roleNameList = new ArrayList<>();
-        Set<Role> roleSet = currentUser.getRoles();
+        Set<SystemRole> roleSet = currentUser.getRoles();
         if (!CollUtil.isEmpty(roleSet)) {
-            for (Role role : roleSet) {
+            for (SystemRole role : roleSet) {
                 roleNameList.add(role.getName());
                 //获取当前角色对应的权限
-                Set<Permission> permissionSet = role.getPermissions();
+                Set<SystemPermission> permissionSet = role.getPermissions();
                 if (!CollUtil.isNotEmpty(permissionSet)) {
-                    for (Permission permission : permissionSet) {
+                    for (SystemPermission permission : permissionSet) {
                         permissionList.add(permission.getName());
                     }
                 }

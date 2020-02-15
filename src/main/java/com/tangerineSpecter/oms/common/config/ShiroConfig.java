@@ -92,6 +92,7 @@ public class ShiroConfig {
     public MyShiroRealm myShiroRealm(@Qualifier("credentialMatcher") CredentialMatcher credentialMatcher) {
         // 配置Realm
         MyShiroRealm myShiroRealm = new MyShiroRealm();
+        //使用缓存管理器
         myShiroRealm.setCacheManager(new MemoryConstrainedCacheManager());
         myShiroRealm.setCredentialsMatcher(credentialMatcher);
         return myShiroRealm;

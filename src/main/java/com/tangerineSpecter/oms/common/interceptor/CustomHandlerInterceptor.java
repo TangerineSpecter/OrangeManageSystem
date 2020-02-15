@@ -9,7 +9,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * 拦截器
+ * 自定义Http拦截器
  *
  * @author TangerineSpecter
  * @version v0.0.1
@@ -18,6 +18,9 @@ import org.springframework.web.servlet.ModelAndView;
 @Service
 public class CustomHandlerInterceptor implements HandlerInterceptor {
 
+    /**
+     * 请求之前执行
+     */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
@@ -26,6 +29,9 @@ public class CustomHandlerInterceptor implements HandlerInterceptor {
         return true;
     }
 
+    /**
+     * 请求成功执行
+     */
     @Override
     public void postHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
                            Object handler, ModelAndView modelAndView) throws Exception {
@@ -35,6 +41,9 @@ public class CustomHandlerInterceptor implements HandlerInterceptor {
         // start));
     }
 
+    /**
+     * 请求结束执行
+     */
     @Override
     public void afterCompletion(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
                                 Object handler, Exception e) throws Exception {

@@ -64,6 +64,10 @@ public class RetCode {
      * 登录超时
      */
     public static final RetCode LOGIN_TIMEOUT = new RetCode(105, "登录超时，请重新进行登录！");
+    /**
+     * 同一层级下存在相同名称的部门
+     */
+    public static final RetCode DEPT_NAME_EXIST_ON_LEVEL = new RetCode(106, "同一层级下存在相同名称的部门！");
 
     /**
      * 参数错误

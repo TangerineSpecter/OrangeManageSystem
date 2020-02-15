@@ -61,9 +61,11 @@
 </mirror>
 ```
 
-### 3.数据库初始化
+### 3.数据库以及数据初始化初始化
 ```
-执行resources目录下的oms.sql
+1.执行resources目录下的oms.sql
+2.执行system_menu.sql初始化系统菜单
+3.执行data_constellation.sql初始化一部分数据查看
 ```
 
 ### 4.代码生成器的使用

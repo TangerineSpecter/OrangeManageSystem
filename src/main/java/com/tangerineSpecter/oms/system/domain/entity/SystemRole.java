@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -45,18 +46,6 @@ public class SystemRole {
      */
     private String remark;
     /**
-     * 操作人
-     */
-    private String operator;
-    /**
-     * 操作时间
-     */
-    private String operateTime;
-    /**
-     * 操作ip
-     */
-    private Long operateIp;
-    /**
      * 权限列表
      */
     private Set<SystemPermission> permissions = new HashSet<>();
@@ -64,4 +53,7 @@ public class SystemRole {
      * 用户列表
      */
     private Set<SystemUser> users = new HashSet<>();
+
+    private List<SystemMenu> menus;
+
 }

@@ -1,5 +1,6 @@
 package com.tangerinespecter.oms.common.config;
 
+import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import com.tangerinespecter.oms.common.security.CredentialMatcher;
 import com.tangerinespecter.oms.common.security.MyShiroRealm;
 import lombok.extern.slf4j.Slf4j;
@@ -79,6 +80,7 @@ public class ShiroConfig {
     @Bean("securityManager")
     public SecurityManager securityManager(@Qualifier("myShiroRealm") MyShiroRealm myShiroRealm) {
         // 配置SecurityManager，并注入shiroRealm
+        log.info("===========shiro已加载===================");
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(myShiroRealm);
         securityManager.setRememberMeManager(rememberMeManager());
@@ -122,6 +124,14 @@ public class ShiroConfig {
     }
 
     /**
+     * thymleaf里使用shiro
+     */
+//    @Bean(name = "shiroDialect")
+//    public ShiroDialect shiroDialect() {
+//        return new ShiroDialect();
+//    }
+
+    /**
      * 记住我Cookie
      *
      * @return
@@ -132,7 +142,7 @@ public class ShiroConfig {
         //这个参数是cookie的名称，对应前端的checkbox的name = rememberMe
         SimpleCookie simpleCookie = new SimpleCookie("rememberMe");
         //<!-- 记住我cookie生效时间30天 ,单位秒;-->
-        simpleCookie.setMaxAge(259200);
+        simpleCookie.setMaxAge(30 * 60 * 60);
         return simpleCookie;
     }
 

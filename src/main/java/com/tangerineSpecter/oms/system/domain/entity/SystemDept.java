@@ -45,17 +45,5 @@ public class SystemDept {
      * 排序（从大到小）
      */
     private Integer sort;
-    /**
-     * 操作人
-     */
-    private String operator;
-    /**
-     * 操作时间
-     */
-    private String operateTime;
-    /**
-     * 操作ip
-     */
-    private Long operateIp;
 
 }

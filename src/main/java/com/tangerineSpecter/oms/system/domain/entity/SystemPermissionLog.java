@@ -45,16 +45,4 @@ public class SystemPermissionLog {
      * 状态（0：冻结；1：可用）
      */
     private Integer status;
-    /**
-     * 操作人
-     */
-    private String operator;
-    /**
-     * 操作时间
-     */
-    private String operateTime;
-    /**
-     * 操作ip
-     */
-    private Long operateIp;
 }

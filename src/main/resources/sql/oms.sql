@@ -11,7 +11,7 @@
  Target Server Version : 80017
  File Encoding         : 65001
 
- Date: 15/02/2020 22:04:25
+ Date: 18/03/2020 18:11:31
 */
 
 SET NAMES utf8mb4;
@@ -37,7 +37,7 @@ CREATE TABLE `data_constellation` (
   `work_luck` varchar(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '工作指数',
   `create_time` date DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=217 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='星座信息表';
+) ENGINE=InnoDB AUTO_INCREMENT=253 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='星座信息表';
 
 -- ----------------------------
 -- Table structure for system_config
@@ -66,9 +66,6 @@ CREATE TABLE `system_dept` (
   `level` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '部门层级',
   `remark` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '备注',
   `parent_id` bigint(13) NOT NULL DEFAULT '0' COMMENT '上级部门ID',
-  `operator` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '操作人',
-  `operate_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '操作时间',
-  `operate_ip` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '操作IP',
   `sort` int(11) NOT NULL DEFAULT '0' COMMENT '排序（由大到小）',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统部门表';
@@ -88,7 +85,7 @@ CREATE TABLE `system_log` (
   `ip` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '操作IP',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '操作时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=950 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统日志记录表';
+) ENGINE=InnoDB AUTO_INCREMENT=971 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统日志记录表';
 
 -- ----------------------------
 -- Table structure for system_menu
@@ -138,9 +135,6 @@ CREATE TABLE `system_permission` (
   `status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '状态（0：冻结；1：正常）',
   `remark` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '备注',
   `sort` int(50) NOT NULL DEFAULT '0' COMMENT '排序',
-  `operator` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '操作人',
-  `operate_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '操作时间',
-  `operate_ip` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '操作ip',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='权限表';
 
@@ -156,9 +150,6 @@ CREATE TABLE `system_permission_module` (
   `status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '状态（0：冻结；1：正常）',
   `remark` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '备注',
   `sort` int(11) NOT NULL DEFAULT '0' COMMENT '排序',
-  `operator` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '操作人',
-  `operatoe_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '操作时间',
-  `operate_ip` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '操作ip',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='权限模块表';
 
@@ -170,9 +161,6 @@ CREATE TABLE `system_permission_role` (
   `id` bigint(13) NOT NULL,
   `rid` bigint(13) NOT NULL COMMENT '角色ID',
   `module_id` bigint(13) NOT NULL COMMENT '权限模块ID',
-  `operator` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '操作人',
-  `operate_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '操作时间',
-  `operate_ip` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '操作ip',
   PRIMARY KEY (`id`),
   KEY `idx_rid` (`rid`),
   KEY `idx_pid` (`module_id`) USING BTREE
@@ -189,9 +177,6 @@ CREATE TABLE `system_permisson_log` (
   `old_value` text COLLATE utf8mb4_unicode_ci COMMENT '旧数据',
   `new_value` text COLLATE utf8mb4_unicode_ci COMMENT '新数据',
   `status` tinyint(2) NOT NULL DEFAULT '0' COMMENT '当前是否复原过（0：没有；1：复原过）',
-  `operator` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '操作人',
-  `operate_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '操作时间',
-  `operate_ip` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '操作ip',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统权限修改记录表';
 
@@ -205,9 +190,6 @@ CREATE TABLE `system_role` (
   `type` tinyint(2) NOT NULL DEFAULT '0' COMMENT '类型（0:普通；1：管理员；2：其他）',
   `status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '状态（0：冻结；1：可用）',
   `remark` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '备注',
-  `operator` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '操作人',
-  `operate_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '操作时间',
-  `operate_ip` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '操作ip',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='角色表';
 
@@ -246,9 +228,6 @@ CREATE TABLE `system_user_role` (
   `id` bigint(13) NOT NULL,
   `uid` bigint(13) NOT NULL COMMENT '管理员ID',
   `rid` bigint(13) NOT NULL COMMENT '角色ID',
-  `operator` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '操作人',
-  `operate_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '操作时间',
-  `operate_ip` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '操作ip',
   PRIMARY KEY (`id`),
   KEY `idx_uid` (`uid`),
   KEY `idx_pid` (`rid`)

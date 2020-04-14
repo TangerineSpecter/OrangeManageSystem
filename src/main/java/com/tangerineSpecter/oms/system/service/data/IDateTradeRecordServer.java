@@ -6,4 +6,6 @@ import com.tangerinespecter.oms.common.result.ServiceResult;
 public interface IDateTradeRecordServer {
 
     ServiceResult queryForPage(TradeRecordQueryObject qo);
+
+    ServiceResult init();
 }

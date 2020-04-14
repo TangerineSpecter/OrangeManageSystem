@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 /**
  * 交易记录表
  *
@@ -33,6 +35,22 @@ public class DataTradeRecord {
      * 结束资金
      */
     private Integer endMoney;
+    /**
+     * 收益值
+     */
+    private Integer incomeValue;
+    /**
+     * 收益率
+     */
+    private BigDecimal incomeRate;
+    /**
+     * 夏普比率
+     */
+    private BigDecimal sharpeRatio;
+    /**
+     * 胜率
+     */
+    private BigDecimal winRate;
     /**
      * 交易类型（0：股票；1：期货；2：晚会）
      */

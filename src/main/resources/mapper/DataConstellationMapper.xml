@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tangerinespecter.oms.system.mapper.DataConstellationMapper">
     <sql id="Base_Column_List">
-        name, datetime, date,
+        `name`, `datetime`, `date`,
 		all_luck, color, health,
-		love, money, number,
+		love, money, `number`,
 		QFriend,
 		summary, work_luck,
 		create_time
@@ -18,8 +18,8 @@
         select *
         from data_constellation
         <where>
-            <if test="star!=null and star!='-1'">
-                and name = #{star}
+            <if test="star!=null and star!=''">
+                and `name` = #{star}
             </if>
             <if test="queryDay!='' and queryDay!=null">
                 and create_time = #{queryDay}

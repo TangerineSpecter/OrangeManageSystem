@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
  * @Date 2020年04月14日10:16:23
  */
 @RestController
-@RequestMapping("/table/trade-record")
+@RequestMapping("/data/trade-record")
 public class DataTradeRecordController {
 
     @Resource
@@ -44,5 +44,14 @@ public class DataTradeRecordController {
     @RequestMapping("/list")
     public ServiceResult listInfo(TradeRecordQueryObject qo) {
         return dateTradeRecordServer.queryForPage(qo);
+    }
+
+    /**
+     * 交易数据初始化
+     */
+    @AccessLimit(maxCount = 10)
+    @RequestMapping("/init")
+    public ServiceResult init() {
+        return dateTradeRecordServer.init();
     }
 }

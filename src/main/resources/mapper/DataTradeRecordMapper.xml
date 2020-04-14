@@ -5,5 +5,14 @@
     <select id="queryForPage" resultType="com.tangerinespecter.oms.system.domain.entity.DataTradeRecord">
         select *
         from data_trade_record
+        <where>
+            <if test="type!=null and type!=''">
+                and `type` = #{type}
+            </if>
+            <if test="queryDay!='' and queryDay!=null">
+                and `date` = #{queryDay}
+            </if>
+        </where>
+        order by date desc
     </select>
 </mapper>

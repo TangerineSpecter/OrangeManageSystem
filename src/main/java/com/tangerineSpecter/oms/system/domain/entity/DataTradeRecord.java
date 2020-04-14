@@ -38,7 +38,7 @@ public class DataTradeRecord {
     /**
      * 收益值
      */
-    private Integer incomeValue;
+    private BigDecimal incomeValue;
     /**
      * 收益率
      */

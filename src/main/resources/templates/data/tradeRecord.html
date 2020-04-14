@@ -74,33 +74,41 @@
             elem: '#currentTableId',
             url: '/data/trade-record/list',
             toolbar: '#toolbarDemo',
-            cellMinWidth: 80,
+            cellMinWidth: 100,
+            totalRow: true,
             cols: [
                 [
                     {type: "checkbox", width: 50, fixed: "left"},
-                    {field: 'id', width: 80, title: 'ID', sort: true},
-                    {field: 'date', width: 150, title: '时间', sort: true},
+                    {field: 'id', title: 'ID', sort: true},
+                    {field: 'date', title: '时间', sort: true},
                     {
-                        field: 'startMoney', width: 120, title: '开盘资金', templet: function (row) {
+                        field: 'startMoney', title: '开盘资金', templet: function (row) {
                             return (row.startMoney / 100);
                         }
                     },
                     {
-                        field: 'endMoney', width: 120, title: '收盘资金', sort: true, templet: function (row) {
+                        field: 'endMoney', title: '收盘资金', sort: true, templet: function (row) {
                             return (row.endMoney / 100);
                         }
                     },
                     {
-                        field: 'incomeValue', width: 100, title: '收益值', sort: true, templet: function (row) {
+                        field: 'incomeValue',
+                        title: '收益值',
+                        sort: true,
+                        totalRow: true,
+                        templet: function (row) {
                             if (row.incomeValue > 0) {
-                                return "<span style='color: red'>" + (row.incomeValue / 100) + "</span>";
+                                return "<span style='color: red'>" + row.incomeValue + "</span>";
                             } else if (row.incomeValue < 0) {
-                                return "<span style='color: green'>" + (row.incomeValue / 100) + "</span>";
+                                return "<span style='color: green'>" + row.incomeValue + "</span>";
                             }
                         }
                     },
                     {
-                        field: 'incomeRate', width: 100, title: '收益率', sort: true, templet: function (row) {
+                        field: 'incomeRate',
+                        title: '收益率',
+                        sort: true,
+                        templet: function (row) {
                             if (row.incomeRate > 0) {
                                 return "<span style='color: red'>" + (row.incomeRate * 100).toFixed(2) + "%" + "</span>";
                             } else if (row.incomeRate < 0) {
@@ -109,7 +117,7 @@
                         }
                     },
                     {
-                        field: 'type', width: 100, align: 'center', templet: function (row) {
+                        field: 'type', align: 'center', templet: function (row) {
                             if (row.type == null) {
                                 return '--';
                             } else if (row.type === 0) {
@@ -122,12 +130,12 @@
                         }, title: '类型'
                     },
                     {
-                        field: 'winRate', width: 100, align: 'center', title: '胜率', templet: function (row) {
+                        field: 'winRate', align: 'center', title: '胜率', templet: function (row) {
                             return (row.winRate * 100).toFixed(2) + "%";
                         }
                     },
                     {
-                        field: 'sharpeRatio', width: 100, align: 'center', title: '夏普比率', templet: function (row) {
+                        field: 'sharpeRatio', align: 'center', title: '夏普比率', fixed: "right", templet: function (row) {
                             return (row.sharpeRatio * 100).toFixed(2) + "%";
                         }
                     }
@@ -176,8 +184,8 @@
         });
 
         //头工具栏事件
-        table.on('toolbar(toolbarDemo)', function(obj){
-            switch(obj.event){
+        table.on('toolbar(toolbarDemo)', function (obj) {
+            switch (obj.event) {
                 //添加交易数据
                 case 'addTradeData':
                     console.log("添加数据");

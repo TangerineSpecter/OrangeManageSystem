@@ -42,6 +42,8 @@ public class DataTradeRecordServerImpl implements IDateTradeRecordServer {
         for (DataTradeRecord dto : pageList) {
             BigDecimal incomeRate = NumberUtil.div(dto.getIncomeValue(), dto.getStartMoney(), 5);
             dto.setIncomeRate(incomeRate);
+            BigDecimal incomeValue = NumberUtil.div(dto.getIncomeValue(), 100, 2);
+            dto.setIncomeValue(incomeValue);
         }
         PageInfo<DataTradeRecord> tradeRecordPageInfo = new PageInfo<>(pageList);
         return ServiceResult.pageSuccess(pageList, tradeRecordPageInfo.getTotal());
@@ -68,7 +70,7 @@ public class DataTradeRecordServerImpl implements IDateTradeRecordServer {
         int totalDay = 0;
         for (DataTradeRecord data : datas) {
             int incomeValue = data.getEndMoney() - data.getStartMoney();
-            data.setIncomeValue(data.getEndMoney() - data.getStartMoney());
+            data.setIncomeValue(Convert.toBigDecimal(incomeValue));
             data.setIncomeRate(NumberUtil.div(data.getIncomeValue(), data.getStartMoney(), 5));
             if (incomeValue >= 0) {
                 winCount++;

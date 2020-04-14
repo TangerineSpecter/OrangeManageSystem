@@ -6,11 +6,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * 星座页面高级查询
+ * 交易数据页面高级查询
  *
  * @author TangerineSpecter
- * @version v0.0.5
- * @Date 2019年1月9日
+ * @version v0.0.6
+ * @Date 2020年04月15日01:41:27
  */
 @Getter
 @Setter

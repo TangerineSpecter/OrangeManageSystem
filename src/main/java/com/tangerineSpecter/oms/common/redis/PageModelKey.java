@@ -21,6 +21,10 @@ public class PageModelKey extends BasePrefixKey {
      * 交易数据页面缓存
      */
     public static PageModelKey getTradeRecordPageKey = new PageModelKey("trade_record_page:", 5 * 60);
+    /**
+     * 股票池页面缓存
+     */
+    public static PageModelKey getStockPageKey = new PageModelKey("stock_page:", 5 * 60);
 
     /**
      * 系统首页缓存

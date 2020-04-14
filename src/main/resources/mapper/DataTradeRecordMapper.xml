@@ -9,8 +9,11 @@
             <if test="type!=null and type!=''">
                 and `type` = #{type}
             </if>
-            <if test="queryDay!='' and queryDay!=null">
-                and `date` = #{queryDay}
+            <if test="startDay!='' and startDay!=null">
+                <![CDATA[and `date` >= #{startDay}]]>
+            </if>
+            <if test="endDay!='' and endDay!=null">
+                <![CDATA[and `date` <= #{endDay}]]>
             </if>
         </where>
         order by date desc

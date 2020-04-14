@@ -22,7 +22,11 @@ public class TradeRecordQueryObject extends QueryObject {
      */
     private String type;
     /**
-     * 查询日期
+     * 起始日期
      */
-    private String queryDay;
+    private String startDay;
+    /**
+     * 结束日期
+     */
+    private String endDay;
 }

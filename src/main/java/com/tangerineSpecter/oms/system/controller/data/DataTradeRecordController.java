@@ -8,7 +8,10 @@ import com.tangerinespecter.oms.system.service.data.IDateTradeRecordServer;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import sun.lwawt.macosx.CDataTransferer;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -53,5 +56,16 @@ public class DataTradeRecordController {
     @RequestMapping("/init")
     public ServiceResult init() {
         return dateTradeRecordServer.init();
+    }
+
+    /**
+     * excel导入数据
+     *
+     * @param file
+     * @return
+     */
+    @RequestMapping("/excel")
+    public ServiceResult excelInfo(MultipartFile file) {
+        return dateTradeRecordServer.excelInfo(file);
     }
 }

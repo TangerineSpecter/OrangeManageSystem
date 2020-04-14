@@ -62,5 +62,5 @@ public class DataTradeRecord {
     /**
      * 创建时间
      */
-    private String createTime;
+    private Long createTime;
 }

@@ -23,9 +23,16 @@
                             </div>
                         </div>
                         <div class="layui-inline">
-                            <label class="layui-form-label">查询日期</label>
+                            <label class="layui-form-label">起始日期</label>
                             <div class="layui-input-inline">
-                                <input type="text" id="queryDay" name="queryDay" autocomplete="off" class="layui-input"
+                                <input type="text" id="startDay" name="startDay" autocomplete="off" class="layui-input"
+                                       placeholder="yyyy-MM-dd">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">结束日期</label>
+                            <div class="layui-input-inline">
+                                <input type="text" id="endDay" name="endDay" autocomplete="off" class="layui-input"
                                        placeholder="yyyy-MM-dd">
                             </div>
                         </div>
@@ -44,6 +51,7 @@
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
         <button class="layui-btn layui-btn-sm" lay-event="addTradeData">新增数据</button>
+        <button class="layui-btn layui-btn-sm" lay-event="initTradeData">初始化</button>
     </div>
 </script>
 <script>
@@ -53,15 +61,20 @@
             table = layui.table,
             laydate = layui.laydate;
 
-        //日期
+        //起始日期
         laydate.render({
-            elem: '#queryDay'
+            elem: '#startDay'
+        });
+        //结束日期
+        laydate.render({
+            elem: '#endDay'
         });
 
         table.render({
             elem: '#currentTableId',
             url: '/data/trade-record/list',
             toolbar: '#toolbarDemo',
+            cellMinWidth: 80,
             cols: [
                 [
                     {type: "checkbox", width: 50, fixed: "left"},
@@ -89,9 +102,9 @@
                     {
                         field: 'incomeRate', width: 100, title: '收益率', sort: true, templet: function (row) {
                             if (row.incomeRate > 0) {
-                                return "<span style='color: red'>" + (row.incomeRate * 100) + "%" + "</span>";
+                                return "<span style='color: red'>" + (row.incomeRate * 100).toFixed(2) + "%" + "</span>";
                             } else if (row.incomeRate < 0) {
-                                return "<span style='color: green'>" + (row.incomeRate * 100) + "%" + "</span>";
+                                return "<span style='color: green'>" + (row.incomeRate * 100).toFixed(2) + "%" + "</span>";
                             }
                         }
                     },
@@ -110,12 +123,12 @@
                     },
                     {
                         field: 'winRate', width: 100, align: 'center', title: '胜率', templet: function (row) {
-                            return (row.winRate * 100) + "%";
+                            return (row.winRate * 100).toFixed(2) + "%";
                         }
                     },
                     {
                         field: 'sharpeRatio', width: 100, align: 'center', title: '夏普比率', templet: function (row) {
-                            return (row.sharpeRatio * 100) + "%";
+                            return (row.sharpeRatio * 100).toFixed(2) + "%";
                         }
                     }
                 ]
@@ -134,7 +147,8 @@
                 }
                 , where: {
                     type: data.field.type,
-                    queryDay: data.field.queryDay
+                    startDay: data.field.startDay,
+                    endDay: data.field.endDay
                 }
             }, 'data');
             return false;
@@ -149,7 +163,8 @@
                 }
                 , where: {
                     star: "",
-                    queryDay: ""
+                    startDay: "",
+                    endDay: ""
                 }
             }, 'data');
             return false;
@@ -166,6 +181,9 @@
                 //添加交易数据
                 case 'addTradeData':
                     console.log("添加数据");
+                    break;
+                case 'initTradeData':
+                    console.log("初始化数据");
                     break;
 
                 //自定义头工具栏右侧图标 - 提示

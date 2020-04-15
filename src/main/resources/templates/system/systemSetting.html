@@ -18,7 +18,7 @@
                 <label class="layui-form-label required">网站名称</label>
                 <div class="layui-input-block">
                     <input type="text" name="sitename" lay-verify="required" lay-reqtext="网站域名不能为空"
-                           placeholder="请输入网站名称" value="橘子管理系统" class="layui-input">
+                           placeholder="请输入网站名称" class="layui-input" th:value="${systemConfigInfo.webTitle}">
                     <tip>填写自己部署网站的名称。</tip>
                 </div>
             </div>
@@ -26,14 +26,14 @@
                 <label class="layui-form-label required">网站域名</label>
                 <div class="layui-input-block">
                     <input type="text" name="domain" lay-verify="required" lay-reqtext="网站域名不能为空" placeholder="请输入网站域名"
-                           value="localhost:8888/index" class="layui-input">
+                           class="layui-input" th:value="${systemConfigInfo.webUrl}">
                 </div>
             </div>
 
             <div class="layui-form-item">
                 <label class="layui-form-label">缓存时间</label>
                 <div class="layui-input-inline" style="width: 80px;">
-                    <input type="text" name="cache" lay-verify="number" value="0" class="layui-input">
+                    <input type="text" name="cache" lay-verify="number" class="layui-input" th:value="${systemConfigInfo.cacheTime}">
                 </div>
                 <div class="layui-input-inline layui-input-company">分钟</div>
                 <div class="layui-form-mid layui-word-aux">本地开发一般推荐设置为 0，线上环境建议设置为 10。</div>
@@ -41,7 +41,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">最大文件上传</label>
                 <div class="layui-input-inline" style="width: 80px;">
-                    <input type="text" name="cache" lay-verify="number" value="2048" class="layui-input">
+                    <input type="text" name="cache" lay-verify="number" class="layui-input" th:value="${systemConfigInfo.fileSize}">
                 </div>
                 <div class="layui-input-inline layui-input-company">KB</div>
                 <div class="layui-form-mid layui-word-aux">提示：1 M = 1024 KB</div>
@@ -49,14 +49,14 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">上传文件类型</label>
                 <div class="layui-input-block">
-                    <input type="text" name="cache" value="png|gif|jpg|jpeg|zip|rar" class="layui-input">
+                    <input type="text" name="cache" class="layui-input" th:value="${systemConfigInfo.fileSuffix}">
                 </div>
             </div>
 
             <div class="layui-form-item layui-form-text">
                 <label class="layui-form-label required">首页标题</label>
                 <div class="layui-input-block">
-                    <textarea name="title" class="layui-textarea">橘子管理系统</textarea>
+                    <textarea name="title" class="layui-textarea" th:text="${systemConfigInfo.homeTitle}"></textarea>
                 </div>
             </div>
             <div class="layui-form-item layui-form-text">
@@ -68,7 +68,7 @@
             <div class="layui-form-item layui-form-text">
                 <label class="layui-form-label required">版权信息</label>
                 <div class="layui-input-block">
-                    <textarea name="copyright" class="layui-textarea">© 2019 layuimini.99php.cn MIT license</textarea>
+                    <textarea name="copyright" class="layui-textarea" th:text="${systemConfigInfo.copyright}"></textarea>
                 </div>
             </div>
             <div class="layui-form-item">

@@ -20,8 +20,6 @@ import javax.annotation.Resource;
 public class SystemInfoController {
 
     @Resource
-    private ISystemUserService systemUserService;
-    @Resource
     private ISystemInfoService systemInfoService;
 
     /**

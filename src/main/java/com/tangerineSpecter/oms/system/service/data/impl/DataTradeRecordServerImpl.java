@@ -13,6 +13,7 @@ import com.tangerinespecter.oms.common.query.TradeRecordQueryObject;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.system.domain.entity.DataTradeRecord;
+import com.tangerinespecter.oms.system.domain.entity.SystemMenu;
 import com.tangerinespecter.oms.system.domain.enums.TradeRecordTypeEnum;
 import com.tangerinespecter.oms.system.domain.vo.data.TradeRecordInfoVo;
 import com.tangerinespecter.oms.system.mapper.DataTradeRecordMapper;
@@ -164,6 +165,15 @@ public class DataTradeRecordServerImpl implements IDateTradeRecordServer {
         }
         dataTradeRecordMapper.deleteById(id);
         return ServiceResult.success();
+    }
+
+    @Override
+    public ServiceResult detailInfo(Long id) {
+        if (id == null) {
+            return ServiceResult.paramError();
+        }
+        DataTradeRecord tradeRecord = dataTradeRecordMapper.selectById(id);
+        return ServiceResult.success(tradeRecord);
     }
 
     public static void main(String[] args) throws FileNotFoundException {

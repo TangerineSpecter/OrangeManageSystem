@@ -9,11 +9,9 @@ import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.vo.data.TradeRecordInfoVo;
 import com.tangerinespecter.oms.system.service.data.IDateTradeRecordServer;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -27,7 +25,7 @@ import javax.validation.Valid;
  * @author TangerineSpecter
  * @Date 2020年04月14日10:16:23
  */
-@RestController
+@Controller
 @RequestMapping("/data/trade-record")
 public class DataTradeRecordController {
 
@@ -39,6 +37,7 @@ public class DataTradeRecordController {
     /**
      * 交易记录页面
      */
+    @ResponseBody
     @RequestMapping(value = "/page", produces = "text/html;charset=UTF-8")
     public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
         return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getStockPortfolioPageKey, "data/tradeRecord");
@@ -47,19 +46,11 @@ public class DataTradeRecordController {
     /**
      * 交易记录列表
      */
+    @ResponseBody
     @AccessLimit(maxCount = 10)
     @RequestMapping("/list")
     public ServiceResult listInfo(TradeRecordQueryObject qo) {
         return dateTradeRecordServer.queryForPage(qo);
-    }
-
-    /**
-     * 交易数据初始化
-     */
-    @AccessLimit(maxCount = 10)
-    @RequestMapping("/init")
-    public ServiceResult init() {
-        return dateTradeRecordServer.init();
     }
 
     /**
@@ -68,6 +59,16 @@ public class DataTradeRecordController {
     @RequestMapping("/addPage")
     public String addTradeRecordPage(Model model) {
         return "data/addEditTradeRecord";
+    }
+
+    /**
+     * 交易数据初始化
+     */
+    @AccessLimit(maxCount = 10)
+    @ResponseBody
+    @RequestMapping("/init")
+    public ServiceResult init() {
+        return dateTradeRecordServer.init();
     }
 
     /**
@@ -95,6 +96,17 @@ public class DataTradeRecordController {
     }
 
     /**
+     * 交易数据详情
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/info")
+    public ServiceResult detailInfo(@RequestParam("id") Long id) {
+        return dateTradeRecordServer.detailInfo(id);
+    }
+
+    /**
      * 删除交易数据
      *
      * @return
@@ -112,6 +124,7 @@ public class DataTradeRecordController {
      * @param file
      * @return
      */
+    @ResponseBody
     @RequestMapping("/excel")
     public ServiceResult excelInfo(MultipartFile file) {
         return dateTradeRecordServer.excelInfo(file);

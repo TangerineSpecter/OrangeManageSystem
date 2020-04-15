@@ -18,4 +18,6 @@ public interface IDateTradeRecordServer {
     ServiceResult updateInfo(TradeRecordInfoVo vo);
 
     ServiceResult deleteInfo(Long id);
+
+    ServiceResult detailInfo(Long id);
 }

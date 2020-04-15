@@ -475,6 +475,7 @@
 </div>
 <script src="layui/lib/layui-v2.5.4/layui.js" charset="utf-8"></script>
 <script src="layui/js/lay-config.js" charset="utf-8"></script>
+<script src="vendor/echarts/echarts.min.js"></script>
 <script>
     layui.use(['layer', 'layuimini'], function () {
         var $ = layui.jquery,
@@ -512,6 +513,27 @@
             });
         });
     });
+
+    var myChart = echarts.init(document.getElementById('echarts-records'));
+
+    var option = {
+        xAxis: {
+            type: 'category',
+            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun','Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun','Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun','Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [{
+            data: [820, 932, 901, 934, 1290, 1330, 1320,820, 932, 901, 934, 1290, 1330, 1320,820, 932, 901, 934, 1290, 1330, 1320,820, 932, 901, 934, 1290, 1330, 1320,820, 932, 901, 934, 1290, 1330, 1320],
+            type: 'line',
+            smooth: true
+        }]
+    };
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+
 </script>
 </body>
 </html>

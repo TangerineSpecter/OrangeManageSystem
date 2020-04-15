@@ -6,68 +6,40 @@
 <body>
 <div class="layuimini-container">
     <div class="layuimini-main">
-        <!--<fieldset class="layui-elem-field layui-field-title">
-            <legend>添加系统菜单</legend>
-        </fieldset>-->
-        <form class="layui-form layui-form-pane" action="" lay-filter="menu-form">
+        <form class="layui-form layui-form-pane" action="" lay-filter="trade-form">
             <input type="text" id="id" name="id" class="layui-input" style="display: none;">
             <div class="layui-form-item">
-                <label class="layui-form-label">菜单标题</label>
+                <label class="layui-form-label">交易日期</label>
                 <div class="layui-input-block">
-                    <input type="text" lay-filter="title" name="title" lay-verify="title" autocomplete="off"
-                           placeholder="请输入标题"
+                    <input type="text" lay-filter="date" name="date" lay-verify="date" autocomplete="off"
+                           placeholder="请输入时间"
                            class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">跳转链接</label>
+                <label class="layui-form-label">开盘资金</label>
                 <div class="layui-input-block">
-                    <input type="text" lay-filter="href" name="href" autocomplete="off"
-                           placeholder="请输入链接"
+                    <input type="number" lay-filter="startMoney" name="startMoney" autocomplete="off"
+                           placeholder="请输入开盘资金" lay-verify="startMoney"
                            class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">菜单图标</label>
-                <div class="layui-input-inline">
-                    <input type="text" id="iconPicker" name="icon" lay-verify="icon" lay-filter="iconPicker"
-                           class="hide">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">菜单级别</label>
-                <div class="layui-input-inline">
-                    <select lay-filter="level" name="level">
-                        <option value="2">菜单</option>
-                        <option value="1">目录</option>
-                        <option value="0">导航</option>
-                    </select>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">上级菜单</label>
-                <div class="layui-input-inline">
-                    <select lay-filter="pid" name="pid" lay-search="">
-                        <option value="-1" selected="">无</option>
-                        <option th:each="systemMenu:${menuList.data}" th:text="${systemMenu.title}"
-                                th:value="${systemMenu.id}"></option>
-                    </select>
-                </div>
-            </div>
-            <div class="layui-form-item" pane="">
-                <label class="layui-form-label">跳转方式</label>
+                <label class="layui-form-label">收盘资金</label>
                 <div class="layui-input-block">
-                    <input lay-filter="target" type="radio" name="target" value="_self" title="内部" checked="">
-                    <input lay-filter="target" type="radio" name="target" value="_blank" title="外部">
+                    <input type="number" lay-filter="endMoney" name="endMoney" autocomplete="off"
+                           placeholder="请输入收盘资金" lay-verify="endMoney"
+                           class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
-                <div class="layui-inline">
-                    <label class="layui-form-label">排序</label>
-                    <div class="layui-input-inline" style="width: 100px;">
-                        <input type="number" lay-filter="sort" name="sort" autocomplete="off" class="layui-input"
-                               value="0">
-                    </div>
+                <label class="layui-form-label">类型</label>
+                <div class="layui-input-inline">
+                    <select lay-filter="type" name="type">
+                        <option value="0">股票</option>
+                        <option value="1">期货</option>
+                        <option value="2">外汇</option>
+                    </select>
                 </div>
             </div>
             <div class="layui-form-item" style="display:none;">
@@ -78,7 +50,6 @@
 </div>
 
 <div th:replace="./common/_layui_common::common_js"></div>
-<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 <script>
 
     //初始化页面数据
@@ -95,64 +66,50 @@
      * @param id
      */
     function initForm(id) {
-        $.post("/system/menu/info", {id: id}, function (result) {
+        $.post("/data/trade-record/info", {id: id}, function (result) {
             var data = result.data;
             $("#iconPicker").val(data.icon);
             layui.use(['form'], function () {
                 var form = layui.form;
 
-                form.val("menu-form", {
-                    "title": data.title,
-                    "href": data.href,
-                    "level": data.level,
-                    "pid": data.pid,
-                    "iconPicker": data.icon,
-                    "target": data.target,
-                    "sort": data.sort
+                form.val("trade-form", {
+                    "startMoney": data.startMoney / 100,
+                    "endMoney": data.endMoney / 100,
+                    "date": data.date,
+                    "type": data.type
                 });
                 form.render();
             });
         }, "JSON");
     }
 
-    layui.use(['form', 'layer', 'iconPickerFa'], function () {
+    layui.use(['form', 'layer', 'iconPickerFa', 'laydate'], function () {
         var form = layui.form,
             iconPickerFa = layui.iconPickerFa,
-            layer = layui.layer;
+            layer = layui.layer,
+            laydate = layui.laydate;
 
+        //交易日期
+        laydate.render({
+            elem: '#date'
+        });
 
         //自定义验证规则
         form.verify({
-            title: function (value) {
-                if (value.length < 1) {
-                    return '请输入菜单标题';
+            date: function (value) {
+                if (value == null || value === "") {
+                    return '请选择交易时间';
                 }
             },
-            icon: function (value) {
-                if (value.length < 1) {
-                    return '请选择菜单图标';
+            startMoney: function (value) {
+                if (value == null || value === "") {
+                    return '请输入开盘资金';
                 }
-            }
-        });
-
-        iconPickerFa.render({
-            // 选择器，推荐使用input
-            elem: '#iconPicker',
-            // fa 图标接口
-            url: "/layui/lib/font-awesome-4.7.0/less/variables.less",
-            // 是否开启搜索：true/false，默认true
-            search: true,
-            // 是否开启分页：true/false，默认true
-            page: true,
-            // 每页显示数量，默认12
-            limit: 12,
-            // 点击回调
-            click: function (data) {
-                //console.log(data);
             },
-            // 渲染成功后的回调
-            success: function (d) {
-                //console.log(d);
+            endMoney: function (value) {
+                if (value == null || value === "") {
+                    return '请输入收盘资金';
+                }
             }
         });
 
@@ -173,6 +130,36 @@
             }, "JSON");
             return false;
         });
+
+        //初始化页面数据
+        function initData(data) {
+            if (data.id !== undefined) {
+                $("#id").val(data.id);
+                initForm(data.id);
+            }
+            href = data.href;
+        }
+
+        /**
+         * 初始化表单
+         * @param id
+         */
+        function initForm(id) {
+            $.post("/data/trade-record/info", {id: id}, function (result) {
+                var data = result.data;
+                layui.use(['form'], function () {
+                    var form = layui.form;
+
+                    form.val("trade-form", {
+                        "startMoney": data.startMoney,
+                        "endMoney": data.endMoney,
+                        "date": data.date,
+                        "type": data.type
+                    });
+                    form.render();
+                });
+            }, "JSON");
+        }
     });
 
 </script>

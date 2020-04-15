@@ -1,19 +1,23 @@
 package com.tangerinespecter.oms.system.service.system.impl;
 
+import cn.hutool.core.util.NumberUtil;
 import com.alibaba.druid.util.StringUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.tangerinespecter.oms.common.constants.CommonConstant;
+import com.tangerinespecter.oms.common.constants.TradeConstant;
 import com.tangerinespecter.oms.common.utils.DateUtils;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.system.domain.dto.system.HomePageDataDto;
 import com.tangerinespecter.oms.system.domain.dto.system.MenuChildInfo;
 import com.tangerinespecter.oms.system.domain.dto.system.StatisticsInfo;
 import com.tangerinespecter.oms.system.domain.entity.DataConstellation;
+import com.tangerinespecter.oms.system.domain.entity.DataTradeRecord;
 import com.tangerinespecter.oms.system.domain.entity.SystemMenu;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;
 import com.tangerinespecter.oms.system.domain.pojo.ManagerInfoBean;
 import com.tangerinespecter.oms.system.domain.pojo.SystemInfoBean;
 import com.tangerinespecter.oms.system.mapper.DataConstellationMapper;
+import com.tangerinespecter.oms.system.mapper.DataTradeRecordMapper;
 import com.tangerinespecter.oms.system.mapper.SystemMenuMapper;
 import com.tangerinespecter.oms.system.service.system.ISystemInfoService;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +44,8 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
     private DataConstellationMapper dataConstellationMapper;
     @Resource
     private SystemMenuMapper systemMenuMapper;
+    @Resource
+    private DataTradeRecordMapper dataTradeRecordMapper;
 
     private final Integer luck_threshold = 70;
 
@@ -110,7 +116,13 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
 
     @Override
     public StatisticsInfo getStatisticsInfo() {
-        return StatisticsInfo.builder().todayIncome(new BigDecimal(1111)).build();
+        int todayIncome = dataTradeRecordMapper.getTotalIncomeByLastDay();
+        int monthIncome = dataTradeRecordMapper.getTotalIncomeByLastMonth();
+        return StatisticsInfo.builder().todayIncome(BigDecimal.valueOf(NumberUtil.div(todayIncome, 100, 2)))
+                .monthIncome(BigDecimal.valueOf(NumberUtil.div(monthIncome, 100, 2)))
+                .todayStatus(todayIncome >= 0 ? TradeConstant.TRADE_STATUS_PROFIT : TradeConstant.TRADE_STATUS_LOSS)
+                .monthStatus(monthIncome >= 0 ? TradeConstant.TRADE_STATUS_PROFIT : TradeConstant.TRADE_STATUS_LOSS)
+                .build();
     }
 
     /**

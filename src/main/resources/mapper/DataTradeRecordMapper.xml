@@ -16,7 +16,7 @@
                 <![CDATA[and `date` <= #{endDay}]]>
             </if>
         </where>
-        order by date desc
+        order by date desc,id desc
     </select>
     <select id="getTradeWinCountByTypeAndDate" resultType="java.lang.Integer">
         <![CDATA[
@@ -26,5 +26,19 @@
           and type = #{type}
           and `date` <= #{date}
         ]]>
+    </select>
+    <select id="getTotalIncomeByLastDay" resultType="java.lang.Integer">
+        select SUM(income_value)
+        from data_trade_record
+        GROUP BY `date`
+        order by date desc
+        limit 1
+    </select>
+    <select id="getTotalIncomeByLastMonth" resultType="java.lang.Integer">
+        select SUM(income_value)
+        from data_trade_record
+        GROUP BY DATE_FORMAT(date, '%Y-%m')
+        order by DATE_FORMAT(date, '%Y-%m') desc
+        limit 1
     </select>
 </mapper>

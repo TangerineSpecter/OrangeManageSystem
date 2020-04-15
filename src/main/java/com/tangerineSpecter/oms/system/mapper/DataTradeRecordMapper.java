@@ -21,4 +21,16 @@ public interface DataTradeRecordMapper extends BaseMapper<DataTradeRecord> {
      * @return
      */
     int getTradeWinCountByTypeAndDate(@Param("type") Integer type, @Param("date") String date);
+
+    /**
+     * 获取最近一天的总收益
+     * @return
+     */
+    int getTotalIncomeByLastDay();
+
+    /**
+     * 获取最近一月的收益
+     * @return
+     */
+    int getTotalIncomeByLastMonth();
 }

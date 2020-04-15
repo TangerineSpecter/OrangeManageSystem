@@ -6,21 +6,17 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * 股票池页面高级查询
+ * 股票组合高级查询
  *
- * @author TangerineSpecter
- * @version v0.0.7
- * @Date 2020年04月15日01:41:38
+ * @author tangerineSpecter
+ * @version 0.0.7
+ * @date 2020年04月15日19:18:45
  */
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class StockQueryObject extends QueryObject {
-    /**
-     * 类型（sh\sz\hk)
-     */
-    private String type;
+public class StockPortfolioQueryObject extends QueryObject {
 
     private String keyword;
 }

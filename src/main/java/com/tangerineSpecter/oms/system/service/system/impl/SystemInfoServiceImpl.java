@@ -7,6 +7,7 @@ import com.tangerinespecter.oms.common.utils.DateUtils;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.system.domain.dto.system.HomePageDataDto;
 import com.tangerinespecter.oms.system.domain.dto.system.MenuChildInfo;
+import com.tangerinespecter.oms.system.domain.dto.system.StatisticsInfo;
 import com.tangerinespecter.oms.system.domain.entity.DataConstellation;
 import com.tangerinespecter.oms.system.domain.entity.SystemMenu;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;
@@ -19,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -104,6 +106,11 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
         queryWrapper.orderBy(true, false, "sort");
         List<SystemMenu> list = systemMenuMapper.selectList(queryWrapper);
         return HomePageDataDto.builder().menuInfo(getMenuChildInfo(list)).build();
+    }
+
+    @Override
+    public StatisticsInfo getStatisticsInfo() {
+        return StatisticsInfo.builder().todayIncome(new BigDecimal(1111)).build();
     }
 
     /**

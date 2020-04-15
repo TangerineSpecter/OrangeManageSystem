@@ -41,7 +41,7 @@ public class DataTradeRecordController {
      */
     @RequestMapping(value = "/page", produces = "text/html;charset=UTF-8")
     public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
-        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getTradeRecordPageKey, "data/tradeRecord");
+        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getStockPortfolioPageKey, "data/tradeRecord");
     }
 
     /**

@@ -4,6 +4,7 @@ import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.poi.excel.ExcelReader;
 import cn.hutool.poi.excel.ExcelUtil;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -85,7 +86,8 @@ public class DataTradeRecordServerImpl implements IDateTradeRecordServer {
             log.info("交易数据[{}]不存在", id);
             return;
         }
-        int totalDay = dataTradeRecordMapper.selectCount(null);
+        QueryWrapper<DataTradeRecord> queryWrapper = new QueryWrapper<DataTradeRecord>().eq("type", data.getType());
+        int totalDay = dataTradeRecordMapper.selectCount(queryWrapper);
         //获胜次数
         int winCount = dataTradeRecordMapper.getTradeWinCountByTypeAndDate(data.getType(), data.getDate());
         int incomeValue = data.getEndMoney() - data.getStartMoney();

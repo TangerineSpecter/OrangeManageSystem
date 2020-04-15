@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="./common/_layui_common :: common_header">
+    <meta charset="UTF-8">
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <!--<fieldset class="layui-elem-field layui-field-title">
+            <legend>添加系统菜单</legend>
+        </fieldset>-->
+        <form class="layui-form layui-form-pane" action="" lay-filter="menu-form">
+            <input type="text" id="id" name="id" class="layui-input" style="display: none;">
+            <div class="layui-form-item">
+                <label class="layui-form-label">菜单标题</label>
+                <div class="layui-input-block">
+                    <input type="text" lay-filter="title" name="title" lay-verify="title" autocomplete="off"
+                           placeholder="请输入标题"
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">跳转链接</label>
+                <div class="layui-input-block">
+                    <input type="text" lay-filter="href" name="href" autocomplete="off"
+                           placeholder="请输入链接"
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">菜单图标</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="iconPicker" name="icon" lay-verify="icon" lay-filter="iconPicker"
+                           class="hide">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">菜单级别</label>
+                <div class="layui-input-inline">
+                    <select lay-filter="level" name="level">
+                        <option value="2">菜单</option>
+                        <option value="1">目录</option>
+                        <option value="0">导航</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">上级菜单</label>
+                <div class="layui-input-inline">
+                    <select lay-filter="pid" name="pid" lay-search="">
+                        <option value="-1" selected="">无</option>
+                        <option th:each="systemMenu:${menuList.data}" th:text="${systemMenu.title}"
+                                th:value="${systemMenu.id}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item" pane="">
+                <label class="layui-form-label">跳转方式</label>
+                <div class="layui-input-block">
+                    <input lay-filter="target" type="radio" name="target" value="_self" title="内部" checked="">
+                    <input lay-filter="target" type="radio" name="target" value="_blank" title="外部">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">排序</label>
+                    <div class="layui-input-inline" style="width: 100px;">
+                        <input type="number" lay-filter="sort" name="sort" autocomplete="off" class="layui-input"
+                               value="0">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item" style="display:none;">
+                <button id="submitBtn" class="layui-btn" lay-submit="" lay-filter="submitBtn">提交</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div th:replace="./common/_layui_common::common_js"></div>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+
+    //初始化页面数据
+    function initData(data) {
+        if (data.id !== undefined) {
+            $("#id").val(data.id);
+            initForm(data.id);
+        }
+        href = data.href;
+    }
+
+    /**
+     * 初始化表单
+     * @param id
+     */
+    function initForm(id) {
+        $.post("/system/menu/info", {id: id}, function (result) {
+            var data = result.data;
+            $("#iconPicker").val(data.icon);
+            layui.use(['form'], function () {
+                var form = layui.form;
+
+                form.val("menu-form", {
+                    "title": data.title,
+                    "href": data.href,
+                    "level": data.level,
+                    "pid": data.pid,
+                    "iconPicker": data.icon,
+                    "target": data.target,
+                    "sort": data.sort
+                });
+                form.render();
+            });
+        }, "JSON");
+    }
+
+    layui.use(['form', 'layer', 'iconPickerFa'], function () {
+        var form = layui.form,
+            iconPickerFa = layui.iconPickerFa,
+            layer = layui.layer;
+
+
+        //自定义验证规则
+        form.verify({
+            title: function (value) {
+                if (value.length < 1) {
+                    return '请输入菜单标题';
+                }
+            },
+            icon: function (value) {
+                if (value.length < 1) {
+                    return '请选择菜单图标';
+                }
+            }
+        });
+
+        iconPickerFa.render({
+            // 选择器，推荐使用input
+            elem: '#iconPicker',
+            // fa 图标接口
+            url: "/layui/lib/font-awesome-4.7.0/less/variables.less",
+            // 是否开启搜索：true/false，默认true
+            search: true,
+            // 是否开启分页：true/false，默认true
+            page: true,
+            // 每页显示数量，默认12
+            limit: 12,
+            // 点击回调
+            click: function (data) {
+                //console.log(data);
+            },
+            // 渲染成功后的回调
+            success: function (d) {
+                //console.log(d);
+            }
+        });
+
+        //监听提交
+        form.on('submit(submitBtn)', function (data) {
+            $.post(href, data.field, function (result) {
+                layer.open({
+                    title: '提示',
+                    content: result.msg,
+                    yes: function (index, layero) {
+                        if (result.code === 0) {
+                            parent.layer.closeAll();
+                            reloadTab();
+                            //parent.$(".layui-tab-item.layui-show", window.parent.document).find("iframe")[0].contentWindow.location.reload();
+                        }
+                    }
+                });
+            }, "JSON");
+            return false;
+        });
+    });
+
+</script>
+
+</body>
+</html>

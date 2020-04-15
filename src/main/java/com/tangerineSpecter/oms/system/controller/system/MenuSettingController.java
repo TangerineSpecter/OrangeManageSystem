@@ -93,7 +93,6 @@ public class MenuSettingController {
      */
     @ResponseBody
     @RequestMapping("/info")
-    @LoggerInfo(value = "菜单信息", event = LogOperation.EVENT_ADD, ignore = true)
     public ServiceResult detailInfo(@RequestParam("id") Long id) {
         return menuSettingService.detailInfo(id);
     }

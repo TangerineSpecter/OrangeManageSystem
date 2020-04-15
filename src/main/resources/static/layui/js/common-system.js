@@ -13,7 +13,7 @@ function submitFun() {
  * @param contentUrl iframe地址
  */
 function loadFormModel(title, data, contentUrl) {
-    var iframe;
+    let iframe;
     layer.open({
         type: 2
         , title: title

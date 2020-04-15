@@ -11,7 +11,7 @@
  Target Server Version : 80017
  File Encoding         : 65001
 
- Date: 18/03/2020 18:11:31
+ Date: 15/04/2020 17:40:04
 */
 
 SET NAMES utf8mb4;
@@ -37,7 +37,74 @@ CREATE TABLE `data_constellation` (
   `work_luck` varchar(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '工作指数',
   `create_time` date DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=253 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='星座信息表';
+) ENGINE=InnoDB AUTO_INCREMENT=289 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='星座信息表';
+
+-- ----------------------------
+-- Table structure for data_stock
+-- ----------------------------
+DROP TABLE IF EXISTS `data_stock`;
+CREATE TABLE `data_stock` (
+  `id` bigint(23) NOT NULL AUTO_INCREMENT,
+  `market` varchar(45) DEFAULT NULL COMMENT '市场缩写',
+  `code` varchar(45) DEFAULT NULL COMMENT '股票代码',
+  `full_code` varchar(45) DEFAULT NULL COMMENT '股票完整代码',
+  `listing_date` date DEFAULT NULL COMMENT '上市日期',
+  `name` varchar(255) DEFAULT NULL COMMENT '股票名称',
+  `curr_capital` decimal(15,0) DEFAULT NULL COMMENT '流通股本（万股）',
+  `profit_four` decimal(15,2) DEFAULT NULL COMMENT '四季度净利润',
+  `total_capital` decimal(15,0) DEFAULT NULL COMMENT '总股本',
+  `net_per_assets` decimal(15,0) DEFAULT NULL COMMENT '每股净资产',
+  `pinyin` varchar(45) DEFAULT NULL COMMENT '股票拼音',
+  `state` int(11) DEFAULT '1' COMMENT '股票状态 1： 上市， 其他停牌',
+  `industry_id` bigint(20) DEFAULT NULL COMMENT '行业',
+  `net_income` decimal(15,0) DEFAULT NULL COMMENT '归属母公司股东净利润',
+  PRIMARY KEY (`id`),
+  KEY `idx_full_code` (`full_code`)
+) ENGINE=InnoDB AUTO_INCREMENT=12851 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='股票表';
+
+-- ----------------------------
+-- Table structure for data_stock_portfolio
+-- ----------------------------
+DROP TABLE IF EXISTS `data_stock_portfolio`;
+CREATE TABLE `data_stock_portfolio` (
+  `id` bigint(13) NOT NULL,
+  `name` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '名称',
+  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '备注',
+  `create_time` date DEFAULT NULL COMMENT '创建时间',
+  `is_del` tinyint(2) NOT NULL DEFAULT '0' COMMENT '删除状态（0：未删除；1：已删除）',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='股票组合表';
+
+-- ----------------------------
+-- Table structure for data_stock_portfolio_content
+-- ----------------------------
+DROP TABLE IF EXISTS `data_stock_portfolio_content`;
+CREATE TABLE `data_stock_portfolio_content` (
+  `id` bigint(13) NOT NULL,
+  `stock_id` bigint(13) NOT NULL COMMENT '股票ID',
+  `portfolio_id` bigint(13) NOT NULL COMMENT '组合ID',
+  `Related Information` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '信息',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='股票组合内容表';
+
+-- ----------------------------
+-- Table structure for data_trade_record
+-- ----------------------------
+DROP TABLE IF EXISTS `data_trade_record`;
+CREATE TABLE `data_trade_record` (
+  `id` bigint(13) NOT NULL AUTO_INCREMENT,
+  `date` date NOT NULL COMMENT '交易时间',
+  `start_money` int(20) DEFAULT NULL COMMENT '初始金额（单位：分）',
+  `end_money` int(20) DEFAULT NULL COMMENT '结束金额（单位：分）',
+  `income_value` int(50) NOT NULL DEFAULT '0' COMMENT '收益值(单位：分)',
+  `income_rate` decimal(10,5) DEFAULT '0.00000' COMMENT '收益率（百分比）',
+  `win_rate` decimal(10,5) DEFAULT '0.00000' COMMENT '赢率（百分比）',
+  `sharpe_ratio` decimal(10,5) DEFAULT NULL COMMENT '夏普率',
+  `type` int(4) NOT NULL COMMENT '类型（0：股票；1：期货；2：外汇）',
+  `admin_id` bigint(13) NOT NULL COMMENT '管理员ID',
+  `create_time` bigint(13) DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=422 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='交易记录表';
 
 -- ----------------------------
 -- Table structure for system_config
@@ -85,7 +152,7 @@ CREATE TABLE `system_log` (
   `ip` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '操作IP',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '操作时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=971 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统日志记录表';
+) ENGINE=InnoDB AUTO_INCREMENT=1272 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统日志记录表';
 
 -- ----------------------------
 -- Table structure for system_menu
@@ -102,7 +169,7 @@ CREATE TABLE `system_menu` (
   `permission` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '菜单权限',
   `sort` int(11) DEFAULT '0' COMMENT '排序',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统菜单表';
+) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统菜单表';
 
 -- ----------------------------
 -- Table structure for system_notice

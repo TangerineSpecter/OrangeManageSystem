@@ -18,4 +18,13 @@
         </where>
         order by date desc
     </select>
+    <select id="getTradeWinCountByTypeAndDate" resultType="java.lang.Integer">
+        <![CDATA[
+        select count(id)
+        from data_trade_record
+        where (end_money - start_money) >= 0
+          and type = #{type}
+          and `date` <= #{date}
+        ]]>
+    </select>
 </mapper>

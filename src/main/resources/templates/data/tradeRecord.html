@@ -4,62 +4,65 @@
     <meta charset="UTF-8">
 </head>
 <body>
-<div class="layuimini-container">
-    <div class="layuimini-main">
-        <fieldset class="layui-elem-field layuimini-search">
-            <legend>搜索信息</legend>
-            <div style="margin: 10px 10px 10px 10px">
-                <form class="layui-form layui-form-pane" action="">
-                    <div class="layui-form-item">
-                        <div class="layui-inline">
-                            <label class="layui-form-label">类型</label>
-                            <div class="layui-input-inline">
-                                <select name="type" class="layui-select">
-                                    <option value="">全部</option>
-                                    <option value="0">股票</option>
-                                    <option value="1">期货</option>
-                                    <option value="2">外汇</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="layui-inline">
-                            <label class="layui-form-label">起始日期</label>
-                            <div class="layui-input-inline">
-                                <input type="text" id="startDay" name="startDay" autocomplete="off" class="layui-input"
-                                       placeholder="yyyy-MM-dd">
-                            </div>
-                        </div>
-                        <div class="layui-inline">
-                            <label class="layui-form-label">结束日期</label>
-                            <div class="layui-input-inline">
-                                <input type="text" id="endDay" name="endDay" autocomplete="off" class="layui-input"
-                                       placeholder="yyyy-MM-dd">
-                            </div>
-                        </div>
-                        <div class="layui-inline">
-                            <a class="layui-btn" lay-submit="" lay-filter="data-search-btn">搜索</a>
-                            <a class="layui-btn" lay-submit="" lay-filter="data-clear-btn">清空</a>
+<div class="layuimini-main">
+    <fieldset class="layui-elem-field layuimini-search">
+        <legend>搜索信息</legend>
+        <div style="margin: 10px 10px 10px 10px">
+            <form class="layui-form layui-form-pane" action="">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">类型</label>
+                        <div class="layui-input-inline">
+                            <select name="type" class="layui-select">
+                                <option value="">全部</option>
+                                <option value="0">股票</option>
+                                <option value="1">期货</option>
+                                <option value="2">外汇</option>
+                            </select>
                         </div>
                     </div>
-                </form>
-            </div>
-        </fieldset>
-        <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
-    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">起始日期</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="startDay" name="startDay" autocomplete="off" class="layui-input"
+                                   placeholder="yyyy-MM-dd">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">结束日期</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="endDay" name="endDay" autocomplete="off" class="layui-input"
+                                   placeholder="yyyy-MM-dd">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <a class="layui-btn" lay-submit="" lay-filter="data-search-btn">搜索</a>
+                        <a class="layui-btn" lay-submit="" lay-filter="data-clear-btn">清空</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </fieldset>
+    <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
 </div>
 <div th:replace="./common/_layui_common::common_js"></div>
-<script type="text/html" id="toolbarDemo">
+<script type="text/html" id="toolbar">
     <div class="layui-btn-container">
         <button class="layui-btn layui-btn-sm" lay-event="addTradeData">新增数据</button>
         <button class="layui-btn layui-btn-sm" lay-event="initTradeData">初始化</button>
     </div>
 </script>
+<script type="text/html" id="operationBar">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
 <script>
-    layui.use(['form', 'table', 'laydate'], function () {
+    layui.use(['form', 'table', 'laydate', 'layer'], function () {
         const $ = layui.jquery,
             form = layui.form,
             table = layui.table,
-            laydate = layui.laydate;
+            laydate = layui.laydate,
+            layer = layui.layer;
 
         //起始日期
         laydate.render({
@@ -73,7 +76,12 @@
         table.render({
             elem: '#currentTableId',
             url: '/data/trade-record/list',
-            toolbar: '#toolbarDemo',
+            toolbar: '#toolbar',//开启头部工具栏
+            defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
+                title: '提示'
+                , layEvent: 'LAYTABLE_TIPS'
+                , icon: 'layui-icon-tips'
+            }],
             cellMinWidth: 100,
             totalRow: true,
             cols: [
@@ -135,9 +143,12 @@
                         }
                     },
                     {
-                        field: 'sharpeRatio', align: 'center', title: '夏普比率', fixed: "right", templet: function (row) {
+                        field: 'sharpeRatio', align: 'center', title: '夏普比率', templet: function (row) {
                             return (row.sharpeRatio * 100).toFixed(2) + "%";
                         }
+                    },
+                    {
+                        toolbar: '#operationBar', align: 'center', title: '操作', fixed: "right"
                     }
                 ]
             ],
@@ -169,11 +180,7 @@
                 page: {
                     curr: 1
                 }
-                , where: {
-                    star: "",
-                    startDay: "",
-                    endDay: ""
-                }
+                , where: {}
             }, 'data');
             return false;
         });
@@ -184,27 +191,84 @@
         });
 
         //头工具栏事件
-        table.on('toolbar(toolbarDemo)', function (obj) {
+        table.on('toolbar(currentTableFilter)', function (obj) {
+            console.log(obj);
             switch (obj.event) {
                 //添加交易数据
                 case 'addTradeData':
-                    console.log("添加数据");
+                    loadFormModel("添加交易数据", {href: "/data/trade-record/insert"}, '/data/trade-record/addPage');
                     break;
                 case 'initTradeData':
                     console.log("初始化数据");
+                    initData();
                     break;
 
                 //自定义头工具栏右侧图标 - 提示
                 case 'LAYTABLE_TIPS':
-                    layer.alert('这是工具栏右侧自定义的一个图标按钮');
+                    layer.alert('这里是进行交易数据记录的地方');
                     break;
             }
         });
+
+        //监听工具条
+        table.on('tool(currentTableFilter)', function (obj) {
+            const data = obj.data;
+            if (obj.event === 'detail') {
+                layer.msg('ID：' + data.id + ' 的查看操作');
+            } else if (obj.event === 'del') {
+                layer.confirm('真的删除行么', function (index) {
+                    //obj.del();
+                    deleteFun(data.id);
+                    layer.close(index);
+                });
+            } else if (obj.event === 'edit') {
+                //layer.alert('编辑行：<br>' + JSON.stringify(data))
+                loadFormModel("编辑交易数据", {href: "/data/trade-record/update"}, '/data/trade-record/addPage');
+            }
+        });
+
+        //初始化数据
+        function initData() {
+            $.post("/data/trade-record/init", {}, function (result) {
+                if (result.success) {
+                    layer.open({
+                        title: "提示",
+                        content: "初始化完毕",
+                        yes: function () {
+                            reloadTab();
+                        }
+                    });
+                } else {
+                    layer.open({
+                        title: "警告",
+                        content: result.msg
+                    })
+                }
+            }, "JSON");
+        }
+
+        //初始化数据
+        function deleteFun(id) {
+            $.post("/data/trade-record/init", {id: id}, function (result) {
+                if (result.success) {
+                    layer.open({
+                        title: "提示",
+                        content: "删除成功",
+                        yes: function () {
+                            reloadTab();
+                        }
+                    });
+                } else {
+                    layer.open({
+                        title: "警告",
+                        content: result.msg
+                    })
+                }
+            }, "JSON");
+        }
     });
 </script>
 <script>
-
 </script>
-
 </body>
 </html>

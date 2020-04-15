@@ -7,11 +7,13 @@ import cn.hutool.poi.excel.ExcelUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.tangerinespecter.oms.common.constants.RetCode;
 import com.tangerinespecter.oms.common.query.TradeRecordQueryObject;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.system.domain.entity.DataTradeRecord;
 import com.tangerinespecter.oms.system.domain.enums.TradeRecordTypeEnum;
+import com.tangerinespecter.oms.system.domain.vo.data.TradeRecordInfoVo;
 import com.tangerinespecter.oms.system.mapper.DataTradeRecordMapper;
 import com.tangerinespecter.oms.system.service.data.IDateTradeRecordServer;
 import lombok.extern.slf4j.Slf4j;
@@ -64,21 +66,33 @@ public class DataTradeRecordServerImpl implements IDateTradeRecordServer {
     private void handlerTradeData(Integer type) {
         QueryWrapper<DataTradeRecord> queryWrapper = new QueryWrapper<DataTradeRecord>().eq("type", type);
         List<DataTradeRecord> datas = dataTradeRecordMapper.selectList(queryWrapper);
-        //获胜次数
-        int winCount = 0;
-        //记录第几天
-        int totalDay = 0;
         for (DataTradeRecord data : datas) {
-            int incomeValue = data.getEndMoney() - data.getStartMoney();
-            data.setIncomeValue(Convert.toBigDecimal(incomeValue));
-            data.setIncomeRate(NumberUtil.div(data.getIncomeValue(), data.getStartMoney(), 5));
-            if (incomeValue >= 0) {
-                winCount++;
-            }
-            totalDay++;
-            data.setWinRate(new BigDecimal(NumberUtil.div(winCount, totalDay, 5)));
-            dataTradeRecordMapper.updateById(data);
+            handlerSingleTradeData(data.getId());
         }
+    }
+
+    /**
+     * 根据类型处理数据
+     *
+     * @param id 交易数据id
+     */
+    private void handlerSingleTradeData(Long id) {
+        if (id == null) {
+            return;
+        }
+        DataTradeRecord data = dataTradeRecordMapper.selectById(id);
+        if (data == null) {
+            log.info("交易数据[{}]不存在", id);
+            return;
+        }
+        int totalDay = dataTradeRecordMapper.selectCount(null);
+        //获胜次数
+        int winCount = dataTradeRecordMapper.getTradeWinCountByTypeAndDate(data.getType(), data.getDate());
+        int incomeValue = data.getEndMoney() - data.getStartMoney();
+        data.setIncomeValue(Convert.toBigDecimal(incomeValue));
+        data.setIncomeRate(NumberUtil.div(data.getIncomeValue(), data.getStartMoney(), 5));
+        data.setWinRate(new BigDecimal(NumberUtil.div(winCount, totalDay, 5)));
+        dataTradeRecordMapper.updateById(data);
     }
 
     @Override
@@ -107,6 +121,46 @@ public class DataTradeRecordServerImpl implements IDateTradeRecordServer {
         } catch (Exception e) {
             log.error("数据导入异常，{}", e);
         }
+        return ServiceResult.success();
+    }
+
+    @Override
+    public ServiceResult insertInfo(TradeRecordInfoVo vo) {
+        DataTradeRecord tradeRecord = DataTradeRecord.builder().startMoney(vo.getStartMoney())
+                .endMoney(vo.getEndMoney()).type(vo.getType())
+                .adminId(SystemUtils.getSystemUserId())
+                .createTime(System.currentTimeMillis())
+                .date(vo.getDate()).build();
+        dataTradeRecordMapper.insert(tradeRecord);
+        Long id = tradeRecord.getId();
+        handlerSingleTradeData(id);
+        return ServiceResult.success();
+    }
+
+    @Override
+    public ServiceResult updateInfo(TradeRecordInfoVo vo) {
+        if (vo.getId() == null) {
+            return ServiceResult.paramError();
+        }
+        DataTradeRecord dataTradeRecord = dataTradeRecordMapper.selectById(vo.getId());
+        if (dataTradeRecord == null) {
+            return ServiceResult.error(RetCode.TRADE_RECORD_NOT_EXIST);
+        }
+        dataTradeRecord.setStartMoney(vo.getStartMoney());
+        dataTradeRecord.setEndMoney(vo.getEndMoney());
+        dataTradeRecord.setDate(vo.getDate());
+        dataTradeRecord.setType(vo.getType());
+        dataTradeRecordMapper.updateById(dataTradeRecord);
+        handlerSingleTradeData(dataTradeRecord.getId());
+        return ServiceResult.success();
+    }
+
+    @Override
+    public ServiceResult deleteInfo(Long id) {
+        if (id == null) {
+            return ServiceResult.paramError();
+        }
+        dataTradeRecordMapper.deleteById(id);
         return ServiceResult.success();
     }
 

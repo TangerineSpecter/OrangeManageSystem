@@ -74,6 +74,11 @@ public class RetCode {
      */
     public static final RetCode PARAM_ERROR = new RetCode(200, "参数错误");
 
+    /**
+     * 交易记录不存在
+     */
+    public static final RetCode TRADE_RECORD_NOT_EXIST = new RetCode(1000, "交易记录不存在");
+
     public RetCode fillArgs(Object... args) {
         int errorCode = this.errorCode;
         String errorDesc = this.errorDesc + ":" + Arrays.toString(args);

@@ -12,28 +12,20 @@
                 <form class="layui-form layui-form-pane" action="">
                     <div class="layui-form-item">
                         <div class="layui-inline">
-                            <label class="layui-form-label">类型</label>
+                            <label class="layui-form-label">市场</label>
                             <div class="layui-input-inline">
                                 <select name="type" class="layui-select">
                                     <option value="">全部</option>
-                                    <option value="0">股票</option>
-                                    <option value="1">期货</option>
-                                    <option value="2">外汇</option>
+                                    <option value="sh">上证</option>
+                                    <option value="sz">深证</option>
+                                    <option value="hk">港交所</option>
                                 </select>
                             </div>
                         </div>
                         <div class="layui-inline">
-                            <label class="layui-form-label">起始日期</label>
+                            <label class="layui-form-label">关键词</label>
                             <div class="layui-input-inline">
-                                <input type="text" id="startDay" name="startDay" autocomplete="off" class="layui-input"
-                                       placeholder="yyyy-MM-dd">
-                            </div>
-                        </div>
-                        <div class="layui-inline">
-                            <label class="layui-form-label">结束日期</label>
-                            <div class="layui-input-inline">
-                                <input type="text" id="endDay" name="endDay" autocomplete="off" class="layui-input"
-                                       placeholder="yyyy-MM-dd">
+                                <input type="text" id="keyword" name="keyword" autocomplete="off" class="layui-input" placeholder="股票代码、股票名称">
                             </div>
                         </div>
                         <div class="layui-inline">
@@ -50,8 +42,7 @@
 <div th:replace="./common/_layui_common::common_js"></div>
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="addTradeData">新增数据</button>
-        <button class="layui-btn layui-btn-sm" lay-event="initTradeData">初始化</button>
+        <button class="layui-btn layui-btn-sm" lay-event="addStock">新增股票</button>
     </div>
 </script>
 <script>
@@ -85,12 +76,9 @@
                     {field: 'fullCode', align: 'center', title: '股票完整代码'},
                     {field: 'name', align: 'center', title: '股票名称'},
                     {field: 'listingDate', align: 'center', title: '上市时间', sort: true},
-                    {field: 'currCapital', align: 'center', title: '流通股本（万股）'},
-                    {field: 'profitFour', align: 'center', title: '四季度净利润'},
-                    {field: 'totalCapital', align: 'center', title: '总股本'},
-                    {field: 'netPerAssets', align: 'center', title: '每股净资产'},
-                    {field: 'pinyin', align: 'center', title: '股票拼音'},
-                    {field: 'netIncome', align: 'center', title: '归属母公司股东净利润', fixed: "right"},
+                    {field: 'currCapital', align: 'center', title: '流通股本（万股）', sort: true},
+                    {field: 'profitFour', align: 'center', title: '四季度净利润', sort: true},
+                    {field: 'totalCapital', align: 'center', title: '总股本', sort: true, fixed: "right"},
                 ]
             ],
             limits: [10, 15, 20, 25, 50, 100],
@@ -136,14 +124,11 @@
         });
 
         //头工具栏事件
-        table.on('toolbar(toolbarDemo)', function (obj) {
+        table.on('toolbar(currentTableFilter)', function (obj) {
             switch (obj.event) {
                 //添加交易数据
-                case 'addTradeData':
+                case 'addStock':
                     console.log("添加数据");
-                    break;
-                case 'initTradeData':
-                    console.log("初始化数据");
                     break;
 
                 //自定义头工具栏右侧图标 - 提示

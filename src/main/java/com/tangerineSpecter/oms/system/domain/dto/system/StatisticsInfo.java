@@ -18,6 +18,10 @@ public class StatisticsInfo {
      */
     private BigDecimal todayIncome;
     /**
+     * 本周收益
+     */
+    private BigDecimal weekendIncome;
+    /**
      * 当月收益
      */
     private BigDecimal monthIncome;
@@ -26,14 +30,22 @@ public class StatisticsInfo {
      */
     private String today;
     /**
+     * 本周
+     */
+    private Integer weekend;
+    /**
      * 本月
      */
-    private String mouth;
+    private Integer month;
     /**
      * 今日盈亏状态（0：盈利；1：亏损）
      */
     private Integer todayStatus;
     /**
+     * 本周盈亏状态（0：盈利；1：亏损）
+     */
+    private Integer weekendStatus;
+ /**
      * 本月盈亏状态（0：盈利；1：亏损）
      */
     private Integer monthStatus;

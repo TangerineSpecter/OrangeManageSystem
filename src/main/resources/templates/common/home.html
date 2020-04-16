@@ -169,7 +169,7 @@
                                                     </div>
                                                     <div class="panel-content">
                                                         <h1 class="no-margins" th:text="${statisticsInfo.todayIncome}">0</h1>
-                                                        <small>结算日期：2020-4-15</small>
+                                                        <small>结算日期：<span th:text="${statisticsInfo.today}">2020-1-1</span></small>
                                                     </div>
                                                 </div>
                                             </div>
@@ -183,7 +183,7 @@
                                                     </div>
                                                     <div class="panel-content">
                                                         <h1 class="no-margins" th:text="${statisticsInfo.monthIncome}">0</h1>
-                                                        <small>结算月份：<span>4月</span></small>
+                                                        <small>结算月份：<span th:text="${statisticsInfo.month}">0</span>月</small>
                                                     </div>
                                                 </div>
                                             </div>
@@ -192,12 +192,12 @@
                                             <div class="panel layui-bg-number">
                                                 <div class="panel-body">
                                                     <div class="panel-title">
-                                                        <span class="label pull-right layui-bg-orange">实时</span>
-                                                        <h5>浏览统计</h5>
+                                                        <span class="label pull-right layui-bg-orange" th:text="${statisticsInfo.weekendStatus == 0} ? '盈利' : '亏损'">盈利</span>
+                                                        <h5>本周收益</h5>
                                                     </div>
                                                     <div class="panel-content">
-                                                        <h1 class="no-margins">1234</h1>
-                                                        <small>当前分类总记录数</small>
+                                                        <h1 class="no-margins" th:text="${statisticsInfo.weekendIncome}">0</h1>
+                                                        <small>结算周：第<span th:text="${statisticsInfo.weekend}"></span>周</small>
                                                     </div>
                                                 </div>
                                             </div>
@@ -206,12 +206,12 @@
                                             <div class="panel layui-bg-number">
                                                 <div class="panel-body">
                                                     <div class="panel-title">
-                                                        <span class="label pull-right layui-bg-green">实时</span>
-                                                        <h5>订单统计</h5>
+                                                        <span class="label pull-right layui-bg-green">加油</span>
+                                                        <h5>代办事件</h5>
                                                     </div>
                                                     <div class="panel-content">
                                                         <h1 class="no-margins">1234</h1>
-                                                        <small>当前分类总记录数</small>
+                                                        <small>当前代办事件记录数</small>
                                                     </div>
                                                 </div>
                                             </div>

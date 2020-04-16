@@ -1,5 +1,6 @@
 package com.tangerinespecter.oms.system.service.system.impl;
 
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.NumberUtil;
 import com.alibaba.druid.util.StringUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -25,10 +26,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 系统相关Service
@@ -117,12 +115,17 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
     @Override
     public StatisticsInfo getStatisticsInfo() {
         int todayIncome = dataTradeRecordMapper.getTotalIncomeByLastDay();
+        String tradeLastDay = dataTradeRecordMapper.getTradeLastDay();
         int monthIncome = dataTradeRecordMapper.getTotalIncomeByLastMonth();
+        int weekendIncome = dataTradeRecordMapper.getTotalIncomeByDate(DateUtil.beginOfWeek(new Date()).toString(), DateUtil.endOfWeek(new Date()).toString());
         return StatisticsInfo.builder().todayIncome(BigDecimal.valueOf(NumberUtil.div(todayIncome, 100, 2)))
                 .monthIncome(BigDecimal.valueOf(NumberUtil.div(monthIncome, 100, 2)))
+                .weekendIncome(BigDecimal.valueOf(NumberUtil.div(weekendIncome, 100, 2)))
                 .todayStatus(todayIncome >= 0 ? TradeConstant.TRADE_STATUS_PROFIT : TradeConstant.TRADE_STATUS_LOSS)
                 .monthStatus(monthIncome >= 0 ? TradeConstant.TRADE_STATUS_PROFIT : TradeConstant.TRADE_STATUS_LOSS)
-                .build();
+                .weekendStatus(weekendIncome >= 0 ? TradeConstant.TRADE_STATUS_PROFIT : TradeConstant.TRADE_STATUS_LOSS)
+                .weekend(DateUtil.weekOfYear(new Date())).month(DateUtil.month(new Date()) + 1)
+                .today(tradeLastDay).build();
     }
 
     /**

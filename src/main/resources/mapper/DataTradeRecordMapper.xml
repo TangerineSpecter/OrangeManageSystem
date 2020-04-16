@@ -41,4 +41,18 @@
         order by DATE_FORMAT(date, '%Y-%m') desc
         limit 1
     </select>
+    <select id="getTradeLastDay" resultType="java.lang.String">
+        select `date`
+        from data_trade_record
+        order by `date` desc
+        limit 1
+    </select>
+    <select id="getTotalIncomeByDate" resultType="java.lang.Integer">
+        <![CDATA[
+        select SUM(income_value)
+        from data_trade_record
+        where date >= #{beginDate}
+          and date <= #{endDate}
+        ]]>
+    </select>
 </mapper>

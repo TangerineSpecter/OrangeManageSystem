@@ -1,5 +1,6 @@
 package com.tangerinespecter.oms.system.mapper;
 
+import cn.hutool.core.date.DateTime;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.tangerinespecter.oms.common.query.TradeRecordQueryObject;
 import com.tangerinespecter.oms.system.domain.entity.DataTradeRecord;
@@ -24,13 +25,31 @@ public interface DataTradeRecordMapper extends BaseMapper<DataTradeRecord> {
 
     /**
      * 获取最近一天的总收益
+     *
      * @return
      */
     int getTotalIncomeByLastDay();
 
     /**
      * 获取最近一月的收益
+     *
      * @return
      */
     int getTotalIncomeByLastMonth();
+
+    /**
+     * 获取最后一次交易日期
+     *
+     * @return
+     */
+    String getTradeLastDay();
+
+    /**
+     * 根据时间范围获取总收益值
+     *
+     * @param beginDate
+     * @param endDate
+     * @return 总收益
+     */
+    int getTotalIncomeByDate(@Param("beginDate") String beginDate, @Param("endDate") String endDate);
 }

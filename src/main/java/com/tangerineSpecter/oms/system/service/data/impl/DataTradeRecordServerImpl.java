@@ -129,8 +129,8 @@ public class DataTradeRecordServerImpl implements IDateTradeRecordServer {
 
     @Override
     public ServiceResult insertInfo(TradeRecordInfoVo vo) {
-        DataTradeRecord tradeRecord = DataTradeRecord.builder().startMoney(vo.getStartMoney())
-                .endMoney(vo.getEndMoney()).type(vo.getType())
+        DataTradeRecord tradeRecord = DataTradeRecord.builder().startMoney(Convert.toInt(vo.getStartMoney() * 100))
+                .endMoney(Convert.toInt(vo.getEndMoney() * 100)).type(vo.getType())
                 .adminId(SystemUtils.getSystemUserId())
                 .createTime(System.currentTimeMillis())
                 .date(vo.getDate()).build();
@@ -149,8 +149,8 @@ public class DataTradeRecordServerImpl implements IDateTradeRecordServer {
         if (dataTradeRecord == null) {
             return ServiceResult.error(RetCode.TRADE_RECORD_NOT_EXIST);
         }
-        dataTradeRecord.setStartMoney(vo.getStartMoney());
-        dataTradeRecord.setEndMoney(vo.getEndMoney());
+        dataTradeRecord.setStartMoney(Convert.toInt(vo.getStartMoney() * 100));
+        dataTradeRecord.setEndMoney(Convert.toInt(vo.getEndMoney() * 100));
         dataTradeRecord.setDate(vo.getDate());
         dataTradeRecord.setType(vo.getType());
         dataTradeRecordMapper.updateById(dataTradeRecord);

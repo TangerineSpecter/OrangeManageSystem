@@ -11,9 +11,8 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">交易日期</label>
                 <div class="layui-input-block">
-                    <input type="text" lay-filter="date" name="date" lay-verify="date" autocomplete="off"
-                           placeholder="请输入时间"
-                           class="layui-input">
+                    <input type="text" id="date" name="date" autocomplete="off" class="layui-input"
+                           placeholder="yyyy-MM-dd">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -67,11 +66,9 @@
      */
     function initForm(id) {
         $.post("/data/trade-record/info", {id: id}, function (result) {
-            var data = result.data;
-            $("#iconPicker").val(data.icon);
+            const data = result.data;
             layui.use(['form'], function () {
-                var form = layui.form;
-
+                const form = layui.form;
                 form.val("trade-form", {
                     "startMoney": data.startMoney / 100,
                     "endMoney": data.endMoney / 100,
@@ -83,9 +80,8 @@
         }, "JSON");
     }
 
-    layui.use(['form', 'layer', 'iconPickerFa', 'laydate'], function () {
-        var form = layui.form,
-            iconPickerFa = layui.iconPickerFa,
+    layui.use(['form', 'layer', 'laydate'], function () {
+        const form = layui.form,
             layer = layui.layer,
             laydate = layui.laydate;
 
@@ -131,35 +127,6 @@
             return false;
         });
 
-        //初始化页面数据
-        function initData(data) {
-            if (data.id !== undefined) {
-                $("#id").val(data.id);
-                initForm(data.id);
-            }
-            href = data.href;
-        }
-
-        /**
-         * 初始化表单
-         * @param id
-         */
-        function initForm(id) {
-            $.post("/data/trade-record/info", {id: id}, function (result) {
-                var data = result.data;
-                layui.use(['form'], function () {
-                    var form = layui.form;
-
-                    form.val("trade-form", {
-                        "startMoney": data.startMoney,
-                        "endMoney": data.endMoney,
-                        "date": data.date,
-                        "type": data.type
-                    });
-                    form.render();
-                });
-            }, "JSON");
-        }
     });
 
 </script>

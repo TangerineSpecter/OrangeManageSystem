@@ -35,6 +35,15 @@
     </div>
 </div>
 <div th:replace="./common/_layui_common::common_js"></div>
+<script type="text/html" id="toolbar">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="addCollection">添加收藏</button>
+    </div>
+</script>
+<script type="text/html" id="operationBar">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
 <script>
     layui.use(['form', 'table', 'laydate'], function () {
         var $ = layui.jquery,
@@ -50,21 +59,31 @@
         table.render({
             elem: '#currentTableId',
             url: '/work/collection/list',
+            toolbar: '#toolbar',//开启头部工具栏
+            defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
+                title: '提示'
+                , layEvent: 'LAYTABLE_TIPS'
+                , icon: 'layui-icon-tips'
+            }],
+            cellMinWidth: 100,
             cols: [
                 [
                     {type: "checkbox", width: 50, fixed: "left"},
                     {field: 'id', width: 80, title: 'ID', sort: true},
-                    {field: 'title', width: 100, title: '收藏标题'},
-                    {field: 'content', width: 200, title: '收藏内容'},
-                    {field: 'remark', width: 150, title: '收藏备注'},
+                    {field: 'title', title: '收藏标题'},
+                    {field: 'content', title: '收藏内容'},
+                    {field: 'remark', title: '收藏备注'},
                     {
-                        field: 'type', width: 100, title: '收藏类型', templet: function (d) {
+                        field: 'type', title: '收藏类型', templet: function (d) {
                             if (d.type === 1) {
                                 return "网址";
                             }
                         }
                     },
-                    {field: 'sort', width: 100, title: '排序', fixed: "right"}
+                    {field: 'sort', title: '排序'},
+                    {
+                        toolbar: '#operationBar', align: 'center', title: '操作', fixed: "right"
+                    }
                 ]
             ],
             limits: [10, 15, 20, 25, 50, 100],
@@ -88,9 +107,54 @@
             return false;
         });
 
+        // 监听清空操作
+        form.on('submit(data-clear-btn)', function (data) {
+            //执行搜索重载
+            table.reload('currentTableId', {
+                page: {
+                    curr: 1
+                }
+                , where: {}
+            }, 'data');
+            return false;
+        });
+
         //监听表格复选框选择
         table.on('checkbox(currentTableFilter)', function (obj) {
             console.log(obj)
+        });
+
+        //头工具栏事件
+        table.on('toolbar(currentTableFilter)', function (obj) {
+            console.log(obj);
+            switch (obj.event) {
+                //添加交易数据
+                case 'addCollection':
+                    loadFormModel("添加收藏", {href: "/work/collection/insert"}, '/work/collection/addPage');
+                    break;
+
+                //自定义头工具栏右侧图标 - 提示
+                case 'LAYTABLE_TIPS':
+                    layer.alert('这里是进行交易数据记录的地方');
+                    break;
+            }
+        });
+
+        //监听工具条
+        table.on('tool(currentTableFilter)', function (obj) {
+            const data = obj.data;
+            if (obj.event === 'detail') {
+                layer.msg('ID：' + data.id + ' 的查看操作');
+            } else if (obj.event === 'del') {
+                layer.confirm('是否删除该收藏？', function (index) {
+                    //obj.del();
+                    deleteFun(data.id);
+                    layer.close(index);
+                });
+            } else if (obj.event === 'edit') {
+                //layer.alert('编辑行：<br>' + JSON.stringify(data))
+                loadFormModel("编辑收藏", {id: data.id, href: "/data/trade-record/update"}, '/data/trade-record/addPage');
+            }
         });
     });
 </script>

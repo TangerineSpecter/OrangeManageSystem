@@ -24,23 +24,23 @@ public class ManagerInfoBean {
     /**
      * 综合指数
      */
-    private String allLuck;
+    private Integer allLuck;
     /**
      * 健康指数
      */
-    private String health;
+    private Integer health;
     /**
      * 爱情指数
      */
-    private String love;
+    private Integer love;
     /**
      * 财运指数
      */
-    private String money;
+    private Integer money;
     /**
      * 工作指数
      */
-    private String workLuck;
+    private Integer workLuck;
     /**
      * 公告
      */

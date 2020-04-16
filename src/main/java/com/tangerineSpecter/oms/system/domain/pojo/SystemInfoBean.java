@@ -50,4 +50,32 @@ public class SystemInfoBean {
      * 硬盘使用率
      */
     private int diskRatio;
+    /**
+     * 系统标题
+     */
+    private String systemTitle;
+    /**
+     * 系统版本
+     */
+    private String version;
+    /**
+     * 综合指数
+     */
+    private Integer allLuck;
+    /**
+     * 工作指数
+     */
+    private Integer workLuck;
+    /**
+     * 健康指数
+     */
+    private Integer health;
+    /**
+     * 爱情指数
+     */
+    private Integer love;
+    /**
+     * 财运指数
+     */
+    private Integer money;
 }

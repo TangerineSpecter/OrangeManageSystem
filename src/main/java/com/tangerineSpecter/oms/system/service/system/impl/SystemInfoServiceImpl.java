@@ -1,20 +1,22 @@
 package com.tangerinespecter.oms.system.service.system.impl;
 
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.NumberUtil;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.system.SystemUtil;
 import com.alibaba.druid.util.StringUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.google.common.base.Splitter;
 import com.tangerinespecter.oms.common.constants.CommonConstant;
+import com.tangerinespecter.oms.common.constants.SystemConstant;
 import com.tangerinespecter.oms.common.constants.TradeConstant;
 import com.tangerinespecter.oms.common.utils.DateUtils;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.system.domain.dto.system.HomePageDataDto;
 import com.tangerinespecter.oms.system.domain.dto.system.MenuChildInfo;
 import com.tangerinespecter.oms.system.domain.dto.system.StatisticsInfo;
-import com.tangerinespecter.oms.system.domain.entity.DataConstellation;
-import com.tangerinespecter.oms.system.domain.entity.DataTradeRecord;
-import com.tangerinespecter.oms.system.domain.entity.SystemMenu;
-import com.tangerinespecter.oms.system.domain.entity.SystemUser;
+import com.tangerinespecter.oms.system.domain.entity.*;
 import com.tangerinespecter.oms.system.domain.pojo.ManagerInfoBean;
 import com.tangerinespecter.oms.system.domain.pojo.SystemInfoBean;
 import com.tangerinespecter.oms.system.mapper.DataConstellationMapper;
@@ -27,6 +29,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 系统相关Service
@@ -54,13 +57,29 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
     public SystemInfoBean getSystemInfo() {
         SystemInfoBean info = new SystemInfoBean();
         try {
-            info.setOsName(SystemUtils.getOsName()).setCpuRatio((int) SystemUtils.getCpuUsageInfo())
-                    .setMemoryRatio((int) SystemUtils.getMemoryUsageInfo())
-                    .setDiskRatio((int) SystemUtils.getDiskUsageInfo());
+            SystemUser currentUser = SystemUtils.getCurrentUser();
+            String birthday = currentUser.getBirthday();
+            if (!StrUtil.isBlank(birthday)) {
+                List<Integer> list = Splitter.on("-").splitToList(birthday).parallelStream()
+                        .map(Integer::parseInt).collect(Collectors.toList());
+                String constellation = DateUtil.getZodiac(list.get(1), list.get(2));
+                DataConstellation dataConstellation = dataConstellationMapper.getConstellationByName(constellation);
+                info.setAllLuck(dataConstellation.getAllLuck())
+                        .setLove(dataConstellation.getLove())
+                        .setWorkLuck(dataConstellation.getWorkLuck())
+                        .setMoney(dataConstellation.getMoney())
+                        .setHealth(dataConstellation.getHealth());
+            }
+            info.setOsName(SystemUtil.get(SystemUtil.OS_NAME)).setSystemTitle("橘子系统")
+                    .setVersion(SystemConstant.SYSTEM_VERSION);
         } catch (Exception e) {
             log.error("[系统信息获取异常]:", e);
         }
         return info;
+    }
+
+    public static void main(String[] args) {
+        SystemUtil.dumpSystemInfo();
     }
 
     /**
@@ -75,34 +94,11 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
         DataConstellation data = dataConstellationMapper.getConstellationByName(starName);
         if (data != null) {
             info.setStarName(data.getName()).setAllLuck(data.getAllLuck()).setLove(data.getLove())
-                    .setHealth(data.getHealth()).setWorkLuck(data.getWorkLuck()).setMoney(data.getMoney())
-                    .setNotice(getNotice(info));
+                    .setHealth(data.getHealth()).setWorkLuck(data.getWorkLuck()).setMoney(data.getMoney());
         }
         return info;
     }
 
-    /**
-     * 获取公告
-     */
-    private String getNotice(ManagerInfoBean info) {
-        String notice = CommonConstant.NULL_KEY_STR;
-        if (Integer.valueOf(info.getHealth().substring(0, info.getHealth().length() - 1)) >= luck_threshold) {
-            notice += "是个身体健康的好日子；";
-        }
-        if (Integer.valueOf(info.getMoney().substring(0, info.getMoney().length() - 1)) >= luck_threshold) {
-            notice += "走在路上或许可以捡到钱；";
-        }
-        if (Integer.valueOf(info.getLove().substring(0, info.getLove().length() - 1)) >= luck_threshold) {
-            notice += "好像会犯桃花哟；";
-        }
-        if (Integer.valueOf(info.getWorkLuck().substring(0, info.getWorkLuck().length() - 1)) >= luck_threshold) {
-            notice += "工作热情度很高的一天；";
-        }
-        if (StringUtils.isEmpty(notice)) {
-            notice = "今天是平平淡淡的一天！";
-        }
-        return notice;
-    }
 
     @Override
     public HomePageDataDto initHome() {

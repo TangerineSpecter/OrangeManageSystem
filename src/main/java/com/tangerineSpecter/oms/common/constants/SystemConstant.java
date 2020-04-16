@@ -7,6 +7,9 @@ package com.tangerinespecter.oms.common.constants;
  */
 public class SystemConstant {
 
-    public static final String SYSTEM_VERSION = "0.0.6";
+    /**
+     * 当前系统版本
+     */
+    public static final String SYSTEM_VERSION = "0.0.8";
 
 }

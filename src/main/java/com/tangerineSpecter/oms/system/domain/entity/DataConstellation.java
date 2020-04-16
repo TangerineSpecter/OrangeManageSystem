@@ -39,7 +39,7 @@ public class DataConstellation implements Serializable {
     /**
      * 综合指数
      */
-    private String allLuck;
+    private Integer allLuck;
     /**
      * 幸运色
      */
@@ -47,15 +47,15 @@ public class DataConstellation implements Serializable {
     /**
      * 健康指数
      */
-    private String health;
+    private Integer health;
     /**
      * 爱情指数
      */
-    private String love;
+    private Integer love;
     /**
      * 财运指数
      */
-    private String money;
+    private Integer money;
     /**
      * 幸运数字
      */
@@ -72,7 +72,7 @@ public class DataConstellation implements Serializable {
     /**
      * 工作指数
      */
-    private String workLuck;
+    private Integer workLuck;
     /**
      * 创建时间
      */

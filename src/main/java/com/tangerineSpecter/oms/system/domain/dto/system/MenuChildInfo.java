@@ -30,6 +30,10 @@ public class MenuChildInfo {
      * 跳转方式（_self:自己；_blank:新窗口）
      */
     private String target;
+    /**
+     * 权限code
+     */
+    private String permissionCode;
 
     private List<MenuChildInfo> child;
 }

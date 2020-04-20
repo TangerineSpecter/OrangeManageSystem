@@ -3,6 +3,7 @@ package com.tangerinespecter.oms.common.utils;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.crypto.SecureUtil;
 import cn.hutool.crypto.digest.DigestAlgorithm;
 import cn.hutool.crypto.digest.Digester;
 import com.tangerinespecter.oms.common.constants.CommonConstant;
@@ -347,5 +348,26 @@ public class SystemUtils {
         } else {
             return StrUtil.join(parenLevel, LEVEL_SEPARATOR, parentId);
         }
+    }
+
+    /**
+     * 获取菜单Code
+     *
+     * @param href   菜单跳转地址
+     * @param menuId 菜单ID
+     * @return
+     */
+    public static String getMenuCode(String href, Long menuId) {
+        return SecureUtil.md5(CommonConstant.MENU_CODE + href + menuId);
+    }
+
+    /**
+     * 获取权限code
+     *
+     * @param permissionCode 菜单权限code
+     * @return
+     */
+    public static String getPermissionCode(String permissionCode) {
+        return SecureUtil.md5(permissionCode + CommonConstant.PERMISSION_CODE);
     }
 }

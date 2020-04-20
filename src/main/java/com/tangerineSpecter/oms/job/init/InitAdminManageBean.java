@@ -4,6 +4,7 @@ import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.tangerinespecter.oms.common.constants.CommonConstant;
 import com.tangerinespecter.oms.common.constants.SystemConstant;
+import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.system.domain.entity.*;
 import com.tangerinespecter.oms.system.mapper.*;
 import com.tangerinespecter.oms.system.service.system.IMenuSettingService;
@@ -144,7 +145,7 @@ public class InitAdminManageBean implements InitializingBean {
         List<SystemPermission> systemPermissions = systemPermissionMapper.selectList(queryWrapper);
         List<String> permissionCodes = systemPermissions.stream().map(SystemPermission::getCode).collect(Collectors.toList());
         systemMenus.forEach(menu -> {
-            if (!permissionCodes.contains(SecureUtil.md5(menu.getPermissionCode() + CommonConstant.PERMISSION_CODE))) {
+            if (!permissionCodes.contains(SystemUtils.getPermissionCode(menu.getPermissionCode()))) {
                 SystemPermission permission = SystemPermission.builder().name(menu.getTitle() + "权限")
                         .code(SecureUtil.md5(menu.getPermissionCode() + CommonConstant.PERMISSION_CODE))
                         .moduleId(moduleId).sort(0).url(menu.getHref()).type(0).status(0).remark(null).sort(0).build();

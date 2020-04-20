@@ -16,12 +16,14 @@ import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.system.domain.dto.system.HomePageDataDto;
 import com.tangerinespecter.oms.system.domain.dto.system.MenuChildInfo;
 import com.tangerinespecter.oms.system.domain.dto.system.StatisticsInfo;
+import com.tangerinespecter.oms.system.domain.dto.system.UserPermissionListDto;
 import com.tangerinespecter.oms.system.domain.entity.*;
 import com.tangerinespecter.oms.system.domain.pojo.ManagerInfoBean;
 import com.tangerinespecter.oms.system.domain.pojo.SystemInfoBean;
 import com.tangerinespecter.oms.system.mapper.DataConstellationMapper;
 import com.tangerinespecter.oms.system.mapper.DataTradeRecordMapper;
 import com.tangerinespecter.oms.system.mapper.SystemMenuMapper;
+import com.tangerinespecter.oms.system.service.helper.SystemHelper;
 import com.tangerinespecter.oms.system.service.system.ISystemInfoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -47,6 +49,8 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
     private SystemMenuMapper systemMenuMapper;
     @Resource
     private DataTradeRecordMapper dataTradeRecordMapper;
+    @Resource
+    private SystemHelper systemHelper;
 
     private final Integer luck_threshold = 70;
 
@@ -105,7 +109,15 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
         QueryWrapper<SystemMenu> queryWrapper = new QueryWrapper<>();
         queryWrapper.orderBy(true, false, "sort");
         List<SystemMenu> list = systemMenuMapper.selectList(queryWrapper);
-        return HomePageDataDto.builder().menuInfo(getMenuChildInfo(list)).build();
+        List<UserPermissionListDto> permissions = systemHelper.getCurrentUserPermissions();
+        HomePageDataDto homePageDataDto = new HomePageDataDto();
+        if (permissions.isEmpty()) {
+            return homePageDataDto;
+        }
+        List<String> permissionCodes = permissions.stream().map(UserPermissionListDto::getCode).collect(Collectors.toList());
+        Map<String, MenuChildInfo> menuInfo = getMenuChildInfo(list, permissionCodes);
+        homePageDataDto.setMenuInfo(menuInfo);
+        return homePageDataDto;
     }
 
     @Override
@@ -127,17 +139,22 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
     /**
      * 获取菜单
      *
-     * @param list 菜单集合
+     * @param list            菜单集合
+     * @param permissionCodes 权限code
      * @return 菜单
      */
-    private Map<String, MenuChildInfo> getMenuChildInfo(List<SystemMenu> list) {
+    private Map<String, MenuChildInfo> getMenuChildInfo(List<SystemMenu> list, List<String> permissionCodes) {
         //找出所有一级菜单
         Map<String, MenuChildInfo> menuMap = new LinkedHashMap<>();
         for (SystemMenu menu : list) {
+            //不在权限内容菜单跳过
+            if (!permissionCodes.contains(SystemUtils.getPermissionCode(menu.getPermissionCode()))) {
+                continue;
+            }
             if (menu.getPid() == null || menu.getPid() == -1) {
                 menuMap.put(menu.getTitle(), MenuChildInfo.builder().title(menu.getTitle())
                         .icon(menu.getIcon()).href(menu.getHref()).target(menu.getTarget())
-                        .id(menu.getId()).child(getChildMenuInfo(menu.getId(), list)).build());
+                        .id(menu.getId()).child(getChildMenuInfo(menu.getId(), list, permissionCodes)).build());
             }
         }
         return menuMap;
@@ -149,22 +166,30 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
      * @param pid      父菜单
      * @param rootMenu 根目录
      */
-    private List<MenuChildInfo> getChildMenuInfo(Long pid, List<SystemMenu> rootMenu) {
+    private List<MenuChildInfo> getChildMenuInfo(Long pid, List<SystemMenu> rootMenu, List<String> permissionCodes) {
         if (pid == null) {
             return null;
         }
         //子菜单
         List<MenuChildInfo> childList = new ArrayList<>();
         for (SystemMenu menu : rootMenu) {
+            //不在权限内容菜单跳过
+            if (!permissionCodes.contains(SystemUtils.getPermissionCode(menu.getPermissionCode()))) {
+                continue;
+            }
             if (pid.equals(menu.getPid())) {
                 childList.add(MenuChildInfo.builder().id(menu.getId()).title(menu.getTitle())
                         .icon(menu.getIcon()).href(menu.getHref()).target(menu.getTarget())
-                        .build());
+                        .permissionCode(menu.getPermissionCode()).build());
             }
         }
         //循环子集菜单
         for (MenuChildInfo menu : childList) {
-            menu.setChild(getChildMenuInfo(menu.getId(), rootMenu));
+            //不在权限内容菜单跳过
+            if (!permissionCodes.contains(SystemUtils.getPermissionCode(menu.getPermissionCode()))) {
+                continue;
+            }
+            menu.setChild(getChildMenuInfo(menu.getId(), rootMenu, permissionCodes));
         }
         if (childList.size() == 0) {
             return null;

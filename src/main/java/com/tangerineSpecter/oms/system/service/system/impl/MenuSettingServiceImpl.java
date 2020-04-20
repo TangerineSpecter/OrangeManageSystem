@@ -1,10 +1,9 @@
 package com.tangerinespecter.oms.system.service.system.impl;
 
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.crypto.SecureUtil;
-import com.tangerinespecter.oms.common.constants.CommonConstant;
 import com.tangerinespecter.oms.common.constants.RetCode;
 import com.tangerinespecter.oms.common.result.ServiceResult;
+import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.system.domain.entity.SystemMenu;
 import com.tangerinespecter.oms.system.domain.vo.system.SystemMenuInfoVo;
 import com.tangerinespecter.oms.system.mapper.SystemMenuMapper;
@@ -79,7 +78,7 @@ public class MenuSettingServiceImpl implements IMenuSettingService {
         systemMenus.forEach(menu -> {
             if (StrUtil.isBlank(menu.getPermissionCode())) {
                 String href = menu.getHref();
-                String code = SecureUtil.md5(CommonConstant.MENU_CODE + href + menu.getId());
+                String code = SystemUtils.getMenuCode(href, menu.getId());
                 menu.setPermissionCode(code);
                 systemMenuMapper.updateById(menu);
             }

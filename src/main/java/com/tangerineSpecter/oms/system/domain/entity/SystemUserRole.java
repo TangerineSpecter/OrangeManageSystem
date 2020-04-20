@@ -10,43 +10,27 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 /**
- * 权限模块表
+ * 系统用户角色关联表
  *
  * @author TangerineSpecter
- * @date 2020年02月15日20:39:22
+ * @date 2020年04月20日18:14:39
  */
 @Data
 @Builder
 @Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName(value = "system_permission_module")
-public class SystemPermissionModule {
+@TableName(value = "system_user_role")
+public class SystemUserRole {
 
     @TableId(type = IdType.AUTO)
     private Long id;
     /**
-     * 权限模块名称
+     * 角色ID
      */
-    private String name;
+    private Long rid;
     /**
-     * 上层模块Id
+     * 用户ID
      */
-    private Long parentId;
-    /**
-     * 模块层级
-     */
-    private Integer level;
-    /**
-     * 状态（0：冻结；1：可用）
-     */
-    private Integer status;
-    /**
-     * 备注
-     */
-    private String remark;
-    /**
-     * 排序（从大到小）
-     */
-    private Integer sort;
+    private Long uid;
 }

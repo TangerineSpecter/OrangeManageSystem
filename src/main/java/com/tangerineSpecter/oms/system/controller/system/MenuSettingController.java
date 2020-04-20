@@ -4,9 +4,10 @@ import com.tangerinespecter.oms.common.enums.LogOperation;
 import com.tangerinespecter.oms.common.listener.LoggerInfo;
 import com.tangerinespecter.oms.common.redis.PageModelKey;
 import com.tangerinespecter.oms.common.result.ServiceResult;
+import com.tangerinespecter.oms.system.domain.entity.SystemMenu;
 import com.tangerinespecter.oms.system.domain.vo.system.SystemMenuInfoVo;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
-import com.tangerinespecter.oms.system.service.system.IMenuSetting;
+import com.tangerinespecter.oms.system.service.system.IMenuSettingService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * 菜单设置控制
@@ -29,7 +31,7 @@ import javax.validation.Valid;
 public class MenuSettingController {
 
     @Resource
-    private IMenuSetting menuSettingService;
+    private IMenuSettingService menuSettingService;
     @Resource
     private PageResultService pageResultService;
 
@@ -108,5 +110,14 @@ public class MenuSettingController {
     @LoggerInfo(value = "删除菜单", event = LogOperation.EVENT_DELETE)
     public ServiceResult deleteInfo(@RequestParam("id") Long id) {
         return menuSettingService.deleteInfo(id);
+    }
+
+    /**
+     * 初始化菜单code
+     *
+     * @return
+     */
+    public List<SystemMenu> initMenuCode() {
+        return menuSettingService.initMenuCode();
     }
 }

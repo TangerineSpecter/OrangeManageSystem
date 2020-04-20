@@ -24,6 +24,14 @@ public class CommonConstant {
      * key
      */
     public static final String SALT = "orange666";
+    /**
+     * 菜单code
+     */
+    public static final String MENU_CODE = "smallPotatoIsMyCat";
+    /**
+     * 权限code
+     */
+    public static final String PERMISSION_CODE = "myCatIsSiamese";
 
     /**
      * 空定义

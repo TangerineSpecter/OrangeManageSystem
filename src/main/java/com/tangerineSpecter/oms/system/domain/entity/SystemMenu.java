@@ -52,7 +52,7 @@ public class SystemMenu implements Serializable {
     /**
      * 菜单权限
      */
-    private String permission;
+    private String permissionCode;
     /**
      * 菜单排序
      */

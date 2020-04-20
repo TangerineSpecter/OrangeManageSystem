@@ -1,18 +1,21 @@
 package com.tangerinespecter.oms.system.service.system.impl;
 
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.crypto.SecureUtil;
+import com.tangerinespecter.oms.common.constants.CommonConstant;
 import com.tangerinespecter.oms.common.constants.RetCode;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.entity.SystemMenu;
 import com.tangerinespecter.oms.system.domain.vo.system.SystemMenuInfoVo;
 import com.tangerinespecter.oms.system.mapper.SystemMenuMapper;
-import com.tangerinespecter.oms.system.service.system.IMenuSetting;
+import com.tangerinespecter.oms.system.service.system.IMenuSettingService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
 
 @Service
-public class MenuSettingServiceImpl implements IMenuSetting {
+public class MenuSettingServiceImpl implements IMenuSettingService {
 
     @Resource
     private SystemMenuMapper systemMenuMapper;
@@ -68,5 +71,19 @@ public class MenuSettingServiceImpl implements IMenuSetting {
                 .icon("fa " + vo.getIcon()).build();
         systemMenuMapper.updateById(systemMenu);
         return ServiceResult.success();
+    }
+
+    @Override
+    public List<SystemMenu> initMenuCode() {
+        List<SystemMenu> systemMenus = systemMenuMapper.selectList(null);
+        systemMenus.forEach(menu -> {
+            if (StrUtil.isBlank(menu.getPermissionCode())) {
+                String href = menu.getHref();
+                String code = SecureUtil.md5(CommonConstant.MENU_CODE + href + menu.getId());
+                menu.setPermissionCode(code);
+                systemMenuMapper.updateById(menu);
+            }
+        });
+        return systemMenus;
     }
 }

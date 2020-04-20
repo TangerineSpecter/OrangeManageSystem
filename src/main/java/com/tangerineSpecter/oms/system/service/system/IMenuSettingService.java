@@ -1,9 +1,12 @@
 package com.tangerinespecter.oms.system.service.system;
 
 import com.tangerinespecter.oms.common.result.ServiceResult;
+import com.tangerinespecter.oms.system.domain.entity.SystemMenu;
 import com.tangerinespecter.oms.system.domain.vo.system.SystemMenuInfoVo;
 
-public interface IMenuSetting {
+import java.util.List;
+
+public interface IMenuSettingService {
 
     ServiceResult<Object> listInfo();
 
@@ -14,4 +17,6 @@ public interface IMenuSetting {
     ServiceResult detailInfo(Long id);
 
     ServiceResult updateInfo(SystemMenuInfoVo vo);
+
+    List<SystemMenu> initMenuCode();
 }

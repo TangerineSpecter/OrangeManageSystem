@@ -35,6 +35,11 @@
     </div>
 </div>
 <div th:replace="./common/_layui_common::common_js"></div>
+<script type="text/html" id="toolbar">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="addTradeData">新增管理员</button>
+    </div>
+</script>
 <script>
     layui.use(['form', 'table', 'laydate'], function () {
         var $ = layui.jquery,
@@ -50,14 +55,21 @@
         table.render({
             elem: '#currentTableId',
             url: '/systemUser/list',
+            toolbar: '#toolbar',//开启头部工具栏
+            defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
+                title: '提示'
+                , layEvent: 'LAYTABLE_TIPS'
+                , icon: 'layui-icon-tips'
+            }],
+            cellMinWidth: 100,
             cols: [
                 [
-                    {type: "checkbox", width: 50, fixed: "left"},
-                    {field: 'id', width: 100, title: 'ID', sort: true},
-                    {field: 'username', width: 80, title: '账号'},
-                    {field: 'nickName', width: 120, title: '昵称'},
+                    {type: "checkbox", fixed: "left"},
+                    {field: 'id', title: 'ID', sort: true},
+                    {field: 'username', title: '账号'},
+                    {field: 'nickName', title: '昵称'},
                     {
-                        field: 'sex', width: 80, title: '性别', templet: function (d) {
+                        field: 'sex', title: '性别', templet: function (d) {
                             if (d.sex === -1) {
                                 return "未知";
                             } else if (d.sex === 0) {
@@ -67,11 +79,11 @@
                             }
                         }
                     },
-                    {field: 'email', width: 200, title: '邮箱'},
-                    {field: 'birthday', width: 150, title: '生日'},
-                    {field: 'city', width: 100, title: '城市'},
+                    {field: 'email', title: '邮箱'},
+                    {field: 'birthday', title: '生日'},
+                    {field: 'city', title: '城市'},
                     {
-                        field: 'admin', width: 100, title: '超级管理员', templet: function (d) {
+                        field: 'admin', title: '超级管理员', templet: function (d) {
                             if (d.admin === 0) {
                                 return "不是";
                             } else {
@@ -79,9 +91,9 @@
                             }
                         }
                     },
-                    {field: 'loginCount', minWidth: 80, title: '登录次数'},
-                    {field: 'lastLoginDate', minWidth: 150, title: '最后登录时间'},
-                    {field: 'createTime', minWidth: 150, title: '创建时间', fixed: "right"}
+                    {field: 'loginCount', title: '登录次数'},
+                    {field: 'lastLoginDate', title: '最后登录时间'},
+                    {field: 'createTime', title: '创建时间', fixed: "right"}
                 ]
             ],
             limits: [10, 15, 20, 25, 50, 100],

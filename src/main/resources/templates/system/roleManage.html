@@ -12,20 +12,24 @@
                 <form class="layui-form layui-form-pane" action="">
                     <div class="layui-form-item">
                         <div class="layui-inline">
-                            <label class="layui-form-label">账号</label>
+                            <label class="layui-form-label">角色名</label>
                             <div class="layui-input-inline">
-                                <input type="text" name="username" autocomplete="off" class="layui-input">
+                                <input type="text" name="name" autocomplete="off" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-inline">
-                            <label class="layui-form-label">登录时间</label>
+                            <label class="layui-form-label">状态</label>
                             <div class="layui-input-inline">
-                                <input type="text" id="queryDay" name="queryDay" autocomplete="off" class="layui-input"
-                                       placeholder="yyyy-MM-dd">
+                                <select name="type" class="layui-select">
+                                    <option value="">全部</option>
+                                    <option value="0">冻结</option>
+                                    <option value="1">可用</option>
+                                </select>
                             </div>
                         </div>
                         <div class="layui-inline">
                             <a class="layui-btn" lay-submit="" lay-filter="data-search-btn">搜索</a>
+                            <a class="layui-btn" lay-submit="" lay-filter="data-clear-btn">清空</a>
                         </div>
                     </div>
                 </form>
@@ -35,6 +39,11 @@
     </div>
 </div>
 <div th:replace="./common/_layui_common::common_js"></div>
+<script type="text/html" id="toolbar">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="addTradeData">新增角色</button>
+    </div>
+</script>
 <script>
     layui.use(['form', 'table', 'laydate'], function () {
         var $ = layui.jquery,
@@ -49,39 +58,29 @@
 
         table.render({
             elem: '#currentTableId',
-            url: '/systemUser/list',
+            url: '/system/role/list',
+            toolbar: '#toolbar',//开启头部工具栏
+            defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
+                title: '提示'
+                , layEvent: 'LAYTABLE_TIPS'
+                , icon: 'layui-icon-tips'
+            }],
+            cellMinWidth: 100,
             cols: [
                 [
-                    {type: "checkbox", width: 50, fixed: "left"},
-                    {field: 'id', width: 100, title: 'ID', sort: true},
-                    {field: 'username', width: 80, title: '账号'},
-                    {field: 'nickName', width: 120, title: '昵称'},
+                    {type: "checkbox", fixed: "left"},
+                    {field: 'id', title: 'ID', sort: true},
+                    {field: 'name', title: '角色名'},
                     {
-                        field: 'sex', width: 80, title: '性别', templet: function (d) {
-                            if (d.sex === -1) {
-                                return "未知";
-                            } else if (d.sex === 0) {
-                                return "男";
-                            } else if (d.sex === 1) {
-                                return "女";
+                        field: 'type', title: '状态', templet: function (d) {
+                            if (d.type === 0) {
+                                return "冻结";
+                            } else if (d.type === 1) {
+                                return "可用";
                             }
                         }
                     },
-                    {field: 'email', width: 200, title: '邮箱'},
-                    {field: 'birthday', width: 150, title: '生日'},
-                    {field: 'city', width: 100, title: '城市'},
-                    {
-                        field: 'admin', width: 100, title: '超级管理员', templet: function (d) {
-                            if (d.admin === 0) {
-                                return "不是";
-                            } else {
-                                return "是";
-                            }
-                        }
-                    },
-                    {field: 'loginCount', minWidth: 80, title: '登录次数'},
-                    {field: 'lastLoginDate', minWidth: 150, title: '最后登录时间'},
-                    {field: 'createTime', minWidth: 150, title: '创建时间', fixed: "right"}
+                    {field: 'remark', minWidth: 150, title: '备注', fixed: "right"}
                 ]
             ],
             limits: [10, 15, 20, 25, 50, 100],
@@ -91,17 +90,28 @@
 
         // 监听搜索操作
         form.on('submit(data-search-btn)', function (data) {
-            var result = JSON.stringify(data.field);
             //执行搜索重载
             table.reload('currentTableId', {
                 page: {
                     curr: 1
                 }
                 , where: {
-                    searchParams: result
+                    type: data.field.type,
+                    name: data.field.name
                 }
             }, 'data');
+            return false;
+        });
 
+        // 监听清空操作
+        form.on('submit(data-clear-btn)', function (data) {
+            //执行搜索重载
+            table.reload('currentTableId', {
+                page: {
+                    curr: 1
+                }
+                , where: {}
+            }, 'data');
             return false;
         });
 

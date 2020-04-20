@@ -20,7 +20,7 @@ public class TradeRecordQueryObject extends QueryObject {
     /**
      * 交易类型(0:股票；1：期货；2：外汇)
      */
-    private String type;
+    private Integer type;
     /**
      * 起始日期
      */

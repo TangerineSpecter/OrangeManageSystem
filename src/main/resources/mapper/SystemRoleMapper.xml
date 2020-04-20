@@ -6,11 +6,11 @@
         select *
         from system_role
         <where>
-            <if test="type!=null and type!=''">
+            <if test="type!=null">
                 and `type` = #{type}
             </if>
-            <if test="name!='' and name!=null">
-                <![CDATA[and `name` >= #{name}]]>
+            <if test="name!=null and name !=''">
+                and `name` like concat('%',#{name},'%')
             </if>
         </where>
     </select>

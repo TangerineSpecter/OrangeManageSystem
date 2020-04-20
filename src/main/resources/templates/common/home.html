@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="layui/lib/layui-v2.5.4/css/layui.css" media="all">
     <link rel="stylesheet" href="layui/lib/font-awesome-4.7.0/css/font-awesome.min.css" media="all">
     <link rel="stylesheet" href="layui/css/public.css" media="all">
+    <link rel="stylesheet" href="apexCharts/css/apexcharts.css" media="all">
     <style>
         .layui-card {
             border: 1px solid #f2f2f2;
@@ -401,6 +402,13 @@
                 </div>
 
                 <div class="layui-card">
+                    <div class="layui-card-header"><i class="fa fa-fire icon"></i>今日运势</div>
+                    <div class="layui-card-body layui-text">
+                        <div id="echarts-today-luck" style="width: 100%;min-height:500px"></div>
+                    </div>
+                </div>
+
+                <div class="layui-card">
                     <div class="layui-card-header"><i class="fa fa-fire icon"></i>版本信息</div>
                     <div class="layui-card-body layui-text">
                         <table class="layui-table">
@@ -418,25 +426,6 @@
                             <tr>
                                 <td>当前版本</td>
                                 <td th:text="${systemInfo.version}">v0.0.1</td>
-                            </tr>
-                            <tr>
-                                <td>今日运势</td>
-                                <td>
-                                    综合指数：
-                                    <div id="allLuck"></div>
-                                    </br>
-                                    健康指数：
-                                    <div id="health"></div>
-                                    </br>
-                                    爱情指数：
-                                    <div id="love"></div>
-                                    </br>
-                                    财运指数：
-                                    <div id="money"></div>
-                                    </br>
-                                    工作指数：
-                                    <div id="workLuck"></div>
-                                </td>
                             </tr>
                             <tr>
                                 <td>Gitee</td>
@@ -476,13 +465,12 @@
                     </div>
                 </div>
                 <!-- 存放首页值 -->
+                <input id="starName" type="hidden" th:value="${systemInfo.starName}"/>
                 <input id="allLuckValue" type="hidden" th:value="${systemInfo.allLuck}"/>
                 <input id="workLuckValue" type="hidden" th:value="${systemInfo.workLuck}"/>
                 <input id="healthValue" type="hidden" th:value="${systemInfo.health}"/>
                 <input id="loveValue" type="hidden" th:value="${systemInfo.love}"/>
                 <input id="moneyValue" type="hidden" th:value="${systemInfo.money}"/>
-
-
             </div>
         </div>
     </div>
@@ -490,47 +478,15 @@
 <script src="layui/lib/layui-v2.5.4/layui.js" charset="utf-8"></script>
 <script src="layui/js/lay-config.js" charset="utf-8"></script>
 <script src="vendor/echarts/echarts.min.js"></script>
+<script src="apexCharts/js/apexcharts.min.js"></script>
+<script src="vendor/jquery/jquery.min.js"></script>
+
 <script>
     layui.use(['layer', 'layuimini', 'rate'], function () {
         var $ = layui.jquery,
             layer = layui.layer,
             layuimini = layui.layuimini,
             rate = layui.rate;
-
-        //综合运势
-        rate.render({
-            elem: '#allLuck',
-            value: ($("#allLuckValue").val() / 20),
-            readonly: true
-        });
-
-        //健康运势
-        rate.render({
-            elem: '#health',
-            value: ($("#healthValue").val() / 20),
-            readonly: true
-        });
-
-        //爱情运势
-        rate.render({
-            elem: '#love',
-            value: ($("#loveValue").val() / 20),
-            readonly: true
-        });
-
-        //财运运势
-        rate.render({
-            elem: '#money',
-            value: ($("#moneyValue").val() / 20),
-            readonly: true
-        });
-
-        //工作运势
-        rate.render({
-            elem: '#workLuck',
-            value: ($("#workLuckValue").val() / 20),
-            readonly: true
-        });
 
         /**
          * 查看公告信息
@@ -564,25 +520,86 @@
         });
     });
 
-    var myChart = echarts.init(document.getElementById('echarts-records'));
+    $(function () {
+        initTradeRecordCharts();
+        initTodayLuckCharts();
+    });
 
-    var option = {
-        xAxis: {
-            type: 'category',
-            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-        },
-        yAxis: {
-            type: 'value'
-        },
-        series: [{
-            data: [820, 932, 901, 934, 1290, 1330, 1320, 820, 932, 901, 934, 1290, 1330, 1320, 820, 932, 901, 934, 1290, 1330, 1320, 820, 932, 901, 934, 1290, 1330, 1320, 820, 932, 901, 934, 1290, 1330, 1320],
-            type: 'line',
-            smooth: true
-        }]
-    };
+    /**
+     * 资金曲线图表初始化
+     */
+    function initTradeRecordCharts() {
+        const options = {
+            series: [{
+                name: 'series1',
+                data: [31, 40, 28, 51, 42, 109, 100]
+            }, {
+                name: 'series2',
+                data: [11, 32, 45, 32, 34, 52, 41]
+            }],
+            chart: {
+                height: 350,
+                type: 'area'
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                curve: 'smooth'
+            },
+            xaxis: {
+                type: 'datetime',
+                categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
+            },
+            tooltip: {
+                x: {
+                    format: 'dd/MM/yy HH:mm'
+                },
+            },
+        };
 
-    // 使用刚指定的配置项和数据显示图表。
-    myChart.setOption(option);
+        const chart = new ApexCharts(document.querySelector("#echarts-records"), options);
+        chart.render();
+    }
+
+    /**
+     * 今日运势初始化
+     */
+    function initTodayLuckCharts() {
+        const data = [
+            $("#allLuckValue").val(),
+            $("#loveValue").val(),
+            $("#workLuckValue").val(),
+            $("#healthValue").val(),
+            $("#moneyValue").val()
+        ];
+        const starName = $("#starName").val();
+        //今日运势
+        const options = {
+            series: [{
+                name: '运势指数',
+                data: data,
+            }],
+            chart: {
+                height: 350,
+                type: 'radar',
+            },
+            title: {
+                text: starName
+            },
+            xaxis: {
+                categories: ['综合运势', '爱情运势', '工作运势', '健康运势', '金钱运势']
+            },
+            yaxis: {
+                tickAmount: 5,
+                min: 0,
+                max: 100
+            }
+        };
+
+        const chart = new ApexCharts(document.querySelector("#echarts-today-luck"), options);
+        chart.render();
+    }
 
 </script>
 </body>

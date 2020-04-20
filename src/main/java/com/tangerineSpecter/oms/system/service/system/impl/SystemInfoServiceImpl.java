@@ -66,13 +66,14 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
             if (!StrUtil.isBlank(birthday)) {
                 List<Integer> list = Splitter.on("-").splitToList(birthday).parallelStream()
                         .map(Integer::parseInt).collect(Collectors.toList());
-                String constellation = DateUtil.getZodiac(list.get(1), list.get(2));
+                String constellation = DateUtil.getZodiac((list.get(1) - 1), list.get(2));
                 DataConstellation dataConstellation = dataConstellationMapper.getConstellationByName(constellation);
                 info.setAllLuck(dataConstellation.getAllLuck())
                         .setLove(dataConstellation.getLove())
                         .setWorkLuck(dataConstellation.getWorkLuck())
                         .setMoney(dataConstellation.getMoney())
-                        .setHealth(dataConstellation.getHealth());
+                        .setHealth(dataConstellation.getHealth())
+                        .setStarName(dataConstellation.getName());
             }
             info.setOsName(SystemUtil.get(SystemUtil.OS_NAME)).setSystemTitle("橘子系统")
                     .setVersion(SystemConstant.SYSTEM_VERSION);

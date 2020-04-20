@@ -59,6 +59,10 @@ public class SystemInfoBean {
      */
     private String version;
     /**
+     * 星座名称
+     */
+    private String starName;
+    /**
      * 综合指数
      */
     private Integer allLuck;

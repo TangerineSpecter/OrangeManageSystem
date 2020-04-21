@@ -1,5 +1,6 @@
 package com.tangerinespecter.oms.system.service.system.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.NumberUtil;
@@ -13,15 +14,13 @@ import com.tangerinespecter.oms.common.constants.SystemConstant;
 import com.tangerinespecter.oms.common.constants.TradeConstant;
 import com.tangerinespecter.oms.common.utils.DateUtils;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
-import com.tangerinespecter.oms.system.domain.dto.system.HomePageDataDto;
-import com.tangerinespecter.oms.system.domain.dto.system.MenuChildInfo;
-import com.tangerinespecter.oms.system.domain.dto.system.StatisticsInfo;
-import com.tangerinespecter.oms.system.domain.dto.system.UserPermissionListDto;
+import com.tangerinespecter.oms.system.domain.dto.system.*;
 import com.tangerinespecter.oms.system.domain.entity.*;
 import com.tangerinespecter.oms.system.domain.pojo.ManagerInfoBean;
 import com.tangerinespecter.oms.system.domain.pojo.SystemInfoBean;
 import com.tangerinespecter.oms.system.mapper.DataConstellationMapper;
 import com.tangerinespecter.oms.system.mapper.DataTradeRecordMapper;
+import com.tangerinespecter.oms.system.mapper.SystemBulletinMapper;
 import com.tangerinespecter.oms.system.mapper.SystemMenuMapper;
 import com.tangerinespecter.oms.system.service.helper.SystemHelper;
 import com.tangerinespecter.oms.system.service.system.ISystemInfoService;
@@ -51,6 +50,8 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
     private DataTradeRecordMapper dataTradeRecordMapper;
     @Resource
     private SystemHelper systemHelper;
+    @Resource
+    private SystemBulletinMapper systemBulletinMapper;
 
     private final Integer luck_threshold = 70;
 
@@ -127,6 +128,9 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
         String tradeLastDay = dataTradeRecordMapper.getTradeLastDay();
         int monthIncome = dataTradeRecordMapper.getTotalIncomeByLastMonth();
         int weekendIncome = dataTradeRecordMapper.getTotalIncomeByDate(DateUtil.beginOfWeek(new Date()).toString(), DateUtil.endOfWeek(new Date()).toString());
+        List<DataTradeRecord> lastThirtyMoneyInfo = dataTradeRecordMapper.getLastThirtyMoneyInfo();
+        List<Integer> totalMoneyList = lastThirtyMoneyInfo.stream().map(DataTradeRecord::getEndMoney).collect(Collectors.toList());
+        List<String> dateList = lastThirtyMoneyInfo.stream().map(DataTradeRecord::getDate).collect(Collectors.toList());
         return StatisticsInfo.builder().todayIncome(BigDecimal.valueOf(NumberUtil.div(todayIncome, 100, 2)))
                 .monthIncome(BigDecimal.valueOf(NumberUtil.div(monthIncome, 100, 2)))
                 .weekendIncome(BigDecimal.valueOf(NumberUtil.div(weekendIncome, 100, 2)))
@@ -134,7 +138,15 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
                 .monthStatus(monthIncome >= 0 ? TradeConstant.TRADE_STATUS_PROFIT : TradeConstant.TRADE_STATUS_LOSS)
                 .weekendStatus(weekendIncome >= 0 ? TradeConstant.TRADE_STATUS_PROFIT : TradeConstant.TRADE_STATUS_LOSS)
                 .weekend(DateUtil.weekOfYear(new Date())).month(DateUtil.month(new Date()) + 1)
-                .today(tradeLastDay).build();
+                .today(tradeLastDay).lastThirtyTotalMoney(totalMoneyList).lastThirtyDate(dateList).build();
+    }
+
+    @Override
+    public SystemNoticeInfo getNoticeInfo() {
+        SystemNoticeInfo noticeInfo = new SystemNoticeInfo();
+        List<SystemBulletin> systemBulletins = systemBulletinMapper.queryRecentlyBulletinList();
+        noticeInfo.setNoticeInfos(systemBulletins);
+        return noticeInfo;
     }
 
     /**

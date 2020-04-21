@@ -55,4 +55,12 @@
           and date <= #{endDate}
         ]]>
     </select>
+    <select id="getLastThirtyMoneyInfo"
+            resultType="com.tangerinespecter.oms.system.domain.entity.DataTradeRecord">
+        select SUM(end_money) as endMoney,DATE_FORMAT(`date`, '%Y-%m-%d') as `date`
+        from data_trade_record
+        GROUP BY DATE_FORMAT(`date`, '%Y-%m-%d')
+        order by DATE_FORMAT(`date`, '%Y-%m-%d') desc
+        limit 30
+    </select>
 </mapper>

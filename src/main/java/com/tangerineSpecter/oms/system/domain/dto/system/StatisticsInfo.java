@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 @Builder
@@ -49,4 +50,12 @@ public class StatisticsInfo {
      * 本月盈亏状态（0：盈利；1：亏损）
      */
     private Integer monthStatus;
+    /**
+     * 最近30日资金曲线
+     */
+    private List<Integer> lastThirtyTotalMoney;
+    /**
+     * 最近30日期
+     */
+    private List<String> lastThirtyDate;
 }

@@ -52,4 +52,10 @@ public interface DataTradeRecordMapper extends BaseMapper<DataTradeRecord> {
      * @return 总收益
      */
     int getTotalIncomeByDate(@Param("beginDate") String beginDate, @Param("endDate") String endDate);
+
+    /**
+     * 获取最近30日资金信息
+     * @return
+     */
+    List<DataTradeRecord> getLastThirtyMoneyInfo();
 }

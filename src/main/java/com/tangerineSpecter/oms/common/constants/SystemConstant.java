@@ -11,7 +11,7 @@ public class SystemConstant {
     /**
      * 当前系统版本
      */
-    public static final String SYSTEM_VERSION = "0.1.0";
+    public static final String SYSTEM_VERSION = "0.1.1";
 
     /**
      * 超级管理员：是

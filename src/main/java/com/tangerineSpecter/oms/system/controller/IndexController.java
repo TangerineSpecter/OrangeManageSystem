@@ -76,7 +76,7 @@ public class IndexController {
     public String homePage(HttpServletRequest request, HttpServletResponse response, Model model) {
         model.addAttribute("statisticsInfo", systemInfoService.getStatisticsInfo());
         model.addAttribute("systemInfo", systemInfoService.getSystemInfo());
-//        model.addAttribute("managerInfo", systemInfoService.getManagerInfo());
+        model.addAttribute("noticeInfo", systemInfoService.getNoticeInfo());
         return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getSystemHomePageKey, "common/home");
     }
 

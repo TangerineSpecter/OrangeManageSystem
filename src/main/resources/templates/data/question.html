@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="./common/_layui_common :: common_header">
+    <meta charset="UTF-8">
+</head>
+<body>
+<div class="layuimini-main">
+    <fieldset class="layui-elem-field layuimini-search">
+        <legend>搜索信息</legend>
+        <div style="margin: 10px 10px 10px 10px">
+            <form class="layui-form layui-form-pane" action="">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">问题</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="question" name="question" autocomplete="off" class="layui-input"
+                                   placeholder="在此输入搜索问题">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <a class="layui-btn" lay-submit="" lay-filter="data-search-btn">搜索</a>
+                        <a class="layui-btn" lay-submit="" lay-filter="data-clear-btn">清空</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </fieldset>
+    <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+</div>
+<div th:replace="./common/_layui_common::common_js"></div>
+<script type="text/html" id="toolbar">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="addQuestion">添加问题</button>
+    </div>
+</script>
+<script type="text/html" id="operationBar">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script>
+    layui.use(['form', 'table', 'layer'], function () {
+        const $ = layui.jquery,
+            form = layui.form,
+            table = layui.table,
+            layer = layui.layer;
+
+
+        table.render({
+            elem: '#currentTableId',
+            url: '/data/question/list',
+            toolbar: '#toolbar',//开启头部工具栏
+            defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
+                title: '提示'
+                , layEvent: 'LAYTABLE_TIPS'
+                , icon: 'layui-icon-tips'
+            }],
+            cellMinWidth: 100,
+            cols: [
+                [
+                    {type: "checkbox", width: 50, fixed: "left"},
+                    {field: 'id', title: 'ID', sort: true, fixed: "left"},
+                    {field: 'question', title: '问题', fixed: "left"},
+                    {field: 'content', title: '回答内容'},
+                    {field: 'createTime', title: '创建时间'},
+                    {
+                        toolbar: '#operationBar', align: 'center', title: '操作', fixed: "right"
+                    }
+                ]
+            ],
+            limits: [10, 15, 20, 25, 50, 100],
+            limit: 10,
+            page: true
+        });
+
+        // 监听搜索操作
+        form.on('submit(data-search-btn)', function (data) {
+            //执行搜索重载
+            table.reload('currentTableId', {
+                page: {
+                    curr: 1
+                }
+                , where: {
+                    question: data.field.question
+                }
+            }, 'data');
+            return false;
+        });
+
+        // 监听清空操作
+        form.on('submit(data-clear-btn)', function (data) {
+            //执行搜索重载
+            table.reload('currentTableId', {
+                page: {
+                    curr: 1
+                }
+            }, 'data');
+            return false;
+        });
+
+        //监听表格复选框选择
+        table.on('checkbox(currentTableFilter)', function (obj) {
+            console.log(obj)
+        });
+
+        //头工具栏事件
+        table.on('toolbar(currentTableFilter)', function (obj) {
+            console.log(obj);
+            switch (obj.event) {
+                //添加交易数据
+                case 'addQuestion':
+                    loadFormModel("添加问题", {href: "/data/question/insert"}, '/data/question/addPage');
+                    break;
+
+                //自定义头工具栏右侧图标 - 提示
+                case 'LAYTABLE_TIPS':
+                    layer.alert('这里是进行问题记录的地方');
+                    break;
+            }
+        });
+
+        //监听工具条
+        table.on('tool(currentTableFilter)', function (obj) {
+            const data = obj.data;
+            if (obj.event === 'detail') {
+                layer.msg('ID：' + data.id + ' 的查看操作');
+            } else if (obj.event === 'del') {
+                layer.confirm('是否进行问题删除？', function (index) {
+                    //obj.del();
+                    deleteFun(data.id);
+                    layer.close(index);
+                });
+            } else if (obj.event === 'edit') {
+                //layer.alert('编辑行：<br>' + JSON.stringify(data))
+                loadFormModel("编辑问题", {id: data.id, href: "/data/question/update"}, '/data/question/addPage');
+            }
+        });
+
+        //删除问题
+        function deleteFun(id) {
+            $.post("/data/question/delete", {id: id}, function (result) {
+                if (result.success) {
+                    layer.open({
+                        title: "提示",
+                        content: "删除成功",
+                        yes: function () {
+                            reloadTab();
+                        }
+                    });
+                } else {
+                    layer.open({
+                        title: "警告",
+                        content: result.msg
+                    })
+                }
+            }, "JSON");
+        }
+    });
+</script>
+<script>
+</script>
+</body>
+</html>

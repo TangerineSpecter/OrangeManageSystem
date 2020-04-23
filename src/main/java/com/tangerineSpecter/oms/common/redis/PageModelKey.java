@@ -34,7 +34,10 @@ public class PageModelKey extends BasePrefixKey {
      * 股票池页面缓存
      */
     public static PageModelKey getStockPageKey = new PageModelKey("stock_page:", EXPIRE_TIME);
-
+    /**
+     * 股票池页面缓存
+     */
+    public static PageModelKey getQuestionPageKey = new PageModelKey("question_page:", EXPIRE_TIME);
     /**
      * 系统首页缓存
      */

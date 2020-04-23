@@ -1,5 +1,7 @@
 package com.tangerinespecter.oms.common.constants;
 
+import org.springframework.beans.factory.annotation.Value;
+
 /**
  * 系统相关常量类
  *
@@ -11,7 +13,8 @@ public class SystemConstant {
     /**
      * 当前系统版本
      */
-    public static final String SYSTEM_VERSION = "0.1.1";
+    @Value("${system.version}")
+    public static String SYSTEM_VERSION;
 
     /**
      * 超级管理员：是

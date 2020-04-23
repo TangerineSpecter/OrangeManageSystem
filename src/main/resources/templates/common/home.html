@@ -315,7 +315,10 @@
                     <div class="layui-card-header"><i class="fa fa-bullhorn icon icon-tip"></i>系统公告</div>
                     <div class="layui-card-body layui-text">
                         <div class="layuimini-notice" th:each="noticeInfo:${noticeInfo.noticeInfos}">
-                            <div class="layuimini-notice-title"><span th:text="${noticeInfo.title}">公告标题</span>&emsp;<span class="layui-badge" th:if="${noticeInfo.top} == 1">置顶</span></div>
+                            <div class="layuimini-notice-title"><span
+                                    th:text="${noticeInfo.title}">公告标题</span>&emsp;<span class="layui-badge"
+                                                                                         th:if="${noticeInfo.top} == 1">置顶</span>
+                            </div>
                             <div class="layuimini-notice-extra" th:text="${noticeInfo.ctime}">2020-01-01 23:06</div>
                             <div class="layuimini-notice-content layui-hide" th:text="${noticeInfo.content}">
                             </div>
@@ -350,26 +353,17 @@
                                 <td th:text="${systemInfo.version}">v0.0.1</td>
                             </tr>
                             <tr>
-                                <td>Gitee</td>
-                                <td style="padding-bottom: 0;">
-                                    <div class="layui-btn-container">
-                                        <a href="https://gitee.com/zhongshaofa/layuimini" target="_blank"
-                                           style="margin-right: 15px"><img
-                                                src="https://gitee.com/zhongshaofa/layuimini/badge/star.svg?theme=dark"
-                                                alt="star"></a>
-                                        <a href="https://gitee.com/zhongshaofa/layuimini" target="_blank"><img
-                                                src="https://gitee.com/zhongshaofa/layuimini/badge/fork.svg?theme=dark"
-                                                alt="fork"></a>
-                                    </div>
+                                <td>当前系统</td>
+                                <td th:text="${systemInfo.osName}">
                                 </td>
                             </tr>
                             <tr>
                                 <td>Github</td>
                                 <td style="padding-bottom: 0;">
                                     <div class="layui-btn-container">
-                                        <iframe src="https://ghbtns.com/github-btn.html?user=zhongshaofa&repo=layuimini&type=star&count=true"
+                                        <iframe src="https://ghbtns.com/github-btn.html?user=TangerineSpecter&repo=OrangeManageSystem&type=star&count=true"
                                                 frameborder="0" scrolling="0" width="100px" height="20px"></iframe>
-                                        <iframe src="https://ghbtns.com/github-btn.html?user=zhongshaofa&repo=layuimini&type=fork&count=true"
+                                        <iframe src="https://ghbtns.com/github-btn.html?user=TangerineSpecter&repo=OrangeManageSystem&type=fork&count=true"
                                                 frameborder="0" scrolling="0" width="100px" height="20px"></iframe>
                                     </div>
                                 </td>
@@ -380,10 +374,9 @@
                 </div>
 
                 <div class="layui-card">
-                    <div class="layui-card-header"><i class="fa fa-paper-plane-o icon"></i>作者心语</div>
+                    <div class="layui-card-header"><i class="fa fa-paper-plane-o icon"></i>今日寄语</div>
                     <div class="layui-card-body layui-text layadmin-text">
-                        <p>橘子管理系统：<a class="layui-btn layui-btn-xs layui-btn-danger" target="_blank"
-                                     href="http://www.layui.com/doc">layui文档</a></p>
+                        <p th:text="${systemInfo.todayTip}">橘子管理系统</p>
                     </div>
                 </div>
                 <!-- 存放首页值 -->
@@ -524,11 +517,9 @@
                 max: 100
             }
         };
-
         const chart = new ApexCharts(document.querySelector("#echarts-today-luck"), options);
         chart.render();
     }
-
 </script>
 </body>
 </html>

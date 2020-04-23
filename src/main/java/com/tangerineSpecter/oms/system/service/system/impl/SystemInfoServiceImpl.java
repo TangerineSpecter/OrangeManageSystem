@@ -74,10 +74,11 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
                         .setWorkLuck(dataConstellation.getWorkLuck())
                         .setMoney(dataConstellation.getMoney())
                         .setHealth(dataConstellation.getHealth())
-                        .setStarName(dataConstellation.getName());
+                        .setStarName(dataConstellation.getName())
+                        .setTodayTip(dataConstellation.getSummary());
             }
             info.setOsName(SystemUtil.get(SystemUtil.OS_NAME)).setSystemTitle("橘子系统")
-                    .setVersion(SystemConstant.SYSTEM_VERSION);
+                    .setVersion(SystemConstant.SYSTEM_VERSION).setOsName(SystemUtil.get(SystemUtil.OS_NAME));
         } catch (Exception e) {
             log.error("[系统信息获取异常]:", e);
         }

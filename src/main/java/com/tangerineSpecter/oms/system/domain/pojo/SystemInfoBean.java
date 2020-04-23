@@ -82,4 +82,8 @@ public class SystemInfoBean {
      * 财运指数
      */
     private Integer money;
+    /**
+     * 今日提示
+     */
+    private String todayTip;
 }

@@ -21,7 +21,7 @@ public class CommonConstant {
      */
     public static final String JUHE_API_CONSTELLATION_URL = "http://web.juhe.cn:8080/constellation/getAll";
     /**
-     * key
+     * 用户key
      */
     public static final String SALT = "orange666";
     /**
@@ -52,6 +52,14 @@ public class CommonConstant {
      */
     public static final Integer IS_DEL_YES = 1;
 
+    /**
+     * 置顶：否
+     */
+    public static final Integer IS_NOT_TOP = 0;
+    /**
+     * 置顶：是
+     */
+    public static final Integer IS_TOP = 1;
     /**
      * 默认格式
      */

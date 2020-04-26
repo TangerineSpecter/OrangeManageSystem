@@ -113,6 +113,19 @@ public class MenuSettingController {
     }
 
     /**
+     * 置顶菜单
+     *
+     * @param id 菜单ID
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/top")
+    @LoggerInfo(value = "置顶菜单", event = LogOperation.EVENT_UPDATE)
+    public ServiceResult topInfo(@RequestParam("id") Long id) {
+        return menuSettingService.topInfo(id);
+    }
+
+    /**
      * 初始化菜单code
      *
      * @return

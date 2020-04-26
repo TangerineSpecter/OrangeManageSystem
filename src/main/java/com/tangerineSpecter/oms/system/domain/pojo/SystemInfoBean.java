@@ -1,9 +1,12 @@
 package com.tangerinespecter.oms.system.domain.pojo;
 
+import com.tangerinespecter.oms.system.domain.entity.SystemMenu;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+
+import java.util.List;
 
 /**
  * 系统信息
@@ -86,4 +89,8 @@ public class SystemInfoBean {
      * 今日提示
      */
     private String todayTip;
+    /**
+     * 首页菜单
+     */
+    private List<SystemMenu> menus;
 }

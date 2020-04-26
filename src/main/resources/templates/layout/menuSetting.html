@@ -10,6 +10,10 @@
         </style>
     </head>
     <body>
+        <script type="text/html" id="switchTpl">
+            <input type="checkbox" name="top" value="{{d.id}}" lay-skin="switch" lay-text="是|否" lay-filter="topFun" {{
+                   d.top== 1 ? 'checked' : '' }}>
+        </script>
         <div class="layuimini-container">
             <div class="layuimini-main">
                 <div>
@@ -29,11 +33,12 @@
         </script>
         <div th:replace="./common/_layui_common::common_js"></div>
         <script>
-            layui.use(['table', 'treetable', 'layer'], function () {
-                var $ = layui.jquery;
-                var table = layui.table;
-                var treetable = layui.treetable;
-                var layer = layui.layer;
+            layui.use(['table', 'treetable', 'layer', 'form'], function () {
+                const $ = layui.jquery;
+                const table = layui.table;
+                const treetable = layui.treetable;
+                const layer = layui.layer;
+                const form = layui.form;
 
                 // 渲染表格
                 layer.load(2);
@@ -65,6 +70,7 @@
                                     }
                                 }, title: '类型'
                             },
+                            {field: 'top', title: '首页', width: 85, templet: '#switchTpl', unresize: true},
                             {templet: '#auth-state', width: 120, align: 'center', title: '操作'}
                         ]
                     ],
@@ -119,6 +125,20 @@
                     } else if (layEvent === 'edit') {
                         loadFormModel("编辑系统菜单", {id: data.id, href: "/system/menu/update"}, '/system/menu/addPage');
                     }
+                });
+
+                //监听性别操作
+                form.on('switch(topFun)', function (obj) {
+                    $.post('/system/menu/top', {id: this.value}, function (result) {
+                        console.log(result);
+                        if (!result.success) {
+                            layer.alert(JSON.stringify(result.msg), {
+                                title: '警告'
+                            });
+                            obj.elem.checked = !obj.elem.checked;
+                            form.render('checkbox');
+                        }
+                    }, "JSON");
                 });
             });
         </script>

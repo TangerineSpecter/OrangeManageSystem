@@ -19,4 +19,6 @@ public interface IMenuSettingService {
     ServiceResult updateInfo(SystemMenuInfoVo vo);
 
     List<SystemMenu> initMenuCode();
+
+    ServiceResult topInfo(Long id);
 }

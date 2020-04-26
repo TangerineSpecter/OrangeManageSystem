@@ -1,8 +1,12 @@
 package com.tangerinespecter.oms.system.service.system.impl;
 
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.tangerinespecter.oms.common.constants.CommonConstant;
 import com.tangerinespecter.oms.common.constants.RetCode;
+import com.tangerinespecter.oms.common.constants.SystemConstant;
 import com.tangerinespecter.oms.common.result.ServiceResult;
+import com.tangerinespecter.oms.common.utils.ParamUtils;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.system.domain.entity.SystemMenu;
 import com.tangerinespecter.oms.system.domain.vo.system.SystemMenuInfoVo;
@@ -84,5 +88,21 @@ public class MenuSettingServiceImpl implements IMenuSettingService {
             }
         });
         return systemMenus;
+    }
+
+    @Override
+    public ServiceResult topInfo(Long id) {
+        SystemMenu menu = systemMenuMapper.selectById(id);
+        if (menu == null) {
+            return ServiceResult.error(RetCode.SYSTEM_MENU_NOT_EXIST);
+        }
+        QueryWrapper<SystemMenu> queryWrapper = new QueryWrapper<SystemMenu>().eq(ParamUtils.TOP, CommonConstant.IS_TOP);
+        Integer count = systemMenuMapper.selectCount(queryWrapper);
+        if (CommonConstant.IS_NOT_TOP.equals(menu.getTop()) && count > SystemConstant.SYSTEM_MENU_TOP_COUNT_THRESHOLD) {
+            return ServiceResult.error(RetCode.SYSTEM_MENU_MORE_THAN_UPPER);
+        }
+        menu.setTop(CommonConstant.IS_TOP.equals(menu.getTop()) ? CommonConstant.IS_NOT_TOP : CommonConstant.IS_TOP);
+        systemMenuMapper.updateById(menu);
+        return ServiceResult.success();
     }
 }

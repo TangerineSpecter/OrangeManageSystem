@@ -17,6 +17,11 @@ public class SystemConstant {
     public static String SYSTEM_VERSION;
 
     /**
+     * 系统菜单置顶数量阈值
+     */
+    public static final Integer SYSTEM_MENU_TOP_COUNT_THRESHOLD = 8;
+
+    /**
      * 超级管理员：是
      */
     public static final Integer IS_SYSTEM_ADMIN = 1;

@@ -57,4 +57,12 @@ public class SystemMenu implements Serializable {
      * 菜单排序
      */
     private Integer sort;
+    /**
+     * 是否首页（0：否；1：是）
+     */
+    private Integer top;
+    /**
+     * 首页排序
+     */
+    private Integer topSort;
 }

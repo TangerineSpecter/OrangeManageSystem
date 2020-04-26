@@ -237,61 +237,13 @@
                             <div class="layui-card-body">
                                 <div class="welcome-module">
                                     <div class="layui-row layui-col-space10 layuimini-qiuck">
-                                        <div class="layui-col-xs3 layuimini-qiuck-module">
-                                            <a href="javascript:;" data-iframe-tab="/system/menu/page" data-title="菜单管理"
-                                               data-icon="fa fa-window-maximize">
+                                        <div class="layui-col-xs3 layuimini-qiuck-module"
+                                             th:each="menu:${systemInfo.menus}">
+                                            <a href="javascript:;"
+                                               th:attr="data-iframe-tab=${menu.href},data-title=${menu.title}
+                                                ,data-icon=${menu.icon}">
                                                 <i class="fa fa-window-maximize"></i>
-                                                <cite>菜单管理</cite>
-                                            </a>
-                                        </div>
-                                        <div class="layui-col-xs3 layuimini-qiuck-module">
-                                            <a href="javascript:;" data-iframe-tab="/systemSetting" data-title="系统设置"
-                                               data-icon="fa fa-gears">
-                                                <i class="fa fa-gears"></i>
-                                                <cite>系统设置</cite>
-                                            </a>
-                                        </div>
-                                        <div class="layui-col-xs3 layuimini-qiuck-module">
-                                            <a href="javascript:;" data-iframe-tab="/systemSetting" data-title="系统设置"
-                                               data-icon="fa fa-gears">
-                                                <i class="fa fa-gears"></i>
-                                                <cite>系统设置</cite>
-                                            </a>
-                                        </div>
-                                        <div class="layui-col-xs3 layuimini-qiuck-module">
-                                            <a href="javascript:;" data-iframe-tab="/systemSetting" data-title="系统设置"
-                                               data-icon="fa fa-gears">
-                                                <i class="fa fa-gears"></i>
-                                                <cite>系统设置</cite>
-                                            </a>
-                                        </div>
-                                        <div class="layui-col-xs3 layuimini-qiuck-module">
-                                            <a href="javascript:;" data-iframe-tab="/data/trade-record/page"
-                                               data-title="交易记录"
-                                               data-icon="fa fa-bar-chart">
-                                                <i class="fa fa-bar-chart"></i>
-                                                <cite>交易记录</cite>
-                                            </a>
-                                        </div>
-                                        <div class="layui-col-xs3 layuimini-qiuck-module">
-                                            <a href="javascript:;" data-iframe-tab="/systemSetting" data-title="系统设置"
-                                               data-icon="fa fa-gears">
-                                                <i class="fa fa-gears"></i>
-                                                <cite>系统设置</cite>
-                                            </a>
-                                        </div>
-                                        <div class="layui-col-xs3 layuimini-qiuck-module">
-                                            <a href="javascript:;" data-iframe-tab="/system/menu/page" data-title="菜单管理"
-                                               data-icon="fa fa-window-maximize">
-                                                <i class="fa fa-window-maximize"></i>
-                                                <cite>菜单管理</cite>
-                                            </a>
-                                        </div>
-                                        <div class="layui-col-xs3 layuimini-qiuck-module">
-                                            <a href="javascript:;" data-iframe-tab="/systemSetting" data-title="系统设置"
-                                               data-icon="fa fa-gears">
-                                                <i class="fa fa-gears"></i>
-                                                <cite>系统设置</cite>
+                                                <cite th:text="${menu.title}"></cite>
                                             </a>
                                         </div>
                                     </div>

@@ -70,6 +70,11 @@ public class RetCode {
     public static final RetCode DEPT_NAME_EXIST_ON_LEVEL = new RetCode(106, "同一层级下存在相同名称的部门！");
 
     /**
+     * 系统置顶菜单不能超过8个
+     */
+    public static final RetCode SYSTEM_MENU_MORE_THAN_UPPER = new RetCode(107, "系统置顶菜单超过系统上限（8个）");
+
+    /**
      * 参数错误
      */
     public static final RetCode PARAM_ERROR = new RetCode(200, "参数错误");

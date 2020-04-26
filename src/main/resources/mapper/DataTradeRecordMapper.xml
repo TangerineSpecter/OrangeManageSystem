@@ -6,7 +6,7 @@
         select *
         from data_trade_record
         <where>
-            <if test="type!=null and type!=''">
+            <if test="type!=null">
                 and `type` = #{type}
             </if>
             <if test="startDay!='' and startDay!=null">

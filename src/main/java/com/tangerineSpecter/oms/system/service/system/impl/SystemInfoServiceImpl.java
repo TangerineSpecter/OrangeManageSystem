@@ -10,6 +10,7 @@ import com.alibaba.druid.util.StringUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.common.base.Splitter;
 import com.tangerinespecter.oms.common.constants.CommonConstant;
+import com.tangerinespecter.oms.common.constants.ParamUtils;
 import com.tangerinespecter.oms.common.constants.SystemConstant;
 import com.tangerinespecter.oms.common.constants.TradeConstant;
 import com.tangerinespecter.oms.common.utils.DateUtils;
@@ -28,8 +29,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.awt.*;
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -77,6 +80,12 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
                         .setStarName(dataConstellation.getName())
                         .setTodayTip(dataConstellation.getSummary());
             }
+            List<SystemMenu> menuList = CollUtil.newArrayList();
+            QueryWrapper<SystemMenu> queryWrapper = new QueryWrapper<SystemMenu>()
+                    .eq(ParamUtils.TOP, CommonConstant.IS_TOP).orderByDesc(ParamUtils.TOP_SORT);
+            List<SystemMenu> menus = systemMenuMapper.selectList(queryWrapper);
+            menuList.addAll(menus);
+            info.setMenus(menuList);
             info.setOsName(SystemUtil.get(SystemUtil.OS_NAME)).setSystemTitle("橘子系统")
                     .setVersion(SystemConstant.SYSTEM_VERSION).setOsName(SystemUtil.get(SystemUtil.OS_NAME));
         } catch (Exception e) {

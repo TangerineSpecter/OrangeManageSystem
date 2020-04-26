@@ -14,4 +14,6 @@ public class ParamUtils {
     public static final String CONSNAME = "consName";
 
     public static final String KEY = "key";
+
+    public static final String TOP = "top";
 }

@@ -18,9 +18,9 @@ import lombok.Setter;
 @AllArgsConstructor
 public class StockQueryObject extends QueryObject {
     /**
-     * 类型（sh\sz\hk)
+     * 市场（sh\sz\hk)
      */
-    private String type;
+    private String market;
 
     private String keyword;
 }

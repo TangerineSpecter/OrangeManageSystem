@@ -14,8 +14,8 @@
                         <div class="layui-inline">
                             <label class="layui-form-label">市场</label>
                             <div class="layui-input-inline">
-                                <select name="type" class="layui-select">
-                                    <option value="">全部</option>
+                                <select name="market" class="layui-select">
+                                    <option>全部</option>
                                     <option value="sh">上证</option>
                                     <option value="sz">深证</option>
                                     <option value="hk">港交所</option>
@@ -25,7 +25,8 @@
                         <div class="layui-inline">
                             <label class="layui-form-label">关键词</label>
                             <div class="layui-input-inline">
-                                <input type="text" id="keyword" name="keyword" autocomplete="off" class="layui-input" placeholder="股票代码、股票名称">
+                                <input type="text" id="keyword" name="keyword" autocomplete="off" class="layui-input"
+                                       placeholder="股票代码、股票名称">
                             </div>
                         </div>
                         <div class="layui-inline">
@@ -94,9 +95,8 @@
                     curr: 1
                 }
                 , where: {
-                    type: data.field.type,
-                    startDay: data.field.startDay,
-                    endDay: data.field.endDay
+                    market: data.field.market,
+                    keyword: data.field.keyword
                 }
             }, 'data');
             return false;
@@ -108,11 +108,6 @@
             table.reload('currentTableId', {
                 page: {
                     curr: 1
-                }
-                , where: {
-                    star: "",
-                    startDay: "",
-                    endDay: ""
                 }
             }, 'data');
             return false;

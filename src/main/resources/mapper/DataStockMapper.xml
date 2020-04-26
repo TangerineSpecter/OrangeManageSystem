@@ -5,5 +5,17 @@
     <select id="queryForPage" resultType="com.tangerinespecter.oms.system.domain.entity.DataStock">
         select *
         from data_stock
+        <where>
+            <if test="market != null">
+                and market = #{market}
+            </if>
+            <if test="keyword != null and keyword != ''">
+                and (
+                `code` like concat("%",#{keyword},"%")
+                or `full_code` like concat("%",#{keyword},"%")
+                or `name` like concat("%",#{keyword},"%")
+                )
+            </if>
+        </where>
     </select>
 </mapper>

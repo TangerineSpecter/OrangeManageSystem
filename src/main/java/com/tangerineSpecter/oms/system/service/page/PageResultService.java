@@ -1,6 +1,7 @@
 package com.tangerinespecter.oms.system.service.page;
 
 import cn.hutool.core.util.StrUtil;
+import com.tangerinespecter.oms.common.constants.SystemConstant;
 import com.tangerinespecter.oms.common.redis.KeyPrefix;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.system.service.helper.RedisHelper;
@@ -63,7 +64,8 @@ public class PageResultService {
         IWebContext ctx = new WebContext(request, response, request.getServletContext(),
                 request.getLocale(), model.asMap());
         html = thymeleafViewResolver.getTemplateEngine().process(pageUrl, ctx);
-        if (!StrUtil.isBlank(html)) {
+        if (!StrUtil.isBlank(html)
+                && SystemConstant.NO_CACHE.equals(SystemConstant.systemConfig.getCacheTime())) {
             redisHelper.set(redisKey, SystemUtils.getSystemUserId().toString(), html);
         }
         return html;

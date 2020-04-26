@@ -1,5 +1,6 @@
 package com.tangerinespecter.oms.system.controller;
 
+import com.tangerinespecter.oms.common.constants.SystemConstant;
 import com.tangerinespecter.oms.common.enums.LogOperation;
 import com.tangerinespecter.oms.common.listener.LoggerInfo;
 import com.tangerinespecter.oms.common.redis.PageModelKey;
@@ -64,6 +65,7 @@ public class IndexController {
     public String index(HttpServletRequest request, HttpServletResponse response, Model model) {
         SystemUser systemUser = SystemUtils.getCurrentUser();
         model.addAttribute("systemUser", systemUser);
+        model.addAttribute("webTitle", SystemConstant.systemConfig.getWebTitle());
         return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getSystemIndexPageKey, "index");
     }
 

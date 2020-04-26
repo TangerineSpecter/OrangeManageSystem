@@ -32,7 +32,7 @@ public class SystemConfig {
     /**
      * 缓存时间
      */
-    private Long cacheTime;
+    private Integer cacheTime;
     /**
      * 文件大小
      */

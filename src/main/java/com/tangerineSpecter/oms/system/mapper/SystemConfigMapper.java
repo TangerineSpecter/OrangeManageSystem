@@ -6,4 +6,15 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface SystemConfigMapper extends BaseMapper<SystemConfig> {
+    /**
+     * 获取最近一条系统配置
+     *
+     * @return
+     */
+    SystemConfig queryLastSystemConfig();
+
+    /**
+     * 删除所有配置信息
+     */
+    void deleteConfigAll();
 }

@@ -28,11 +28,15 @@ public class InitAdminManageBean implements InitializingBean {
 
     @Resource
     private IMenuSettingService menuSettingService;
+    @Resource
+    private SystemConfigMapper systemConfigMapper;
 
     @Override
     public void afterPropertiesSet() {
         log.info("管理后台数据初始化...");
         menuSettingService.initSystemUserAdmin();
+        log.info("初始化系统配置信息");
+        SystemConstant.systemConfig = systemConfigMapper.queryLastSystemConfig();
     }
 
 }

@@ -11,7 +11,7 @@
  Target Server Version : 80017
  File Encoding         : 65001
 
- Date: 15/04/2020 17:40:04
+ Date: 26/04/2020 19:27:41
 */
 
 SET NAMES utf8mb4;
@@ -26,18 +26,31 @@ CREATE TABLE `data_constellation` (
   `name` varchar(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '星座名称',
   `datetime` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '日期（文字）',
   `date` int(15) DEFAULT NULL COMMENT '日期（数字）',
-  `all_luck` varchar(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '综合指数',
+  `all_luck` int(8) DEFAULT NULL COMMENT '综合指数',
   `color` varchar(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '幸运色',
-  `health` varchar(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '健康指数',
-  `love` varchar(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '爱情指数',
-  `money` varchar(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '财运指数',
+  `health` int(8) DEFAULT NULL COMMENT '健康指数',
+  `love` int(8) DEFAULT NULL COMMENT '爱情指数',
+  `money` int(8) DEFAULT NULL COMMENT '财运指数',
   `number` int(5) DEFAULT NULL COMMENT '幸运数字',
   `QFriend` varchar(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '速配星座',
   `summary` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '今日概述',
-  `work_luck` varchar(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '工作指数',
+  `work_luck` int(8) DEFAULT '0' COMMENT '工作指数',
   `create_time` date DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=289 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='星座信息表';
+) ENGINE=InnoDB AUTO_INCREMENT=398 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='星座信息表';
+
+-- ----------------------------
+-- Table structure for data_question
+-- ----------------------------
+DROP TABLE IF EXISTS `data_question`;
+CREATE TABLE `data_question` (
+  `id` bigint(13) NOT NULL AUTO_INCREMENT,
+  `question` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '问题',
+  `content` text COLLATE utf8mb4_unicode_ci COMMENT '回答内容',
+  `is_del` tinyint(2) DEFAULT NULL COMMENT '删除状态（0：未删除；1：已删除）',
+  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='问题记录表';
 
 -- ----------------------------
 -- Table structure for data_stock
@@ -45,22 +58,22 @@ CREATE TABLE `data_constellation` (
 DROP TABLE IF EXISTS `data_stock`;
 CREATE TABLE `data_stock` (
   `id` bigint(23) NOT NULL AUTO_INCREMENT,
-  `market` varchar(45) DEFAULT NULL COMMENT '市场缩写',
-  `code` varchar(45) DEFAULT NULL COMMENT '股票代码',
-  `full_code` varchar(45) DEFAULT NULL COMMENT '股票完整代码',
+  `market` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '市场缩写',
+  `code` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '股票代码',
+  `full_code` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '股票完整代码',
   `listing_date` date DEFAULT NULL COMMENT '上市日期',
-  `name` varchar(255) DEFAULT NULL COMMENT '股票名称',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '股票名称',
   `curr_capital` decimal(15,0) DEFAULT NULL COMMENT '流通股本（万股）',
   `profit_four` decimal(15,2) DEFAULT NULL COMMENT '四季度净利润',
   `total_capital` decimal(15,0) DEFAULT NULL COMMENT '总股本',
   `net_per_assets` decimal(15,0) DEFAULT NULL COMMENT '每股净资产',
-  `pinyin` varchar(45) DEFAULT NULL COMMENT '股票拼音',
+  `pinyin` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '股票拼音',
   `state` int(11) DEFAULT '1' COMMENT '股票状态 1： 上市， 其他停牌',
   `industry_id` bigint(20) DEFAULT NULL COMMENT '行业',
   `net_income` decimal(15,0) DEFAULT NULL COMMENT '归属母公司股东净利润',
   PRIMARY KEY (`id`),
   KEY `idx_full_code` (`full_code`)
-) ENGINE=InnoDB AUTO_INCREMENT=12851 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='股票表';
+) ENGINE=InnoDB AUTO_INCREMENT=12851 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='股票表';
 
 -- ----------------------------
 -- Table structure for data_stock_portfolio
@@ -83,7 +96,7 @@ CREATE TABLE `data_stock_portfolio_content` (
   `id` bigint(13) NOT NULL,
   `stock_id` bigint(13) NOT NULL COMMENT '股票ID',
   `portfolio_id` bigint(13) NOT NULL COMMENT '组合ID',
-  `Related Information` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '信息',
+  `information` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '信息',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='股票组合内容表';
 
@@ -104,7 +117,20 @@ CREATE TABLE `data_trade_record` (
   `admin_id` bigint(13) NOT NULL COMMENT '管理员ID',
   `create_time` bigint(13) DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=422 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='交易记录表';
+) ENGINE=InnoDB AUTO_INCREMENT=443 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='交易记录表';
+
+-- ----------------------------
+-- Table structure for system_bulletin
+-- ----------------------------
+DROP TABLE IF EXISTS `system_bulletin`;
+CREATE TABLE `system_bulletin` (
+  `id` bigint(13) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '公告标题',
+  `content` text COLLATE utf8mb4_unicode_ci COMMENT '公告内容',
+  `ctime` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '公告时间',
+  `top` tinyint(2) NOT NULL DEFAULT '0' COMMENT '是否置顶（0：否；1：是）',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统公告表';
 
 -- ----------------------------
 -- Table structure for system_config
@@ -114,14 +140,14 @@ CREATE TABLE `system_config` (
   `id` bigint(13) NOT NULL AUTO_INCREMENT,
   `web_title` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '网站标题',
   `web_url` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '网站网址',
-  `cache_time` bigint(13) NOT NULL DEFAULT '0' COMMENT '缓存时间(毫秒)',
+  `cache_time` int(10) NOT NULL DEFAULT '-1' COMMENT '缓存时间(秒)',
   `file_size` bigint(13) NOT NULL DEFAULT '0' COMMENT '最大文件上传大小（单位：KB）',
   `home_title` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '首页标题',
   `file_suffix` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '上传文件格式限制',
   `copyright` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '版权信息',
-  `announcement` text COLLATE utf8mb4_unicode_ci COMMENT '公告',
+  `is_del` tinyint(2) NOT NULL DEFAULT '0' COMMENT '删除状态（0：未删除；1：已删除）',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统配置表';
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统配置表';
 
 -- ----------------------------
 -- Table structure for system_dept
@@ -131,7 +157,7 @@ CREATE TABLE `system_dept` (
   `id` bigint(13) NOT NULL,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '部门名称',
   `level` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '部门层级',
-  `remark` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '备注',
+  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '备注',
   `parent_id` bigint(13) NOT NULL DEFAULT '0' COMMENT '上级部门ID',
   `sort` int(11) NOT NULL DEFAULT '0' COMMENT '排序（由大到小）',
   PRIMARY KEY (`id`)
@@ -152,7 +178,7 @@ CREATE TABLE `system_log` (
   `ip` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '操作IP',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '操作时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1272 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统日志记录表';
+) ENGINE=InnoDB AUTO_INCREMENT=1745 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统日志记录表';
 
 -- ----------------------------
 -- Table structure for system_menu
@@ -166,10 +192,12 @@ CREATE TABLE `system_menu` (
   `icon` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '图标logo地址',
   `level` int(11) DEFAULT '0' COMMENT '标签等级（0：顶级；1：一级菜单；以此类推）',
   `target` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '页面跳转方式(_self:自己；_blank:新窗口)',
-  `permission` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '菜单权限',
+  `permission_code` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '菜单权限码',
   `sort` int(11) DEFAULT '0' COMMENT '排序',
+  `top` tinyint(2) DEFAULT '0' COMMENT '是否在首页（0：否；1：是）',
+  `top_sort` int(50) DEFAULT '0' COMMENT '首页排序',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统菜单表';
+) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统菜单表';
 
 -- ----------------------------
 -- Table structure for system_notice
@@ -203,14 +231,14 @@ CREATE TABLE `system_permission` (
   `remark` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '备注',
   `sort` int(50) NOT NULL DEFAULT '0' COMMENT '排序',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='权限表';
+) ENGINE=InnoDB AUTO_INCREMENT=123 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='权限表';
 
 -- ----------------------------
 -- Table structure for system_permission_module
 -- ----------------------------
 DROP TABLE IF EXISTS `system_permission_module`;
 CREATE TABLE `system_permission_module` (
-  `id` bigint(13) NOT NULL,
+  `id` bigint(13) NOT NULL AUTO_INCREMENT,
   `name` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '模块名称',
   `parent_id` bigint(13) NOT NULL DEFAULT '0' COMMENT '上级模块id',
   `level` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '模块层级',
@@ -218,20 +246,20 @@ CREATE TABLE `system_permission_module` (
   `remark` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '备注',
   `sort` int(11) NOT NULL DEFAULT '0' COMMENT '排序',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='权限模块表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='权限模块表';
 
 -- ----------------------------
 -- Table structure for system_permission_role
 -- ----------------------------
 DROP TABLE IF EXISTS `system_permission_role`;
 CREATE TABLE `system_permission_role` (
-  `id` bigint(13) NOT NULL,
+  `id` bigint(13) NOT NULL AUTO_INCREMENT,
   `rid` bigint(13) NOT NULL COMMENT '角色ID',
   `module_id` bigint(13) NOT NULL COMMENT '权限模块ID',
   PRIMARY KEY (`id`),
   KEY `idx_rid` (`rid`),
   KEY `idx_pid` (`module_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='权限角色关系表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='权限角色关系表';
 
 -- ----------------------------
 -- Table structure for system_permisson_log
@@ -258,7 +286,7 @@ CREATE TABLE `system_role` (
   `status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '状态（0：冻结；1：可用）',
   `remark` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='角色表';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='角色表';
 
 -- ----------------------------
 -- Table structure for system_user
@@ -292,13 +320,13 @@ CREATE TABLE `system_user` (
 -- ----------------------------
 DROP TABLE IF EXISTS `system_user_role`;
 CREATE TABLE `system_user_role` (
-  `id` bigint(13) NOT NULL,
+  `id` bigint(13) NOT NULL AUTO_INCREMENT,
   `uid` bigint(13) NOT NULL COMMENT '管理员ID',
   `rid` bigint(13) NOT NULL COMMENT '角色ID',
   PRIMARY KEY (`id`),
   KEY `idx_uid` (`uid`),
   KEY `idx_pid` (`rid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户角色关系表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户角色关系表';
 
 -- ----------------------------
 -- Table structure for work_collection

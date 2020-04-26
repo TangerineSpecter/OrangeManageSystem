@@ -1,5 +1,7 @@
 package com.tangerinespecter.oms.common.redis;
 
+import com.tangerinespecter.oms.common.constants.SystemConstant;
+
 /**
  * 页面模板缓存Key
  */
@@ -8,7 +10,7 @@ public class PageModelKey extends BasePrefixKey {
     /**
      * 过期时间（单位：秒）
      */
-    private static final Integer EXPIRE_TIME = 3;
+    private static final Integer EXPIRE_TIME = SystemConstant.systemConfig.getCacheTime();
 
     private PageModelKey(String prefix) {
         super(prefix);

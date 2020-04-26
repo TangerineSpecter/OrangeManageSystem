@@ -17,7 +17,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label required">网站名称</label>
                 <div class="layui-input-block">
-                    <input type="text" name="sitename" lay-verify="required" lay-reqtext="网站域名不能为空"
+                    <input type="text" name="webTitle" lay-verify="required" lay-reqtext="网站域名不能为空"
                            placeholder="请输入网站名称" class="layui-input" th:value="${systemConfigInfo.webTitle}">
                     <tip>填写自己部署网站的名称。</tip>
                 </div>
@@ -25,7 +25,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label required">网站域名</label>
                 <div class="layui-input-block">
-                    <input type="text" name="domain" lay-verify="required" lay-reqtext="网站域名不能为空" placeholder="请输入网站域名"
+                    <input type="text" name="webUrl" lay-verify="required" lay-reqtext="网站域名不能为空" placeholder="请输入网站域名"
                            class="layui-input" th:value="${systemConfigInfo.webUrl}">
                 </div>
             </div>
@@ -33,15 +33,17 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">缓存时间</label>
                 <div class="layui-input-inline" style="width: 80px;">
-                    <input type="text" name="cache" lay-verify="number" class="layui-input" th:value="${systemConfigInfo.cacheTime}">
+                    <input type="number" name="cacheTime" lay-verify="number" class="layui-input" min="0"
+                           th:value="${systemConfigInfo.cacheTime}">
                 </div>
-                <div class="layui-input-inline layui-input-company">分钟</div>
-                <div class="layui-form-mid layui-word-aux">本地开发一般推荐设置为 0，线上环境建议设置为 10。</div>
+                <div class="layui-input-inline layui-input-company">秒</div>
+                <div class="layui-form-mid layui-word-aux">设置为 0 表示无缓存。</div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">最大文件上传</label>
                 <div class="layui-input-inline" style="width: 80px;">
-                    <input type="text" name="cache" lay-verify="number" class="layui-input" th:value="${systemConfigInfo.fileSize}">
+                    <input type="number" name="fileSize" lay-verify="number" class="layui-input"
+                           th:value="${systemConfigInfo.fileSize}">
                 </div>
                 <div class="layui-input-inline layui-input-company">KB</div>
                 <div class="layui-form-mid layui-word-aux">提示：1 M = 1024 KB</div>
@@ -49,26 +51,23 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">上传文件类型</label>
                 <div class="layui-input-block">
-                    <input type="text" name="cache" class="layui-input" th:value="${systemConfigInfo.fileSuffix}">
+                    <input type="text" name="fileSuffix" class="layui-input" th:value="${systemConfigInfo.fileSuffix}">
                 </div>
             </div>
 
             <div class="layui-form-item layui-form-text">
                 <label class="layui-form-label required">首页标题</label>
                 <div class="layui-input-block">
-                    <textarea name="title" class="layui-textarea" th:text="${systemConfigInfo.homeTitle}"></textarea>
-                </div>
-            </div>
-            <div class="layui-form-item layui-form-text">
-                <label class="layui-form-label">公告</label>
-                <div class="layui-input-block">
-                    <textarea name="keywords" class="layui-textarea" placeholder="系统公告"></textarea>
+                    <textarea name="homeTitle" class="layui-textarea"
+                              maxlength="7" placeholder="最多填写7个字"
+                              th:text="${systemConfigInfo.homeTitle}"></textarea>
                 </div>
             </div>
             <div class="layui-form-item layui-form-text">
                 <label class="layui-form-label required">版权信息</label>
                 <div class="layui-input-block">
-                    <textarea name="copyright" class="layui-textarea" th:text="${systemConfigInfo.copyright}"></textarea>
+                    <textarea name="copyright" class="layui-textarea"
+                              th:text="${systemConfigInfo.copyright}"></textarea>
                 </div>
             </div>
             <div class="layui-form-item">
@@ -87,9 +86,15 @@
 
         //监听提交
         form.on('submit(setting)', function (data) {
-            parent.layer.alert(JSON.stringify(data.field), {
-                title: '最终的提交信息'
-            });
+            $.post('/system/config/insert', data.field, function (result) {
+                layer.open({
+                    title: "提示",
+                    content: JSON.stringify(result.msg),
+                    yes: function () {
+                        reloadTab();
+                    }
+                });
+            }, "JSON");
             return false;
         });
 

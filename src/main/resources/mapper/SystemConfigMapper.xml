@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tangerinespecter.oms.system.mapper.SystemConfigMapper">
+    <update id="deleteConfigAll">
+        update system_config
+        set is_del = 1
+        where is_del = 0
+    </update>
+
+
+    <select id="queryLastSystemConfig" resultType="com.tangerinespecter.oms.system.domain.entity.SystemConfig">
+        select *
+        from system_config
+        where is_del = 0
+        order by id desc
+        limit 1
+    </select>
+</mapper>

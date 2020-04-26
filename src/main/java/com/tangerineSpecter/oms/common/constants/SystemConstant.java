@@ -1,5 +1,6 @@
 package com.tangerinespecter.oms.common.constants;
 
+import com.tangerinespecter.oms.system.domain.entity.SystemConfig;
 import org.springframework.beans.factory.annotation.Value;
 
 /**
@@ -10,6 +11,14 @@ import org.springframework.beans.factory.annotation.Value;
  */
 public class SystemConstant {
 
+    /**
+     * 系统信息
+     */
+    public static SystemConfig systemConfig;
+    /**
+     * 不设置缓存
+     */
+    public static final Integer NO_CACHE = 0;
     /**
      * 系统菜单置顶数量阈值
      */

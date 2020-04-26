@@ -86,14 +86,16 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
                         .setStarName(dataConstellation.getName())
                         .setTodayTip(dataConstellation.getSummary());
             }
+
             List<SystemMenu> menuList = CollUtil.newArrayList();
             QueryWrapper<SystemMenu> queryWrapper = new QueryWrapper<SystemMenu>()
                     .eq(ParamUtils.TOP, CommonConstant.IS_TOP).orderByDesc(ParamUtils.TOP_SORT);
             List<SystemMenu> menus = systemMenuMapper.selectList(queryWrapper);
             menuList.addAll(menus);
             info.setMenus(menuList);
-            info.setOsName(SystemUtil.get(SystemUtil.OS_NAME)).setSystemTitle("橘子系统")
-                    .setVersion(systemVersion).setOsName(SystemUtil.get(SystemUtil.OS_NAME));
+            info.setOsName(SystemUtil.get(SystemUtil.OS_NAME))
+                    .setSystemTitle(SystemConstant.systemConfig.getHomeTitle())
+                    .setVersion(systemVersion);
         } catch (Exception e) {
             log.error("[系统信息获取异常]:", e);
         }

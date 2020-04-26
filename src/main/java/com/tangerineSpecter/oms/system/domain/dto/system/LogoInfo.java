@@ -1,5 +1,6 @@
 package com.tangerinespecter.oms.system.domain.dto.system;
 
+import com.tangerinespecter.oms.common.constants.SystemConstant;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,7 @@ public class LogoInfo {
     /**
      * 系统标题
      */
-    private String title = "橘子管理系统";
+    private String title = SystemConstant.systemConfig.getHomeTitle();
     /**
      * 系统logo
      */

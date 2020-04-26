@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <title th:text="橘子管理后台"></title>
+    <title th:text="${webTitle}"></title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta http-equiv="Access-Control-Allow-Origin" content="*">
@@ -54,7 +54,9 @@
                 <a href="javascript:;" data-clear="清理" class="layuimini-clear"><i class="fa fa-trash-o"></i></a>
             </li>
             <li class="layui-nav-item">
-                <img style="width: 1.9rem;margin-right:.5rem;border-radius: 50%" src="http://hbimg.b0.upaiyun.com/ef9978f541e23dca04f5658150ac06e79877fc709b33-NlsaW7_fw658" title="头像">
+                <img style="width: 1.9rem;margin-right:.5rem;border-radius: 50%"
+                     src="http://hbimg.b0.upaiyun.com/ef9978f541e23dca04f5658150ac06e79877fc709b33-NlsaW7_fw658"
+                     title="头像">
             </li>
             <li class="layui-nav-item layuimini-setting">
                 <a href="javascript:;" th:text="${systemUser.nickName}">admin</a>

@@ -11,12 +11,6 @@ import org.springframework.beans.factory.annotation.Value;
 public class SystemConstant {
 
     /**
-     * 当前系统版本
-     */
-    @Value("${system.version}")
-    public static String SYSTEM_VERSION;
-
-    /**
      * 系统菜单置顶数量阈值
      */
     public static final Integer SYSTEM_MENU_TOP_COUNT_THRESHOLD = 8;

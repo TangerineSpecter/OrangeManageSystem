@@ -26,6 +26,7 @@ import com.tangerinespecter.oms.system.mapper.SystemMenuMapper;
 import com.tangerinespecter.oms.system.service.helper.SystemHelper;
 import com.tangerinespecter.oms.system.service.system.ISystemInfoService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -57,6 +58,11 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
     private SystemBulletinMapper systemBulletinMapper;
 
     private final Integer luck_threshold = 70;
+    /**
+     * 当前系统版本
+     */
+    @Value("${system.version}")
+    public String systemVersion;
 
     /**
      * 获取系统信息
@@ -87,7 +93,7 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
             menuList.addAll(menus);
             info.setMenus(menuList);
             info.setOsName(SystemUtil.get(SystemUtil.OS_NAME)).setSystemTitle("橘子系统")
-                    .setVersion(SystemConstant.SYSTEM_VERSION).setOsName(SystemUtil.get(SystemUtil.OS_NAME));
+                    .setVersion(systemVersion).setOsName(SystemUtil.get(SystemUtil.OS_NAME));
         } catch (Exception e) {
             log.error("[系统信息获取异常]:", e);
         }

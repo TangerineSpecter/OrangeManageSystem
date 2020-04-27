@@ -1,4 +1,3 @@
-var href = "";
 
 //触发按钮点击
 function submitFun() {

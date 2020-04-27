@@ -83,6 +83,10 @@ public class RetCode {
      * 交易记录不存在
      */
     public static final RetCode TRADE_RECORD_NOT_EXIST = new RetCode(1000, "交易记录不存在");
+    /**
+     * 收藏内容不存在
+     */
+    public static final RetCode WORK_COLLECTION_NOT_EXIST = new RetCode(1001, "收藏内容不存在");
 
     public RetCode fillArgs(Object... args) {
         int errorCode = this.errorCode;

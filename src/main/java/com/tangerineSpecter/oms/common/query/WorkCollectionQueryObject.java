@@ -17,6 +17,11 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class WorkCollectionQueryObject extends QueryObject {
+
+    /**
+     * 标题
+     */
+    private String title;
     /**
      * 类型
      */

@@ -86,34 +86,6 @@
     </script>
 </footer>
 
-<!-- 分页栏
-<footer th:fragment="pagination">
-    <ul class="pagination pagination-lg">
-        <li th:class="${currentPage==1}?'disabled' : ''"><a
-            th:href="@{${url}(page=${currentPage}-1)}">上一页</a></li>
-        <li th:if="${currentPage-3 >=1}"><a
-            th:href="@{${url}(page=${currentPage}-3)}"
-            th:text="${currentPage -3}">1</a></li>
-        <li th:if="${currentPage-2 >=1}"><a
-            th:href="@{${url}(page=${currentPage}-2)}"
-            th:text="${currentPage -2}">1</a></li>
-        <li th:if="${currentPage-1 >=1}"><a
-            th:href="@{${url}(page=${currentPage}-1)}"
-            th:text="${currentPage -1}">1</a></li>
-        <li class="active"><a href="#" th:text="${currentPage}">1</a></li>
-        <li th:if="${currentPage+1 <=totalPage}"><a
-            th:href="@{${url}(page=${currentPage}+1)}"
-            th:text="${currentPage +1}">1</a></li>
-        <li th:if="${currentPage+2 <=totalPage}"><a
-            th:href="@{${url}(page=${currentPage}+2)}"
-            th:text="${currentPage +2}">1</a></li>
-        <li th:if="${currentPage+3 <=totalPage}"><a
-            th:href="@{${url}(page=${currentPage}+3)}"
-            th:text="${currentPage +3}">1</a></li>
-        <li th:class="${currentPage==totalPage}?'disabled' : ''"><a
-            th:href="@{${url}(page=${currentPage}+1)}">下一页</a></li>
-    </ul>
-</footer> -->
 <!-- 公共js -->
 <div th:fragment="common_js">
     <!-- JavaScript files-->

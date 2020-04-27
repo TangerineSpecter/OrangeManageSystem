@@ -3,12 +3,15 @@ package com.tangerinespecter.oms.system.service.work.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.tangerinespecter.oms.common.constants.CommonConstant;
+import com.tangerinespecter.oms.common.constants.RetCode;
 import com.tangerinespecter.oms.common.query.WorkCollectionQueryObject;
 import com.tangerinespecter.oms.common.result.ServiceResult;
+import com.tangerinespecter.oms.system.domain.dto.work.WorkCollectionInfoVo;
 import com.tangerinespecter.oms.system.domain.entity.WorkCollection;
 import com.tangerinespecter.oms.system.mapper.WorkCollectionMapper;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
 import com.tangerinespecter.oms.system.service.work.IWorkCollectionService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -36,10 +39,25 @@ public class WorkCollectionServiceImpl implements IWorkCollectionService {
      * 新增收藏
      */
     @Override
-    public ServiceResult insert(WorkCollection data) {
-        data.setSort(CommonConstant.Number.COMMON_NUMBER_ZERO);
-        data.setIsDel(CommonConstant.IS_DEL_NO);
-        workCollectionMapper.insert(data);
+    public ServiceResult insert(WorkCollectionInfoVo data) {
+        WorkCollection workCollection = new WorkCollection();
+        BeanUtils.copyProperties(data, workCollection);
+        workCollection.setIsDel(CommonConstant.IS_DEL_NO);
+        workCollectionMapper.insert(workCollection);
+        return ServiceResult.success();
+    }
+
+    @Override
+    public ServiceResult update(WorkCollectionInfoVo data) {
+        if (data.getId() == null) {
+            return ServiceResult.paramError();
+        }
+        WorkCollection workCollection = workCollectionMapper.selectById(data.getId());
+        if (workCollection == null) {
+            return ServiceResult.error(RetCode.WORK_COLLECTION_NOT_EXIST);
+        }
+        BeanUtils.copyProperties(data, workCollection);
+        workCollectionMapper.updateById(workCollection);
         return ServiceResult.success();
     }
 

@@ -191,14 +191,12 @@
 
         //头工具栏事件
         table.on('toolbar(currentTableFilter)', function (obj) {
-            console.log(obj);
             switch (obj.event) {
                 //添加交易数据
                 case 'addTradeData':
                     loadFormModel("添加交易数据", {href: "/data/trade-record/insert"}, '/data/trade-record/addPage');
                     break;
                 case 'initTradeData':
-                    console.log("初始化数据");
                     initData();
                     break;
 

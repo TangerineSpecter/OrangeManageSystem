@@ -123,14 +123,14 @@
                             }
                         });
                     } else if (layEvent === 'edit') {
-                        loadFormModel("编辑系统菜单", {id: data.id, href: "/system/menu/update"}, '/system/menu/addPage');
+                        data.href = "/system/menu/update";
+                        loadFormModel("编辑系统菜单", data, '/system/menu/addPage');
                     }
                 });
 
                 //监听性别操作
                 form.on('switch(topFun)', function (obj) {
                     $.post('/system/menu/top', {id: this.value}, function (result) {
-                        console.log(result);
                         if (!result.success) {
                             layer.alert(JSON.stringify(result.msg), {
                                 title: '警告'

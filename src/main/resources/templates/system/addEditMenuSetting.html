@@ -9,7 +9,7 @@
         <!--<fieldset class="layui-elem-field layui-field-title">
             <legend>添加系统菜单</legend>
         </fieldset>-->
-        <form class="layui-form layui-form-pane" action="" lay-filter="menu-form">
+        <form class="layui-form layui-form-pane" action="" lay-filter="data-form">
             <input type="text" id="id" name="id" class="layui-input" style="display: none;">
             <div class="layui-form-item">
                 <label class="layui-form-label">菜单标题</label>
@@ -84,35 +84,30 @@
     //初始化页面数据
     function initData(data) {
         if (data.id !== undefined) {
-            $("#id").val(data.id);
-            initForm(data.id);
+            initForm(data);
         }
-        href = data.href;
     }
 
     /**
      * 初始化表单
-     * @param id
+     * @param data
      */
-    function initForm(id) {
-        $.post("/system/menu/info", {id: id}, function (result) {
-            var data = result.data;
-            $("#iconPicker").val(data.icon);
-            layui.use(['form'], function () {
-                var form = layui.form;
-
-                form.val("menu-form", {
-                    "title": data.title,
-                    "href": data.href,
-                    "level": data.level,
-                    "pid": data.pid,
-                    "iconPicker": data.icon,
-                    "target": data.target,
-                    "sort": data.sort
-                });
-                form.render();
+    function initForm(data) {
+        $("#iconPicker").val(data.icon);
+        layui.use(['form'], function () {
+            const form = layui.form;
+            form.val("data-form", {
+                "id": data.id,
+                "href": data.href,
+                "title": data.title,
+                "level": data.level,
+                "pid": data.pid,
+                "iconPicker": data.icon,
+                "target": data.target,
+                "sort": data.sort
             });
-        }, "JSON");
+            form.render();
+        });
     }
 
     layui.use(['form', 'layer', 'iconPickerFa'], function () {

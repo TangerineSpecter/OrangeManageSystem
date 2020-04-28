@@ -102,7 +102,7 @@
 
         //监听提交
         form.on('submit(submitBtn)', function (data) {
-            $.post(data.href, data.field, function (result) {
+            $.post(data.field.href, data.field, function (result) {
                 layer.open({
                     title: '提示',
                     content: result.msg,

@@ -6,8 +6,9 @@
 <body>
 <div class="layuimini-container">
     <div class="layuimini-main">
-        <form class="layui-form layui-form-pane" action="" lay-filter="trade-form">
+        <form class="layui-form layui-form-pane" action="" lay-filter="data-form">
             <input type="text" id="id" name="id" class="layui-input" style="display: none;">
+            <input type="text" id="href" name="href" class="layui-input" style="display: none;">
             <div class="layui-form-item">
                 <label class="layui-form-label">提问问题</label>
                 <div class="layui-input-block">
@@ -36,27 +37,24 @@
     function initData(data) {
         if (data.id !== undefined) {
             $("#id").val(data.id);
-            initForm(data.id);
+            initForm(data);
         }
-        href = data.href;
     }
 
     /**
      * 初始化表单
-     * @param id
+     * @param data
      */
-    function initForm(id) {
-        $.post("/data/question/info", {id: id}, function (result) {
-            const data = result.data;
-            layui.use(['form'], function () {
-                const form = layui.form;
-                form.val("trade-form", {
-                    "question": data.question,
-                    "content": data.content
-                });
-                form.render();
+    function initForm(data) {
+        layui.use(['form'], function () {
+            const form = layui.form;
+            form.val("data-form", {
+                "href": data.href,
+                "question": data.question,
+                "content": data.content
             });
-        }, "JSON");
+            form.render();
+        });
     }
 
     layui.use(['form', 'layer'], function () {
@@ -79,7 +77,7 @@
 
         //监听提交
         form.on('submit(submitBtn)', function (data) {
-            $.post(href, data.field, function (result) {
+            $.post(data.field.href, data.field, function (result) {
                 layer.open({
                     title: '提示',
                     content: result.msg,
@@ -87,7 +85,6 @@
                         if (result.code === 0) {
                             parent.layer.closeAll();
                             reloadTab();
-                            //parent.$(".layui-tab-item.layui-show", window.parent.document).find("iframe")[0].contentWindow.location.reload();
                         }
                     }
                 });

@@ -6,7 +6,7 @@
 <body>
 <div class="layuimini-container">
     <div class="layuimini-main">
-        <form class="layui-form layui-form-pane" action="" lay-filter="trade-form">
+        <form class="layui-form layui-form-pane" action="" lay-filter="data-form">
             <input type="text" id="id" name="id" class="layui-input" style="display: none;">
             <div class="layui-form-item">
                 <label class="layui-form-label">交易日期</label>
@@ -54,30 +54,27 @@
     //初始化页面数据
     function initData(data) {
         if (data.id !== undefined) {
-            $("#id").val(data.id);
-            initForm(data.id);
+            initForm(data);
         }
-        href = data.href;
     }
 
     /**
      * 初始化表单
-     * @param id
+     * @param data
      */
-    function initForm(id) {
-        $.post("/data/trade-record/info", {id: id}, function (result) {
-            const data = result.data;
-            layui.use(['form'], function () {
-                const form = layui.form;
-                form.val("trade-form", {
-                    "startMoney": data.startMoney / 100,
-                    "endMoney": data.endMoney / 100,
-                    "date": data.date,
-                    "type": data.type
-                });
-                form.render();
+    function initForm(data) {
+        href = data.href;
+        layui.use(['form'], function () {
+            const form = layui.form;
+            form.val("data-form", {
+                "id": data.id,
+                "startMoney": data.startMoney / 100,
+                "endMoney": data.endMoney / 100,
+                "date": data.date,
+                "type": data.type
             });
-        }, "JSON");
+            form.render();
+        });
     }
 
     layui.use(['form', 'layer', 'laydate'], function () {
@@ -119,7 +116,6 @@
                         if (result.code === 0) {
                             parent.layer.closeAll();
                             reloadTab();
-                            //parent.$(".layui-tab-item.layui-show", window.parent.document).find("iframe")[0].contentWindow.location.reload();
                         }
                     }
                 });

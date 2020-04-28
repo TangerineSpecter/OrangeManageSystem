@@ -93,12 +93,12 @@
      * @param data
      */
     function initForm(data) {
+        href = data.href;
         $("#iconPicker").val(data.icon);
         layui.use(['form'], function () {
             const form = layui.form;
             form.val("data-form", {
                 "id": data.id,
-                "href": data.href,
                 "title": data.title,
                 "level": data.level,
                 "pid": data.pid,
@@ -161,7 +161,6 @@
                         if (result.code === 0) {
                             parent.layer.closeAll();
                             reloadTab();
-                            //parent.$(".layui-tab-item.layui-show", window.parent.document).find("iframe")[0].contentWindow.location.reload();
                         }
                     }
                 });

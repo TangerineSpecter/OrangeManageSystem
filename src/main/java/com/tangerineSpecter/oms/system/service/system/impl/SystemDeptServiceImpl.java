@@ -20,7 +20,7 @@ public class SystemDeptServiceImpl implements ISystemDeptService {
     private SystemDeptMapper systemDeptMapper;
 
     @Override
-    public ServiceResult<Object> insertSystemDeptInfo(SystemDeptVo vo) {
+    public ServiceResult<?> insertSystemDeptInfo(SystemDeptVo vo) {
         if (checkExist(vo.getParentId(), vo.getName(), vo.getId())) {
             return ServiceResult.error(RetCode.DEPT_NAME_EXIST_ON_LEVEL);
         }

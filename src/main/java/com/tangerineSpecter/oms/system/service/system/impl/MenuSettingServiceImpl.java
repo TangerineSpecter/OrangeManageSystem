@@ -119,7 +119,7 @@ public class MenuSettingServiceImpl implements IMenuSettingService {
         }
         QueryWrapper<SystemMenu> queryWrapper = new QueryWrapper<SystemMenu>().eq(ParamUtils.TOP, CommonConstant.IS_TOP);
         Integer count = systemMenuMapper.selectCount(queryWrapper);
-        if (CommonConstant.IS_NOT_TOP.equals(menu.getTop()) && count > SystemConstant.SYSTEM_MENU_TOP_COUNT_THRESHOLD) {
+        if (CommonConstant.IS_NOT_TOP.equals(menu.getTop()) && count >= SystemConstant.SYSTEM_MENU_TOP_COUNT_THRESHOLD) {
             return ServiceResult.error(RetCode.SYSTEM_MENU_MORE_THAN_UPPER);
         }
         menu.setTop(CommonConstant.IS_TOP.equals(menu.getTop()) ? CommonConstant.IS_NOT_TOP : CommonConstant.IS_TOP);

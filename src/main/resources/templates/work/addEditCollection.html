@@ -53,7 +53,10 @@
 
     //初始化页面数据
     function initData(data) {
-        initForm(data);
+        if (data.id !== undefined) {
+            initForm(data);
+        }
+        href = data.href;
     }
 
     /**
@@ -61,7 +64,6 @@
      * @param data 数据
      */
     function initForm(data) {
-        href = data.href;
         layui.use(['form'], function () {
             const form = layui.form;
             form.val("data-form", {

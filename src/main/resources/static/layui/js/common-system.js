@@ -35,7 +35,7 @@ function loadFormModel(title, data, contentUrl) {
         }
         , zIndex: layer.zIndex
     });
-};
+}
 
 /**
  * 刷新当前页tab

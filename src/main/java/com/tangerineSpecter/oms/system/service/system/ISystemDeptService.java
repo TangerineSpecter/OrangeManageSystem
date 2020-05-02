@@ -13,5 +13,5 @@ public interface ISystemDeptService {
      *
      * @param vo
      */
-    ServiceResult<Object> insertSystemDeptInfo(SystemDeptVo vo);
+    ServiceResult<?> insertSystemDeptInfo(SystemDeptVo vo);
 }

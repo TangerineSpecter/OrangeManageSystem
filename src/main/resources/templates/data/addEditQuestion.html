@@ -37,6 +37,7 @@
         if (data.id !== undefined) {
             initForm(data);
         }
+        href = data.href;
     }
 
     /**
@@ -44,7 +45,6 @@
      * @param data
      */
     function initForm(data) {
-        href = data.href;
         layui.use(['form'], function () {
             const form = layui.form;
             form.val("data-form", {

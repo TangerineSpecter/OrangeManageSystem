@@ -45,7 +45,7 @@ public class SystemDeptController {
      * @return
      */
     @PostMapping("/insert")
-    public ServiceResult<Object> insert(@Valid SystemDeptVo vo) {
+    public ServiceResult<?> insert(@Valid SystemDeptVo vo) {
         return systemDeptService.insertSystemDeptInfo(vo);
     }
 }

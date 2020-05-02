@@ -57,7 +57,15 @@
     </select>
     <select id="getLastThirtyMoneyInfo"
             resultType="com.tangerinespecter.oms.system.domain.entity.DataTradeRecord">
-        select SUM(end_money) as endMoney,DATE_FORMAT(`date`, '%Y-%m-%d') as `date`
+        select (SUM(end_money) / 100) as endMoney, DATE_FORMAT(`date`, '%Y-%m-%d') as `date`
+        from data_trade_record
+        GROUP BY DATE_FORMAT(`date`, '%Y-%m-%d')
+        order by DATE_FORMAT(`date`, '%Y-%m-%d') desc
+        limit 30
+    </select>
+    <select id="queryTotalIncomeByDay"
+            resultType="com.tangerinespecter.oms.system.domain.entity.DataTradeRecord">
+        select (SUM(income_value) / 100) as incomeValue, DATE_FORMAT(`date`, '%Y-%m-%d') as `date`
         from data_trade_record
         GROUP BY DATE_FORMAT(`date`, '%Y-%m-%d')
         order by DATE_FORMAT(`date`, '%Y-%m-%d') desc

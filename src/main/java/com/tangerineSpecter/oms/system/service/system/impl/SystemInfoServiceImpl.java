@@ -8,6 +8,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.system.SystemUtil;
 import com.alibaba.druid.util.StringUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.tangerinespecter.oms.common.constants.CommonConstant;
 import com.tangerinespecter.oms.common.constants.ParamUtils;
@@ -149,6 +150,8 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
         List<DataTradeRecord> lastThirtyMoneyInfo = dataTradeRecordMapper.getLastThirtyMoneyInfo();
         List<Integer> totalMoneyList = lastThirtyMoneyInfo.stream().map(DataTradeRecord::getEndMoney).collect(Collectors.toList());
         List<String> dateList = lastThirtyMoneyInfo.stream().map(DataTradeRecord::getDate).collect(Collectors.toList());
+        Collections.reverse(totalMoneyList);
+        Collections.reverse(dateList);
         return StatisticsInfo.builder().todayIncome(BigDecimal.valueOf(NumberUtil.div(todayIncome, 100, 2)))
                 .monthIncome(BigDecimal.valueOf(NumberUtil.div(monthIncome, 100, 2)))
                 .weekendIncome(BigDecimal.valueOf(NumberUtil.div(weekendIncome, 100, 2)))
@@ -156,7 +159,8 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
                 .monthStatus(monthIncome >= 0 ? TradeConstant.TRADE_STATUS_PROFIT : TradeConstant.TRADE_STATUS_LOSS)
                 .weekendStatus(weekendIncome >= 0 ? TradeConstant.TRADE_STATUS_PROFIT : TradeConstant.TRADE_STATUS_LOSS)
                 .weekend(DateUtil.weekOfYear(new Date())).month(DateUtil.month(new Date()) + 1)
-                .today(tradeLastDay).lastThirtyTotalMoney(totalMoneyList).lastThirtyDate(dateList).build();
+                .today(tradeLastDay).lastThirtyTotalMoney(Joiner.on(",").join(totalMoneyList))
+                .lastThirtyDate(Joiner.on(",").join(dateList)).build();
     }
 
     @Override

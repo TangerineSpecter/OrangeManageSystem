@@ -28,6 +28,6 @@ public class ConstellationConfigBean {
     /**
      * key
      */
-    private String key = CommonConstant.JUHE_API_CONSTELLATION_KEY;
+    private String key;
 
 }

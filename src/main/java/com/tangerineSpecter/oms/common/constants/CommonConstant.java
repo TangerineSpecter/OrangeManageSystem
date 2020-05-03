@@ -8,18 +8,7 @@ package com.tangerinespecter.oms.common.constants;
  * @DateTime 2019年1月4日 23:02:18
  */
 public class CommonConstant {
-    /**
-     * 聚合数据接口Key
-     */
-    public static final String JUHE_API_USER_KEY = "JH3975ebd2d5d3aeb9153b448d3befb861";
-    /**
-     * 聚合数据--星座key
-     */
-    public static final String JUHE_API_CONSTELLATION_KEY = "47f6796c7b8b99c47c176d56adf4f0a8";
-    /**
-     * 聚合数据--星座Url
-     */
-    public static final String JUHE_API_CONSTELLATION_URL = "http://web.juhe.cn:8080/constellation/getAll";
+    
     /**
      * 用户key
      */

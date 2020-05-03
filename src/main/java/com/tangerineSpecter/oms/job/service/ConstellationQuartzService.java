@@ -1,29 +1,37 @@
 package com.tangerinespecter.oms.job.service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.stereotype.Service;
-
 import com.alibaba.fastjson.JSONObject;
-import com.tangerinespecter.oms.common.constants.CommonConstant;
 import com.tangerinespecter.oms.common.utils.DateUtils;
 import com.tangerinespecter.oms.common.utils.HttpUtils;
 import com.tangerinespecter.oms.common.utils.ParamUtils;
 import com.tangerinespecter.oms.system.domain.entity.DataConstellation;
 import com.tangerinespecter.oms.system.mapper.DataConstellationMapper;
-
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.*;
 
 @Slf4j
 @Service
 public class ConstellationQuartzService {
+
+    /**
+     * 聚合数据接口Key
+     */
+    @Value("${juhe.api.key}")
+    public String juheApiUserKey;
+    /**
+     * 聚合数据--星座key
+     */
+    @Value("${juhe.api.constellation.key}")
+    public String juheApiConstellationKey;
+    /**
+     * 聚合数据--星座Url
+     */
+    @Value("${juhe.api.constellation.url}")
+    public String juheApiConstellationUrl;
 
     /**
      * 星座列表
@@ -63,9 +71,9 @@ public class ConstellationQuartzService {
             for (String star : noStarList) {
                 Map<String, Object> configBean = new HashMap<>(16);
                 configBean.put(ParamUtils.CONSNAME, star);
-                configBean.put(ParamUtils.KEY, CommonConstant.JUHE_API_CONSTELLATION_KEY);
+                configBean.put(ParamUtils.KEY, juheApiConstellationKey);
                 configBean.put(ParamUtils.TYPE, TODAY);
-                String result = HttpUtils.interfaceInvoke(CommonConstant.JUHE_API_CONSTELLATION_URL, configBean,
+                String result = HttpUtils.interfaceInvoke(juheApiConstellationUrl, configBean,
                         "POST");
                 log.info("[请求星座API成功获取数据]:star:{},result:{}", star, result);
                 JSONObject starObj = JSONObject.parseObject(result);

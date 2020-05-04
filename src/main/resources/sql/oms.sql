@@ -11,7 +11,7 @@
  Target Server Version : 80017
  File Encoding         : 65001
 
- Date: 26/04/2020 19:27:41
+ Date: 05/05/2020 02:55:39
 */
 
 SET NAMES utf8mb4;
@@ -37,7 +37,7 @@ CREATE TABLE `data_constellation` (
   `work_luck` int(8) DEFAULT '0' COMMENT '工作指数',
   `create_time` date DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=398 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='星座信息表';
+) ENGINE=InnoDB AUTO_INCREMENT=482 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='星座信息表';
 
 -- ----------------------------
 -- Table structure for data_question
@@ -117,7 +117,7 @@ CREATE TABLE `data_trade_record` (
   `admin_id` bigint(13) NOT NULL COMMENT '管理员ID',
   `create_time` bigint(13) DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=443 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='交易记录表';
+) ENGINE=InnoDB AUTO_INCREMENT=451 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='交易记录表';
 
 -- ----------------------------
 -- Table structure for system_bulletin
@@ -147,7 +147,7 @@ CREATE TABLE `system_config` (
   `copyright` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '版权信息',
   `is_del` tinyint(2) NOT NULL DEFAULT '0' COMMENT '删除状态（0：未删除；1：已删除）',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统配置表';
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统配置表';
 
 -- ----------------------------
 -- Table structure for system_dept
@@ -178,7 +178,7 @@ CREATE TABLE `system_log` (
   `ip` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '操作IP',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '操作时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1745 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统日志记录表';
+) ENGINE=InnoDB AUTO_INCREMENT=2018 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统日志记录表';
 
 -- ----------------------------
 -- Table structure for system_menu
@@ -197,7 +197,7 @@ CREATE TABLE `system_menu` (
   `top` tinyint(2) DEFAULT '0' COMMENT '是否在首页（0：否；1：是）',
   `top_sort` int(50) DEFAULT '0' COMMENT '首页排序',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统菜单表';
+) ENGINE=InnoDB AUTO_INCREMENT=72 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统菜单表';
 
 -- ----------------------------
 -- Table structure for system_notice
@@ -231,7 +231,7 @@ CREATE TABLE `system_permission` (
   `remark` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '备注',
   `sort` int(50) NOT NULL DEFAULT '0' COMMENT '排序',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=123 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='权限表';
+) ENGINE=InnoDB AUTO_INCREMENT=125 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='权限表';
 
 -- ----------------------------
 -- Table structure for system_permission_module
@@ -329,6 +329,34 @@ CREATE TABLE `system_user_role` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户角色关系表';
 
 -- ----------------------------
+-- Table structure for user_health
+-- ----------------------------
+DROP TABLE IF EXISTS `user_health`;
+CREATE TABLE `user_health` (
+  `id` bigint(13) NOT NULL AUTO_INCREMENT,
+  `weight` decimal(5,2) DEFAULT NULL COMMENT '体重（单位：斤）',
+  `bmi` decimal(5,2) DEFAULT NULL COMMENT 'BMI',
+  `body_fat_rate` decimal(5,4) DEFAULT NULL COMMENT '体脂率（百分比）',
+  `viscus_level` int(5) DEFAULT NULL COMMENT '内脏等级',
+  `muscle_weight` decimal(5,2) DEFAULT NULL COMMENT '肌肉量（斤）',
+  `basal_metabolism_rate` int(8) DEFAULT NULL COMMENT '基础代谢率（kcal）',
+  `body_moisture_rate` decimal(5,4) DEFAULT NULL COMMENT '身体水分（百分比）',
+  `physical_age` int(8) DEFAULT NULL COMMENT '身体年龄',
+  `lean_body_mass` decimal(8,2) DEFAULT NULL COMMENT '去脂体重（斤）',
+  `subcutaneous_fat_rate` decimal(8,4) DEFAULT NULL COMMENT '皮下脂肪（百分比）',
+  `skeletal_muscle_rate` decimal(8,4) DEFAULT NULL COMMENT '骨骼肌率（百分比）',
+  `protein_rate` decimal(8,4) DEFAULT NULL COMMENT '蛋白质（百分比）',
+  `bone_weight` decimal(8,2) DEFAULT NULL COMMENT '骨头重量（斤）',
+  `heart_rate` int(8) DEFAULT NULL COMMENT '心率',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `record_time` date NOT NULL COMMENT '记录时间',
+  `admin_id` bigint(13) NOT NULL COMMENT '管理员ID',
+  `is_del` tinyint(2) DEFAULT NULL COMMENT '删除状态（0：未删除；1：已删除）',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ----------------------------
 -- Table structure for work_collection
 -- ----------------------------
 DROP TABLE IF EXISTS `work_collection`;
@@ -337,10 +365,10 @@ CREATE TABLE `work_collection` (
   `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '标题',
   `content` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '内容',
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '备注',
-  `type` tinyint(3) DEFAULT NULL COMMENT '类型：（1:网址）',
+  `type` tinyint(3) DEFAULT NULL COMMENT '类型：（0:网站）',
   `sort` int(10) NOT NULL DEFAULT '0' COMMENT '排序',
   `is_del` tinyint(2) NOT NULL DEFAULT '0' COMMENT '删除状态（0：未删除；1：已删除）',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='内容收藏表';
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='内容收藏表';
 
 SET FOREIGN_KEY_CHECKS = 1;

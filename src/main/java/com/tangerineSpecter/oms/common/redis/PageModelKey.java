@@ -63,6 +63,10 @@ public class PageModelKey extends BasePrefixKey {
      */
     public static PageModelKey getSystemMenuPageKey = new PageModelKey("system_menu_page:", EXPIRE_TIME);
     /**
+     * 系统公告缓存
+     */
+    public static PageModelKey getSystemBulletinPageKey = new PageModelKey("system_bulletin_page:", EXPIRE_TIME);
+    /**
      * 角色管理菜单缓存
      */
     public static PageModelKey getSystemRolePageKey = new PageModelKey("system_role_page:", EXPIRE_TIME);

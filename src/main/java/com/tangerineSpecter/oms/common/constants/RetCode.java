@@ -75,6 +75,14 @@ public class RetCode {
     public static final RetCode SYSTEM_MENU_MORE_THAN_UPPER = new RetCode(107, "系统置顶菜单超过系统上限（8个）");
 
     /**
+     * 系统公告不存在
+     */
+    public static final RetCode SYSTEM_BULLETIN_NOT_EXIST = new RetCode(108, "系统公告不存在！");
+    /**
+     * 系统置顶公告不能超过1个
+     */
+    public static final RetCode SYSTEM_BULLETIN_MORE_THAN_UPPER = new RetCode(109, "系统公告只支持置顶一个");
+    /**
      * 参数错误
      */
     public static final RetCode PARAM_ERROR = new RetCode(200, "参数错误");

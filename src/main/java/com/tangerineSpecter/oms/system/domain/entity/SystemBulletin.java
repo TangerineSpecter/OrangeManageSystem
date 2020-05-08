@@ -3,6 +3,7 @@ package com.tangerinespecter.oms.system.domain.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +15,7 @@ import lombok.NoArgsConstructor;
  * @date 2020年04月21日15:19:41
  */
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class SystemBulletin {
@@ -31,9 +33,18 @@ public class SystemBulletin {
     /**
      * 创建时间
      */
-    private String ctime;
+    private String createTime;
+    /**
+     * 更新时间
+     */
+    private String updateTime;
     /**
      * 是否置顶（0：否；1：是）
      */
     private Integer top;
+    /**
+     * 删除状态（0：未删除；1：已删除）
+     */
+    private Integer isDel;
+
 }

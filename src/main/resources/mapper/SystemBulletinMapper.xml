@@ -9,4 +9,10 @@
         order by top desc, id desc
         limit 6
     </select>
+    <select id="queryForPage" resultType="com.tangerinespecter.oms.system.domain.entity.SystemBulletin">
+        select *
+        from system_bulletin
+        where is_del = 0
+        order by top desc, id desc
+    </select>
 </mapper>

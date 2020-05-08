@@ -128,7 +128,7 @@
                     }
                 });
 
-                //监听性别操作
+                //监听首页操作
                 form.on('switch(topFun)', function (obj) {
                     $.post('/system/menu/top', {id: this.value}, function (result) {
                         if (!result.success) {

@@ -13,6 +13,9 @@
         select *
         from system_bulletin
         where is_del = 0
+        <if test="title != null and title != ''">
+            and title like concat("%",#{title},"%")
+        </if>
         order by top desc, id desc
     </select>
 </mapper>

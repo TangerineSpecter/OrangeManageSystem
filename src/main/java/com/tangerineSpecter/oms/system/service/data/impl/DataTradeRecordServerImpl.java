@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.tangerinespecter.oms.common.constants.CommonConstant;
 import com.tangerinespecter.oms.common.constants.RetCode;
 import com.tangerinespecter.oms.common.query.TradeRecordQueryObject;
 import com.tangerinespecter.oms.common.result.ServiceResult;
@@ -44,8 +45,10 @@ public class DataTradeRecordServerImpl implements IDateTradeRecordServer {
         PageHelper.startPage(qo.getPage(), qo.getLimit());
         List<DataTradeRecord> pageList = dataTradeRecordMapper.queryForPage(qo);
         for (DataTradeRecord dto : pageList) {
-            BigDecimal incomeRate = NumberUtil.div(dto.getIncomeValue(), dto.getStartMoney(), 5);
-            dto.setIncomeRate(incomeRate);
+            if (!CommonConstant.Number.COMMON_NUMBER_ZERO.equals(dto.getStartMoney())) {
+                BigDecimal incomeRate = NumberUtil.div(dto.getIncomeValue(), dto.getStartMoney(), 5);
+                dto.setIncomeRate(incomeRate);
+            }
             BigDecimal incomeValue = NumberUtil.div(dto.getIncomeValue(), 100, 2);
             dto.setIncomeValue(incomeValue);
         }

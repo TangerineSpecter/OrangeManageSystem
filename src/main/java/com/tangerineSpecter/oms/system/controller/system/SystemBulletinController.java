@@ -40,7 +40,7 @@ public class SystemBulletinController {
      */
     @ResponseBody
     @RequestMapping(value = "/page", produces = "text/html;charset=UTF-8")
-    public String collectionPage(HttpServletRequest request, HttpServletResponse response, Model model) {
+    public String bulletinPage(HttpServletRequest request, HttpServletResponse response, Model model) {
         return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getSystemBulletinPageKey, "system/systemBulletin");
     }
 
@@ -48,7 +48,7 @@ public class SystemBulletinController {
      * 添加页面
      */
     @RequestMapping("/addPage")
-    public String addCollectionPage(Model model) {
+    public String addBulletinPage(Model model) {
         return "system/addEditBulletin";
     }
 
@@ -57,7 +57,7 @@ public class SystemBulletinController {
      */
     @ResponseBody
     @RequestMapping("/list")
-    public ServiceResult constellationPage(Model model, SystemBulletinQueryObject qo) {
+    public ServiceResult bulletinPage(Model model, SystemBulletinQueryObject qo) {
         return systemBulletinService.queryForPage(model, qo);
     }
 

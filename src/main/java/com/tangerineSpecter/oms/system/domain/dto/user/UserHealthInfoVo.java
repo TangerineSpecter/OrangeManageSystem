@@ -1,32 +1,16 @@
-package com.tangerinespecter.oms.system.domain.entity;
+package com.tangerinespecter.oms.system.domain.dto.user;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
 
 import java.math.BigDecimal;
 
-/**
- * 用户健康表
- *
- * @author tangerineSpecter
- * @version 0.3.0
- * @date 2020年05月05日02:34:52
- */
 @Data
-@Builder
-@Accessors(chain = true)
-@NoArgsConstructor
 @AllArgsConstructor
-@TableName(value = "user_health")
-public class UserHealth {
+@NoArgsConstructor
+public class UserHealthInfoVo {
 
-    @TableId(type = IdType.AUTO)
     private Long id;
     /**
      * 体重（斤）
@@ -100,22 +84,6 @@ public class UserHealth {
      * 睡眠时长（毫秒）
      */
     private Long sleepDuration;
-    /**
-     * 创建时间
-     */
-    private String createTime;
-    /**
-     * 更新时间
-     */
-    private String updateTime;
-    /**
-     * 记录时间
-     */
-    private String recordTime;
-    /**
-     * 管理员ID
-     */
-    private Long adminId;
     /**
      * 删除状态（0：未删除；1：已删除）
      */

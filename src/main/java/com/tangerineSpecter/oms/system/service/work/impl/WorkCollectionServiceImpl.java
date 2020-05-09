@@ -66,7 +66,12 @@ public class WorkCollectionServiceImpl implements IWorkCollectionService {
      */
     @Override
     public ServiceResult delete(Long id) {
-        workCollectionMapper.deleteById(id);
+        if (id == null) {
+            return ServiceResult.paramError();
+        }
+        WorkCollection workCollection = workCollectionMapper.selectById(id);
+        workCollection.setIsDel(CommonConstant.IS_DEL_YES);
+        workCollectionMapper.updateById(workCollection);
         return ServiceResult.success();
     }
 }

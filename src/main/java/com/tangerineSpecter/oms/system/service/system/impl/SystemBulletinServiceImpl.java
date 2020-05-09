@@ -30,8 +30,8 @@ public class SystemBulletinServiceImpl implements ISystemBulletinService {
     public ServiceResult queryForPage(Model model, SystemBulletinQueryObject qo) {
         PageHelper.startPage(qo.getPage(), qo.getLimit());
         List<SystemBulletin> pageList = systemBulletinMapper.queryForPage(qo);
-        PageInfo<SystemBulletin> collectionInfo = new PageInfo<>(pageList);
-        return ServiceResult.pageSuccess(pageList, collectionInfo.getTotal());
+        PageInfo<SystemBulletin> bulletinInfo = new PageInfo<>(pageList);
+        return ServiceResult.pageSuccess(pageList, bulletinInfo.getTotal());
     }
 
     @Override

@@ -33,6 +33,10 @@ public class UserHealthInfoVo {
      */
     private BigDecimal muscleWeight;
     /**
+     * 脂肪量（斤）
+     */
+    private BigDecimal fatWeight;
+    /**
      * 基础代谢率（百分比）
      */
     private Integer basalMetabolismRate;
@@ -81,9 +85,9 @@ public class UserHealthInfoVo {
      */
     private Integer pressure;
     /**
-     * 睡眠时长（毫秒）
+     * 睡眠时长（分钟）
      */
-    private Long sleepDuration;
+    private Integer sleepDuration;
     /**
      * 删除状态（0：未删除；1：已删除）
      */

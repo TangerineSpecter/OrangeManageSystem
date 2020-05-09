@@ -49,6 +49,10 @@ public class UserHealth {
      */
     private BigDecimal muscleWeight;
     /**
+     * 脂肪量（斤）
+     */
+    private BigDecimal fatWeight;
+    /**
      * 基础代谢率（百分比）
      */
     private Integer basalMetabolismRate;
@@ -97,9 +101,9 @@ public class UserHealth {
      */
     private Integer pressure;
     /**
-     * 睡眠时长（毫秒）
+     * 睡眠时长（分钟）
      */
-    private Long sleepDuration;
+    private Integer sleepDuration;
     /**
      * 创建时间
      */

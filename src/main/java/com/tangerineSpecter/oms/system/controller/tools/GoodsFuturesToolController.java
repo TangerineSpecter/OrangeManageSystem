@@ -33,13 +33,13 @@ public class GoodsFuturesToolController {
     }
 
     /**
-     * 生成二维码
+     * 获取期货手续费
      *
      * @return
      */
     @ResponseBody
     @RequestMapping("/create")
-    public ServiceResult createQrCode(@Valid GoodsFuturesInfoVo vo) {
+    public ServiceResult createFuturesInfo(@Valid GoodsFuturesInfoVo vo) {
         return goodsFuturesToolService.createFuturesInfo(vo);
     }
 }

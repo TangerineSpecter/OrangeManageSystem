@@ -1,6 +1,5 @@
 package com.tangerinespecter.oms.common.config;
 
-import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import com.tangerinespecter.oms.common.security.CredentialMatcher;
 import com.tangerinespecter.oms.common.security.MyShiroRealm;
 import lombok.extern.slf4j.Slf4j;
@@ -12,12 +11,10 @@ import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
-import org.springframework.aop.framework.DefaultAopProxyFactory;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import sun.nio.ch.DefaultAsynchronousChannelProvider;
 
 import java.util.LinkedHashMap;
 

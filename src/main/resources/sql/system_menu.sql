@@ -11,7 +11,7 @@
  Target Server Version : 80017
  File Encoding         : 65001
 
- Date: 09/05/2020 13:18:10
+ Date: 11/05/2020 17:48:58
 */
 
 SET NAMES utf8mb4;
@@ -34,7 +34,7 @@ CREATE TABLE `system_menu` (
   `top` tinyint(2) DEFAULT '0' COMMENT '是否在首页（0：否；1：是）',
   `top_sort` int(50) DEFAULT '0' COMMENT '首页排序',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统菜单表';
+) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统菜单表';
 
 -- ----------------------------
 -- Records of system_menu
@@ -84,6 +84,7 @@ INSERT INTO `system_menu` VALUES (70, '交易统计', 71, '/statis/trade/page', 
 INSERT INTO `system_menu` VALUES (71, '数据分析', 1, '', 'fa fa fa-area-chart', 1, '_self', '002a4914b90e9b7d86ebbe8166cc7005', 55, 0, 0);
 INSERT INTO `system_menu` VALUES (72, '系统公告', 7, 'system/bulletin/page', 'fa fa fa fa-bookmark', 2, '_self', '101680f6d7198febd861d0a7497f2451', 9, 0, 0);
 INSERT INTO `system_menu` VALUES (73, '健康管理', 26, 'user/health/page', 'fa fa-heartbeat', 2, '_self', 'f8ac1bc7595ad24cd915154f623225ec', 88, 0, 0);
+INSERT INTO `system_menu` VALUES (74, '健康统计', 71, 'statis/health/page', 'fa fa fa-odnoklassniki', 2, '_self', 'e87a21b5eb75ab024965fbb8a409ba51', 88, 0, 0);
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;

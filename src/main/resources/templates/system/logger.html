@@ -26,6 +26,7 @@
                         </div>
                         <div class="layui-inline">
                             <a class="layui-btn" lay-submit="" lay-filter="data-search-btn">搜索</a>
+                            <a class="layui-btn" lay-submit="" lay-filter="data-clear-btn">清空</a>
                         </div>
                     </div>
                 </form>
@@ -89,7 +90,7 @@
                     curr: 1
                 }
                 , where: {
-                    searchParams: result
+                    operation: data.operation
                 }
             }, 'data');
 

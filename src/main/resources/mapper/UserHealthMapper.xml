@@ -16,4 +16,11 @@
         </if>
         order by record_time desc
     </select>
+    <select id="queryUserWeight" resultType="com.tangerinespecter.oms.system.domain.entity.UserHealth">
+        select *
+        from user_health
+        where admin_id = #{adminId}
+          and is_del = 0
+        order by record_time desc
+    </select>
 </mapper>

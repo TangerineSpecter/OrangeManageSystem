@@ -111,7 +111,9 @@ public class SystemUserServiceImpl implements ISystemUserService {
                 .setCity(systemUser.getCity()).setBrief(systemUser.getBrief())
                 .setEmail(systemUser.getEmail()).setPhoneNumber(systemUser.getPhoneNumber())
                 .setSex(systemUser.getSex());
-        systemUserMapper.updateById(info);
+        systemUserMapper.updateUserInfo(info.getId(), systemUser.getNickName(), systemUser.getSex(),
+                systemUser.getCity(), systemUser.getBrief(), systemUser.getEmail(), systemUser.getPhoneNumber(),
+                systemUser.getBirthday());
         SystemUtils.refreshSession(info);
         return ServiceResult.success();
     }

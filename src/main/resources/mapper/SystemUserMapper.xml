@@ -38,15 +38,25 @@
     <update id="updateLoginCountById">
         update system_user
         set last_login_date = #{lastLoginDate},
-        update_time = #{updateTime},
-        login_count = login_count + 1
+            update_time     = #{updateTime},
+            login_count     = login_count + 1
+        where id = #{id}
+    </update>
+    <update id="updateUserInfo">
+        update system_user
+        set nick_name    = #{nickName},
+            city         = #{city},
+            email        = #{email},
+            sex          = #{sex},
+            brief        = #{brief},
+            phone_number = #{phoneNumber}
         where id = #{id}
     </update>
     <select id="getUserByLogin" resultType="com.tangerinespecter.oms.system.domain.entity.SystemUser">
         select *
         from system_user
         where username = #{userName}
-        and password = #{password}
+          and password = #{password}
     </select>
     <insert id="createUserByRegister"
             parameterType="com.tangerinespecter.oms.system.domain.entity.SystemUser"

@@ -34,10 +34,27 @@ public interface SystemUserMapper extends BaseMapper<SystemUser> {
     /**
      * 更新用户登录次数
      *
-     * @param id 账号ID
+     * @param id            账号ID
      * @param lastLoginDate 最后登录时间
-     * @param updateTime 更新时间
+     * @param updateTime    更新时间
      */
     void updateLoginCountById(@Param("id") Long id, @Param("lastLoginDate") String lastLoginDate,
                               @Param("updateTime") String updateTime);
+
+    /**
+     * 更新管理员信息
+     *
+     * @param id
+     * @param nickName
+     * @param sex
+     * @param city
+     * @param brief
+     * @param email
+     * @param phoneNumber
+     * @param birthday
+     */
+    void updateUserInfo(@Param("id") Long id, @Param("nickName") String nickName,
+                        @Param("sex") Integer sex, @Param("city") String city, @Param("brief") String brief,
+                        @Param("email") String email, @Param("phoneNumber") String phoneNumber,
+                        @Param("birthday") String birthday);
 }

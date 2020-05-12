@@ -43,3 +43,32 @@ function loadFormModel(title, data, contentUrl) {
 function reloadTab() {
     $(".layui-tab-item.layui-show", top.window.document).find("iframe")[0].contentWindow.location.reload();
 }
+
+layui.use(['form', 'table'], function () {
+    var form = layui.form,
+        table = layui.table;
+
+    // 监听搜索操作
+    form.on('submit(data-search-btn)', function (data) {
+        //执行搜索重载
+        table.reload('currentTableId', {
+            page: {
+                curr: 1
+            }
+            , where: data.field
+        }, 'data');
+        return false;
+    });
+
+    // 监听清空操作
+    form.on('submit(data-clear-btn)', function () {
+        $("#search-from")[0].reset();
+        //执行搜索重载
+        table.reload('currentTableId', {
+            page: {
+                curr: 1
+            }, where: {queryParam: null}
+        }, 'data');
+        return false;
+    });
+});

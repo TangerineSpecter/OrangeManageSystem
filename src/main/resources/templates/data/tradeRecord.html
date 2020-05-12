@@ -8,7 +8,7 @@
     <fieldset class="layui-elem-field layuimini-search">
         <legend>搜索信息</legend>
         <div style="margin: 10px 10px 10px 10px">
-            <form class="layui-form layui-form-pane" action="">
+            <form id="search-from" class="layui-form layui-form-pane" action="">
                 <div class="layui-form-item">
                     <div class="layui-inline">
                         <label class="layui-form-label">类型</label>
@@ -159,33 +159,6 @@
             limits: [10, 15, 20, 25, 50, 100],
             limit: 10,
             page: true
-        });
-
-        // 监听搜索操作
-        form.on('submit(data-search-btn)', function (data) {
-            //执行搜索重载
-            table.reload('currentTableId', {
-                page: {
-                    curr: 1
-                }
-                , where: {
-                    type: data.field.type,
-                    startDay: data.field.startDay,
-                    endDay: data.field.endDay
-                }
-            }, 'data');
-            return false;
-        });
-
-        // 监听清空操作
-        form.on('submit(data-clear-btn)', function () {
-            //执行搜索重载
-            table.reload('currentTableId', {
-                page: {
-                    curr: 1
-                }
-            }, 'data');
-            return false;
         });
 
         //监听表格复选框选择

@@ -9,7 +9,7 @@
         <fieldset class="layui-elem-field layuimini-search">
             <legend>搜索信息</legend>
             <div style="margin: 10px 10px 10px 10px">
-                <form class="layui-form layui-form-pane" action="">
+                <form id="search-from" class="layui-form layui-form-pane" action="">
                     <div class="layui-form-item">
                         <div class="layui-inline">
                             <label class="layui-form-label">星座</label>
@@ -85,38 +85,6 @@
             limits: [10, 15, 20, 25, 50, 100],
             limit: 10,
             page: true
-        });
-
-        // 监听搜索操作
-        form.on('submit(data-search-btn)', function (data) {
-            //var result = JSON.stringify(data.field);
-            //执行搜索重载
-            table.reload('currentTableId', {
-                page: {
-                    curr: 1
-                }
-                , where: {
-                    star: data.field.star,
-                    queryDay: data.field.queryDay
-                }
-            }, 'data');
-
-            return false;
-        });
-
-        // 监听清空操作
-        form.on('submit(data-clear-btn)', function (data) {
-            //执行搜索重载
-            table.reload('currentTableId', {
-                page: {
-                    curr: 1
-                }
-                , where: {
-                    star: "",
-                    queryDay: ""
-                }
-            }, 'data');
-            return false;
         });
 
         //监听表格复选框选择

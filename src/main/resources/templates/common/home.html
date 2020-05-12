@@ -241,7 +241,7 @@
                                             <a href="javascript:;"
                                                th:attr="data-iframe-tab=${menu.href},data-title=${menu.title}
                                                 ,data-icon=${menu.icon}">
-                                                <i class="fa fa-window-maximize"></i>
+                                                <i th:class="${menu.icon}" class="fa fa-window-maximize"></i>
                                                 <cite th:text="${menu.title}"></cite>
                                             </a>
                                         </div>

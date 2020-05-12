@@ -30,6 +30,10 @@ public class HealthStatisInfoDto {
      */
     private List<Integer> pressureData;
     /**
+     * 步数数据
+     */
+    private List<Integer> stepNumberData;
+    /**
      * 睡眠数据
      */
     private List<BigDecimal> sleepDurationData;

@@ -70,7 +70,7 @@
                 const options = {
                     series: [{
                         name: '收益值',
-                        data: result.data.totalIncome
+                        data: result.data.totalIncome.reverse()
                     }],
                     chart: {
                         height: 350,
@@ -84,7 +84,7 @@
                     },
                     xaxis: {
                         type: 'date',
-                        categories: result.data.date
+                        categories: result.data.date.reverse()
                     },
                     tooltip: {
                         x: {

@@ -404,7 +404,7 @@
         var options = {
             series: [{
                 name: '当前资金',
-                data: totalMoney.split(",")
+                data: totalMoney.split(",").reverse()
             }],
             chart: {
                 height: 350,
@@ -418,7 +418,7 @@
             },
             xaxis: {
                 type: 'date',
-                categories: lastDate.split(",")
+                categories: lastDate.split(",").reverse()
             },
             tooltip: {
                 x: {

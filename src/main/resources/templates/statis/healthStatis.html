@@ -33,6 +33,13 @@
             <div id="echarts-sleep-duration" style="width: 100%;min-height:500px"></div>
         </div>
     </div>
+    <div class="layui-card">
+        <div class="layui-card-header"><i class="fa fa-line-chart icon"></i>步数数据
+        </div>
+        <div class="layui-card-body">
+            <div id="echarts-step-number" style="width: 100%;min-height:500px"></div>
+        </div>
+    </div>
 </div>
 </div>
 <div th:replace="./common/_layui_common::common_js"></div>
@@ -83,6 +90,7 @@
                 initCharts("#echarts-fat-weight", "脂肪（斤）", result.data.fatWeightData, result.data.date);
                 initCharts("#echarts-pressure", "压力", result.data.pressureData, result.data.date);
                 initCharts("#echarts-sleep-duration", "睡眠（小时）", result.data.sleepDurationData, result.data.date);
+                initCharts("#echarts-step-number", "步数", result.data.stepNumberData, result.data.date);
             }
         }, "JSON");
     }
@@ -91,7 +99,7 @@
         const options = {
             series: [{
                 name: name,
-                data: data
+                data: data.reverse()
             }],
             chart: {
                 height: 350,
@@ -105,7 +113,7 @@
             },
             xaxis: {
                 type: 'date',
-                categories: date
+                categories: date.reverse()
             },
             tooltip: {
                 x: {

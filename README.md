@@ -18,7 +18,7 @@
 
 **前端框架：**
 - 基础框架：Bootstrap 4.1.3
-- 后台框架：Layui 2.5.4
+- 后台框架：Layui 2.5.6
 - JavaScript框架：Jquery 3.3.1
 - 分页插件：Bootstrap-Paginator 1.0
 

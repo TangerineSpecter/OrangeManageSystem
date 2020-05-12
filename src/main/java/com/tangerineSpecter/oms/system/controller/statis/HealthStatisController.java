@@ -6,6 +6,7 @@ import com.tangerinespecter.oms.system.service.page.PageResultService;
 import com.tangerinespecter.oms.system.service.statis.IHealthStatisServer;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -36,8 +37,8 @@ public class HealthStatisController {
         return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getHealthStatisPageKey, "statis/healthStatis");
     }
 
-    @RequestMapping("/weight-info")
-    public ServiceResult weightStatisInfo() {
-        return healthStatisServer.weightStatisInfo();
+    @RequestMapping("/health-info")
+    public ServiceResult healthStatisInfo() {
+        return healthStatisServer.healthStatisInfo();
     }
 }

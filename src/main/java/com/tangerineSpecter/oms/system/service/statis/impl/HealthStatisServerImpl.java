@@ -1,5 +1,6 @@
 package com.tangerinespecter.oms.system.service.statis.impl;
 
+import cn.hutool.core.util.NumberUtil;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.system.domain.dto.statis.HealthStatisInfoDto;
@@ -21,13 +22,20 @@ public class HealthStatisServerImpl implements IHealthStatisServer {
     private UserHealthMapper userHealthMapper;
 
     @Override
-    public ServiceResult weightStatisInfo() {
+    public ServiceResult healthStatisInfo() {
         List<UserHealth> userHealths = userHealthMapper.queryUserWeight(SystemUtils.getSystemUserId());
         List<BigDecimal> weightList = userHealths.stream().map(UserHealth::getWeight).collect(Collectors.toList());
+        List<BigDecimal> fatWeight = userHealths.stream().map(UserHealth::getFatWeight).collect(Collectors.toList());
+        List<Integer> pressureList = userHealths.stream().map(UserHealth::getPressure).collect(Collectors.toList());
+        List<BigDecimal> sleepDurationList = userHealths.stream().map(u -> NumberUtil.div(u.getSleepDuration(), (Number) 60, 1)).collect(Collectors.toList());
         List<String> date = userHealths.stream().map(UserHealth::getRecordTime).collect(Collectors.toList());
         Collections.reverse(weightList);
+        Collections.reverse(fatWeight);
+        Collections.reverse(pressureList);
+        Collections.reverse(sleepDurationList);
         Collections.reverse(date);
-        HealthStatisInfoDto infoDto = HealthStatisInfoDto.builder().weights(weightList).date(date).build();
+        HealthStatisInfoDto infoDto = HealthStatisInfoDto.builder().date(date).weightData(weightList)
+                .fatWeightData(fatWeight).pressureData(pressureList).sleepDurationData(sleepDurationList).build();
         return ServiceResult.success(infoDto);
     }
 }

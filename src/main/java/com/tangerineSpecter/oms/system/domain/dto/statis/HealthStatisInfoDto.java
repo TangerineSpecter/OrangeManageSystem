@@ -18,9 +18,21 @@ import java.util.List;
 public class HealthStatisInfoDto {
 
     /**
-     * 体重
+     * 体重数据
      */
-    private List<BigDecimal> weights;
+    private List<BigDecimal> weightData;
+    /**
+     * 脂肪数据
+     */
+    private List<BigDecimal> fatWeightData;
+    /**
+     * 压力数据
+     */
+    private List<Integer> pressureData;
+    /**
+     * 睡眠数据
+     */
+    private List<BigDecimal> sleepDurationData;
     /**
      * 时间
      */

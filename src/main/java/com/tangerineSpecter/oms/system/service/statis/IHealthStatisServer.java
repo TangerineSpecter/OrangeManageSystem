@@ -4,5 +4,5 @@ import com.tangerinespecter.oms.common.result.ServiceResult;
 
 public interface IHealthStatisServer {
 
-    ServiceResult weightStatisInfo();
+    ServiceResult healthStatisInfo();
 }

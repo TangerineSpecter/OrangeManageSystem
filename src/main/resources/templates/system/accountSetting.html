@@ -28,7 +28,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label required">手机</label>
                 <div class="layui-input-block">
-                    <input type="phoneNumber" name="phoneNumber" lay-verify="required" lay-reqtext="手机不能为空"
+                    <input type="text" name="phoneNumber" lay-verify="required" lay-reqtext="手机不能为空"
                            placeholder="请输入手机"
                            value="" class="layui-input" th:value="${systemUser.phoneNumber}">
                 </div>
@@ -36,7 +36,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label" required>昵称</label>
                 <div class="layui-input-block">
-                    <input type="nickName" name="nickName" placeholder="请输入昵称" value="" class="layui-input"
+                    <input type="text" name="nickName" placeholder="请输入昵称" value="" class="layui-input"
                            th:value="${systemUser.nickName}">
                 </div>
             </div>
@@ -60,7 +60,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">城市</label>
                 <div class="layui-input-block">
-                    <input type="city" name="city" placeholder="请输入城市" value="" class="layui-input"
+                    <input type="text" name="city" placeholder="请输入城市" value="" class="layui-input"
                            th:value="${systemUser.city}">
                 </div>
             </div>

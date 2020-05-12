@@ -1,11 +1,13 @@
 package com.tangerinespecter.oms.system.controller;
 
-import com.tangerinespecter.oms.common.result.ServiceResult;
+import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.system.domain.entity.SystemConfig;
+import com.tangerinespecter.oms.system.domain.entity.SystemUser;
 import com.tangerinespecter.oms.system.service.system.ISystemConfigServer;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.Resource;
 
@@ -16,6 +18,7 @@ import javax.annotation.Resource;
  * @date 2019年09月03日00:25:54
  */
 @Controller
+@RequestMapping("/page")
 public class PageController {
     @Resource
     private ISystemConfigServer systemConfigServer;
@@ -29,4 +32,25 @@ public class PageController {
         model.addAttribute("systemConfigInfo", systemConfig);
         return "system/systemSetting";
     }
+
+    /**
+     * 帐号设置
+     */
+    @RequestMapping(value = "/accountSetting", method = RequestMethod.GET)
+    public String accountSetting(Model model) {
+        SystemUser systemUser = SystemUtils.getCurrentUser();
+        model.addAttribute("systemUser", systemUser);
+        return "system/accountSetting";
+    }
+
+    /**
+     * 系统配置
+     */
+    @RequestMapping("/userPassword")
+    public String userPassword(Model model) {
+        SystemUser systemUser = SystemUtils.getCurrentUser();
+        model.addAttribute("systemUser", systemUser);
+        return "system/userPassword";
+    }
+
 }

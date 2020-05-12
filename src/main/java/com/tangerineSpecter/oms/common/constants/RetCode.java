@@ -83,6 +83,10 @@ public class RetCode {
      */
     public static final RetCode SYSTEM_BULLETIN_MORE_THAN_UPPER = new RetCode(109, "系统公告只支持置顶一个");
     /**
+     * 帐号旧密码错误
+     */
+    public static final RetCode ACCOUNTS_PASSWORD_OLD_ERROR = new RetCode(110, "原始密码不正确，请重新输入！");
+    /**
      * 参数错误
      */
     public static final RetCode PARAM_ERROR = new RetCode(200, "参数错误");

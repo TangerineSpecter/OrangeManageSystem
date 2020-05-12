@@ -32,16 +32,6 @@ public class SystemUserController {
     private ISystemUserService systemUserService;
 
     /**
-     * 帐号设置
-     */
-    @RequestMapping(value = "/accountSetting", method = RequestMethod.GET)
-    public String accountSetting(Model model) {
-        SystemUser systemUser = SystemUtils.getCurrentUser();
-        model.addAttribute("systemUser", systemUser);
-        return "system/accountSetting";
-    }
-
-    /**
      * 后台管理员
      */
     @RequestMapping("/page")
@@ -80,5 +70,15 @@ public class SystemUserController {
     @LoggerInfo(value = "用户更新管理员", event = LogOperation.EVENT_UPDATE)
     public ServiceResult update(@Valid SystemUserInfoVo vo) {
         return systemUserService.updateSystemUserInfo(vo);
+    }
+
+    /**
+     * 修改密码
+     */
+    @ResponseBody
+    @RequestMapping("/update-password")
+    @LoggerInfo(value = "修改密码", event = LogOperation.EVENT_UPDATE)
+    public ServiceResult updatePassword(@Valid SystemUserInfoVo vo) {
+        return systemUserService.updatePassword(vo);
     }
 }

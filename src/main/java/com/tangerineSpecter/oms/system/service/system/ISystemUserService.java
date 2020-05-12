@@ -42,4 +42,9 @@ public interface ISystemUserService {
      * @return 创建结果
      */
     ServiceResult<Object> insertSystemUserInfo(SystemUser systemUser);
+
+    /**
+     * 修改密码
+     */
+    ServiceResult updatePassword(SystemUserInfoVo vo);
 }

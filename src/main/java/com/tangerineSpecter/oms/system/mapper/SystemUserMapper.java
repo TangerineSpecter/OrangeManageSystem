@@ -57,4 +57,12 @@ public interface SystemUserMapper extends BaseMapper<SystemUser> {
                         @Param("sex") Integer sex, @Param("city") String city, @Param("brief") String brief,
                         @Param("email") String email, @Param("phoneNumber") String phoneNumber,
                         @Param("birthday") String birthday);
+
+    /**
+     * 更新管理员密码
+     *
+     * @param id       管理员ID
+     * @param password 新密码
+     */
+    void updatePassword(@Param("id") Long id, @Param("password") String password);
 }

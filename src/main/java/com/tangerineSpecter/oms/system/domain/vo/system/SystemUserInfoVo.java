@@ -27,4 +27,10 @@ public class SystemUserInfoVo {
     private String birthday;
 
     private String brief;
+    /**
+     * 旧密码
+     */
+    private String oldPassword;
+
+    private String password;
 }

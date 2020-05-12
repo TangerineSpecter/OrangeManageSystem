@@ -140,4 +140,18 @@ public class SystemUserServiceImpl implements ISystemUserService {
         return ServiceResult.success();
     }
 
+    @Override
+    public ServiceResult updatePassword(SystemUserInfoVo vo) {
+        SystemUser systemUser = systemUserMapper.selectById(vo.getId());
+        if (systemUser == null) {
+            return ServiceResult.error(RetCode.ACCOUNTS_NOT_EXIST);
+        }
+        if (!systemUser.getPassword().equals(vo.getOldPassword())) {
+            return ServiceResult.error(RetCode.ACCOUNTS_PASSWORD_OLD_ERROR);
+        }
+        String newPassword = SystemUtils.handleUserPassword(systemUser.getPassword(), systemUser.getSalt());
+        systemUserMapper.updatePassword(vo.getId(), newPassword);
+        return ServiceResult.success();
+    }
+
 }

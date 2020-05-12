@@ -6,8 +6,24 @@
         select *
         from system_log
         <where>
-            <if test="operation != null">
-                operation like concat('%',#{opeation},'%')
+            <if test="keyword != null and keyword != ''">
+                and (
+                operation like concat('%',#{keyword},'%')
+                or method like concat('%',#{keyword},'%')
+                or params like concat('%',#{keyword},'%')
+                )
+            </if>
+            <if test="event != null">
+                and `event` = #{event}
+            </if>
+            <if test="username != null and username != ''">
+                and username like concat('%',#{username},'%')
+            </if>
+            <if test="startTime!='' and startTime!=null">
+                <![CDATA[and `create_time` >= #{startTime}]]>
+            </if>
+            <if test="endTime!='' and endTime!=null">
+                <![CDATA[and `create_time` <= #{endTime}]]>
             </if>
         </where>
         order by create_time desc

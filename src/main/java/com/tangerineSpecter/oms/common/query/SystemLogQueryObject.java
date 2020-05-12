@@ -17,7 +17,23 @@ import lombok.Setter;
 @AllArgsConstructor
 public class SystemLogQueryObject extends QueryObject {
     /**
-     * 操作内容
+     * 操作关键词
      */
-    private String operation;
+    private String keyword;
+    /**
+     * 操作事件
+     */
+    private Integer event;
+    /**
+     * 操作人
+     */
+    private String username;
+    /**
+     * 起始时间
+     */
+    private String startTime;
+    /**
+     * 结束时间
+     */
+    private String endTime;
 }

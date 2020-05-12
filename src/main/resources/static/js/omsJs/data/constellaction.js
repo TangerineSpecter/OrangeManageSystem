@@ -4,7 +4,7 @@ $(function() {
 	$("#queryBtn").click(function(){
 		$("#queryForm").submit();
 	})
-})
+});
 
 // 初始化下拉框
 function initSelected() {

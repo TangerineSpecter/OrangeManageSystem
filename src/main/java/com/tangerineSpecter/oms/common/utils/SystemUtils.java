@@ -6,6 +6,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
 import cn.hutool.crypto.digest.DigestAlgorithm;
 import cn.hutool.crypto.digest.Digester;
+import com.tangerinespecter.oms.common.config.QiNiuConfig;
 import com.tangerinespecter.oms.common.constants.CommonConstant;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;
 import lombok.extern.slf4j.Slf4j;
@@ -72,7 +73,15 @@ public class SystemUtils {
      * @return
      */
     public static SystemUser getCurrentUser() {
-        return (SystemUser) SecurityUtils.getSubject().getPrincipal();
+        SystemUser systemUser = (SystemUser) SecurityUtils.getSubject().getPrincipal();
+        if (systemUser == null) {
+            return null;
+        }
+        String avatar = systemUser.getAvatar();
+        if (!StrUtil.isBlank(avatar) && !avatar.contains(QiNiuConfig.QI_NIU_RESOURCE_URL)) {
+            systemUser.setAvatar(QiNiuConfig.QI_NIU_RESOURCE_URL + systemUser.getAvatar());
+        }
+        return systemUser;
     }
 
     /**

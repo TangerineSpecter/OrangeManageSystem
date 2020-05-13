@@ -110,10 +110,8 @@ public class SystemUserServiceImpl implements ISystemUserService {
         info.setNickName(systemUser.getNickName()).setSex(systemUser.getSex())
                 .setCity(systemUser.getCity()).setBrief(systemUser.getBrief())
                 .setEmail(systemUser.getEmail()).setPhoneNumber(systemUser.getPhoneNumber())
-                .setSex(systemUser.getSex());
-        systemUserMapper.updateUserInfo(info.getId(), systemUser.getNickName(), systemUser.getSex(),
-                systemUser.getCity(), systemUser.getBrief(), systemUser.getEmail(), systemUser.getPhoneNumber(),
-                systemUser.getBirthday());
+                .setSex(systemUser.getSex()).setAvatar(systemUser.getAvatarUrl());
+        systemUserMapper.updateUserInfo(info);
         SystemUtils.refreshSession(info);
         return ServiceResult.success();
     }
@@ -146,7 +144,8 @@ public class SystemUserServiceImpl implements ISystemUserService {
         if (systemUser == null) {
             return ServiceResult.error(RetCode.ACCOUNTS_NOT_EXIST);
         }
-        if (!systemUser.getPassword().equals(vo.getOldPassword())) {
+        String oldPassword = SystemUtils.handleUserPassword(systemUser.getPassword(), systemUser.getSalt());
+        if (!systemUser.getPassword().equals(oldPassword)) {
             return ServiceResult.error(RetCode.ACCOUNTS_PASSWORD_OLD_ERROR);
         }
         String newPassword = SystemUtils.handleUserPassword(systemUser.getPassword(), systemUser.getSalt());

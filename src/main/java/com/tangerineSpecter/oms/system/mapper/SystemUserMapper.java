@@ -43,20 +43,8 @@ public interface SystemUserMapper extends BaseMapper<SystemUser> {
 
     /**
      * 更新管理员信息
-     *
-     * @param id
-     * @param nickName
-     * @param sex
-     * @param city
-     * @param brief
-     * @param email
-     * @param phoneNumber
-     * @param birthday
      */
-    void updateUserInfo(@Param("id") Long id, @Param("nickName") String nickName,
-                        @Param("sex") Integer sex, @Param("city") String city, @Param("brief") String brief,
-                        @Param("email") String email, @Param("phoneNumber") String phoneNumber,
-                        @Param("birthday") String birthday);
+    void updateUserInfo(SystemUser info);
 
     /**
      * 更新管理员密码
@@ -65,4 +53,5 @@ public interface SystemUserMapper extends BaseMapper<SystemUser> {
      * @param password 新密码
      */
     void updatePassword(@Param("id") Long id, @Param("password") String password);
+
 }

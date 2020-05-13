@@ -13,6 +13,10 @@ import lombok.NoArgsConstructor;
 public class SystemUserInfoVo {
 
     private Long id;
+    /**
+     * 头像地址
+     */
+    private String avatarUrl;
 
     private String phoneNumber;
 

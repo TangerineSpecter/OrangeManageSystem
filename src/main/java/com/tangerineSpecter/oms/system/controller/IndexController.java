@@ -63,8 +63,7 @@ public class IndexController {
     @ResponseBody
     @RequestMapping(value = "/index", produces = "text/html;charset=UTF-8")
     public String index(HttpServletRequest request, HttpServletResponse response, Model model) {
-        SystemUser systemUser = SystemUtils.getCurrentUser();
-        model.addAttribute("systemUser", systemUser);
+        model.addAttribute("systemUser", SystemUtils.getCurrentUser());
         model.addAttribute("webTitle", SystemConstant.systemConfig.getWebTitle());
         return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getSystemIndexPageKey, "index");
     }

@@ -1,5 +1,8 @@
 package com.tangerinespecter.oms.system.controller;
 
+import cn.hutool.core.util.StrUtil;
+import com.alibaba.fastjson.JSON;
+import com.tangerinespecter.oms.common.config.QiNiuConfig;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.system.domain.entity.SystemConfig;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;
@@ -38,8 +41,7 @@ public class PageController {
      */
     @RequestMapping(value = "/accountSetting", method = RequestMethod.GET)
     public String accountSetting(Model model) {
-        SystemUser systemUser = SystemUtils.getCurrentUser();
-        model.addAttribute("systemUser", systemUser);
+        model.addAttribute("systemUser", SystemUtils.getCurrentUser());
         return "system/accountSetting";
     }
 

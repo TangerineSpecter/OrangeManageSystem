@@ -87,6 +87,14 @@ public class RetCode {
      */
     public static final RetCode ACCOUNTS_PASSWORD_OLD_ERROR = new RetCode(110, "原始密码不正确，请重新输入！");
     /**
+     * 文件不存在
+     */
+    public static final RetCode FILE_NOT_EXIST = new RetCode(111, "文件不存在！");
+    /**
+     * 文件上传异常
+     */
+    public static final RetCode FILE_UPLOAD_EXCEPTION = new RetCode(112, "文件上传异常！");
+    /**
      * 参数错误
      */
     public static final RetCode PARAM_ERROR = new RetCode(200, "参数错误");

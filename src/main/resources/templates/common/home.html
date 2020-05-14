@@ -283,7 +283,12 @@
                         <div id="echarts-today-luck" style="width: 100%;min-height:500px"></div>
                     </div>
                 </div>
-
+                <div class="layui-card">
+                    <div class="layui-card-header"><i class="fa fa-paper-plane-o icon"></i>今日寄语</div>
+                    <div class="layui-card-body layui-text layadmin-text">
+                        <p th:text="${systemInfo.todayTip}"></p>
+                    </div>
+                </div>
                 <div class="layui-card">
                     <div class="layui-card-header"><i class="fa fa-fire icon"></i>系统信息</div>
                     <div class="layui-card-body layui-text">
@@ -321,13 +326,6 @@
                             </tr>
                             </tbody>
                         </table>
-                    </div>
-                </div>
-
-                <div class="layui-card">
-                    <div class="layui-card-header"><i class="fa fa-paper-plane-o icon"></i>今日寄语</div>
-                    <div class="layui-card-body layui-text layadmin-text">
-                        <p th:text="${systemInfo.todayTip}"></p>
                     </div>
                 </div>
                 <!-- 存放首页值 -->

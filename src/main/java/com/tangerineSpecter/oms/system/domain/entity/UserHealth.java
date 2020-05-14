@@ -29,7 +29,7 @@ public class UserHealth {
     @TableId(type = IdType.AUTO)
     private Long id;
     /**
-     * 体重（斤）
+     * 体重（公斤）
      */
     private BigDecimal weight;
     /**
@@ -45,11 +45,11 @@ public class UserHealth {
      */
     private Integer viscusLevel;
     /**
-     * 肌肉重量（斤）
+     * 肌肉重量（公斤）
      */
     private BigDecimal muscleWeight;
     /**
-     * 脂肪量（斤）
+     * 脂肪量（公斤）
      */
     private BigDecimal fatWeight;
     /**
@@ -65,7 +65,7 @@ public class UserHealth {
      */
     private Integer physicalAge;
     /**
-     * 去脂体重（斤）
+     * 去脂体重（公斤）
      */
     private BigDecimal leanBodyMass;
     /**
@@ -81,7 +81,7 @@ public class UserHealth {
      */
     private BigDecimal proteinRate;
     /**
-     * 骨头重量(斤)
+     * 骨头重量(公斤)
      */
     private BigDecimal boneWeight;
     /**

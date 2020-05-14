@@ -144,13 +144,12 @@ public class SystemUserServiceImpl implements ISystemUserService {
         if (systemUser == null) {
             return ServiceResult.error(RetCode.ACCOUNTS_NOT_EXIST);
         }
-        String oldPassword = SystemUtils.handleUserPassword(systemUser.getPassword(), systemUser.getSalt());
+        String oldPassword = SystemUtils.handleUserPassword(vo.getOldPassword(), systemUser.getSalt());
         if (!systemUser.getPassword().equals(oldPassword)) {
             return ServiceResult.error(RetCode.ACCOUNTS_PASSWORD_OLD_ERROR);
         }
-        String newPassword = SystemUtils.handleUserPassword(systemUser.getPassword(), systemUser.getSalt());
+        String newPassword = SystemUtils.handleUserPassword(vo.getPassword(), systemUser.getSalt());
         systemUserMapper.updatePassword(vo.getId(), newPassword);
         return ServiceResult.success();
     }
-
 }

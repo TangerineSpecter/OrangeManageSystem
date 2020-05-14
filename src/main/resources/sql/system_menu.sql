@@ -11,7 +11,7 @@
  Target Server Version : 80017
  File Encoding         : 65001
 
- Date: 11/05/2020 17:48:58
+ Date: 15/05/2020 00:05:21
 */
 
 SET NAMES utf8mb4;
@@ -44,7 +44,7 @@ INSERT INTO `system_menu` VALUES (1, '常规管理', -1, 'menuHeader1', 'fa fa-a
 INSERT INTO `system_menu` VALUES (2, '组件管理', -1, 'menuHeader2', 'fa fa-lemon-o', 0, '_self', '60b91cd828717692a43ae2d0013c1287', 2, 0, 0);
 INSERT INTO `system_menu` VALUES (3, '其它管理', -1, 'menuHeader3', 'fa fa-slideshare', 0, '_self', '026a7db6d3c3c24751c2f0fe8d0b5103', 1, 0, 0);
 INSERT INTO `system_menu` VALUES (7, '系统设置', 1, NULL, 'fa fa-gears', 1, '_self', '09af50c7266259fce15bf12e7423527e', 0, 0, 0);
-INSERT INTO `system_menu` VALUES (8, '菜单管理', 7, '/system/menu/page', 'fa fa-window-maximize', 2, '_self', '49728da8a646661d67ff2cdfdf9470d8', 0, 0, 0);
+INSERT INTO `system_menu` VALUES (8, '菜单管理', 7, '/system/menu/page', 'fa fa-list-alt', 2, '_self', '49728da8a646661d67ff2cdfdf9470d8', 0, 0, 0);
 INSERT INTO `system_menu` VALUES (9, '表格示例', 2, 'table', 'fa fa-file-text', 1, '_self', '97e66c5d2773db0a3761930b4f20e642', 0, 0, 0);
 INSERT INTO `system_menu` VALUES (10, '表单示例', 2, NULL, 'fa fa-calendar', 1, '_self', 'e4ed95ff81d9d2cc6202160f6d687e34', 0, 0, 0);
 INSERT INTO `system_menu` VALUES (11, '普通表单', 10, 'form', 'fa fa-list-alt', 2, '_self', 'e39d8b81fee1310d959fce8ba535daeb', 0, 0, 0);
@@ -67,13 +67,13 @@ INSERT INTO `system_menu` VALUES (27, '乐趣印记', 1, '', 'fa fa fa-slideshar
 INSERT INTO `system_menu` VALUES (28, '小工具', 1, NULL, 'fa fa-slideshare', 1, '_self', '9557d9be5c3c195794c2633bbc549bea', 77, 0, 0);
 INSERT INTO `system_menu` VALUES (29, '数据列表', 1, NULL, 'fa fa-slideshare', 1, '_self', 'c05a9457e5219981a072effad502e649', 66, 0, 0);
 INSERT INTO `system_menu` VALUES (30, '交易记录', 66, '/data/trade-record/page', 'fa fa fa-bar-chart', 2, '_self', '47eccb8596f45d01d1c573ce34885a83', 88, 1, 0);
-INSERT INTO `system_menu` VALUES (31, '文章管理', 26, '', 'fa fa fa-slideshare', 2, '_self', 'd0bf9e8c64974161996e8e0f1d639f67', 77, 1, 0);
+INSERT INTO `system_menu` VALUES (31, '日记管理', 26, '/user/diary/page', 'fa fa-book', 2, '_self', 'd0bf9e8c64974161996e8e0f1d639f67', 77, 1, 0);
 INSERT INTO `system_menu` VALUES (32, '计划任务', 26, '', 'fa fa fa-slideshare', 2, '_self', '8ec9f047bb982121febbfbce8c1fcca0', 66, 0, 0);
 INSERT INTO `system_menu` VALUES (33, '成就管理', 26, '', 'fa fa fa-slideshare', 2, '_self', 'e616123a3a903294dee6b4487cb63a23', 55, 0, 0);
 INSERT INTO `system_menu` VALUES (34, '内容收藏', 27, '/work/collection/page', 'fa fa-bookmark', 2, '_self', 'f0a551afb26aa43926b5f8a82a6e1f09', 88, 0, 0);
 INSERT INTO `system_menu` VALUES (35, '二维码生成', 28, '/tools/qr-code/page', 'fa fa-qrcode', 2, '_self', 'e9e02a9c5597941b6e33551e18842094', 88, 0, 0);
 INSERT INTO `system_menu` VALUES (36, '星座列表', 29, '/table/constellation/page', 'fa fa-star', 1, '_self', '600c493c06301d1202836450c7c67140', 88, 0, 0);
-INSERT INTO `system_menu` VALUES (37, '系统配置', 7, '/systemSetting', 'fa fa-cogs', 2, '_self', 'fde31344ddf1ad0373df23ddfe994244', 0, 1, 0);
+INSERT INTO `system_menu` VALUES (37, '系统配置', 7, '/page/systemSetting', 'fa fa-cogs', 2, '_self', 'fde31344ddf1ad0373df23ddfe994244', 0, 1, 0);
 INSERT INTO `system_menu` VALUES (39, '系统日志', 7, '/system/log/page', 'fa fa fa fa-file-text-o', 2, '_self', '393a5b35276b7842490787f7aa572fc0', 0, 1, 0);
 INSERT INTO `system_menu` VALUES (65, '角色管理', 7, '/system/role/page', 'fa fa-group', 2, '_self', '19204251f17cc85fb6e2b99712b88300', 0, 1, 0);
 INSERT INTO `system_menu` VALUES (66, '交易管理', 1, '', 'fa fa-balance-scale', 1, '_self', '1ad67c75a746a81560263ad421e0d328', 90, 0, 0);

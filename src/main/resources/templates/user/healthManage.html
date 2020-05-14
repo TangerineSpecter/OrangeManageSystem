@@ -131,7 +131,7 @@
 
                 //自定义头工具栏右侧图标 - 提示
                 case 'LAYTABLE_TIPS':
-                    layer.alert('这里是进行健康记录的模块');
+                    layer.alert('这里是进行健康记录的模块，重量单位：kg，能量单位：kcal');
                     break;
             }
         });
@@ -170,7 +170,7 @@
             })
         }
 
-        //添加健康记录
+        //更新健康记录
         function updateFun(data) {
             $.ajax({
                 type: "post",
@@ -178,12 +178,13 @@
                 url: "/user/health/update",
                 dataType: "json",
                 success: function (data) {
+                    layer.msg(data.msg);
                     //执行重载
-                    table.reload('currentTableId', {
-                        page: {
-                            curr: 1 //重新从第 1 页开始
-                        }
-                    }, 'data');
+                    // table.reload('currentTableId', {
+                    //     page: {
+                    //         curr: 1 //重新从第 1 页开始
+                    //     }
+                    // }, 'data');
                 },
                 error: function () {
                     promptModal("操作失败");

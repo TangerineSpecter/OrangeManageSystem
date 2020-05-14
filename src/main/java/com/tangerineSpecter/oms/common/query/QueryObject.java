@@ -1,5 +1,7 @@
 package com.tangerinespecter.oms.common.query;
 
+import com.tangerinespecter.oms.common.utils.SystemUtils;
+import com.tangerinespecter.oms.system.domain.entity.SystemUser;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,6 +22,10 @@ public class QueryObject {
      * 搜索参数
      */
     private String searchParams;
+    /**
+     * 当前管理员ID
+     */
+    private Long adminId = SystemUtils.getSystemUserId();
     /**
      * 默认第一页
      */

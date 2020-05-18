@@ -106,8 +106,4 @@ public class SystemUser implements Serializable {
      * 管理员角色
      */
     private Set<SystemRole> roles = new HashSet<>();
-    /**
-     * 角色权限
-     */
-    private Set<SystemPermission> permissions = new HashSet<>();
 }

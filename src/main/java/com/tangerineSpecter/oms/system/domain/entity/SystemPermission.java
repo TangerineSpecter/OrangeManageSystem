@@ -38,18 +38,6 @@ public class SystemPermission {
      */
     private String code;
     /**
-     * 权限模块ID
-     */
-    private Long moduleId;
-    /**
-     * 权限类型
-     */
-    private Integer type;
-    /**
-     * 状态（0：冻结；1：可用）
-     */
-    private Integer status;
-    /**
      * 备注
      */
     private String remark;

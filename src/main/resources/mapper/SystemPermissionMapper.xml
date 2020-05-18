@@ -12,11 +12,19 @@
                             ON sr.id = sur.rid
                  INNER JOIN system_permission_role spr
                             ON spr.rid = sr.id
-                 INNER JOIN system_permission_module spm
-                            ON spr.module_id = spm.id
                  INNER JOIN system_permission sp
-                            ON spm.id = sp.module_id
+                            ON sp.id = spr.pid
         where su.id = ${uid}
           and su.is_del = 0
+    </select>
+    <select id="selectListByRoleId"
+            resultType="com.tangerinespecter.oms.system.domain.entity.SystemPermission">
+        select sp.*
+        from system_role sr
+                 INNER JOIN system_permission_role spr
+                            ON spr.rid = sr.id
+                 INNER JOIN system_permission sp
+                            ON sp.id = spr.pid
+        where sr.id = #{rid}
     </select>
 </mapper>

@@ -2,6 +2,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tangerinespecter.oms.system.mapper.SystemRoleMapper">
 
+    <resultMap id="systemUserMap" type="com.tangerinespecter.oms.system.domain.entity.SystemRole">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="type" property="type"/>
+        <result column="status" property="status"/>
+        <result column="remark" property="remark"/>
+        <collection property="permissions" ofType="com.tangerinespecter.oms.system.domain.entity.SystemPermission">
+            <id column="id" property="id"/>
+            <result column="name" property="name"/>
+            <result column="url" property="url"/>
+            <result column="code" property="code"/>
+            <result column="remark" property="remark"/>
+            <result column="sort" property="sort"/>
+        </collection>
+    </resultMap>
+
+
     <select id="queryForPage" resultType="com.tangerinespecter.oms.system.domain.entity.SystemRole">
         select *
         from system_role

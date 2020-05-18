@@ -49,10 +49,6 @@ public class SystemRole {
      * 权限列表
      */
     private Set<SystemPermission> permissions = new HashSet<>();
-    /**
-     * 用户列表
-     */
-    private Set<SystemUser> users = new HashSet<>();
 
     private List<SystemMenu> menus;
 

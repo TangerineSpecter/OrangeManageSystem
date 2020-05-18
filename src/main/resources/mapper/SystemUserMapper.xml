@@ -22,18 +22,19 @@
         <result column="admin" property="admin"/>
         <result column="is_del" property="isDel"/>
         <collection property="roles" ofType="com.tangerinespecter.oms.system.domain.entity.SystemRole">
-            <id column="id" property="id"/>
-            <result column="name" property="name"/>
+            <id column="rid" property="id"/>
+            <result column="role_name" property="name"/>
             <collection property="permissions" ofType="com.tangerinespecter.oms.system.domain.entity.SystemPermission">
-                <id column="id" property="id"/>
-                <result column="name" property="name"/>
+                <id column="pid" property="id"/>
+                <result column="permission_name" property="name"/>
                 <result column="url" property="url"/>
+                <result column="code" property="code"/>
             </collection>
         </collection>
     </resultMap>
     <sql id="Base_Column_List">
-        username, nick_name, password, phone_number, create_time,
-        update_time, admin
+        username, nick_name, `password`, phone_number, create_time,
+        update_time, `admin`
     </sql>
     <update id="updateLoginCountById">
         update system_user
@@ -80,17 +81,23 @@
         from system_user
     </select>
     <select id="selectOneByUserName" resultMap="systemUserMap">
-        select u.*
+        select u.*,
+               r.id   as rid,
+               r.name as role_name,
+               p.id   as pid,
+               p.name as permission_name,
+               p.code,
+               p.url
         from system_user u
-        <!--INNER JOIN system_user_role ur
-        ON ur.uid = u.id
-        INNER JOIN system_role r
-        ON r.id = ur.rid
-        INNER JOIN system_permission_role pr
-        ON pr.rid = r.id
-        INNER JOIN system_permission_module pm
-        ON pr.module_id = pm.id-->
+                 INNER JOIN system_user_role ur
+                            ON ur.uid = u.id
+                 INNER JOIN system_role r
+                            ON r.id = ur.rid
+                 INNER JOIN system_permission_role pr
+                            ON pr.rid = r.id
+                 INNER JOIN system_permission p
+                            ON p.id = pr.pid
         where u.username = #{userName}
-        and u.is_del = 0
+          and u.is_del = 0
     </select>
 </mapper>

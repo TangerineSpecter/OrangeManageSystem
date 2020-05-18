@@ -16,4 +16,12 @@ public interface SystemPermissionMapper extends BaseMapper<SystemPermission> {
      * @return 权限列表
      */
     List<UserPermissionListDto> getPermissionListByUid(@Param("uid") Long uid);
+
+    /**
+     * 根据角色ID获取权限列表
+     *
+     * @param roleId
+     * @return
+     */
+    List<SystemPermission> selectListByRoleId(@Param("rid") Long roleId);
 }

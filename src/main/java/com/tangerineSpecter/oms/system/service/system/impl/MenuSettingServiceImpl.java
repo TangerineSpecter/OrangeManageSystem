@@ -2,6 +2,7 @@ package com.tangerinespecter.oms.system.service.system.impl;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.tangerinespecter.oms.common.constants.CommonConstant;
 import com.tangerinespecter.oms.common.constants.RetCode;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -34,13 +36,11 @@ public class MenuSettingServiceImpl implements IMenuSettingService {
     @Resource
     private SystemRoleMapper systemRoleMapper;
     @Resource
-    private SystemPermissionModuleMapper permissionModuleMapper;
-    @Resource
     private SystemPermissionMapper systemPermissionMapper;
     @Resource
-    private SystemPermissionRoleMapper permissionRoleMapper;
-    @Resource
     private SystemUserRoleMapper systemUserRoleMapper;
+    @Resource
+    private SystemPermissionRoleMapper systemPermissionRoleMapper;
     @Resource
     private IMenuSettingService menuSettingService;
 
@@ -176,60 +176,40 @@ public class MenuSettingServiceImpl implements IMenuSettingService {
         } else {
             adminRoleId = systemRole.getId();
         }
-        initPermissionModule(adminId, adminRoleId);
-    }
-
-    /**
-     * 初始化权限模块
-     *
-     * @param adminId
-     * @param roleId
-     * @return
-     */
-    private void initPermissionModule(Long adminId, Long roleId) {
-        if (adminId == null || roleId == null) {
-            log.warn("超级管理员权限模块初始化异常,adminId:[{}],roleId:[{}]", adminId, roleId);
-            return;
-        }
-        Long moduleId;
-        QueryWrapper<SystemPermissionRole> queryWrapper = new QueryWrapper<SystemPermissionRole>()
-                .eq("rid", roleId);
-        SystemPermissionRole systemPermissionRole = permissionRoleMapper.selectOne(queryWrapper);
-        if (systemPermissionRole == null) {
-            SystemPermissionModule module = SystemPermissionModule.builder().name("超级管理员权限").parentId(null)
-                    .level(0).status(SystemConstant.IS_EFFECTIVE).remark(null).sort(99999).build();
-            permissionModuleMapper.insert(module);
-            SystemPermissionRole permissionRole = SystemPermissionRole.builder().rid(roleId).moduleId(module.getId()).build();
-            permissionRoleMapper.insert(permissionRole);
-            moduleId = module.getId();
-        } else {
-            moduleId = systemPermissionRole.getModuleId();
-        }
-        initPermission(moduleId);
+        initPermission(adminRoleId);
     }
 
     /**
      * 初始化权限
      *
-     * @param moduleId 权限模块ID
+     * @param roleId 角色ID
      */
-    private void initPermission(Long moduleId) {
-        if (moduleId == null) {
+    private void initPermission(Long roleId) {
+        if (roleId == null) {
             log.warn("超级管理员权限初始化异常");
             return;
         }
         List<SystemMenu> systemMenus = menuSettingService.initMenuCode();
-        QueryWrapper<SystemPermission> queryWrapper = new QueryWrapper<SystemPermission>()
-                .eq("module_id", moduleId);
-        List<SystemPermission> systemPermissions = systemPermissionMapper.selectList(queryWrapper);
+        List<SystemPermission> systemPermissions = systemPermissionMapper.selectList(null);
         List<String> permissionCodes = systemPermissions.stream().map(SystemPermission::getCode).collect(Collectors.toList());
         systemMenus.forEach(menu -> {
+            //如果存在新的菜单不在权限表内
             if (!permissionCodes.contains(SystemUtils.getPermissionCode(menu.getPermissionCode()))) {
                 SystemPermission permission = SystemPermission.builder().name(menu.getTitle() + "权限")
                         .code(SecureUtil.md5(menu.getPermissionCode() + CommonConstant.PERMISSION_CODE))
-                        .moduleId(moduleId).sort(0).url(menu.getHref()).type(0).status(0).remark(null).sort(0).build();
+                        .sort(0).url(menu.getHref()).remark(null).sort(0).build();
                 systemPermissionMapper.insert(permission);
+                SystemPermissionRole permissionRole = SystemPermissionRole.builder().rid(roleId).pid(permission.getId()).build();
+                systemPermissionRoleMapper.insert(permissionRole);
             }
+        });
+        List<SystemPermission> havePermissions = systemPermissionMapper.selectListByRoleId(roleId);
+        List<String> havePermissionCodes = havePermissions.stream().map(SystemPermission::getCode).collect(Collectors.toList());
+        //获取未拥有的权限列表
+        List<SystemPermission> notHavePermissionList = systemPermissions.stream().filter(p -> !havePermissionCodes.contains(p.getCode())).collect(Collectors.toList());
+        notHavePermissionList.forEach(p -> {
+            SystemPermissionRole permissionRole = SystemPermissionRole.builder().rid(roleId).pid(p.getId()).build();
+            systemPermissionRoleMapper.insert(permissionRole);
         });
         log.info("管理员权限初始化完毕");
     }

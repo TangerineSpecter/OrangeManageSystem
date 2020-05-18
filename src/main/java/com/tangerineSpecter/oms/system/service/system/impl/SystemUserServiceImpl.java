@@ -1,6 +1,9 @@
 package com.tangerinespecter.oms.system.service.system.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.NumberUtil;
+import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -27,7 +30,10 @@ import org.springframework.ui.Model;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * @author TangerineSpecter
@@ -151,5 +157,106 @@ public class SystemUserServiceImpl implements ISystemUserService {
         String newPassword = SystemUtils.handleUserPassword(vo.getPassword(), systemUser.getSalt());
         systemUserMapper.updatePassword(vo.getId(), newPassword);
         return ServiceResult.success();
+    }
+
+    public static void main(String[] args) {
+        money20();
+        //moneyAll();
+    }
+
+    private static void money20() {
+        System.out.println("=====开始储备金方式=====");
+        Set<Integer> set = new TreeSet<>();
+        for (int b = 0; b < 10000; b++) {
+            int a = 50;
+            int m = 50000;
+            int c = 100000;
+            int x = 0;
+            int count = 0;
+            while (true) {
+                int i = RandomUtil.randomInt(100);
+                if (i < a) {
+                    //减半
+                    double div = NumberUtil.div(m, 2);
+                    int radio = RandomUtil.randomInt(3, 9);
+                    double div1 = NumberUtil.div(radio, 100);
+                    double mul = NumberUtil.mul(m, div1);
+                    m = m - (int) mul;
+                } else {
+                    //减半
+                    double div = NumberUtil.div(m, 2);
+                    int radio = RandomUtil.randomInt(20, 30);
+                    double div1 = NumberUtil.div(radio, 100);
+                    double mul = NumberUtil.mul(m, div1);
+                    m = m + (int) mul;
+//                    m += 3000;
+                }
+                count++;
+                if (m >= c) {
+                    x += (m - c);
+                    m = c;
+                } else {
+                    int d = c - m;
+                    if (x > d) {
+                        x -= d;
+                        m = c;
+                    } else {
+                        m += x;
+                    }
+                }
+//                System.out.println("当前本金:" + m);
+//                System.out.println("当前储备金:" + x);
+                if (x + m <= 1000) {
+//                    System.out.println("失败");
+                    count = -1;
+                    break;
+                } else if (x + m >= 1000000) {
+//                    System.out.println("成功");
+                    break;
+                }
+//                System.out.println("当前资金" + m);
+                //System.out.println(i);
+            }
+            set.add(count);
+            //System.out.println("经历" + count + "周");
+        }
+        System.out.println(set);
+        System.out.println("====结束储备金方式=====");
+    }
+
+    private static void moneyAll() {
+        Set<Integer> set = new TreeSet<>();
+        for (int b = 0; b < 1000000; b++) {
+            int a = 50;
+            int m = 50000;
+            int count = 0;
+            while (true) {
+                int i = RandomUtil.randomInt(100);
+                if (i < a) {
+                    double div = NumberUtil.div(m, 2);
+                    double mul = NumberUtil.mul(m, 0.05);
+                    m = m - (int) mul;
+                } else {
+                    double div = NumberUtil.div(m, 2);
+                    double mul = NumberUtil.mul(m, 0.2);
+                    m = m + (int) mul;
+//                    m += 3000;
+                }
+                count++;
+                if (m <= 1000) {
+//                    System.out.println("失败");
+                    count = -1;
+                    break;
+                } else if (m >= 1000000) {
+//                    System.out.println("成功");
+                    break;
+                }
+//                System.out.println("当前资金" + m);
+                //System.out.println(i);
+            }
+            set.add(count);
+            //System.out.println("经历" + count + "周");
+        }
+        System.out.println(set);
     }
 }

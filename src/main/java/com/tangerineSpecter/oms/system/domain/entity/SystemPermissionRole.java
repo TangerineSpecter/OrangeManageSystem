@@ -30,7 +30,7 @@ public class SystemPermissionRole {
      */
     private Long rid;
     /**
-     * 权限模块ID
+     * 权限ID
      */
-    private Long moduleId;
+    private Long pid;
 }

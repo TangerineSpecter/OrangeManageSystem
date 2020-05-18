@@ -10,14 +10,22 @@ import com.tangerinespecter.oms.system.domain.entity.SystemRole;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;
 import com.tangerinespecter.oms.system.mapper.SystemUserMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.subject.SimplePrincipalCollection;
+import org.apache.shiro.subject.support.DefaultSubjectContext;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.Resource;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -33,6 +41,8 @@ public class MyShiroRealm extends AuthorizingRealm {
 
     @Resource
     private SystemUserMapper systemUserMapper;
+    @Autowired
+    private SessionDAO sessionDAO;
 
     /**
      * 获取用户角色权限
@@ -44,12 +54,12 @@ public class MyShiroRealm extends AuthorizingRealm {
         //获取当前用户角色
         List<String> roleNameList = new ArrayList<>();
         Set<SystemRole> roleSet = currentUser.getRoles();
-        if (!CollUtil.isEmpty(roleSet)) {
+        if (CollUtil.isNotEmpty(roleSet)) {
             for (SystemRole role : roleSet) {
                 roleNameList.add(role.getName());
                 //获取当前角色对应的权限
                 Set<SystemPermission> permissionSet = role.getPermissions();
-                if (!CollUtil.isNotEmpty(permissionSet)) {
+                if (CollUtil.isNotEmpty(permissionSet)) {
                     for (SystemPermission permission : permissionSet) {
                         permissionList.add(permission.getName());
                     }
@@ -80,6 +90,7 @@ public class MyShiroRealm extends AuthorizingRealm {
         }
         log.info("用户：{}在时间{}进行了登录,登录地址{}", userName, DateUtils.getSimpleFormat(CommonConstant.DEFAULT_FORMAT_SECOND),
                 SystemUtils.getLocalhostIP());
+        stopPreviousSession(systemUser.getId());
         return new SimpleAuthenticationInfo(systemUser, password, userName);
     }
 
@@ -93,5 +104,34 @@ public class MyShiroRealm extends AuthorizingRealm {
         }
         //实际项目中这里可以设置缓存，从缓存中读取
         return doGetAuthorizationInfo(principals);
+    }
+
+    /**
+     * 踢掉上一个登录用户
+     *
+     * @param id
+     */
+    private void stopPreviousSession(Long id) {
+        Collection<Session> sessions = sessionDAO.getActiveSessions();
+        Session currentSession = SecurityUtils.getSubject().getSession();
+        Serializable currentSessionId = currentSession.getId();
+        System.out.println("sessions ==>" + sessions);
+        System.out.println("currentSession ==>" + currentSession);
+        System.out.println("currentSessionId ==>" + currentSessionId);
+        for (Session session : sessions) {
+            Object attribute = session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY);
+            SimplePrincipalCollection collection = (SimplePrincipalCollection) attribute;
+            if (collection == null) {
+                continue;
+            }
+            SystemUser user = (SystemUser) collection.getPrimaryPrincipal();
+            if (id.equals(user.getId())) {
+                if (currentSessionId.equals(session.getId())) {
+                    continue;
+                }
+                session.stop();
+                break;
+            }
+        }
     }
 }

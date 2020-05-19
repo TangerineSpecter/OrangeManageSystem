@@ -94,6 +94,9 @@ public class MenuSettingServiceImpl implements IMenuSettingService {
                 .pid(vo.getPid()).level(vo.getLevel()).sort(vo.getSort()).target(vo.getTarget())
                 .icon("fa " + vo.getIcon()).build();
         systemMenuMapper.updateById(systemMenu);
+        //重置权限url
+        SystemMenu menu = systemMenuMapper.selectById(vo.getId());
+        systemPermissionMapper.updateUrlByCode(SystemUtils.getPermissionUrl(vo.getHref()), SystemUtils.getPermissionCode(menu.getPermissionCode()));
         return ServiceResult.success();
     }
 
@@ -196,8 +199,8 @@ public class MenuSettingServiceImpl implements IMenuSettingService {
             //如果存在新的菜单不在权限表内
             if (!permissionCodes.contains(SystemUtils.getPermissionCode(menu.getPermissionCode()))) {
                 SystemPermission permission = SystemPermission.builder().name(menu.getTitle() + "权限")
-                        .code(SecureUtil.md5(menu.getPermissionCode() + CommonConstant.PERMISSION_CODE))
-                        .sort(0).url(menu.getHref()).remark(null).sort(0).build();
+                        .code(SystemUtils.getPermissionCode(menu.getPermissionCode()))
+                        .sort(0).url(SystemUtils.getPermissionUrl(menu.getHref())).remark(null).sort(0).build();
                 systemPermissionMapper.insert(permission);
                 SystemPermissionRole permissionRole = SystemPermissionRole.builder().rid(roleId).pid(permission.getId()).build();
                 systemPermissionRoleMapper.insert(permissionRole);

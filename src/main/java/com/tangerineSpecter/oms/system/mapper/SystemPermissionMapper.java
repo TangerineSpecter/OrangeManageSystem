@@ -24,4 +24,12 @@ public interface SystemPermissionMapper extends BaseMapper<SystemPermission> {
      * @return
      */
     List<SystemPermission> selectListByRoleId(@Param("rid") Long roleId);
+
+    /**
+     * 根据权限code更新url
+     *
+     * @param url
+     * @param code
+     */
+    void updateUrlByCode(@Param("url") String url, @Param("code") String code);
 }

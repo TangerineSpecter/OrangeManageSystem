@@ -1,8 +1,10 @@
 package com.tangerinespecter.oms.common.security;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
 import com.tangerinespecter.oms.common.constants.CommonConstant;
 import com.tangerinespecter.oms.common.constants.RetCode;
+import com.tangerinespecter.oms.common.constants.SystemConstant;
 import com.tangerinespecter.oms.common.utils.DateUtils;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.system.domain.entity.SystemPermission;
@@ -13,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.Permission;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.session.Session;
@@ -20,6 +23,7 @@ import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.apache.shiro.subject.support.DefaultSubjectContext;
+import org.apache.shiro.util.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.Resource;
@@ -59,9 +63,9 @@ public class MyShiroRealm extends AuthorizingRealm {
                 roleNameList.add(role.getName());
                 //获取当前角色对应的权限
                 Set<SystemPermission> permissionSet = role.getPermissions();
-                if (CollUtil.isNotEmpty(permissionSet)) {
-                    for (SystemPermission permission : permissionSet) {
-                        permissionList.add(permission.getName());
+                for (SystemPermission permission : permissionSet) {
+                    if (StrUtil.isNotBlank(permission.getUrl())) {
+                        permissionList.add(permission.getUrl());
                     }
                 }
             }
@@ -104,6 +108,34 @@ public class MyShiroRealm extends AuthorizingRealm {
         }
         //实际项目中这里可以设置缓存，从缓存中读取
         return doGetAuthorizationInfo(principals);
+    }
+
+    /**
+     * 超级管理员自动获取所有权限
+     */
+    @Override
+    public boolean isPermitted(PrincipalCollection principals, String permission) {
+        SystemUser systemUser = ((SystemUser) principals.getPrimaryPrincipal());
+//        if (SystemConstant.IS_SYSTEM_ADMIN.equals(systemUser.getAdmin())) {
+//            return true;
+//        }
+        return isPermitted(principals, getPermissionResolver().resolvePermission(permission));
+    }
+
+    @Override
+    public boolean isPermitted(PrincipalCollection principals, Permission permission) {
+        AuthorizationInfo info = getAuthorizationInfo(principals);
+        Collection<Permission> perms = getPermissions(info);
+        if (CollectionUtils.isEmpty(perms)) {
+            return false;
+        }
+
+        for (Permission perm : perms) {
+            if (perm.implies(permission)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

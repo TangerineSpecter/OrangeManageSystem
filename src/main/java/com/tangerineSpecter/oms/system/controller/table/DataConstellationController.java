@@ -34,7 +34,7 @@ public class DataConstellationController {
     /**
      * 星座页面
      */
-    @RequiresPermissions("DataConstellationController:page")
+    @RequiresPermissions("table:constellation:page")
     @RequestMapping(value = "/page", produces = "text/html;charset=UTF-8")
     public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
         return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getConstellationPageKey, "data/constellation");

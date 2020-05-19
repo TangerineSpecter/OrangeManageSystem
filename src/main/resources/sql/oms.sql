@@ -11,7 +11,7 @@
  Target Server Version : 80017
  File Encoding         : 65001
 
- Date: 15/05/2020 00:05:11
+ Date: 19/05/2020 12:39:03
 */
 
 SET NAMES utf8mb4;
@@ -37,7 +37,7 @@ CREATE TABLE `data_constellation` (
   `work_luck` int(8) DEFAULT '0' COMMENT '工作指数',
   `create_time` date DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=578 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='星座信息表';
+) ENGINE=InnoDB AUTO_INCREMENT=626 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='星座信息表';
 
 -- ----------------------------
 -- Table structure for data_question
@@ -117,7 +117,7 @@ CREATE TABLE `data_trade_record` (
   `admin_id` bigint(13) NOT NULL COMMENT '管理员ID',
   `create_time` bigint(13) DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=460 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='交易记录表';
+) ENGINE=InnoDB AUTO_INCREMENT=463 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='交易记录表';
 
 -- ----------------------------
 -- Table structure for system_bulletin
@@ -180,7 +180,7 @@ CREATE TABLE `system_log` (
   `ip` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '操作IP',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '操作时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2502 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统日志记录表';
+) ENGINE=InnoDB AUTO_INCREMENT=2632 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统日志记录表';
 
 -- ----------------------------
 -- Table structure for system_menu
@@ -194,7 +194,7 @@ CREATE TABLE `system_menu` (
   `icon` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '图标logo地址',
   `level` int(11) DEFAULT '0' COMMENT '标签等级（0：顶级；1：一级菜单；以此类推）',
   `target` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '页面跳转方式(_self:自己；_blank:新窗口)',
-  `permission_code` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '菜单权限码',
+  `permission_code` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '菜单权限code',
   `sort` int(11) DEFAULT '0' COMMENT '排序',
   `top` tinyint(2) DEFAULT '0' COMMENT '是否在首页（0：否；1：是）',
   `top_sort` int(50) DEFAULT '0' COMMENT '首页排序',
@@ -227,28 +227,10 @@ CREATE TABLE `system_permission` (
   `name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '权限名称',
   `url` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '权限地址，请求的url',
   `code` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '权限码',
-  `module_id` bigint(13) NOT NULL DEFAULT '0' COMMENT '模块id',
-  `type` tinyint(2) NOT NULL DEFAULT '1' COMMENT '类型',
-  `status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '状态（0：冻结；1：正常）',
   `remark` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '备注',
   `sort` int(50) NOT NULL DEFAULT '0' COMMENT '排序',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=128 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='权限表';
-
--- ----------------------------
--- Table structure for system_permission_module
--- ----------------------------
-DROP TABLE IF EXISTS `system_permission_module`;
-CREATE TABLE `system_permission_module` (
-  `id` bigint(13) NOT NULL AUTO_INCREMENT,
-  `name` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '模块名称',
-  `parent_id` bigint(13) NOT NULL DEFAULT '0' COMMENT '上级模块id',
-  `level` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '模块层级',
-  `status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '状态（0：冻结；1：正常）',
-  `remark` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '备注',
-  `sort` int(11) NOT NULL DEFAULT '0' COMMENT '排序',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='权限模块表';
+) ENGINE=InnoDB AUTO_INCREMENT=179 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='权限表';
 
 -- ----------------------------
 -- Table structure for system_permission_role
@@ -257,11 +239,11 @@ DROP TABLE IF EXISTS `system_permission_role`;
 CREATE TABLE `system_permission_role` (
   `id` bigint(13) NOT NULL AUTO_INCREMENT,
   `rid` bigint(13) NOT NULL COMMENT '角色ID',
-  `module_id` bigint(13) NOT NULL COMMENT '权限模块ID',
+  `pid` bigint(13) NOT NULL COMMENT '权限ID',
   PRIMARY KEY (`id`),
   KEY `idx_rid` (`rid`),
-  KEY `idx_pid` (`module_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='权限角色关系表';
+  KEY `idx_pid` (`pid`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=98 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='权限角色关系表';
 
 -- ----------------------------
 -- Table structure for system_permisson_log
@@ -361,7 +343,7 @@ CREATE TABLE `user_health` (
   `admin_id` bigint(13) NOT NULL COMMENT '管理员ID',
   `is_del` tinyint(2) DEFAULT NULL COMMENT '删除状态（0：未删除；1：已删除）',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ----------------------------
 -- Table structure for work_collection

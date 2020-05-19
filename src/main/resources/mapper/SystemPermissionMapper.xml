@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tangerinespecter.oms.system.mapper.SystemPermissionMapper">
+    <update id="updateUrlByCode">
+        update system_permission
+        set url = #{url}
+        where code = #{code}
+    </update>
 
     <select id="getPermissionListByUid"
             resultType="com.tangerinespecter.oms.system.domain.dto.system.UserPermissionListDto">

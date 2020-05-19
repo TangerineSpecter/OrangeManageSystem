@@ -24,8 +24,6 @@ public class TradeStatisServerImpl implements ITradeStatisServer {
         List<DataTradeRecord> dataTradeRecords = dataTradeRecordMapper.queryTotalIncomeByDay();
         List<BigDecimal> totalIncome = dataTradeRecords.stream().map(DataTradeRecord::getIncomeValue).collect(Collectors.toList());
         List<String> date = dataTradeRecords.stream().map(DataTradeRecord::getDate).collect(Collectors.toList());
-        Collections.reverse(totalIncome);
-        Collections.reverse(date);
         TradeStatisIncomeInfoDto infoDto = TradeStatisIncomeInfoDto.builder().totalIncome(totalIncome).date(date).build();
         return ServiceResult.success(infoDto);
     }

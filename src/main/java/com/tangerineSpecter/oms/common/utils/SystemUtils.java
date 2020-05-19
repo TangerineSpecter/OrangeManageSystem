@@ -6,6 +6,8 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
 import cn.hutool.crypto.digest.DigestAlgorithm;
 import cn.hutool.crypto.digest.Digester;
+import com.google.common.base.Joiner;
+import com.google.common.base.Splitter;
 import com.tangerinespecter.oms.common.config.QiNiuConfig;
 import com.tangerinespecter.oms.common.constants.CommonConstant;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;
@@ -21,6 +23,7 @@ import java.math.BigDecimal;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
@@ -379,4 +382,19 @@ public class SystemUtils {
     public static String getPermissionCode(String permissionCode) {
         return SecureUtil.md5(permissionCode + CommonConstant.PERMISSION_CODE);
     }
+
+    /**
+     * 获取权限地址
+     *
+     * @param href 菜单跳转url
+     * @return 权限url
+     */
+    public static String getPermissionUrl(String href) {
+        if (StrUtil.isBlank(href)) {
+            return null;
+        }
+        List<String> resultUrl = Splitter.on("/").omitEmptyStrings().splitToList(href);
+        return Joiner.on(":").join(resultUrl);
+    }
+
 }

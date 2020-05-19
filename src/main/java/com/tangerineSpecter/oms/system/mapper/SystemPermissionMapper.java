@@ -41,4 +41,6 @@ public interface SystemPermissionMapper extends BaseMapper<SystemPermission> {
      * @return
      */
     List<SystemPermission> queryForPage(SystemPermissionQueryObject qo);
+
+    SystemPermission queryPermissionByCode(@Param("code") String code);
 }

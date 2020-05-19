@@ -1,8 +1,6 @@
 package com.tangerinespecter.oms.system.service.system.impl;
 
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.crypto.SecureUtil;
-import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.tangerinespecter.oms.common.constants.CommonConstant;
 import com.tangerinespecter.oms.common.constants.RetCode;
@@ -14,13 +12,13 @@ import com.tangerinespecter.oms.system.domain.entity.*;
 import com.tangerinespecter.oms.system.domain.vo.system.SystemMenuInfoVo;
 import com.tangerinespecter.oms.system.mapper.*;
 import com.tangerinespecter.oms.system.service.system.IMenuSettingService;
+import com.tangerinespecter.oms.system.service.system.IPermissionManageService;
 import com.tangerinespecter.oms.system.service.system.ISystemUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -43,6 +41,8 @@ public class MenuSettingServiceImpl implements IMenuSettingService {
     private SystemPermissionRoleMapper systemPermissionRoleMapper;
     @Resource
     private IMenuSettingService menuSettingService;
+    @Resource
+    private IPermissionManageService permissionManageService;
 
     @Override
     public ServiceResult<Object> listInfo() {
@@ -64,6 +64,7 @@ public class MenuSettingServiceImpl implements IMenuSettingService {
             return ServiceResult.error(RetCode.SYSTEM_MENU_CHILD_EXIST);
         }
         systemMenuMapper.deleteById(id);
+        permissionManageService.deleteInfo(SystemUtils.getPermissionCode(systemMenu.getPermissionCode()));
         return ServiceResult.success();
     }
 
@@ -73,6 +74,7 @@ public class MenuSettingServiceImpl implements IMenuSettingService {
                 .icon("fa " + vo.getIcon()).level(vo.getLevel()).pid(vo.getPid())
                 .target(vo.getTarget()).sort(vo.getSort()).build();
         systemMenuMapper.insert(systemMenu);
+        permissionManageService.init();
         return ServiceResult.success();
     }
 

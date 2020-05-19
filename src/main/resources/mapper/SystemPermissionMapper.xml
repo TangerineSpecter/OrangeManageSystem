@@ -41,4 +41,9 @@
             </if>
         </where>
     </select>
+    <select id="queryPermissionByCode" resultType="com.tangerinespecter.oms.system.domain.entity.SystemPermission">
+        select *
+        from system_permission
+        where code = #{code}
+    </select>
 </mapper>

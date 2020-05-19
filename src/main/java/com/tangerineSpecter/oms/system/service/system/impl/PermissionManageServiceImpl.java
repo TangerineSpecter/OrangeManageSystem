@@ -1,5 +1,7 @@
 package com.tangerinespecter.oms.system.service.system.impl;
 
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.tangerinespecter.oms.common.query.SystemPermissionQueryObject;
@@ -7,8 +9,10 @@ import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.system.domain.entity.SystemMenu;
 import com.tangerinespecter.oms.system.domain.entity.SystemPermission;
+import com.tangerinespecter.oms.system.domain.entity.SystemPermissionRole;
 import com.tangerinespecter.oms.system.mapper.SystemMenuMapper;
 import com.tangerinespecter.oms.system.mapper.SystemPermissionMapper;
+import com.tangerinespecter.oms.system.mapper.SystemPermissionRoleMapper;
 import com.tangerinespecter.oms.system.service.system.IPermissionManageService;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +27,8 @@ public class PermissionManageServiceImpl implements IPermissionManageService {
     private SystemPermissionMapper systemPermissionMapper;
     @Resource
     private SystemMenuMapper systemMenuMapper;
+    @Resource
+    private SystemPermissionRoleMapper systemPermissionRoleMapper;
 
     @Override
     public ServiceResult queryForPage(SystemPermissionQueryObject qo) {
@@ -47,6 +53,26 @@ public class PermissionManageServiceImpl implements IPermissionManageService {
                 systemPermissionMapper.insert(permission);
             }
         });
+        return ServiceResult.success();
+    }
+
+    /**
+     * 删除权限
+     *
+     * @param code
+     * @return
+     */
+    @Override
+    public ServiceResult deleteInfo(String code) {
+        if (StrUtil.isBlank(code)) {
+            return ServiceResult.paramError();
+        }
+        SystemPermission systemPermission = systemPermissionMapper.queryPermissionByCode(code);
+        Long id = systemPermission.getId();
+        systemPermissionMapper.deleteById(id);
+        QueryWrapper<SystemPermissionRole> queryWrapper = new QueryWrapper<SystemPermissionRole>()
+                .eq("pid", id);
+        systemPermissionRoleMapper.delete(queryWrapper);
         return ServiceResult.success();
     }
 }

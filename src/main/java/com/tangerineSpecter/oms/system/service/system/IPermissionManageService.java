@@ -8,4 +8,6 @@ public interface IPermissionManageService {
     ServiceResult queryForPage(SystemPermissionQueryObject qo);
 
     ServiceResult init();
+
+    ServiceResult deleteInfo(String cpde);
 }

@@ -1,6 +1,7 @@
 package com.tangerinespecter.oms.system.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.tangerinespecter.oms.common.query.SystemPermissionQueryObject;
 import com.tangerinespecter.oms.system.domain.dto.system.UserPermissionListDto;
 import com.tangerinespecter.oms.system.domain.entity.SystemPermission;
 import org.apache.ibatis.annotations.Param;
@@ -32,4 +33,12 @@ public interface SystemPermissionMapper extends BaseMapper<SystemPermission> {
      * @param code
      */
     void updateUrlByCode(@Param("url") String url, @Param("code") String code);
+
+    /**
+     * 权限列表
+     *
+     * @param qo
+     * @return
+     */
+    List<SystemPermission> queryForPage(SystemPermissionQueryObject qo);
 }

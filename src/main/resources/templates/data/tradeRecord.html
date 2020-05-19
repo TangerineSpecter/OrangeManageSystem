@@ -220,7 +220,7 @@
             }, "JSON");
         }
 
-        //初始化数据
+        //删除数据
         function deleteFun(id) {
             $.post("/data/trade-record/delete", {id: id}, function (result) {
                 if (result.success) {

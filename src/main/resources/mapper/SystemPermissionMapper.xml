@@ -32,4 +32,13 @@
                             ON sp.id = spr.pid
         where sr.id = #{rid}
     </select>
+    <select id="queryForPage" resultType="com.tangerinespecter.oms.system.domain.entity.SystemPermission">
+        select *
+        from system_permission
+        <where>
+            <if test="name != null and name != ''">
+                `name` like concat("%",#{name},"%")
+            </if>
+        </where>
+    </select>
 </mapper>

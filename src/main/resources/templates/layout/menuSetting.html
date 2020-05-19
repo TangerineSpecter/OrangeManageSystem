@@ -80,7 +80,7 @@
                 });
 
                 $('#btn-add').click(function () {
-                    loadFormModel("添加系统菜单", {href: "/system/menu/insert"}, '/system/menu/addPage');
+                    loadFormModel("添加系统菜单", {url: "/system/menu/insert"}, '/system/menu/addPage');
                 });
 
                 $('#btn-expand').click(function () {
@@ -123,7 +123,7 @@
                             }
                         });
                     } else if (layEvent === 'edit') {
-                        data.href = "/system/menu/update";
+                        data.url = "/system/menu/update";
                         loadFormModel("编辑系统菜单", data, '/system/menu/addPage');
                     }
                 });

@@ -9,6 +9,7 @@ import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.vo.data.QuestionInfoVo;
 import com.tangerinespecter.oms.system.service.data.IDataQuestionServer;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,6 +41,7 @@ public class DataQuestionController {
      * 问题管理页面
      */
     @ResponseBody
+    @RequiresPermissions("data:question:page")
     @RequestMapping(value = "/page", produces = "text/html;charset=UTF-8")
     public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
         return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getQuestionPageKey, "data/question");

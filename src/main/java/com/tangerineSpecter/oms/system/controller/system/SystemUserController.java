@@ -8,6 +8,7 @@ import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;
 import com.tangerinespecter.oms.system.domain.vo.system.SystemUserInfoVo;
 import com.tangerinespecter.oms.system.service.system.ISystemUserService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,6 +36,7 @@ public class SystemUserController {
      * 后台管理员
      */
     @RequestMapping("/page")
+    @RequiresPermissions("systemUser:page")
     public String systemUserPage() {
         return "system/systemUser";
     }

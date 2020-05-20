@@ -8,6 +8,7 @@ import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.dto.system.SystemBulletinInfoVo;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
 import com.tangerinespecter.oms.system.service.system.ISystemBulletinService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,6 +40,7 @@ public class SystemBulletinController {
      * 收藏页面
      */
     @ResponseBody
+    @RequiresPermissions("system:bulletin:page")
     @RequestMapping(value = "/page", produces = "text/html;charset=UTF-8")
     public String bulletinPage(HttpServletRequest request, HttpServletResponse response, Model model) {
         return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getSystemBulletinPageKey, "system/systemBulletin");

@@ -7,6 +7,7 @@ import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.system.domain.entity.SystemConfig;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;
 import com.tangerinespecter.oms.system.service.system.ISystemConfigServer;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +30,7 @@ public class PageController {
     /**
      * 系统配置
      */
+    @RequiresPermissions("page:systemSetting")
     @RequestMapping("/systemSetting")
     public String systemSetting(Model model) {
         SystemConfig systemConfig = systemConfigServer.configInfo();
@@ -46,7 +48,7 @@ public class PageController {
     }
 
     /**
-     * 系统配置
+     * 修改密码
      */
     @RequestMapping("/userPassword")
     public String userPassword(Model model) {

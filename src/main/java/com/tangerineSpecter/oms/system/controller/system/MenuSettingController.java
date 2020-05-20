@@ -8,6 +8,7 @@ import com.tangerinespecter.oms.system.domain.entity.SystemMenu;
 import com.tangerinespecter.oms.system.domain.vo.system.SystemMenuInfoVo;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
 import com.tangerinespecter.oms.system.service.system.IMenuSettingService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,6 +40,7 @@ public class MenuSettingController {
      * 菜单管理
      */
     @ResponseBody
+    @RequiresPermissions("system:menu:page")
     @RequestMapping(value = "/page", produces = "text/html;charset=UTF-8")
     public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
         return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getSystemMenuPageKey, "layout/menuSetting");

@@ -29,8 +29,7 @@ public class GlobalExceptionHandler {
     //定义拦截的异常类型，Exception拦截所有异常
     @ExceptionHandler(value = Exception.class)
     public ModelAndView exceptionHandler(HttpServletRequest request, Exception exception) {
-        if (exception instanceof UnauthorizedException
-                || exception instanceof AuthorizationException) {
+        if (exception instanceof AuthorizationException) {
             return new ModelAndView("/unauthorized");
         }
         if (exception instanceof GlobalException) {
@@ -46,7 +45,7 @@ public class GlobalExceptionHandler {
             log.error("发生异常，异常信息{}", defaultMessage);
             return new ModelAndView("/system/404");
         }
-        log.error("【操作失败】，系统发生异常：{}", exception.getMessage());
+        log.error("【操作失败】，系统发生异常：{}", exception);
         return new ModelAndView("/system/404");
     }
 }

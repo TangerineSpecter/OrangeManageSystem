@@ -36,15 +36,6 @@ public class ShiroWildcardPermission extends WildcardPermission {
         List<String> permissionList = targetParts.stream().map(t -> t.iterator().next()).collect(Collectors.toList());
         List<String> requestList = getParts().stream().map(t -> t.iterator().next()).collect(Collectors.toList());
         Collection<String> intersection = CollUtil.intersection(requestList, permissionList);
-        log.info("集合1：{} == 集合2：{},  交集结果：{} == {}", requestList, permissionList, intersection,intersection.size() == permissionList.size());
-//        String targetUrl = targetParts.get(0).iterator().next();
-//        String url = getParts().get(0).iterator().next();
-//        if (targetUrl.startsWith(url)) {
-//            if (targetUrl.equals(url)) {
-//                return true;
-//            }
-//            return targetUrl.startsWith(url.concat("/"));
-//        }
         //权限一致放行通过
         return intersection.size() == permissionList.size();
     }

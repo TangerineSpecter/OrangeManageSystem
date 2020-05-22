@@ -111,9 +111,21 @@
             stroke: {
                 curve: 'smooth'
             },
+            grid: {
+                borderColor: '#111',
+                strokeDashArray: 7,
+            },
             xaxis: {
                 type: 'date',
-                categories: date.reverse()
+                categories: date.reverse(),
+                lines: {
+                    show: true,
+                }
+            },
+            yaxis: {
+                lines: {
+                    show: true,
+                }
             },
             tooltip: {
                 x: {

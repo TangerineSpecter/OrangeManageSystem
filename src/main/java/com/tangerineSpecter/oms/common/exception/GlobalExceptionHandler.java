@@ -1,10 +1,7 @@
 package com.tangerinespecter.oms.common.exception;
 
-import com.tangerinespecter.oms.common.constants.RetCode;
-import com.tangerinespecter.oms.common.result.ServiceResult;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.AuthorizationException;
-import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -26,7 +23,13 @@ import java.util.List;
 @ResponseBody
 public class GlobalExceptionHandler {
 
-    //定义拦截的异常类型，Exception拦截所有异常
+    /**
+     * 定义拦截的异常类型，Exception拦截所有异常
+     *
+     * @param request   接受请求
+     * @param exception 异常
+     * @return model
+     */
     @ExceptionHandler(value = Exception.class)
     public ModelAndView exceptionHandler(HttpServletRequest request, Exception exception) {
         if (exception instanceof AuthorizationException) {
@@ -45,7 +48,8 @@ public class GlobalExceptionHandler {
             log.error("发生异常，异常信息{}", defaultMessage);
             return new ModelAndView("/system/404");
         }
-        log.error("【操作失败】，系统发生异常：{}", exception);
+        log.error("【操作失败】，系统发生异常：{}", exception.getMessage());
+        exception.printStackTrace();
         return new ModelAndView("/system/404");
     }
 }

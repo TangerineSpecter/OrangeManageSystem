@@ -34,10 +34,6 @@ public class SystemRole {
      */
     private String name;
     /**
-     * 角色类型（0：普通；1：管理员；2：其他）
-     */
-    private Integer type;
-    /**
      * 状态（0：冻结；1：可用）
      */
     private Integer status;

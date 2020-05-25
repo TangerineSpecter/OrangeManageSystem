@@ -1,6 +1,6 @@
 package com.tangerinespecter.oms.system.service.system.impl;
 
-import cn.hutool.core.util.RandomUtil;
+import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.system.mapper.SystemNoticeMapper;
 import com.tangerinespecter.oms.system.service.system.ISystemNoticeService;
 import org.springframework.stereotype.Service;
@@ -21,10 +21,10 @@ public class SystemNoticeServiceImpl implements ISystemNoticeService {
         response.setCharacterEncoding("utf-8");
         while (true) {
             try {
-                int i = RandomUtil.randomInt(20);
-                Thread.sleep(30 * 1000);
+                int noticeCount = 1;
+//                int noticeCount = systemNoticeMapper.queryNotReadNoticeCount(SystemUtils.getSystemUserId());
                 PrintWriter pw = response.getWriter();
-                if (i % 2 == 0) {
+                if (noticeCount > 0) {
                     pw.write("data:true\n\n");
                 } else {
                     pw.write("data:false\n\n");
@@ -35,7 +35,6 @@ public class SystemNoticeServiceImpl implements ISystemNoticeService {
                     return;
                 }
             } catch (Exception e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }

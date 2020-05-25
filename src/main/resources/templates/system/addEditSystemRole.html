@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="./common/_layui_common :: common_header">
+    <meta charset="UTF-8">
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <form class="layui-form layui-form-pane" action="" lay-filter="data-form">
+            <input type="text" id="id" name="id" class="layui-input" style="display: none;">
+            <div class="layui-form-item">
+                <label class="layui-form-label">标题</label>
+                <div class="layui-input-block">
+                    <input type="text" name="title" autocomplete="off"
+                           placeholder="请输入公告标题" lay-verify="title"
+                           class="layui-input"/>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">内容</label>
+                <div class="layui-input-block">
+                    <textarea name="content" autocomplete="off"
+                              placeholder="请输入公告内容"
+                              class="layui-textarea" style="height: 280px;"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item" style="display:none;">
+                <button id="submitBtn" class="layui-btn" lay-submit="" lay-filter="submitBtn">提交</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div th:replace="./common/_layui_common::common_js"></div>
+<script>
+
+    //初始化页面数据
+    function initData(data) {
+        if (data.id !== undefined) {
+            initForm(data);
+        }
+        href = data.href;
+    }
+
+    /**
+     * 初始化表单
+     * @param data 数据
+     */
+    function initForm(data) {
+        layui.use(['form'], function () {
+            const form = layui.form;
+            form.val("data-form", {
+                "id": data.id,
+                "title": data.title,
+                "content": data.content
+            });
+            form.render();
+        });
+    }
+
+    layui.use(['form', 'layedit', 'layer'], function () {
+        const form = layui.form,
+            layedit = layui.layedit,
+            layer = layui.layer;
+
+
+        //自定义验证规则
+        form.verify({
+            title: function (value) {
+                if (value == null || value === "") {
+                    return '请输入收藏标题';
+                }
+            },
+            content: function (value) {
+                if (value == null || value === "") {
+                    return '请输入收藏内容';
+                }
+            },
+            type: function (value) {
+                if (value == null || value === "") {
+                    return '请选择收藏类型';
+                }
+            }
+        });
+
+        //监听提交
+        form.on('submit(submitBtn)', function (data) {
+            $.post(href, data.field, function (result) {
+                layer.open({
+                    title: '提示',
+                    content: result.msg,
+                    yes: function (index, layero) {
+                        if (result.code === 0) {
+                            parent.layer.closeAll();
+                            reloadTab();
+                        }
+                    }
+                });
+            }, "JSON");
+            return false;
+        });
+
+        //构建一个默认的编辑器
+        //var index = layedit.build('content');
+    });
+
+</script>
+</body>
+</html>

@@ -95,6 +95,10 @@ public class RetCode {
      */
     public static final RetCode FILE_UPLOAD_EXCEPTION = new RetCode(112, "文件上传异常！");
     /**
+     * 存在同名角色
+     */
+    public static final RetCode EXIST_SAME_NAME_ROLE = new RetCode(113, "存在同名角色！");
+    /**
      * 参数错误
      */
     public static final RetCode PARAM_ERROR = new RetCode(200, "参数错误");

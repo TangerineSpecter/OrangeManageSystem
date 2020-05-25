@@ -170,9 +170,9 @@ public class MenuSettingServiceImpl implements IMenuSettingService {
             return;
         }
         SystemRole systemRole = systemRoleMapper.selectRoleByUid(adminId);
-        Long adminRoleId = null;
+        Long adminRoleId;
         if (systemRole == null) {
-            SystemRole createSystemRole = SystemRole.builder().name("系统管理员").type(SystemConstant.IS_SYSTEM_ADMIN_ROLE)
+            SystemRole createSystemRole = SystemRole.builder().name("系统管理员")
                     .status(SystemConstant.IS_EFFECTIVE).remark("系统管理员").build();
             systemRoleMapper.insert(createSystemRole);
             adminRoleId = createSystemRole.getId();

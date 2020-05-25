@@ -5,18 +5,22 @@
     <resultMap id="systemUserMap" type="com.tangerinespecter.oms.system.domain.entity.SystemRole">
         <id column="id" property="id"/>
         <result column="name" property="name"/>
-        <result column="type" property="type"/>
         <result column="status" property="status"/>
         <result column="remark" property="remark"/>
         <collection property="permissions" ofType="com.tangerinespecter.oms.system.domain.entity.SystemPermission">
-            <id column="id" property="id"/>
-            <result column="name" property="name"/>
+            <id column="pid" property="id"/>
+            <result column="permission_name" property="name"/>
             <result column="url" property="url"/>
             <result column="code" property="code"/>
-            <result column="remark" property="remark"/>
+            <result column="permission_remark" property="remark"/>
             <result column="sort" property="sort"/>
         </collection>
     </resultMap>
+    <update id="updateRoleStatus">
+        update system_role
+        set status = #{status}
+        where id = #{id}
+    </update>
 
 
     <select id="queryForPage" resultType="com.tangerinespecter.oms.system.domain.entity.SystemRole">
@@ -42,5 +46,25 @@
              system_user_role sur
         where sr.id = sur.rid
           and sur.uid = #{uid}
+    </select>
+    <select id="selectRoleById" resultMap="systemUserMap">
+        select sr.*,
+               sp.id     as pid,
+               sp.name   as permission_name,
+               sp.remark as permission_remark,
+               sp.url,
+               sp.code,
+               sp.sort
+        from system_role sr
+                 LEFT JOIN system_permission_role spr
+                           ON sr.id = spr.rid
+                 LEFT JOIN system_permission sp
+                           ON spr.pid = sp.id
+        where sr.id = #{id}
+    </select>
+    <select id="selectRoleByName" resultType="com.tangerinespecter.oms.system.domain.entity.SystemRole">
+        select *
+        from system_role
+        where `name` like concat('%', #{name}, '%')
     </select>
 </mapper>

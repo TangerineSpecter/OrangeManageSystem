@@ -39,10 +39,18 @@
     </div>
 </div>
 <div th:replace="./common/_layui_common::common_js"></div>
+<script type="text/html" id="switchTpl">
+    <input type="checkbox" name="status" value="{{d.id}}" lay-skin="switch" lay-text="冻结|可用" lay-filter="statusFun" {{
+           d.status== 0 ? 'checked' : '' }}>
+</script>
 <script type="text/html" id="toolbar">
     <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="addTradeData">新增角色</button>
+        <button class="layui-btn layui-btn-sm" lay-event="addSystemRole">新增角色</button>
     </div>
+</script>
+<script type="text/html" id="operationBar">
+    <a class="layui-btn layui-btn-xs" lay-event="authorize">授权</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delSystemRole">删除</a>
 </script>
 <script>
     layui.use(['form', 'table', 'laydate'], function () {
@@ -71,16 +79,9 @@
                     {type: "checkbox", fixed: "left"},
                     {field: 'id', title: 'ID', sort: true},
                     {field: 'name', title: '角色名'},
-                    {
-                        field: 'type', title: '状态', templet: function (d) {
-                            if (d.type === 0) {
-                                return "冻结";
-                            } else if (d.type === 1) {
-                                return "可用";
-                            }
-                        }
-                    },
-                    {field: 'remark', minWidth: 150, title: '备注', fixed: "right"}
+                    {field: 'remark', minWidth: 150, title: '备注', fixed: "right"},
+                    {field: 'status', title: '状态', width: 120, templet: '#switchTpl', unresize: true},
+                    {toolbar: '#operationBar', align: 'center', title: '操作', fixed: "right"}
                 ]
             ],
             limits: [10, 15, 20, 25, 50, 100],
@@ -88,15 +89,124 @@
             page: true
         });
 
+        //头工具栏事件
+        table.on('toolbar(currentTableFilter)', function (obj) {
+            switch (obj.event) {
+                //添加系统角色
+                case 'addSystemRole':
+                    layer.prompt({
+                        title: '添加角色'
+                    }, function (value, index) {
+                        insertFun(value);
+                        layer.close(index);
+                    });
+                    break;
+
+                //自定义头工具栏右侧图标 - 提示
+                case 'LAYTABLE_TIPS':
+                    layer.alert('这里是进行角色管理的地方');
+                    break;
+            }
+        });
+
+        //监听工具条
+        table.on('tool(currentTableFilter)', function (obj) {
+            const data = obj.data;
+            switch (obj.event) {
+                case 'authorize':
+                    authorizeFun();
+                    break;
+                case 'delSystemRole':
+                    layer.confirm('是否删除该角色？', function (index) {
+                        deleteFun(data.id);
+                        layer.close(index);
+                    });
+                    break;
+            }
+        });
+
+        //监听首页操作
+        form.on('switch(statusFun)', function (obj) {
+            $.post('/system/role/update-status', {id: this.value}, function (result) {
+                if (!result.success) {
+                    layer.alert(JSON.stringify(result.msg), {
+                        title: '警告'
+                    });
+                    obj.elem.checked = !obj.elem.checked;
+                    form.render('checkbox');
+                } else {
+                    layer.msg(result.msg);
+                }
+            }, "JSON");
+        });
+
         //监听表格复选框选择
         table.on('checkbox(currentTableFilter)', function (obj) {
             console.log(obj)
         });
+
+        //添加角色
+        function insertFun(name) {
+            $.post("/system/role/insert", {name: name}, function (result) {
+                if (result.success) {
+                    layer.open({
+                        title: "提示",
+                        content: "添加角色成功",
+                        yes: function () {
+                            reloadTab();
+                        }
+                    });
+                } else {
+                    layer.open({
+                        title: "警告",
+                        content: result.msg
+                    })
+                }
+            }, "JSON");
+        }
+
+        //授权
+        function authorizeFun() {
+            $.post("/system/role/authorize", {}, function (result) {
+                if (result.success) {
+                    layer.open({
+                        title: "提示",
+                        content: "授权成功",
+                        yes: function () {
+                            reloadTab();
+                        }
+                    });
+                } else {
+                    layer.open({
+                        title: "警告",
+                        content: result.msg
+                    })
+                }
+            }, "JSON");
+        }
+
+        //删除数据
+        function deleteFun(id) {
+            $.post("/system/role/delete", {id: id}, function (result) {
+                if (result.success) {
+                    layer.open({
+                        title: "提示",
+                        content: "删除成功",
+                        yes: function () {
+                            reloadTab();
+                        }
+                    });
+                } else {
+                    layer.open({
+                        title: "警告",
+                        content: result.msg
+                    })
+                }
+            }, "JSON");
+        }
     });
 </script>
 <script>
-
 </script>
-
 </body>
 </html>

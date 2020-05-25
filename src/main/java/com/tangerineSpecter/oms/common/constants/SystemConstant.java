@@ -28,10 +28,6 @@ public class SystemConstant {
      * 超级管理员：是
      */
     public static final Integer IS_SYSTEM_ADMIN = 1;
-    /**
-     * 是否管理员角色：是
-     */
-    public static final Integer IS_SYSTEM_ADMIN_ROLE = 1;
 
     /**
      * 是否有效：冻结

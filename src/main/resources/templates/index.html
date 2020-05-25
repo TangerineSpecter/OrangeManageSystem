@@ -123,29 +123,29 @@
     });
 
     //jsp页面js脚本
-    var source = new EventSource('/system/notice/push');//发送消息
-    s = '';
-    source.addEventListener('message', function (e) {
-        console.log(e.data);
-        console.log(e.data === "false");
-        if (e.data === "true") {
-            $("#notice-badge").show();
-        } else {
-            $("#notice-badge").hide();
-        }
-    }, false);//添加客户端的监听
-
-    source.addEventListener('open', function (e) {
-        console.log("连接打开");
-    }, false);
-
-    source.addEventListener('error', function (e) {
-        if (e.currentTarget.readyState === EventSource.CLOSED) {
-            console.log("连接关闭");
-        } else {
-            console.log(e.currentTarget.readyState);
-        }
-    });
+    // var source = new EventSource('/system/notice/push');//发送消息
+    // s = '';
+    // source.addEventListener('message', function (e) {
+    //     console.log(e.data);
+    //     console.log(e.data === "false");
+    //     if (e.data === "true") {
+    //         $("#notice-badge").show();
+    //     } else {
+    //         $("#notice-badge").hide();
+    //     }
+    // }, false);//添加客户端的监听
+    //
+    // source.addEventListener('open', function (e) {
+    //     console.log("连接打开");
+    // }, false);
+    //
+    // source.addEventListener('error', function (e) {
+    //     if (e.currentTarget.readyState === EventSource.CLOSED) {
+    //         console.log("连接关闭");
+    //     } else {
+    //         console.log(e.currentTarget.readyState);
+    //     }
+    // });
 </script>
 </body>
 </html>

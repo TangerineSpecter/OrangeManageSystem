@@ -42,6 +42,15 @@ public class CommonConstant {
     public static final Integer IS_DEL_YES = 1;
 
     /**
+     * 冻结
+     */
+    public static final Integer STATUS_FREEZE = 0;
+    /**
+     * 可用
+     */
+    public static final Integer STATUS_USABLE = 1;
+
+    /**
      * 置顶：否
      */
     public static final Integer IS_NOT_TOP = 0;

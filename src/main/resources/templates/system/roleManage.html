@@ -114,7 +114,9 @@
             const data = obj.data;
             switch (obj.event) {
                 case 'authorize':
-                    authorizeFun();
+                    data.href = "/system/role/authorize";
+                    loadFormModel("角色授权", data, '/system/role/addPage');
+                    // authorizeFun();
                     break;
                 case 'delSystemRole':
                     layer.confirm('是否删除该角色？', function (index) {
@@ -125,7 +127,7 @@
             }
         });
 
-        //监听首页操作
+        //监听状态更改操作
         form.on('switch(statusFun)', function (obj) {
             $.post('/system/role/update-status', {id: this.value}, function (result) {
                 if (!result.success) {

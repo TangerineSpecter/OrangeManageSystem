@@ -116,9 +116,10 @@ public class MyShiroRealm extends AuthorizingRealm {
     @Override
     public boolean isPermitted(PrincipalCollection principals, String permission) {
         SystemUser systemUser = ((SystemUser) principals.getPrimaryPrincipal());
-//        if (SystemConstant.IS_SYSTEM_ADMIN.equals(systemUser.getAdmin())) {
-//            return true;
-//        }
+        //超级管理员默认拥有所有权限
+        if (SystemConstant.IS_SYSTEM_ADMIN.equals(systemUser.getAdmin())) {
+            return true;
+        }
         return isPermitted(principals, getPermissionResolver().resolvePermission(permission));
     }
 

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="./common/_layui_common :: common_header">
+    <meta charset="UTF-8">
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <form class="layui-form layui-form-pane" action="" lay-filter="data-form">
+            <input type="text" id="id" name="id" class="layui-input" style="display: none;">
+            <div class="layui-form-item">
+                <label class="layui-form-label">角色名称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="name" autocomplete="off"
+                           placeholder="请输入角色名称" lay-verify="title"
+                           class="layui-input"/>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <div id="role-permission"></div>
+            </div>
+            <div class="layui-form-item" style="display:none;">
+                <button id="submitBtn" class="layui-btn" lay-submit="" lay-filter="submitBtn">提交</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div th:replace="./common/_layui_common::common_js"></div>
+<script>
+
+    //初始化页面数据
+    function initData(data) {
+        if (data.id !== undefined) {
+            initForm(data);
+        }
+        href = data.href;
+    }
+
+
+    /**
+     * 初始化表单
+     * @param data 数据
+     */
+    function initForm(data) {
+        layui.use(['form', 'transfer'], function () {
+            const form = layui.form,
+                transfer = layui.transfer;
+            form.val("data-form", {
+                "id": data.id,
+                "name": data.name
+            });
+            form.render();
+            //初始化角色权限
+            transfer.render({
+                elem: '#role-permission',
+                id: "permissionIds",
+                data: data.permissions,
+                value: data.havePermissionIds,
+                title: ["未拥有权限", "已拥有权限"],
+                showSearch: true,
+                parseData: function (res) {
+                    return {
+                        value: res.id,
+                        title: res.name
+                    }
+                }
+            });
+        });
+    }
+
+    layui.use(['transfer', 'layer', 'form'], function () {
+        var $ = layui.$,
+            transfer = layui.transfer,
+            layer = layui.layer,
+            form = layui.form;
+
+        //监听提交
+        form.on('submit(submitBtn)', function (data) {
+            const permissionIds = [];
+            const permissions = transfer.getData('permissionIds');
+            $.each(permissions, function (index, item) {
+                permissionIds.push(item.value);
+            });
+            data.field.permissionIds = permissionIds.join(",");
+            $.post(href, data.field, function (result) {
+                layer.open({
+                    title: '提示',
+                    content: result.msg,
+                    yes: function (index, layero) {
+                        if (result.code === 0) {
+                            parent.layer.closeAll();
+                            reloadTab();
+                        }
+                    }
+                });
+            }, "JSON");
+            return false;
+        });
+    });
+
+</script>
+</body>
+</html>

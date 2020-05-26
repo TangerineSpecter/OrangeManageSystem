@@ -21,5 +21,5 @@ public class SystemRoleInfoVo {
     /**
      * 权限Id列表
      */
-    private List<Long> permissionIds;
+    private String permissionIds;
 }

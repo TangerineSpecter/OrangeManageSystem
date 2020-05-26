@@ -17,7 +17,7 @@ function loadFormModel(title, data, contentUrl) {
     layer.open({
         type: 2
         , title: title
-        , area: ['600px', '550px']
+        , area: ['600px', '600px']
         , shade: 0
         , maxmin: true
         , offset: 'auto'

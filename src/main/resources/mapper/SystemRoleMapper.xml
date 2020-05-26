@@ -21,9 +21,14 @@
         set status = #{status}
         where id = #{id}
     </update>
+    <update id="updateRoleNameById">
+        update system_role
+        set `name` = #{name}
+        where id = #{id}
+    </update>
 
 
-    <select id="queryForPage" resultType="com.tangerinespecter.oms.system.domain.entity.SystemRole">
+    <select id="queryForPage" resultType="com.tangerinespecter.oms.system.domain.dto.system.SystemRoleListDto">
         select *
         from system_role
         <where>

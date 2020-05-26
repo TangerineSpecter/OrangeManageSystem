@@ -25,7 +25,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -100,6 +99,10 @@ public class RoleManageServiceImpl implements IRoleManageService {
     public ServiceResult authorize(SystemRoleInfoVo vo) {
         if (vo.getId() == null) {
             return ServiceResult.paramError();
+        }
+        SystemRole systemRole = systemRoleMapper.selectRoleByName(vo.getName());
+        if (systemRole != null && !systemRole.getId().equals(vo.getId())) {
+            return ServiceResult.error(RetCode.EXIST_SAME_NAME_ROLE);
         }
         systemRoleMapper.updateRoleNameById(vo.getId(), vo.getName());
         QueryWrapper<SystemPermissionRole> queryWrapper = new QueryWrapper<SystemPermissionRole>()

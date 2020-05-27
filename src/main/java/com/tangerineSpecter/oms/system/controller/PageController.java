@@ -1,12 +1,11 @@
 package com.tangerinespecter.oms.system.controller;
 
-import cn.hutool.core.util.StrUtil;
-import com.alibaba.fastjson.JSON;
-import com.tangerinespecter.oms.common.config.QiNiuConfig;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
+import com.tangerinespecter.oms.system.domain.dto.system.VersionHistoryListDto;
 import com.tangerinespecter.oms.system.domain.entity.SystemConfig;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;
-import com.tangerinespecter.oms.system.service.system.ISystemConfigServer;
+import com.tangerinespecter.oms.system.service.system.ISystemConfigService;
+import com.tangerinespecter.oms.system.service.system.ISystemVersionHistoryService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 页面控制
@@ -25,7 +25,9 @@ import javax.annotation.Resource;
 @RequestMapping("/page")
 public class PageController {
     @Resource
-    private ISystemConfigServer systemConfigServer;
+    private ISystemConfigService systemConfigServer;
+    @Resource
+    private ISystemVersionHistoryService systemVersionHistoryService;
 
     /**
      * 系统配置
@@ -57,4 +59,13 @@ public class PageController {
         return "system/userPassword";
     }
 
+    /**
+     * 版本更新历史
+     */
+    @RequestMapping("/versionHistory")
+    public String versionHistory(Model model) {
+        List<VersionHistoryListDto> versionList = systemVersionHistoryService.getVersionList();
+        model.addAttribute("versionList", versionList);
+        return "system/versionHistory";
+    }
 }

@@ -11,7 +11,7 @@
  Target Server Version : 80017
  File Encoding         : 65001
 
- Date: 19/05/2020 13:26:37
+ Date: 27/05/2020 13:45:30
 */
 
 SET NAMES utf8mb4;
@@ -34,7 +34,7 @@ CREATE TABLE `system_menu` (
   `top` tinyint(2) DEFAULT '0' COMMENT '是否在首页（0：否；1：是）',
   `top_sort` int(50) DEFAULT '0' COMMENT '首页排序',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统菜单表';
+) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统菜单表';
 
 -- ----------------------------
 -- Records of system_menu
@@ -86,6 +86,8 @@ INSERT INTO `system_menu` VALUES (72, '系统公告', 7, 'system/bulletin/page',
 INSERT INTO `system_menu` VALUES (73, '健康管理', 26, 'user/health/page', 'fa fa-heartbeat', 2, '_self', 'f8ac1bc7595ad24cd915154f623225ec', 88, 0, 0);
 INSERT INTO `system_menu` VALUES (74, '健康统计', 71, 'statis/health/page', 'fa fa fa-odnoklassniki', 2, '_self', 'fd2456d9c01dc5bc8720bd679875bc4f', 88, 0, 0);
 INSERT INTO `system_menu` VALUES (75, '权限管理', 7, '/system/permission/page', 'fa fa-500px', 2, '_self', '96687a8b1f64ee64c6f8183ecc91494e', 0, 0, 0);
+INSERT INTO `system_menu` VALUES (76, '每日壁纸', 28, '/tools/wall-paper/page', 'fa fa-photo', 2, '_self', 'f95bdecc9f5915a121727408c4d63812', 0, 0, 0);
+INSERT INTO `system_menu` VALUES (77, '版本记录', 7, '/page/versionHistory', 'fa fa fa-info-circle', 2, '_self', '0f7b8a04e50d1b9ad261614078c2d636', 5, 0, 0);
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;

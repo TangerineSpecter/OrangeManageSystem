@@ -5,7 +5,7 @@ import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.entity.SystemConfig;
 import com.tangerinespecter.oms.system.domain.vo.system.SystemConfigInfoVo;
 import com.tangerinespecter.oms.system.mapper.SystemConfigMapper;
-import com.tangerinespecter.oms.system.service.system.ISystemConfigServer;
+import com.tangerinespecter.oms.system.service.system.ISystemConfigService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 
 @Service
-public class SystemConfigServer implements ISystemConfigServer {
+public class SystemConfigServiceImpl implements ISystemConfigService {
 
     @Resource
     private SystemConfigMapper systemConfigMapper;

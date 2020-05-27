@@ -5,12 +5,12 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.1.RELEASE</version>
+        <version>2.2.6.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.tangerinespecter</groupId>
     <artifactId>OrangeManageSystem</artifactId>
-    <version>0.2.0</version>
+    <version>0.4.0</version>
     <name>oms</name>
     <description>This is TangerineSpecter Manage System Project.</description>
 
@@ -123,6 +123,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-amqp</artifactId>
             <version>2.3.0.RELEASE</version>
+        </dependency>
+        <!-- netty -->
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>4.1.48.Final</version>
         </dependency>
         <!-- pagehelper 分页插件 -->
         <dependency>

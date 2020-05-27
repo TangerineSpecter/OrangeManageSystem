@@ -148,9 +148,6 @@ public class MyShiroRealm extends AuthorizingRealm {
         Collection<Session> sessions = sessionDAO.getActiveSessions();
         Session currentSession = SecurityUtils.getSubject().getSession();
         Serializable currentSessionId = currentSession.getId();
-        System.out.println("sessions ==>" + sessions);
-        System.out.println("currentSession ==>" + currentSession);
-        System.out.println("currentSessionId ==>" + currentSessionId);
         for (Session session : sessions) {
             Object attribute = session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY);
             SimplePrincipalCollection collection = (SimplePrincipalCollection) attribute;

@@ -57,3 +57,10 @@ spring:
       filter:
         stat:
           log-slow-sql: true
+    # rabbitMQ
+    rabbitmq:
+      host: 127.0.0.1    # rabbitmq的主机地址
+      port: 5672
+      username: guest #rabbitmq的用户名，默认为guest
+      password: guest #rabbitmq的密码，默认为guest
+      virtual-host: /  #rabbitmq的虚拟主机，默认为/

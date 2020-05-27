@@ -15,6 +15,7 @@
 - 缓存框架：Redis 5.0.3
 - 安全框架：Shiro 1.4.0
 - 分页插件：PageHelper 1.2.5
+- 消息中间件：RabbitMQ 2.3.0
 
 **前端框架：**
 - 基础框架：Bootstrap 4.1.3

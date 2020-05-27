@@ -4,6 +4,10 @@ import com.tangerinespecter.oms.common.constants.SystemConstant;
 import com.tangerinespecter.oms.system.mapper.SystemConfigMapper;
 import com.tangerinespecter.oms.system.service.system.IMenuSettingService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.core.AmqpAdmin;
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.DirectExchange;
+import org.springframework.amqp.core.Queue;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 

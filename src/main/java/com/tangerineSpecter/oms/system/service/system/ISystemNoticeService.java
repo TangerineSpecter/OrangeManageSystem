@@ -1,5 +1,8 @@
 package com.tangerinespecter.oms.system.service.system;
 
+import com.tangerinespecter.oms.common.result.ServiceResult;
+import com.tangerinespecter.oms.system.domain.vo.system.MessageVo;
+
 import javax.servlet.http.HttpServletResponse;
 
 public interface ISystemNoticeService {
@@ -10,4 +13,6 @@ public interface ISystemNoticeService {
      * @param response
      */
     void push(HttpServletResponse response);
+
+    ServiceResult messageSend(MessageVo vo);
 }

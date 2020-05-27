@@ -45,7 +45,7 @@ public class GlobalExceptionHandler {
             List<ObjectError> allErrors = bindException.getAllErrors();
             ObjectError error = allErrors.get(0);
             String defaultMessage = error.getDefaultMessage();
-            log.error("发生异常，异常信息{}", defaultMessage);
+            log.error("发生异常，异常信息:[{}]", defaultMessage);
             return new ModelAndView("/system/404");
         }
         log.error("【操作失败】，系统发生异常：{}", exception.getMessage());

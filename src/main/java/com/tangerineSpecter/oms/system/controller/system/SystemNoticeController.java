@@ -1,5 +1,6 @@
 package com.tangerinespecter.oms.system.controller.system;
 
+import com.tangerinespecter.oms.common.query.SystemNoticeQueryObject;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.vo.system.MessageVo;
 import com.tangerinespecter.oms.system.service.system.ISystemNoticeService;
@@ -24,6 +25,15 @@ public class SystemNoticeController {
 
     @Resource
     private ISystemNoticeService systemNoticeService;
+
+    /**
+     * 消息中心列表
+     */
+    @ResponseBody
+    @RequestMapping("/list")
+    public ServiceResult listInfo(SystemNoticeQueryObject qo) {
+        return systemNoticeService.queryForPage(qo);
+    }
 
     /**
      * 实现服务器推送

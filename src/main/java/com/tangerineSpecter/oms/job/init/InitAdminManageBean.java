@@ -29,9 +29,9 @@ public class InitAdminManageBean implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() {
-        log.info("管理后台数据初始化...");
+        log.info("[初始化管理后台数据]");
         menuSettingService.initSystemUserAdmin();
-        log.info("初始化系统配置信息");
+        log.info("[初始化系统配置信息]");
         SystemConstant.systemConfig = systemConfigMapper.queryLastSystemConfig();
     }
 

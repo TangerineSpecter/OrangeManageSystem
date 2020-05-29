@@ -26,7 +26,7 @@ public class AmqpConfig {
 
     @Bean
     public Queue initQueue() {
-        log.info("消息队列初始化...");
+        log.info("[初始化消息队列]");
         return new Queue(MessageKeys.SYSTEM_NOTICE_QUEUE);
     }
 

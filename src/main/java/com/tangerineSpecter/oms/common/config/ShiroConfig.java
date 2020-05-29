@@ -72,7 +72,7 @@ public class ShiroConfig {
         // 除上以外所有url都必须所有用户认证才可以访问
         filterChainDefinitionMap.put("/**", "authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
-        log.info("Shiro拦截器加载成功");
+        log.info("[初始化Shiro拦截器]");
         return shiroFilterFactoryBean;
     }
 

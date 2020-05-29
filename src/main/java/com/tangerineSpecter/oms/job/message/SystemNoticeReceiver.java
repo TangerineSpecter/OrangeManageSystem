@@ -1,6 +1,8 @@
 package com.tangerinespecter.oms.job.message;
 
 import com.tangerinespecter.oms.common.constants.CommonConstant;
+import com.tangerinespecter.oms.common.constants.MessageConstant;
+import com.tangerinespecter.oms.common.netty.ChatHandler;
 import com.tangerinespecter.oms.system.domain.entity.SystemNotice;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;
 import com.tangerinespecter.oms.system.mapper.SystemNoticeMapper;
@@ -28,6 +30,8 @@ public class SystemNoticeReceiver {
     private SystemNoticeMapper systemNoticeMapper;
     @Resource
     private SystemUserMapper systemUserMapper;
+    @Resource
+    private ChatHandler chatHandler;
 
     @RabbitHandler
     public void process(Message message) {
@@ -38,7 +42,9 @@ public class SystemNoticeReceiver {
             return;
         }
         SystemNotice systemNotice = SystemNotice.builder().title(message.getTitle()).content(message.getContent())
-                .readStatus(0).adminId(uid).type(message.getType()).isDel(CommonConstant.IS_DEL_NO).build();
+                .readStatus(MessageConstant.NOT_READ).pushStatus(MessageConstant.IS_PUSH)
+                .adminId(uid).type(message.getType()).isDel(CommonConstant.IS_DEL_NO).build();
         systemNoticeMapper.insert(systemNotice);
+        chatHandler.sendCurrentUser(MessageTemplate.join(MessageTemplate.PUSH_NEW_MESSAGE, 1));
     }
 }

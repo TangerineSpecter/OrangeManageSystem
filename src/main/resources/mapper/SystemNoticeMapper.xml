@@ -9,4 +9,27 @@
           and read_status = 0
           and admin_id = #{adminId}
     </select>
+    <select id="selectListByAdminId" resultType="com.tangerinespecter.oms.system.domain.entity.SystemNotice">
+        select *
+        from system_notice
+        where is_del = 0
+          and push_status = 0
+          and read_status = 0
+          and admin_id = #{adminId}
+    </select>
+    <select id="selectListByReadStatus"
+            resultType="com.tangerinespecter.oms.system.domain.entity.SystemNotice">
+        select *
+        from system_notice
+        where is_del = 0
+          and read_status = #{readStatus}
+          and admin_id = #{adminId}
+    </select>
+    <select id="queryForPage" resultType="com.tangerinespecter.oms.system.domain.entity.SystemNotice">
+        select *
+        from system_notice
+        where is_del = 0
+          and admin_id = #{adminId}
+        order by create_time desc
+    </select>
 </mapper>

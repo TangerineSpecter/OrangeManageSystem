@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="./common/_layui_common :: common_header">
+    <meta charset="UTF-8">
+</head>
+<body>
+<div class="layuimini-main">
+    <div class="layui-card">
+        <div class="layui-card-header"><i class="fa fa-line-chart icon"></i>消息中心
+        </div>
+        <div class="layui-card-body">
+            <table class="layui-table" lay-skin="line" id="currentTableId" lay-filter="currentTableFilter"></table>
+        </div>
+    </div>
+</div>
+<div th:replace="./common/_layui_common::common_js"></div>
+<script type="text/html" id="operationBar">
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script>
+    layui.use(['table', 'layer'], function () {
+        const $ = layui.jquery,
+            table = layui.table,
+            layer = layui.layer;
+
+        table.render({
+            elem: '#currentTableId',
+            url: '/system/notice/list',
+            cols: [
+                [
+                    {type: "checkbox", width: 50, fixed: "left"},
+                    {field: 'title', title: '标题内容'},
+                    {field: 'createTime', width: 250, title: '时间', fixed: "right"}
+                ]
+            ],
+            limits: [10, 15, 20, 25, 50, 100],
+            limit: 10,
+            page: true
+        });
+
+        //监听表格复选框选择
+        table.on('checkbox(currentTableFilter)', function (obj) {
+            console.log(obj)
+        });
+
+        //监听工具条
+        table.on('tool(currentTableFilter)', function (obj) {
+            const data = obj.data;
+            if (obj.event === 'detail') {
+                layer.msg('ID：' + data.id + ' 的查看操作');
+            } else if (obj.event === 'del') {
+                layer.confirm('是否要删除此消息？', function (index) {
+                    deleteFun(data.id);
+                    layer.close(index);
+                });
+            }
+        });
+
+        //删除数据
+        function deleteFun(id) {
+            $.post("/data/trade-record/delete", {id: id}, function (result) {
+                if (result.success) {
+                    layer.open({
+                        title: "提示",
+                        content: "删除成功",
+                        yes: function () {
+                            reloadTab();
+                        }
+                    });
+                } else {
+                    layer.open({
+                        title: "警告",
+                        content: result.msg
+                    })
+                }
+            }, "JSON");
+        }
+    });
+</script>
+<script>
+</script>
+</body>
+</html>

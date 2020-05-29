@@ -1,5 +1,6 @@
 package com.tangerinespecter.oms.system.domain.dto.system;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,6 +26,10 @@ public class HomePageDataDto {
      * 系统主题信息
      */
     private LogoInfo logoInfo;
+    /**
+     * 是否拥有未读消息：false:没有；1：有;默认没有
+     */
+    private Boolean haveMessage = false;
     /**
      * 菜单信息
      */

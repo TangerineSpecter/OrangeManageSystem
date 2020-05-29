@@ -44,9 +44,9 @@
 
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
-                <a href="javascript:;" data-method="messageWindow" id="noticeBtn"><i class="fa fa-bell"></i><span
+                <a href="javascript:;" data-iframe-tab="/noticeCenter" data-title="消息中心"><i class="fa fa-bell"></i><span
                         id="notice-badge"
-                        class="layui-badge-dot"></span></a>
+                        class="layui-badge-dot" style="display: none;"></span></a>
             </li>
             <li class="layui-nav-item">
                 <a href="javascript:;" data-refresh="刷新"><i class="fa fa-refresh"></i></a>
@@ -125,6 +125,7 @@
 
     window.CHAT = {
         socket: null,
+        messageAudio: document.getElementById("messageAudio"),
         init: function () {
             if (window.WebSocket) {
                 CHAT.socket = new WebSocket("ws://127.0.0.1:8632/ws");
@@ -139,9 +140,17 @@
                 };
                 CHAT.socket.onmessage = function (e) {
                     console.log("接收到消息：" + e.data);
-                    const receiveMsg = document.getElementById("receiveMsg");
-                    const html = receiveMsg.innerHTML;
-                    receiveMsg.innerHTML = html + "</br>" + e.data;
+                    layui.use(['layer', 'layuimini'], function () {
+                        var $ = layui.jquery,
+                            layer = layui.layer;
+
+                        layer.msg(e.data, {
+                            offset: "r", //右侧弹出
+                            icon: 0,
+                            time: 5000
+                        });
+                    });
+                    CHAT.messageAudio.play();
                 }
             } else {
                 alert("浏览器不支持websocket协议");
@@ -149,53 +158,13 @@
         },
         chat: function () {
             console.log("消息发送");
-            const msg = document.getElementById("msgContent");
+            var msg = document.getElementById("msgContent");
             console.log(msg);
             CHAT.socket.send(msg.value);
         }
     };
     CHAT.init();
 
-    $('#noticeBtn').on('click', function () {
-        console.log("消息弹窗");
-        layui.use(['layer', 'layuimini'], function () {
-            var $ = layui.jquery,
-                layer = layui.layer;
-
-            layer.msg("收到一条新消息", {
-                offset: "r", //右侧弹出
-                shade: 0, //不显示遮罩
-                icon: 0,
-                anim: 0
-            });
-        });
-        const messageAudio = document.getElementById("messageAudio");
-        messageAudio.play();
-    });
-    //jsp页面js脚本
-    // var source = new EventSource('/system/notice/push');//发送消息
-    // s = '';
-    // source.addEventListener('message', function (e) {
-    //     console.log(e.data);
-    //     console.log(e.data === "false");
-    //     if (e.data === "true") {
-    //         $("#notice-badge").show();
-    //     } else {
-    //         $("#notice-badge").hide();
-    //     }
-    // }, false);//添加客户端的监听
-    //
-    // source.addEventListener('open', function (e) {
-    //     console.log("连接打开");
-    // }, false);
-    //
-    // source.addEventListener('error', function (e) {
-    //     if (e.currentTarget.readyState === EventSource.CLOSED) {
-    //         console.log("连接关闭");
-    //     } else {
-    //         console.log(e.currentTarget.readyState);
-    //     }
-    // });
 </script>
 </body>
 </html>

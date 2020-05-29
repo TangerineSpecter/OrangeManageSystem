@@ -216,6 +216,6 @@ public class MenuSettingServiceImpl implements IMenuSettingService {
             SystemPermissionRole permissionRole = SystemPermissionRole.builder().rid(roleId).pid(p.getId()).build();
             systemPermissionRoleMapper.insert(permissionRole);
         });
-        log.info("管理员权限初始化完毕");
+        log.info("[管理员权限初始化完毕]");
     }
 }

@@ -1,10 +1,14 @@
 package com.tangerinespecter.oms.system.service.system.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.tangerinespecter.oms.common.query.SystemNoticeQueryObject;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.job.message.Message;
 import com.tangerinespecter.oms.job.message.MessageKeys;
 import com.tangerinespecter.oms.job.message.MessageTypeEnum;
+import com.tangerinespecter.oms.system.domain.entity.SystemNotice;
 import com.tangerinespecter.oms.system.domain.vo.system.MessageVo;
 import com.tangerinespecter.oms.system.mapper.SystemNoticeMapper;
 import com.tangerinespecter.oms.system.service.system.ISystemNoticeService;
@@ -15,6 +19,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
+import java.util.List;
 
 @Service
 public class SystemNoticeServiceImpl implements ISystemNoticeService {
@@ -55,5 +60,13 @@ public class SystemNoticeServiceImpl implements ISystemNoticeService {
         message.setMessageType(MessageTypeEnum.SYSTEM_NOTICE);
         rabbitTemplate.convertAndSend(MessageKeys.SYSTEM_NOTICE_QUEUE, message);
         return ServiceResult.success();
+    }
+
+    @Override
+    public ServiceResult queryForPage(SystemNoticeQueryObject qo) {
+        PageHelper.startPage(qo.getPage(), qo.getLimit());
+        List<SystemNotice> pageList = systemNoticeMapper.queryForPage(qo);
+        PageInfo<SystemNotice> bulletinInfo = new PageInfo<>(pageList);
+        return ServiceResult.pageSuccess(pageList, bulletinInfo.getTotal());
     }
 }

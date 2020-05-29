@@ -1,9 +1,14 @@
 package com.tangerinespecter.oms.system.service.helper;
 
 import cn.hutool.core.collection.CollUtil;
+import com.tangerinespecter.oms.common.constants.MessageConstant;
+import com.tangerinespecter.oms.common.netty.ChatHandler;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
+import com.tangerinespecter.oms.job.message.MessageTemplate;
 import com.tangerinespecter.oms.system.domain.dto.system.UserPermissionListDto;
+import com.tangerinespecter.oms.system.domain.entity.SystemNotice;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;
+import com.tangerinespecter.oms.system.mapper.SystemNoticeMapper;
 import com.tangerinespecter.oms.system.mapper.SystemPermissionMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -23,6 +28,10 @@ public class SystemHelper {
 
     @Resource
     private SystemPermissionMapper systemPermissionMapper;
+    @Resource
+    private SystemNoticeMapper systemNoticeMapper;
+    @Resource
+    private ChatHandler chatHandler;
 
     /**
      * 获取当前登录用户的权限列表
@@ -37,5 +46,24 @@ public class SystemHelper {
             log.error("获取当前登录用户权限列表异常");
         }
         return permissions;
+    }
+
+    /**
+     * 推送系统通知消息
+     */
+    public void pushSystemNotice() {
+        List<SystemNotice> systemNotices = systemNoticeMapper.selectListByAdminId(SystemUtils.getSystemUserId());
+        if (systemNotices.isEmpty()) {
+            return;
+        }
+        chatHandler.sendAllUser(MessageTemplate.join(MessageTemplate.PUSH_NEW_MESSAGE, systemNotices.size()));
+//        boolean pushResult = chatHandler.sendCurrentUser(MessageTemplate.join(MessageTemplate.PUSH_NEW_MESSAGE, systemNotices.size()));
+//        if (!pushResult) {
+//            return;
+//        }
+        for (SystemNotice systemNotice : systemNotices) {
+            systemNotice.setPushStatus(MessageConstant.IS_PUSH);
+            systemNoticeMapper.updateById(systemNotice);
+        }
     }
 }

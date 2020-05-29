@@ -6,6 +6,7 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
@@ -18,6 +19,13 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class NettyServer {
+
+    private static int NETTY_PORT;
+
+    @Value("${netty.server.port}")
+    public void setNettyPort(int nettyPort) {
+        NETTY_PORT = nettyPort;
+    }
 
     private static class SingletonWsServer {
         static final NettyServer instance = new NettyServer();
@@ -42,7 +50,7 @@ public class NettyServer {
     }
 
     public void start() {
-        this.future = server.bind(8632);
-        log.info("netty websocket server 启动完毕...");
+        this.future = server.bind(NETTY_PORT);
+        log.info("[netty websocket server 启动完毕，端口号：{}]", NETTY_PORT);
     }
 }

@@ -52,6 +52,7 @@ layui.define(["element", "jquery"], function (exports) {
                     layuimini.initLogo(data.logoInfo);
                     layuimini.initClear(data.clearInfo);
                     layuimini.initMenu(data.menuInfo);
+                    layuimini.initNotice(data.haveMessage);
                     layuimini.initTab();
                 }
             }).fail(function () {
@@ -267,6 +268,14 @@ layui.define(["element", "jquery"], function (exports) {
             }
             if (layuimini.config('urlHashLocation')) {
                 layuimini.hashTab();
+            }
+        };
+
+        this.initNotice = function (isShow) {
+            if (isShow) {
+                $("#notice-badge").show();
+            } else {
+                $("#notice-badge").hide();
             }
         };
 

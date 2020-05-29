@@ -86,16 +86,16 @@
     function initStatisCharts() {
         $.post("/statis/health/health-info", function (result) {
             if (result.success) {
-                initCharts("#echarts-weight", "体重(斤)", result.data.weightData, result.data.date);
-                initCharts("#echarts-fat-weight", "脂肪（斤）", result.data.fatWeightData, result.data.date);
-                initCharts("#echarts-pressure", "压力", result.data.pressureData, result.data.date);
-                initCharts("#echarts-sleep-duration", "睡眠（小时）", result.data.sleepDurationData, result.data.date);
-                initCharts("#echarts-step-number", "步数", result.data.stepNumberData, result.data.date);
+                initCharts("#echarts-weight", "体重(斤)", result.data.weightData, result.data.date, '#87CEFA');
+                initCharts("#echarts-fat-weight", "脂肪（斤）", result.data.fatWeightData, result.data.date, '#EE5C42');
+                initCharts("#echarts-pressure", "压力", result.data.pressureData, result.data.date, '#4EEE94');
+                initCharts("#echarts-sleep-duration", "睡眠（小时）", result.data.sleepDurationData, result.data.date, '#FFDEAD');
+                initCharts("#echarts-step-number", "步数", result.data.stepNumberData, result.data.date, '#8B668B');
             }
         }, "JSON");
     }
 
-    function initCharts(id, name, data, date) {
+    function initCharts(id, name, data, date, color) {
         const options = {
             series: [{
                 name: name,
@@ -103,10 +103,12 @@
             }],
             chart: {
                 height: 350,
-                type: 'area'
+                type: 'area',
+                stacked: true
             },
+            colors: [color],
             dataLabels: {
-                enabled: false
+                enabled: true
             },
             stroke: {
                 curve: 'smooth'

@@ -1,5 +1,6 @@
 package com.tangerinespecter.oms.system.service.system;
 
+import com.tangerinespecter.oms.common.query.SystemNoticeQueryObject;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.vo.system.MessageVo;
 
@@ -15,4 +16,6 @@ public interface ISystemNoticeService {
     void push(HttpServletResponse response);
 
     ServiceResult messageSend(MessageVo vo);
+
+    ServiceResult queryForPage(SystemNoticeQueryObject qo);
 }

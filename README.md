@@ -82,7 +82,11 @@
 3.配置指令：mybatis-generator:generate
 4.Run运行
 ```
-
+### 5.启动RabbitMQ
+```
+1.安装RabbitMQ
+2.rabbitmq-server 启动
+```
 ## 系统菜单功能说明
 
 ```text

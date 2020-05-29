@@ -10,20 +10,15 @@ import com.alibaba.druid.util.StringUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
-import com.tangerinespecter.oms.common.constants.CommonConstant;
-import com.tangerinespecter.oms.common.constants.ParamUtils;
-import com.tangerinespecter.oms.common.constants.SystemConstant;
-import com.tangerinespecter.oms.common.constants.TradeConstant;
+import com.tangerinespecter.oms.common.constants.*;
+import com.tangerinespecter.oms.common.netty.ChatHandler;
 import com.tangerinespecter.oms.common.utils.DateUtils;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.system.domain.dto.system.*;
 import com.tangerinespecter.oms.system.domain.entity.*;
 import com.tangerinespecter.oms.system.domain.pojo.ManagerInfoBean;
 import com.tangerinespecter.oms.system.domain.pojo.SystemInfoBean;
-import com.tangerinespecter.oms.system.mapper.DataConstellationMapper;
-import com.tangerinespecter.oms.system.mapper.DataTradeRecordMapper;
-import com.tangerinespecter.oms.system.mapper.SystemBulletinMapper;
-import com.tangerinespecter.oms.system.mapper.SystemMenuMapper;
+import com.tangerinespecter.oms.system.mapper.*;
 import com.tangerinespecter.oms.system.service.helper.SystemHelper;
 import com.tangerinespecter.oms.system.service.system.ISystemInfoService;
 import lombok.extern.slf4j.Slf4j;
@@ -54,9 +49,13 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
     @Resource
     private DataTradeRecordMapper dataTradeRecordMapper;
     @Resource
+    private SystemNoticeMapper systemNoticeMapper;
+    @Resource
     private SystemHelper systemHelper;
     @Resource
     private SystemBulletinMapper systemBulletinMapper;
+    @Resource
+    private ChatHandler chatHandler;
 
     private final Integer luck_threshold = 70;
     /**
@@ -138,6 +137,12 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
         List<String> permissionCodes = permissions.stream().map(UserPermissionListDto::getCode).collect(Collectors.toList());
         Map<String, MenuChildInfo> menuInfo = getMenuChildInfo(list, permissionCodes);
         homePageDataDto.setMenuInfo(menuInfo);
+        //执行系统通知推送
+        systemHelper.pushSystemNotice();
+        List<SystemNotice> systemNotices = systemNoticeMapper.selectListByReadStatus(SystemUtils.getSystemUserId(), MessageConstant.NOT_READ);
+        if (CollUtil.isNotEmpty(systemNotices)) {
+            homePageDataDto.setHaveMessage(true);
+        }
         return homePageDataDto;
     }
 

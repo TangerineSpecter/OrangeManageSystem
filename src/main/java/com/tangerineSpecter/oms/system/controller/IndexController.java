@@ -105,4 +105,12 @@ public class IndexController {
         return "system/404";
     }
 
+    /**
+     * 消息中心
+     */
+    @RequestMapping("/noticeCenter")
+    public String noticeCenter() {
+        return "system/systemNotice";
+    }
+
 }

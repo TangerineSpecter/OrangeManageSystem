@@ -33,7 +33,11 @@ public class SystemNotice implements Serializable {
      */
     private Integer type;
     /**
-     * 阅读状态
+     * 推送状态（0：未推送；1：已推送）
+     */
+    private Integer pushStatus;
+    /**
+     * 阅读状态（0：未读；1：已读）
      */
     private Integer readStatus;
     /**

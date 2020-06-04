@@ -70,7 +70,7 @@ public class ConstellationQuartzService {
             }
             for (String star : noStarList) {
                 Map<String, Object> configBean = new HashMap<>(16);
-                configBean.put(ParamUtils.CONSNAME, star);
+                configBean.put(ParamUtils.CONS_NAME, star);
                 configBean.put(ParamUtils.KEY, juheApiConstellationKey);
                 configBean.put(ParamUtils.TYPE, TODAY);
                 String result = HttpUtils.interfaceInvoke(juheApiConstellationUrl, configBean,

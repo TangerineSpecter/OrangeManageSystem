@@ -3,6 +3,7 @@ package com.tangerinespecter.oms.system.controller.system;
 import com.tangerinespecter.oms.common.query.SystemNoticeQueryObject;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.vo.system.MessageVo;
+import com.tangerinespecter.oms.system.domain.vo.system.NoticeUpdateStatusVo;
 import com.tangerinespecter.oms.system.service.system.ISystemNoticeService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -33,6 +34,30 @@ public class SystemNoticeController {
     @RequestMapping("/list")
     public ServiceResult listInfo(SystemNoticeQueryObject qo) {
         return systemNoticeService.queryForPage(qo);
+    }
+
+    /**
+     * 批量已读状态
+     */
+    @RequestMapping("/batchReadStatus")
+    public ServiceResult batchUpdateReadStatus(NoticeUpdateStatusVo vo) {
+        return systemNoticeService.batchUpdateReadStatus(vo);
+    }
+
+    /**
+     * 批量修改删除状态
+     */
+    @RequestMapping("/batchDelete")
+    public ServiceResult batchUpdateDelStatus(NoticeUpdateStatusVo vo) {
+        return systemNoticeService.batchUpdateDelStatus(vo);
+    }
+
+    /**
+     * 彻底清理消息
+     */
+    @RequestMapping("/batchClear")
+    public ServiceResult batchClear(NoticeUpdateStatusVo vo) {
+        return systemNoticeService.batchClear(vo);
     }
 
     /**

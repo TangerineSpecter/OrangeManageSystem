@@ -1,7 +1,9 @@
 package com.tangerinespecter.oms.system.service.system.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.common.base.Splitter;
 import com.tangerinespecter.oms.common.query.SystemNoticeQueryObject;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
@@ -10,6 +12,7 @@ import com.tangerinespecter.oms.job.message.MessageKeys;
 import com.tangerinespecter.oms.job.message.MessageTypeEnum;
 import com.tangerinespecter.oms.system.domain.entity.SystemNotice;
 import com.tangerinespecter.oms.system.domain.vo.system.MessageVo;
+import com.tangerinespecter.oms.system.domain.vo.system.NoticeUpdateStatusVo;
 import com.tangerinespecter.oms.system.mapper.SystemNoticeMapper;
 import com.tangerinespecter.oms.system.service.system.ISystemNoticeService;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -20,6 +23,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SystemNoticeServiceImpl implements ISystemNoticeService {
@@ -68,5 +72,38 @@ public class SystemNoticeServiceImpl implements ISystemNoticeService {
         List<SystemNotice> pageList = systemNoticeMapper.queryForPage(qo);
         PageInfo<SystemNotice> bulletinInfo = new PageInfo<>(pageList);
         return ServiceResult.pageSuccess(pageList, bulletinInfo.getTotal());
+    }
+
+    @Override
+    public ServiceResult batchUpdateDelStatus(NoticeUpdateStatusVo vo) {
+        if (StrUtil.isBlank(vo.getIds()) || vo.getIsDel() == null) {
+            return ServiceResult.success();
+        }
+        List<Long> ids = Splitter.on(",").omitEmptyStrings().splitToList(vo.getIds())
+                .parallelStream().map(Long::parseLong).collect(Collectors.toList());
+        systemNoticeMapper.updateDelStatusByIds(ids, vo.getIsDel());
+        return ServiceResult.success();
+    }
+
+    @Override
+    public ServiceResult batchClear(NoticeUpdateStatusVo vo) {
+        if (StrUtil.isBlank(vo.getIds())) {
+            return ServiceResult.success();
+        }
+        List<Long> ids = Splitter.on(",").omitEmptyStrings().splitToList(vo.getIds())
+                .parallelStream().map(Long::parseLong).collect(Collectors.toList());
+        systemNoticeMapper.deleteNoticeByIds(ids);
+        return ServiceResult.success();
+    }
+
+    @Override
+    public ServiceResult batchUpdateReadStatus(NoticeUpdateStatusVo vo) {
+        if (StrUtil.isBlank(vo.getIds()) || vo.getReadStatus() == null) {
+            return ServiceResult.success();
+        }
+        List<Long> ids = Splitter.on(",").omitEmptyStrings().splitToList(vo.getIds())
+                .parallelStream().map(Long::parseLong).collect(Collectors.toList());
+        systemNoticeMapper.updateReadStatusByIds(ids, vo.getReadStatus());
+        return ServiceResult.success();
     }
 }

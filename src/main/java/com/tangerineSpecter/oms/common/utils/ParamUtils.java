@@ -1,5 +1,7 @@
 package com.tangerinespecter.oms.common.utils;
 
+import java.util.Collection;
+
 /**
  * 字段工具类
  *
@@ -9,11 +11,17 @@ package com.tangerinespecter.oms.common.utils;
  */
 public class ParamUtils {
 
-    public static final String TYPE = "Type";
-
-    public static final String CONSNAME = "consName";
+    public static final String TYPE = "type";
+    /**
+     * 星座名称
+     */
+    public static final String CONS_NAME = "consName";
 
     public static final String KEY = "key";
 
     public static final String TOP = "top";
+    /**
+     * 未读消息数量
+     */
+    public static final String NOT_READ_NOTICE_COUNT = "notReadNoticeCount";
 }

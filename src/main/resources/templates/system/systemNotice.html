@@ -9,28 +9,42 @@
         <div class="layui-tab" lay-filter="notice">
             <ul class="layui-tab-title">
                 <li lay-id="#currentTableId" lay-url="/system/notice/list" class="layui-this">全部消息</li>
-                <li lay-id="#notReadTableId" lay-url="/system/notice/list?readStatus=0">未读消息</li>
+                <li lay-id="#notReadTableId" lay-url="/system/notice/list?readStatus=0">未读消息<span class="layui-badge"
+                                                                                                  th:text="${notReadNoticeCount}"></span>
+                </li>
                 <li lay-id="#isReadTableId" lay-url="/system/notice/list?readStatus=1">已读消息</li>
                 <li lay-id="#abandonTableId" lay-url="/system/notice/list?isDel=1">回收站</li>
             </ul>
             <div class="layui-tab-content">
                 <div class="layui-tab-item layui-show">
-                    <button type="button" class="layui-btn layui-btn-primary layui-btn-sm">标记已读</button>
-                    <button type="button" class="layui-btn layui-btn-primary layui-btn-sm">删除</button>
+                    <button data-type="isRead" data-table-id="currentTableId" type="button"
+                            class="layui-btn layui-btn-primary layui-btn-sm">标记已读
+                    </button>
+                    <button data-type="delete" data-table-id="currentTableId" type="button"
+                            class="layui-btn layui-btn-primary layui-btn-sm">删除
+                    </button>
                     <table class="layui-table" id="currentTableId" lay-filter="currentTableFilter"></table>
                 </div>
                 <div class="layui-tab-item">
-                    <button type="button" class="layui-btn layui-btn-primary layui-btn-sm">标记已读</button>
-                    <table class="layui-table" id="notReadTableId" lay-filter="currentTableFilter"></table>
+                    <button data-type="isRead" data-table-id="notReadTableId" type="button"
+                            class="layui-btn layui-btn-primary layui-btn-sm">标记已读
+                    </button>
+                    <table class="layui-table" id="notReadTableId" lay-filter="notReadTableFilter"></table>
                 </div>
                 <div class="layui-tab-item">
-                    <button type="button" class="layui-btn layui-btn-primary layui-btn-sm">删除</button>
-                    <table class="layui-table" id="isReadTableId" lay-filter="currentTableFilter"></table>
+                    <button data-type="delete" data-table-id="isReadTableId" type="button"
+                            class="layui-btn layui-btn-primary layui-btn-sm">删除
+                    </button>
+                    <table class="layui-table" id="isReadTableId" lay-filter="isReadTableFilter"></table>
                 </div>
                 <div class="layui-tab-item">
-                    <button type="button" class="layui-btn layui-btn-primary layui-btn-sm">恢复</button>
-                    <button type="button" class="layui-btn layui-btn-primary layui-btn-sm">彻底清除</button>
-                    <table class="layui-table" id="abandonTableId" lay-filter="currentTableFilter"></table>
+                    <button data-type="renew" data-table-id="abandonTableId" type="button"
+                            class="layui-btn layui-btn-primary layui-btn-sm">恢复
+                    </button>
+                    <button data-type="clear" data-table-id="abandonTableId" type="button"
+                            class="layui-btn layui-btn-primary layui-btn-sm">彻底清除
+                    </button>
+                    <table class="layui-table" id="abandonTableId" lay-filter="abandonTableFilter"></table>
                 </div>
             </div>
         </div>
@@ -87,29 +101,81 @@
         element.on('tab(notice)', function () {
             const tableId = this.getAttribute('lay-id');
             const url = this.getAttribute('lay-url');
-            console.log(tableId);
-            console.log(url);
             initNoticeTable(tableId, url);
         });
 
-        //删除数据
-        function deleteFun(id) {
-            $.post("/data/", {id: id}, function (result) {
-                if (result.success) {
-                    layer.open({
-                        title: "提示",
-                        content: "删除成功",
-                        yes: function () {
-                            reloadTab();
-                        }
-                    });
-                } else {
+        //按钮事件绑定
+        $(".layui-btn").on('click', function () {
+            const type = $(this).data('type');
+            const tableId = $(this).data("table-id");
+            const rowDatas = table.checkStatus(tableId).data;
+            console.log(rowDatas);
+            if (rowDatas.length === 0) {
+                layer.open({
+                    title: "提示",
+                    content: "请选择需要处理的消息",
+                });
+            }
+            let ids = [];
+            $.each(rowDatas, function (index, item) {
+                ids.push(item.id);
+            });
+            let jsonData = {};
+            let url;
+            jsonData.ids = ids.join(",");
+            switch (type) {
+                case 'isRead':
+                    url = "/system/notice/batchReadStatus";
+                    //1：表示已读
+                    jsonData.readStatus = 1;
+                    break;
+                case 'renew':
+                    url = "/system/notice/batchDelete";
+                    //0:不删除
+                    jsonData.isDel = 0;
+                    break;
+                case 'delete':
+                    url = "/system/notice/batchDelete";
+                    //1:删除
+                    jsonData.isDel = 1;
+                    break;
+                case 'clear':
+                    url = "/system/notice/batchClear";
+                    break;
+            }
+            submitFun(jsonData, url);
+        });
+
+        //按钮提交操作
+        function submitFun(data, url) {
+            $.ajax({
+                type: "post",
+                url: url,
+                data: data,
+                dataType: "json",
+                success: function (result) {
+                    if (result.success) {
+                        layer.open({
+                            title: "提示",
+                            content: result.msg,
+                            yes: function () {
+                                reloadTab();
+                            }
+                        });
+                    } else {
+                        layer.open({
+                            title: "警告",
+                            content: result.msg
+                        })
+                    }
+                },
+                error: function () {
                     layer.open({
                         title: "警告",
-                        content: result.msg
-                    })
+                        content: "操作失败"
+                    });
                 }
-            }, "JSON");
+            });
         }
     });
 </script>

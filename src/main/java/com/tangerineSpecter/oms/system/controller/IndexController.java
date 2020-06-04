@@ -1,12 +1,15 @@
 package com.tangerinespecter.oms.system.controller;
 
+import cn.hutool.core.collection.CollUtil;
 import com.tangerinespecter.oms.common.constants.SystemConstant;
 import com.tangerinespecter.oms.common.enums.LogOperation;
 import com.tangerinespecter.oms.common.listener.LoggerInfo;
 import com.tangerinespecter.oms.common.redis.PageModelKey;
 import com.tangerinespecter.oms.common.result.ServiceResult;
+import com.tangerinespecter.oms.common.utils.ParamUtils;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.system.domain.pojo.AccountInfo;
+import com.tangerinespecter.oms.system.mapper.SystemNoticeMapper;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
 import com.tangerinespecter.oms.system.service.system.ISystemInfoService;
 import com.tangerinespecter.oms.system.service.system.ISystemUserService;
@@ -21,6 +24,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.HashMap;
 
 /**
  * 默认控制
@@ -38,6 +42,8 @@ public class IndexController {
     private ISystemInfoService systemInfoService;
     @Resource
     private PageResultService pageResultService;
+    @Resource
+    private SystemNoticeMapper systemNoticeMapper;
 
     /**
      * 登录页
@@ -109,7 +115,11 @@ public class IndexController {
      * 消息中心
      */
     @RequestMapping("/noticeCenter")
-    public String noticeCenter() {
+    public String noticeCenter(Model model) {
+        int notReadNoticeCount = systemNoticeMapper.queryNotReadNoticeCount(SystemUtils.getSystemUserId());
+        HashMap<String, Integer> data = CollUtil.newHashMap();
+        data.put(ParamUtils.NOT_READ_NOTICE_COUNT, notReadNoticeCount);
+        model.addAllAttributes(data);
         return "system/systemNotice";
     }
 

@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tangerinespecter.oms.system.mapper.SystemNoticeMapper">
+    <update id="updateDelStatusByIds">
+        update system_notice
+        set is_del = #{isDel}
+        where id IN
+        <foreach collection="ids" open="(" close=")" separator="," item="id" index="index">
+            #{id}
+        </foreach>
+    </update>
+    <update id="updateReadStatusByIds">
+        update system_notice
+        set read_status = #{readStatus}
+        where id IN
+        <foreach collection="ids" open="(" close=")" separator="," item="id" index="index">
+            #{id}
+        </foreach>
+    </update>
+    <delete id="deleteNoticeByIds">
+        delete from system_notice
+        where id IN
+        <foreach collection="ids" open="(" close=")" separator="," item="id" index="index">
+            #{id}
+        </foreach>
+    </delete>
 
     <select id="queryNotReadNoticeCount" resultType="java.lang.Integer">
         select count(id)

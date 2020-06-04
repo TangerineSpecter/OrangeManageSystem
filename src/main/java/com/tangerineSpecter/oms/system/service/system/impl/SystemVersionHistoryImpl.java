@@ -29,7 +29,7 @@ public class SystemVersionHistoryImpl implements ISystemVersionHistoryService {
         List<SystemVersionHistory> systemVersionHistories = systemVersionHistoryMapper.selectList(queryWrapper);
         systemVersionHistories.forEach(history -> {
             List<SystemVersionHistoryContent> historyInfos = systemVersionHistoryContentMapper.selectListByVersionId(history.getId());
-            dtoList.add(new VersionHistoryListDto(history.getVersion(), historyInfos));
+            dtoList.add(new VersionHistoryListDto(history.getVersion(), history.getCreateTime(), historyInfos));
         });
         return dtoList;
     }

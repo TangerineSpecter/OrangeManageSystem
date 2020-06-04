@@ -77,8 +77,8 @@
                     {field: 'content', width: 300, title: '收藏内容'},
                     {field: 'remark', width: 400, title: '收藏备注'},
                     {
-                        field: 'type', width: 80, title: '收藏类型', templet: function (d) {
-                            switch (d.type) {
+                        field: 'type', width: 80, title: '收藏类型', templet: function (row) {
+                            switch (row.type) {
                                 case 0:
                                     return "网站";
                                 case 1:

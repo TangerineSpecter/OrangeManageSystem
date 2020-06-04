@@ -45,6 +45,6 @@ public class SystemNoticeReceiver {
                 .readStatus(MessageConstant.NOT_READ).pushStatus(MessageConstant.IS_PUSH)
                 .adminId(uid).type(message.getType()).isDel(CommonConstant.IS_DEL_NO).build();
         systemNoticeMapper.insert(systemNotice);
-        chatHandler.sendCurrentUser(MessageTemplate.join(MessageTemplate.PUSH_NEW_MESSAGE, 1));
+        chatHandler.sendAllUser(MessageTemplate.PUSH_NEW_MESSAGE.join(1));
     }
 }

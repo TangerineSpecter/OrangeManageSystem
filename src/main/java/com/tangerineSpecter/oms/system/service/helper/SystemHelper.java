@@ -56,7 +56,7 @@ public class SystemHelper {
         if (systemNotices.isEmpty()) {
             return;
         }
-        chatHandler.sendAllUser(MessageTemplate.join(MessageTemplate.PUSH_NEW_MESSAGE, systemNotices.size()));
+        chatHandler.sendAllUser(MessageTemplate.PUSH_NEW_MESSAGE.join(systemNotices.size()));
 //        boolean pushResult = chatHandler.sendCurrentUser(MessageTemplate.join(MessageTemplate.PUSH_NEW_MESSAGE, systemNotices.size()));
 //        if (!pushResult) {
 //            return;

@@ -20,8 +20,9 @@ public class VersionHistoryListDto {
 
     private List<SystemVersionHistoryContent> historyInfos;
 
-    public VersionHistoryListDto(String version, List<SystemVersionHistoryContent> historyInfos) {
+    public VersionHistoryListDto(String version, String createTime, List<SystemVersionHistoryContent> historyInfos) {
         this.version = version;
+        this.createTime = createTime;
         this.historyInfos = historyInfos;
     }
 }

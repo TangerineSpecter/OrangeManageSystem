@@ -12,9 +12,11 @@
             </fieldset>
             <ul class="layui-timeline" th:each="info:${versionList}">
                 <li class="layui-timeline-item">
-                    <i class="layui-icon layui-timeline-axis"></i>
+                    <i class="layui-icon layui-timeline-axis"></i>
                     <div class="layui-timeline-content layui-text">
-                        <h3 class="layui-timeline-title" th:text="${info.version}"></h3>
+                        <h3 class="layui-timeline-title">
+                            <span th:text="${info.version}"></span>&ensp;
+                            <span class="layui-badge-rim" th:text="${info.createTime}"></span></h3>
                         <ul th:each="historyInfo:${info.historyInfos}">
                             <li th:text="${historyInfo.content}">这里是更新记录</li>
                         </ul>

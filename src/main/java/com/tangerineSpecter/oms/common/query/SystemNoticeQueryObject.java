@@ -20,7 +20,11 @@ import lombok.Setter;
 public class SystemNoticeQueryObject extends QueryObject {
 
     /**
-     * 公告标题
+     * 管理员ID
      */
     private Long adminId = SystemUtils.getSystemUserId();
+
+    private Integer readStatus;
+
+    private Integer isDel;
 }

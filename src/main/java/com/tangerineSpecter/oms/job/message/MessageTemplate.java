@@ -1,5 +1,6 @@
 package com.tangerinespecter.oms.job.message;
 
+import com.google.common.base.Joiner;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,15 +13,23 @@ import lombok.NoArgsConstructor;
  * @date 2020年05月29日11:46:27
  */
 @Getter
-public class MessageTemplate {
+@NoArgsConstructor
+@AllArgsConstructor
+public enum MessageTemplate {
 
     /**
      * 新消息通知
      */
-    public static final String PUSH_NEW_MESSAGE = "收到%s条新的消息";
+    PUSH_NEW_MESSAGE("收到%s条新的消息");
 
-    public static String join(String template, Object... args) {
-        return String.format(template, args);
+    /**
+     * 消息
+     */
+    private String message;
+
+
+    public String join(Object... args) {
+        return this.message = String.format(this.message, args);
     }
 
 }

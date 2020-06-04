@@ -28,8 +28,16 @@
     <select id="queryForPage" resultType="com.tangerinespecter.oms.system.domain.entity.SystemNotice">
         select *
         from system_notice
-        where is_del = 0
-          and admin_id = #{adminId}
+        where admin_id = #{adminId}
+        <if test="readStatus != null">
+            and read_status = #{readStatus}
+        </if>
+        <if test="isDel == null">
+            and is_del = 0
+        </if>
+        <if test="isDel != null">
+            and is_del = #{isDel}
+        </if>
         order by create_time desc
     </select>
 </mapper>

@@ -6,10 +6,33 @@
 <body>
 <div class="layuimini-main">
     <div class="layui-card">
-        <div class="layui-card-header"><i class="fa fa-line-chart icon"></i>消息中心
-        </div>
-        <div class="layui-card-body">
-            <table class="layui-table" lay-skin="line" id="currentTableId" lay-filter="currentTableFilter"></table>
+        <div class="layui-tab" lay-filter="notice">
+            <ul class="layui-tab-title">
+                <li lay-id="#currentTableId" lay-url="/system/notice/list" class="layui-this">全部消息</li>
+                <li lay-id="#notReadTableId" lay-url="/system/notice/list?readStatus=0">未读消息</li>
+                <li lay-id="#isReadTableId" lay-url="/system/notice/list?readStatus=1">已读消息</li>
+                <li lay-id="#abandonTableId" lay-url="/system/notice/list?isDel=1">回收站</li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <button type="button" class="layui-btn layui-btn-primary layui-btn-sm">标记已读</button>
+                    <button type="button" class="layui-btn layui-btn-primary layui-btn-sm">删除</button>
+                    <table class="layui-table" id="currentTableId" lay-filter="currentTableFilter"></table>
+                </div>
+                <div class="layui-tab-item">
+                    <button type="button" class="layui-btn layui-btn-primary layui-btn-sm">标记已读</button>
+                    <table class="layui-table" id="notReadTableId" lay-filter="currentTableFilter"></table>
+                </div>
+                <div class="layui-tab-item">
+                    <button type="button" class="layui-btn layui-btn-primary layui-btn-sm">删除</button>
+                    <table class="layui-table" id="isReadTableId" lay-filter="currentTableFilter"></table>
+                </div>
+                <div class="layui-tab-item">
+                    <button type="button" class="layui-btn layui-btn-primary layui-btn-sm">恢复</button>
+                    <button type="button" class="layui-btn layui-btn-primary layui-btn-sm">彻底清除</button>
+                    <table class="layui-table" id="abandonTableId" lay-filter="currentTableFilter"></table>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -18,47 +41,60 @@
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 <script>
-    layui.use(['table', 'layer'], function () {
+
+    layui.use(['table', 'layer', 'element'], function () {
         const $ = layui.jquery,
             table = layui.table,
-            layer = layui.layer;
+            layer = layui.layer,
+            element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块;
 
-        table.render({
-            elem: '#currentTableId',
-            url: '/system/notice/list',
-            cols: [
-                [
-                    {type: "checkbox", width: 50, fixed: "left"},
-                    {field: 'title', title: '标题内容'},
-                    {field: 'createTime', width: 250, title: '时间', fixed: "right"}
-                ]
-            ],
-            limits: [10, 15, 20, 25, 50, 100],
-            limit: 10,
-            page: true
+        $(function () {
+            initNoticeTable('#currentTableId', "/system/notice/list");
         });
+
+        function initNoticeTable(tableId, url) {
+            table.render({
+                elem: tableId,
+                url: url,
+                skin: 'line',
+                cols: [
+                    [
+                        {type: "checkbox", width: 50, fixed: "left"},
+                        {
+                            field: 'title', title: '标题内容', templet: function (row) {
+                                var title = "<a href='/index' style='color: #666;text-decoration: none;'>" + row.title + "</a>";
+                                //0：表示未读
+                                if (row.readStatus === 0) {
+                                    title += "&emsp;<span class=\"layui-badge\">New</span>";
+                                }
+                                return title;
+                            }
+                        },
+                        {field: 'createTime', width: 250, title: '时间', fixed: "right"}
+                    ]
+                ],
+                limits: [10, 15, 20, 25, 50, 100],
+                limit: 10,
+                page: true
+            });
+        }
 
         //监听表格复选框选择
         table.on('checkbox(currentTableFilter)', function (obj) {
             console.log(obj)
         });
 
-        //监听工具条
-        table.on('tool(currentTableFilter)', function (obj) {
-            const data = obj.data;
-            if (obj.event === 'detail') {
-                layer.msg('ID：' + data.id + ' 的查看操作');
-            } else if (obj.event === 'del') {
-                layer.confirm('是否要删除此消息？', function (index) {
-                    deleteFun(data.id);
-                    layer.close(index);
-                });
-            }
+        element.on('tab(notice)', function () {
+            const tableId = this.getAttribute('lay-id');
+            const url = this.getAttribute('lay-url');
+            console.log(tableId);
+            console.log(url);
+            initNoticeTable(tableId, url);
         });
 
         //删除数据
         function deleteFun(id) {
-            $.post("/data/trade-record/delete", {id: id}, function (result) {
+            $.post("/data/", {id: id}, function (result) {
                 if (result.success) {
                     layer.open({
                         title: "提示",
@@ -76,8 +112,6 @@
             }, "JSON");
         }
     });
-</script>
-<script>
 </script>
 </body>
 </html>

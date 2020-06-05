@@ -7,12 +7,14 @@ import com.tangerinespecter.oms.common.query.TradeRecordQueryObject;
 import com.tangerinespecter.oms.common.redis.PageModelKey;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.vo.data.TradeRecordInfoVo;
-import com.tangerinespecter.oms.system.service.data.IDateTradeRecordServer;
+import com.tangerinespecter.oms.system.service.data.IDateTradeRecordService;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -31,7 +33,7 @@ import javax.validation.Valid;
 public class DataTradeRecordController {
 
     @Resource
-    private IDateTradeRecordServer dateTradeRecordServer;
+    private IDateTradeRecordService dateTradeRecordService;
     @Resource
     private PageResultService pageResultService;
 
@@ -42,7 +44,7 @@ public class DataTradeRecordController {
     @RequiresPermissions("data:trade-record:page")
     @RequestMapping(value = "/page", produces = "text/html;charset=UTF-8")
     public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
-        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getStockPortfolioPageKey, "data/tradeRecord");
+        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getTradeRecordPageKey, "data/tradeRecord");
     }
 
     /**
@@ -52,7 +54,7 @@ public class DataTradeRecordController {
     @AccessLimit(maxCount = 10)
     @RequestMapping("/list")
     public ServiceResult listInfo(TradeRecordQueryObject qo) {
-        return dateTradeRecordServer.queryForPage(qo);
+        return dateTradeRecordService.queryForPage(qo);
     }
 
     /**
@@ -70,7 +72,7 @@ public class DataTradeRecordController {
     @ResponseBody
     @RequestMapping("/init")
     public ServiceResult init() {
-        return dateTradeRecordServer.init();
+        return dateTradeRecordService.init();
     }
 
     /**
@@ -82,7 +84,7 @@ public class DataTradeRecordController {
     @RequestMapping("/insert")
     @LoggerInfo(value = "添加交易数据", event = LogOperation.EVENT_ADD)
     public ServiceResult insertInfo(@Valid() TradeRecordInfoVo vo) {
-        return dateTradeRecordServer.insertInfo(vo);
+        return dateTradeRecordService.insertInfo(vo);
     }
 
     /**
@@ -94,7 +96,7 @@ public class DataTradeRecordController {
     @RequestMapping("/update")
     @LoggerInfo(value = "编辑交易数据", event = LogOperation.EVENT_UPDATE)
     public ServiceResult updateInfo(@Valid() TradeRecordInfoVo vo) {
-        return dateTradeRecordServer.updateInfo(vo);
+        return dateTradeRecordService.updateInfo(vo);
     }
 
     /**
@@ -105,7 +107,7 @@ public class DataTradeRecordController {
     @ResponseBody
     @RequestMapping("/info")
     public ServiceResult detailInfo(@RequestParam("id") Long id) {
-        return dateTradeRecordServer.detailInfo(id);
+        return dateTradeRecordService.detailInfo(id);
     }
 
     /**
@@ -117,7 +119,7 @@ public class DataTradeRecordController {
     @RequestMapping("/delete")
     @LoggerInfo(value = "删除交易数据", event = LogOperation.EVENT_DELETE)
     public ServiceResult deleteInfo(@RequestParam("id") Long id) {
-        return dateTradeRecordServer.deleteInfo(id);
+        return dateTradeRecordService.deleteInfo(id);
     }
 
     /**
@@ -129,6 +131,6 @@ public class DataTradeRecordController {
     @ResponseBody
     @RequestMapping("/excel")
     public ServiceResult excelInfo(MultipartFile file) {
-        return dateTradeRecordServer.excelInfo(file);
+        return dateTradeRecordService.excelInfo(file);
     }
 }

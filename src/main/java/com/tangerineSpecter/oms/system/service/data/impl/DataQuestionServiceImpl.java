@@ -8,14 +8,14 @@ import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.entity.DataQuestion;
 import com.tangerinespecter.oms.system.domain.vo.data.QuestionInfoVo;
 import com.tangerinespecter.oms.system.mapper.DataQuestionMapper;
-import com.tangerinespecter.oms.system.service.data.IDataQuestionServer;
+import com.tangerinespecter.oms.system.service.data.IDataQuestionService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
 
 @Service
-public class DataQuestionServerImpl implements IDataQuestionServer {
+public class DataQuestionServiceImpl implements IDataQuestionService {
 
     @Resource
     private DataQuestionMapper dataQuestionMapper;

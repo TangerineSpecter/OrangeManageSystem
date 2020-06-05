@@ -5,7 +5,7 @@ import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.vo.data.TradeRecordInfoVo;
 import org.springframework.web.multipart.MultipartFile;
 
-public interface IDateTradeRecordServer {
+public interface IDateTradeRecordService {
 
     ServiceResult queryForPage(TradeRecordQueryObject qo);
 

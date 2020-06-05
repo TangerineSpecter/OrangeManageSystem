@@ -4,17 +4,16 @@ import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.dto.statis.TradeStatisIncomeInfoDto;
 import com.tangerinespecter.oms.system.domain.entity.DataTradeRecord;
 import com.tangerinespecter.oms.system.mapper.DataTradeRecordMapper;
-import com.tangerinespecter.oms.system.service.statis.ITradeStatisServer;
+import com.tangerinespecter.oms.system.service.statis.ITradeStatisService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class TradeStatisServerImpl implements ITradeStatisServer {
+public class TradeStatisServiceImpl implements ITradeStatisService {
 
     @Resource
     private DataTradeRecordMapper dataTradeRecordMapper;

@@ -2,10 +2,9 @@ package com.tangerinespecter.oms.system.controller.data;
 
 import com.tangerinespecter.oms.common.listener.AccessLimit;
 import com.tangerinespecter.oms.common.query.StockQueryObject;
-import com.tangerinespecter.oms.common.query.TradeRecordQueryObject;
 import com.tangerinespecter.oms.common.redis.PageModelKey;
 import com.tangerinespecter.oms.common.result.ServiceResult;
-import com.tangerinespecter.oms.system.service.data.IDataStockServer;
+import com.tangerinespecter.oms.system.service.data.IDataStockService;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.ui.Model;
@@ -30,7 +29,7 @@ public class DataStockController {
     @Resource
     private PageResultService pageResultService;
     @Resource
-    private IDataStockServer dataStockServer;
+    private IDataStockService dataStockService;
 
     /**
      * 股票池页面
@@ -47,6 +46,6 @@ public class DataStockController {
     @AccessLimit(maxCount = 10)
     @RequestMapping("/list")
     public ServiceResult listInfo(StockQueryObject qo) {
-        return dataStockServer.queryForPage(qo);
+        return dataStockService.queryForPage(qo);
     }
 }

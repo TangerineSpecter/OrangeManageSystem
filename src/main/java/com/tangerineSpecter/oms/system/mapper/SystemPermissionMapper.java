@@ -4,10 +4,12 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.tangerinespecter.oms.common.query.SystemPermissionQueryObject;
 import com.tangerinespecter.oms.system.domain.dto.system.UserPermissionListDto;
 import com.tangerinespecter.oms.system.domain.entity.SystemPermission;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
+@Mapper
 public interface SystemPermissionMapper extends BaseMapper<SystemPermission> {
 
     /**

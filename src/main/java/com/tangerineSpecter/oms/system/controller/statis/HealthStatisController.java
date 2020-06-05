@@ -3,11 +3,10 @@ package com.tangerinespecter.oms.system.controller.statis;
 import com.tangerinespecter.oms.common.redis.PageModelKey;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
-import com.tangerinespecter.oms.system.service.statis.IHealthStatisServer;
+import com.tangerinespecter.oms.system.service.statis.IHealthStatisService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -28,7 +27,7 @@ public class HealthStatisController {
     @Resource
     private PageResultService pageResultService;
     @Resource
-    private IHealthStatisServer healthStatisServer;
+    private IHealthStatisService healthStatisService;
 
     /**
      * 健康统计页面
@@ -41,6 +40,6 @@ public class HealthStatisController {
 
     @RequestMapping("/health-info")
     public ServiceResult healthStatisInfo() {
-        return healthStatisServer.healthStatisInfo();
+        return healthStatisService.healthStatisInfo();
     }
 }

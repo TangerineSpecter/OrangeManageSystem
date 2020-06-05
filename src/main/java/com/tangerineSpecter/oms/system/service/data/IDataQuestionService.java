@@ -4,7 +4,7 @@ import com.tangerinespecter.oms.common.query.QuestionQueryObject;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.vo.data.QuestionInfoVo;
 
-public interface IDataQuestionServer {
+public interface IDataQuestionService {
 
     ServiceResult queryForPage(QuestionQueryObject qo);
 

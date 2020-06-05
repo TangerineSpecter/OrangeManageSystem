@@ -6,14 +6,14 @@ import com.tangerinespecter.oms.common.query.StockQueryObject;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.entity.DataStock;
 import com.tangerinespecter.oms.system.mapper.DataStockMapper;
-import com.tangerinespecter.oms.system.service.data.IDataStockServer;
+import com.tangerinespecter.oms.system.service.data.IDataStockService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
 
 @Service
-public class DataStockServerImpl implements IDataStockServer {
+public class DataStockServiceImpl implements IDataStockService {
 
     @Resource
     private DataStockMapper dataStockMapper;

@@ -7,7 +7,7 @@ import com.tangerinespecter.oms.common.query.QuestionQueryObject;
 import com.tangerinespecter.oms.common.redis.PageModelKey;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.vo.data.QuestionInfoVo;
-import com.tangerinespecter.oms.system.service.data.IDataQuestionServer;
+import com.tangerinespecter.oms.system.service.data.IDataQuestionService;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
@@ -35,7 +35,7 @@ public class DataQuestionController {
     @Resource
     private PageResultService pageResultService;
     @Resource
-    private IDataQuestionServer dataQuestionServer;
+    private IDataQuestionService dataQuestionService;
 
     /**
      * 问题管理页面
@@ -62,7 +62,7 @@ public class DataQuestionController {
     @AccessLimit(maxCount = 10)
     @RequestMapping("/list")
     public ServiceResult listInfo(QuestionQueryObject qo) {
-        return dataQuestionServer.queryForPage(qo);
+        return dataQuestionService.queryForPage(qo);
     }
 
     /**
@@ -74,7 +74,7 @@ public class DataQuestionController {
     @RequestMapping("/insert")
     @LoggerInfo(value = "添加问题", event = LogOperation.EVENT_ADD)
     public ServiceResult insertInfo(@Valid() QuestionInfoVo vo) {
-        return dataQuestionServer.insertInfo(vo);
+        return dataQuestionService.insertInfo(vo);
     }
 
     /**
@@ -86,7 +86,7 @@ public class DataQuestionController {
     @RequestMapping("/update")
     @LoggerInfo(value = "修改问题", event = LogOperation.EVENT_UPDATE)
     public ServiceResult update(@Valid() QuestionInfoVo vo) {
-        return dataQuestionServer.update(vo);
+        return dataQuestionService.update(vo);
     }
 
     /**
@@ -98,6 +98,6 @@ public class DataQuestionController {
     @RequestMapping("/delete")
     @LoggerInfo(value = "删除问题", event = LogOperation.EVENT_DELETE)
     public ServiceResult delete(@RequestParam("id") Long id) {
-        return dataQuestionServer.delete(id);
+        return dataQuestionService.delete(id);
     }
 }

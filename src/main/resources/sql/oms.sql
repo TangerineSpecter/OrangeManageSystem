@@ -11,7 +11,7 @@
  Target Server Version : 80017
  File Encoding         : 65001
 
- Date: 27/05/2020 13:44:33
+ Date: 05/06/2020 13:00:18
 */
 
 SET NAMES utf8mb4;
@@ -37,7 +37,7 @@ CREATE TABLE `data_constellation` (
   `work_luck` int(8) DEFAULT '0' COMMENT '工作指数',
   `create_time` date DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=709 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='星座信息表';
+) ENGINE=InnoDB AUTO_INCREMENT=805 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='星座信息表';
 
 -- ----------------------------
 -- Table structure for data_question
@@ -101,6 +101,30 @@ CREATE TABLE `data_stock_portfolio_content` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='股票组合内容表';
 
 -- ----------------------------
+-- Table structure for data_trade_logic
+-- ----------------------------
+DROP TABLE IF EXISTS `data_trade_logic`;
+CREATE TABLE `data_trade_logic` (
+  `id` bigint(13) NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '名称',
+  `type` tinyint(4) NOT NULL COMMENT '交易类型（0：股票；1：期货；2：外汇）',
+  `entry_point` decimal(10,4) DEFAULT NULL COMMENT '入场点',
+  `exit_point
+
+Exit point
+
+Exit point
+
+exit_point` decimal(10,4) DEFAULT NULL COMMENT '出场点',
+  `profit_point` decimal(10,4) DEFAULT NULL COMMENT '盈利点',
+  `loss_point` decimal(10,4) DEFAULT NULL COMMENT '止损点',
+  `trade_logic` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '交易逻辑',
+  `admin_id` bigint(13) DEFAULT NULL COMMENT '管理员ID',
+  `is_del` tinyint(4) DEFAULT NULL COMMENT '删除状态（0：未删除；1：已删除）',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='交易逻辑明细表';
+
+-- ----------------------------
 -- Table structure for data_trade_record
 -- ----------------------------
 DROP TABLE IF EXISTS `data_trade_record`;
@@ -117,7 +141,7 @@ CREATE TABLE `data_trade_record` (
   `admin_id` bigint(13) NOT NULL COMMENT '管理员ID',
   `create_time` bigint(13) DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=469 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='交易记录表';
+) ENGINE=InnoDB AUTO_INCREMENT=475 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='交易记录表';
 
 -- ----------------------------
 -- Table structure for system_bulletin
@@ -132,7 +156,7 @@ CREATE TABLE `system_bulletin` (
   `top` tinyint(2) NOT NULL DEFAULT '0' COMMENT '是否置顶（0：否；1：是）',
   `is_del` tinyint(2) NOT NULL DEFAULT '0' COMMENT '删除状态（0：未删除；1：已删除）',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统公告表';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统公告表';
 
 -- ----------------------------
 -- Table structure for system_config
@@ -180,7 +204,7 @@ CREATE TABLE `system_log` (
   `ip` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '操作IP',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '操作时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2889 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统日志记录表';
+) ENGINE=InnoDB AUTO_INCREMENT=3266 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统日志记录表';
 
 -- ----------------------------
 -- Table structure for system_menu
@@ -199,7 +223,7 @@ CREATE TABLE `system_menu` (
   `top` tinyint(2) DEFAULT '0' COMMENT '是否在首页（0：否；1：是）',
   `top_sort` int(50) DEFAULT '0' COMMENT '首页排序',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统菜单表';
+) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统菜单表';
 
 -- ----------------------------
 -- Table structure for system_notice
@@ -210,13 +234,14 @@ CREATE TABLE `system_notice` (
   `title` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '消息标题',
   `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '消息内容',
   `type` tinyint(2) NOT NULL DEFAULT '0' COMMENT '消息类型（0：系统消息；）',
-  `read_status` tinyint(2) DEFAULT '0' COMMENT '阅读状态（0:未读，1:已读）',
+  `push_status` tinyint(2) NOT NULL DEFAULT '0' COMMENT '推送状态（0：未推送；1：已推送）',
+  `read_status` tinyint(2) NOT NULL DEFAULT '0' COMMENT '阅读状态（0:未读，1:已读）',
   `admin_id` bigint(13) NOT NULL COMMENT '推送管理员ID',
   `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `is_del` tinyint(2) DEFAULT '0' COMMENT '删除状态（0:未删除；1:已删除）',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='消息中心表';
+) ENGINE=InnoDB AUTO_INCREMENT=10141 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='消息中心表';
 
 -- ----------------------------
 -- Table structure for system_permission
@@ -225,7 +250,7 @@ DROP TABLE IF EXISTS `system_permission`;
 CREATE TABLE `system_permission` (
   `id` bigint(13) NOT NULL AUTO_INCREMENT,
   `name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '权限名称',
-  `url` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '权限地址，请求的url',
+  `url` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '权限地址，请求的url',
   `code` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '权限码',
   `remark` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '备注',
   `sort` int(50) NOT NULL DEFAULT '0' COMMENT '排序',
@@ -321,7 +346,7 @@ CREATE TABLE `system_version_history` (
   `version_number` int(10) DEFAULT NULL COMMENT '版本号数字',
   `create_time` date DEFAULT NULL COMMENT '版本创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统版本历史记录表';
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统版本历史记录表';
 
 -- ----------------------------
 -- Table structure for system_version_history_content
@@ -332,7 +357,7 @@ CREATE TABLE `system_version_history_content` (
   `version_id` bigint(13) DEFAULT NULL COMMENT '版本ID',
   `content` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '更新内容',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统版本更新内容';
+) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统版本更新内容';
 
 -- ----------------------------
 -- Table structure for user_health
@@ -365,7 +390,7 @@ CREATE TABLE `user_health` (
   `admin_id` bigint(13) NOT NULL COMMENT '管理员ID',
   `is_del` tinyint(2) DEFAULT NULL COMMENT '删除状态（0：未删除；1：已删除）',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='健康记录表';
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='健康记录表';
 
 -- ----------------------------
 -- Table structure for work_collection

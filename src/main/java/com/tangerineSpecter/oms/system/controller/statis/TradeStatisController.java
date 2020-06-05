@@ -3,7 +3,7 @@ package com.tangerinespecter.oms.system.controller.statis;
 import com.tangerinespecter.oms.common.redis.PageModelKey;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
-import com.tangerinespecter.oms.system.service.statis.ITradeStatisServer;
+import com.tangerinespecter.oms.system.service.statis.ITradeStatisService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +27,7 @@ public class TradeStatisController {
     @Resource
     private PageResultService pageResultService;
     @Resource
-    private ITradeStatisServer tradeStatisServer;
+    private ITradeStatisService tradeStatisService;
 
     /**
      * 交易统计页面
@@ -40,6 +40,6 @@ public class TradeStatisController {
 
     @RequestMapping("/income-info")
     public ServiceResult incomeValueStatisInfo() {
-        return tradeStatisServer.incomeValueStatisInfo();
+        return tradeStatisService.incomeValueStatisInfo();
     }
 }

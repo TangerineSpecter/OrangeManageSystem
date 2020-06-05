@@ -1,9 +1,8 @@
 package com.tangerinespecter.oms.system.service.statis;
 
 import com.tangerinespecter.oms.common.result.ServiceResult;
-import org.springframework.stereotype.Service;
 
-public interface ITradeStatisServer {
+public interface ITradeStatisService {
     /**
      * 收益数据分析
      *

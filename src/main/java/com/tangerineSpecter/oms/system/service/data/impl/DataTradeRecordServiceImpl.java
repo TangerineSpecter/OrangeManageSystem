@@ -16,7 +16,7 @@ import com.tangerinespecter.oms.system.domain.entity.DataTradeRecord;
 import com.tangerinespecter.oms.system.domain.enums.TradeRecordTypeEnum;
 import com.tangerinespecter.oms.system.domain.vo.data.TradeRecordInfoVo;
 import com.tangerinespecter.oms.system.mapper.DataTradeRecordMapper;
-import com.tangerinespecter.oms.system.service.data.IDateTradeRecordServer;
+import com.tangerinespecter.oms.system.service.data.IDateTradeRecordService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,7 +32,7 @@ import java.util.List;
 
 @Slf4j
 @Service
-public class DataTradeRecordServerImpl implements IDateTradeRecordServer {
+public class DataTradeRecordServiceImpl implements IDateTradeRecordService {
 
     @Resource
     private DataTradeRecordMapper dataTradeRecordMapper;

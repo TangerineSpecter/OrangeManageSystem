@@ -154,6 +154,10 @@
         //监听提交
         form.on('submit(submitBtn)', function (data) {
             $.post(href, data.field, function (result) {
+                if (result.code != 0) {
+                    layer.msg(result.msg);
+                    return;
+                }
                 layer.open({
                     title: '提示',
                     content: result.msg,

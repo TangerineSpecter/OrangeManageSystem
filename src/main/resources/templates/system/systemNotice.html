@@ -10,7 +10,8 @@
             <ul class="layui-tab-title">
                 <li lay-id="#currentTableId" lay-url="/system/notice/list" class="layui-this">全部消息</li>
                 <li lay-id="#notReadTableId" lay-url="/system/notice/list?readStatus=0">未读消息<span class="layui-badge"
-                                                                                                  th:text="${notReadNoticeCount}"></span>
+                                                                                                  th:text="${notReadNoticeCount}"
+                                                                                                  th:if="${notReadNoticeCount > 0}"></span>
                 </li>
                 <li lay-id="#isReadTableId" lay-url="/system/notice/list?readStatus=1">已读消息</li>
                 <li lay-id="#abandonTableId" lay-url="/system/notice/list?isDel=1">回收站</li>
@@ -76,7 +77,7 @@
                         {type: "checkbox", width: 50, fixed: "left"},
                         {
                             field: 'title', title: '标题内容', templet: function (row) {
-                                var title = "<a href='/index' style='color: #666;text-decoration: none;'>" + row.title + "</a>";
+                                var title = "<a href='/system/notice/content?id=" + row.id + "' style='color: #666;text-decoration: none;'>" + row.title + "</a>";
                                 //0：表示未读
                                 if (row.readStatus === 0) {
                                     title += "&emsp;<span class=\"layui-badge\">New</span>";
@@ -111,10 +112,8 @@
             const rowDatas = table.checkStatus(tableId).data;
             console.log(rowDatas);
             if (rowDatas.length === 0) {
-                layer.open({
-                    title: "提示",
-                    content: "请选择需要处理的消息",
-                });
+                layer.msg("请选择需要处理的消息");
+                return;
             }
             let ids = [];
             $.each(rowDatas, function (index, item) {

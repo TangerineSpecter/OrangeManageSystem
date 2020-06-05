@@ -70,12 +70,32 @@ public class MenuSettingServiceImpl implements IMenuSettingService {
 
     @Override
     public ServiceResult insertInfo(SystemMenuInfoVo vo) {
+        if (checkMenuHrefExist(null, vo.getHref())) {
+            return ServiceResult.error(RetCode.SYSTEM_MENU_HREF_EXIST);
+        }
         SystemMenu systemMenu = SystemMenu.builder().title(vo.getTitle()).href(vo.getHref())
                 .icon("fa " + vo.getIcon()).level(vo.getLevel()).pid(vo.getPid())
                 .target(vo.getTarget()).sort(vo.getSort()).build();
         systemMenuMapper.insert(systemMenu);
         permissionManageService.init();
         return ServiceResult.success();
+    }
+
+    /**
+     * 校验菜单地址是否存在
+     *
+     * @param id   菜单ID
+     * @param href 菜单地址
+     * @return true:存在
+     */
+    private boolean checkMenuHrefExist(Long id, String href) {
+        QueryWrapper<SystemMenu> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("href", href);
+        SystemMenu selectMenu = systemMenuMapper.selectOne(queryWrapper);
+        if (id != null) {
+            return !id.equals(selectMenu.getId());
+        }
+        return selectMenu != null;
     }
 
     @Override
@@ -91,6 +111,9 @@ public class MenuSettingServiceImpl implements IMenuSettingService {
     public ServiceResult updateInfo(SystemMenuInfoVo vo) {
         if (vo.getId() == null) {
             return ServiceResult.paramError();
+        }
+        if (checkMenuHrefExist(vo.getId(), vo.getHref())) {
+            return ServiceResult.error(RetCode.SYSTEM_MENU_HREF_EXIST);
         }
         SystemMenu systemMenu = SystemMenu.builder().id(vo.getId()).title(vo.getTitle()).href(vo.getHref())
                 .pid(vo.getPid()).level(vo.getLevel()).sort(vo.getSort()).target(vo.getTarget())

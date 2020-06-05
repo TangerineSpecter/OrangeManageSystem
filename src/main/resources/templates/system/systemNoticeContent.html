@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="./common/_layui_common :: common_header">
+    <meta charset="UTF-8">
+</head>
+<body>
+<div class="layuimini-main">
+    <div class="layui-card">
+        <div class="layui-card-header" style="height: auto;line-height: 30px;padding: 15px;">
+            <h1 style="font-size: 16px;" th:text="${noticeInfo.title}">橘子系统测试消息</h1>
+            <p>
+                <span style="padding:0 5px;color: #999;" th:text="${noticeInfo.createTime}">2020-01-01</span>
+            </p>
+        </div>
+        <div class="layui-card-body" style="padding: 15px;line-height: 22px;">
+            <div style="margin: 0;padding: 0;-webkit-tap-highlight-color: rgba(0,0,0,0)">
+                <p style="margin-bottom: 10px;text-indent: 2em;color: #666" th:text="${noticeInfo.content}">
+                </p>
+            </div>
+            <div style="padding-top: 30px;">
+                <a href="/noticeCenter" class="layui-btn layui-btn-primary layui-btn-sm">返回上级</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="./common/_layui_common::common_js"></div>
+</body>
+</html>

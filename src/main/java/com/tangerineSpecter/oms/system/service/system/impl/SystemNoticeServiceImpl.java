@@ -106,4 +106,9 @@ public class SystemNoticeServiceImpl implements ISystemNoticeService {
         systemNoticeMapper.updateReadStatusByIds(ids, vo.getReadStatus());
         return ServiceResult.success();
     }
+
+    @Override
+    public SystemNotice getNoticeInfo(Long id) {
+        return systemNoticeMapper.selectById(id);
+    }
 }

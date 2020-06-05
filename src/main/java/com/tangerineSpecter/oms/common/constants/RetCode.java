@@ -99,6 +99,10 @@ public class RetCode {
      */
     public static final RetCode EXIST_SAME_NAME_ROLE = new RetCode(113, "存在同名角色！");
     /**
+     * 菜单地址已存在
+     */
+    public static final RetCode SYSTEM_MENU_HREF_EXIST = new RetCode(114, "菜单地址已存在！");
+    /**
      * 参数错误
      */
     public static final RetCode PARAM_ERROR = new RetCode(200, "参数错误");

@@ -2,6 +2,7 @@ package com.tangerinespecter.oms.system.service.system;
 
 import com.tangerinespecter.oms.common.query.SystemNoticeQueryObject;
 import com.tangerinespecter.oms.common.result.ServiceResult;
+import com.tangerinespecter.oms.system.domain.entity.SystemNotice;
 import com.tangerinespecter.oms.system.domain.vo.system.MessageVo;
 import com.tangerinespecter.oms.system.domain.vo.system.NoticeUpdateStatusVo;
 
@@ -25,4 +26,12 @@ public interface ISystemNoticeService {
     ServiceResult batchClear(NoticeUpdateStatusVo ids);
 
     ServiceResult batchUpdateReadStatus(NoticeUpdateStatusVo ids);
+
+    /**
+     * 获取消息详情
+     *
+     * @param id 消息ID
+     * @return 消息内容
+     */
+    SystemNotice getNoticeInfo(Long id);
 }

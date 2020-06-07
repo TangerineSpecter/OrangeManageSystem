@@ -22,9 +22,13 @@ public class DataTradeLogic {
 
     private Long id;
     /**
-     * 时间
+     * 开仓时间
      */
-    private String date;
+    private String entryDate;
+    /**
+     * 平仓时间
+     */
+    private String exitDate;
     /**
      * 名称
      */
@@ -33,6 +37,10 @@ public class DataTradeLogic {
      * 类型（0：股票；1：期货；2：外汇）
      */
     private Integer type;
+    /**
+     * 盈亏状态（-1：未平仓；0：盈利；1：亏损）
+     */
+    private Integer status;
     /**
      * 入场点
      */
@@ -49,6 +57,10 @@ public class DataTradeLogic {
      * 止损点
      */
     private BigDecimal lossPoint;
+    /**
+     * 当日收盘价
+     */
+    private BigDecimal closingPrice;
     /**
      * 交易逻辑
      */

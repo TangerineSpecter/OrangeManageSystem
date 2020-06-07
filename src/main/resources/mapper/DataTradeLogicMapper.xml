@@ -6,5 +6,6 @@
         select *
         from data_trade_logic
         where admin_id = #{adminId}
+        order by IF(ISNULL(exit_date), 1, 0) desc, exit_date desc
     </select>
 </mapper>

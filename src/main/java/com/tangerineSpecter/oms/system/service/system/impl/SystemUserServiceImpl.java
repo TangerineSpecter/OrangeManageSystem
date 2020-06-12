@@ -9,6 +9,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.tangerinespecter.oms.common.constants.CommonConstant;
 import com.tangerinespecter.oms.common.constants.RetCode;
+import com.tangerinespecter.oms.common.constants.SystemConstant;
 import com.tangerinespecter.oms.common.query.SystemUserQueryObject;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
@@ -57,6 +58,9 @@ public class SystemUserServiceImpl implements ISystemUserService {
         SystemUser systemUser = systemUserMapper.selectOneByUserName(model.getUsername());
         if (systemUser == null) {
             return ServiceResult.error(RetCode.REGISTER_ACCOUNTS_NOT_EXIST);
+        }
+        if (model.getPassword().length() < SystemConstant.PASSWORD_DEFAULT_MIN_LENGTH) {
+            return ServiceResult.error(RetCode.PASSWORD_LENGTH_TOO_SHORT);
         }
         try {
             String md5Pwd = SystemUtils.handleUserPassword(model.getPassword(), systemUser.getSalt());

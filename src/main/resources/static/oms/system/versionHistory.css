@@ -1,0 +1,44 @@
+/* 标签  */
+.label {
+    display: inline-block;
+    height: 1.25rem;
+    line-height: 1.25rem;
+    min-width: 3.125rem;
+    margin-right: 1rem;
+    color: #666;
+    background-color: #e8e8e8;
+    border-radius: 6.25rem;
+    text-align: center;
+    vertical-align: top;
+    font-size: 0.8125rem;
+}
+
+/* 新增 */
+.label-new {
+    color: white;
+    background-color: #ff3180;
+}
+
+/* 优化 */
+.label-perf {
+    color: white;
+    background-color: #f9bf13;
+}
+
+/* 重构 */
+.label-refactor {
+    color: white;
+    background-color: #b5e45a;
+}
+
+/* 改善 */
+.label-improved {
+    color: white;
+    background-color: #617fde;
+}
+
+/* 修复 */
+.label-fix {
+    color: #666;
+    background-color: #e8e8e8;
+}

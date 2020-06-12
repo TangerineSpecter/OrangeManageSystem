@@ -22,6 +22,17 @@
                         </div>
                     </div>
                     <div class="layui-inline">
+                        <label class="layui-form-label">盈亏状况</label>
+                        <div class="layui-input-inline">
+                            <select name="status" class="layui-select">
+                                <option value="">全部</option>
+                                <option value="-1">未平仓</option>
+                                <option value="1">盈利</option>
+                                <option value="2">亏损</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
                         <a class="layui-btn" lay-submit="" lay-filter="data-search-btn">搜索</a>
                         <a class="layui-btn" lay-submit="" lay-filter="data-clear-btn">清空</a>
                     </div>
@@ -72,7 +83,7 @@
                             } else if (row.type === 1) {
                                 return '<span style="color: tomato">期货</span>';
                             } else if (row.type === 2) {
-                                return '外汇';
+                                return '<span style="color: #BA55D3">外汇</span>';
                             }
                         }, title: '交易类型'
                     },
@@ -80,6 +91,14 @@
                     {field: 'exitDate', title: '平仓时间', width: 120, sort: true},
                     {field: 'entryPoint', title: '入场点', width: 100},
                     {field: 'exitPoint', title: '出场点', width: 100},
+                    {
+                        title: '点数', width: 100, templet: function (row) {
+                            if (row.exitPoint == null) {
+                                return '--';
+                            }
+                            return Math.abs(row.exitPoint - row.entryPoint);
+                        }
+                    },
                     {field: 'profitPoint', title: '止盈点', width: 100},
                     {field: 'lossPoint', title: '止损点', width: 100},
                     {
@@ -142,7 +161,7 @@
                 layer.msg('ID：' + data.id + ' 的查看操作');
             } else if (obj.event === 'del') {
                 layer.confirm('是否进行交易数据删除？', function (index) {
-                    deleteFun(data.id);
+                    active.delete(data, "/data/trade-logic/delete");
                     layer.close(index);
                 });
             } else if (obj.event === 'edit') {
@@ -150,26 +169,6 @@
                 loadFormModel("编辑交易数据", data, '/data/trade-logic/addPage');
             }
         });
-
-        //删除数据
-        function deleteFun(id) {
-            $.post("/data/trade-logic/delete", {id: id}, function (result) {
-                if (result.success) {
-                    layer.open({
-                        title: "提示",
-                        content: "删除成功",
-                        yes: function () {
-                            reloadTab();
-                        }
-                    });
-                } else {
-                    layer.open({
-                        title: "警告",
-                        content: result.msg
-                    })
-                }
-            }, "JSON");
-        }
     });
 </script>
 <script>

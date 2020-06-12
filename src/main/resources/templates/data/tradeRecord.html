@@ -137,7 +137,7 @@
                             } else if (row.type === 1) {
                                 return '<span style="color: tomato">期货</span>';
                             } else if (row.type === 2) {
-                                return '外汇';
+                                return '<span style="color: #BA55D3">外汇</span>';
                             }
                         }, title: '类型'
                     },
@@ -191,7 +191,7 @@
                 layer.msg('ID：' + data.id + ' 的查看操作');
             } else if (obj.event === 'del') {
                 layer.confirm('是否进行交易数据删除？', function (index) {
-                    deleteFun(data.id);
+                    active.delete(data, "/data/trade-record/delete");
                     layer.close(index);
                 });
             } else if (obj.event === 'edit') {
@@ -207,26 +207,6 @@
                     layer.open({
                         title: "提示",
                         content: "初始化完毕",
-                        yes: function () {
-                            reloadTab();
-                        }
-                    });
-                } else {
-                    layer.open({
-                        title: "警告",
-                        content: result.msg
-                    })
-                }
-            }, "JSON");
-        }
-
-        //删除数据
-        function deleteFun(id) {
-            $.post("/data/trade-record/delete", {id: id}, function (result) {
-                if (result.success) {
-                    layer.open({
-                        title: "提示",
-                        content: "删除成功",
                         yes: function () {
                             reloadTab();
                         }

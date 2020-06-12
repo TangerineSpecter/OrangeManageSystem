@@ -6,5 +6,6 @@
         select *
         from system_version_history_content
         where version_id = #{versionId}
+        order by type
     </select>
 </mapper>

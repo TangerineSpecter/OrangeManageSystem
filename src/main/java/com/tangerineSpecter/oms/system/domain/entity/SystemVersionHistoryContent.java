@@ -31,6 +31,10 @@ public class SystemVersionHistoryContent implements Serializable {
      */
     private Long versionId;
     /**
+     * 功能类型（0：新增；1：优化；2：改善；3：修复；4：重构）
+     */
+    private Integer type;
+    /**
      * 更新内容
      */
     private String content;

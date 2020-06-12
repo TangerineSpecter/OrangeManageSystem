@@ -3,6 +3,7 @@
 <head th:replace="./common/_layui_common :: common_header">
     <meta charset="UTF-8">
 </head>
+<link rel="stylesheet" th:href="@{/oms/system/versionHistory.css}" type="text/css">
 <body>
 <div class="layuimini-main">
     <div class="layui-card">
@@ -18,7 +19,24 @@
                             <span th:text="${info.version}"></span>&ensp;
                             <span class="layui-badge-rim" th:text="${info.createTime}"></span></h3>
                         <ul th:each="historyInfo:${info.historyInfos}">
-                            <li th:text="${historyInfo.content}">这里是更新记录</li>
+                            <li>
+                                <div th:if="${historyInfo.type} == 0">
+                                    <span class="label label-new">新增</span>
+                                    <span th:text="${historyInfo.content}">这里是更新记录</span>
+                                </div>
+                                <div th:if="${historyInfo.type} == 1">
+                                    <span class="label label-perf">优化：</span>
+                                    <span th:text="${historyInfo.content}">这里是更新记录</span>
+                                </div>
+                                <div th:if="${historyInfo.type} == 2">
+                                    <span class="label label-improved">改善</span>
+                                    <span th:text="${historyInfo.content}">这里是更新记录</span>
+                                </div>
+                                <div th:if="${historyInfo.type} == 3">
+                                    <span class="label label-fix">修复</span>
+                                    <span th:text="${historyInfo.content}">这里是更新记录</span>
+                                </div>
+                            </li>
                         </ul>
                     </div>
                 </li>

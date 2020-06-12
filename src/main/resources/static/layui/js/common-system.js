@@ -37,6 +37,31 @@ function loadFormModel(title, data, contentUrl) {
     });
 }
 
+//通用基本CRUD处理方法
+const active = {
+    add: function (data, url) {
+
+    },
+    delete: function (data, url) {
+        $.post(url, data, function (result) {
+            if (result.success) {
+                layer.open({
+                    title: "提示",
+                    content: "删除成功",
+                    yes: function () {
+                        reloadTab();
+                    }
+                });
+            } else {
+                layer.open({
+                    title: "警告",
+                    content: result.msg
+                })
+            }
+        }, "JSON");
+    },
+};
+
 /**
  * 刷新当前页tab
  */
@@ -44,6 +69,7 @@ function reloadTab() {
     $(".layui-tab-item.layui-show", top.window.document).find("iframe")[0].contentWindow.location.reload();
 }
 
+//通用搜索按钮监听
 layui.use(['form', 'table'], function () {
     var form = layui.form,
         table = layui.table;

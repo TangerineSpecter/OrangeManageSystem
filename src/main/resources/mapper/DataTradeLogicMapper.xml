@@ -6,6 +6,12 @@
         select *
         from data_trade_logic
         where admin_id = #{adminId}
+        <if test="type != null">
+            and type = #{type}
+        </if>
+        <if test="status != null">
+            and `status` = #{status}
+        </if>
         order by IF(ISNULL(exit_date), 1, 0) desc, exit_date desc
     </select>
 </mapper>

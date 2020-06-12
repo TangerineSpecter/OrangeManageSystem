@@ -43,6 +43,14 @@ public class DataTradeLogicController {
     }
 
     /**
+     * 添加页面
+     */
+    @RequestMapping("/addPage")
+    public String addTradeRecordPage(Model model) {
+        return "data/addEditTradeLogic";
+    }
+
+    /**
      * 交易逻辑列表
      */
     @ResponseBody

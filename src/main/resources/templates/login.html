@@ -78,10 +78,14 @@
             promptModal("用户名或者密码为空");
             return;
         }
-        var jsonData = {
+        if ($('#password').val().length < 6) {
+            promptModal("密码长度不能小于6位");
+            return;
+        }
+        const jsonData = {
             username: $('#username').val(),
             password: $('#password').val()
-        }
+        };
         $.ajax({
             type: "post",
             url: "/login",

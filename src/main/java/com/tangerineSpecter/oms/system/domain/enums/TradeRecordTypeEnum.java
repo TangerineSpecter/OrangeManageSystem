@@ -41,4 +41,8 @@ public enum TradeRecordTypeEnum {
         }
         return typeList;
     }
+
+    public Integer getType() {
+        return this.type;
+    }
 }

@@ -12,6 +12,10 @@ import org.springframework.beans.factory.annotation.Value;
 public class SystemConstant {
 
     /**
+     * 系统默认密码最小长度
+     */
+    public static final int PASSWORD_DEFAULT_MIN_LENGTH = 6;
+    /**
      * 系统信息
      */
     public static SystemConfig systemConfig;

@@ -69,10 +69,6 @@
     function initForm(data) {
         var startMoney = data.startMoney / 100;
         var endMoney = data.endMoney / 100;
-        if (data.type === 2) {
-            startMoney = startMoney / USD_EXCHANGE_RATE;
-            endMoney = endMoney / USD_EXCHANGE_RATE;
-        }
         layui.use(['form'], function () {
             const form = layui.form;
             form.val("data-form", {

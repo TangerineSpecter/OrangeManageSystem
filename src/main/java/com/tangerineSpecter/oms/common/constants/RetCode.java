@@ -102,6 +102,11 @@ public class RetCode {
      * 菜单地址已存在
      */
     public static final RetCode SYSTEM_MENU_HREF_EXIST = new RetCode(114, "菜单地址已存在！");
+
+    /**
+     * 密码长度不能小于6位
+     */
+    public static final RetCode PASSWORD_LENGTH_TOO_SHORT = new RetCode(115, "密码不能小于6位");
     /**
      * 参数错误
      */

@@ -34,6 +34,11 @@ import java.util.List;
 @Service
 public class DataTradeRecordServiceImpl implements IDateTradeRecordService {
 
+    /**
+     * 美元汇率
+     */
+    private static final Double USD_EXCHANGE_RATE = 7.2;
+
     @Resource
     private DataTradeRecordMapper dataTradeRecordMapper;
 
@@ -130,6 +135,10 @@ public class DataTradeRecordServiceImpl implements IDateTradeRecordService {
 
     @Override
     public ServiceResult insertInfo(TradeRecordInfoVo vo) {
+        if (vo.getType().equals(TradeRecordTypeEnum.FOREIGN_EXCHANGE_TYPE.getType())) {
+            vo.setStartMoney(vo.getStartMoney() * USD_EXCHANGE_RATE);
+            vo.setEndMoney(vo.getEndMoney() * USD_EXCHANGE_RATE);
+        }
         DataTradeRecord tradeRecord = DataTradeRecord.builder().startMoney(Convert.toInt(vo.getStartMoney() * 100))
                 .endMoney(Convert.toInt(vo.getEndMoney() * 100)).type(vo.getType())
                 .adminId(SystemUtils.getSystemUserId())
@@ -149,6 +158,10 @@ public class DataTradeRecordServiceImpl implements IDateTradeRecordService {
         DataTradeRecord dataTradeRecord = dataTradeRecordMapper.selectById(vo.getId());
         if (dataTradeRecord == null) {
             return ServiceResult.error(RetCode.TRADE_RECORD_NOT_EXIST);
+        }
+        if (vo.getType().equals(TradeRecordTypeEnum.FOREIGN_EXCHANGE_TYPE.getType())) {
+            vo.setStartMoney(vo.getStartMoney() * USD_EXCHANGE_RATE);
+            vo.setEndMoney(vo.getEndMoney() * USD_EXCHANGE_RATE);
         }
         dataTradeRecord.setStartMoney(Convert.toInt(vo.getStartMoney() * 100));
         dataTradeRecord.setEndMoney(Convert.toInt(vo.getEndMoney() * 100));
@@ -178,15 +191,16 @@ public class DataTradeRecordServiceImpl implements IDateTradeRecordService {
     }
 
     public static void main(String[] args) throws FileNotFoundException {
-        String path = "/Users/zhouliangjun/Downloads/trade.xlsx";
-        File file = new File(path);
-        if (file.exists()) {
-            System.out.println("file not exist!");
-        }
-        ExcelReader reader = ExcelUtil.getReader(new FileInputStream(file));
-        List<List<Object>> read = reader.read();
-        for (List<Object> objects : read) {
-            System.out.println(objects);
-        }
+//        String path = "/Users/zhouliangjun/Downloads/trade.xlsx";
+//        File file = new File(path);
+//        if (file.exists()) {
+//            System.out.println("file not exist!");
+//        }
+//        ExcelReader reader = ExcelUtil.getReader(new FileInputStream(file));
+//        List<List<Object>> read = reader.read();
+//        for (List<Object> objects : read) {
+//            System.out.println(objects);
+//        }
+        System.out.println(TradeRecordTypeEnum.FOREIGN_EXCHANGE_TYPE.getType());
     }
 }

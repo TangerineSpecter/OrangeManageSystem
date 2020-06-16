@@ -149,6 +149,8 @@
                             icon: 0,
                             time: 5000
                         });
+                        //显示消息标记
+                        $("#notice-badge").show();
                     });
                     CHAT.messageAudio.play();
                 }
@@ -157,9 +159,7 @@
             }
         },
         chat: function () {
-            console.log("消息发送");
             var msg = document.getElementById("msgContent");
-            console.log(msg);
             CHAT.socket.send(msg.value);
         }
     };

@@ -6,6 +6,7 @@ import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.vo.tools.GoodsFuturesInfoVo;
 import com.tangerinespecter.oms.system.domain.vo.tools.QrCodeInfoVo;
 import com.tangerinespecter.oms.system.service.tools.IGoodsFuturesToolService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,6 +29,7 @@ public class GoodsFuturesToolController {
     private IGoodsFuturesToolService goodsFuturesToolService;
 
     @RequestMapping("/page")
+    @RequiresPermissions("tools:futures:page")
     public String pageInfo() {
         return "tools/goodsFutures";
     }

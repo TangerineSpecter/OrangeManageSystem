@@ -74,7 +74,14 @@
                     {type: "checkbox", width: 50, fixed: "left"},
                     {field: 'id', width: 80, title: 'ID', sort: true},
                     {field: 'title', width: 250, title: '收藏标题'},
-                    {field: 'content', width: 300, title: '收藏内容'},
+                    {
+                        field: 'content', width: 400, title: '收藏内容', templet: function (row) {
+                            return "<span class=\"layui-badge-rim\">" +
+                                "<a style='text-decoration:none;font-weight: bold;' href='" + row.content + "' target='_blank'>"
+                                + row.content
+                                + "</a></span>";
+                        }
+                    },
                     {field: 'remark', width: 400, title: '收藏备注'},
                     {
                         field: 'type', width: 80, title: '收藏类型', templet: function (row) {

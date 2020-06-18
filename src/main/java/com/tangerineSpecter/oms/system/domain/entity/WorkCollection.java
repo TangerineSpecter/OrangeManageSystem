@@ -24,17 +24,29 @@ public class WorkCollection implements Serializable {
 
     @TableId(type = IdType.AUTO)
     private Long id;
-
+    /**
+     * 标题
+     */
     private String title;
-
+    /**
+     * 内容
+     */
     private String content;
-
+    /**
+     * 备注
+     */
     private String remark;
-
+    /**
+     * 类型（0：网站；1：学习；2：交易）
+     */
     private Integer type;
-
+    /**
+     * 排序
+     */
     private Integer sort;
-
+    /**
+     * 删除状态
+     */
     private Integer isDel;
 
 }

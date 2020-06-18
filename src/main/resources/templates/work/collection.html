@@ -22,8 +22,6 @@
                             <div class="layui-input-inline">
                                 <select id="type" name="type" autocomplete="off" class="layui-input">
                                     <option value="">全部</option>
-                                    <option value="0">网站</option>
-                                    <option value="1">学习</option>
                                 </select>
                             </div>
                         </div>
@@ -49,6 +47,18 @@
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 <script>
+
+    var collectionType = [];
+
+    //初始化收藏类型
+    $.getJSON("/json/collectionType.json", function (data) {
+        $.each(data, function (index, item) {
+            const option = "<option value='" + item.type + "'>" + item.name + "</option>";
+            $("select[name='type']").append(option);
+            collectionType.push(item.name);
+        });
+    });
+
     layui.use(['form', 'table', 'laydate'], function () {
         var $ = layui.jquery,
             form = layui.form,
@@ -85,14 +95,10 @@
                     {field: 'remark', width: 400, title: '收藏备注'},
                     {
                         field: 'type', width: 80, title: '收藏类型', templet: function (row) {
-                            switch (row.type) {
-                                case 0:
-                                    return "网站";
-                                case 1:
-                                    return "学习";
-                                default:
-                                    return "";
+                            if (row.type == null || row.type === "") {
+                                return "--";
                             }
+                            return collectionType[row.type];
                         }
                     },
                     {field: 'sort', width: 80, title: '排序'},

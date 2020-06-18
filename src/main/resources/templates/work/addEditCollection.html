@@ -28,8 +28,6 @@
                 <label class="layui-form-label">类型</label>
                 <div class="layui-input-inline">
                     <select name="type">
-                        <option value="0">网站</option>
-                        <option value="1">学习</option>
                     </select>
                 </div>
             </div>
@@ -50,6 +48,14 @@
 
 <div th:replace="./common/_layui_common::common_js"></div>
 <script>
+
+    //初始化收藏类型
+    $.getJSON("/json/collectionType.json", function (data) {
+        $.each(data, function (index, item) {
+            const option = "<option value='" + item.type + "'>" + item.name + "</option>";
+            $("select[name='type']").append(option);
+        });
+    });
 
     //初始化页面数据
     function initData(data) {

@@ -15,19 +15,6 @@
                             <label class="layui-form-label">星座</label>
                             <div class="layui-input-inline">
                                 <select name="star">
-                                    <option value="" selected>全部</option>
-                                    <option value="白羊座">白羊座</option>
-                                    <option value="金牛座">金牛座</option>
-                                    <option value="双子座">双子座</option>
-                                    <option value="巨蟹座">巨蟹座</option>
-                                    <option value="狮子座">狮子座</option>
-                                    <option value="处女座">处女座</option>
-                                    <option value="天秤座">天秤座</option>
-                                    <option value="天蝎座">天蝎座</option>
-                                    <option value="射手座">射手座</option>
-                                    <option value="摩羯座">摩羯座</option>
-                                    <option value="水瓶座">水瓶座</option>
-                                    <option value="双鱼座">双鱼座</option>
                                 </select>
                             </div>
                         </div>
@@ -51,6 +38,14 @@
 </div>
 <div th:replace="./common/_layui_common::common_js"></div>
 <script>
+
+    $.getJSON("/json/star.json", function (data) {
+        $.each(data, function (index, item) {
+            const option = "<option value='" + item + "'>" + item + "</option>";
+            $("select[name='star']").append(option);
+        });
+    });
+
     layui.use(['form', 'table', 'laydate'], function () {
         var $ = layui.jquery,
             form = layui.form,

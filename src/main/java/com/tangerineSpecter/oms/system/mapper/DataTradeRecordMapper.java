@@ -1,9 +1,7 @@
 package com.tangerinespecter.oms.system.mapper;
 
-import cn.hutool.core.date.DateTime;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.tangerinespecter.oms.common.query.TradeRecordQueryObject;
-import com.tangerinespecter.oms.system.domain.dto.statis.TradeStatisIncomeInfoDto;
 import com.tangerinespecter.oms.system.domain.entity.DataTradeRecord;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;

@@ -1,5 +1,7 @@
 package com.tangerinespecter.oms.system.domain.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,6 +22,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class DataTradeLogic {
 
+    @TableId(type = IdType.AUTO)
     private Long id;
     /**
      * 开仓时间
@@ -44,23 +47,23 @@ public class DataTradeLogic {
     /**
      * 入场点
      */
-    private BigDecimal entryPoint;
+    private Double entryPoint;
     /**
      * 出场点
      */
-    private BigDecimal exitPoint;
+    private Double exitPoint;
     /**
      * 盈利点
      */
-    private BigDecimal profitPoint;
+    private Double profitPoint;
     /**
      * 止损点
      */
-    private BigDecimal lossPoint;
+    private Double lossPoint;
     /**
      * 当日收盘价
      */
-    private BigDecimal closingPrice;
+    private Double closingPrice;
     /**
      * 交易逻辑
      */

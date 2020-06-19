@@ -45,7 +45,7 @@
 <div th:replace="./common/_layui_common::common_js"></div>
 <script type="text/html" id="toolbar">
     <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="addTradeData">新增数据</button>
+        <button class="layui-btn layui-btn-sm" lay-event="addTradeData">新增逻辑</button>
     </div>
 </script>
 <script type="text/html" id="operationBar">
@@ -144,7 +144,7 @@
             switch (obj.event) {
                 //添加交易数据
                 case 'addTradeData':
-                    loadFormModel("添加交易逻辑", {href: "/data/trade-logic/insert"}, '/data/trade-logic/addPage');
+                    loadFormHeightModel("添加交易逻辑", {href: "/data/trade-logic/insert"}, '/data/trade-logic/addPage', "720px");
                     break;
 
                 //自定义头工具栏右侧图标 - 提示
@@ -160,13 +160,13 @@
             if (obj.event === 'detail') {
                 layer.msg('ID：' + data.id + ' 的查看操作');
             } else if (obj.event === 'del') {
-                layer.confirm('是否进行交易数据删除？', function (index) {
+                layer.confirm('是否进行交易逻辑的删除？', function (index) {
                     active.delete(data, "/data/trade-logic/delete");
                     layer.close(index);
                 });
             } else if (obj.event === 'edit') {
                 data.href = "/data/trade-logic/update";
-                loadFormModel("编辑交易数据", data, '/data/trade-logic/addPage');
+                loadFormHeightModel("编辑交易数据", data, '/data/trade-logic/editPage', "720px");
             }
         });
     });

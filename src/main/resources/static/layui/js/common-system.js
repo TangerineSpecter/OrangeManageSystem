@@ -12,27 +12,39 @@ function submitFun() {
  * @param contentUrl iframe地址
  */
 function loadFormModel(title, data, contentUrl) {
+    loadFormHeightModel(title, data, contentUrl, '600px')
+}
+
+/**
+ * 打开提交窗口
+ * @param title 窗口标题
+ * @param data 传入iframe数据
+ * @param contentUrl iframe地址
+ * @param height 窗口高度
+ */
+function loadFormHeightModel(title, data, contentUrl, height) {
     let iframe;
+    console.log(height);
     layer.open({
-        type: 2
-        , title: title
-        , area: ['600px', '600px']
-        , shade: 0
-        , maxmin: true
-        , offset: 'auto'
-        , content: contentUrl
-        , btn: ['提交', '关闭']
-        , success: function (layero, index) {
+        type: 2,
+        title: title,
+        area: ['600px', height],
+        shade: 0.3,
+        maxmin: true,
+        offset: 'auto',
+        content: contentUrl,
+        btn: ['提交', '关闭'],
+        success: function (layero, index) {
             iframe = window["layui-layer-iframe" + index];
             iframe.initData(data);
-        }
-        , yes: function (layero, index) {
+        },
+        yes: function (layero, index) {
             iframe.submitFun();
-        }
-        , btn2: function () {
+        },
+        btn2: function () {
             layer.close();
-        }
-        , zIndex: layer.zIndex
+        },
+        zIndex: layer.zIndex
     });
 }
 

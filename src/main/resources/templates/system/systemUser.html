@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
 </head>
 <body>
+<script type="text/html" id="operationBar">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">设置角色</a>
+</script>
 <div class="layuimini-container">
     <div class="layuimini-main">
         <fieldset class="layui-elem-field layuimini-search">
@@ -93,7 +96,10 @@
                     },
                     {field: 'loginCount', title: '登录次数'},
                     {field: 'lastLoginDate', title: '最后登录时间'},
-                    {field: 'createTime', title: '创建时间', fixed: "right"}
+                    {field: 'createTime', title: '创建时间'},
+                    {
+                        toolbar: '#operationBar', align: 'center', title: '操作', width: 200, fixed: "right"
+                    }
                 ]
             ],
             limits: [10, 15, 20, 25, 50, 100],
@@ -120,6 +126,15 @@
         //监听表格复选框选择
         table.on('checkbox(currentTableFilter)', function (obj) {
             console.log(obj)
+        });
+
+        //监听工具条
+        table.on('tool(currentTableFilter)', function (obj) {
+            const data = obj.data;
+            if (obj.event === 'edit') {
+                data.href = "/data/trade-logic/update";
+                loadFormModel("管理员角色", data, '/data/systemUser/editPage');
+            }
         });
     });
 </script>

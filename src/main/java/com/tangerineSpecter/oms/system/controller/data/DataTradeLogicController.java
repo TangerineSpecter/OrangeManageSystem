@@ -1,20 +1,26 @@
 package com.tangerinespecter.oms.system.controller.data;
 
+import com.tangerinespecter.oms.common.enums.LogOperation;
 import com.tangerinespecter.oms.common.listener.AccessLimit;
+import com.tangerinespecter.oms.common.listener.LoggerInfo;
 import com.tangerinespecter.oms.common.query.TradeLogicQueryObject;
 import com.tangerinespecter.oms.common.redis.PageModelKey;
 import com.tangerinespecter.oms.common.result.ServiceResult;
+import com.tangerinespecter.oms.system.domain.vo.data.AddTradeLogicVo;
+import com.tangerinespecter.oms.system.domain.vo.data.EditTradeLogicVo;
 import com.tangerinespecter.oms.system.service.data.IDataTradeLogicService;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 /**
  * 交易逻辑控制
@@ -47,7 +53,15 @@ public class DataTradeLogicController {
      */
     @RequestMapping("/addPage")
     public String addTradeRecordPage(Model model) {
-        return "data/addEditTradeLogic";
+        return "data/addTradeLogic";
+    }
+
+    /**
+     * 编辑页面
+     */
+    @RequestMapping("/editPage")
+    public String editTradeRecordPage(Model model) {
+        return "data/editTradeLogic";
     }
 
     /**
@@ -58,5 +72,35 @@ public class DataTradeLogicController {
     @RequestMapping("/list")
     public ServiceResult listInfo(TradeLogicQueryObject qo) {
         return dataTradeLogicService.queryForPage(qo);
+    }
+
+    /**
+     * 添加交易数据
+     */
+    @ResponseBody
+    @RequestMapping("/insert")
+    @LoggerInfo(value = "添加交易逻辑", event = LogOperation.EVENT_ADD)
+    public ServiceResult insertInfo(@Valid() AddTradeLogicVo vo) {
+        return dataTradeLogicService.insertInfo(vo);
+    }
+
+    /**
+     * 编辑交易数据
+     */
+    @ResponseBody
+    @RequestMapping("/update")
+    @LoggerInfo(value = "编辑交易逻辑", event = LogOperation.EVENT_UPDATE)
+    public ServiceResult updateInfo(@Valid() EditTradeLogicVo vo) {
+        return dataTradeLogicService.updateInfo(vo);
+    }
+
+    /**
+     * 删除交易逻辑
+     */
+    @ResponseBody
+    @RequestMapping("/delete")
+    @LoggerInfo(value = "删除交易逻辑", event = LogOperation.EVENT_DELETE)
+    public ServiceResult deleteInfo(@RequestParam("id") Long id) {
+        return dataTradeLogicService.deleteInfo(id);
     }
 }

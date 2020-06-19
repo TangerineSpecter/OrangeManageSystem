@@ -55,12 +55,11 @@ public class SystemUserController {
      *
      * @param systemUser
      * @return
-     * @throws Exception
      */
     @ResponseBody
     @RequestMapping("/insert")
     @LoggerInfo(value = "用户添加管理员", event = LogOperation.EVENT_ADD)
-    public ServiceResult insert(@Valid SystemUser systemUser) throws Exception {
+    public ServiceResult insert(@Valid SystemUser systemUser) {
         return systemUserService.insertSystemUserInfo(systemUser);
     }
 

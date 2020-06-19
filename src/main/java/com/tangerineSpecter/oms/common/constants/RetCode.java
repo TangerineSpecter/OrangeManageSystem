@@ -120,6 +120,10 @@ public class RetCode {
      * 收藏内容不存在
      */
     public static final RetCode WORK_COLLECTION_NOT_EXIST = new RetCode(1001, "收藏内容不存在");
+    /**
+     * 交易逻辑不存在
+     */
+    public static final RetCode TRADE_LOGIC_NOT_EXIST = new RetCode(1002, "交易逻辑不存在");
 
     public RetCode fillArgs(Object... args) {
         int errorCode = this.errorCode;

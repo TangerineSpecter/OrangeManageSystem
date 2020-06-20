@@ -17,7 +17,9 @@ public enum TradeRecordTypeEnum {
     //期货
     FUTURES_TYPE(1, "期货"),
     //外汇
-    FOREIGN_EXCHANGE_TYPE(2, "外汇");
+    FOREIGN_EXCHANGE_TYPE(2, "外汇"),
+    //基金
+    FUND_TYPE(3, "基金");;
 
     private Integer type;
 

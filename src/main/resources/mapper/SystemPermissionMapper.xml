@@ -3,8 +3,9 @@
 <mapper namespace="com.tangerinespecter.oms.system.mapper.SystemPermissionMapper">
     <update id="updateUrlByCode">
         update system_permission
-        set url = #{url}
-        where code = #{code}
+        set url  = #{url},
+            code = #{code}
+        where url = #{beforeUrl}
     </update>
 
     <select id="getPermissionListByUid"

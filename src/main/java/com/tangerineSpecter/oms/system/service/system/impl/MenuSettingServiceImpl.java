@@ -16,6 +16,7 @@ import com.tangerinespecter.oms.system.service.system.IPermissionManageService;
 import com.tangerinespecter.oms.system.service.system.ISystemUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import sun.plugin2.util.SystemUtil;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -77,6 +78,8 @@ public class MenuSettingServiceImpl implements IMenuSettingService {
                 .icon("fa " + vo.getIcon()).level(vo.getLevel()).pid(vo.getPid())
                 .target(vo.getTarget()).sort(vo.getSort()).build();
         systemMenuMapper.insert(systemMenu);
+        systemMenu.setPermissionCode(SystemUtils.getMenuCode(systemMenu.getHref(), systemMenu.getId()));
+        systemMenuMapper.updateById(systemMenu);
         permissionManageService.init();
         return ServiceResult.success();
     }
@@ -93,6 +96,9 @@ public class MenuSettingServiceImpl implements IMenuSettingService {
         queryWrapper.eq("href", href);
         SystemMenu selectMenu = systemMenuMapper.selectOne(queryWrapper);
         if (id != null) {
+            if (selectMenu == null) {
+                return false;
+            }
             return !id.equals(selectMenu.getId());
         }
         return selectMenu != null;
@@ -112,16 +118,22 @@ public class MenuSettingServiceImpl implements IMenuSettingService {
         if (vo.getId() == null) {
             return ServiceResult.paramError();
         }
+        SystemMenu systemMenu = systemMenuMapper.selectById(vo.getId());
         if (checkMenuHrefExist(vo.getId(), vo.getHref())) {
             return ServiceResult.error(RetCode.SYSTEM_MENU_HREF_EXIST);
         }
-        SystemMenu systemMenu = SystemMenu.builder().id(vo.getId()).title(vo.getTitle()).href(vo.getHref())
-                .pid(vo.getPid()).level(vo.getLevel()).sort(vo.getSort()).target(vo.getTarget())
-                .icon("fa " + vo.getIcon()).build();
+        String beforeHref = systemMenu.getHref();
+        systemMenu.setTitle(vo.getTitle());
+        systemMenu.setHref(vo.getHref());
+        systemMenu.setPermissionCode(SystemUtils.getMenuCode(vo.getHref(), vo.getId()));
+        systemMenu.setPid(vo.getPid());
+        systemMenu.setIcon("fa " + vo.getIcon());
+        systemMenu.setSort(vo.getSort());
+        systemMenu.setTarget(vo.getTarget());
         systemMenuMapper.updateById(systemMenu);
         //重置权限url
         SystemMenu menu = systemMenuMapper.selectById(vo.getId());
-        systemPermissionMapper.updateUrlByCode(SystemUtils.getPermissionUrl(vo.getHref()), SystemUtils.getPermissionCode(menu.getPermissionCode()));
+        systemPermissionMapper.updateUrlByCode(SystemUtils.getPermissionUrl(beforeHref), SystemUtils.getPermissionUrl(vo.getHref()), SystemUtils.getPermissionCode(menu.getPermissionCode()));
         return ServiceResult.success();
     }
 

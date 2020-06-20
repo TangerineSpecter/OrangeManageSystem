@@ -18,6 +18,7 @@
                                 <option value="0">股票</option>
                                 <option value="1">期货</option>
                                 <option value="2">外汇</option>
+                                <option value="3">基金</option>
                             </select>
                         </div>
                     </div>
@@ -138,6 +139,8 @@
                                 return '<span style="color: tomato">期货</span>';
                             } else if (row.type === 2) {
                                 return '<span style="color: #BA55D3">外汇</span>';
+                            } else if (row.type === 3) {
+                                return '<span style="color: LightSeaGreen">基金</span>';
                             }
                         }, title: '类型'
                     },

@@ -20,6 +20,7 @@ import sun.plugin2.util.SystemUtil;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -186,7 +187,7 @@ public class MenuSettingServiceImpl implements IMenuSettingService {
                 log.info("超级管理员账号初始化完毕");
                 adminId = systemUser.getId();
             } catch (Exception e) {
-                log.error("超级管理员账号初始化异常，{}", e);
+                log.error("超级管理员账号初始化异常", e);
             }
         } else {
             adminId = systemUser.getId();
@@ -204,8 +205,8 @@ public class MenuSettingServiceImpl implements IMenuSettingService {
             log.warn("初始化管理员角色异常");
             return;
         }
-        SystemRole systemRole = systemRoleMapper.selectRoleByUid(adminId);
-        Long adminRoleId;
+        Set<SystemRole> systemRole = systemRoleMapper.selectRoleByUid(adminId);
+        Long adminRoleId = null;
         if (systemRole == null) {
             SystemRole createSystemRole = SystemRole.builder().name("系统管理员")
                     .status(SystemConstant.IS_EFFECTIVE).remark("系统管理员").build();
@@ -214,7 +215,9 @@ public class MenuSettingServiceImpl implements IMenuSettingService {
             SystemUserRole userRole = SystemUserRole.builder().uid(adminId).rid(adminRoleId).build();
             systemUserRoleMapper.insert(userRole);
         } else {
-            adminRoleId = systemRole.getId();
+            log.warn("管理员角色异常");
+            return;
+//            adminRoleId = systemRole.getId();
         }
         initPermission(adminRoleId);
     }

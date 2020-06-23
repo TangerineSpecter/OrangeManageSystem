@@ -104,8 +104,8 @@ layui.use(['form', 'table'], function () {
         table.reload('currentTableId', {
             page: {
                 curr: 1
-            }, where: {queryParam: null}
-        }, 'data');
+            }, where: $("#search-from").serializeArray()
+    }, 'data');
         return false;
     });
 });

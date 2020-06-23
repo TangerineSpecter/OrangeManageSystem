@@ -1,6 +1,5 @@
 package com.tangerinespecter.oms.system.service.system.impl;
 
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.RandomUtil;
@@ -13,10 +12,11 @@ import com.tangerinespecter.oms.common.constants.SystemConstant;
 import com.tangerinespecter.oms.common.query.SystemUserQueryObject;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
-import com.tangerinespecter.oms.system.mapper.SystemUserMapper;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;
 import com.tangerinespecter.oms.system.domain.pojo.AccountInfo;
 import com.tangerinespecter.oms.system.domain.vo.system.SystemUserInfoVo;
+import com.tangerinespecter.oms.system.mapper.SystemRoleMapper;
+import com.tangerinespecter.oms.system.mapper.SystemUserMapper;
 import com.tangerinespecter.oms.system.service.helper.RedisHelper;
 import com.tangerinespecter.oms.system.service.system.ISystemUserService;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +31,6 @@ import org.springframework.ui.Model;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -47,6 +46,8 @@ public class SystemUserServiceImpl implements ISystemUserService {
 
     @Resource
     private SystemUserMapper systemUserMapper;
+    @Resource
+    private SystemRoleMapper systemRoleMapper;
     @Resource
     private RedisHelper redisHelper;
 
@@ -92,6 +93,7 @@ public class SystemUserServiceImpl implements ISystemUserService {
     public ServiceResult<Object> querySystemUserList(SystemUserQueryObject qo) {
         PageHelper.startPage(qo.getPage(), qo.getLimit());
         List<SystemUser> pageList = systemUserMapper.queryForPage(qo);
+        pageList.forEach(u -> u.setRoles(systemRoleMapper.selectRoleByUid(u.getId())));
         // 得到分页结果对象
         PageInfo<SystemUser> systemUserInfo = new PageInfo<>(pageList);
         return ServiceResult.pageSuccess(pageList, systemUserInfo.getTotal());

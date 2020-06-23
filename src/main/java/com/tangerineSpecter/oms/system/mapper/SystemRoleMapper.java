@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Set;
 
 @Mapper
 public interface SystemRoleMapper extends BaseMapper<SystemRole> {
@@ -22,7 +23,7 @@ public interface SystemRoleMapper extends BaseMapper<SystemRole> {
      * @param uid
      * @return
      */
-    SystemRole selectRoleByUid(@Param("uid") Long uid);
+    Set<SystemRole> selectRoleByUid(@Param("uid") Long uid);
 
     SystemRole selectRoleById(@Param("id") Long roleId);
 

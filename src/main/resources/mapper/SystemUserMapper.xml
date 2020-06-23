@@ -24,12 +24,6 @@
         <collection property="roles" ofType="com.tangerinespecter.oms.system.domain.entity.SystemRole">
             <id column="rid" property="id"/>
             <result column="role_name" property="name"/>
-            <collection property="permissions" ofType="com.tangerinespecter.oms.system.domain.entity.SystemPermission">
-                <id column="pid" property="id"/>
-                <result column="permission_name" property="name"/>
-                <result column="url" property="url"/>
-                <result column="code" property="code"/>
-            </collection>
         </collection>
     </resultMap>
     <sql id="Base_Column_List">

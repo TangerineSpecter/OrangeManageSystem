@@ -47,4 +47,11 @@ public interface ISystemUserService {
      * 修改密码
      */
     ServiceResult updatePassword(SystemUserInfoVo vo);
+
+    /**
+     * 更新角色
+     * @param vo
+     * @return
+     */
+    ServiceResult updateSystemUserRole(SystemUserInfoVo vo);
 }

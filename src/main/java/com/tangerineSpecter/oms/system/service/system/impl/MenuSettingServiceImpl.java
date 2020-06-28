@@ -205,7 +205,7 @@ public class MenuSettingServiceImpl implements IMenuSettingService {
             log.warn("初始化管理员角色异常");
             return;
         }
-        Set<SystemRole> systemRole = systemRoleMapper.selectRoleByUid(adminId);
+        List<SystemRole> systemRole = systemRoleMapper.selectRoleByUid(adminId);
         Long adminRoleId = null;
         if (systemRole == null) {
             SystemRole createSystemRole = SystemRole.builder().name("系统管理员")

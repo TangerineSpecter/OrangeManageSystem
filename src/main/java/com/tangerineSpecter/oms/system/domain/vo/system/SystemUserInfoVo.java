@@ -37,4 +37,6 @@ public class SystemUserInfoVo {
     private String oldPassword;
 
     private String password;
+
+    private String roleIds;
 }

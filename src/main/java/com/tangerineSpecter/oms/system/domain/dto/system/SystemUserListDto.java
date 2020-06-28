@@ -1,52 +1,27 @@
-package com.tangerinespecter.oms.system.domain.entity;
+package com.tangerinespecter.oms.system.domain.dto.system;
 
 import cn.hutool.core.collection.CollUtil;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.tangerinespecter.oms.system.domain.entity.SystemRole;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
 
-import java.io.Serializable;
-import java.util.HashSet;
 import java.util.List;
 
-/**
- * 系统管理员信息表
- *
- * @author TangerineSpecter
- * @version v0.0.1
- * @Date 2019年1月7日
- */
 @Data
-@Builder
-@Accessors(chain = true)
-@NoArgsConstructor
 @AllArgsConstructor
-@TableName(value = "system_user", resultMap = "systemUserMap")
-public class SystemUser implements Serializable {
+@NoArgsConstructor
+public class SystemUserListDto {
 
-    @TableId(type = IdType.AUTO)
     private Long id;
     /**
      * 帐号
      */
     private String username;
     /**
-     * 密码
-     */
-    private String password;
-    /**
      * 昵称
      */
     private String nickName;
-    /**
-     * 头像
-     */
-    private String avatar;
     /**
      * 性别（0：男；1：女）
      */
@@ -71,10 +46,6 @@ public class SystemUser implements Serializable {
      * 简介
      */
     private String brief;
-    /**
-     * 盐
-     */
-    private String salt;
     /**
      * 部门id
      */
@@ -104,8 +75,16 @@ public class SystemUser implements Serializable {
      */
     private Integer isDel;
     /**
-     * 管理员角色
+     * 全部角色
      */
     private List<SystemRole> roles = CollUtil.newArrayList();
 
+    /**
+     * 管理员拥有角色
+     */
+    private List<SystemRole> haveRoles = CollUtil.newArrayList();
+    /**
+     * 管理员角色Id
+     */
+    private List<Long> haveRoleIds = CollUtil.newArrayList();
 }

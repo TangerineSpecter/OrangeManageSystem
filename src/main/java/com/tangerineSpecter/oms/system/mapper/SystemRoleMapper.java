@@ -23,7 +23,7 @@ public interface SystemRoleMapper extends BaseMapper<SystemRole> {
      * @param uid
      * @return
      */
-    Set<SystemRole> selectRoleByUid(@Param("uid") Long uid);
+    List<SystemRole> selectRoleByUid(@Param("uid") Long uid);
 
     SystemRole selectRoleById(@Param("id") Long roleId);
 
@@ -38,4 +38,6 @@ public interface SystemRoleMapper extends BaseMapper<SystemRole> {
      * @param name
      */
     void updateRoleNameById(@Param("id") Long id, @Param("name") String name);
+
+    List<SystemRole> selectAllList();
 }

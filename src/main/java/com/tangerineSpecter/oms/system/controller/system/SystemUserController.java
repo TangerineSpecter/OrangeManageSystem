@@ -44,6 +44,14 @@ public class SystemUserController {
     /**
      * 后台管理员
      */
+    @RequestMapping("/addRolePage")
+    public String addRolePage() {
+        return "system/editSystemUserRole";
+    }
+
+    /**
+     * 后台管理员
+     */
     @ResponseBody
     @RequestMapping("/list")
     public ServiceResult listInfo(SystemUserQueryObject qo) {
@@ -71,6 +79,16 @@ public class SystemUserController {
     @LoggerInfo(value = "用户更新管理员", event = LogOperation.EVENT_UPDATE)
     public ServiceResult update(@Valid SystemUserInfoVo vo) {
         return systemUserService.updateSystemUserInfo(vo);
+    }
+
+    /**
+     * 修改系统用户角色
+     */
+    @ResponseBody
+    @RequestMapping("/update-role")
+    @LoggerInfo(value = "用户更新管理员角色", event = LogOperation.EVENT_UPDATE)
+    public ServiceResult updateRole(@Valid SystemUserInfoVo vo) {
+        return systemUserService.updateSystemUserRole(vo);
     }
 
     /**

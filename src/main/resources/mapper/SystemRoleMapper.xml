@@ -38,17 +38,17 @@
             </if>
         </where>
     </select>
-    <select id="selectListByType" resultType="com.tangerinespecter.oms.system.domain.entity.SystemRole">
-        select *
-        from system_role
-        where `type` = #{type}
-    </select>
     <select id="selectRoleByUid" resultType="com.tangerinespecter.oms.system.domain.entity.SystemRole">
         select sr.*
         from system_role sr,
              system_user_role sur
         where sr.id = sur.rid
           and sur.uid = #{uid}
+    </select>
+    <select id="selectListByType" resultType="com.tangerinespecter.oms.system.domain.entity.SystemRole">
+        select *
+        from system_role
+        where `type` = #{type}
     </select>
     <select id="selectRoleById" resultMap="systemUserMap">
         select sr.*,
@@ -69,5 +69,9 @@
         select *
         from system_role
         where `name` like concat('%', #{name}, '%')
+    </select>
+    <select id="selectAllList" resultType="com.tangerinespecter.oms.system.domain.entity.SystemRole">
+        select *
+        from system_role
     </select>
 </mapper>

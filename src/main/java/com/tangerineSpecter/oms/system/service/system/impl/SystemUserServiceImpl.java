@@ -1,22 +1,28 @@
 package com.tangerinespecter.oms.system.service.system.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateUtil;
-import cn.hutool.core.util.NumberUtil;
-import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.common.base.Splitter;
 import com.tangerinespecter.oms.common.constants.CommonConstant;
 import com.tangerinespecter.oms.common.constants.RetCode;
 import com.tangerinespecter.oms.common.constants.SystemConstant;
 import com.tangerinespecter.oms.common.query.SystemUserQueryObject;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
+import com.tangerinespecter.oms.system.domain.dto.system.SystemUserListDto;
+import com.tangerinespecter.oms.system.domain.entity.SystemRole;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;
+import com.tangerinespecter.oms.system.domain.entity.SystemUserRole;
 import com.tangerinespecter.oms.system.domain.pojo.AccountInfo;
 import com.tangerinespecter.oms.system.domain.vo.system.SystemUserInfoVo;
 import com.tangerinespecter.oms.system.mapper.SystemRoleMapper;
 import com.tangerinespecter.oms.system.mapper.SystemUserMapper;
+import com.tangerinespecter.oms.system.mapper.SystemUserRoleMapper;
 import com.tangerinespecter.oms.system.service.helper.RedisHelper;
 import com.tangerinespecter.oms.system.service.system.ISystemUserService;
 import lombok.extern.slf4j.Slf4j;
@@ -31,9 +37,9 @@ import org.springframework.ui.Model;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 /**
  * @author TangerineSpecter
@@ -48,6 +54,8 @@ public class SystemUserServiceImpl implements ISystemUserService {
     private SystemUserMapper systemUserMapper;
     @Resource
     private SystemRoleMapper systemRoleMapper;
+    @Resource
+    private SystemUserRoleMapper systemUserRoleMapper;
     @Resource
     private RedisHelper redisHelper;
 
@@ -92,10 +100,17 @@ public class SystemUserServiceImpl implements ISystemUserService {
     @Override
     public ServiceResult<Object> querySystemUserList(SystemUserQueryObject qo) {
         PageHelper.startPage(qo.getPage(), qo.getLimit());
-        List<SystemUser> pageList = systemUserMapper.queryForPage(qo);
-        pageList.forEach(u -> u.setRoles(systemRoleMapper.selectRoleByUid(u.getId())));
+        List<SystemUserListDto> pageList = systemUserMapper.queryForPage(qo);
+        List<SystemRole> allRoles = systemRoleMapper.selectAllList();
+        pageList.forEach(u -> {
+            List<SystemRole> haveRoles = systemRoleMapper.selectRoleByUid(u.getId());
+            u.setRoles(allRoles);
+            u.setHaveRoles(haveRoles);
+            List<Long> haveRoleIds = haveRoles.stream().map(SystemRole::getId).collect(Collectors.toList());
+            u.setHaveRoleIds(haveRoleIds);
+        });
         // 得到分页结果对象
-        PageInfo<SystemUser> systemUserInfo = new PageInfo<>(pageList);
+        PageInfo<SystemUserListDto> systemUserInfo = new PageInfo<>(pageList);
         return ServiceResult.pageSuccess(pageList, systemUserInfo.getTotal());
     }
 
@@ -165,104 +180,32 @@ public class SystemUserServiceImpl implements ISystemUserService {
         return ServiceResult.success();
     }
 
-    public static void main(String[] args) {
-        money20();
-        //moneyAll();
+    @Override
+    public ServiceResult updateSystemUserRole(SystemUserInfoVo vo) {
+        if (vo.getId() == null) {
+            return ServiceResult.paramError();
+        }
+        if (StrUtil.isBlank(vo.getRoleIds())) {
+            UpdateWrapper<SystemUserRole> queryWrapper = new UpdateWrapper<SystemUserRole>().eq("uid", vo.getId());
+            systemUserRoleMapper.delete(queryWrapper);
+            return ServiceResult.success();
+        }
+        QueryWrapper<SystemUserRole> queryWrapper = new QueryWrapper<SystemUserRole>().eq("uid", vo.getId());
+        List<SystemUserRole> haveRoles = systemUserRoleMapper.selectList(queryWrapper);
+        //请求roleIds
+        List<Long> rolesReq = Splitter.on(",").omitEmptyStrings().splitToList(vo.getRoleIds())
+                .parallelStream().map(Long::parseLong).collect(Collectors.toList());
+        //拥有roleIds
+        List<Long> haveRoleIds = haveRoles.stream().map(SystemUserRole::getId).collect(Collectors.toList());
+        Collection<Long> intersectionIds = CollUtil.intersection(rolesReq, haveRoleIds);
+        //移除共同部分
+        rolesReq.removeAll(intersectionIds);
+        haveRoleIds.removeAll(intersectionIds);
+        //新增角色
+        rolesReq.forEach(r -> systemUserRoleMapper.insert(SystemUserRole.builder().rid(r).uid(vo.getId()).build()));
+        //移除角色
+        haveRoleIds.forEach(r -> systemUserRoleMapper.delete(new UpdateWrapper<SystemUserRole>().eq("rid", r).eq("uid", vo.getId())));
+        return ServiceResult.success();
     }
 
-    private static void money20() {
-        System.out.println("=====开始储备金方式=====");
-        Set<Integer> set = new TreeSet<>();
-        for (int b = 0; b < 10000; b++) {
-            int a = 50;
-            int m = 50000;
-            int c = 100000;
-            int x = 0;
-            int count = 0;
-            while (true) {
-                int i = RandomUtil.randomInt(100);
-                if (i < a) {
-                    //减半
-                    double div = NumberUtil.div(m, 2);
-                    int radio = RandomUtil.randomInt(3, 9);
-                    double div1 = NumberUtil.div(radio, 100);
-                    double mul = NumberUtil.mul(m, div1);
-                    m = m - (int) mul;
-                } else {
-                    //减半
-                    double div = NumberUtil.div(m, 2);
-                    int radio = RandomUtil.randomInt(20, 30);
-                    double div1 = NumberUtil.div(radio, 100);
-                    double mul = NumberUtil.mul(m, div1);
-                    m = m + (int) mul;
-//                    m += 3000;
-                }
-                count++;
-                if (m >= c) {
-                    x += (m - c);
-                    m = c;
-                } else {
-                    int d = c - m;
-                    if (x > d) {
-                        x -= d;
-                        m = c;
-                    } else {
-                        m += x;
-                    }
-                }
-//                System.out.println("当前本金:" + m);
-//                System.out.println("当前储备金:" + x);
-                if (x + m <= 1000) {
-//                    System.out.println("失败");
-                    count = -1;
-                    break;
-                } else if (x + m >= 1000000) {
-//                    System.out.println("成功");
-                    break;
-                }
-//                System.out.println("当前资金" + m);
-                //System.out.println(i);
-            }
-            set.add(count);
-            //System.out.println("经历" + count + "周");
-        }
-        System.out.println(set);
-        System.out.println("====结束储备金方式=====");
-    }
-
-    private static void moneyAll() {
-        Set<Integer> set = new TreeSet<>();
-        for (int b = 0; b < 1000000; b++) {
-            int a = 50;
-            int m = 50000;
-            int count = 0;
-            while (true) {
-                int i = RandomUtil.randomInt(100);
-                if (i < a) {
-                    double div = NumberUtil.div(m, 2);
-                    double mul = NumberUtil.mul(m, 0.05);
-                    m = m - (int) mul;
-                } else {
-                    double div = NumberUtil.div(m, 2);
-                    double mul = NumberUtil.mul(m, 0.2);
-                    m = m + (int) mul;
-//                    m += 3000;
-                }
-                count++;
-                if (m <= 1000) {
-//                    System.out.println("失败");
-                    count = -1;
-                    break;
-                } else if (m >= 1000000) {
-//                    System.out.println("成功");
-                    break;
-                }
-//                System.out.println("当前资金" + m);
-                //System.out.println(i);
-            }
-            set.add(count);
-            //System.out.println("经历" + count + "周");
-        }
-        System.out.println(set);
-    }
 }

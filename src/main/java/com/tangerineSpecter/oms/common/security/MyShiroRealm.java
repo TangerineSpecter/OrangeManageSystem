@@ -57,9 +57,9 @@ public class MyShiroRealm extends AuthorizingRealm {
         List<String> permissionList = new ArrayList<>();
         //获取当前用户角色
         List<String> roleNameList = new ArrayList<>();
-        Set<SystemRole> roleSet = currentUser.getRoles();
-        if (CollUtil.isNotEmpty(roleSet)) {
-            for (SystemRole role : roleSet) {
+        List<SystemRole> roleList = currentUser.getRoles();
+        if (CollUtil.isNotEmpty(roleList)) {
+            for (SystemRole role : roleList) {
                 roleNameList.add(role.getName());
                 //获取当前角色对应的权限
                 Set<SystemPermission> permissionSet = role.getPermissions();

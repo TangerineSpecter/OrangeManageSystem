@@ -2,6 +2,7 @@ package com.tangerinespecter.oms.system.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.tangerinespecter.oms.common.query.SystemUserQueryObject;
+import com.tangerinespecter.oms.system.domain.dto.system.SystemUserListDto;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -22,7 +23,7 @@ public interface SystemUserMapper extends BaseMapper<SystemUser> {
      */
     SystemUser getUserByUserName(@Param("userName") String username);
 
-    List<SystemUser> queryForPage(SystemUserQueryObject qo);
+    List<SystemUserListDto> queryForPage(SystemUserQueryObject qo);
 
     /**
      * 根据用户账号查询信息

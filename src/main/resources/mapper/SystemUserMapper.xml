@@ -70,7 +70,7 @@
         from system_user
         where username = #{userName}
     </select>
-    <select id="queryForPage" resultType="com.tangerinespecter.oms.system.domain.entity.SystemUser">
+    <select id="queryForPage" resultType="com.tangerinespecter.oms.system.domain.dto.system.SystemUserListDto">
         select *
         from system_user
     </select>

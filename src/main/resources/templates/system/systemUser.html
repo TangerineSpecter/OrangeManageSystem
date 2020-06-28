@@ -86,8 +86,12 @@
                     {field: 'city', title: '城市', width: 100},
                     {
                         field: 'role', title: '角色', width: 100, templet: function (data) {
-                            if (data.roles != null) {
-                                return data.roles[0].name;
+                            if (data.haveRoles != null) {
+                                var roleNames = "";
+                                $.each(data.haveRoles, function (index, item) {
+                                    roleNames = item.name + ",";
+                                });
+                                return roleNames.substring(0, roleNames.length - 1);
                             }
                         }
                     },
@@ -113,22 +117,6 @@
             page: true
         });
 
-        // 监听搜索操作
-        form.on('submit(data-search-btn)', function (data) {
-            var result = JSON.stringify(data.field);
-            //执行搜索重载
-            table.reload('currentTableId', {
-                page: {
-                    curr: 1
-                }
-                , where: {
-                    searchParams: result
-                }
-            }, 'data');
-
-            return false;
-        });
-
         //监听表格复选框选择
         table.on('checkbox(currentTableFilter)', function (obj) {
             console.log(obj)
@@ -138,23 +126,8 @@
         table.on('tool(currentTableFilter)', function (obj) {
             const data = obj.data;
             if (obj.event === 'edit') {
-                layer.open({
-                    title: "授权角色",
-                    type: 1,
-                    shade: 0.3,
-                    skin: 'layui-layer-rim', //加上边框
-                    area: ['420px', '240px'], //宽高
-                    btn: ['提交', '关闭'],
-                    content: $("#editRole").html(),
-                    yes: function (layero, index) {
-                        iframe.submitFun();
-                    },
-                    btn2: function () {
-                        layer.close();
-                    },
-                });
-                //data.href = "/data/trade-logic/update";
-                // loadFormModel("管理员角色", data, '/data/systemUser/editPage');
+                data.href = "/systemUser/update-role";
+                loadFormModel("设置角色", data, '/systemUser/addRolePage');
             }
         });
     });

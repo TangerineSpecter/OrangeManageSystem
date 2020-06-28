@@ -11,7 +11,7 @@
  Target Server Version : 80017
  File Encoding         : 65001
 
- Date: 05/06/2020 13:00:18
+ Date: 28/06/2020 14:29:05
 */
 
 SET NAMES utf8mb4;
@@ -37,7 +37,7 @@ CREATE TABLE `data_constellation` (
   `work_luck` int(8) DEFAULT '0' COMMENT '工作指数',
   `create_time` date DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=805 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='星座信息表';
+) ENGINE=InnoDB AUTO_INCREMENT=1045 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='星座信息表';
 
 -- ----------------------------
 -- Table structure for data_question
@@ -105,24 +105,23 @@ CREATE TABLE `data_stock_portfolio_content` (
 -- ----------------------------
 DROP TABLE IF EXISTS `data_trade_logic`;
 CREATE TABLE `data_trade_logic` (
-  `id` bigint(13) NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '名称',
+  `id` bigint(13) NOT NULL AUTO_INCREMENT,
+  `entry_date` date NOT NULL COMMENT '开仓时间',
+  `exit_date` date DEFAULT NULL COMMENT '平仓时间',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '名称',
   `type` tinyint(4) NOT NULL COMMENT '交易类型（0：股票；1：期货；2：外汇）',
+  `status` tinyint(4) NOT NULL DEFAULT '-1' COMMENT '盈亏状态（-1：未平仓；0：盈利；1：亏损）',
   `entry_point` decimal(10,4) DEFAULT NULL COMMENT '入场点',
-  `exit_point
-
-Exit point
-
-Exit point
-
-exit_point` decimal(10,4) DEFAULT NULL COMMENT '出场点',
+  `exit_point` decimal(10,4) DEFAULT NULL COMMENT '出场点',
   `profit_point` decimal(10,4) DEFAULT NULL COMMENT '盈利点',
   `loss_point` decimal(10,4) DEFAULT NULL COMMENT '止损点',
-  `trade_logic` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '交易逻辑',
+  `closing_price` decimal(10,4) DEFAULT NULL COMMENT '收盘价',
+  `trade_logic` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '交易逻辑',
+  `conclusion` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '当日复盘结论',
   `admin_id` bigint(13) DEFAULT NULL COMMENT '管理员ID',
-  `is_del` tinyint(4) DEFAULT NULL COMMENT '删除状态（0：未删除；1：已删除）',
+  `is_del` tinyint(4) NOT NULL DEFAULT '0' COMMENT '删除状态（0：未删除；1：已删除）',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='交易逻辑明细表';
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='交易逻辑明细表';
 
 -- ----------------------------
 -- Table structure for data_trade_record
@@ -141,7 +140,7 @@ CREATE TABLE `data_trade_record` (
   `admin_id` bigint(13) NOT NULL COMMENT '管理员ID',
   `create_time` bigint(13) DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=475 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='交易记录表';
+) ENGINE=InnoDB AUTO_INCREMENT=508 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='交易记录表';
 
 -- ----------------------------
 -- Table structure for system_bulletin
@@ -204,7 +203,7 @@ CREATE TABLE `system_log` (
   `ip` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '操作IP',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '操作时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3266 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统日志记录表';
+) ENGINE=InnoDB AUTO_INCREMENT=3764 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统日志记录表';
 
 -- ----------------------------
 -- Table structure for system_menu
@@ -223,7 +222,7 @@ CREATE TABLE `system_menu` (
   `top` tinyint(2) DEFAULT '0' COMMENT '是否在首页（0：否；1：是）',
   `top_sort` int(50) DEFAULT '0' COMMENT '首页排序',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统菜单表';
+) ENGINE=InnoDB AUTO_INCREMENT=83 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统菜单表';
 
 -- ----------------------------
 -- Table structure for system_notice
@@ -241,7 +240,7 @@ CREATE TABLE `system_notice` (
   `update_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `is_del` tinyint(2) DEFAULT '0' COMMENT '删除状态（0:未删除；1:已删除）',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=10141 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='消息中心表';
+) ENGINE=InnoDB AUTO_INCREMENT=10142 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='消息中心表';
 
 -- ----------------------------
 -- Table structure for system_permission
@@ -255,7 +254,7 @@ CREATE TABLE `system_permission` (
   `remark` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '备注',
   `sort` int(50) NOT NULL DEFAULT '0' COMMENT '排序',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=183 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='权限表';
+) ENGINE=InnoDB AUTO_INCREMENT=189 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='权限表';
 
 -- ----------------------------
 -- Table structure for system_permission_role
@@ -268,7 +267,7 @@ CREATE TABLE `system_permission_role` (
   PRIMARY KEY (`id`),
   KEY `idx_rid` (`rid`),
   KEY `idx_pid` (`pid`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=110 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='权限角色关系表';
+) ENGINE=InnoDB AUTO_INCREMENT=115 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='权限角色关系表';
 
 -- ----------------------------
 -- Table structure for system_permisson_log
@@ -334,7 +333,7 @@ CREATE TABLE `system_user_role` (
   PRIMARY KEY (`id`),
   KEY `idx_uid` (`uid`),
   KEY `idx_pid` (`rid`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户角色关系表';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户角色关系表';
 
 -- ----------------------------
 -- Table structure for system_version_history
@@ -346,7 +345,7 @@ CREATE TABLE `system_version_history` (
   `version_number` int(10) DEFAULT NULL COMMENT '版本号数字',
   `create_time` date DEFAULT NULL COMMENT '版本创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统版本历史记录表';
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统版本历史记录表';
 
 -- ----------------------------
 -- Table structure for system_version_history_content
@@ -355,9 +354,10 @@ DROP TABLE IF EXISTS `system_version_history_content`;
 CREATE TABLE `system_version_history_content` (
   `id` bigint(13) NOT NULL AUTO_INCREMENT,
   `version_id` bigint(13) DEFAULT NULL COMMENT '版本ID',
+  `type` tinyint(4) DEFAULT NULL COMMENT '功能类型（0：新增；1：优化；2：改善；3：修复；4：重构）',
   `content` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '更新内容',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统版本更新内容';
+) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统版本更新内容';
 
 -- ----------------------------
 -- Table structure for user_health
@@ -390,7 +390,7 @@ CREATE TABLE `user_health` (
   `admin_id` bigint(13) NOT NULL COMMENT '管理员ID',
   `is_del` tinyint(2) DEFAULT NULL COMMENT '删除状态（0：未删除；1：已删除）',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='健康记录表';
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='健康记录表';
 
 -- ----------------------------
 -- Table structure for work_collection
@@ -400,11 +400,11 @@ CREATE TABLE `work_collection` (
   `id` bigint(13) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '标题',
   `content` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '内容',
-  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '备注',
+  `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '备注',
   `type` tinyint(3) DEFAULT NULL COMMENT '类型：（0:网站）',
   `sort` int(10) NOT NULL DEFAULT '0' COMMENT '排序',
   `is_del` tinyint(2) NOT NULL DEFAULT '0' COMMENT '删除状态（0：未删除；1：已删除）',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='内容收藏表';
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='内容收藏表';
 
 SET FOREIGN_KEY_CHECKS = 1;

@@ -11,7 +11,7 @@
  Target Server Version : 80017
  File Encoding         : 65001
 
- Date: 27/05/2020 13:44:54
+ Date: 28/06/2020 14:30:59
 */
 
 SET NAMES utf8mb4;
@@ -27,7 +27,7 @@ CREATE TABLE `system_version_history` (
   `version_number` int(10) DEFAULT NULL COMMENT '版本号数字',
   `create_time` date DEFAULT NULL COMMENT '版本创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统版本历史记录表';
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统版本历史记录表';
 
 -- ----------------------------
 -- Records of system_version_history
@@ -52,6 +52,8 @@ INSERT INTO `system_version_history` VALUES (16, 'v0.0.4版本更新', 40, '2019
 INSERT INTO `system_version_history` VALUES (17, 'v0.0.3版本更新', 30, '2019-09-10');
 INSERT INTO `system_version_history` VALUES (18, 'v0.0.2版本更新', 20, '2019-09-07');
 INSERT INTO `system_version_history` VALUES (19, 'v0.0.1版本更新', 10, '2019-01-03');
+INSERT INTO `system_version_history` VALUES (20, 'v0.4.0版本更新', 400, '2020-06-05');
+INSERT INTO `system_version_history` VALUES (21, 'v0.4.1版本更新', 410, '2020-06-07');
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;

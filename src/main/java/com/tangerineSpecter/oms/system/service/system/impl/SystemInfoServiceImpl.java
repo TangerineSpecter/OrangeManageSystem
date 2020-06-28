@@ -1,12 +1,10 @@
 package com.tangerinespecter.oms.system.service.system.impl;
 
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.convert.Convert;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.system.SystemUtil;
-import com.alibaba.druid.util.StringUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
@@ -16,6 +14,7 @@ import com.tangerinespecter.oms.common.utils.DateUtils;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.system.domain.dto.system.*;
 import com.tangerinespecter.oms.system.domain.entity.*;
+import com.tangerinespecter.oms.system.domain.enums.TradeRecordTypeEnum;
 import com.tangerinespecter.oms.system.domain.pojo.ManagerInfoBean;
 import com.tangerinespecter.oms.system.domain.pojo.SystemInfoBean;
 import com.tangerinespecter.oms.system.mapper.*;
@@ -26,10 +25,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.awt.*;
 import java.math.BigDecimal;
 import java.util.*;
-import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -103,7 +100,7 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
     }
 
     public static void main(String[] args) {
-        SystemUtil.dumpSystemInfo();
+        System.out.println(TradeRecordTypeEnum.getTypes().size());
     }
 
     /**
@@ -113,6 +110,9 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
     public ManagerInfoBean getManagerInfo() {
         ManagerInfoBean info = new ManagerInfoBean();
         SystemUser systemUser = SystemUtils.getCurrentUser();
+        if (systemUser == null) {
+            return info;
+        }
         String birthday = systemUser.getBirthday();
         String starName = DateUtils.getStarNameByDate(birthday);
         DataConstellation data = dataConstellationMapper.getConstellationByName(starName);
@@ -152,18 +152,62 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
         String tradeLastDay = dataTradeRecordMapper.getTradeLastDay();
         int monthIncome = dataTradeRecordMapper.getTotalIncomeByLastMonth();
         int weekendIncome = dataTradeRecordMapper.getTotalIncomeByDate(DateUtil.beginOfWeek(new Date()).toString(), DateUtil.endOfWeek(new Date()).toString());
+        //最近30天资金信息
         List<DataTradeRecord> lastThirtyMoneyInfo = dataTradeRecordMapper.getLastThirtyMoneyInfo();
         List<Integer> totalMoneyList = lastThirtyMoneyInfo.stream().map(DataTradeRecord::getEndMoney).collect(Collectors.toList());
         List<String> dateList = lastThirtyMoneyInfo.stream().map(DataTradeRecord::getDate).collect(Collectors.toList());
-        return StatisticsInfo.builder().todayIncome(BigDecimal.valueOf(NumberUtil.div(todayIncome, 100, 2)))
+        StatisticsInfo statisticsInfo = StatisticsInfo.builder().todayIncome(BigDecimal.valueOf(NumberUtil.div(todayIncome, 100, 2)))
                 .monthIncome(BigDecimal.valueOf(NumberUtil.div(monthIncome, 100, 2)))
                 .weekendIncome(BigDecimal.valueOf(NumberUtil.div(weekendIncome, 100, 2)))
                 .todayStatus(todayIncome >= 0 ? TradeConstant.TRADE_STATUS_PROFIT : TradeConstant.TRADE_STATUS_LOSS)
                 .monthStatus(monthIncome >= 0 ? TradeConstant.TRADE_STATUS_PROFIT : TradeConstant.TRADE_STATUS_LOSS)
                 .weekendStatus(weekendIncome >= 0 ? TradeConstant.TRADE_STATUS_PROFIT : TradeConstant.TRADE_STATUS_LOSS)
                 .weekend(DateUtil.weekOfYear(new Date())).month(DateUtil.month(new Date()) + 1)
-                .today(tradeLastDay).lastThirtyTotalMoney(Joiner.on(",").join(totalMoneyList))
-                .lastThirtyDate(Joiner.on(",").join(dateList)).build();
+                .today(tradeLastDay).build();
+        handlerLastThirtyData(statisticsInfo, lastThirtyMoneyInfo);
+        return statisticsInfo;
+    }
+
+    /**
+     * 处理最近30天资金数据
+     *
+     * @param statisticsInfo      数据信息
+     * @param lastThirtyMoneyInfo 最近资金信息
+     */
+    private void handlerLastThirtyData(StatisticsInfo statisticsInfo, List<DataTradeRecord> lastThirtyMoneyInfo) {
+        //最近天数
+        final int lastDayThreshold = 30;
+        List<String> dateList = CollUtil.newArrayList();
+        //总资金列表
+        List<Integer> totalMoneyList = CollUtil.newArrayList();
+        //单日资金
+        List<Integer> moneyList = CollUtil.newArrayList();
+        //初始化第一天
+        String today = lastThirtyMoneyInfo.get(0).getDate();
+        dateList.add(today);
+        for (DataTradeRecord dataTradeRecord : lastThirtyMoneyInfo) {
+            String date = dataTradeRecord.getDate();
+            if (!date.equals(today)) {
+                today = date;
+                dateList.add(date);
+                totalMoneyList.add(sumMoney(moneyList));
+            }
+            CollUtil.setOrAppend(moneyList, dataTradeRecord.getType(), dataTradeRecord.getEndMoney());
+        }
+        //补充最后一天
+        totalMoneyList.add(sumMoney(moneyList));
+        statisticsInfo.setLastThirtyDate(Joiner.on(",").join(CollUtil.sub(dateList, dateList.size() - lastDayThreshold, dateList.size())));
+        statisticsInfo.setLastThirtyTotalMoney(Joiner.on(",").join(CollUtil.sub(totalMoneyList, totalMoneyList.size() - lastDayThreshold, totalMoneyList.size())));
+    }
+
+    /**
+     * 总资金计算
+     *
+     * @param moneyList 资金列表
+     * @return 总资金
+     */
+    private Integer sumMoney(List<Integer> moneyList) {
+        return moneyList.stream().mapToInt(m -> m / 100).sum();
     }
 
     @Override
@@ -234,4 +278,5 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
         }
         return childList;
     }
+
 }

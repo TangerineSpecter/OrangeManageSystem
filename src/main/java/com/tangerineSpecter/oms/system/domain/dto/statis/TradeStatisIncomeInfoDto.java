@@ -22,6 +22,18 @@ public class TradeStatisIncomeInfoDto {
      */
     private List<BigDecimal> totalIncome;
     /**
+     * 股票数据
+     */
+    private List<BigDecimal> stockData;
+    /**
+     * 期货数据
+     */
+    private List<BigDecimal> futuresData;
+    /**
+     * 外汇数据
+     */
+    private List<BigDecimal> foreignData;
+ /**
      * 时间
      */
     private List<String> date;

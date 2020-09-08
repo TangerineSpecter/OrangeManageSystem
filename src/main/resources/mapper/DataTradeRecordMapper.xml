@@ -65,11 +65,17 @@
 #         limit 30
         select end_money, DATE_FORMAT(`date`, '%Y-%m-%d') as `date`, type
         from data_trade_record
+        order by `date`
     </select>
     <select id="queryTotalIncomeByDay"
             resultType="com.tangerinespecter.oms.system.domain.entity.DataTradeRecord">
         select (SUM(income_value) / 100) as incomeValue, DATE_FORMAT(`date`, '%Y-%m-%d') as `date`
         from data_trade_record
+        <where>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+        </where>
         GROUP BY DATE_FORMAT(`date`, '%Y-%m-%d')
         order by DATE_FORMAT(`date`, '%Y-%m-%d') desc
         limit 30

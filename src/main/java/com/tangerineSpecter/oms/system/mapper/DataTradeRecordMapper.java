@@ -62,5 +62,5 @@ public interface DataTradeRecordMapper extends BaseMapper<DataTradeRecord> {
     /**
      * 获取最近30天的资金收益信息
      */
-    List<DataTradeRecord> queryTotalIncomeByDay();
+    List<DataTradeRecord> queryTotalIncomeByDay(@Param("type") Integer type);
 }

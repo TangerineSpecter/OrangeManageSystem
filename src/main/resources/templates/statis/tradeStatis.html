@@ -18,6 +18,27 @@
             <div id="echarts-records" style="width: 100%;min-height:500px"></div>
         </div>
     </div>
+    <div class="layui-card">
+        <div class="layui-card-header"><i class="fa fa-line-chart icon"></i>股票数据
+        </div>
+        <div class="layui-card-body">
+            <div id="echarts-stock" style="width: 100%;min-height:500px"></div>
+        </div>
+    </div>
+    <div class="layui-card">
+        <div class="layui-card-header"><i class="fa fa-line-chart icon"></i>期货数据
+        </div>
+        <div class="layui-card-body">
+            <div id="echarts-futures" style="width: 100%;min-height:500px"></div>
+        </div>
+    </div>
+    <div class="layui-card">
+        <div class="layui-card-header"><i class="fa fa-line-chart icon"></i>外汇数据
+        </div>
+        <div class="layui-card-body">
+            <div id="echarts-foreign-exchange" style="width: 100%;min-height:500px"></div>
+        </div>
+    </div>
 </div>
 <div th:replace="./common/_layui_common::common_js"></div>
 <script>
@@ -58,6 +79,7 @@
 
     $(function () {
         initIncomeStatisCharts();
+        initStatisCharts();
     });
 
     /**
@@ -98,6 +120,61 @@
                 chart.render();
             }
         }, "JSON");
+    }
+
+    function initStatisCharts() {
+        $.post("/statis/trade/income-info", function (result) {
+            if (result.success) {
+                initCharts("#echarts-stock", "体重(斤)", result.data.stockData, result.data.date, '#87CEFA');
+                initCharts("#echarts-futures", "脂肪（斤）", result.data.futuresData, result.data.date, '#EE5C42');
+                initCharts("#echarts-foreign-exchange", "压力", result.data.foreignData, result.data.date, '#4EEE94');
+            }
+        }, "JSON");
+    }
+
+    function initCharts(id, name, data, date, color) {
+        const options = {
+            series: [{
+                name: name,
+                data: data.reverse()
+            }],
+            chart: {
+                height: 350,
+                type: 'area',
+                stacked: true
+            },
+            colors: [color],
+            dataLabels: {
+                enabled: true
+            },
+            stroke: {
+                curve: 'smooth'
+            },
+            grid: {
+                borderColor: '#111',
+                strokeDashArray: 7,
+            },
+            xaxis: {
+                type: 'date',
+                categories: date.reverse(),
+                lines: {
+                    show: true,
+                }
+            },
+            yaxis: {
+                lines: {
+                    show: true,
+                }
+            },
+            tooltip: {
+                x: {
+                    format: 'yyyy-MM-dd'
+                }
+            },
+        };
+
+        const chart = new ApexCharts(document.querySelector(id), options);
+        chart.render();
     }
 </script>
 </body>

@@ -150,19 +150,23 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
     public StatisticsInfo getStatisticsInfo() {
         int todayIncome = dataTradeRecordMapper.getTotalIncomeByLastDay();
         String tradeLastDay = dataTradeRecordMapper.getTradeLastDay();
+        int yearIncome = dataTradeRecordMapper.getTotalIncomeByLastYear();
         int monthIncome = dataTradeRecordMapper.getTotalIncomeByLastMonth();
         int weekendIncome = dataTradeRecordMapper.getTotalIncomeByDate(DateUtil.beginOfWeek(new Date()).toString(), DateUtil.endOfWeek(new Date()).toString());
+        Date currentDate = new Date();
         //最近30天资金信息
         List<DataTradeRecord> lastThirtyMoneyInfo = dataTradeRecordMapper.getLastThirtyMoneyInfo();
-        List<Integer> totalMoneyList = lastThirtyMoneyInfo.stream().map(DataTradeRecord::getEndMoney).collect(Collectors.toList());
-        List<String> dateList = lastThirtyMoneyInfo.stream().map(DataTradeRecord::getDate).collect(Collectors.toList());
+        //List<Integer> totalMoneyList = lastThirtyMoneyInfo.stream().map(DataTradeRecord::getEndMoney).collect(Collectors.toList());
+        //List<String> dateList = lastThirtyMoneyInfo.stream().map(DataTradeRecord::getDate).collect(Collectors.toList());
         StatisticsInfo statisticsInfo = StatisticsInfo.builder().todayIncome(BigDecimal.valueOf(NumberUtil.div(todayIncome, 100, 2)))
                 .monthIncome(BigDecimal.valueOf(NumberUtil.div(monthIncome, 100, 2)))
                 .weekendIncome(BigDecimal.valueOf(NumberUtil.div(weekendIncome, 100, 2)))
+                .yearIncome(BigDecimal.valueOf(NumberUtil.div(yearIncome, 100, 2)))
                 .todayStatus(todayIncome >= 0 ? TradeConstant.TRADE_STATUS_PROFIT : TradeConstant.TRADE_STATUS_LOSS)
                 .monthStatus(monthIncome >= 0 ? TradeConstant.TRADE_STATUS_PROFIT : TradeConstant.TRADE_STATUS_LOSS)
+                .yearStatus(yearIncome >= 0 ? TradeConstant.TRADE_STATUS_PROFIT : TradeConstant.TRADE_STATUS_LOSS)
                 .weekendStatus(weekendIncome >= 0 ? TradeConstant.TRADE_STATUS_PROFIT : TradeConstant.TRADE_STATUS_LOSS)
-                .weekend(DateUtil.weekOfYear(new Date())).month(DateUtil.month(new Date()) + 1)
+                .year(DateUtil.year(currentDate)).weekend(DateUtil.weekOfYear(currentDate)).month(DateUtil.month(currentDate) + 1)
                 .today(tradeLastDay).build();
         handlerLastThirtyData(statisticsInfo, lastThirtyMoneyInfo);
         return statisticsInfo;

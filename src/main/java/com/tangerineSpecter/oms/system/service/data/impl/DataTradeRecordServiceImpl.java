@@ -23,12 +23,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Service
@@ -74,9 +73,7 @@ public class DataTradeRecordServiceImpl implements IDateTradeRecordService {
     private void handlerTradeData(Integer type) {
         QueryWrapper<DataTradeRecord> queryWrapper = new QueryWrapper<DataTradeRecord>().eq("type", type);
         List<DataTradeRecord> datas = dataTradeRecordMapper.selectList(queryWrapper);
-        for (DataTradeRecord data : datas) {
-            handlerSingleTradeData(data.getId());
-        }
+        CompletableFuture.runAsync(() -> datas.forEach(this::handlerSingleTradeData));
     }
 
     /**
@@ -89,8 +86,12 @@ public class DataTradeRecordServiceImpl implements IDateTradeRecordService {
             return;
         }
         DataTradeRecord data = dataTradeRecordMapper.selectById(id);
+        handlerSingleTradeData(data);
+    }
+
+    private void handlerSingleTradeData(DataTradeRecord data) {
         if (data == null) {
-            log.info("交易数据[{}]不存在", id);
+            log.info("交易数据不存在");
             return;
         }
         QueryWrapper<DataTradeRecord> queryWrapper = new QueryWrapper<DataTradeRecord>().eq("type", data.getType());
@@ -128,7 +129,7 @@ public class DataTradeRecordServiceImpl implements IDateTradeRecordService {
                 dataTradeRecordMapper.insert(tradeRecord);
             }
         } catch (Exception e) {
-            log.error("数据导入异常，{}", e);
+            log.error("数据导入异常：", e);
         }
         return ServiceResult.success();
     }

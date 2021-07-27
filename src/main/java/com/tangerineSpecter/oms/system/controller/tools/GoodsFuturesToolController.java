@@ -1,10 +1,7 @@
 package com.tangerinespecter.oms.system.controller.tools;
 
-import com.tangerinespecter.oms.common.enums.LogOperation;
-import com.tangerinespecter.oms.common.listener.LoggerInfo;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.vo.tools.GoodsFuturesInfoVo;
-import com.tangerinespecter.oms.system.domain.vo.tools.QrCodeInfoVo;
 import com.tangerinespecter.oms.system.service.tools.IGoodsFuturesToolService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.RequestMapping;

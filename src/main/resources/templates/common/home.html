@@ -215,12 +215,15 @@
                                             <div class="panel layui-bg-number">
                                                 <div class="panel-body">
                                                     <div class="panel-title">
-                                                        <span class="label pull-right layui-bg-green">加油</span>
-                                                        <h5>代办事件</h5>
+                                                        <span class="label pull-right layui-bg-green"
+                                                              th:text="${statisticsInfo.yearStatus == 0} ? '盈利' : '亏损'">盈利</span>
+                                                        <h5>今年收益</h5>
                                                     </div>
                                                     <div class="panel-content">
-                                                        <h1 class="no-margins">1234</h1>
-                                                        <small>当前代办事件记录数</small>
+                                                        <h1 class="no-margins"
+                                                            th:text="${statisticsInfo.yearIncome}">0</h1>
+                                                        <small>结算年份：<span
+                                                                th:text="${statisticsInfo.year}"></span>年</small>
                                                     </div>
                                                 </div>
                                             </div>

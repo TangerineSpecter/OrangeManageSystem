@@ -27,6 +27,10 @@ public class StatisticsInfo {
      */
     private BigDecimal monthIncome;
     /**
+     * 当年收益
+     */
+    private BigDecimal yearIncome;
+    /**
      * 今天日期
      */
     private String today;
@@ -39,6 +43,10 @@ public class StatisticsInfo {
      */
     private Integer month;
     /**
+     * 本年
+     */
+    private Integer year;
+    /**
      * 今日盈亏状态（0：盈利；1：亏损）
      */
     private Integer todayStatus;
@@ -46,10 +54,14 @@ public class StatisticsInfo {
      * 本周盈亏状态（0：盈利；1：亏损）
      */
     private Integer weekendStatus;
- /**
+    /**
      * 本月盈亏状态（0：盈利；1：亏损）
      */
     private Integer monthStatus;
+    /**
+     * 本年盈亏状态（0：盈利；1：亏损）
+     */
+    private Integer yearStatus;
     /**
      * 最近30日资金曲线
      */

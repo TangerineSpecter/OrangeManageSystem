@@ -1,6 +1,5 @@
 package com.tangerinespecter.oms.system.service.tools.impl;
 
-import cn.hutool.core.collection.CollUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.tangerinespecter.oms.common.utils.HttpUtils;
@@ -10,7 +9,6 @@ import com.tangerinespecter.oms.system.service.tools.IEveryDayWallPaperToolServi
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @Service

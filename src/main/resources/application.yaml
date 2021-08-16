@@ -1,0 +1,64 @@
+## 端口号
+server:
+  port: 8888
+
+## netty服务端口号
+netty:
+  server:
+    port: 8632
+
+# 系统版本号
+system:
+  version: 0.4.1
+##=======================pageHelper分页插件=============================
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
+##=======================Mybatis Plus 配置=============================
+#映射xml路径
+mybatis-plus:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  #实体存放路径
+  type-aliases-package: com.tangerinespecter.oms.system.mapper.entity
+  #驼峰命名规范
+  configuration.map-underscore-to-camel-case: true
+  #========================rabbitMQ相关参数配置==============================
+  #配置rabbitmq
+spring:
+  rabbitmq:
+    host: localhost
+    port: 5627
+    #注意：guest用户默认只能连接本地服务器
+    username: guest
+    password: guest
+    #虚拟主机 一台机器可能有多台虚拟主机，默认配置"/"
+    virtual-host: /
+    #消费者数量
+    listener:
+      simple:
+        concurrency: 10
+        #消费者允许的最大数量
+        max-concurrency: 10
+        #每次从堆里获取连接数
+        prefetch: 1
+        #默认消费者自动启动
+        auto-startup: true
+  profiles:
+    active: dev
+#========================接口服务相关参数配置==============================
+# 聚合接口key
+#juhe.api.key=自行申请
+# 聚合星座key
+#juhe.api.constellation.key=自行申请
+# 聚合星座接口地址
+juhe:
+  api:
+    constellation:
+      url: http://web.juhe.cn:8080/constellation/getAll
+# 必应壁纸api
+bing:
+  wall:
+    paper:
+      url: https://cn.bing.com/HPImageArchive.aspx

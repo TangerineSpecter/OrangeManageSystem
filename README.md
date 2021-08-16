@@ -29,6 +29,7 @@ v0.4.1
 **搭建框架：** 
 - 基础框架：Spring Boot 2.1.1
 - 持久层框架：MyBatis 
+- 持久层增强框架：MyBatis-plus 3.0.6
 - 模版引擎：Thymeleaf 3.0.9
 - 依赖管理：Maven 3.3.9
 - 缓存中间件：Redis 5.0.3

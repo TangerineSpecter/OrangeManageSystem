@@ -1,18 +1,15 @@
 package com.tangerinespecter.oms.system.controller.system;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.tangerinespecter.oms.common.enums.LogOperation;
 import com.tangerinespecter.oms.common.listener.LoggerInfo;
 import com.tangerinespecter.oms.common.query.SystemUserQueryObject;
 import com.tangerinespecter.oms.common.result.ServiceResult;
-import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;
 import com.tangerinespecter.oms.system.domain.vo.system.SystemUserInfoVo;
 import com.tangerinespecter.oms.system.service.system.ISystemUserService;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
@@ -36,7 +33,7 @@ public class SystemUserController {
      * 后台管理员
      */
     @RequestMapping("/page")
-    @RequiresPermissions("systemUser:page")
+    @SaCheckPermission("systemUser:page")
     public String systemUserPage() {
         return "system/systemUser";
     }

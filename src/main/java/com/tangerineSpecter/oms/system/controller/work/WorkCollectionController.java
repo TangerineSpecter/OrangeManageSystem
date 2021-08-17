@@ -1,5 +1,6 @@
 package com.tangerinespecter.oms.system.controller.work;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.tangerinespecter.oms.common.enums.LogOperation;
 import com.tangerinespecter.oms.common.listener.LoggerInfo;
 import com.tangerinespecter.oms.common.query.WorkCollectionQueryObject;
@@ -8,7 +9,6 @@ import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.dto.work.WorkCollectionInfoVo;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
 import com.tangerinespecter.oms.system.service.work.IWorkCollectionService;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,7 +39,7 @@ public class WorkCollectionController {
      * 收藏页面
      */
     @ResponseBody
-    @RequiresPermissions("work:collection:page")
+    @SaCheckPermission("work:collection:page")
     @RequestMapping(value = "/page", produces = "text/html;charset=UTF-8")
     public String collectionPage(HttpServletRequest request, HttpServletResponse response, Model model) {
         return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getWorkCollectionPageKey, "work/collection");

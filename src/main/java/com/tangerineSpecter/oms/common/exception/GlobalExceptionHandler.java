@@ -1,7 +1,6 @@
 package com.tangerinespecter.oms.common.exception;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.authz.AuthorizationException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -32,9 +31,10 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = Exception.class)
     public ModelAndView exceptionHandler(HttpServletRequest request, Exception exception) {
-        if (exception instanceof AuthorizationException) {
-            return new ModelAndView("/unauthorized");
-        }
+        //todo
+//        if (exception instanceof AuthorizationException) {
+//            return new ModelAndView("/unauthorized");
+//        }
         if (exception instanceof GlobalException) {
             return new ModelAndView("/system/404");
         }

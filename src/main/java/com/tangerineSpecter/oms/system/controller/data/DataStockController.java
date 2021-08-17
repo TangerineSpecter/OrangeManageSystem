@@ -1,12 +1,12 @@
 package com.tangerinespecter.oms.system.controller.data;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.tangerinespecter.oms.common.listener.AccessLimit;
 import com.tangerinespecter.oms.common.query.StockQueryObject;
 import com.tangerinespecter.oms.common.redis.PageModelKey;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.service.data.IDataStockService;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,7 +34,7 @@ public class DataStockController {
     /**
      * 股票池页面
      */
-    @RequiresPermissions("data:stock:page")
+    @SaCheckPermission("data:stock:page")
     @RequestMapping(value = "/page", produces = "text/html;charset=UTF-8")
     public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
         return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getStockPageKey, "data/stock");

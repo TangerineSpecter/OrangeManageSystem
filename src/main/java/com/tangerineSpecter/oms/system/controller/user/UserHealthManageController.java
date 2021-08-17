@@ -1,5 +1,6 @@
 package com.tangerinespecter.oms.system.controller.user;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.tangerinespecter.oms.common.enums.LogOperation;
 import com.tangerinespecter.oms.common.listener.LoggerInfo;
 import com.tangerinespecter.oms.common.query.UserHealthQueryObject;
@@ -8,7 +9,6 @@ import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.dto.user.UserHealthInfoVo;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
 import com.tangerinespecter.oms.system.service.user.IUserHealthManageService;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,7 +40,7 @@ public class UserHealthManageController {
      * 健康管理页面
      */
     @ResponseBody
-    @RequiresPermissions("user:health:page")
+    @SaCheckPermission("user:health:page")
     @RequestMapping(value = "/page", produces = "text/html;charset=UTF-8")
     public String userHealthPage(HttpServletRequest request, HttpServletResponse response, Model model) {
         return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getUserHealthPageKey, "user/healthManage");

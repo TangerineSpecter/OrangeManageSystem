@@ -1,5 +1,6 @@
 package com.tangerinespecter.oms.system.service.system.impl;
 
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
@@ -26,11 +27,6 @@ import com.tangerinespecter.oms.system.mapper.SystemUserRoleMapper;
 import com.tangerinespecter.oms.system.service.helper.RedisHelper;
 import com.tangerinespecter.oms.system.service.system.ISystemUserService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.IncorrectCredentialsException;
-import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -71,18 +67,21 @@ public class SystemUserServiceImpl implements ISystemUserService {
         if (model.getPassword().length() < SystemConstant.PASSWORD_DEFAULT_MIN_LENGTH) {
             return ServiceResult.error(RetCode.PASSWORD_LENGTH_TOO_SHORT);
         }
-        try {
-            String md5Pwd = SystemUtils.handleUserPassword(model.getPassword(), systemUser.getSalt());
-            UsernamePasswordToken token = new UsernamePasswordToken(model.getUsername(), md5Pwd);
-            Subject subject = SecurityUtils.getSubject();
-            subject.login(token);
-        } catch (UnknownAccountException e) {
-            log.error("[帐号登录异常]:", e);
-            return ServiceResult.error(RetCode.REGISTER_ACCOUNTS_NOT_EXIST);
-        } catch (IncorrectCredentialsException e) {
-            log.error("[帐号登录异常]:", e);
+        String md5Pwd = SystemUtils.handleUserPassword(model.getPassword(), systemUser.getSalt());
+        if (systemUser.getPassword().equals(md5Pwd)) {
+            StpUtil.login(systemUser.getId());
+        } else {
             return ServiceResult.error(RetCode.ACCOUNTS_PASSWORD_ERROR);
         }
+//        try {
+//
+//        } catch (UnknownAccountException e) {
+//            log.error("[帐号登录异常]:", e);
+//            return ServiceResult.error(RetCode.REGISTER_ACCOUNTS_NOT_EXIST);
+//        } catch (IncorrectCredentialsException e) {
+//            log.error("[帐号登录异常]:", e);
+//            return ServiceResult.error(RetCode.ACCOUNTS_PASSWORD_ERROR);
+//        }
         systemUserMapper.updateLoginCountById(systemUser.getId(), DateUtil.now(), DateUtil.now());
         //生成Cookie
 //        String token = IdUtil.simpleUUID();

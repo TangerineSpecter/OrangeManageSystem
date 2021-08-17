@@ -1,12 +1,12 @@
 package com.tangerinespecter.oms.system.controller;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.system.domain.dto.system.VersionHistoryListDto;
 import com.tangerinespecter.oms.system.domain.entity.SystemConfig;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;
 import com.tangerinespecter.oms.system.service.system.ISystemConfigService;
 import com.tangerinespecter.oms.system.service.system.ISystemVersionHistoryService;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,7 +32,7 @@ public class PageController {
     /**
      * 系统配置
      */
-    @RequiresPermissions("page:systemSetting")
+    @SaCheckPermission("page:systemSetting")
     @RequestMapping("/systemSetting")
     public String systemSetting(Model model) {
         SystemConfig systemConfig = systemConfigServer.configInfo();

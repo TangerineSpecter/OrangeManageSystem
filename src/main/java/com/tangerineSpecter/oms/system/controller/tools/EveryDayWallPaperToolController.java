@@ -1,13 +1,12 @@
 package com.tangerinespecter.oms.system.controller.tools;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.tangerinespecter.oms.system.domain.pojo.BingImageResponse;
 import com.tangerinespecter.oms.system.domain.vo.tools.BingImageReq;
 import com.tangerinespecter.oms.system.service.tools.IEveryDayWallPaperToolService;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 
@@ -26,7 +25,7 @@ public class EveryDayWallPaperToolController {
     private IEveryDayWallPaperToolService everyDayWallPaperToolService;
 
     @RequestMapping("/page")
-    @RequiresPermissions("tools:wall-paper:page")
+    @SaCheckPermission("tools:wall-paper:page")
     public String pageInfo(Model model) {
         BingImageResponse response = everyDayWallPaperToolService.wallPagerInfo(new BingImageReq());
         model.addAttribute("wallPaperList", response.getImages());

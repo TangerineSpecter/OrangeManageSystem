@@ -46,7 +46,7 @@ spring:
         #默认消费者自动启动
         auto-startup: true
   profiles:
-    active: dev
+    active: prop
 #========================接口服务相关参数配置==============================
 # 聚合接口key
 #juhe.api.key=自行申请

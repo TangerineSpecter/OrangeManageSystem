@@ -1,5 +1,6 @@
 package com.tangerinespecter.oms.system.controller.system;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.tangerinespecter.oms.common.query.SystemRoleQueryObject;
 import com.tangerinespecter.oms.common.redis.PageModelKey;
 import com.tangerinespecter.oms.common.result.ServiceResult;
@@ -7,7 +8,6 @@ import com.tangerinespecter.oms.system.domain.entity.SystemPermission;
 import com.tangerinespecter.oms.system.domain.vo.system.SystemRoleInfoVo;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
 import com.tangerinespecter.oms.system.service.system.IRoleManageService;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,7 +39,7 @@ public class RoleManageController {
      * 角色管理
      */
     @ResponseBody
-    @RequiresPermissions("system:role:page")
+    @SaCheckPermission("system:role:page")
     @RequestMapping(value = "/page", produces = "text/html;charset=UTF-8")
     public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
         return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getSystemRolePageKey, "system/roleManage");

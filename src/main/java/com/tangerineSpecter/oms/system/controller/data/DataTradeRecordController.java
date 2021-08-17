@@ -1,5 +1,6 @@
 package com.tangerinespecter.oms.system.controller.data;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.tangerinespecter.oms.common.enums.LogOperation;
 import com.tangerinespecter.oms.common.listener.AccessLimit;
 import com.tangerinespecter.oms.common.listener.LoggerInfo;
@@ -9,7 +10,6 @@ import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.vo.data.TradeRecordInfoVo;
 import com.tangerinespecter.oms.system.service.data.IDateTradeRecordService;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,7 +41,7 @@ public class DataTradeRecordController {
      * 交易记录页面
      */
     @ResponseBody
-    @RequiresPermissions("data:trade-record:page")
+    @SaCheckPermission("data:trade-record:page")
     @RequestMapping(value = "/page", produces = "text/html;charset=UTF-8")
     public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
         return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getTradeRecordPageKey, "data/tradeRecord");

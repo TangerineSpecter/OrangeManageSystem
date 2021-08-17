@@ -33,7 +33,7 @@ v0.4.1
 - 模版引擎：Thymeleaf 3.0.9
 - 依赖管理：Maven 3.3.9
 - 缓存中间件：Redis 5.0.3
-- 安全框架：Shiro 1.4.0
+- 安全框架：Sa-Token 1.25.0
 - 分页插件：PageHelper 1.2.5
 - 消息中间件：RabbitMQ 2.3.0
 - Netty框架：Netty 4.1.48

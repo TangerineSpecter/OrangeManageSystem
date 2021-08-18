@@ -6,6 +6,7 @@ import cn.dev33.satoken.interceptor.SaAnnotationInterceptor;
 import com.tangerinespecter.oms.common.constants.RetCode;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @author TangerineSpecter
  * @date 2021年08月18日01:02:28
  */
+@Configuration
 public class SaTokenConfig implements WebMvcConfigurer {
 
     @Override

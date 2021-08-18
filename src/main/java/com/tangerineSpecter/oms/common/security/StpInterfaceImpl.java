@@ -1,6 +1,7 @@
 package com.tangerinespecter.oms.common.security;
 
 import cn.dev33.satoken.stp.StpInterface;
+import cn.hutool.core.collection.CollUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public class StpInterfaceImpl implements StpInterface {
     @Override
     public List<String> getPermissionList(Object loginId, String loginType) {
         //todo
-        return null;
+        return CollUtil.newArrayList();
     }
 
     /**
@@ -26,6 +27,6 @@ public class StpInterfaceImpl implements StpInterface {
     @Override
     public List<String> getRoleList(Object loginId, String loginType) {
         //todo
-        return null;
+        return CollUtil.newArrayList();
     }
 }

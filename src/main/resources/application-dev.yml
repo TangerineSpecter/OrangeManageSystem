@@ -57,6 +57,11 @@ spring:
       filter:
         stat:
           log-slow-sql: true
+  #开启热部署
+  devtools:
+    restart:
+      enabled: true
+
   # rabbitMQ
   rabbitmq:
     host: 127.0.0.1    # rabbitmq的主机地址
@@ -64,3 +69,91 @@ spring:
     username: guest #rabbitmq的用户名，默认为guest
     password: guest #rabbitmq的密码，默认为guest
     virtual-host: /  #rabbitmq的虚拟主机，默认为/
+  # sql打印
+  level: debug
+
+  #Thymeleaf配置
+  thymeleaf:
+    #开启模板缓存（默认值：true）
+    cache: false
+    #页面检查
+    check-template: true
+    #检查模板位置是否正确（默认值:true）
+    check-template-location: true
+    #Content-Type的值（默认值：text/html）
+    servlet:
+      content-type: text/html
+    #开启MVC Thymeleaf视图解析（默认值：true）
+    enabled: true
+    #模板编码
+    encoding: UTF-8
+    #要被排除在解析之外的视图名称列表，用逗号分隔
+    excluded-view-names:
+    #要运用于模板之上的模板模式。另见StandardTemplate-ModeHandlers(默认值：HTML5)
+    mode: HTML5
+    #在构建URL时添加到视图名称前的前缀（默认值：classpath:/templates/）
+    prefix: /templates/
+    #在构建URL时添加到视图名称后的后缀（默认值：.html）
+    suffix: .html
+    #Thymeleaf模板解析器在解析器链中的顺序。默认情况下，它排第一位。顺序从1开始，只有在定义了额外的TemplateResolver Bean时才需要设置这个属性。
+    template-resolver-order:
+    #可解析的视图名称列表，用逗号分隔
+    view-names:
+
+  #Redis配置
+  redis:
+    # Redis 数据库索引（默认为 0）
+    database: 0
+    # Redis 服务器地址
+    host: localhost
+    # Redis 服务器连接端口
+    port: 6379
+    # Redis 服务器连接密码（默认为空）
+    password:
+    # 连接池最大连接数（使用负值表示没有限制） 默认 8
+    lettuce:
+      pool:
+        max-active: 1000
+        # 连接池最大阻塞等待时间（使用负值表示没有限制） 默认 -1
+        max-wait: 10
+        # 连接池中的最大空闲连接 默认 8
+        max-idle: 500
+        # 连接池中的最小空闲连接 默认 0
+        min-idle: 0
+
+
+#二维码保存路径
+qrcode:
+  path: /Users/zhouliangjun/Desktop/QrCode/
+  #二维码访问路径
+  view.path: /Users/zhouliangjun/Desktop/QrCode/
+
+#========================接口服务相关参数配置==============================
+# 聚合接口key
+juhe:
+  api:
+    key:
+    # 聚合星座key
+    constellation:
+      key:
+      # 聚合星座接口地址
+      url:
+    # 聚合汇率接口地址
+    exchange:
+      rate:
+        key:
+        # 聚合日常汇率接口地址
+        url:
+    # 聚合汇率货币列表
+    currency:
+      list:
+        url:
+#=========================七牛相关配置文件===============================
+qi:
+  niu:
+    resource:
+      url:
+    access:
+      key:
+    secret:
+      key:

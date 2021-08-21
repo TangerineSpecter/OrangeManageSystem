@@ -1,5 +1,6 @@
 package com.tangerinespecter.oms.system.service.helper;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.tangerinespecter.oms.common.redis.KeyPrefix;
 import lombok.extern.slf4j.Slf4j;
@@ -89,7 +90,7 @@ public class RedisHelper {
             if (key.length == 1) {
                 redisTemplate.delete(key[0]);
             } else {
-                redisTemplate.delete(CollectionUtils.arrayToList(key));
+                redisTemplate.delete(CollUtil.list(false, key));
             }
         }
     }

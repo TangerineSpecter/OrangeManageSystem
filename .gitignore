@@ -1,6 +1,7 @@
 /target/
 /src/main/resources/application-prop.properties
 /src/main/resources/application-prop.yml
+/src/main/resources/application-prop.yaml
 !.mvn/wrapper/maven-wrapper.jar
 
 ### STS ###

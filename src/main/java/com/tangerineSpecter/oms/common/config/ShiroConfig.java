@@ -56,10 +56,12 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/css/**", "anon");
         filterChainDefinitionMap.put("/js/**", "anon");
         filterChainDefinitionMap.put("/img/**", "anon");
-        filterChainDefinitionMap.put("/fonts/**", "anon");
-        filterChainDefinitionMap.put("/vendor/**", "anon");
 
-        filterChainDefinitionMap.put("/register", "anon");
+        //pear-admin静态资源
+        filterChainDefinitionMap.put("/admin/**", "anon");
+        filterChainDefinitionMap.put("/component/**", "anon");
+        filterChainDefinitionMap.put("/config/**", "anon");
+
         filterChainDefinitionMap.put("/login", "anon");
         filterChainDefinitionMap.put("/errorPage", "anon");
         // druid数据源监控页面不拦截

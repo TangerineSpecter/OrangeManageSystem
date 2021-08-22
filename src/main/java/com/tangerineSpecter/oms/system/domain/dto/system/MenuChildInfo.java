@@ -27,13 +27,17 @@ public class MenuChildInfo {
      */
     private String href;
     /**
+     * 菜单类型
+     */
+    private Integer type;
+    /**
      * 跳转方式（_self:自己；_blank:新窗口）
      */
-    private String target;
+    private String openType;
     /**
      * 权限code
      */
     private String permissionCode;
 
-    private List<MenuChildInfo> child;
+    private List<MenuChildInfo> children;
 }

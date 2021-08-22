@@ -1,10 +1,13 @@
 package com.tangerinespecter.oms.system.service.system;
 
 import com.tangerinespecter.oms.system.domain.dto.system.HomePageDataDto;
+import com.tangerinespecter.oms.system.domain.dto.system.MenuChildInfo;
 import com.tangerinespecter.oms.system.domain.dto.system.StatisticsInfo;
 import com.tangerinespecter.oms.system.domain.dto.system.SystemNoticeInfo;
 import com.tangerinespecter.oms.system.domain.pojo.ManagerInfoBean;
 import com.tangerinespecter.oms.system.domain.pojo.SystemInfoBean;
+
+import java.util.List;
 
 public interface ISystemInfoService {
 
@@ -37,4 +40,10 @@ public interface ISystemInfoService {
      * @return
      */
     SystemNoticeInfo getNoticeInfo();
+
+    /**
+     * 初始化菜单
+     * @return
+     */
+    List<MenuChildInfo> initMenu();
 }

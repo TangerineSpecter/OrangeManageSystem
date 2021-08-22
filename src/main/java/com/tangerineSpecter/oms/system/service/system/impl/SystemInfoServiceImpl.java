@@ -26,7 +26,9 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -134,9 +136,9 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
         if (permissions.isEmpty()) {
             return homePageDataDto;
         }
-        List<String> permissionCodes = permissions.stream().map(UserPermissionListDto::getCode).collect(Collectors.toList());
-        Map<String, MenuChildInfo> menuInfo = getMenuChildInfo(list, permissionCodes);
-        homePageDataDto.setMenuInfo(menuInfo);
+//        List<String> permissionCodes = permissions.stream().map(UserPermissionListDto::getCode).collect(Collectors.toList());
+//        Map<String, MenuChildInfo> menuInfo = getMenuChildInfo(list, permissionCodes);
+//        homePageDataDto.setMenuInfo(menuInfo);
         //执行系统通知推送
         systemHelper.pushSystemNotice();
         List<SystemNotice> systemNotices = systemNoticeMapper.selectListByReadStatus(SystemUtils.getSystemUserId(), MessageConstant.NOT_READ);
@@ -222,6 +224,16 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
         return noticeInfo;
     }
 
+    @Override
+    public List<MenuChildInfo> initMenu() {
+        QueryWrapper<SystemMenu> queryWrapper = new QueryWrapper<>();
+        queryWrapper.orderBy(true, false, "sort");
+        List<SystemMenu> list = systemMenuMapper.selectList(queryWrapper);
+        List<UserPermissionListDto> permissions = systemHelper.getCurrentUserPermissions();
+        List<String> permissionCodes = permissions.stream().map(UserPermissionListDto::getCode).collect(Collectors.toList());
+        return getMenuChildInfo(list, permissionCodes);
+    }
+
     /**
      * 获取菜单
      *
@@ -229,21 +241,21 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
      * @param permissionCodes 权限code
      * @return 菜单
      */
-    private Map<String, MenuChildInfo> getMenuChildInfo(List<SystemMenu> list, List<String> permissionCodes) {
+    private List<MenuChildInfo> getMenuChildInfo(List<SystemMenu> list, List<String> permissionCodes) {
         //找出所有一级菜单
-        Map<String, MenuChildInfo> menuMap = new LinkedHashMap<>();
+        List<MenuChildInfo> result = CollUtil.newArrayList();
         for (SystemMenu menu : list) {
             //不在权限内容菜单跳过
             if (!permissionCodes.contains(SystemUtils.getPermissionCode(menu.getPermissionCode()))) {
                 continue;
             }
             if (menu.getPid() == null || menu.getPid() == -1) {
-                menuMap.put(menu.getTitle(), MenuChildInfo.builder().title(menu.getTitle())
-                        .icon(menu.getIcon()).href(menu.getHref()).target(menu.getTarget())
-                        .id(menu.getId()).child(getChildMenuInfo(menu.getId(), list, permissionCodes)).build());
+                result.add(MenuChildInfo.builder().title(menu.getTitle()).type(menu.getLevel())
+                        .icon(menu.getIcon()).href(menu.getHref()).openType(menu.getTarget())
+                        .id(menu.getId()).children(getChildMenuInfo(menu.getId(), list, permissionCodes)).build());
             }
         }
-        return menuMap;
+        return result;
     }
 
     /**
@@ -265,8 +277,8 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
             }
             if (pid.equals(menu.getPid())) {
                 childList.add(MenuChildInfo.builder().id(menu.getId()).title(menu.getTitle())
-                        .icon(menu.getIcon()).href(menu.getHref()).target(menu.getTarget())
-                        .permissionCode(menu.getPermissionCode()).build());
+                        .icon(menu.getIcon()).href(menu.getHref()).openType(menu.getTarget())
+                        .permissionCode(menu.getPermissionCode()).type(menu.getLevel()).build());
             }
         }
         //循环子集菜单
@@ -275,7 +287,7 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
             if (!permissionCodes.contains(SystemUtils.getPermissionCode(menu.getPermissionCode()))) {
                 continue;
             }
-            menu.setChild(getChildMenuInfo(menu.getId(), rootMenu, permissionCodes));
+            menu.setChildren(getChildMenuInfo(menu.getId(), rootMenu, permissionCodes));
         }
         if (childList.size() == 0) {
             return null;

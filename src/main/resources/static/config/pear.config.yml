@@ -2,13 +2,13 @@
 ## 网站配置
 logo: 
   ## 网站名称
-  title: "Pear Admin"
+  title: "橘子管理系统"
   ## 网站图标
   image: "admin/images/logo.png"
 ## 菜单配置
 menu: 
   ## 菜单数据来源
-  data: "admin/data/menu.json"
+  data: "/initMenu"
   ## 菜单接口的请求方式 GET / POST
   method: "GET" 
   ## 是否同时只打开一个菜单目录

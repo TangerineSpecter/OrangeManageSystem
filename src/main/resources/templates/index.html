@@ -94,11 +94,11 @@
 				// 登出逻辑 
 				admin.logout(function(){
 					popup.success("注销成功",function(){
-						location.href = "login.html";
-					})
+						location.href = "/logout";
+					});
 					// 注销逻辑 返回 true / false
 					return true;
-				})
+				});
 				
 				// 初始化消息回调
 				admin.message();

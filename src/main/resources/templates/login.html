@@ -1,108 +1,70 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="./common/_common :: common_header">
-    <meta charset="utf-8">
-</head>
-<body>
-<!-- 提示框（Modal） -->
-<div class="modal fade" id="prompt-modal" tabindex="-1" role="dialog"
-     aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel">提示</h4>
-            </div>
-            <div class="modal-body" id="prompt-modal-content"></div>
-        </div>
-    </div>
-</div>
-
-<div class="page login-page">
-    <div class="container d-flex align-items-center">
-        <div class="form-holder has-shadow">
-            <div class="row">
-                <!-- Logo & Information Panel-->
-                <div class="col-lg-6">
-                    <div class="info d-flex align-items-center">
-                        <div class="content">
-                            <div class="logo">
-                                <h1>欢迎使用</h1>
-                            </div>
-                            <p>橘子管理系统</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Form Panel    -->
-                <div class="col-lg-6 bg-white">
-                    <div class="form d-flex align-items-center">
-                        <div class="content">
-                            <form id="login" method="post" class="form-validate">
-                                <div class="form-group">
-                                    <input id="username" type="text" name="username" required
-                                           data-msg="Please enter your username" class="input-material">
-                                    <label for="login-username" class="label-material">用户名</label>
-                                </div>
-                                <div class="form-group">
-                                    <input id="password" type="password" name="password" required
-                                           data-msg="Please enter your password" class="input-material">
-                                    <label for="login-password" class="label-material">密码</label>
-                                </div>
-                                <a onclick="submitForm()" class="btn btn-primary">登录</a>
-                                <!-- This should be submit button but I replaced it with <a> for demo purposes-->
-                            </form>
-                            <a href="#" class="forgot-pass">忘记密码?</a><br> <small>没有帐号?
-                        </small><a href="/register.html" class="signup">注册</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="copyrights text-center">
-        <p>
-            Github by <a href="https://github.com/TangerineSpecter" class="external">TangerineSpecter</a>
-        </p>
-    </div>
-</div>
-<div th:replace="./common/_common::common_js"></div>
-<script>
-    $(document).keyup(function (event) {
-        if (event.keyCode == 13) {//按下Enter
-            submitForm();
-        }
-    });
-
-    //通过异步方式登录
-    function submitForm() {
-        if ($('#username').val() == '' || $('#password').val() == '') {
-            promptModal("用户名或者密码为空");
-            return;
-        }
-        if ($('#password').val().length < 6) {
-            promptModal("密码长度不能小于6位");
-            return;
-        }
-        const jsonData = {
-            username: $('#username').val(),
-            password: $('#password').val()
-        };
-        $.ajax({
-            type: "post",
-            url: "/login",
-            data: $("#login").serialize(),
-            dataType: "json",
-            success: function (data) {
-                if (data.success) {
-                    promptModal("登录成功");
-                    $("#prompt-modal").on("hidden.bs.modal", function () {
-                        window.location.href = "/index";
-                    })
-                } else {
-                    promptModal(data.msg);
-                }
-            }
-        })
-    }
-</script>
-</body>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Login Page</title>
+		<!-- 样 式 文 件 -->
+		<link rel="stylesheet" href="component/pear/css/pear.css" />
+		<link rel="stylesheet" href="admin/css/other/login.css" />
+	</head>
+    <!-- 代 码 结 构 -->
+	<body background="admin/images/background.svg" style="background-size: cover;">
+		<form class="layui-form" action="javascript:void(0);">
+			<div class="layui-form-item">
+				<img class="logo" src="admin/images/logo.png" />
+				<div class="title">Pear Admin</div>
+				<div class="desc">
+					明 湖 区 最 具 影 响 力 的 设 计 规 范 之 一
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<input placeholder="账 户 : admin " lay-verify="required" hover class="layui-input"  />
+			</div>
+			<div class="layui-form-item">
+				<input placeholder="密 码 : admin " lay-verify="required" hover class="layui-input"  />
+			</div>
+			<div class="layui-form-item">
+				<input placeholder="验证码 : "  hover  lay-verify="required" class="code layui-input layui-input-inline"  />
+				<img src="admin/images/captcha.gif" class="codeImage" />
+			</div>
+			<div class="layui-form-item">
+				<input type="checkbox" name="" title="记住密码" lay-skin="primary" checked>
+			</div>
+			<div class="layui-form-item">
+				<button type="button" class="pear-btn pear-btn-success login" lay-submit lay-filter="login">
+					登 入
+				</button>
+			</div>
+		</form>
+		<!-- 资 源 引 入 -->
+		<script src="component/layui/layui.js"></script>
+		<script src="component/pear/pear.js"></script>
+		<script>
+			layui.use(['form', 'button', 'popup'], function() {
+				var form = layui.form;
+				var button = layui.button;
+				var popup = layui.popup;
+				
+                // 登 录 提 交
+				form.on('submit(login)', function(data) {
+					
+					/// 验证
+					
+					/// 登录
+					
+					/// 动画
+					button.load({
+						elem: '.login',
+						time: 1500,
+						done: function() {
+							popup.success("登录成功", function() {
+								location.href = "index.html"
+							});
+						}
+					})
+					return false;
+				});
+			})
+		</script>
+	</body>
 </html>

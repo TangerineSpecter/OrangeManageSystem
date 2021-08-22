@@ -83,7 +83,7 @@ public class IndexController {
         model.addAttribute("statisticsInfo", systemInfoService.getStatisticsInfo());
         model.addAttribute("systemInfo", systemInfoService.getSystemInfo());
         model.addAttribute("noticeInfo", systemInfoService.getNoticeInfo());
-        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getSystemHomePageKey, "common/console1");
+        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getSystemHomePageKey, "common/home");
     }
 
     /**

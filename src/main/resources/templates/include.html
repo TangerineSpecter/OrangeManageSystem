@@ -1,3 +1,4 @@
+<html xmlns:th="http://www.thymeleaf.org">
 <!-- 通用 CSS -->
 <head th:fragment=header(title)>
     <meta charset="utf-8">
@@ -7,6 +8,12 @@
     <meta name="description" content="">
     <title th:text="橘子管理系统"></title>
     <link rel="stylesheet" th:href="@{component/pear/css/pear.css}">
+    <!-- 依 赖 样 式 -->
+    <link rel="stylesheet" th:href="@{component/pear/css/pear.css}" />
+    <!-- 加 载 样 式-->
+    <link rel="stylesheet" th:href="@{admin/css/load.css}" />
+    <!-- 布 局 样 式 -->
+    <link rel="stylesheet" th:href="@{admin/css/admin.css}" />
 </head>
 
 <!-- 通用 JAVASCRIPT -->

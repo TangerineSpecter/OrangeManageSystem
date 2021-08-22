@@ -27,13 +27,13 @@ v0.4.1
 **使用JDK版本：** 1.8
 
 **搭建框架：** 
-- 基础框架：Spring Boot 2.1.1
-- 持久层框架：MyBatis 
+- 基础框架：Spring Boot 2.5.3
+- 持久层框架：MyBatis-Plus 3.4.3 
 - 模版引擎：Thymeleaf 3.0.9
 - 依赖管理：Maven 3.3.9
 - 缓存中间件：Redis 5.0.3
 - 安全框架：Shiro 1.4.0
-- 分页插件：PageHelper 1.2.5
+- 分页插件：PageHelper 1.3.0
 - 消息中间件：RabbitMQ 2.3.0
 - Netty框架：Netty 4.1.48
 
@@ -46,7 +46,7 @@ v0.4.1
 **开发环境：**
 - 数据库：Mysql 5.7
 - 版本管理：Git 2.9.2
-- 依赖管理：Maven
+- 依赖管理：Maven 3.6.1
 
 ## 技术特点
 
@@ -153,4 +153,4 @@ v0.4.1
 
 ## 相关参考资源
 
-- [LayuiMini管理后台](https://github.com/zhongshaofa/layuimini/)
+- [Pear Admin Layui](https://gitee.com/pear-admin/Pear-Admin-Layui#https://github.com/PearAdmin/pear-admin-layui)

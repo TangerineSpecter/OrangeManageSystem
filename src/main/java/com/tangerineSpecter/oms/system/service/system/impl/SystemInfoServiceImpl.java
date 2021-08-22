@@ -249,7 +249,8 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
             if (!permissionCodes.contains(SystemUtils.getPermissionCode(menu.getPermissionCode()))) {
                 continue;
             }
-            if (menu.getPid() == null || menu.getPid() == -1) {
+            //当前-1 为顶部菜单暂时不启用 调整为level为一级菜单
+            if (menu.getLevel() == 0) {
                 result.add(MenuChildInfo.builder().title(menu.getTitle()).type(menu.getLevel())
                         .icon(menu.getIcon()).href(menu.getHref()).openType(menu.getTarget())
                         .id(menu.getId()).children(getChildMenuInfo(menu.getId(), list, permissionCodes)).build());

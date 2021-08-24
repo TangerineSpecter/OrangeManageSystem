@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('股票池')"/>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <fieldset class="layui-elem-field layuimini-search">
+            <legend>搜索信息</legend>
+            <div style="margin: 10px 10px 10px 10px">
+                <form id="search-from" class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">市场</label>
+                            <div class="layui-input-inline">
+                                <select name="market" class="layui-select">
+                                    <option>全部</option>
+                                    <option value="sh">上证</option>
+                                    <option value="sz">深证</option>
+                                    <option value="hk">港交所</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">关键词</label>
+                            <div class="layui-input-inline">
+                                <input type="text" id="keyword" name="keyword" autocomplete="off" class="layui-input"
+                                       placeholder="股票代码、股票名称">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <a class="layui-btn" lay-submit="" lay-filter="data-search-btn">搜索</a>
+                            <a class="layui-btn" lay-submit="" lay-filter="data-clear-btn">清空</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+        <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+    </div>
+</div>
+<div th:replace="./common/_layui_common::common_js"></div>
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="addStock">新增股票</button>
+    </div>
+</script>
+<script>
+    layui.use(['form', 'table', 'laydate'], function () {
+        const $ = layui.jquery,
+            form = layui.form,
+            table = layui.table,
+            laydate = layui.laydate;
+
+        //起始日期
+        laydate.render({
+            elem: '#startDay'
+        });
+        //结束日期
+        laydate.render({
+            elem: '#endDay'
+        });
+
+        table.render({
+            elem: '#currentTableId',
+            url: '/data/stock/list',
+            toolbar: '#toolbarDemo',
+            cellMinWidth: 100,
+            totalRow: true,
+            cols: [
+                [
+                    {type: "checkbox", width: 50, fixed: "left"},
+                    {field: 'id', title: 'ID', sort: true},
+                    {field: 'market', title: '市场'},
+                    {field: 'code', align: 'center', title: '股票代码'},
+                    {field: 'fullCode', align: 'center', title: '股票完整代码'},
+                    {field: 'name', align: 'center', title: '股票名称'},
+                    {field: 'listingDate', align: 'center', title: '上市时间', sort: true},
+                    {field: 'currCapital', align: 'center', title: '流通股本（万股）', sort: true},
+                    {field: 'profitFour', align: 'center', title: '四季度净利润', sort: true},
+                    {field: 'totalCapital', align: 'center', title: '总股本', sort: true, fixed: "right"},
+                ]
+            ],
+            limits: [10, 15, 20, 25, 50, 100],
+            limit: 10,
+            page: true
+        });
+
+        //监听表格复选框选择
+        table.on('checkbox(currentTableFilter)', function (obj) {
+            console.log(obj)
+        });
+
+        //头工具栏事件
+        table.on('toolbar(currentTableFilter)', function (obj) {
+            switch (obj.event) {
+                //添加交易数据
+                case 'addStock':
+                    console.log("添加数据");
+                    break;
+
+                //自定义头工具栏右侧图标 - 提示
+                case 'LAYTABLE_TIPS':
+                    layer.alert('这是工具栏右侧自定义的一个图标按钮');
+                    break;
+            }
+        });
+    });
+</script>
+<script>
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('星座数据')"/>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <fieldset class="layui-elem-field layuimini-search">
+            <legend>搜索信息</legend>
+            <div style="margin: 10px 10px 10px 10px">
+                <form id="search-from" class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">星座</label>
+                            <div class="layui-input-inline">
+                                <select name="star">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">查询日期</label>
+                            <div class="layui-input-inline">
+                                <input type="text" id="queryDay" name="queryDay" autocomplete="off" class="layui-input"
+                                       placeholder="yyyy-MM-dd">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <a class="layui-btn" lay-submit="" lay-filter="data-search-btn">搜索</a>
+                            <a class="layui-btn" lay-submit="" lay-filter="data-clear-btn">清空</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+        <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+    </div>
+</div>
+<th:block th:include="include :: footer"/>
+<script>
+
+    $.getJSON("/json/star.json", function (data) {
+        $.each(data, function (index, item) {
+            const option = "<option value='" + item + "'>" + item + "</option>";
+            $("select[name='star']").append(option);
+        });
+    });
+
+    layui.use(['form', 'table', 'laydate'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table,
+            laydate = layui.laydate;
+
+        //日期
+        laydate.render({
+            elem: '#queryDay'
+        });
+
+        table.render({
+            elem: '#currentTableId',
+            url: '/table/constellation/list',
+            cols: [
+                [
+                    {type: "checkbox", width: 50, fixed: "left"},
+                    {field: 'id', width: 80, title: 'ID', sort: true},
+                    {field: 'name', width: 100, title: '星座名称'},
+                    {field: 'datetime', width: 150, title: '时间', sort: true},
+                    {field: 'color', width: 80, title: '幸运色'},
+                    {field: 'allLuck', width: 100, title: '综合指数', sort: true},
+                    {field: 'health', width: 100, title: '健康指数', sort: true},
+                    {field: 'love', width: 100, title: '爱情指数', sort: true},
+                    {field: 'money', width: 100, title: '财运指数', sort: true},
+                    {field: 'workLuck', width: 100, title: '工作指数', sort: true},
+                    {field: 'number', width: 100, title: '幸运数字'},
+                    {field: 'qfriend', width: 100, title: '速配星座'},
+                    {field: 'summary', minWidth: 150, title: '今日概述', fixed: "right"}
+                ]
+            ],
+            limits: [10, 15, 20, 25, 50, 100],
+            limit: 10,
+            page: true
+        });
+
+        //监听表格复选框选择
+        table.on('checkbox(currentTableFilter)', function (obj) {
+            console.log(obj)
+        });
+    });
+</script>
+<script>
+
+</script>
+
+</body>
+</html>

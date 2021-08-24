@@ -36,7 +36,7 @@ public class GlobalExceptionHandler {
             return new ModelAndView("/unauthorized");
         }
         if (exception instanceof GlobalException) {
-            return new ModelAndView("/system/404");
+            return new ModelAndView("/error/404");
         }
         //是否是绑定异常
         if (exception instanceof BindException) {
@@ -46,10 +46,10 @@ public class GlobalExceptionHandler {
             ObjectError error = allErrors.get(0);
             String defaultMessage = error.getDefaultMessage();
             log.error("发生异常，异常信息:[{}]", defaultMessage);
-            return new ModelAndView("/system/404");
+            return new ModelAndView("/error/404");
         }
         log.error("【操作失败】，系统发生异常：{}", exception.getMessage());
         exception.printStackTrace();
-        return new ModelAndView("/system/404");
+        return new ModelAndView("/error/404");
     }
 }

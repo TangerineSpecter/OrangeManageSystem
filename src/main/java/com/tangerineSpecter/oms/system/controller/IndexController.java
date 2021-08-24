@@ -108,7 +108,7 @@ public class IndexController {
      */
     @RequestMapping("/errorPage")
     public String errorPage() {
-        return "system/404";
+        return "error/404";
     }
 
     /**

@@ -4,36 +4,38 @@
     <th:block th:include="include :: header('设置角色')"/>
 </head>
 <body class="pear-container">
-<div class="layui-card">
-    <div class="layui-card-body">
-        <form class="layui-form layui-form-pane" action="" lay-filter="data-form">
-            <input type="text" id="id" name="id" class="layui-input" style="display: none;">
-            <div class="layui-form-item">
-                <label class="layui-form-label">账号名称</label>
-                <div class="layui-input-block">
-                    <input type="text" name="username" autocomplete="off"
-                           placeholder="请输入角色名称" class="layui-input" disabled/>
+<form class="layui-form layui-form-pane" action="" lay-filter="data-form">
+    <div class="mainBox">
+        <div class="main-container">
+            <div class="main-container">
+                <input type="text" id="id" name="id" class="layui-input" style="display: none;">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">账号名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="username" autocomplete="off"
+                               placeholder="请输入角色名称" class="layui-input" disabled/>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-form-text">
+                    <div id="user-role"></div>
                 </div>
             </div>
-            <div class="layui-form-item layui-form-text">
-                <div id="user-role"></div>
-            </div>
-<!--            <div class="bottom">-->
-<!--                <div class="button-container">-->
-<!--                    <button type="submit" class="pear-btn pear-btn-primary pear-btn-sm" lay-submit=""-->
-<!--                            lay-filter="user-save">-->
-<!--                        <i class="layui-icon layui-icon-ok"></i>-->
-<!--                        提交-->
-<!--                    </button>-->
-<!--                    <button type="reset" class="pear-btn pear-btn-sm">-->
-<!--                        <i class="layui-icon layui-icon-refresh"></i>-->
-<!--                        重置-->
-<!--                    </button>-->
-<!--                </div>-->
-<!--            </div>-->
-        </form>
+        </div>
     </div>
-</div>
+    <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="pear-btn pear-btn-primary pear-btn-sm" lay-submit=""
+                    lay-filter="user-save">
+                <i class="layui-icon layui-icon-ok"></i>
+                提交
+            </button>
+            <button class="pear-btn pear-btn-sm" lay-filter="user-cancel" lay-submit="">
+                <i class="layui-icon layui-icon-close"></i>
+                关闭
+            </button>
+        </div>
+    </div>
+</form>
 
 <th:block th:include="include :: footer"/>
 <script>
@@ -77,33 +79,42 @@
         });
     }
 
-    layui.use(['transfer', 'layer', 'form'], function () {
-        var $ = layui.$,
+    layui.use(['transfer', 'layer', 'form', 'popup'], function () {
+        const $ = layui.$,
             transfer = layui.transfer,
-            layer = layui.layer,
+            popup = layui.popup,
             form = layui.form;
 
         //监听提交
-        form.on('submit(submitBtn)', function (data) {
+        form.on('submit(user-save)', function (data) {
             const roleIds = [];
             const roles = transfer.getData('roleIds');
             $.each(roles, function (index, item) {
                 roleIds.push(item.value);
             });
             data.field.roleIds = roleIds.join(",");
-            $.post(href, data.field, function (result) {
-                layer.open({
-                    title: '提示',
-                    content: result.msg,
-                    yes: function (index, layero) {
-                        if (result.code === 0) {
+            $.ajax({
+                url: href,
+                type: 'PUT',
+                dataType: "JSON",
+                contentType: "application/json",
+                data: JSON.stringify(data.field),
+                success: function (result) {
+                    if (result.success) {
+                        popup.success(result.msg, function () {
                             parent.layer.closeAll();
-                            reloadTab();
-                        }
+                        });
+                    } else {
+                        layer.msg(result.msg, {icon: 2, time: 1000})
                     }
-                });
-            }, "JSON");
+                }
+            });
             return false;
+        });
+
+        //监听关闭
+        form.on('submit(user-cancel)', function () {
+            parent.layer.closeAll();
         });
     });
 

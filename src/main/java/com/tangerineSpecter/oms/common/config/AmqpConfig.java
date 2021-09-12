@@ -15,19 +15,19 @@ import org.springframework.context.annotation.Configuration;
  * @version 0.4.0
  * @date 2020年05月27日17:10:05
  */
-@Slf4j
-@Configuration
+//@Slf4j
+//@Configuration
 public class AmqpConfig {
 
-    @Bean
-    public MessageConverter messageConverter() {
-        return new Jackson2JsonMessageConverter();
-    }
-
-    @Bean
-    public Queue initQueue() {
-        log.info("[初始化消息队列]");
-        return new Queue(MessageKeys.SYSTEM_NOTICE_QUEUE);
-    }
+//    @Bean
+//    public MessageConverter messageConverter() {
+//        return new Jackson2JsonMessageConverter();
+//    }
+//
+//    @Bean
+//    public Queue initQueue() {
+//        log.info("[初始化消息队列]");
+//        return new Queue(MessageKeys.SYSTEM_NOTICE_QUEUE);
+//    }
 
 }

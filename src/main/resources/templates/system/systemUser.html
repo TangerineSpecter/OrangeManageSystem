@@ -162,16 +162,9 @@
                 maxmin: true,
                 offset: 'auto',
                 content: contentUrl,
-                btn: ['提交', '关闭'],
                 success: function (layero, index) {
                     iframe = window["layui-layer-iframe" + index];
                     iframe.initData(data);
-                },
-                yes: function (layero, index) {
-                    iframe.submitFun();
-                },
-                btn2: function () {
-                    layer.close();
                 },
                 zIndex: layer.zIndex
             });

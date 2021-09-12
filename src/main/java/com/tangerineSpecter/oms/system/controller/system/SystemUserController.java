@@ -8,8 +8,8 @@ import com.tangerinespecter.oms.system.domain.entity.SystemUser;
 import com.tangerinespecter.oms.system.domain.vo.system.SystemUserInfoVo;
 import com.tangerinespecter.oms.system.service.system.ISystemUserService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
@@ -21,7 +21,7 @@ import javax.validation.Valid;
  * @version v0.0.5
  * @DateTime 2019年1月11日
  */
-@Controller
+@RestController
 @RequestMapping("/systemUser")
 public class SystemUserController {
 
@@ -31,24 +31,23 @@ public class SystemUserController {
 	/**
 	 * 后台管理员
 	 */
-	@RequestMapping("/page")
+	@GetMapping("/page")
 	@RequiresPermissions("systemUser:page")
-	public String systemUserPage() {
-		return "system/systemUser";
+	public ModelAndView systemUserPage() {
+		return ServiceResult.jumpPage("system/systemUser");
 	}
 
 	/**
 	 * 后台管理员
 	 */
-	@RequestMapping("/addRolePage")
-	public String addRolePage() {
-		return "system/editSystemUserRole";
+	@GetMapping("/addRolePage")
+	public ModelAndView addRolePage() {
+		return ServiceResult.jumpPage("system/editSystemUserRole");
 	}
 
 	/**
 	 * 后台管理员
 	 */
-	@ResponseBody
 	@GetMapping("/list")
 	public ServiceResult listInfo(SystemUserQueryObject qo) {
 		return systemUserService.querySystemUserList(qo);
@@ -58,9 +57,7 @@ public class SystemUserController {
 	 * 添加系统管理员
 	 *
 	 * @param systemUser
-	 * @return
 	 */
-	@ResponseBody
 	@PostMapping("/insert")
 	@LoggerInfo(value = "用户添加管理员", event = LogOperation.EVENT_ADD)
 	public ServiceResult insert(@Valid SystemUser systemUser) {
@@ -70,8 +67,7 @@ public class SystemUserController {
 	/**
 	 * 修改系统用户信息
 	 */
-	@ResponseBody
-	@RequestMapping("/update")
+	@PutMapping("/update")
 	@LoggerInfo(value = "用户更新管理员", event = LogOperation.EVENT_UPDATE)
 	public ServiceResult update(@Valid SystemUserInfoVo vo) {
 		return systemUserService.updateSystemUserInfo(vo);
@@ -80,7 +76,6 @@ public class SystemUserController {
 	/**
 	 * 修改系统用户角色
 	 */
-	@ResponseBody
 	@PutMapping("/update-role")
 	@LoggerInfo(value = "用户更新管理员角色", event = LogOperation.EVENT_UPDATE)
 	public ServiceResult updateRole(@Valid @RequestBody SystemUserInfoVo vo) {
@@ -90,8 +85,7 @@ public class SystemUserController {
 	/**
 	 * 修改密码
 	 */
-	@ResponseBody
-	@RequestMapping("/update-password")
+	@PutMapping("/update-password")
 	@LoggerInfo(value = "修改密码", event = LogOperation.EVENT_UPDATE)
 	public ServiceResult updatePassword(@Valid SystemUserInfoVo vo) {
 		return systemUserService.updatePassword(vo);

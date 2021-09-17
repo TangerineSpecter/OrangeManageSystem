@@ -7,6 +7,7 @@ import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;
 import com.tangerinespecter.oms.system.domain.vo.system.SystemUserInfoVo;
 import com.tangerinespecter.oms.system.service.system.ISystemUserService;
+import io.swagger.annotations.Api;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -21,6 +22,7 @@ import javax.validation.Valid;
  * @version v0.0.5
  * @DateTime 2019年1月11日
  */
+@Api("系统用户管理模块")
 @RestController
 @RequestMapping("/systemUser")
 public class SystemUserController {

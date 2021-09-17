@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -52,6 +53,15 @@ public class IndexController {
     @GetMapping(value = "/login", produces = "text/html;charset=UTF-8")
     public String loginPage(HttpServletRequest request, HttpServletResponse response, Model model) {
         return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getLoginPageKey, "login");
+    }
+
+    /**
+     * 接口文档
+     */
+    @ResponseBody
+    @GetMapping(value = "/doc")
+    public ModelAndView docPage() {
+        return ServiceResult.jumpPage("doc.html");
     }
 
     /**

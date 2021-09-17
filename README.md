@@ -36,6 +36,7 @@ v0.4.1
 - 分页插件：PageHelper 1.3.0
 - 消息中间件：RabbitMQ 2.3.0
 - Netty框架：Netty 4.1.48
+- 接口文档：Swagger 2.9.2
 
 **前端框架：**
 - 基础框架：Bootstrap 4.1.3

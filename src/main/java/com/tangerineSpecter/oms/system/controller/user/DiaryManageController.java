@@ -22,16 +22,15 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/user/diary")
 public class DiaryManageController {
 
-    @Resource
-    private PageResultService pageResultService;
+	@Resource
+	private PageResultService pageResultService;
 
-    /**
-     * 日记管理页面
-     */
-    @ResponseBody
-    @RequiresPermissions("user:diary:page")
-    @RequestMapping(value = "/page", produces = "text/html;charset=UTF-8")
-    public String userHealthPage(HttpServletRequest request, HttpServletResponse response, Model model) {
-        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getUserDiaryPageKey, "user/diaryManage");
-    }
+	/**
+	 * 日记管理页面
+	 */
+	@RequiresPermissions("user:diary:page")
+	@RequestMapping(value = "/page", produces = "text/html;charset=UTF-8")
+	public String userHealthPage(HttpServletRequest request, HttpServletResponse response, Model model) {
+		return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getUserDiaryPageKey, "user/diaryManage");
+	}
 }

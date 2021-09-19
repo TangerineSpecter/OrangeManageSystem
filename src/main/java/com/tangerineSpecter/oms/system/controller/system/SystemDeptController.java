@@ -25,27 +25,24 @@ import javax.validation.Valid;
 @RestController("/systemDept")
 public class SystemDeptController {
 
-    @Resource
-    private ISystemDeptService systemDeptService;
-    @Resource
-    private PageResultService pageResultService;
+	@Resource
+	private ISystemDeptService systemDeptService;
+	@Resource
+	private PageResultService pageResultService;
 
-    /**
-     * 部门管理
-     */
-    @ResponseBody
-    @RequestMapping(value = "/page", produces = "text/html;charset=UTF-8")
-    public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
-        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getSystemDeptPageKey, "system/systemDept");
-    }
+	/**
+	 * 部门管理
+	 */
+	@RequestMapping(value = "/page", produces = "text/html;charset=UTF-8")
+	public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
+		return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getSystemDeptPageKey, "system/systemDept");
+	}
 
-    /**
-     * 新增部门
-     *
-     * @return
-     */
-    @PostMapping("/insert")
-    public ServiceResult<?> insert(@Valid SystemDeptVo vo) {
-        return systemDeptService.insertSystemDeptInfo(vo);
-    }
+	/**
+	 * 新增部门
+	 */
+	@PostMapping("/insert")
+	public ServiceResult<?> insert(@Valid SystemDeptVo vo) {
+		return systemDeptService.insertSystemDeptInfo(vo);
+	}
 }

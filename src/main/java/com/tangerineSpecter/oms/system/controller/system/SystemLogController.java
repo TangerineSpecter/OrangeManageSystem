@@ -7,6 +7,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 
@@ -16,28 +17,27 @@ import javax.annotation.Resource;
  * @author TangerineSpecter
  * @date
  */
-@Controller
+@RestController
 @RequestMapping("/system/log")
 public class SystemLogController {
 
-    @Resource
-    private ISystemLogService systemLogService;
+	@Resource
+	private ISystemLogService systemLogService;
 
-    /**
-     * 日志
-     */
-    @RequestMapping("/page")
-    @RequiresPermissions("system:log:page")
-    public String pageInfo() {
-        return "system/logger";
-    }
+	/**
+	 * 日志
+	 */
+	@RequestMapping("/page")
+	@RequiresPermissions("system:log:page")
+	public String pageInfo() {
+		return "system/logger";
+	}
 
-    /**
-     * 日志列表
-     */
-    @ResponseBody
-    @RequestMapping("/list")
-    public ServiceResult listInfo(SystemLogQueryObject qo) {
-        return systemLogService.queryForPage(qo);
-    }
+	/**
+	 * 日志列表
+	 */
+	@RequestMapping("/list")
+	public ServiceResult listInfo(SystemLogQueryObject qo) {
+		return systemLogService.queryForPage(qo);
+	}
 }

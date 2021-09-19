@@ -19,19 +19,18 @@ import javax.validation.Valid;
 @RequestMapping("/system/config")
 public class SystemConfigController {
 
-    @Resource
-    private ISystemConfigService systemConfigServer;
+	@Resource
+	private ISystemConfigService systemConfigServer;
 
-    /**
-     * 添加系统配置
-     *
-     * @param vo
-     */
-    @ResponseBody
-    @RequestMapping("/insert")
-    @LoggerInfo(value = "添加系统配置", event = LogOperation.EVENT_ADD)
-    public ServiceResult insertInfo(@Valid SystemConfigInfoVo vo) {
-        return systemConfigServer.insertInfo(vo);
-    }
+	/**
+	 * 添加系统配置
+	 *
+	 * @param vo
+	 */
+	@RequestMapping("/insert")
+	@LoggerInfo(value = "添加系统配置", event = LogOperation.EVENT_ADD)
+	public ServiceResult insertInfo(@Valid SystemConfigInfoVo vo) {
+		return systemConfigServer.insertInfo(vo);
+	}
 
 }

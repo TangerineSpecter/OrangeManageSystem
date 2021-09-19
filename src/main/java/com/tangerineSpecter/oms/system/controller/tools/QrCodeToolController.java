@@ -9,6 +9,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
@@ -19,28 +20,25 @@ import javax.validation.Valid;
  * @author liangjun.zhou
  * @date 2019年09月08日00:01:21
  */
-@Controller
+@RestController
 @RequestMapping("/tools/qr-code")
 public class QrCodeToolController {
 
-    @Resource
-    private IQrCodeToolService qrCodeToolService;
+	@Resource
+	private IQrCodeToolService qrCodeToolService;
 
-    @RequestMapping("/page")
-    @RequiresPermissions("tools:qr-code:page")
-    public String pageInfo() {
-        return "tools/qrCode";
-    }
+	@RequestMapping("/page")
+	@RequiresPermissions("tools:qr-code:page")
+	public String pageInfo() {
+		return "tools/qrCode";
+	}
 
-    /**
-     * 生成二维码
-     *
-     * @return
-     */
-    @ResponseBody
-    @RequestMapping("/create")
-    @LoggerInfo(value = "创建二维码", event = LogOperation.EVENT_ADD)
-    public ServiceResult createQrCode(@Valid QrCodeInfoVo vo) {
-        return qrCodeToolService.createQrCode(vo);
-    }
+	/**
+	 * 生成二维码
+	 */
+	@RequestMapping("/create")
+	@LoggerInfo(value = "创建二维码", event = LogOperation.EVENT_ADD)
+	public ServiceResult createQrCode(@Valid QrCodeInfoVo vo) {
+		return qrCodeToolService.createQrCode(vo);
+	}
 }

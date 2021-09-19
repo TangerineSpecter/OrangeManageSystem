@@ -40,7 +40,6 @@ public class MenuSettingController {
 	/**
 	 * 菜单管理
 	 */
-	@ResponseBody
 	@RequiresPermissions("system:menu:page")
 	@RequestMapping(value = "/page", produces = "text/html;charset=UTF-8")
 	public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {

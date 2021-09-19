@@ -22,23 +22,20 @@ import javax.validation.Valid;
 @RequestMapping("/tools/futures")
 public class GoodsFuturesToolController {
 
-    @Resource
-    private IGoodsFuturesToolService goodsFuturesToolService;
+	@Resource
+	private IGoodsFuturesToolService goodsFuturesToolService;
 
-    @RequestMapping("/page")
-    @RequiresPermissions("tools:futures:page")
-    public String pageInfo() {
-        return "tools/goodsFutures";
-    }
+	@RequestMapping("/page")
+	@RequiresPermissions("tools:futures:page")
+	public String pageInfo() {
+		return "tools/goodsFutures";
+	}
 
-    /**
-     * 获取期货手续费
-     *
-     * @return
-     */
-    @ResponseBody
-    @RequestMapping("/create")
-    public ServiceResult createFuturesInfo(@Valid GoodsFuturesInfoVo vo) {
-        return goodsFuturesToolService.createFuturesInfo(vo);
-    }
+	/**
+	 * 获取期货手续费
+	 */
+	@RequestMapping("/create")
+	public ServiceResult createFuturesInfo(@Valid GoodsFuturesInfoVo vo) {
+		return goodsFuturesToolService.createFuturesInfo(vo);
+	}
 }

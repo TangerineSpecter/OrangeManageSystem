@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -27,61 +28,56 @@ import javax.validation.Valid;
  * @version 0.3.0
  * @date 2020年05月09日09:52:07
  */
-@Controller
+@RestController
 @RequestMapping("/user/health")
 public class UserHealthManageController {
 
-    @Resource
-    private PageResultService pageResultService;
-    @Resource
-    private IUserHealthManageService userHealthManageService;
+	@Resource
+	private PageResultService pageResultService;
+	@Resource
+	private IUserHealthManageService userHealthManageService;
 
-    /**
-     * 健康管理页面
-     */
-    @ResponseBody
-    @RequiresPermissions("user:health:page")
-    @RequestMapping(value = "/page", produces = "text/html;charset=UTF-8")
-    public String userHealthPage(HttpServletRequest request, HttpServletResponse response, Model model) {
-        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getUserHealthPageKey, "user/healthManage");
-    }
+	/**
+	 * 健康管理页面
+	 */
+	@RequiresPermissions("user:health:page")
+	@RequestMapping(value = "/page", produces = "text/html;charset=UTF-8")
+	public String userHealthPage(HttpServletRequest request, HttpServletResponse response, Model model) {
+		return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getUserHealthPageKey, "user/healthManage");
+	}
 
-    /**
-     * 健康管理列表
-     */
-    @ResponseBody
-    @RequestMapping("/list")
-    public ServiceResult userHealthPage(Model model, UserHealthQueryObject qo) {
-        return userHealthManageService.queryForPage(model, qo);
-    }
+	/**
+	 * 健康管理列表
+	 */
+	@RequestMapping("/list")
+	public ServiceResult userHealthPage(Model model, UserHealthQueryObject qo) {
+		return userHealthManageService.queryForPage(model, qo);
+	}
 
-    /**
-     * 新增健康数据
-     */
-    @ResponseBody
-    @RequestMapping("/insert")
-    @LoggerInfo(value = "新增健康信息", event = LogOperation.EVENT_ADD)
-    public ServiceResult insert(@RequestParam("type") Integer type) {
-        return userHealthManageService.insert(type);
-    }
+	/**
+	 * 新增健康数据
+	 */
+	@RequestMapping("/insert")
+	@LoggerInfo(value = "新增健康信息", event = LogOperation.EVENT_ADD)
+	public ServiceResult insert(@RequestParam("type") Integer type) {
+		return userHealthManageService.insert(type);
+	}
 
-    /**
-     * 编辑健康数据
-     */
-    @ResponseBody
-    @RequestMapping("/update")
-    @LoggerInfo(value = "更新健康信息", event = LogOperation.EVENT_UPDATE)
-    public ServiceResult update(@Valid UserHealthInfoVo data) {
-        return userHealthManageService.update(data);
-    }
+	/**
+	 * 编辑健康数据
+	 */
+	@RequestMapping("/update")
+	@LoggerInfo(value = "更新健康信息", event = LogOperation.EVENT_UPDATE)
+	public ServiceResult update(@Valid UserHealthInfoVo data) {
+		return userHealthManageService.update(data);
+	}
 
-    /**
-     * 删除健康数据
-     */
-    @ResponseBody
-    @RequestMapping("/delete")
-    @LoggerInfo(value = "删除健康信息", event = LogOperation.EVENT_DELETE)
-    public ServiceResult delete(Long id) {
-        return userHealthManageService.delete(id);
-    }
+	/**
+	 * 删除健康数据
+	 */
+	@RequestMapping("/delete")
+	@LoggerInfo(value = "删除健康信息", event = LogOperation.EVENT_DELETE)
+	public ServiceResult delete(Long id) {
+		return userHealthManageService.delete(id);
+	}
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -19,36 +20,34 @@ import java.util.List;
  * @version v0.0.3
  * @DateTime 2019年1月5日 02:07:12
  */
-@Controller
+@RestController
 public class SystemInfoController {
 
-    @Resource
-    private ISystemInfoService systemInfoService;
+	@Resource
+	private ISystemInfoService systemInfoService;
 
-    /**
-     * 首页初始化
-     */
-    @ResponseBody
-    @GetMapping("/initHome")
-    public HomePageDataDto initHome() {
-        return systemInfoService.initHome();
-    }
+	/**
+	 * 首页初始化
+	 */
+	@GetMapping("/initHome")
+	public HomePageDataDto initHome() {
+		return systemInfoService.initHome();
+	}
 
-    /**
-     * 菜单初始化
-     */
-    @ResponseBody
-    @GetMapping("/initMenu")
-    public List<MenuChildInfo> initMenu() {
-        return systemInfoService.initMenu();
-    }
+	/**
+	 * 菜单初始化
+	 */
+	@GetMapping("/initMenu")
+	public List<MenuChildInfo> initMenu() {
+		return systemInfoService.initMenu();
+	}
 
-    /**
-     * 日历
-     */
-    @RequestMapping("/calendar")
-    public String calendar() {
-        return "system/calendar";
-    }
+	/**
+	 * 日历
+	 */
+	@RequestMapping("/calendar")
+	public String calendar() {
+		return "system/calendar";
+	}
 
 }

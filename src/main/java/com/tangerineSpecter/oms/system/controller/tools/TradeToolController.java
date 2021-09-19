@@ -17,8 +17,8 @@ import javax.annotation.Resource;
 @RequestMapping("/tools/trade")
 public class TradeToolController {
 
-    @Resource
-    private ITradeToolService tradeToolService;
+	@Resource
+	private ITradeToolService tradeToolService;
 
-    //TODO 待增加工具方法
+	//TODO 待增加工具方法
 }

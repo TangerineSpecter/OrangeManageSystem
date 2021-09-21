@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('权限管理')"/>
+</head>
+<body>
+<div class="layuimini-main">
+    <fieldset class="layui-elem-field layuimini-search">
+        <legend>搜索信息</legend>
+        <div style="margin: 10px 10px 10px 10px">
+            <form id="search-from" class="layui-form layui-form-pane" action="">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">权限名称</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="name" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <a class="layui-btn" lay-submit="" lay-filter="data-search-btn">搜索</a>
+                        <a class="layui-btn" lay-submit="" lay-filter="data-clear-btn">清空</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </fieldset>
+    <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+</div>
+<th:block th:include="include :: footer"/>
+<script type="text/html" id="toolbar">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="initPermission">初始化</button>
+    </div>
+</script>
+<script>
+    layui.use(['form', 'table', 'laydate', 'layer'], function () {
+        const $ = layui.jquery,
+            table = layui.table,
+            layer = layui.layer;
+
+        table.render({
+            elem: '#currentTableId',
+            url: '/system/permission/list',
+            toolbar: '#toolbar',//开启头部工具栏
+            defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
+                title: '提示'
+                , layEvent: 'LAYTABLE_TIPS'
+                , icon: 'layui-icon-tips'
+            }],
+            cellMinWidth: 100,
+            cols: [
+                [
+                    {type: "checkbox", width: 50, fixed: "left"},
+                    {field: 'id', title: 'ID', sort: true, fixed: "left"},
+                    {field: 'name', title: '权限名称', sort: true, fixed: "left"},
+                    {field: 'url', title: '权限地址', sort: true},
+                    {field: 'code', title: '权限code', sort: true, fixed: "right"}
+                ]
+            ],
+            limits: [10, 15, 20, 25, 50, 100],
+            limit: 10,
+            page: true
+        });
+
+        //监听表格复选框选择
+        table.on('checkbox(currentTableFilter)', function (obj) {
+            console.log(obj)
+        });
+
+        //头工具栏事件
+        table.on('toolbar(currentTableFilter)', function (obj) {
+            switch (obj.event) {
+                case 'initPermission':
+                    initData();
+                    break;
+
+                //自定义头工具栏右侧图标 - 提示
+                case 'LAYTABLE_TIPS':
+                    layer.alert('这里是进行权限管理的地方');
+                    break;
+            }
+        });
+
+        //初始化数据
+        function initData() {
+            $.post("/system/permission/init", {}, function (result) {
+                if (result.success) {
+                    layer.open({
+                        title: "提示",
+                        content: "初始化完毕",
+                        yes: function () {
+                            reloadTab();
+                        }
+                    });
+                } else {
+                    layer.open({
+                        title: "警告",
+                        content: result.msg
+                    })
+                }
+            }, "JSON");
+        }
+
+    });
+</script>
+<script>
+</script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('系统日志')"/>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <fieldset class="layui-elem-field layuimini-search">
+            <legend>搜索信息</legend>
+            <div style="margin: 10px 10px 10px 10px">
+                <form id="search-from" class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">关键词</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="keyword" autocomplete="off" class="layui-input"
+                                       placeholder="操作参数、操作方法、操作内容关键词搜索">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">操作人</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="username" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">操作事件</label>
+                            <div class="layui-input-inline">
+                                <select name="event">
+                                    <option value="" selected>全部</option>
+                                    <option value="1">登录</option>
+                                    <option value="2">访问</option>
+                                    <option value="3">添加</option>
+                                    <option value="4">编辑</option>
+                                    <option value="5">删除</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">起始日期</label>
+                            <div class="layui-input-inline">
+                                <input type="text" id="startTime" name="startTime" autocomplete="off"
+                                       class="layui-input"
+                                       placeholder="yyyy-MM-dd">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">结束日期</label>
+                            <div class="layui-input-inline">
+                                <input type="text" id="endTime" name="endTime" autocomplete="off" class="layui-input"
+                                       placeholder="yyyy-MM-dd">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn" lay-submit="" lay-filter="data-search-btn">搜索</button>
+                            <button type="reset" class="layui-btn" lay-submit="" lay-filter="data-clear-btn">清空</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+        <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+    </div>
+</div>
+<th:block th:include="include :: footer"/>
+<script>
+    layui.use(['form', 'table', 'laydate'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table,
+            laydate = layui.laydate;
+
+        //日期
+        laydate.render({
+            elem: '#startTime'
+        });
+
+        //日期
+        laydate.render({
+            elem: '#endTime'
+        });
+
+        table.render({
+            elem: '#currentTableId',
+            url: '/system/log/list',
+            cols: [
+                [
+                    {type: "checkbox", width: 50, fixed: "left"},
+                    {field: 'id', width: 80, title: 'ID', sort: true},
+                    {field: 'username', width: 100, title: '操作人'},
+                    {field: 'eventDesc', width: 100, title: '操作事件'},
+                    {field: 'method', width: 250, title: '操作方法'},
+                    {field: 'params', width: 250, title: '操作参数'},
+                    {field: 'operation', width: 150, title: '操作内容'},
+                    {
+                        field: 'time', width: 100, title: '操作耗时', sort: true, templet: function (d) {
+                            if (d.time <= 1000) {
+                                return '<span class="layui-badge layui-bg-green">' + d.time + ' ms</span>';
+                            } else if (d.time > 1000 && d.time <= 5000) {
+                                return '<span class="layui-badge layui-bg-orange">' + d.time + ' ms</span>';
+                            } else if (d.time > 5000) {
+                                return '<span class="layui-badge layui-bg">' + d.time + ' ms</span>';
+                            }
+
+                        }
+                    },
+                    {field: 'ip', width: 150, title: 'IP地址'},
+                    {field: 'createTime', minWidth: 200, title: '操作时间', sort: true}
+                ]
+            ],
+            limits: [10, 15, 20, 25, 50, 100],
+            limit: 10,
+            page: true
+        });
+
+        //监听表格复选框选择
+        table.on('checkbox(currentTableFilter)', function (obj) {
+            console.log(obj)
+        });
+    });
+</script>
+
+</body>
+</html>

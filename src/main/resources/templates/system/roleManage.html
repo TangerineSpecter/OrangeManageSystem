@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('角色管理')"/>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <fieldset class="layui-elem-field layuimini-search">
+            <legend>搜索信息</legend>
+            <div style="margin: 10px 10px 10px 10px">
+                <form id="search-from" class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">角色名</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="name" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">状态</label>
+                            <div class="layui-input-inline">
+                                <select name="type" class="layui-select">
+                                    <option value="">全部</option>
+                                    <option value="0">冻结</option>
+                                    <option value="1">可用</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <a class="layui-btn" lay-submit="" lay-filter="data-search-btn">搜索</a>
+                            <a class="layui-btn" lay-submit="" lay-filter="data-clear-btn">清空</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+        <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+    </div>
+</div>
+<th:block th:include="include :: footer"/>
+<script type="text/html" id="switchTpl">
+    <input type="checkbox" name="status" value="{{d.id}}" lay-skin="switch" lay-text="冻结|可用" lay-filter="statusFun" {{
+           d.status== 0 ? 'checked' : '' }}>
+</script>
+<script type="text/html" id="toolbar">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="addSystemRole">新增角色</button>
+    </div>
+</script>
+<script type="text/html" id="operationBar">
+    <a class="layui-btn layui-btn-xs" lay-event="authorize">授权</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delSystemRole">删除</a>
+</script>
+<script>
+    layui.use(['form', 'table', 'laydate'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table,
+            laydate = layui.laydate;
+
+        //日期
+        laydate.render({
+            elem: '#queryDay'
+        });
+
+        table.render({
+            elem: '#currentTableId',
+            url: '/system/role/list',
+            toolbar: '#toolbar',//开启头部工具栏
+            defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
+                title: '提示'
+                , layEvent: 'LAYTABLE_TIPS'
+                , icon: 'layui-icon-tips'
+            }],
+            cellMinWidth: 100,
+            cols: [
+                [
+                    {type: "checkbox", fixed: "left"},
+                    {field: 'id', title: 'ID', sort: true},
+                    {field: 'name', title: '角色名'},
+                    {field: 'remark', minWidth: 150, title: '备注', fixed: "right"},
+                    {field: 'status', title: '状态', width: 120, templet: '#switchTpl', unresize: true},
+                    {toolbar: '#operationBar', align: 'center', title: '操作', fixed: "right"}
+                ]
+            ],
+            limits: [10, 15, 20, 25, 50, 100],
+            limit: 10,
+            page: true
+        });
+
+        //头工具栏事件
+        table.on('toolbar(currentTableFilter)', function (obj) {
+            switch (obj.event) {
+                //添加系统角色
+                case 'addSystemRole':
+                    layer.prompt({
+                        title: '添加角色'
+                    }, function (value, index) {
+                        insertFun(value);
+                        layer.close(index);
+                    });
+                    break;
+
+                //自定义头工具栏右侧图标 - 提示
+                case 'LAYTABLE_TIPS':
+                    layer.alert('这里是进行角色管理的地方');
+                    break;
+            }
+        });
+
+        //监听工具条
+        table.on('tool(currentTableFilter)', function (obj) {
+            const data = obj.data;
+            switch (obj.event) {
+                case 'authorize':
+                    data.href = "/system/role/authorize";
+                    loadFormModel("角色授权", data, '/system/role/addPage');
+                    // authorizeFun();
+                    break;
+                case 'delSystemRole':
+                    layer.confirm('是否删除该角色？', function (index) {
+                        deleteFun(data.id);
+                        layer.close(index);
+                    });
+                    break;
+            }
+        });
+
+        //监听状态更改操作
+        form.on('switch(statusFun)', function (obj) {
+            $.post('/system/role/update-status', {id: this.value}, function (result) {
+                if (!result.success) {
+                    layer.alert(JSON.stringify(result.msg), {
+                        title: '警告'
+                    });
+                    obj.elem.checked = !obj.elem.checked;
+                    form.render('checkbox');
+                } else {
+                    layer.msg(result.msg);
+                }
+            }, "JSON");
+        });
+
+        //监听表格复选框选择
+        table.on('checkbox(currentTableFilter)', function (obj) {
+            console.log(obj)
+        });
+
+        //添加角色
+        function insertFun(name) {
+            $.post("/system/role/insert", {name: name}, function (result) {
+                if (result.success) {
+                    layer.open({
+                        title: "提示",
+                        content: "添加角色成功",
+                        yes: function () {
+                            reloadTab();
+                        }
+                    });
+                } else {
+                    layer.open({
+                        title: "警告",
+                        content: result.msg
+                    })
+                }
+            }, "JSON");
+        }
+
+        //授权
+        function authorizeFun() {
+            $.post("/system/role/authorize", {}, function (result) {
+                if (result.success) {
+                    layer.open({
+                        title: "提示",
+                        content: "授权成功",
+                        yes: function () {
+                            reloadTab();
+                        }
+                    });
+                } else {
+                    layer.open({
+                        title: "警告",
+                        content: result.msg
+                    })
+                }
+            }, "JSON");
+        }
+
+        //删除数据
+        function deleteFun(id) {
+            $.post("/system/role/delete", {id: id}, function (result) {
+                if (result.success) {
+                    layer.open({
+                        title: "提示",
+                        content: "删除成功",
+                        yes: function () {
+                            reloadTab();
+                        }
+                    });
+                } else {
+                    layer.open({
+                        title: "警告",
+                        content: result.msg
+                    })
+                }
+            }, "JSON");
+        }
+    });
+</script>
+<script>
+</script>
+</body>
+</html>

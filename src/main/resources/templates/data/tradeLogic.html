@@ -42,7 +42,7 @@
     </fieldset>
     <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
 </div>
-<div th:replace="./common/_layui_common::common_js"></div>
+<th:block th:include="include :: footer"/>
 <script type="text/html" id="toolbar">
     <div class="layui-btn-container">
         <button class="layui-btn layui-btn-sm" lay-event="addTradeData">新增逻辑</button>

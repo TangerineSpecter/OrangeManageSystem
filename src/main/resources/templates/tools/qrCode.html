@@ -39,7 +39,8 @@
                                     </div>
                                     <div class="layui-form-item">
                                         <div class="layui-input-block">
-                                            <button class="layui-btn" lay-submit="" lay-filter="formStep">
+                                            <button class="pear-btn pear-btn-primary" lay-submit=""
+                                                    lay-filter="formStep">
                                                 生成二维码
                                             </button>
                                         </div>
@@ -49,12 +50,12 @@
                             <div>
                                 <form class="layui-form" style="margin: 0 auto;max-width: 460px;padding-top: 40px;">
                                     <div class="layui-form-item">
-                                        <img style="width: 300px;height: 300px;" class="layui-upload-img" id="qrcode"
-                                             src="http://cdn.duitang.com/uploads/item/201412/09/20141209183953_uiree.thumb.700_0.jpeg">
+                                        <img style="width: 300px;height: 300px;" class="layui-upload-img" id="qrCode"
+                                             src="">
                                     </div>
                                     <div class="layui-form-item">
                                         <div class="layui-input-block">
-                                            <button type="button" class="layui-btn next">重新生成</button>
+                                            <button type="button" class="pear-btn pear-btn-primary next">重新生成</button>
                                         </div>
                                     </div>
                                 </form>
@@ -115,7 +116,7 @@
         form.on('submit(formStep)', function (data) {
             $.post("/tools/qr-code/create", data.field, function (result) {
                 if (result.success) {
-                    $("#qrcode").attr("src", result.data);
+                    $("#qrCode").attr("src", "data:image/png;base64," + result.data);
                     step.next('#stepForm');
                 } else {
                     layer.open({

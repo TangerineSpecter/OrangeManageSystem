@@ -6,9 +6,8 @@
 <body>
 <div class="layuimini-container">
     <div class="layuimini-main">
-        <fieldset class="layui-elem-field layuimini-search">
-            <legend>搜索信息</legend>
-            <div style="margin: 10px 10px 10px 10px">
+        <div class="layui-card">
+            <div class="layui-card-body">
                 <form id="search-from" class="layui-form layui-form-pane" action="">
                     <div class="layui-form-item">
                         <div class="layui-inline">
@@ -52,15 +51,23 @@
                                        placeholder="yyyy-MM-dd">
                             </div>
                         </div>
-                        <div class="layui-inline">
-                            <button class="layui-btn" lay-submit="" lay-filter="data-search-btn">搜索</button>
-                            <button type="reset" class="layui-btn" lay-submit="" lay-filter="data-clear-btn">清空</button>
-                        </div>
+                        <button class="pear-btn pear-btn-md pear-btn-primary" lay-submit lay-filter="data-search-btn">
+                            <i class="layui-icon layui-icon-search"></i>
+                            查询
+                        </button>
+                        <button type="reset" class="pear-btn pear-btn-md" lay-submit lay-filter="data-reset-btn">
+                            <i class="layui-icon layui-icon-refresh"></i>
+                            重置
+                        </button>
                     </div>
                 </form>
             </div>
-        </fieldset>
-        <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+        </div>
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table id="currentTableId" lay-filter="currentTableFilter"></table>
+            </div>
+        </div>
     </div>
 </div>
 <th:block th:include="include :: footer"/>
@@ -84,6 +91,7 @@
         table.render({
             elem: '#currentTableId',
             url: '/system/log/list',
+            skin: 'line',
             cols: [
                 [
                     {type: "checkbox", width: 50, fixed: "left"},
@@ -114,9 +122,19 @@
             page: true
         });
 
-        //监听表格复选框选择
-        table.on('checkbox(currentTableFilter)', function (obj) {
-            console.log(obj)
+        form.on('submit(data-search-btn)', function (data) {
+            table.reload('currentTableId', {
+                where: data.field
+            });
+            return false;
+        });
+
+        form.on('submit(data-reset-btn)', function () {
+            table.reload('currentTableId', {
+                where: ""
+            });
+            form.reset();
+            return false;
         });
     });
 </script>

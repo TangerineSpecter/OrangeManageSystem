@@ -8,35 +8,37 @@
     <input type="checkbox" name="top" value="{{d.id}}" lay-skin="switch" lay-text="是|否" lay-filter="topFun" {{
            d.top== 1 ? 'checked' : '' }}>
 </script>
-<div class="layuimini-container">
-    <div class="layuimini-main">
-        <fieldset class="layui-elem-field layuimini-search">
-            <legend>搜索信息</legend>
-            <div style="margin: 10px 10px 10px 10px">
-                <form id="search-from" class="layui-form layui-form-pane" action="">
-                    <div class="layui-form-item">
-                        <div class="layui-inline">
-                            <label class="layui-form-label">标题</label>
-                            <div class="layui-input-inline">
-                                <input type="text" name="title" autocomplete="off" class="layui-input">
-                            </div>
-                        </div>
-                        <div class="layui-inline">
-                            <a class="layui-btn" lay-submit="" lay-filter="data-search-btn">搜索</a>
-                            <a class="layui-btn" lay-submit="" lay-filter="data-clear-btn">清空</a>
-                        </div>
+<body class="pear-container">
+<div class="layui-card">
+    <div class="layui-card-body">
+        <form id="search-from" class="layui-form layui-form-pane" action="">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">标题</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="title" autocomplete="off" class="layui-input">
                     </div>
-                </form>
+                </div>
+                <button class="pear-btn pear-btn-md pear-btn-primary" lay-submit lay-filter="data-search-btn">
+                    <i class="layui-icon layui-icon-search"></i>
+                    查询
+                </button>
+                <button type="reset" class="pear-btn pear-btn-md" lay-submit lay-filter="data-reset-btn">
+                    <i class="layui-icon layui-icon-refresh"></i>
+                    重置
+                </button>
             </div>
-        </fieldset>
-        <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+        </form>
+    </div>
+</div>
+<div class="layui-card">
+    <div class="layui-card-body">
+        <table id="currentTableId" lay-filter="currentTableFilter"></table>
     </div>
 </div>
 <th:block th:include="include :: footer"/>
 <script type="text/html" id="toolbar">
-    <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="addCollection">添加公告</button>
-    </div>
+    <button class="pear-btn pear-btn-md pear-btn-primary" lay-event="addCollection">添加公告</button>
 </script>
 <script type="text/html" id="operationBar">
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>

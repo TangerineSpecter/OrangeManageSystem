@@ -3,71 +3,67 @@
 <head>
     <th:block th:include="include :: header('系统日志')"/>
 </head>
-<body>
-<div class="layuimini-container">
-    <div class="layuimini-main">
-        <div class="layui-card">
-            <div class="layui-card-body">
-                <form id="search-from" class="layui-form layui-form-pane" action="">
-                    <div class="layui-form-item">
-                        <div class="layui-inline">
-                            <label class="layui-form-label">关键词</label>
-                            <div class="layui-input-inline">
-                                <input type="text" name="keyword" autocomplete="off" class="layui-input"
-                                       placeholder="操作参数、操作方法、操作内容关键词搜索">
-                            </div>
-                        </div>
-                        <div class="layui-inline">
-                            <label class="layui-form-label">操作人</label>
-                            <div class="layui-input-inline">
-                                <input type="text" name="username" autocomplete="off" class="layui-input">
-                            </div>
-                        </div>
-                        <div class="layui-inline">
-                            <label class="layui-form-label">操作事件</label>
-                            <div class="layui-input-inline">
-                                <select name="event">
-                                    <option value="" selected>全部</option>
-                                    <option value="1">登录</option>
-                                    <option value="2">访问</option>
-                                    <option value="3">添加</option>
-                                    <option value="4">编辑</option>
-                                    <option value="5">删除</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="layui-inline">
-                            <label class="layui-form-label">起始日期</label>
-                            <div class="layui-input-inline">
-                                <input type="text" id="startTime" name="startTime" autocomplete="off"
-                                       class="layui-input"
-                                       placeholder="yyyy-MM-dd">
-                            </div>
-                        </div>
-                        <div class="layui-inline">
-                            <label class="layui-form-label">结束日期</label>
-                            <div class="layui-input-inline">
-                                <input type="text" id="endTime" name="endTime" autocomplete="off" class="layui-input"
-                                       placeholder="yyyy-MM-dd">
-                            </div>
-                        </div>
-                        <button class="pear-btn pear-btn-md pear-btn-primary" lay-submit lay-filter="data-search-btn">
-                            <i class="layui-icon layui-icon-search"></i>
-                            查询
-                        </button>
-                        <button type="reset" class="pear-btn pear-btn-md" lay-submit lay-filter="data-reset-btn">
-                            <i class="layui-icon layui-icon-refresh"></i>
-                            重置
-                        </button>
+<body class="pear-container">
+<div class="layui-card">
+    <div class="layui-card-body">
+        <form id="search-from" class="layui-form layui-form-pane" action="">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">关键词</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="keyword" autocomplete="off" class="layui-input"
+                               placeholder="操作参数、操作方法、操作内容关键词搜索">
                     </div>
-                </form>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">操作人</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="username" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">操作事件</label>
+                    <div class="layui-input-inline">
+                        <select name="event">
+                            <option value="" selected>全部</option>
+                            <option value="1">登录</option>
+                            <option value="2">访问</option>
+                            <option value="3">添加</option>
+                            <option value="4">编辑</option>
+                            <option value="5">删除</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">起始日期</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="startTime" name="startTime" autocomplete="off"
+                               class="layui-input"
+                               placeholder="yyyy-MM-dd">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">结束日期</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="endTime" name="endTime" autocomplete="off" class="layui-input"
+                               placeholder="yyyy-MM-dd">
+                    </div>
+                </div>
+                <button class="pear-btn pear-btn-md pear-btn-primary" lay-submit lay-filter="data-search-btn">
+                    <i class="layui-icon layui-icon-search"></i>
+                    查询
+                </button>
+                <button type="reset" class="pear-btn pear-btn-md" lay-submit lay-filter="data-reset-btn">
+                    <i class="layui-icon layui-icon-refresh"></i>
+                    重置
+                </button>
             </div>
-        </div>
-        <div class="layui-card">
-            <div class="layui-card-body">
-                <table id="currentTableId" lay-filter="currentTableFilter"></table>
-            </div>
-        </div>
+        </form>
+    </div>
+</div>
+<div class="layui-card">
+    <div class="layui-card-body">
+        <table id="currentTableId" lay-filter="currentTableFilter"></table>
     </div>
 </div>
 <th:block th:include="include :: footer"/>

@@ -3,40 +3,38 @@
 <head>
     <th:block th:include="include :: header('权限管理')"/>
 </head>
-<body>
-<div class="layuimini-container">
-    <div class="layuimini-main">
-        <div class="layui-card">
-            <div class="layui-card-body">
-                <form id="search-from" class="layui-form layui-form-pane" action="">
-                    <div class="layui-form-item">
-                        <div class="layui-inline">
-                            <label class="layui-form-label">权限名称</label>
-                            <div class="layui-input-inline">
-                                <input type="text" name="name" autocomplete="off" class="layui-input">
-                            </div>
-                        </div>
-                        <button class="pear-btn pear-btn-md pear-btn-primary" lay-submit lay-filter="data-search-btn">
-                            <i class="layui-icon layui-icon-search"></i>
-                            查询
-                        </button>
-                        <button type="reset" class="pear-btn pear-btn-md" lay-submit lay-filter="data-reset-btn">
-                            <i class="layui-icon layui-icon-refresh"></i>
-                            重置
-                        </button>
+<body class="pear-container">
+<div class="layui-card">
+    <div class="layui-card-body">
+        <form id="search-from" class="layui-form layui-form-pane" action="">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">权限名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="name" autocomplete="off" class="layui-input">
                     </div>
-                </form>
+                </div>
+                <button class="pear-btn pear-btn-md pear-btn-primary" lay-submit lay-filter="data-search-btn">
+                    <i class="layui-icon layui-icon-search"></i>
+                    查询
+                </button>
+                <button type="reset" class="pear-btn pear-btn-md" lay-submit lay-filter="data-reset-btn">
+                    <i class="layui-icon layui-icon-refresh"></i>
+                    重置
+                </button>
             </div>
-        </div>
-        <div class="layui-card">
-            <div class="layui-card-body">
-                <table id="currentTableId" lay-filter="currentTableFilter"></table>
-            </div>
-        </div>
+        </form>
+    </div>
+</div>
+<div class="layui-card">
+    <div class="layui-card-body">
+        <table id="currentTableId" lay-filter="currentTableFilter"></table>
     </div>
 </div>
 <script type="text/html" id="toolbar">
-    <button class="pear-btn pear-btn-md pear-btn-primary" lay-event="initPermission">初始化</button>
+    <button class="pear-btn pear-btn-md pear-btn-primary" lay-event="initPermission">
+        <i class="layui-icon layui-icon-face-smile"></i>
+        初始化</button>
 </script>
 <th:block th:include="include :: footer"/>
 <script>
@@ -106,10 +104,7 @@
                 if (result.success) {
                     layer.open({
                         title: "提示",
-                        content: "初始化完毕",
-                        yes: function () {
-                            layer.close();
-                        }
+                        content: "初始化完毕"
                     });
                 } else {
                     layer.open({

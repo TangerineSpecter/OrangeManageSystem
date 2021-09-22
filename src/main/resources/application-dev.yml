@@ -121,13 +121,6 @@ spring:
         # 连接池中的最小空闲连接 默认 0
         min-idle: 0
 
-
-#二维码保存路径
-qrcode:
-  path: /Users/zhouliangjun/Desktop/QrCode/
-  #二维码访问路径
-  view.path: /Users/zhouliangjun/Desktop/QrCode/
-
 #========================接口服务相关参数配置==============================
 # 聚合接口key
 juhe:

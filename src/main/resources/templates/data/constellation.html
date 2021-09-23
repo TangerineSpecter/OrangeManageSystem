@@ -4,43 +4,40 @@
     <th:block th:include="include :: header('星座数据')"/>
 </head>
 <body>
-<div class="layuimini-container">
-    <div class="layuimini-main">
-        <div class="layui-card">
-            <div class="layui-card-body">
-                <form id="search-from" class="layui-form layui-form-pane" action="">
-                    <div class="layui-form-item">
-                        <div class="layui-inline">
-                            <label class="layui-form-label">星座</label>
-                            <div class="layui-input-inline">
-                                <select name="star">
-                                </select>
-                            </div>
-                        </div>
-                        <div class="layui-inline">
-                            <label class="layui-form-label">查询日期</label>
-                            <div class="layui-input-inline">
-                                <input type="text" id="queryDay" name="queryDay" autocomplete="off" class="layui-input"
-                                       placeholder="yyyy-MM-dd">
-                            </div>
-                        </div>
-                        <button class="pear-btn pear-btn-md pear-btn-primary" lay-submit lay-filter="data-search-btn">
-                            <i class="layui-icon layui-icon-search"></i>
-                            查询
-                        </button>
-                        <button type="reset" class="pear-btn pear-btn-md" lay-submit lay-filter="data-reset-btn">
-                            <i class="layui-icon layui-icon-refresh"></i>
-                            重置
-                        </button>
+<body class="pear-container">
+<div class="layui-card">
+    <div class="layui-card-body">
+        <form id="search-from" class="layui-form layui-form-pane" action="">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">星座</label>
+                    <div class="layui-input-inline">
+                        <select name="star">
+                        </select>
                     </div>
-                </form>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">查询日期</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="queryDay" name="queryDay" autocomplete="off" class="layui-input"
+                               placeholder="yyyy-MM-dd">
+                    </div>
+                </div>
+                <button class="pear-btn pear-btn-md pear-btn-primary" lay-submit lay-filter="data-search-btn">
+                    <i class="layui-icon layui-icon-search"></i>
+                    查询
+                </button>
+                <button type="reset" class="pear-btn pear-btn-md" lay-submit lay-filter="data-reset-btn">
+                    <i class="layui-icon layui-icon-refresh"></i>
+                    重置
+                </button>
             </div>
-        </div>
-        <div class="layui-card">
-            <div class="layui-card-body">
-                <table id="currentTableId" lay-filter="currentTableFilter"></table>
-            </div>
-        </div>
+        </form>
+    </div>
+</div>
+<div class="layui-card">
+    <div class="layui-card-body">
+        <table id="currentTableId" lay-filter="currentTableFilter"></table>
     </div>
 </div>
 <th:block th:include="include :: footer"/>

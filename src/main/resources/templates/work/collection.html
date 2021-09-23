@@ -4,47 +4,58 @@
     <th:block th:include="include :: header('内容收藏')"/>
 </head>
 <body>
-<div class="layuimini-container">
-    <div class="layuimini-main">
-        <fieldset class="layui-elem-field layuimini-search">
-            <legend>搜索信息</legend>
-            <div style="margin: 10px 10px 10px 10px">
-                <form id="search-from" class="layui-form layui-form-pane" action="">
-                    <div class="layui-form-item">
-                        <div class="layui-inline">
-                            <label class="layui-form-label">标题</label>
-                            <div class="layui-input-inline">
-                                <input type="text" name="title" autocomplete="off" class="layui-input">
-                            </div>
-                        </div>
-                        <div class="layui-inline">
-                            <label class="layui-form-label">类型</label>
-                            <div class="layui-input-inline">
-                                <select id="type" name="type" autocomplete="off" class="layui-input">
-                                    <option value="">全部</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="layui-inline">
-                            <a class="layui-btn" lay-submit="" lay-filter="data-search-btn">搜索</a>
-                            <a class="layui-btn" lay-submit="" lay-filter="data-clear-btn">清空</a>
-                        </div>
+<body class="pear-container">
+<div class="layui-card">
+    <div class="layui-card-body">
+        <form id="search-from" class="layui-form layui-form-pane" action="">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">标题</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="title" autocomplete="off" class="layui-input">
                     </div>
-                </form>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">类型</label>
+                    <div class="layui-input-inline">
+                        <select id="type" name="type" autocomplete="off" class="layui-input">
+                            <option value="">全部</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="pear-btn pear-btn-md pear-btn-primary" lay-submit lay-filter="data-search-btn">
+                    <i class="layui-icon layui-icon-search"></i>
+                    查询
+                </button>
+                <button type="reset" class="pear-btn pear-btn-md" lay-submit lay-filter="data-reset-btn">
+                    <i class="layui-icon layui-icon-refresh"></i>
+                    重置
+                </button>
             </div>
-        </fieldset>
-        <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+        </form>
+    </div>
+</div>
+<div class="layui-card">
+    <div class="layui-card-body">
+        <table id="currentTableId" lay-filter="currentTableFilter"></table>
     </div>
 </div>
 <th:block th:include="include :: footer"/>
 <script type="text/html" id="toolbar">
     <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="addCollection">添加收藏</button>
+        <button class="pear-btn pear-btn-primary pear-btn-md" lay-event="addCollection">
+            <i class="layui-icon layui-icon-add-1"></i>
+            添加收藏
+        </button>
     </div>
 </script>
 <script type="text/html" id="operationBar">
-    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    <button class="pear-btn pear-btn-primary pear-btn-sm" lay-event="edit">
+        <i class="layui-icon layui-icon-edit"></i>
+    </button>
+    <button class="pear-btn pear-btn-danger pear-btn-sm" lay-event="del">
+        <i class="layui-icon layui-icon-delete"></i>
+    </button>
 </script>
 <script>
 
@@ -92,7 +103,7 @@
                                 + "</a></span>";
                         }
                     },
-                    {field: 'remark', width: 400, title: '收藏备注'},
+                    {field: 'remark', width: 350, title: '收藏备注'},
                     {
                         field: 'type', width: 80, title: '收藏类型', templet: function (row) {
                             if (row.type == null || row.type === "") {
@@ -103,7 +114,7 @@
                     },
                     {field: 'sort', width: 80, title: '排序'},
                     {
-                        toolbar: '#operationBar', align: 'center', title: '操作', fixed: "right"
+                        toolbar: '#operationBar', width: 100, align: 'center', title: '操作', fixed: "right"
                     }
                 ]
             ],

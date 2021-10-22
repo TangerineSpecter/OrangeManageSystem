@@ -55,7 +55,7 @@ public class SystemBulletinController {
 	}
 
 	/**
-	 * 收藏列表
+	 * 公告列表
 	 */
 	@RequestMapping("/list")
 	public ServiceResult bulletinPage(Model model, SystemBulletinQueryObject qo) {
@@ -63,7 +63,7 @@ public class SystemBulletinController {
 	}
 
 	/**
-	 * 新增收藏
+	 * 新增公告
 	 */
 	@RequestMapping("/insert")
 	@LoggerInfo(value = "新增公告", event = LogOperation.EVENT_ADD)
@@ -72,7 +72,7 @@ public class SystemBulletinController {
 	}
 
 	/**
-	 * 编辑收藏
+	 * 编辑公告
 	 */
 	@RequestMapping("/update")
 	@LoggerInfo(value = "更新公告", event = LogOperation.EVENT_UPDATE)
@@ -81,7 +81,7 @@ public class SystemBulletinController {
 	}
 
 	/**
-	 * 删除收藏
+	 * 删除公告
 	 */
 	@RequestMapping("/delete")
 	@LoggerInfo(value = "删除公告", event = LogOperation.EVENT_DELETE)

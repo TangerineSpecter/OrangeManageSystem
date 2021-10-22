@@ -3,12 +3,11 @@
 <head>
     <th:block th:include="include :: header('系统公告')"/>
 </head>
-<body>
+<body class="pear-container">
 <script type="text/html" id="switchTpl">
     <input type="checkbox" name="top" value="{{d.id}}" lay-skin="switch" lay-text="是|否" lay-filter="topFun" {{
            d.top== 1 ? 'checked' : '' }}>
 </script>
-<body class="pear-container">
 <div class="layui-card">
     <div class="layui-card-body">
         <form id="search-from" class="layui-form layui-form-pane" action="">
@@ -41,8 +40,12 @@
     <button class="pear-btn pear-btn-md pear-btn-primary" lay-event="addCollection">添加公告</button>
 </script>
 <script type="text/html" id="operationBar">
-    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    <button class="pear-btn pear-btn-primary pear-btn-sm" lay-event="edit">
+        <i class="layui-icon layui-icon-edit"></i>
+    </button>
+    <button class="pear-btn pear-btn-danger pear-btn-sm" lay-event="del">
+        <i class="layui-icon layui-icon-delete"></i>
+    </button>
 </script>
 <script>
     layui.use(['form', 'table', 'laydate'], function () {
@@ -154,8 +157,6 @@
     });
 </script>
 <script>
-
 </script>
-
 </body>
 </html>

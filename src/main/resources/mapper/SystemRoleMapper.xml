@@ -68,7 +68,7 @@
     <select id="selectRoleByName" resultType="com.tangerinespecter.oms.system.domain.entity.SystemRole">
         select *
         from system_role
-        where `name` like concat('%', #{name}, '%')
+        where `name` = #{name}
     </select>
     <select id="selectAllList" resultType="com.tangerinespecter.oms.system.domain.entity.SystemRole">
         select *

@@ -47,11 +47,21 @@
            d.status== 0 ? 'checked' : '' }}>
 </script>
 <script type="text/html" id="toolbar">
-    <button class="pear-btn pear-btn-md pear-btn-primary" lay-event="addSystemRole">新增角色</button>
+    <div class="layui-btn-container">
+        <button class="pear-btn pear-btn-primary pear-btn-md" lay-event="addSystemRole">
+            <i class="layui-icon layui-icon-add-1"></i>
+            新增角色
+        </button>
+    </div>
 </script>
 <script type="text/html" id="operationBar">
-    <a class="layui-btn layui-btn-xs" lay-event="authorize">授权</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delSystemRole">删除</a>
+    <button class="pear-btn pear-btn-primary pear-btn-sm" lay-event="authorize">
+        <i class="layui-icon layui-icon-edit"></i>
+        授权
+    </button>
+    <button class="pear-btn pear-btn-danger pear-btn-sm" lay-event="delSystemRole">
+        <i class="layui-icon layui-icon-delete"></i>
+    </button>
 </script>
 <script>
     layui.use(['form', 'table', 'laydate'], function () {
@@ -117,7 +127,7 @@
                 case 'authorize':
                     data.href = "/system/role/authorize";
                     loadFormModel("角色授权", data, '/system/role/addPage');
-                    // authorizeFun();
+                    authorizeFun();
                     break;
                 case 'delSystemRole':
                     layer.confirm('是否删除该角色？', function (index) {
@@ -127,6 +137,41 @@
                     break;
             }
         });
+
+        /**
+         * 打开提交窗口
+         * @param title 窗口标题
+         * @param data 传入iframe数据
+         * @param contentUrl iframe地址
+         */
+        function loadFormModel(title, data, contentUrl) {
+            loadFormHeightModel(title, data, contentUrl, '600px')
+        }
+
+        /**
+         * 打开提交窗口
+         * @param title 窗口标题
+         * @param data 传入iframe数据
+         * @param contentUrl iframe地址
+         * @param height 窗口高度
+         */
+        function loadFormHeightModel(title, data, contentUrl, height) {
+            let iframe;
+            layer.open({
+                type: 2,
+                title: title,
+                area: ['600px', height],
+                shade: 0.3,
+                maxmin: true,
+                offset: 'auto',
+                content: contentUrl,
+                success: function (layero, index) {
+                    iframe = window["layui-layer-iframe" + index];
+                    iframe.initData(data);
+                },
+                zIndex: layer.zIndex
+            });
+        }
 
         //监听状态更改操作
         form.on('switch(statusFun)', function (obj) {

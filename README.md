@@ -154,4 +154,4 @@ v0.4.1
 
 ## 相关参考资源
 
-- [Pear Admin Layui v3.8.7](https://gitee.com/pear-admin/Pear-Admin-Layui#https://github.com/PearAdmin/pear-admin-layui)
+- [Pear Admin Layui v3.9.4](https://gitee.com/pear-admin/Pear-Admin-Layui#https://github.com/PearAdmin/pear-admin-layui)

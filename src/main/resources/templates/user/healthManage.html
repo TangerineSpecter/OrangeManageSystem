@@ -3,49 +3,60 @@
 <head>
     <th:block th:include="include :: header('健康管理')"/>
 </head>
-<body>
-<div class="layuimini-container">
-    <div class="layuimini-main">
-        <fieldset class="layui-elem-field layuimini-search">
-            <legend>搜索信息</legend>
-            <div style="margin: 10px 10px 10px 10px">
-                <form id="search-from" class="layui-form layui-form-pane" action="">
-                    <div class="layui-form-item">
-                        <div class="layui-inline">
-                            <label class="layui-form-label">起始日期</label>
-                            <div class="layui-input-inline">
-                                <input type="text" id="startTime" name="startTime" autocomplete="off"
-                                       class="layui-input"
-                                       placeholder="yyyy-MM-dd">
-                            </div>
-                        </div>
-                        <div class="layui-inline">
-                            <label class="layui-form-label">结束日期</label>
-                            <div class="layui-input-inline">
-                                <input type="text" id="endTime" name="endTime" autocomplete="off" class="layui-input"
-                                       placeholder="yyyy-MM-dd">
-                            </div>
-                        </div>
-                        <div class="layui-inline">
-                            <a class="layui-btn" lay-submit="" lay-filter="data-search-btn">搜索</a>
-                            <a class="layui-btn" lay-submit="" lay-filter="data-clear-btn">清空</a>
-                        </div>
+<body class="pear-container">
+<div class="layui-card">
+    <div class="layui-card-body">
+        <form id="search-from" class="layui-form layui-form-pane" action="">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">起始日期</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="startTime" name="startTime" autocomplete="off"
+                               class="layui-input"
+                               placeholder="yyyy-MM-dd">
                     </div>
-                </form>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">结束日期</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="endTime" name="endTime" autocomplete="off" class="layui-input"
+                               placeholder="yyyy-MM-dd">
+                    </div>
+                </div>
+                <button class="pear-btn pear-btn-md pear-btn-primary" lay-submit lay-filter="data-search-btn">
+                    <i class="layui-icon layui-icon-search"></i>
+                    查询
+                </button>
+                <button type="reset" class="pear-btn pear-btn-md" lay-submit lay-filter="data-reset-btn">
+                    <i class="layui-icon layui-icon-refresh"></i>
+                    重置
+                </button>
             </div>
-        </fieldset>
+        </form>
+    </div>
+</div>
+<div class="layui-card">
+    <div class="layui-card-body">
         <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
     </div>
 </div>
 <th:block th:include="include :: footer"/>
 <script type="text/html" id="toolbar">
     <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="addCurrentDayHealth">添加当天记录</button>
-        <button class="layui-btn layui-btn-sm" lay-event="addYesterdayHealth">添加昨天记录</button>
+        <button class="pear-btn pear-btn-primary pear-btn-md" lay-event="addCurrentDayHealth">
+            <i class="layui-icon layui-icon-add-1"></i>
+            当天记录
+        </button>
+        <button class="pear-btn pear-btn-primary pear-btn-md" lay-event="addYesterdayHealth">
+            <i class="layui-icon layui-icon-add-1"></i>
+            昨天记录
+        </button>
     </div>
 </script>
 <script type="text/html" id="operationBar">
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    <button class="pear-btn pear-btn-danger pear-btn-sm" lay-event="del">
+        <i class="layui-icon layui-icon-delete"></i>
+    </button>
 </script>
 <script>
     layui.use(['form', 'table', 'laydate'], function () {
@@ -211,6 +222,21 @@
                 }
             }, "JSON");
         }
+
+        form.on('submit(data-search-btn)', function (data) {
+            table.reload('currentTableId', {
+                where: data.field
+            });
+            return false;
+        });
+
+        form.on('submit(data-reset-btn)', function () {
+            table.reload('currentTableId', {
+                where: ""
+            });
+            form.reset();
+            return false;
+        });
     });
 </script>
 <script>

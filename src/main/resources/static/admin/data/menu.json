@@ -10,7 +10,7 @@
 			"icon": "layui-icon layui-icon-console",
 			"type": 1,
 			"openType": "_iframe",
-			"href": "/home"
+			"href": "view/console/console1.html"
 		}, {
 			"id": 13,
 			"title": "数据分析",
@@ -32,6 +32,13 @@
 			"type": 1,
 			"openType": "_iframe",
 			"href": "view/system/theme.html"
+		}, {
+			"id": 16,
+			"title": "酸爽翻倍",
+			"icon": "layui-icon layui-icon-console",
+			"type": 1,
+			"openType": "_iframe",
+			"href": "view/document/core.html"
 		}]
 	},
 	{
@@ -144,11 +151,18 @@
 				"href": "view/document/drawer.html"
 			}, {
 				"id": 2022,
-				"title": "消息通知",
+				"title": "消息通知 (过时)",
 				"icon": "layui-icon layui-icon-face-cry",
 				"type": 1,
 				"openType": "_iframe",
 				"href": "view/document/notice.html"
+			}, {
+				"id": 2025,
+				"title": "消息通知 (新增)",
+				"icon": "layui-icon layui-icon-face-cry",
+				"type": 1,
+				"openType": "_iframe",
+				"href": "view/document/toast.html"
 			}, {
 				"id": 2024,
 				"title": "加载组件",

@@ -19,7 +19,7 @@ public class ExampleController {
      */
     @RequestMapping("/table")
     public String table() {
-        return "example/table";
+        return "document/table";
     }
 
     /**

@@ -3,48 +3,52 @@
 <head>
     <th:block th:include="include :: header('股票池')"/>
 </head>
-<body>
-<div class="layuimini-container">
-    <div class="layuimini-main">
-        <fieldset class="layui-elem-field layuimini-search">
-            <legend>搜索信息</legend>
-            <div style="margin: 10px 10px 10px 10px">
-                <form id="search-from" class="layui-form layui-form-pane" action="">
-                    <div class="layui-form-item">
-                        <div class="layui-inline">
-                            <label class="layui-form-label">市场</label>
-                            <div class="layui-input-inline">
-                                <select name="market" class="layui-select">
-                                    <option>全部</option>
-                                    <option value="sh">上证</option>
-                                    <option value="sz">深证</option>
-                                    <option value="hk">港交所</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="layui-inline">
-                            <label class="layui-form-label">关键词</label>
-                            <div class="layui-input-inline">
-                                <input type="text" id="keyword" name="keyword" autocomplete="off" class="layui-input"
-                                       placeholder="股票代码、股票名称">
-                            </div>
-                        </div>
-                        <div class="layui-inline">
-                            <a class="layui-btn" lay-submit="" lay-filter="data-search-btn">搜索</a>
-                            <a class="layui-btn" lay-submit="" lay-filter="data-clear-btn">清空</a>
-                        </div>
+<body class="pear-container">
+<div class="layui-card">
+    <div class="layui-card-body">
+        <form id="search-from" class="layui-form layui-form-pane" action="">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">市场</label>
+                    <div class="layui-input-inline">
+                        <select name="market" class="layui-select">
+                            <option value="">全部</option>
+                            <option value="sh">上证</option>
+                            <option value="sz">深证</option>
+                            <option value="hk">港交所</option>
+                        </select>
                     </div>
-                </form>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">关键词</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="keyword" name="keyword" autocomplete="off" class="layui-input"
+                               placeholder="股票代码、股票名称">
+                    </div>
+                </div>
+                <button class="pear-btn pear-btn-md pear-btn-primary" lay-submit lay-filter="data-search-btn">
+                    <i class="layui-icon layui-icon-search"></i>
+                    查询
+                </button>
+                <button type="reset" class="pear-btn pear-btn-md" lay-submit lay-filter="data-reset-btn">
+                    <i class="layui-icon layui-icon-refresh"></i>
+                    重置
+                </button>
             </div>
-        </fieldset>
+        </form>
+    </div>
+</div>
+<div class="layui-card">
+    <div class="layui-card-body">
         <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
     </div>
 </div>
 <th:block th:include="include :: footer"/>
-<script type="text/html" id="toolbarDemo">
-    <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="addStock">新增股票</button>
-    </div>
+<script type="text/html" id="toolbar">
+    <button class="pear-btn pear-btn-primary pear-btn-md" lay-event="addStock">
+        <i class="layui-icon layui-icon-add-1"></i>
+        新增股票
+    </button>
 </script>
 <script>
     layui.use(['form', 'table', 'laydate'], function () {
@@ -65,7 +69,7 @@
         table.render({
             elem: '#currentTableId',
             url: '/data/stock/list',
-            toolbar: '#toolbarDemo',
+            toolbar: '#toolbar',
             cellMinWidth: 100,
             totalRow: true,
             cols: [
@@ -105,6 +109,21 @@
                     layer.alert('这是工具栏右侧自定义的一个图标按钮');
                     break;
             }
+        });
+
+        form.on('submit(data-search-btn)', function (data) {
+            table.reload('currentTableId', {
+                where: data.field
+            });
+            return false;
+        });
+
+        form.on('submit(data-reset-btn)', function () {
+            table.reload('currentTableId', {
+                where: ""
+            });
+            form.reset();
+            return false;
         });
     });
 </script>

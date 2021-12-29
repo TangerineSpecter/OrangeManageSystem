@@ -1,5 +1,6 @@
 package com.tangerinespecter.oms.common.result;
 
+import com.github.pagehelper.PageInfo;
 import com.tangerinespecter.oms.common.constants.RetCode;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -36,64 +37,71 @@ public class ServiceResult<T> {
 	 * 总数
 	 */
 	private Long count;
-
+	
 	private static ServiceResult result = new ServiceResult();
-
+	
 	private ServiceResult(boolean success, int code, String msg) {
 		this.success = success;
 		this.code = code;
 		this.msg = msg;
 	}
-
+	
 	private ServiceResult(boolean success, int code, String msg, T data) {
 		this.success = success;
 		this.code = code;
 		this.msg = msg;
 		this.data = data;
 	}
-
+	
 	/**
 	 * 请求成功
 	 */
 	public static <R> ServiceResult<R> success() {
 		return new ServiceResult(true, RetCode.SUCCESS.getErrorCode(), RetCode.SUCCESS.getErrorDesc());
 	}
-
+	
 	/**
 	 * 请求成功
 	 */
 	public static <T> ServiceResult<T> success(T data) {
 		return new ServiceResult<>(true, RetCode.SUCCESS.getErrorCode(), RetCode.SUCCESS.getErrorDesc(), data);
 	}
-
+	
 	/**
 	 * 返回页面结果
 	 */
 	public static <T> ServiceResult<T> pageSuccess(T data, Long total) {
 		return new ServiceResult<>(true, RetCode.SUCCESS.getErrorCode(), RetCode.SUCCESS.getErrorDesc(), data, total);
 	}
-
+	
+	/**
+	 * 返回页面结果
+	 */
+	public static <T> ServiceResult<T> pageSuccess(PageInfo<T> pageInfo) {
+		return new ServiceResult(true, RetCode.SUCCESS.getErrorCode(), RetCode.SUCCESS.getErrorDesc(), pageInfo.getList(), pageInfo.getTotal());
+	}
+	
 	/**
 	 * 请求失败
 	 */
 	public static ServiceResult fail() {
 		return new ServiceResult(false, RetCode.FAIL.getErrorCode(), RetCode.FAIL.getErrorDesc());
 	}
-
+	
 	/**
 	 * 参数错误
 	 */
 	public static <R> ServiceResult<R> paramError() {
 		return new ServiceResult(false, RetCode.PARAM_ERROR.getErrorCode(), RetCode.PARAM_ERROR.getErrorDesc());
 	}
-
+	
 	/**
 	 * 请求失败
 	 */
 	public static <R> ServiceResult<R> error(RetCode rc) {
 		return new ServiceResult(false, rc.getErrorCode(), rc.getErrorDesc());
 	}
-
+	
 	/**
 	 * 页面跳转
 	 *

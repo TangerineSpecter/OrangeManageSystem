@@ -10,19 +10,17 @@ import com.tangerinespecter.oms.system.service.data.IDataStockService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 @Service
 public class DataStockServiceImpl implements IDataStockService {
-
-    @Resource
-    private DataStockMapper dataStockMapper;
-
-    @Override
-    public ServiceResult queryForPage(StockQueryObject qo) {
-        PageHelper.startPage(qo.getPage(), qo.getLimit());
-        List<DataStock> pageList = dataStockMapper.queryForPage(qo);
-        PageInfo<DataStock> stockPageInfo = new PageInfo<>(pageList);
-        return ServiceResult.pageSuccess(pageList, stockPageInfo.getTotal());
-    }
+	
+	@Resource
+	private DataStockMapper dataStockMapper;
+	
+	@Override
+	public ServiceResult queryForPage(StockQueryObject qo) {
+		PageInfo<DataStock> stockPageInfo = PageHelper.startPage(qo.getPage(), qo.getLimit())
+				.doSelectPageInfo(() -> dataStockMapper.queryForPage(qo));
+		return ServiceResult.pageSuccess(stockPageInfo);
+	}
 }

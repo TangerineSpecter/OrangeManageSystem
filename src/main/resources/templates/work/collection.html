@@ -58,7 +58,7 @@
 </script>
 <script>
 
-    var collectionType = [];
+    const collectionType = [];
 
     //初始化收藏类型
     $.getJSON("/json/collectionType.json", function (data) {
@@ -178,9 +178,22 @@
                 }
             }, "JSON");
         }
+
+        form.on('submit(data-search-btn)', function (data) {
+            table.reload('currentTableId', {
+                where: data.field
+            });
+            return false;
+        });
+
+        form.on('submit(data-reset-btn)', function () {
+            table.reload('currentTableId', {
+                where: ""
+            });
+            form.reset();
+            return false;
+        });
     });
-</script>
-<script>
 </script>
 </body>
 </html>

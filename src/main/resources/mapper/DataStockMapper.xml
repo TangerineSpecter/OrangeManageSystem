@@ -6,7 +6,7 @@
         select *
         from data_stock
         <where>
-            <if test="market != null">
+            <if test="market != null and market != ''">
                 and market = #{market}
             </if>
             <if test="keyword != null and keyword != ''">

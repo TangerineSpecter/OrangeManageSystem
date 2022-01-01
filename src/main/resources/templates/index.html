@@ -71,20 +71,19 @@
 		<script src="component/pear/pear.js"></script>
 		<!-- 框 架 初 始 化 -->
 		<script>
-			layui.use(['admin','jquery','convert','popup'], function() {
+			layui.use(['admin','jquery','popup'], function() {
 				var admin = layui.admin;
 				var $ = layui.jquery;
-				var convert = layui.convert;
 				var popup = layui.popup;
-		
+
 				// admin.setAvatar("admin/images/avatar.jpg","丢失的橘子");
-				
+
 				admin.setConfigType("yml");
 				admin.setConfigPath("config/pear.config.yml");
-				
+
 				admin.render();
-				
-				// 登出逻辑 
+
+				// 登出逻辑
 				admin.logout(function(){
 					popup.success("注销成功",function(){
 						location.href = "/logout";
@@ -92,13 +91,13 @@
 					// 注销逻辑 返回 true / false
 					return true;
 				});
-				
+
 				// 初始化消息回调
 				admin.message();
-				
+
 				// 实现消息回调 [消息列表点击事件]
 				// admin.message(function(id, title, context, form) {});
 			})
-		</script>		
+		</script>
 	</body>
 </html>

@@ -86,22 +86,6 @@
             limit: 10,
             page: true
         });
-
-        form.on('submit(data-search-btn)', function (data) {
-            table.reload('currentTableId', {
-                where: data.field
-            });
-            return false;
-        });
-
-        form.on('submit(data-reset-btn)', function () {
-            table.reload('currentTableId', {
-                where: ""
-            });
-            form.reset();
-            return false;
-        });
-
     });
 </script>
 <script>

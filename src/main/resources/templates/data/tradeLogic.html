@@ -179,21 +179,6 @@
                 loadFormHeightModel("编辑交易数据", data, '/data/trade-logic/editPage', "720px");
             }
         });
-
-        form.on('submit(data-search-btn)', function (data) {
-            table.reload('currentTableId', {
-                where: data.field
-            });
-            return false;
-        });
-
-        form.on('submit(data-reset-btn)', function () {
-            table.reload('currentTableId', {
-                where: ""
-            });
-            form.reset();
-            return false;
-        });
     });
 </script>
 <script>

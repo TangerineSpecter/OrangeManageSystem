@@ -1,217 +1,217 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <th:block th:include="include :: header('历史版本记录')"/>
-    </head>
-    <body class="pear-container">
-        <div class="layui-card">
-            <div class="layui-card-body">
-                <form class="layui-form" action="">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">权限名称</label>
-                        <div class="layui-input-inline">
-                            <input type="text" name="powerName" placeholder="" class="layui-input">
-                        </div>
-                        <button class="pear-btn pear-btn-md pear-btn-primary" lay-submit lay-filter="user-query">
-                            <i class="layui-icon layui-icon-search"></i>
-                            查询
-                        </button>
-                        <button type="reset" class="pear-btn pear-btn-md">
-                            <i class="layui-icon layui-icon-refresh"></i>
-                            重置
-                        </button>
-                    </div>
-                </form>
+<head>
+    <th:block th:include="include :: header('历史版本记录')"/>
+</head>
+<body class="pear-container">
+<div class="layui-card">
+    <div class="layui-card-body">
+        <form class="layui-form" action="">
+            <div class="layui-form-item">
+                <label class="layui-form-label">权限名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="powerName" placeholder="" class="layui-input">
+                </div>
+                <button class="pear-btn pear-btn-md pear-btn-primary" lay-submit lay-filter="user-query">
+                    <i class="layui-icon layui-icon-search"></i>
+                    查询
+                </button>
+                <button type="reset" class="pear-btn pear-btn-md">
+                    <i class="layui-icon layui-icon-refresh"></i>
+                    重置
+                </button>
             </div>
-        </div>
-        <div class="layui-card">
-            <div class="layui-card-body">
-                <table id="menu-table" lay-filter="menu-table"></table>
-            </div>
-        </div>
-        <script type="text/html" id="power-toolbar">
-            <button class="pear-btn pear-btn-primary pear-btn-md" lay-event="add">
-                <i class="layui-icon layui-icon-add-1"></i>
-                新增
-            </button>
-            <button class="pear-btn pear-btn-danger pear-btn-md" lay-event="batchRemove">
-                <i class="layui-icon layui-icon-delete"></i>
-                删除
-            </button>
-            <button class="pear-btn pear-btn-success pear-btn-md" lay-event="expandAll">
-                <i class="layui-icon layui-icon-spread-left"></i>
-                展开
-            </button>
-            <button class="pear-btn pear-btn-success pear-btn-md" lay-event="foldAll">
-                <i class="layui-icon layui-icon-shrink-right"></i>
-                折叠
-            </button>
-            <button class="pear-btn pear-btn-success pear-btn-md" lay-event="reload">
-                <i class="layui-icon layui-icon-refresh"></i>
-                重载
-            </button>
-        </script>
-        <!-- 操作列 -->
-        <script type="text/html" id="power-bar">
-            <button class="pear-btn pear-btn-primary pear-btn-sm" lay-event="edit">
-                <i class="layui-icon layui-icon-edit"></i>
-            </button>
-            <button class="pear-btn pear-btn-danger pear-btn-sm" lay-event="remove">
-                <i class="layui-icon layui-icon-delete"></i>
-            </button>
-        </script>
-        <script type="text/html" id="switchTpl">
-            <input type="checkbox" name="top" value="{{d.id}}" lay-skin="switch" lay-text="是|否" lay-filter="topFun" {{
-                   d.top== 1 ? 'checked' : '' }}>
-        </script>
-        <th:block th:include="include :: footer"/>
-        <script>
-            layui.use(['table', 'treetable', 'layer', 'form'], function () {
-                const $ = layui.jquery;
-                const table = layui.table;
-                const treetable = layui.treetable;
-                const layer = layui.layer;
-                const form = layui.form;
+        </form>
+    </div>
+</div>
+<div class="layui-card">
+    <div class="layui-card-body">
+        <table id="menu-table" lay-filter="menu-table"></table>
+    </div>
+</div>
+<script type="text/html" id="power-toolbar">
+    <button class="pear-btn pear-btn-primary pear-btn-md" lay-event="add">
+        <i class="layui-icon layui-icon-add-1"></i>
+        新增
+    </button>
+    <button class="pear-btn pear-btn-danger pear-btn-md" lay-event="batchRemove">
+        <i class="layui-icon layui-icon-delete"></i>
+        删除
+    </button>
+    <button class="pear-btn pear-btn-success pear-btn-md" lay-event="expandAll">
+        <i class="layui-icon layui-icon-spread-left"></i>
+        展开
+    </button>
+    <button class="pear-btn pear-btn-success pear-btn-md" lay-event="foldAll">
+        <i class="layui-icon layui-icon-shrink-right"></i>
+        折叠
+    </button>
+    <button class="pear-btn pear-btn-success pear-btn-md" lay-event="reload">
+        <i class="layui-icon layui-icon-refresh"></i>
+        重载
+    </button>
+</script>
+<!-- 操作列 -->
+<script type="text/html" id="power-bar">
+    <button class="pear-btn pear-btn-primary pear-btn-sm" lay-event="edit">
+        <i class="layui-icon layui-icon-edit"></i>
+    </button>
+    <button class="pear-btn pear-btn-danger pear-btn-sm" lay-event="remove">
+        <i class="layui-icon layui-icon-delete"></i>
+    </button>
+</script>
+<script type="text/html" id="switchTpl">
+    <input type="checkbox" name="top" value="{{d.id}}" lay-skin="switch" lay-text="是|否" lay-filter="topFun" {{
+           d.top== 1 ? 'checked' : '' }}>
+</script>
+<th:block th:include="include :: footer"/>
+<script>
+    layui.use(['table', 'treetable', 'layer', 'form'], function () {
+        const $ = layui.jquery;
+        const table = layui.table;
+        const treetable = layui.treetable;
+        const layer = layui.layer;
+        const form = layui.form;
 
-                // 渲染表格
-                layer.load(2);
-                treetable.render({
-                    treeColIndex: 1,//树形图标显示在第几列
-                    treeSpid: -1,//最上级的父级id
-                    treeIdName: 'id',//id字段的名称
-                    treePidName: 'pid',//pid字段的名称
-                    toolbar: '#power-toolbar',
-                    elem: '#menu-table',
-                    treeDefaultClose: false,//是否默认折叠
-                    treeLinkage: false,//父级展开时是否自动展开所有子级
-                    url: '/system/menu/list',
-                    page: false,
-                    cols: [
-                        [
-                            {type: 'checkbox'},
-                            {field: 'title', minWidth: 200, title: '权限名称'},
-                            {field: 'permissionCode', title: '权限标识'},
-                            {field: 'href', title: '菜单url'},
-                            {field: 'sort', width: 80, align: 'center', title: '排序号'},
-                            {
-                                field: 'pid', width: 80, align: 'center', templet: function (d) {
-                                    if (d.pid == null || d.pid === -1 || d.level === 0) {
-                                        return '<span class="layui-badge layui-bg-blue">目录</span>';
-                                    } else if (d.level === 1) {
-                                        return '<span class="layui-badge-rim">菜单</span>';
-                                    } else if (d.level === 2) {
-                                        return '<span class="layui-badge-rim layui-bg-cyan">按钮</span>';
-                                    }
-                                }, title: '类型'
-                            },
-                            {field: 'top', title: '首页', width: 85, templet: '#switchTpl', unresize: true},
-                            {templet: '#power-bar', width: 120, align: 'center', title: '操作'}
-                        ]
-                    ],
-                    done: function () {
-                        layer.closeAll('loading');
-                    }
-                });
-
-                table.on('toolbar(menu-table)', function (obj) {
-                    if (obj.event === 'add') {
-                        window.add();
-                    } else if (obj.event === 'refresh') {
-                        window.refresh();
-                    } else if (obj.event === 'batchRemove') {
-                        window.batchRemove(obj);
-                    } else if (obj.event === 'expandAll') {
-                        treetable.expandAll("#menu-table");
-                    } else if (obj.event === 'foldAll') {
-                        treetable.foldAll("#menu-table");
-                    } else if (obj.event === 'reload') {
-                        treetable.reload("#menu-table");
-                    }
-                });
-
-                table.on('tool(menu-table)', function (obj) {
-                    if (obj.event === 'remove') {
-                        window.remove(obj);
-                    } else if (obj.event === 'edit') {
-                        window.edit(obj);
-                    }
-                });
-                // $('#btn-add').click(function () {
-                //     loadFormModel("添加系统菜单", {url: "/system/menu/insert"}, '/system/menu/addPage');
-                // });
-
-                window.remove = function (obj) {
-                    layer.confirm('确定要删除该菜单', {icon: 3, title: '提示'}, function (index) {
-                        layer.close(index);
-                        let loading = layer.load();
-                        $.ajax({
-                            url: MODULE_PATH + "remove/" + obj.data['powerId'],
-                            dataType: 'json',
-                            type: 'delete',
-                            success: function (result) {
-                                layer.close(loading);
-                                if (result.success) {
-                                    layer.msg(result.msg, {icon: 1, time: 1000}, function () {
-                                        obj.del();
-                                    });
-                                } else {
-                                    layer.msg(result.msg, {icon: 2, time: 1000});
-                                }
+        // 渲染表格
+        layer.load(2);
+        treetable.render({
+            treeColIndex: 1,//树形图标显示在第几列
+            treeSpid: -1,//最上级的父级id
+            treeIdName: 'id',//id字段的名称
+            treePidName: 'pid',//pid字段的名称
+            toolbar: '#power-toolbar',
+            elem: '#menu-table',
+            treeDefaultClose: false,//是否默认折叠
+            treeLinkage: false,//父级展开时是否自动展开所有子级
+            url: '/system/menu/list',
+            page: false,
+            cols: [
+                [
+                    {type: 'checkbox'},
+                    {field: 'title', minWidth: 200, title: '权限名称'},
+                    {field: 'permissionCode', title: '权限标识'},
+                    {field: 'href', title: '菜单url'},
+                    {field: 'sort', width: 80, align: 'center', title: '排序号'},
+                    {
+                        field: 'pid', width: 80, align: 'center', templet: function (d) {
+                            if (d.pid == null || d.pid === -1 || d.level === 0) {
+                                return '<span class="layui-badge layui-bg-blue">目录</span>';
+                            } else if (d.level === 1) {
+                                return '<span class="layui-badge-rim">菜单</span>';
+                            } else if (d.level === 2) {
+                                return '<span class="layui-badge-rim layui-bg-cyan">按钮</span>';
                             }
-                        })
-                    });
-                };
+                        }, title: '类型'
+                    },
+                    {field: 'top', title: '首页', width: 85, templet: '#switchTpl', unresize: true},
+                    {templet: '#power-bar', width: 120, align: 'center', title: '操作'}
+                ]
+            ],
+            done: function () {
+                layer.closeAll('loading');
+            }
+        });
 
-                //监听工具条
-                window.batchRemove = function (obj) {
-                    const data = obj.data;
-                    const layEvent = obj.event;
+        table.on('toolbar(menu-table)', function (obj) {
+            if (obj.event === 'add') {
+                window.add();
+            } else if (obj.event === 'refresh') {
+                window.refresh();
+            } else if (obj.event === 'batchRemove') {
+                window.batchRemove(obj);
+            } else if (obj.event === 'expandAll') {
+                treetable.expandAll("#menu-table");
+            } else if (obj.event === 'foldAll') {
+                treetable.foldAll("#menu-table");
+            } else if (obj.event === 'reload') {
+                treetable.reload("#menu-table");
+            }
+        });
 
-                    if (layEvent === 'del') {
-                        layer.open({
-                            title: '提示',
-                            content: "是否删除该菜单？",
-                            btn: ["删除", "取消"],
-                            yes: function (index, layero) {
-                                $.post('/system/menu/delete', {
-                                    id: data.id
-                                }, function (result) {
-                                    if (result.code === 0) {
-                                        layer.msg('删除成功');
-                                        layer.close();
-                                    } else {
-                                        layer.open({
-                                            title: "警告",
-                                            content: result.msg
-                                        })
-                                    }
-                                }, "JSON");
+        table.on('tool(menu-table)', function (obj) {
+            if (obj.event === 'remove') {
+                window.remove(obj);
+            } else if (obj.event === 'edit') {
+                window.edit(obj);
+            }
+        });
+        // $('#btn-add').click(function () {
+        //     loadFormModel("添加系统菜单", {url: "/system/menu/insert"}, '/system/menu/addPage');
+        // });
 
-                            },
-                            btn2: function () {
-                                layer.close();
-                            }
-                        });
-                    } else if (layEvent === 'edit') {
-                        data.url = "/system/menu/update";
-                        loadFormModel("编辑系统菜单", data, '/system/menu/addPage');
-                    }
-                };
-
-                //监听首页操作
-                form.on('switch(topFun)', function (obj) {
-                    $.post('/system/menu/top', {id: this.value}, function (result) {
-                        if (!result.success) {
-                            layer.alert(JSON.stringify(result.msg), {
-                                title: '警告'
+        window.remove = function (obj) {
+            layer.confirm('确定要删除该菜单', {icon: 3, title: '提示'}, function (index) {
+                layer.close(index);
+                let loading = layer.load();
+                $.ajax({
+                    url: MODULE_PATH + "remove/" + obj.data['powerId'],
+                    dataType: 'json',
+                    type: 'delete',
+                    success: function (result) {
+                        layer.close(loading);
+                        if (result.success) {
+                            layer.msg(result.msg, {icon: 1, time: 1000}, function () {
+                                obj.del();
                             });
-                            obj.elem.checked = !obj.elem.checked;
-                            form.render('checkbox');
+                        } else {
+                            layer.msg(result.msg, {icon: 2, time: 1000});
                         }
-                    }, "JSON");
+                    }
+                })
+            });
+        };
+
+        //监听工具条
+        window.batchRemove = function (obj) {
+            const data = obj.data;
+            const layEvent = obj.event;
+
+            if (layEvent === 'del') {
+                layer.open({
+                    title: '提示',
+                    content: "是否删除该菜单？",
+                    btn: ["删除", "取消"],
+                    yes: function (index, layero) {
+                        $.post('/system/menu/delete', {
+                            id: data.id
+                        }, function (result) {
+                            if (result.code === 0) {
+                                layer.msg('删除成功');
+                                layer.close();
+                            } else {
+                                layer.open({
+                                    title: "警告",
+                                    content: result.msg
+                                })
+                            }
+                        }, "JSON");
+
+                    },
+                    btn2: function () {
+                        layer.close();
+                    }
                 });
-            })
-            ;
-        </script>
-    </body>
+            } else if (layEvent === 'edit') {
+                data.url = "/system/menu/update";
+                loadFormModel("编辑系统菜单", data, '/system/menu/addPage');
+            }
+        };
+
+        //监听首页操作
+        form.on('switch(topFun)', function (obj) {
+            $.post('/system/menu/top', {id: this.value}, function (result) {
+                if (!result.success) {
+                    layer.alert(JSON.stringify(result.msg), {
+                        title: '警告'
+                    });
+                    obj.elem.checked = !obj.elem.checked;
+                    form.render('checkbox');
+                }
+            }, "JSON");
+        });
+    })
+    ;
+</script>
+</body>
 </html>

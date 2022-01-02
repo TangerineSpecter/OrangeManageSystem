@@ -1,6 +1,7 @@
 package com.tangerinespecter.oms.system.controller;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.map.MapUtil;
 import com.tangerinespecter.oms.common.constants.SystemConstant;
 import com.tangerinespecter.oms.common.enums.LogOperation;
 import com.tangerinespecter.oms.common.listener.LoggerInfo;
@@ -127,7 +128,7 @@ public class IndexController {
     @RequestMapping("/noticeCenter")
     public String noticeCenter(Model model) {
         int notReadNoticeCount = systemNoticeMapper.queryNotReadNoticeCount(SystemUtils.getSystemUserId());
-        HashMap<String, Integer> data = CollUtil.newHashMap();
+        HashMap<String, Integer> data = MapUtil.newHashMap();
         data.put(ParamUtils.NOT_READ_NOTICE_COUNT, notReadNoticeCount);
         model.addAllAttributes(data);
         return "system/systemNotice";

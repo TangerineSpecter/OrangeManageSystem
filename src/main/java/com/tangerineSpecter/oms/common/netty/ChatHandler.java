@@ -1,6 +1,6 @@
 package com.tangerinespecter.oms.common.netty;
 
-import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.map.MapUtil;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
@@ -31,7 +31,7 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
     /**
      * 管理员的channelID
      */
-    private static Map<Long, ChannelId> userChannelMap = CollUtil.newHashMap();
+    private static Map<Long, ChannelId> userChannelMap = MapUtil.newHashMap();
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame msg) {

@@ -4,6 +4,8 @@ import cn.hutool.core.date.DateUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.tangerinespecter.oms.common.constants.CommonConstant;
+import com.tangerinespecter.oms.common.constants.RetCode;
+import com.tangerinespecter.oms.common.enums.HealthRecordTypeEnum;
 import com.tangerinespecter.oms.common.query.UserHealthQueryObject;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
@@ -21,14 +23,6 @@ import java.util.List;
 
 @Service
 public class UserHealthManageServiceImpl implements IUserHealthManageService {
-    /**
-     * 类型：今天
-     */
-    private static final Integer TYPE_FOR_TODAY = 0;
-    /**
-     * 类型：昨天
-     */
-    private static final Integer TYPE_FOR_YESTERDAY = 1;
 
     @Resource
     private UserHealthMapper userHealthMapper;
@@ -48,12 +42,16 @@ public class UserHealthManageServiceImpl implements IUserHealthManageService {
         }
         UserHealth userHealth = UserHealth.builder().adminId(SystemUtils.getSystemUserId())
                 .isDel(CommonConstant.IS_DEL_NO).build();
-        if (TYPE_FOR_TODAY.equals(type)) {
+        if (HealthRecordTypeEnum.TODAY_RECORD_TYPE.getValue().equals(type)) {
             userHealth.setRecordTime(DateUtil.formatDate(new Date()));
-        } else if (TYPE_FOR_YESTERDAY.equals(type)) {
+        } else if (HealthRecordTypeEnum.YESTERDAY_RECORD_TYPE.getValue().equals((type))) {
             userHealth.setRecordTime(DateUtil.yesterday().toDateStr());
         } else {
             return ServiceResult.paramError();
+        }
+        UserHealth existInfo = userHealthMapper.selectOneByRecordTime(HealthRecordTypeEnum.getDate(type));
+        if (existInfo != null) {
+            return ServiceResult.error(RetCode.HEALTH_RECORD_EXIST);
         }
         userHealthMapper.insert(userHealth);
         return ServiceResult.success();

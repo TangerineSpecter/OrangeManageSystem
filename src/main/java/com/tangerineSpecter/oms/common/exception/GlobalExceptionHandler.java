@@ -39,7 +39,7 @@ public class GlobalExceptionHandler {
      * 定义拦截的异常类型，Exception拦截所有异常
      *
      * @param exception 异常
-     * @return model
+     * @return 异常信息
      */
     @ExceptionHandler(value = Exception.class)
     public ServiceResult exceptionHandler(Exception exception) {
@@ -47,12 +47,24 @@ public class GlobalExceptionHandler {
         return ServiceResult.systemError();
     }
 
+    /**
+     * 业务异常类型
+     *
+     * @param exception 业务异常
+     * @return 异常信息
+     */
+    @ExceptionHandler(value = BusinessException.class)
+    public ServiceResult businessExceptionHandler(BusinessException exception) {
+        log.error(exception.getMessage(), exception);
+        return ServiceResult.error(exception.getMessage());
+    }
+
 
     /**
      * 定义拦截的异常类型，绑定异常
      *
      * @param bindException 异常
-     * @return model
+     * @return 异常信息
      */
     @ExceptionHandler(value = BindException.class)
     public ServiceResult validatorHandler(BindException bindException) {

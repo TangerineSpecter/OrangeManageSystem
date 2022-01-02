@@ -10,9 +10,8 @@ function removeLastOne(str) {
 }
 
 
-layui.use(['form', 'table', 'popup', 'toast'], function () {
+layui.use(['form', 'table', 'toast'], function () {
     const form = layui.form,
-        popup = layui.popup,
         toast = layui.toast,
         table = layui.table;
 
@@ -39,7 +38,7 @@ layui.use(['form', 'table', 'popup', 'toast'], function () {
             toast.success({message: '添加成功', position: 'topCenter'});
             table.reload('currentTableId');
         } else {
-            popup.failure(result.msg);
+            toast.error({message: result.msg, position: 'topCenter'});
         }
     }
 

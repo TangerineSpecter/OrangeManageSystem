@@ -1,6 +1,7 @@
 package com.tangerinespecter.oms.common.filter;
 
 import com.tangerinespecter.oms.common.constants.RetCode;
+import com.tangerinespecter.oms.common.exception.BusinessException;
 import com.tangerinespecter.oms.common.exception.GlobalException;
 import com.tangerinespecter.oms.common.listener.AccessLimit;
 import com.tangerinespecter.oms.common.redis.AccessKey;
@@ -58,7 +59,7 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
             } else if (count < accessLimit.maxCount()) {
                 redisHelper.incr(AccessKey.access, key, 1);
             } else {
-                throw new GlobalException(RetCode.BUSY);
+                throw new BusinessException(RetCode.BUSY.getErrorDesc());
             }
         }
         return true;

@@ -1,6 +1,5 @@
 package com.tangerinespecter.oms.common.result;
 
-import cn.hutool.core.convert.Convert;
 import com.github.pagehelper.PageInfo;
 import com.tangerinespecter.oms.common.constants.RetCode;
 import lombok.AllArgsConstructor;
@@ -16,7 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@SuppressWarnings({"unchecked"})
+@SuppressWarnings({"ALL"})
 public class ServiceResult<T> {
     /**
      * 返回状态
@@ -108,6 +107,13 @@ public class ServiceResult<T> {
      */
     public static <R> ServiceResult<R> error(RetCode rc) {
         return new ServiceResult(false, rc.getErrorCode(), rc.getErrorDesc());
+    }
+
+    /**
+     * 请求失败
+     */
+    public static <R> ServiceResult<R> error(String meessage) {
+        return new ServiceResult(false, RetCode.FAIL.getErrorCode(), meessage);
     }
 
     /**

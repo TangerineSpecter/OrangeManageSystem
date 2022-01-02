@@ -133,6 +133,11 @@ public class RetCode {
      */
     public static final RetCode TRADE_LOGIC_NOT_EXIST = new RetCode(1002, "交易逻辑不存在");
 
+    /**
+     * 健康记录已存在
+     */
+    public static final RetCode HEALTH_RECORD_EXIST = new RetCode(2000, "健康记录已存在");
+
     public RetCode fillArgs(Object... args) {
         int errorCode = this.errorCode;
         String errorDesc = this.errorDesc + ":" + Arrays.toString(args);

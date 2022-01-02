@@ -30,6 +30,10 @@ public class RetCode {
      * 操作频繁
      */
     public static final RetCode BUSY = new RetCode(2, "操作频繁");
+    /**
+     * 操作频繁
+     */
+    public static final RetCode SYSTEM_ERROR = new RetCode(3, "服务器错误，请联系管理员");
 
     /**
      * 帐号已被注册
@@ -111,6 +115,10 @@ public class RetCode {
      * 参数错误
      */
     public static final RetCode PARAM_ERROR = new RetCode(200, "参数错误");
+    /**
+     * 数据异常
+     */
+    public static final RetCode DATA_EXCEPTION = new RetCode(201, "数据异常");
 
     /**
      * 交易记录不存在

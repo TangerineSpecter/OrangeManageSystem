@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.math.BigDecimal;
 
 @Data
@@ -39,6 +41,7 @@ public class UserHealthInfoVo {
     /**
      * 基础代谢率（百分比）
      */
+    @Max(value = 10000, message = "代谢率超出最大合理范围")
     private Integer basalMetabolismRate;
     /**
      * 身体水分（百分比）

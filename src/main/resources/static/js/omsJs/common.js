@@ -127,6 +127,7 @@ layui.use(['form', 'table', 'toast'], function () {
             zIndex: layer.zIndex
         });
     }
+
 });
 
 var Ajax = new function () {

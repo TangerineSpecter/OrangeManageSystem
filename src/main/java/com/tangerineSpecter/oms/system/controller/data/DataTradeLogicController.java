@@ -48,7 +48,7 @@ public class DataTradeLogicController {
     /**
      * 添加页面
      */
-    @RequestMapping("/addPage")
+    @GetMapping("/addPage")
     public ModelAndView addTradeRecordPage(Model model) {
         return new ModelAndView("data/addTradeLogic");
     }

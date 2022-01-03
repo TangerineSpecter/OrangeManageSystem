@@ -133,9 +133,8 @@
             switch (obj.event) {
                 //添加交易数据
                 case 'addCollection':
-                    loadFormModel("添加收藏", {href: "/work/collection/insert"}, '/work/collection/addPage');
+                    loadFormHeightModel("添加收藏", {href: "/work/collection/insert"}, '/work/collection/addPage', '550px');
                     break;
-
                 //自定义头工具栏右侧图标 - 提示
                 case 'LAYTABLE_TIPS':
                     layer.alert('这里是进行内容收藏的模块');
@@ -149,35 +148,14 @@
             if (obj.event === 'detail') {
                 layer.msg('ID：' + data.id + ' 的查看操作');
             } else if (obj.event === 'del') {
-                layer.confirm('是否删除该收藏？', function (index) {
-                    deleteFun(data.id);
-                    layer.close(index);
+                layer.confirm('是否删除该收藏？', {icon: 3, title: '提示'}, function (index) {
+                    Ajax.delete("/work/collection/delete/", {id: data.id}, false);
                 });
             } else if (obj.event === 'edit') {
                 data.href = "/work/collection/update";
-                loadFormModel("编辑收藏", data, '/work/collection/addPage');
+                loadFormHeightModel("编辑收藏", data, '/work/collection/addPage', '550px');
             }
         });
-
-        //删除收藏
-        function deleteFun(id) {
-            $.post("/work/collection/delete", {id: id}, function (result) {
-                if (result.success) {
-                    layer.open({
-                        title: "提示",
-                        content: "删除成功",
-                        yes: function () {
-                            reloadTab();
-                        }
-                    });
-                } else {
-                    layer.open({
-                        title: "警告",
-                        content: result.msg
-                    })
-                }
-            }, "JSON");
-        }
 
     });
 </script>

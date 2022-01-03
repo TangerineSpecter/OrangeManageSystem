@@ -4,47 +4,62 @@
     <th:block th:include="include :: header('添加编辑内容收藏')"/>
 </head>
 <body>
-<div class="layuimini-container">
-    <div class="layuimini-main">
-        <form class="layui-form layui-form-pane" action="" lay-filter="data-form">
-            <input type="text" id="id" name="id" class="layui-input" style="display: none;">
-            <div class="layui-form-item">
-                <label class="layui-form-label">标题</label>
-                <div class="layui-input-block">
-                    <input type="text" name="title" autocomplete="off"
-                           placeholder="请输入收藏标题" lay-verify="title"
-                           class="layui-input"/>
+<form class="layui-form layui-form-pane" action="" lay-filter="data-form">
+    <div class="mainBox">
+        <div class="main-container">
+            <div class="main-container">
+                <input type="text" id="id" name="id" class="layui-input" style="display: none;">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">标题</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="title" autocomplete="off"
+                               placeholder="请输入收藏标题" lay-verify="title"
+                               class="layui-input"/>
+                    </div>
                 </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">内容</label>
-                <div class="layui-input-block">
-                    <input type="text" name="content" autocomplete="off"
-                           placeholder="请输入收藏内容" lay-verify="content"
-                           class="layui-input"/>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">内容</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="content" autocomplete="off"
+                               placeholder="请输入收藏内容" lay-verify="content"
+                               class="layui-input"/>
+                    </div>
                 </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">类型</label>
-                <div class="layui-input-inline">
-                    <select name="type">
-                    </select>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">类型</label>
+                    <div class="layui-input-inline">
+                        <select name="type">
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="layui-form-item layui-form-text">
-                <label class="layui-form-label">收藏备注</label>
-                <div class="layui-input-block">
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">收藏备注</label>
+                    <div class="layui-input-block">
                     <textarea name="remark" autocomplete="off"
                               placeholder="请输入收藏备注"
                               class="layui-textarea" style="height: 200px;"></textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item" style="display:none;">
+                    <button id="submitBtn" class="layui-btn" lay-submit="" lay-filter="submitBtn">提交</button>
                 </div>
             </div>
-            <div class="layui-form-item" style="display:none;">
-                <button id="submitBtn" class="layui-btn" lay-submit="" lay-filter="submitBtn">提交</button>
-            </div>
-        </form>
+        </div>
     </div>
-</div>
+    <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="pear-btn pear-btn-primary pear-btn-sm" lay-submit=""
+                    lay-filter="submitBtn">
+                <i class="layui-icon layui-icon-ok"></i>
+                提交
+            </button>
+            <button type="reset" class="pear-btn pear-btn-sm">
+                <i class="layui-icon layui-icon-refresh"></i>
+                重置
+            </button>
+        </div>
+    </div>
+</form>
 
 <th:block th:include="include :: footer"/>
 <script>
@@ -62,7 +77,7 @@
         if (data.id !== undefined) {
             initForm(data);
         }
-        href = data.href;
+        requestUrl = data.href;
     }
 
     /**
@@ -84,9 +99,8 @@
         });
     }
 
-    layui.use(['form', 'layer'], function () {
-        const form = layui.form,
-            layer = layui.layer;
+    layui.use(['form'], function () {
+        const form = layui.form;
 
 
         //自定义验证规则
@@ -110,18 +124,11 @@
 
         //监听提交
         form.on('submit(submitBtn)', function (data) {
-            $.post(href, data.field, function (result) {
-                layer.open({
-                    title: '提示',
-                    content: result.msg,
-                    yes: function (index, layero) {
-                        if (result.code === 0) {
-                            parent.layer.closeAll();
-                            reloadTab();
-                        }
-                    }
-                });
-            }, "JSON");
+            if (data.field.id === undefined || data.field.id === "") {
+                Ajax.post(requestUrl, data, true);
+            } else {
+                Ajax.put(requestUrl, data, true);
+            }
             return false;
         });
     });

@@ -1,14 +1,18 @@
 package com.tangerinespecter.oms.system.mapper;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.tangerinespecter.oms.common.query.SystemRoleQueryObject;
 import com.tangerinespecter.oms.system.domain.dto.system.SystemRoleListDto;
 import com.tangerinespecter.oms.system.domain.entity.SystemRole;
+import com.tangerinespecter.oms.system.domain.entity.SystemUserRole;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Mapper
 public interface SystemRoleMapper extends BaseMapper<SystemRole> {
@@ -40,4 +44,5 @@ public interface SystemRoleMapper extends BaseMapper<SystemRole> {
     void updateRoleNameById(@Param("id") Long id, @Param("name") String name);
 
     List<SystemRole> selectAllList();
+
 }

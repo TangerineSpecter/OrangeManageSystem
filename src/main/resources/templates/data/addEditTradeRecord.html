@@ -128,20 +128,13 @@
             }
         });
 
-        //监听提交
+        //监听 新增、编辑提交
         form.on('submit(submitBtn)', function (data) {
-            $.post(requestUrl, data.field, function (result) {
-                layer.open({
-                    title: '提示',
-                    content: result.msg,
-                    yes: function (index, layero) {
-                        if (result.code === 0) {
-                            parent.layer.close(parent.layer.getFrameIndex(window.name));
-                            parent.layui.table.reload('currentTableId');
-                        }
-                    }
-                });
-            }, "JSON");
+            if (data.field.id === undefined || data.field.id === "") {
+                Ajax.post(requestUrl, data, true);
+            } else {
+                Ajax.put(requestUrl, data, true);
+            }
             return false;
         });
 

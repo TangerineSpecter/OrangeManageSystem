@@ -10,8 +10,8 @@ import com.tangerinespecter.oms.system.domain.vo.data.TradeRecordInfoVo;
 import com.tangerinespecter.oms.system.service.data.IDateTradeRecordService;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -19,7 +19,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 
 /**
  * 交易数据相关
@@ -40,7 +39,7 @@ public class DataTradeRecordController {
      * 交易记录页面
      */
     @RequiresPermissions("data:trade-record:page")
-    @RequestMapping(value = "/page", produces = "text/html;charset=UTF-8")
+    @GetMapping(value = "/page", produces = "text/html;charset=UTF-8")
     public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
         return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getTradeRecordPageKey, "data/tradeRecord");
     }
@@ -49,7 +48,7 @@ public class DataTradeRecordController {
      * 交易记录列表
      */
     @AccessLimit(maxCount = 10)
-    @RequestMapping("/list")
+    @GetMapping("/list")
     public ServiceResult listInfo(TradeRecordQueryObject qo) {
         return dateTradeRecordService.queryForPage(qo);
     }
@@ -57,7 +56,7 @@ public class DataTradeRecordController {
     /**
      * 添加页面
      */
-    @RequestMapping("/addPage")
+    @GetMapping("/addPage")
     public ModelAndView addTradeRecordPage() {
         return new ModelAndView("data/addEditTradeRecord");
     }
@@ -66,7 +65,7 @@ public class DataTradeRecordController {
      * 交易数据初始化
      */
     @AccessLimit(maxCount = 10)
-    @RequestMapping("/init")
+    @PostMapping("/init")
     public ServiceResult init() {
         return dateTradeRecordService.init();
     }
@@ -74,28 +73,26 @@ public class DataTradeRecordController {
     /**
      * 添加交易数据
      */
-    @RequestMapping("/insert")
+    @PostMapping("/insert")
     @LoggerInfo(value = "添加交易数据", event = LogOperation.EVENT_ADD)
-    public ServiceResult insertInfo(@Valid() TradeRecordInfoVo vo) {
+    public ServiceResult insertInfo(@Validated @RequestBody TradeRecordInfoVo vo) {
         return dateTradeRecordService.insertInfo(vo);
     }
 
     /**
      * 编辑交易数据
-     *
-     * @return
      */
-    @RequestMapping("/update")
+    @PutMapping("/update")
     @LoggerInfo(value = "编辑交易数据", event = LogOperation.EVENT_UPDATE)
-    public ServiceResult updateInfo(@Valid() TradeRecordInfoVo vo) {
+    public ServiceResult updateInfo(@Validated @RequestBody TradeRecordInfoVo vo) {
         return dateTradeRecordService.updateInfo(vo);
     }
 
     /**
      * 交易数据详情
      */
-    @RequestMapping("/info")
-    public ServiceResult detailInfo(@RequestParam("id") Long id) {
+    @GetMapping("/info/{id}")
+    public ServiceResult detailInfo(@PathVariable("id") Long id) {
         return dateTradeRecordService.detailInfo(id);
     }
 
@@ -111,7 +108,7 @@ public class DataTradeRecordController {
     /**
      * excel导入数据
      */
-    @RequestMapping("/excel")
+    @PostMapping("/excel")
     public ServiceResult excelInfo(MultipartFile file) {
         return dateTradeRecordService.excelInfo(file);
     }

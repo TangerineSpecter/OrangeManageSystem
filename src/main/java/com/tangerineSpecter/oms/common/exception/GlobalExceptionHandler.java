@@ -5,9 +5,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.AuthorizationException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -19,8 +21,8 @@ import java.util.List;
  * @date 2019年08月26日23:42:05
  */
 @Slf4j
-@ControllerAdvice
 @ResponseBody
+@RestControllerAdvice
 public class GlobalExceptionHandler {
 
     /**
@@ -63,7 +65,7 @@ public class GlobalExceptionHandler {
     /**
      * 定义拦截的异常类型，绑定异常
      *
-     * @param bindException 异常
+     * @param bindException 绑定异常
      * @return 异常信息
      */
     @ExceptionHandler(value = BindException.class)
@@ -75,4 +77,21 @@ public class GlobalExceptionHandler {
         log.error("发生异常，异常信息:[{}]", defaultMessage);
         return ServiceResult.validationError(defaultMessage);
     }
+
+    /**
+     * 定义拦截的异常类型，校验异常
+     *
+     * @param validException 校验异常
+     * @return 异常信息
+     */
+    @ExceptionHandler(value = MethodArgumentNotValidException.class)
+    public ServiceResult validatorHandler(MethodArgumentNotValidException validException) {
+        //获取所有的错误信息
+        List<ObjectError> allErrors = validException.getAllErrors();
+        ObjectError error = allErrors.get(0);
+        String defaultMessage = error.getDefaultMessage();
+        log.error("发生异常，异常信息:[{}]", defaultMessage);
+        return ServiceResult.validationError(defaultMessage);
+    }
 }
+

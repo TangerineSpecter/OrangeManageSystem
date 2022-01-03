@@ -33,37 +33,74 @@ layui.use(['form', 'table', 'toast'], function () {
     });
 
     //添加数据
-    window.addData = function (result) {
-        if (result.success) {
-            toast.success({message: '添加成功', position: 'topCenter'});
-            table.reload('currentTableId');
+    window.addData = function (result, iframe) {
+        if (iframe) {
+            if (result.success) {
+                parent.layui.toast.success({message: '添加成功', position: 'topCenter'});
+                parent.layui.table.reload('currentTableId');
+                parent.layer.close(parent.layer.getFrameIndex(window.name));
+            } else {
+                parent.layui.toast.error({message: result.msg, position: 'topCenter'});
+            }
         } else {
-            toast.error({message: result.msg, position: 'topCenter'});
+            if (result.success) {
+                toast.success({message: '添加成功', position: 'topCenter'});
+                table.reload('currentTableId');
+                layer.close(layer.index);
+            } else {
+                toast.error({message: result.msg, position: 'topCenter'});
+            }
         }
     }
 
     //编辑数据
-    window.editData = function (result) {
-        if (result.success) {
-            toast.success({message: '编辑成功', position: 'topCenter'});
-            table.reload('currentTableId');
+    window.editData = function (result, iframe) {
+        if (iframe) {
+            if (result.success) {
+                parent.layui.toast.success({message: '编辑成功', position: 'topCenter'});
+                parent.layui.table.reload('currentTableId');
+                parent.layer.close(parent.layer.getFrameIndex(window.name));
+            } else {
+                parent.layui.toast.error({message: result.msg, position: 'topCenter'});
+            }
         } else {
-            toast.error({message: result.msg, position: 'topCenter'});
+            if (result.success) {
+                toast.success({message: '编辑成功', position: 'topCenter'});
+                table.reload('currentTableId');
+                layer.close(layer.index);
+            } else {
+                toast.error({message: result.msg, position: 'topCenter'});
+            }
         }
     }
 
     //删除数据
-    window.delData = function (result) {
-        if (result.success) {
-            toast.success({message: '删除成功', position: 'topCenter'});
-            table.reload('currentTableId');
+    window.delData = function (result, iframe) {
+        if (iframe) {
+            if (result.success) {
+                parent.layui.toast.success({message: '删除成功', position: 'topCenter'});
+                parent.layui.table.reload('currentTableId');
+                parent.layer.close(parent.layer.getFrameIndex(window.name));
+            } else {
+                parent.layui.toast.error({message: result.msg, position: 'topCenter'});
+            }
         } else {
-            toast.error({message: result.msg, position: 'topCenter'});
+            if (result.success) {
+                toast.success({message: '删除成功', position: 'topCenter'});
+                table.reload('currentTableId');
+                layer.close(layer.index);
+            } else {
+                toast.error({message: result.msg, position: 'topCenter'});
+            }
         }
     }
 
-    window.failInfo = function () {
-        toast.error({message: "操作失败", position: 'topCenter'});
+    window.failInfo = function (iframe) {
+        if (iframe) {
+            parent.layui.toast.error({message: "操作失败", position: 'topCenter'});
+        } else {
+            toast.error({message: "操作失败", position: 'topCenter'});
+        }
     }
 
     /**
@@ -92,16 +129,68 @@ layui.use(['form', 'table', 'toast'], function () {
     }
 });
 
-var Ajax = new function() {
+var Ajax = new function () {
+    /**
+     * post请求
+     * @param url 请求地址
+     * @param data 请求数据
+     * @param iframe 是否iframe请求
+     */
+    this.post = function (url, data, iframe) {
+        $.ajax({
+            url: url,
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(data.field),
+            type: 'post',
+            success: function (result) {
+                window.addData(result, iframe);
+            },
+            error: function () {
+                window.failInfo(iframe);
+            }
+        })
+    }
 
-    this.delete = function(url,data) {
+    /**
+     * put请求
+     * @param url 请求地址
+     * @param data 请求数据
+     * @param iframe 是否iframe请求
+     */
+    this.put = function (url, data, iframe) {
+        $.ajax({
+            url: url,
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(data.field),
+            type: 'put',
+            success: function (result) {
+                window.editData(result, iframe);
+            },
+            error: function () {
+                window.failInfo(iframe);
+            }
+        })
+    }
+
+    /**
+     * delete请求
+     * @param url 请求地址
+     * @param data 请求数据
+     * @param iframe 是否iframe请求
+     */
+    this.delete = function (url, data, iframe) {
         $.ajax({
             url: url + data.id,
             dataType: 'json',
             contentType: 'application/json',
             type: 'delete',
             success: function (result) {
-                window.delData(result);
+                window.delData(result, iframe);
+            },
+            error: function () {
+                window.failInfo(iframe);
             }
         })
     }

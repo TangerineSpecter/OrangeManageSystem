@@ -71,9 +71,8 @@
     </button>
 </script>
 <script>
-    layui.use(['form', 'table', 'laydate', 'layer'], function () {
+    layui.use(['table', 'laydate', 'layer'], function () {
         const $ = layui.jquery,
-            form = layui.form,
             table = layui.table,
             laydate = layui.laydate,
             layer = layui.layer;
@@ -182,7 +181,7 @@
             switch (obj.event) {
                 //添加交易数据
                 case 'addTradeData':
-                    loadFormModel("添加交易数据", {href: "/data/trade-record/insert"}, '/data/trade-record/addPage');
+                    loadFormHeightModel("添加交易数据", {href: "/data/trade-record/insert"}, '/data/trade-record/addPage', '500px');
                     break;
                 case 'initTradeData':
                     initData();
@@ -201,25 +200,26 @@
             if (obj.event === 'detail') {
                 layer.msg('ID：' + data.id + ' 的查看操作');
             } else if (obj.event === 'del') {
-                layer.confirm('是否进行交易数据删除？', function (index) {
-                    active.delete(data, "/data/trade-record/delete");
+                layer.confirm('是否进行交易数据删除？', {icon: 3, title: '提示'}, function (index) {
+                    Ajax.delete("/data/trade-record/delete/", {id: data.id})
                     layer.close(index);
                 });
             } else if (obj.event === 'edit') {
                 data.href = "/data/trade-record/update";
-                loadFormModel("编辑交易数据", data, '/data/trade-record/addPage');
+                loadFormHeightModel("编辑交易数据", data, '/data/trade-record/addPage', '500px');
             }
         });
 
         //初始化数据
-        function initData() {
+        const initData = function () {
             $.post("/data/trade-record/init", {}, function (result) {
                 if (result.success) {
                     layer.open({
                         title: "提示",
                         content: "初始化完毕",
-                        yes: function () {
-                            reloadTab();
+                        yes: function (index) {
+                            table.reload('currentTableId');
+                            layer.close(index);
                         }
                     });
                 } else {
@@ -230,6 +230,7 @@
                 }
             }, "JSON");
         }
+
     });
 </script>
 <script>

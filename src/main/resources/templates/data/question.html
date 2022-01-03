@@ -70,12 +70,12 @@
             cols: [
                 [
                     {type: "checkbox", width: 50, fixed: "left"},
-                    {field: 'id', title: 'ID', sort: true, fixed: "left"},
+                    {field: 'id', title: 'ID', sort: true, fixed: "left", width: 100},
                     {field: 'question', title: '问题', fixed: "left"},
                     {field: 'content', title: '回答内容'},
-                    {field: 'createTime', title: '创建时间'},
+                    {field: 'createTime', title: '创建时间', width: 200},
                     {
-                        toolbar: '#operationBar', align: 'center', title: '操作', fixed: "right"
+                        toolbar: '#operationBar', align: 'center', title: '操作', fixed: "right", width: 200
                     }
                 ]
             ],
@@ -111,7 +111,7 @@
             if (obj.event === 'detail') {
                 layer.msg('ID：' + data.id + ' 的查看操作');
             } else if (obj.event === 'del') {
-                layer.confirm('是否进行问题删除？', function (index) {
+                layer.confirm('是否进行问题删除？', {icon: 3, title: "提示"}, function (index) {
                     //obj.del();
                     deleteFun(data.id);
                     layer.close(index);

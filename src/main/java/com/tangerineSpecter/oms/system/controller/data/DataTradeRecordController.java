@@ -12,11 +12,9 @@ import com.tangerinespecter.oms.system.service.page.PageResultService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -33,88 +31,88 @@ import javax.validation.Valid;
 @RequestMapping("/data/trade-record")
 public class DataTradeRecordController {
 
-	@Resource
-	private IDateTradeRecordService dateTradeRecordService;
-	@Resource
-	private PageResultService pageResultService;
+    @Resource
+    private IDateTradeRecordService dateTradeRecordService;
+    @Resource
+    private PageResultService pageResultService;
 
-	/**
-	 * 交易记录页面
-	 */
-	@RequiresPermissions("data:trade-record:page")
-	@RequestMapping(value = "/page", produces = "text/html;charset=UTF-8")
-	public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
-		return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getTradeRecordPageKey, "data/tradeRecord");
-	}
+    /**
+     * 交易记录页面
+     */
+    @RequiresPermissions("data:trade-record:page")
+    @RequestMapping(value = "/page", produces = "text/html;charset=UTF-8")
+    public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
+        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getTradeRecordPageKey, "data/tradeRecord");
+    }
 
-	/**
-	 * 交易记录列表
-	 */
-	@AccessLimit(maxCount = 10)
-	@RequestMapping("/list")
-	public ServiceResult listInfo(TradeRecordQueryObject qo) {
-		return dateTradeRecordService.queryForPage(qo);
-	}
+    /**
+     * 交易记录列表
+     */
+    @AccessLimit(maxCount = 10)
+    @RequestMapping("/list")
+    public ServiceResult listInfo(TradeRecordQueryObject qo) {
+        return dateTradeRecordService.queryForPage(qo);
+    }
 
-	/**
-	 * 添加页面
-	 */
-	@RequestMapping("/addPage")
-	public String addTradeRecordPage(Model model) {
-		return "data/addEditTradeRecord";
-	}
+    /**
+     * 添加页面
+     */
+    @RequestMapping("/addPage")
+    public ModelAndView addTradeRecordPage() {
+        return new ModelAndView("data/addEditTradeRecord");
+    }
 
-	/**
-	 * 交易数据初始化
-	 */
-	@AccessLimit(maxCount = 10)
-	@RequestMapping("/init")
-	public ServiceResult init() {
-		return dateTradeRecordService.init();
-	}
+    /**
+     * 交易数据初始化
+     */
+    @AccessLimit(maxCount = 10)
+    @RequestMapping("/init")
+    public ServiceResult init() {
+        return dateTradeRecordService.init();
+    }
 
-	/**
-	 * 添加交易数据
-	 */
-	@RequestMapping("/insert")
-	@LoggerInfo(value = "添加交易数据", event = LogOperation.EVENT_ADD)
-	public ServiceResult insertInfo(@Valid() TradeRecordInfoVo vo) {
-		return dateTradeRecordService.insertInfo(vo);
-	}
+    /**
+     * 添加交易数据
+     */
+    @RequestMapping("/insert")
+    @LoggerInfo(value = "添加交易数据", event = LogOperation.EVENT_ADD)
+    public ServiceResult insertInfo(@Valid() TradeRecordInfoVo vo) {
+        return dateTradeRecordService.insertInfo(vo);
+    }
 
-	/**
-	 * 编辑交易数据
-	 *
-	 * @return
-	 */
-	@RequestMapping("/update")
-	@LoggerInfo(value = "编辑交易数据", event = LogOperation.EVENT_UPDATE)
-	public ServiceResult updateInfo(@Valid() TradeRecordInfoVo vo) {
-		return dateTradeRecordService.updateInfo(vo);
-	}
+    /**
+     * 编辑交易数据
+     *
+     * @return
+     */
+    @RequestMapping("/update")
+    @LoggerInfo(value = "编辑交易数据", event = LogOperation.EVENT_UPDATE)
+    public ServiceResult updateInfo(@Valid() TradeRecordInfoVo vo) {
+        return dateTradeRecordService.updateInfo(vo);
+    }
 
-	/**
-	 * 交易数据详情
-	 */
-	@RequestMapping("/info")
-	public ServiceResult detailInfo(@RequestParam("id") Long id) {
-		return dateTradeRecordService.detailInfo(id);
-	}
+    /**
+     * 交易数据详情
+     */
+    @RequestMapping("/info")
+    public ServiceResult detailInfo(@RequestParam("id") Long id) {
+        return dateTradeRecordService.detailInfo(id);
+    }
 
-	/**
-	 * 删除交易数据
-	 */
-	@RequestMapping("/delete")
-	@LoggerInfo(value = "删除交易数据", event = LogOperation.EVENT_DELETE)
-	public ServiceResult deleteInfo(@RequestParam("id") Long id) {
-		return dateTradeRecordService.deleteInfo(id);
-	}
+    /**
+     * 删除交易数据
+     */
+    @DeleteMapping("/delete/{id}")
+    @LoggerInfo(value = "删除交易数据", event = LogOperation.EVENT_DELETE)
+    public ServiceResult deleteInfo(@PathVariable("id") Long id) {
+        return dateTradeRecordService.deleteInfo(id);
+    }
 
-	/**
-	 * excel导入数据
-	 */
-	@RequestMapping("/excel")
-	public ServiceResult excelInfo(MultipartFile file) {
-		return dateTradeRecordService.excelInfo(file);
-	}
+    /**
+     * excel导入数据
+     */
+    @RequestMapping("/excel")
+    public ServiceResult excelInfo(MultipartFile file) {
+        return dateTradeRecordService.excelInfo(file);
+    }
 }

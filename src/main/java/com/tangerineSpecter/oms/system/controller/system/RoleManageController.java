@@ -7,19 +7,16 @@ import com.tangerinespecter.oms.system.domain.entity.SystemPermission;
 import com.tangerinespecter.oms.system.domain.vo.system.SystemRoleInfoVo;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
 import com.tangerinespecter.oms.system.service.system.IRoleManageService;
+import com.tangerinespecter.oms.system.valid.Insert;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import java.util.Set;
 
 /**
@@ -32,73 +29,73 @@ import java.util.Set;
 @RequestMapping("/system/role")
 public class RoleManageController {
 
-	@Resource
-	private PageResultService pageResultService;
-	@Resource
-	private IRoleManageService roleManageService;
+    @Resource
+    private PageResultService pageResultService;
+    @Resource
+    private IRoleManageService roleManageService;
 
-	/**
-	 * 角色管理
-	 */
-	@RequiresPermissions("system:role:page")
-	@RequestMapping(value = "/page", produces = "text/html;charset=UTF-8")
-	public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
-		return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getSystemRolePageKey, "system/roleManage");
-	}
+    /**
+     * 角色管理
+     */
+    @RequiresPermissions("system:role:page")
+    @GetMapping(value = "/page", produces = "text/html;charset=UTF-8")
+    public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
+        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getSystemRolePageKey, "system/roleManage");
+    }
 
-	/**
-	 * 添加页面
-	 */
-	@RequestMapping("/addPage")
-	public ModelAndView addAuthorizePage(Model model) {
-		return ServiceResult.jumpPage("system/roleAuthorize");
-	}
+    /**
+     * 添加页面
+     */
+    @GetMapping("/addPage")
+    public ModelAndView addAuthorizePage(Model model) {
+        return ServiceResult.jumpPage("system/roleAuthorize");
+    }
 
-	/**
-	 * 角色列表
-	 */
-	@RequestMapping("/list")
-	public ServiceResult listInfo(SystemRoleQueryObject qo) {
-		return roleManageService.querySystemRoleList(qo);
-	}
+    /**
+     * 角色列表
+     */
+    @GetMapping("/list")
+    public ServiceResult listInfo(SystemRoleQueryObject qo) {
+        return roleManageService.querySystemRoleList(qo);
+    }
 
-	/**
-	 * 添加角色
-	 */
-	@RequestMapping("/insert")
-	public ServiceResult insert(@RequestParam("name") String name) {
-		return roleManageService.insert(name);
-	}
+    /**
+     * 添加角色
+     */
+    @PostMapping("/insert")
+    public ServiceResult insert(@Validated(Insert.class) @RequestBody SystemRoleInfoVo param) {
+        return roleManageService.insert(param.getName());
+    }
 
-	/**
-	 * 角色授权
-	 */
-	@RequestMapping("/authorize")
-	public ServiceResult authorize(@Valid SystemRoleInfoVo vo) {
-		return roleManageService.authorize(vo);
-	}
+    /**
+     * 角色授权
+     */
+    @RequestMapping("/authorize")
+    public ServiceResult authorize(@Validated @RequestBody SystemRoleInfoVo param) {
+        return roleManageService.authorize(param);
+    }
 
-	/**
-	 * 更新角色状态
-	 */
-	@RequestMapping("/update-status")
-	public ServiceResult updateStatus(@RequestParam("id") Long id) {
-		return roleManageService.updateStatus(id);
-	}
+    /**
+     * 更新角色状态
+     */
+    @PutMapping("/update-status")
+    public ServiceResult updateStatus(@Validated() @RequestBody SystemRoleInfoVo param) {
+        return roleManageService.updateStatus(param.getId());
+    }
 
-	/**
-	 * 删除角色
-	 */
-	@RequestMapping("/delete")
-	public ServiceResult delete(@RequestParam("id") Long id) {
-		return roleManageService.delete(id);
-	}
+    /**
+     * 删除角色
+     */
+    @DeleteMapping("/delete/{id}")
+    public ServiceResult delete(@PathVariable("id") Long id) {
+        return roleManageService.delete(id);
+    }
 
-	/**
-	 * 获取角色权限列表
-	 */
-	@RequestMapping("/get-permission")
-	public Set<SystemPermission> getRolePermission(@RequestParam("id") Long roleId) {
-		return roleManageService.getRolePermission(roleId);
-	}
+    /**
+     * 获取角色权限列表
+     */
+    @GetMapping("/get-permission")
+    public Set<SystemPermission> getRolePermission(@RequestParam("id") Long roleId) {
+        return roleManageService.getRolePermission(roleId);
+    }
 }

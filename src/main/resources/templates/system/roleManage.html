@@ -55,9 +55,8 @@
     </div>
 </script>
 <script type="text/html" id="operationBar">
-    <button class="pear-btn pear-btn-primary pear-btn-sm" lay-event="authorize">
-        <i class="layui-icon layui-icon-edit"></i>
-        授权
+    <button class="pear-btn pear-btn-warming pear-btn-sm" lay-event="authorize">
+        <i class="layui-icon layui-icon-vercode"></i>
     </button>
     <button class="pear-btn pear-btn-danger pear-btn-sm" lay-event="delSystemRole">
         <i class="layui-icon layui-icon-delete"></i>
@@ -88,11 +87,11 @@
             cols: [
                 [
                     {type: "checkbox", fixed: "left"},
-                    {field: 'id', title: 'ID', sort: true},
+                    {field: 'id', title: 'ID', width: 80, sort: true},
                     {field: 'name', title: '角色名'},
                     {field: 'remark', minWidth: 150, title: '备注', fixed: "right"},
                     {field: 'status', title: '状态', width: 120, templet: '#switchTpl', unresize: true},
-                    {toolbar: '#operationBar', align: 'center', title: '操作', fixed: "right"}
+                    {toolbar: '#operationBar', align: 'center', title: '操作', width: 150, fixed: "right"}
                 ]
             ],
             limits: [10, 15, 20, 25, 50, 100],
@@ -108,8 +107,7 @@
                     layer.prompt({
                         title: '添加角色'
                     }, function (value, index) {
-                        insertFun(value);
-                        layer.close(index);
+                        Ajax.post("/system/role/insert", {name: value}, false);
                     });
                     break;
 
@@ -126,92 +124,25 @@
             switch (obj.event) {
                 case 'authorize':
                     data.href = "/system/role/authorize";
-                    loadFormModel("角色授权", data, '/system/role/addPage');
-                    authorizeFun();
+                    loadFormHeightModel("角色授权", data, '/system/role/addPage', "600px");
                     break;
                 case 'delSystemRole':
                     layer.confirm('是否删除该角色？', function (index) {
-                        deleteFun(data.id);
-                        layer.close(index);
+                        Ajax.delete("/system/role/delete/", {id: data.id}, false);
                     });
                     break;
             }
         });
 
-        /**
-         * 打开提交窗口
-         * @param title 窗口标题
-         * @param data 传入iframe数据
-         * @param contentUrl iframe地址
-         */
-        function loadFormModel(title, data, contentUrl) {
-            loadFormHeightModel(title, data, contentUrl, '600px')
-        }
-
-        /**
-         * 打开提交窗口
-         * @param title 窗口标题
-         * @param data 传入iframe数据
-         * @param contentUrl iframe地址
-         * @param height 窗口高度
-         */
-        function loadFormHeightModel(title, data, contentUrl, height) {
-            let iframe;
-            layer.open({
-                type: 2,
-                title: title,
-                area: ['600px', height],
-                shade: 0.3,
-                maxmin: true,
-                offset: 'auto',
-                content: contentUrl,
-                success: function (layero, index) {
-                    iframe = window["layui-layer-iframe" + index];
-                    iframe.initData(data);
-                },
-                zIndex: layer.zIndex
-            });
-        }
-
         //监听状态更改操作
         form.on('switch(statusFun)', function (obj) {
-            $.post('/system/role/update-status', {id: this.value}, function (result) {
-                if (!result.success) {
-                    layer.alert(JSON.stringify(result.msg), {
-                        title: '警告'
-                    });
-                    obj.elem.checked = !obj.elem.checked;
-                    form.render('checkbox');
-                } else {
-                    layer.msg(result.msg);
-                }
-            }, "JSON");
+            Ajax.put('/system/role/update-status', {id: this.value}, false);
         });
 
         //监听表格复选框选择
         table.on('checkbox(currentTableFilter)', function (obj) {
             console.log(obj)
         });
-
-        //添加角色
-        function insertFun(name) {
-            $.post("/system/role/insert", {name: name}, function (result) {
-                if (result.success) {
-                    layer.open({
-                        title: "提示",
-                        content: "添加角色成功",
-                        yes: function () {
-                            reloadTab();
-                        }
-                    });
-                } else {
-                    layer.open({
-                        title: "警告",
-                        content: result.msg
-                    })
-                }
-            }, "JSON");
-        }
 
         //授权
         function authorizeFun() {
@@ -233,25 +164,6 @@
             }, "JSON");
         }
 
-        //删除数据
-        function deleteFun(id) {
-            $.post("/system/role/delete", {id: id}, function (result) {
-                if (result.success) {
-                    layer.open({
-                        title: "提示",
-                        content: "删除成功",
-                        yes: function () {
-                            reloadTab();
-                        }
-                    });
-                } else {
-                    layer.open({
-                        title: "警告",
-                        content: result.msg
-                    })
-                }
-            }, "JSON");
-        }
     });
 </script>
 <script>

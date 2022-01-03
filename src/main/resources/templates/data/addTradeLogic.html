@@ -140,7 +140,7 @@
 
         //监听提交
         form.on('submit(submitBtn)', function (data) {
-            Ajax.post(requestUrl, data, true);
+            Ajax.post(requestUrl, data.field, true);
             return false;
         });
     });

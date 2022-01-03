@@ -3,7 +3,7 @@
 <head>
     <th:block th:include="include :: header('设置角色')"/>
 </head>
-<body class="pear-container">
+<body>
 <form class="layui-form layui-form-pane" action="" lay-filter="data-form">
     <div class="mainBox">
         <div class="main-container">
@@ -25,13 +25,13 @@
     <div class="bottom">
         <div class="button-container">
             <button type="submit" class="pear-btn pear-btn-primary pear-btn-sm" lay-submit=""
-                    lay-filter="user-save">
+                    lay-filter="submitBtn">
                 <i class="layui-icon layui-icon-ok"></i>
                 提交
             </button>
-            <button class="pear-btn pear-btn-sm" lay-filter="user-cancel" lay-submit="">
-                <i class="layui-icon layui-icon-close"></i>
-                关闭
+            <button type="reset" class="pear-btn pear-btn-sm">
+                <i class="layui-icon layui-icon-refresh"></i>
+                重置
             </button>
         </div>
     </div>
@@ -45,7 +45,7 @@
         if (data.id !== undefined) {
             initForm(data);
         }
-        href = data.href;
+        requestUrl = data.href;
     }
 
     /**
@@ -86,36 +86,17 @@
             form = layui.form;
 
         //监听提交
-        form.on('submit(user-save)', function (data) {
+        form.on('submit(submitBtn)', function (data) {
             const roleIds = [];
             const roles = transfer.getData('roleIds');
             $.each(roles, function (index, item) {
                 roleIds.push(item.value);
             });
             data.field.roleIds = roleIds.join(",");
-            $.ajax({
-                url: href,
-                type: 'PUT',
-                dataType: "JSON",
-                contentType: "application/json",
-                data: JSON.stringify(data.field),
-                success: function (result) {
-                    if (result.success) {
-                        popup.success(result.msg, function () {
-                            parent.layer.closeAll();
-                        });
-                    } else {
-                        layer.msg(result.msg, {icon: 2, time: 1000})
-                    }
-                }
-            });
+            Ajax.put(requestUrl, data.field, true);
             return false;
         });
 
-        //监听关闭
-        form.on('submit(user-cancel)', function () {
-            parent.layer.closeAll();
-        });
     });
 
 </script>

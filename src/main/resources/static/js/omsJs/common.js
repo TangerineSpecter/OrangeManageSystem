@@ -142,7 +142,7 @@ var Ajax = new function () {
             url: url,
             dataType: 'json',
             contentType: 'application/json',
-            data: JSON.stringify(data.field),
+            data: JSON.stringify(data),
             type: 'post',
             success: function (result) {
                 window.addData(result, iframe);
@@ -164,7 +164,7 @@ var Ajax = new function () {
             url: url,
             dataType: 'json',
             contentType: 'application/json',
-            data: JSON.stringify(data.field),
+            data: JSON.stringify(data),
             type: 'put',
             success: function (result) {
                 window.editData(result, iframe);

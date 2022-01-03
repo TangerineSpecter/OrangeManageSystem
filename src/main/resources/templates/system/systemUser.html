@@ -48,7 +48,8 @@
     </div>
 </script>
 <script type="text/html" id="operationBar">
-    <button class="pear-btn pear-btn-primary pear-btn-sm" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>角色
+    <button class="pear-btn pear-btn-warming pear-btn-sm" lay-event="edit">
+        <i class="layui-icon layui-icon-vercode"></i>
     </button>
 </script>
 <script>
@@ -131,44 +132,9 @@
             const data = obj.data;
             if (obj.event === 'edit') {
                 data.href = "/systemUser/update-role";
-                loadFormModel("设置角色", data, '/systemUser/addRolePage');
+                loadFormHeightModel("设置角色", data, '/systemUser/addRolePage', "600px");
             }
         });
-
-        /**
-         * 打开提交窗口
-         * @param title 窗口标题
-         * @param data 传入iframe数据
-         * @param contentUrl iframe地址
-         */
-        function loadFormModel(title, data, contentUrl) {
-            loadFormHeightModel(title, data, contentUrl, '600px')
-        }
-
-        /**
-         * 打开提交窗口
-         * @param title 窗口标题
-         * @param data 传入iframe数据
-         * @param contentUrl iframe地址
-         * @param height 窗口高度
-         */
-        function loadFormHeightModel(title, data, contentUrl, height) {
-            let iframe;
-            layer.open({
-                type: 2,
-                title: title,
-                area: ['600px', height],
-                shade: 0.3,
-                maxmin: true,
-                offset: 'auto',
-                content: contentUrl,
-                success: function (layero, index) {
-                    iframe = window["layui-layer-iframe" + index];
-                    iframe.initData(data);
-                },
-                zIndex: layer.zIndex
-            });
-        }
 
     });
 </script>

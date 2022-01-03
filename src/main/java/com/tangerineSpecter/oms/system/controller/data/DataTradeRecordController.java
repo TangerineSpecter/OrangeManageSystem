@@ -58,7 +58,7 @@ public class DataTradeRecordController {
      */
     @GetMapping("/addPage")
     public ModelAndView addTradeRecordPage() {
-        return new ModelAndView("data/addEditTradeRecord");
+        return ServiceResult.jumpPage("data/addEditTradeRecord");
     }
 
     /**

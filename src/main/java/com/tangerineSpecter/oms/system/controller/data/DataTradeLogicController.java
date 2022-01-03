@@ -50,7 +50,7 @@ public class DataTradeLogicController {
      */
     @GetMapping("/addPage")
     public ModelAndView addTradeRecordPage(Model model) {
-        return new ModelAndView("data/addTradeLogic");
+        return ServiceResult.jumpPage("data/addTradeLogic");
     }
 
     /**
@@ -58,7 +58,7 @@ public class DataTradeLogicController {
      */
     @RequestMapping("/editPage")
     public ModelAndView editTradeRecordPage(Model model) {
-        return new ModelAndView("data/editTradeLogic");
+        return ServiceResult.jumpPage("data/editTradeLogic");
     }
 
     /**

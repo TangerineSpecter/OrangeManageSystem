@@ -131,9 +131,9 @@
         //监听 新增、编辑提交
         form.on('submit(submitBtn)', function (data) {
             if (data.field.id === undefined || data.field.id === "") {
-                Ajax.post(requestUrl, data, true);
+                Ajax.post(requestUrl, data.field, true);
             } else {
-                Ajax.put(requestUrl, data, true);
+                Ajax.put(requestUrl, data.field, true);
             }
             return false;
         });

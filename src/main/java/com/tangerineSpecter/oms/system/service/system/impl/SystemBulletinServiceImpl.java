@@ -56,9 +56,6 @@ public class SystemBulletinServiceImpl implements ISystemBulletinService {
 
     @Override
     public ServiceResult delete(Long id) {
-        if (id == null) {
-            return ServiceResult.paramError();
-        }
         systemBulletinMapper.deleteById(id);
         return ServiceResult.success();
     }

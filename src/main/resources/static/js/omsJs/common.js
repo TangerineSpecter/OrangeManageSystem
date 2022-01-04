@@ -37,19 +37,19 @@ layui.use(['form', 'table', 'toast'], function () {
         if (iframe) {
             if (result.success) {
                 parent.layui.toast.success({message: '添加成功', position: 'topCenter'});
-                parent.layui.table.reload('currentTableId');
                 parent.layer.close(parent.layer.getFrameIndex(window.name));
             } else {
                 parent.layui.toast.error({message: result.msg, position: 'topCenter'});
             }
+            parent.layui.table.reload('currentTableId');
         } else {
             if (result.success) {
                 toast.success({message: '添加成功', position: 'topCenter'});
-                table.reload('currentTableId');
                 layer.close(layer.index);
             } else {
                 toast.error({message: result.msg, position: 'topCenter'});
             }
+            table.reload('currentTableId');
         }
     }
 
@@ -58,19 +58,19 @@ layui.use(['form', 'table', 'toast'], function () {
         if (iframe) {
             if (result.success) {
                 parent.layui.toast.success({message: '编辑成功', position: 'topCenter'});
-                parent.layui.table.reload('currentTableId');
                 parent.layer.close(parent.layer.getFrameIndex(window.name));
             } else {
                 parent.layui.toast.error({message: result.msg, position: 'topCenter'});
             }
+            parent.layui.table.reload('currentTableId');
         } else {
             if (result.success) {
                 toast.success({message: '编辑成功', position: 'topCenter'});
-                table.reload('currentTableId');
                 layer.close(layer.index);
             } else {
                 toast.error({message: result.msg, position: 'topCenter'});
             }
+            table.reload('currentTableId');
         }
     }
 

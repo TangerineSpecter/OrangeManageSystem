@@ -70,7 +70,7 @@ public class RoleManageController {
     /**
      * 角色授权
      */
-    @RequestMapping("/authorize")
+    @PutMapping("/authorize")
     public ServiceResult authorize(@Validated @RequestBody SystemRoleInfoVo param) {
         return roleManageService.authorize(param);
     }

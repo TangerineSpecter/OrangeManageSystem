@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('角色授权')"/>
+</head>
+<body>
+<form class="layui-form layui-form-pane" action="" lay-filter="data-form">
+    <div class="mainBox">
+        <div class="main-container">
+            <div class="main-container">
+                <input type="text" id="id" name="id" class="layui-input" style="display: none;">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">角色名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="name" autocomplete="off"
+                               placeholder="请输入角色名称" lay-verify="title"
+                               class="layui-input"/>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-form-text">
+                    <div id="role-permission"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="pear-btn pear-btn-primary pear-btn-sm" lay-submit=""
+                    lay-filter="submitBtn">
+                <i class="layui-icon layui-icon-ok"></i>
+                提交
+            </button>
+            <button type="reset" class="pear-btn pear-btn-sm">
+                <i class="layui-icon layui-icon-refresh"></i>
+                重置
+            </button>
+        </div>
+    </div>
+</form>
+
+<th:block th:include="include :: footer"/>
+<script>
+
+    //初始化页面数据
+    function initData(data) {
+        if (data.id !== undefined) {
+            initForm(data);
+        }
+        requestUrl = data.href;
+    }
+
+    /**
+     * 初始化表单
+     * @param data 数据
+     */
+    function initForm(data) {
+        layui.use(['form', 'transfer'], function () {
+            const form = layui.form,
+                transfer = layui.transfer;
+            form.val("data-form", {
+                "id": data.id,
+                "name": data.name
+            });
+            form.render();
+            //初始化角色权限
+            transfer.render({
+                elem: '#role-permission',
+                id: "permissionIds",
+                data: data.permissions,
+                value: data.havePermissionIds,
+                title: ["未拥有权限", "已拥有权限"],
+                showSearch: true,
+                parseData: function (res) {
+                    return {
+                        value: res.id,
+                        title: res.name
+                    }
+                }
+            });
+        });
+    }
+
+    layui.use(['transfer', 'form'], function () {
+        const $ = layui.$,
+            transfer = layui.transfer,
+            form = layui.form;
+
+        //监听提交
+        form.on('submit(submitBtn)', function (data) {
+            const permissionIds = [];
+            const permissions = transfer.getData('permissionIds');
+            $.each(permissions, function (index, item) {
+                permissionIds.push(item.value);
+            });
+            data.field.permissionIds = permissionIds.join(",");
+            Ajax.put(requestUrl, data.field, true);
+            return false;
+        });
+    });
+
+</script>
+</body>
+</html>

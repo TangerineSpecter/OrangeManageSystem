@@ -34,14 +34,13 @@
 <script type="text/html" id="toolbar">
     <button class="pear-btn pear-btn-md pear-btn-primary" lay-event="initPermission">
         <i class="layui-icon layui-icon-face-smile"></i>
-        初始化</button>
+        初始化
+    </button>
 </script>
 <th:block th:include="include :: footer"/>
 <script>
-    layui.use(['form', 'table', 'laydate', 'layer'], function () {
-        const $ = layui.jquery,
-            form = layui.form,
-            table = layui.table,
+    layui.use(['table', 'layer'], function () {
+        const table = layui.table,
             layer = layui.layer;
 
         table.render({
@@ -75,7 +74,6 @@
                 case 'initPermission':
                     initData();
                     break;
-
                 //自定义头工具栏右侧图标 - 提示
                 case 'LAYTABLE_TIPS':
                     layer.alert('这里是进行权限管理的地方');
@@ -85,24 +83,10 @@
 
         //初始化数据
         function initData() {
-            $.post("/system/permission/init", {}, function (result) {
-                if (result.success) {
-                    layer.open({
-                        title: "提示",
-                        content: "初始化完毕"
-                    });
-                } else {
-                    layer.open({
-                        title: "警告",
-                        content: result.msg
-                    })
-                }
-            }, "JSON");
+            Ajax.post("/system/permission/init", {}, false);
         }
 
     });
-</script>
-<script>
 </script>
 </body>
 </html>

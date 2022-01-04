@@ -4,10 +4,6 @@
     <th:block th:include="include :: header('系统公告')"/>
 </head>
 <body class="pear-container">
-<script type="text/html" id="switchTpl">
-    <input type="checkbox" name="top" value="{{d.id}}" lay-skin="switch" lay-text="是|否" lay-filter="topFun" {{
-           d.top== 1 ? 'checked' : '' }}>
-</script>
 <div class="layui-card">
     <div class="layui-card-body">
         <form id="search-from" class="layui-form layui-form-pane" action="">
@@ -37,7 +33,10 @@
 </div>
 <th:block th:include="include :: footer"/>
 <script type="text/html" id="toolbar">
-    <button class="pear-btn pear-btn-md pear-btn-primary" lay-event="addCollection">添加公告</button>
+    <button class="pear-btn pear-btn-md pear-btn-primary" lay-event="addCollection">
+        <i class="layui-icon layui-icon-add-1"></i>
+        添加公告
+    </button>
 </script>
 <script type="text/html" id="operationBar">
     <button class="pear-btn pear-btn-primary pear-btn-sm" lay-event="edit">
@@ -47,17 +46,14 @@
         <i class="layui-icon layui-icon-delete"></i>
     </button>
 </script>
+<script type="text/html" id="switchTpl">
+    <input type="checkbox" name="top" value="{{d.id}}" lay-skin="switch" lay-text="是|否" lay-filter="topFun" {{
+           d.top== 1 ? 'checked' : '' }}>
+</script>
 <script>
-    layui.use(['form', 'table', 'laydate'], function () {
-        var $ = layui.jquery,
-            form = layui.form,
-            table = layui.table,
-            laydate = layui.laydate;
-
-        //日期
-        laydate.render({
-            elem: '#queryDay'
-        });
+    layui.use(['form', 'table'], function () {
+        const form = layui.form,
+            table = layui.table;
 
         table.render({
             elem: '#currentTableId',
@@ -68,16 +64,15 @@
                 , layEvent: 'LAYTABLE_TIPS'
                 , icon: 'layui-icon-tips'
             }],
+            cellMinWidth: 100,
             cols: [
                 [
-                    {type: "checkbox", width: 50, fixed: "left"},
+                    {type: "checkbox", fixed: "left"},
                     {field: 'id', width: 80, title: 'ID', sort: true},
-                    {field: 'title', width: 300, title: '公告标题'},
-                    {field: 'content', width: 600, title: '公告内容'},
+                    {field: 'title', minWidth: 200, title: '公告标题'},
+                    {field: 'content', minWidth: 300, title: '公告内容'},
                     {field: 'top', title: '置顶', width: 85, templet: '#switchTpl', unresize: true},
-                    {
-                        toolbar: '#operationBar', align: 'center', title: '操作', width: 150, fixed: "right"
-                    }
+                    {toolbar: '#operationBar', align: 'center', title: '操作', width: 150, fixed: "right"}
                 ]
             ],
             limits: [10, 15, 20, 25, 50, 100],
@@ -97,7 +92,6 @@
 
         //头工具栏事件
         table.on('toolbar(currentTableFilter)', function (obj) {
-            console.log(obj);
             switch (obj.event) {
                 //添加交易数据
                 case 'addCollection':
@@ -126,8 +120,6 @@
         });
 
     });
-</script>
-<script>
 </script>
 </body>
 </html>

@@ -9,16 +9,18 @@ import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.vo.data.QuestionInfoVo;
 import com.tangerinespecter.oms.system.service.data.IDataQuestionService;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
+import com.tangerinespecter.oms.system.valid.Update;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 /**
  * 问题管理控制
@@ -31,61 +33,61 @@ import javax.validation.Valid;
 @RequestMapping("/data/question")
 public class DataQuestionController {
 
-	@Resource
-	private PageResultService pageResultService;
-	@Resource
-	private IDataQuestionService dataQuestionService;
+    @Resource
+    private PageResultService pageResultService;
+    @Resource
+    private IDataQuestionService dataQuestionService;
 
-	/**
-	 * 问题管理页面
-	 */
-	@RequiresPermissions("data:question:page")
-	@RequestMapping(value = "/page", produces = "text/html;charset=UTF-8")
-	public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
-		return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getQuestionPageKey, "data/question");
-	}
+    /**
+     * 问题管理页面
+     */
+    @RequiresPermissions("data:question:page")
+    @GetMapping(value = "/page", produces = "text/html;charset=UTF-8")
+    public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
+        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getQuestionPageKey, "data/question");
+    }
 
-	/**
-	 * 添加页面
-	 */
-	@RequestMapping("/addPage")
-	public String addQuestionPage(Model model) {
-		return "data/addEditQuestion";
-	}
+    /**
+     * 添加页面
+     */
+    @GetMapping("/addPage")
+    public ModelAndView addQuestionPage(Model model) {
+        return ServiceResult.jumpPage("data/addEditQuestion");
+    }
 
-	/**
-	 * 问题列表
-	 */
-	@AccessLimit(maxCount = 10)
-	@RequestMapping("/list")
-	public ServiceResult listInfo(QuestionQueryObject qo) {
-		return dataQuestionService.queryForPage(qo);
-	}
+    /**
+     * 问题列表
+     */
+    @AccessLimit(maxCount = 10)
+    @GetMapping("/list")
+    public ServiceResult listInfo(QuestionQueryObject qo) {
+        return dataQuestionService.queryForPage(qo);
+    }
 
-	/**
-	 * 添加问题
-	 */
-	@RequestMapping("/insert")
-	@LoggerInfo(value = "添加问题", event = LogOperation.EVENT_ADD)
-	public ServiceResult insertInfo(@Valid() QuestionInfoVo vo) {
-		return dataQuestionService.insertInfo(vo);
-	}
+    /**
+     * 添加问题
+     */
+    @PostMapping("/insert")
+    @LoggerInfo(value = "添加问题", event = LogOperation.EVENT_ADD)
+    public ServiceResult insertInfo(@Validated @RequestBody QuestionInfoVo vo) {
+        return dataQuestionService.insertInfo(vo);
+    }
 
-	/**
-	 * 修改问题
-	 */
-	@RequestMapping("/update")
-	@LoggerInfo(value = "修改问题", event = LogOperation.EVENT_UPDATE)
-	public ServiceResult update(@Valid() QuestionInfoVo vo) {
-		return dataQuestionService.update(vo);
-	}
+    /**
+     * 修改问题
+     */
+    @PutMapping("/update")
+    @LoggerInfo(value = "修改问题", event = LogOperation.EVENT_UPDATE)
+    public ServiceResult update(@Validated(Update.class) @RequestBody QuestionInfoVo vo) {
+        return dataQuestionService.update(vo);
+    }
 
-	/**
-	 * 删除问题
-	 */
-	@RequestMapping("/delete")
-	@LoggerInfo(value = "删除问题", event = LogOperation.EVENT_DELETE)
-	public ServiceResult delete(@RequestParam("id") Long id) {
-		return dataQuestionService.delete(id);
-	}
+    /**
+     * 删除问题
+     */
+    @DeleteMapping("/delete/{id}")
+    @LoggerInfo(value = "删除问题", event = LogOperation.EVENT_DELETE)
+    public ServiceResult delete(@NotNull(message = "id不能为null") @PathVariable("id") Long id) {
+        return dataQuestionService.delete(id);
+    }
 }

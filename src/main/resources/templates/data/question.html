@@ -50,10 +50,8 @@
     </button>
 </script>
 <script>
-    layui.use(['form', 'table', 'layer'], function () {
-        const $ = layui.jquery,
-            form = layui.form,
-            table = layui.table,
+    layui.use(['table', 'layer'], function () {
+        const table = layui.table,
             layer = layui.layer;
 
 
@@ -91,13 +89,11 @@
 
         //头工具栏事件
         table.on('toolbar(currentTableFilter)', function (obj) {
-            console.log(obj);
             switch (obj.event) {
                 //添加交易数据
                 case 'addQuestion':
-                    loadFormModel("添加问题", {href: "/data/question/insert"}, '/data/question/addPage');
+                    loadFormHeightModel("添加问题", {href: "/data/question/insert"}, '/data/question/addPage', '600px');
                     break;
-
                 //自定义头工具栏右侧图标 - 提示
                 case 'LAYTABLE_TIPS':
                     layer.alert('这里是进行问题记录的地方');
@@ -112,35 +108,14 @@
                 layer.msg('ID：' + data.id + ' 的查看操作');
             } else if (obj.event === 'del') {
                 layer.confirm('是否进行问题删除？', {icon: 3, title: "提示"}, function (index) {
-                    //obj.del();
-                    deleteFun(data.id);
-                    layer.close(index);
+                    Ajax.delete('/data/question/delete/', {id: data.id}, false);
                 });
             } else if (obj.event === 'edit') {
                 data.href = "/data/question/update";
-                loadFormModel("编辑问题", data, '/data/question/addPage');
+                loadFormHeightModel("编辑问题", data, '/data/question/addPage', '600px');
             }
         });
 
-        //删除问题
-        function deleteFun(id) {
-            $.post("/data/question/delete", {id: id}, function (result) {
-                if (result.success) {
-                    layer.open({
-                        title: "提示",
-                        content: "删除成功",
-                        yes: function () {
-                            reloadTab();
-                        }
-                    });
-                } else {
-                    layer.open({
-                        title: "警告",
-                        content: result.msg
-                    })
-                }
-            }, "JSON");
-        }
     });
 </script>
 <script>

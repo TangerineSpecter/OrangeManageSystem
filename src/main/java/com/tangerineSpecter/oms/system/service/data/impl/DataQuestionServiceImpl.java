@@ -38,9 +38,6 @@ public class DataQuestionServiceImpl implements IDataQuestionService {
 
     @Override
     public ServiceResult update(QuestionInfoVo vo) {
-        if (vo.getId() == null) {
-            return ServiceResult.paramError();
-        }
         DataQuestion dataQuestion = dataQuestionMapper.selectById(vo.getId());
         dataQuestion.setQuestion(vo.getQuestion());
         dataQuestion.setContent(vo.getContent());
@@ -50,9 +47,6 @@ public class DataQuestionServiceImpl implements IDataQuestionService {
 
     @Override
     public ServiceResult delete(Long id) {
-        if (id == null) {
-            return ServiceResult.paramError();
-        }
         dataQuestionMapper.deleteById(id);
         return ServiceResult.success();
     }

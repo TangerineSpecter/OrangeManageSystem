@@ -110,7 +110,6 @@
                         Ajax.post("/system/role/insert", {name: value}, false);
                     });
                     break;
-
                 //自定义头工具栏右侧图标 - 提示
                 case 'LAYTABLE_TIPS':
                     layer.alert('这里是进行角色管理的地方');
@@ -143,26 +142,6 @@
         table.on('checkbox(currentTableFilter)', function (obj) {
             console.log(obj)
         });
-
-        //授权
-        function authorizeFun() {
-            $.post("/system/role/authorize", {}, function (result) {
-                if (result.success) {
-                    layer.open({
-                        title: "提示",
-                        content: "授权成功",
-                        yes: function () {
-                            reloadTab();
-                        }
-                    });
-                } else {
-                    layer.open({
-                        title: "警告",
-                        content: result.msg
-                    })
-                }
-            }, "JSON");
-        }
 
     });
 </script>

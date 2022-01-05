@@ -6,9 +6,11 @@ import com.tangerinespecter.oms.common.query.SystemUserQueryObject;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;
 import com.tangerinespecter.oms.system.domain.vo.system.SystemUserInfoVo;
+import com.tangerinespecter.oms.system.domain.vo.system.SystemUserPwdVo;
 import com.tangerinespecter.oms.system.service.system.ISystemUserService;
 import io.swagger.annotations.Api;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -45,6 +47,14 @@ public class SystemUserController {
     @GetMapping("/addRolePage")
     public ModelAndView addRolePage() {
         return ServiceResult.jumpPage("system/editSystemUserRole");
+    }
+    
+    /**
+     * 修改密码页面
+     */
+    @GetMapping("/updatePwdPage")
+    public ModelAndView updatePwdPage(Model model) {
+        return ServiceResult.jumpPage("system/userPassword");
     }
 
     /**
@@ -89,7 +99,7 @@ public class SystemUserController {
      */
     @PutMapping("/update-password")
     @LoggerInfo(value = "修改密码", event = LogOperation.EVENT_UPDATE)
-    public ServiceResult updatePassword(@Validated @RequestBody SystemUserInfoVo vo) {
+    public ServiceResult updatePassword(@Validated @RequestBody SystemUserPwdVo vo) {
         return systemUserService.updatePassword(vo);
     }
 }

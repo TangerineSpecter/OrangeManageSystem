@@ -5,6 +5,7 @@ import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;
 import com.tangerinespecter.oms.system.domain.pojo.AccountInfo;
 import com.tangerinespecter.oms.system.domain.vo.system.SystemUserInfoVo;
+import com.tangerinespecter.oms.system.domain.vo.system.SystemUserPwdVo;
 import org.springframework.ui.Model;
 
 import javax.servlet.http.HttpServletResponse;
@@ -46,7 +47,7 @@ public interface ISystemUserService {
     /**
      * 修改密码
      */
-    ServiceResult updatePassword(SystemUserInfoVo vo);
+    ServiceResult updatePassword(SystemUserPwdVo vo);
 
     /**
      * 更新角色

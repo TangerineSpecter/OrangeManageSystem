@@ -16,7 +16,6 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class SystemUserInfoVo {
 
-	@NotNull(groups = {Update.class, Delete.class})
 	private Long id;
 	/**
 	 * 头像地址

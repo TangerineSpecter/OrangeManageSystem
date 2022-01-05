@@ -29,8 +29,8 @@
                 </a>
                 <!-- 功 能 菜 单 -->
                 <dl class="layui-nav-child">
-                    <dd><a href="javascript:void(0);" user-menu-url="view/system/person.html" user-menu-id="5555"
-                           user-menu-title="基本资料">基本资料</a></dd>
+                    <dd><a href="javascript:void(0);" user-menu-url="/systemUser/center" user-menu-id="6666"
+                           user-menu-title="个人中心">个人中心</a></dd>
                     <dd><a href="javascript:updatePwd();" user-menu-title="修改密码">修改密码</a></dd>
                     <dd><a href="javascript:void(0);" class="logout">注销登录</a></dd>
                 </dl>
@@ -74,10 +74,10 @@
 <!-- 框 架 初 始 化 -->
 <script>
     layui.use(['admin', 'jquery', 'popup', 'form'], function () {
-		const admin = layui.admin,
-				popup = layui.popup;
+        const admin = layui.admin,
+            popup = layui.popup;
 
-		// admin.setAvatar("admin/images/avatar.jpg","丢失的橘子");
+        // admin.setAvatar("admin/images/avatar.jpg","丢失的橘子");
 
         admin.setConfigType("yml");
         admin.setConfigPath("config/pear.config.yml");
@@ -103,7 +103,7 @@
 
     function updatePwd() {
         loadFormHeightModel("修改密码", {}, '/systemUser/updatePwdPage', "325px");
-	}
+    }
 </script>
 </body>
 </html>

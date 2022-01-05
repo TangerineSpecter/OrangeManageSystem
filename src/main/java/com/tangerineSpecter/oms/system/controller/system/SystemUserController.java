@@ -9,6 +9,7 @@ import com.tangerinespecter.oms.system.domain.vo.system.SystemUserInfoVo;
 import com.tangerinespecter.oms.system.domain.vo.system.SystemUserPwdVo;
 import com.tangerinespecter.oms.system.service.system.ISystemUserService;
 import io.swagger.annotations.Api;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -42,13 +43,31 @@ public class SystemUserController {
     }
 
     /**
+     * 个人中心
+     */
+    @GetMapping("/center")
+    public ModelAndView userCenter(Model model) {
+        SystemUser systemUser = (SystemUser) SecurityUtils.getSubject().getPrincipal();
+        model.addAttribute("userInfo", systemUser);
+        return ServiceResult.jumpPage("system/userCenter");
+    }
+
+    /**
+     * 裁剪图片
+     */
+    @GetMapping("/profile")
+    public ModelAndView profile() {
+        return ServiceResult.jumpPage("system/profile");
+    }
+
+    /**
      * 后台管理员
      */
     @GetMapping("/addRolePage")
     public ModelAndView addRolePage() {
         return ServiceResult.jumpPage("system/editSystemUserRole");
     }
-    
+
     /**
      * 修改密码页面
      */

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.ModelAndView;
+import org.thymeleaf.exceptions.TemplateInputException;
 
 import java.util.List;
 
@@ -47,6 +48,18 @@ public class GlobalExceptionHandler {
     public ServiceResult exceptionHandler(Exception exception) {
         log.error(exception.getMessage(), exception);
         return ServiceResult.systemError();
+    }
+    
+    /**
+     * 定义拦截的异常类型，模板异常
+     *
+     * @param exception 异常
+     * @return 异常信息
+     */
+    @ExceptionHandler(value = TemplateInputException.class)
+    public ModelAndView templateException(TemplateInputException exception) {
+        log.error(exception.getMessage(), exception);
+        return ServiceResult.jumpPage("/error/500");
     }
 
     /**

@@ -118,8 +118,16 @@ public class IndexController {
      * 错误跳转
      */
     @RequestMapping("/errorPage")
-    public String errorPage() {
-        return "error/404";
+    public ModelAndView errorPage() {
+        return ServiceResult.jumpPage("error/404");
+    }
+    
+    /**
+     * 异常页面
+     */
+    @RequestMapping("/exceptionPage")
+    public ModelAndView exceptionPage() {
+        return ServiceResult.jumpPage("error/500");
     }
 
     /**

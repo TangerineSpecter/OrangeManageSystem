@@ -6,6 +6,7 @@ import com.tangerinespecter.oms.system.service.page.PageResultService;
 import com.tangerinespecter.oms.system.service.statis.ITradeStatisService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,12 +34,12 @@ public class TradeStatisController {
      * 交易统计页面
      */
     @RequiresPermissions("statis:trade:page")
-    @RequestMapping(value = "/page", produces = "text/html;charset=UTF-8")
+    @GetMapping(value = "/page", produces = "text/html;charset=UTF-8")
     public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
         return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getTradeStatisPageKey, "statis/tradeStatis");
     }
 
-    @RequestMapping("/income-info")
+    @GetMapping("/income-info")
     public ServiceResult incomeValueStatisInfo() {
         return tradeStatisService.incomeValueStatisInfo();
     }

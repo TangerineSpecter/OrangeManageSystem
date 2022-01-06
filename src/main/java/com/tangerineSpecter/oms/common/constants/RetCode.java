@@ -36,6 +36,11 @@ public class RetCode {
     public static final RetCode SYSTEM_ERROR = new RetCode(3, "服务器错误，请联系管理员");
 
     /**
+     * 验证失败
+     */
+    public static final RetCode VERIFY_CODE_ERROR = new RetCode(4, "验证码错误");
+
+    /**
      * 帐号已被注册
      */
     public static final RetCode REGISTER_REPEAT = new RetCode(100, "该帐号已注册，请重新申请！");

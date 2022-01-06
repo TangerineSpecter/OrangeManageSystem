@@ -38,6 +38,7 @@
         <qiniu-dns.version>0.1.6</qiniu-dns.version>
         <swagger2.version>2.9.2</swagger2.version>
         <knife4j.version>1.9.6</knife4j.version>
+        <captcha.version>1.6.2</captcha.version>
     </properties>
 
     <dependencies>
@@ -241,6 +242,12 @@
             <artifactId>knife4j-spring-boot-starter</artifactId>
             <version>${knife4j.version}</version>
         </dependency>
+        <!-- 验证码 -->
+        <dependency>
+            <groupId>com.github.whvcse</groupId>
+            <artifactId>easy-captcha</artifactId>
+            <version>${captcha.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -264,10 +271,6 @@
         </resources>
         <plugins>
             <plugin>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>3.0.0</version>
-            </plugin>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
@@ -278,6 +281,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.5.4</version>
                 <configuration>
                     <fork>true</fork>
                 </configuration>

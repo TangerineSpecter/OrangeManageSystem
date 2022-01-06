@@ -102,8 +102,8 @@ public class IndexController {
      */
     @ResponseBody
     @PostMapping("/login")
-    public ServiceResult login(HttpServletResponse response, @Valid AccountInfo model) {
-        return systemUserService.verifyLogin(response, model);
+    public ServiceResult login(HttpServletRequest request, HttpServletResponse response, @Valid AccountInfo model) {
+        return systemUserService.verifyLogin(request, response, model);
     }
 
     /**
@@ -121,7 +121,7 @@ public class IndexController {
     public ModelAndView errorPage() {
         return ServiceResult.jumpPage("error/404");
     }
-    
+
     /**
      * 异常页面
      */

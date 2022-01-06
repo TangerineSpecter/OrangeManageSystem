@@ -8,6 +8,7 @@ import com.tangerinespecter.oms.system.domain.vo.system.SystemUserInfoVo;
 import com.tangerinespecter.oms.system.domain.vo.system.SystemUserPwdVo;
 import org.springframework.ui.Model;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -19,7 +20,7 @@ public interface ISystemUserService {
     /**
      * 校验登录
      */
-    ServiceResult<Object> verifyLogin(HttpServletResponse response, @Valid AccountInfo model);
+    ServiceResult<Object> verifyLogin(HttpServletRequest request, HttpServletResponse response, @Valid AccountInfo model);
 
     /**
      * 后台管理员列表
@@ -51,6 +52,7 @@ public interface ISystemUserService {
 
     /**
      * 更新角色
+     *
      * @param vo
      * @return
      */

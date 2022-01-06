@@ -66,6 +66,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/doc", "anon");
         filterChainDefinitionMap.put("/doc.html", "anon");
         filterChainDefinitionMap.put("/errorPage", "anon");
+        filterChainDefinitionMap.put("/system/captcha/**", "anon");
         // druid数据源监控页面不拦截
         filterChainDefinitionMap.put("/druid/**", "anon");
         // 登出

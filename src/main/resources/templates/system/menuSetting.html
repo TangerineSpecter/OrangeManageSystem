@@ -115,7 +115,7 @@
 
         table.on('toolbar(menu-table)', function (obj) {
             if (obj.event === 'add') {
-                window.add();
+                loadFormHeightModel("添加系统菜单", {requestUrl: "/system/menu/insert"}, '/system/menu/addPage', '600px');
             } else if (obj.event === 'refresh') {
                 window.refresh();
             } else if (obj.event === 'batchRemove') {
@@ -130,15 +130,16 @@
         });
 
         table.on('tool(menu-table)', function (obj) {
+            const data = obj.data;
             if (obj.event === 'remove') {
-                window.remove(obj);
+                layer.confirm('是否删除该系统菜单？', {icon: 3, title: '提示'}, function (index) {
+                    Ajax.delete('/system/menu/delete/', {id: data.id}, false);
+                });
             } else if (obj.event === 'edit') {
-                window.edit(obj);
+                data.requestUrl = "/system/menu/update";
+                loadFormHeightModel("编辑系统菜单", data, '/system/menu/addPage', '600px');
             }
         });
-        // $('#btn-add').click(function () {
-        //     loadFormModel("添加系统菜单", {url: "/system/menu/insert"}, '/system/menu/addPage');
-        // });
 
         window.remove = function (obj) {
             layer.confirm('确定要删除该菜单', {icon: 3, title: '提示'}, function (index) {

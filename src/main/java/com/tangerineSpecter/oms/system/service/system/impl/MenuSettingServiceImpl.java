@@ -74,7 +74,7 @@ public class MenuSettingServiceImpl implements IMenuSettingService {
             return ServiceResult.error(RetCode.SYSTEM_MENU_HREF_EXIST);
         }
         SystemMenu systemMenu = SystemMenu.builder().title(vo.getTitle()).href(vo.getHref())
-                .icon("fa " + vo.getIcon()).level(vo.getLevel()).pid(vo.getPid())
+                .icon(vo.getIcon()).level(vo.getLevel()).pid(vo.getPid())
                 .target(vo.getTarget()).sort(vo.getSort()).build();
         systemMenuMapper.insert(systemMenu);
         systemMenu.setPermissionCode(SystemUtils.getMenuCode(systemMenu.getHref(), systemMenu.getId()));
@@ -126,7 +126,7 @@ public class MenuSettingServiceImpl implements IMenuSettingService {
         systemMenu.setHref(vo.getHref());
         systemMenu.setPermissionCode(SystemUtils.getMenuCode(vo.getHref(), vo.getId()));
         systemMenu.setPid(vo.getPid());
-        systemMenu.setIcon("fa " + vo.getIcon());
+        systemMenu.setIcon(vo.getIcon());
         systemMenu.setSort(vo.getSort());
         systemMenu.setTarget(vo.getTarget());
         systemMenuMapper.updateById(systemMenu);

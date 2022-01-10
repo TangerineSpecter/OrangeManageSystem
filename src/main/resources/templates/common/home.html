@@ -271,9 +271,6 @@
         const starName = $("#starName").val();
         //今日运势
         const luckOption = {
-            title: {
-                text: starName
-            },
             tooltip: {
                 trigger: 'axis'
             },
@@ -290,8 +287,8 @@
                         {text: '健康运势', max: 100},
                         {text: '金钱运势', max: 100}
                     ],
-                    center: ['25%', '40%'],
-                    radius: 80
+                    center: ['50%', '50%'],
+                    radius: 150
                 }
             ],
             animations: {
@@ -317,7 +314,14 @@
                     areaStyle: {},
                     data: [
                         {
-                            value: data
+                            value: data,
+                            name: starName,
+                            label: {
+                                show: true,
+                                formatter: function (params) {
+                                    return params.value;
+                                }
+                            }
                         }
                     ]
                 }

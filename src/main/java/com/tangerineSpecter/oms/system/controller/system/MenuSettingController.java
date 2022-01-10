@@ -8,6 +8,9 @@ import com.tangerinespecter.oms.system.domain.entity.SystemMenu;
 import com.tangerinespecter.oms.system.domain.vo.system.SystemMenuInfoVo;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
 import com.tangerinespecter.oms.system.service.system.IMenuSettingService;
+import com.tangerinespecter.oms.system.valid.IdParam;
+import com.tangerinespecter.oms.system.valid.Insert;
+import com.tangerinespecter.oms.system.valid.Update;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -66,7 +69,7 @@ public class MenuSettingController {
      */
     @PostMapping("/insert")
     @LoggerInfo(value = "添加菜单", event = LogOperation.EVENT_ADD)
-    public ServiceResult insertInfo(@Validated @RequestBody SystemMenuInfoVo vo) {
+    public ServiceResult insertInfo(@Validated(Insert.class) @RequestBody SystemMenuInfoVo vo) {
         return menuSettingService.insertInfo(vo);
     }
 
@@ -75,15 +78,15 @@ public class MenuSettingController {
      */
     @PutMapping("/update")
     @LoggerInfo(value = "编辑菜单", event = LogOperation.EVENT_UPDATE)
-    public ServiceResult updateInfo(@Validated @RequestBody SystemMenuInfoVo vo) {
+    public ServiceResult updateInfo(@Validated(Update.class) @RequestBody SystemMenuInfoVo vo) {
         return menuSettingService.updateInfo(vo);
     }
 
     /**
      * 菜单信息
      */
-    @GetMapping("/info")
-    public ServiceResult detailInfo(@RequestParam("id") Long id) {
+    @GetMapping("/info/{id}")
+    public ServiceResult detailInfo(@PathVariable("id") Long id) {
         return menuSettingService.detailInfo(id);
     }
 
@@ -100,13 +103,11 @@ public class MenuSettingController {
 
     /**
      * 置顶菜单
-     *
-     * @param id 菜单ID
      */
     @PutMapping("/top")
     @LoggerInfo(value = "置顶菜单", event = LogOperation.EVENT_UPDATE)
-    public ServiceResult topInfo(@RequestParam("id") Long id) {
-        return menuSettingService.topInfo(id);
+    public ServiceResult topInfo(@Validated(IdParam.class) @RequestBody SystemMenuInfoVo param) {
+        return menuSettingService.topInfo(param.getId());
     }
 
     /**

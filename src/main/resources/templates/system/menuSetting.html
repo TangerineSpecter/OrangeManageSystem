@@ -151,7 +151,7 @@
 
         //监听首页操作
         form.on('switch(topFun)', function (obj) {
-            Ajax.post('/system/menu/top', {id: this.value}, false);
+            Ajax.put('/system/menu/top', {id: this.value}, false);
         });
     })
     ;

@@ -134,12 +134,12 @@ public class IndexController {
      * 消息中心
      */
     @RequestMapping("/noticeCenter")
-    public String noticeCenter(Model model) {
+    public ModelAndView noticeCenter(Model model) {
         int notReadNoticeCount = systemNoticeMapper.queryNotReadNoticeCount(SystemUtils.getSystemUserId());
         HashMap<String, Integer> data = MapUtil.newHashMap();
         data.put(ParamUtils.NOT_READ_NOTICE_COUNT, notReadNoticeCount);
         model.addAllAttributes(data);
-        return "system/systemNotice";
+        return ServiceResult.jumpPage("system/systemNotice");
     }
 
 }

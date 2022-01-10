@@ -10,9 +10,9 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">菜单名称</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="powerName" placeholder="" class="layui-input">
+                    <input type="text" name="keyword" placeholder="" class="layui-input">
                 </div>
-                <button class="pear-btn pear-btn-md pear-btn-primary" lay-submit lay-filter="user-query">
+                <button class="pear-btn pear-btn-md pear-btn-primary" lay-submit lay-filter="menu-query">
                     <i class="layui-icon layui-icon-search"></i>
                     查询
                 </button>
@@ -119,7 +119,9 @@
             } else if (obj.event === 'refresh') {
                 window.refresh();
             } else if (obj.event === 'batchRemove') {
-                window.batchRemove(obj);
+                layer.confirm('是否删选中的系统菜单？', {icon: 3, title: '提示'}, function (index) {
+                    Ajax.delete('/system/menu/delete/', {id: data.id}, false);
+                });
             } else if (obj.event === 'expandAll') {
                 treetable.expandAll("#menu-table");
             } else if (obj.event === 'foldAll') {
@@ -141,75 +143,15 @@
             }
         });
 
-        window.remove = function (obj) {
-            layer.confirm('确定要删除该菜单', {icon: 3, title: '提示'}, function (index) {
-                layer.close(index);
-                let loading = layer.load();
-                $.ajax({
-                    url: MODULE_PATH + "remove/" + obj.data['powerId'],
-                    dataType: 'json',
-                    type: 'delete',
-                    success: function (result) {
-                        layer.close(loading);
-                        if (result.success) {
-                            layer.msg(result.msg, {icon: 1, time: 1000}, function () {
-                                obj.del();
-                            });
-                        } else {
-                            layer.msg(result.msg, {icon: 2, time: 1000});
-                        }
-                    }
-                })
-            });
-        };
-
-        //监听工具条
-        window.batchRemove = function (obj) {
-            const data = obj.data;
-            const layEvent = obj.event;
-
-            if (layEvent === 'del') {
-                layer.open({
-                    title: '提示',
-                    content: "是否删除该菜单？",
-                    btn: ["删除", "取消"],
-                    yes: function (index, layero) {
-                        $.post('/system/menu/delete', {
-                            id: data.id
-                        }, function (result) {
-                            if (result.code === 0) {
-                                layer.msg('删除成功');
-                                layer.close();
-                            } else {
-                                layer.open({
-                                    title: "警告",
-                                    content: result.msg
-                                })
-                            }
-                        }, "JSON");
-
-                    },
-                    btn2: function () {
-                        layer.close();
-                    }
-                });
-            } else if (layEvent === 'edit') {
-                data.url = "/system/menu/update";
-                loadFormModel("编辑系统菜单", data, '/system/menu/addPage');
-            }
-        };
+        form.on('submit(menu-query)', function (data) {
+            var keyword = data.field.keyword;
+            treetable.search('#menu-table', keyword);
+            return false;
+        });
 
         //监听首页操作
         form.on('switch(topFun)', function (obj) {
-            $.post('/system/menu/top', {id: this.value}, function (result) {
-                if (!result.success) {
-                    layer.alert(JSON.stringify(result.msg), {
-                        title: '警告'
-                    });
-                    obj.elem.checked = !obj.elem.checked;
-                    form.render('checkbox');
-                }
-            }, "JSON");
+            Ajax.post('/system/menu/top', {id: this.value}, false);
         });
     })
     ;

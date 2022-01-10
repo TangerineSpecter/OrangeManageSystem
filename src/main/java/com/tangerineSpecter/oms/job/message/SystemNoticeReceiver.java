@@ -23,7 +23,8 @@ import javax.annotation.Resource;
  */
 @Slf4j
 @Component
-@RabbitListener(queues = MessageKeys.SYSTEM_NOTICE_QUEUE)
+//// TODO: 2022/1/9 暂时不进行消息通知 
+//@RabbitListener(queues = MessageKeys.SYSTEM_NOTICE_QUEUE)
 public class SystemNoticeReceiver {
 
     @Resource

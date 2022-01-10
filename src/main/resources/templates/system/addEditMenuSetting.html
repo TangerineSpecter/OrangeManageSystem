@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('新增编辑系统菜单')"/>
+</head>
+<body>
+<form class="layui-form layui-form-pane" action="" lay-filter="data-form">
+    <div class="mainBox">
+        <div class="main-container">
+            <div class="main-container">
+                <input type="text" id="id" name="id" class="layui-input" style="display: none;">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">菜单标题</label>
+                    <div class="layui-input-block">
+                        <input type="text" lay-filter="title" name="title" lay-verify="title" autocomplete="off"
+                               placeholder="请输入标题" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">跳转链接</label>
+                    <div class="layui-input-block">
+                        <input type="text" lay-filter="href" name="href" autocomplete="off"
+                               placeholder="请输入链接" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">菜单图标</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="iconPicker" name="icon" value="layui-icon-face-smile-fine" lay-verify="icon" lay-filter="iconPicker">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">菜单级别</label>
+                    <div class="layui-input-inline">
+                        <select lay-filter="level" name="level">
+                            <option value="2">按钮</option>
+                            <option value="1">菜单</option>
+                            <option value="0">目录</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">上级菜单</label>
+                    <div class="layui-input-inline">
+                        <select lay-filter="pid" name="pid" lay-search="">
+                            <option value="-1" selected="">无</option>
+                            <option th:each="systemMenu:${menuList.data}" th:text="${systemMenu.title}"
+                                    th:value="${systemMenu.id}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item" pane="">
+                    <label class="layui-form-label">跳转方式</label>
+                    <div class="layui-input-block">
+                        <input lay-filter="target" type="radio" name="target" value="_self" title="内部" checked="">
+                        <input lay-filter="target" type="radio" name="target" value="_blank" title="外部">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">排序</label>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            <input type="number" lay-filter="sort" name="sort" autocomplete="off"
+                                   class="layui-input"
+                                   value="0">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="pear-btn pear-btn-primary pear-btn-sm" lay-submit=""
+                    lay-filter="submitBtn">
+                <i class="layui-icon layui-icon-ok"></i>
+                提交
+            </button>
+            <button type="reset" class="pear-btn pear-btn-sm">
+                <i class="layui-icon layui-icon-refresh"></i>
+                重置
+            </button>
+        </div>
+    </div>
+</form>
+
+<th:block th:include="include :: footer"/>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+
+    //初始化页面数据
+    function initData(data) {
+        if (data.id !== undefined) {
+            initForm(data);
+        }
+        requestUrl = data.requestUrl;
+    }
+
+    /**
+     * 初始化表单
+     * @param data
+     */
+    function initForm(data) {
+        // $("#icon").val(data.icon);
+        layui.use(['form'], function () {
+            const form = layui.form;
+            form.val("data-form", {
+                "id": data.id,
+                "href": data.href,
+                "title": data.title,
+                "level": data.level,
+                "pid": data.pid,
+                "target": data.target,
+                "sort": data.sort,
+                "icon": data.icon
+            });
+            form.render();
+        });
+    }
+
+    layui.use(['form', 'layer', 'icon', 'code', 'element'], function () {
+        const form = layui.form,
+            icon = layui.icon;
+
+        layui.code();
+
+        //自定义验证规则
+        form.verify({
+            title: function (value) {
+                if (value.length < 1) {
+                    return '请输入菜单标题';
+                }
+            },
+            icon: function (value) {
+                if (value.length < 1) {
+                    return '请选择菜单图标';
+                }
+            }
+        });
+
+        icon.render({
+            // 选择器，推荐使用input
+            elem: '#iconPicker',
+            style: 'color: #5FB878;',
+            placeholder: '',
+            isSplit: true,
+            page: false,
+            search: true,
+            // 点击回调
+            click: function (data) {
+                //console.log(data);
+            },
+            // 渲染成功后的回调
+            success: function (d) {
+                //console.log(d);
+            }
+        });
+
+        //监听提交
+        form.on('submit(submitBtn)', function (data) {
+            if (data.field.id === undefined || data.field.id === "") {
+                Ajax.post(requestUrl, data.field, true);
+            } else {
+                Ajax.put(requestUrl, data.field, true);
+            }
+            return false;
+        });
+    });
+
+</script>
+</body>
+</html>

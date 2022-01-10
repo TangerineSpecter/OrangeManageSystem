@@ -33,7 +33,7 @@
         <input type="checkbox" name="" title="记住密码" lay-skin="primary" checked>
     </div>
     <div class="layui-form-item">
-        <button type="button" class="pear-btn pear-btn-success login" lay-submit lay-filter="login">
+        <button type="button" class="pear-btn pear-btn-success login" lay-submit lay-filter="login" id="loginBtn">
             登 入
         </button>
     </div>
@@ -47,8 +47,20 @@
         var popup = layui.popup;
         let captchaPath = "/system/captcha/generate";
 
+        $(document).keyup(function (event) {
+            if (event.keyCode === 13) {//按下Enter
+                // 登 录 提 交
+                $("#loginBtn").click();
+            }
+        });
+
         // 登 录 提 交
         form.on('submit(login)', function (data) {
+            window.submitForm(data);
+            return false;
+        });
+
+        window.submitForm = function (data) {
             let loader = layer.load();
             let loginBtn = button.load({elem: '.login'});
             /// 登录
@@ -77,8 +89,7 @@
                     popup.failure(result.msg);
                 }
             });
-            return false;
-        });
+        }
 
         $("#captchaImage").click(function () {
             document.getElementById("captchaImage").src = captchaPath + "?" + Math.random();

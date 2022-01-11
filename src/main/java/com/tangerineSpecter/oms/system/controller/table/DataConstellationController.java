@@ -1,14 +1,16 @@
 package com.tangerinespecter.oms.system.controller.table;
 
-import com.github.pagehelper.PageInfo;
 import com.tangerinespecter.oms.common.listener.AccessLimit;
 import com.tangerinespecter.oms.common.query.ConstellationQueryObject;
 import com.tangerinespecter.oms.common.redis.PageModelKey;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
 import com.tangerinespecter.oms.system.service.table.IDataConstellationService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
  * @Date 2019年1月8日
  */
 @RestController
+@Api(tags = "星座数据接口")
 @RequestMapping("/table/constellation")
 public class DataConstellationController {
 	
@@ -35,8 +38,9 @@ public class DataConstellationController {
 	/**
 	 * 星座页面
 	 */
+	@ApiOperation(value = "星座页面", hidden = true)
 	@RequiresPermissions("table:constellation:page")
-	@RequestMapping(value = "/page", produces = "text/html;charset=UTF-8")
+	@GetMapping(value = "/page", produces = "text/html;charset=UTF-8")
 	public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
 		return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getConstellationPageKey, "data/constellation");
 	}
@@ -45,7 +49,8 @@ public class DataConstellationController {
 	 * 星座列表
 	 */
 	@AccessLimit(maxCount = 10)
-	@RequestMapping("/list")
+	@ApiOperation("星座列表")
+	@GetMapping("/list")
 	public ServiceResult listInfo(ConstellationQueryObject qo) {
 		return ServiceResult.pageSuccess(dataConstellationService.queryForPage(qo));
 	}

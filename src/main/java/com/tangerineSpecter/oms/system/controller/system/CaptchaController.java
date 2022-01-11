@@ -1,6 +1,7 @@
 package com.tangerinespecter.oms.system.controller.system;
 
 import com.wf.captcha.utils.CaptchaUtil;
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,18 +16,19 @@ import javax.servlet.http.HttpServletResponse;
  * @date 2022年1月7日 00:51:34
  */
 @RestController
+@Api(tags = "验证码接口")
 @RequestMapping("system/captcha")
 public class CaptchaController {
-
-    /**
-     * 验证码生成
-     *
-     * @param request  请求报文
-     * @param response 响应报文
-     */
-    @RequestMapping("generate")
-    public void generate(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        CaptchaUtil.out(request, response);
-    }
-
+	
+	/**
+	 * 验证码生成
+	 *
+	 * @param request  请求报文
+	 * @param response 响应报文
+	 */
+	@RequestMapping("generate")
+	public void generate(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		CaptchaUtil.out(request, response);
+	}
+	
 }

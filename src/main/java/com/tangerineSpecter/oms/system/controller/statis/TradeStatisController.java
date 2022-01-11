@@ -4,6 +4,7 @@ import com.tangerinespecter.oms.common.redis.PageModelKey;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
 import com.tangerinespecter.oms.system.service.statis.ITradeStatisService;
+import io.swagger.annotations.Api;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,25 +23,26 @@ import javax.servlet.http.HttpServletResponse;
  * @date 2020年04月28日11:41:28
  */
 @RestController
+@Api(tags = "交易统计接口")
 @RequestMapping("/statis/trade")
 public class TradeStatisController {
-
-    @Resource
-    private PageResultService pageResultService;
-    @Resource
-    private ITradeStatisService tradeStatisService;
-
-    /**
-     * 交易统计页面
-     */
-    @RequiresPermissions("statis:trade:page")
-    @GetMapping(value = "/page", produces = "text/html;charset=UTF-8")
-    public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
-        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getTradeStatisPageKey, "statis/tradeStatis");
-    }
-
-    @GetMapping("/income-info")
-    public ServiceResult incomeValueStatisInfo() {
-        return tradeStatisService.incomeValueStatisInfo();
-    }
+	
+	@Resource
+	private PageResultService pageResultService;
+	@Resource
+	private ITradeStatisService tradeStatisService;
+	
+	/**
+	 * 交易统计页面
+	 */
+	@RequiresPermissions("statis:trade:page")
+	@GetMapping(value = "/page", produces = "text/html;charset=UTF-8")
+	public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
+		return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getTradeStatisPageKey, "statis/tradeStatis");
+	}
+	
+	@GetMapping("/income-info")
+	public ServiceResult incomeValueStatisInfo() {
+		return tradeStatisService.incomeValueStatisInfo();
+	}
 }

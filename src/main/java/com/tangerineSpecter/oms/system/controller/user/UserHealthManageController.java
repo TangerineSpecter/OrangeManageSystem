@@ -8,13 +8,12 @@ import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.dto.user.UserHealthInfoVo;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
 import com.tangerinespecter.oms.system.service.user.IUserHealthManageService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -29,53 +28,59 @@ import javax.validation.Valid;
  * @date 2020年05月09日09:52:07
  */
 @RestController
+@Api(tags = "用户健康管理接口")
 @RequestMapping("/user/health")
 public class UserHealthManageController {
-
+	
 	@Resource
 	private PageResultService pageResultService;
 	@Resource
 	private IUserHealthManageService userHealthManageService;
-
+	
 	/**
 	 * 健康管理页面
 	 */
+	@ApiOperation(value = "健康管理页面", hidden = true)
 	@RequiresPermissions("user:health:page")
-	@RequestMapping(value = "/page", produces = "text/html;charset=UTF-8")
+	@GetMapping(value = "/page", produces = "text/html;charset=UTF-8")
 	public String userHealthPage(HttpServletRequest request, HttpServletResponse response, Model model) {
 		return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getUserHealthPageKey, "user/healthManage");
 	}
-
+	
 	/**
 	 * 健康管理列表
 	 */
-	@RequestMapping("/list")
+	@ApiOperation(value = "健康管理列表")
+	@GetMapping("/list")
 	public ServiceResult userHealthPage(Model model, UserHealthQueryObject qo) {
 		return userHealthManageService.queryForPage(model, qo);
 	}
-
+	
 	/**
 	 * 新增健康数据
 	 */
-	@RequestMapping("/insert")
+	@ApiOperation(value = "新增健康信息")
+	@PostMapping("/insert")
 	@LoggerInfo(value = "新增健康信息", event = LogOperation.EVENT_ADD)
 	public ServiceResult insert(@RequestParam("type") Integer type) {
 		return userHealthManageService.insert(type);
 	}
-
+	
 	/**
 	 * 编辑健康数据
 	 */
-	@RequestMapping("/update")
+	@ApiOperation(value = "更新健康信息")
+	@PutMapping("/update")
 	@LoggerInfo(value = "更新健康信息", event = LogOperation.EVENT_UPDATE)
-	public ServiceResult update(@Valid UserHealthInfoVo data) {
+	public ServiceResult update(@Validated UserHealthInfoVo data) {
 		return userHealthManageService.update(data);
 	}
-
+	
 	/**
 	 * 删除健康数据
 	 */
-	@RequestMapping("/delete")
+	@ApiOperation(value = "删除健康信息")
+	@DeleteMapping("/delete/{id}")
 	@LoggerInfo(value = "删除健康信息", event = LogOperation.EVENT_DELETE)
 	public ServiceResult delete(Long id) {
 		return userHealthManageService.delete(id);

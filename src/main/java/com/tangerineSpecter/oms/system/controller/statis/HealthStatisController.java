@@ -4,6 +4,7 @@ import com.tangerinespecter.oms.common.redis.PageModelKey;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
 import com.tangerinespecter.oms.system.service.statis.IHealthStatisService;
+import io.swagger.annotations.Api;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
  * @date 2020年05月09日23:02:39
  */
 @RestController
+@Api(tags = "健康统计接口")
 @RequestMapping("/statis/health")
 public class HealthStatisController {
 	

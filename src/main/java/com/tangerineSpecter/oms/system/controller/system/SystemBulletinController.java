@@ -9,6 +9,7 @@ import com.tangerinespecter.oms.system.domain.dto.system.SystemBulletinInfoVo;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
 import com.tangerinespecter.oms.system.service.system.ISystemBulletinService;
 import com.tangerinespecter.oms.system.valid.Update;
+import io.swagger.annotations.Api;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -27,72 +28,73 @@ import javax.validation.constraints.NotNull;
  * @date 2020年05月08日22:07:42
  */
 @RestController
+@Api(tags = "系统公告接口")
 @RequestMapping("/system/bulletin")
 public class SystemBulletinController {
-
-    @Resource
-    private PageResultService pageResultService;
-    @Resource
-    private ISystemBulletinService systemBulletinService;
-
-    /**
-     * 收藏页面
-     */
-    @GetMapping("system:bulletin:page")
-    @RequestMapping(value = "/page", produces = "text/html;charset=UTF-8")
-    public String bulletinPage(HttpServletRequest request, HttpServletResponse response, Model model) {
-        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getSystemBulletinPageKey, "system/systemBulletin");
-    }
-
-    /**
-     * 添加页面
-     */
-    @GetMapping("/addPage")
-    public ModelAndView addBulletinPage(Model model) {
-        return ServiceResult.jumpPage("system/addEditBulletin");
-    }
-
-    /**
-     * 公告列表
-     */
-    @GetMapping("/list")
-    public ServiceResult bulletinPage(Model model, SystemBulletinQueryObject qo) {
-        return systemBulletinService.queryForPage(model, qo);
-    }
-
-    /**
-     * 新增公告
-     */
-    @PostMapping("/insert")
-    @LoggerInfo(value = "新增公告", event = LogOperation.EVENT_ADD)
-    public ServiceResult insert(@Validated @RequestBody SystemBulletinInfoVo data) {
-        return systemBulletinService.insert(data);
-    }
-
-    /**
-     * 编辑公告
-     */
-    @PutMapping("/update")
-    @LoggerInfo(value = "更新公告", event = LogOperation.EVENT_UPDATE)
-    public ServiceResult update(@Validated(Update.class) @RequestBody SystemBulletinInfoVo param) {
-        return systemBulletinService.update(param);
-    }
-
-    /**
-     * 删除公告
-     */
-    @DeleteMapping("/delete/{id}")
-    @LoggerInfo(value = "删除公告", event = LogOperation.EVENT_DELETE)
-    public ServiceResult delete(@NotNull(message = "id不能为空") @PathVariable("id") Long id) {
-        return systemBulletinService.delete(id);
-    }
-
-    /**
-     * 置顶公告
-     */
-    @PutMapping("/top")
-    @LoggerInfo(value = "置顶公告", event = LogOperation.EVENT_UPDATE)
-    public ServiceResult topInfo(@Validated(Update.class) @RequestBody SystemBulletinInfoVo param) {
-        return systemBulletinService.topInfo(param.getId());
-    }
+	
+	@Resource
+	private PageResultService pageResultService;
+	@Resource
+	private ISystemBulletinService systemBulletinService;
+	
+	/**
+	 * 收藏页面
+	 */
+	@GetMapping("system:bulletin:page")
+	@RequestMapping(value = "/page", produces = "text/html;charset=UTF-8")
+	public String bulletinPage(HttpServletRequest request, HttpServletResponse response, Model model) {
+		return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getSystemBulletinPageKey, "system/systemBulletin");
+	}
+	
+	/**
+	 * 添加页面
+	 */
+	@GetMapping("/addPage")
+	public ModelAndView addBulletinPage(Model model) {
+		return ServiceResult.jumpPage("system/addEditBulletin");
+	}
+	
+	/**
+	 * 公告列表
+	 */
+	@GetMapping("/list")
+	public ServiceResult bulletinPage(Model model, SystemBulletinQueryObject qo) {
+		return systemBulletinService.queryForPage(model, qo);
+	}
+	
+	/**
+	 * 新增公告
+	 */
+	@PostMapping("/insert")
+	@LoggerInfo(value = "新增公告", event = LogOperation.EVENT_ADD)
+	public ServiceResult insert(@Validated @RequestBody SystemBulletinInfoVo data) {
+		return systemBulletinService.insert(data);
+	}
+	
+	/**
+	 * 编辑公告
+	 */
+	@PutMapping("/update")
+	@LoggerInfo(value = "更新公告", event = LogOperation.EVENT_UPDATE)
+	public ServiceResult update(@Validated(Update.class) @RequestBody SystemBulletinInfoVo param) {
+		return systemBulletinService.update(param);
+	}
+	
+	/**
+	 * 删除公告
+	 */
+	@DeleteMapping("/delete/{id}")
+	@LoggerInfo(value = "删除公告", event = LogOperation.EVENT_DELETE)
+	public ServiceResult delete(@NotNull(message = "id不能为空") @PathVariable("id") Long id) {
+		return systemBulletinService.delete(id);
+	}
+	
+	/**
+	 * 置顶公告
+	 */
+	@PutMapping("/top")
+	@LoggerInfo(value = "置顶公告", event = LogOperation.EVENT_UPDATE)
+	public ServiceResult topInfo(@Validated(Update.class) @RequestBody SystemBulletinInfoVo param) {
+		return systemBulletinService.topInfo(param.getId());
+	}
 }

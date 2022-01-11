@@ -29,6 +29,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -230,7 +231,7 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
         queryWrapper.orderBy(true, false, "sort");
         List<SystemMenu> list = systemMenuMapper.selectList(queryWrapper);
         List<UserPermissionListDto> permissions = systemHelper.getCurrentUserPermissions();
-        List<String> permissionCodes = permissions.stream().map(UserPermissionListDto::getCode).collect(Collectors.toList());
+        Set<String> permissionCodes = permissions.stream().map(UserPermissionListDto::getCode).collect(Collectors.toSet());
         return getMenuChildInfo(list, permissionCodes);
     }
 
@@ -241,7 +242,7 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
      * @param permissionCodes 权限code
      * @return 菜单
      */
-    private List<MenuChildInfo> getMenuChildInfo(List<SystemMenu> list, List<String> permissionCodes) {
+    private List<MenuChildInfo> getMenuChildInfo(List<SystemMenu> list, Set<String> permissionCodes) {
         //找出所有一级菜单
         List<MenuChildInfo> result = CollUtil.newArrayList();
         for (SystemMenu menu : list) {
@@ -265,7 +266,7 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
      * @param pid      父菜单
      * @param rootMenu 根目录
      */
-    private List<MenuChildInfo> getChildMenuInfo(Long pid, List<SystemMenu> rootMenu, List<String> permissionCodes) {
+    private List<MenuChildInfo> getChildMenuInfo(Long pid, List<SystemMenu> rootMenu, Set<String> permissionCodes) {
         if (pid == null) {
             return null;
         }

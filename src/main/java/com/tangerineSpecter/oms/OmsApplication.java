@@ -13,6 +13,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+/**
+ * @author 丢失的橘子
+ * @description 橘子管理系统
+ */
 @Slf4j
 @EnableRabbit
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)

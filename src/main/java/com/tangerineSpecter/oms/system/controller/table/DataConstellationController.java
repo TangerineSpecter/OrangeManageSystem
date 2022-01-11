@@ -2,12 +2,14 @@ package com.tangerinespecter.oms.system.controller.table;
 
 import com.tangerinespecter.oms.common.listener.AccessLimit;
 import com.tangerinespecter.oms.common.query.ConstellationQueryObject;
+import com.tangerinespecter.oms.common.query.QueryObject;
 import com.tangerinespecter.oms.common.redis.PageModelKey;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
 import com.tangerinespecter.oms.system.service.table.IDataConstellationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,17 +25,17 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author TangerineSpecter
  * @version v0.0.5
- * @Date 2019年1月8日
+ * @date 2019年1月8日
  */
 @RestController
 @Api(tags = "星座数据接口")
+@RequiredArgsConstructor
 @RequestMapping("/table/constellation")
 public class DataConstellationController {
 	
-	@Resource
-	private IDataConstellationService dataConstellationService;
-	@Resource
-	private PageResultService pageResultService;
+	private final IDataConstellationService dataConstellationService;
+
+	private final PageResultService pageResultService;
 	
 	/**
 	 * 星座页面
@@ -52,6 +54,7 @@ public class DataConstellationController {
 	@ApiOperation("星座列表")
 	@GetMapping("/list")
 	public ServiceResult listInfo(ConstellationQueryObject qo) {
+		qo.setSearchParams(qo);
 		return ServiceResult.pageSuccess(dataConstellationService.queryForPage(qo));
 	}
 }

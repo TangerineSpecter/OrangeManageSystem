@@ -6,12 +6,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 /**
  * 分页查询
  *
  * @author TangerineSpecter
  * @version v0.0.5
- * @Date 2019年1月9日
+ * @date 2019年1月9日
  */
 @Data
 @AllArgsConstructor
@@ -21,7 +23,7 @@ public class QueryObject<T> {
     /**
      * 搜索参数
      */
-    private String searchParams;
+    private T searchParams;
     /**
      * 当前管理员ID
      */
@@ -34,10 +36,5 @@ public class QueryObject<T> {
      * 默认一页十条
      */
     private Integer limit = 10;
-    
-    /**
-     * 参数
-     */
-    private T param;
-    
+
 }

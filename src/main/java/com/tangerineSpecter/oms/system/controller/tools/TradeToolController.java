@@ -1,6 +1,7 @@
 package com.tangerinespecter.oms.system.controller.tools;
 
 import com.tangerinespecter.oms.system.service.tools.ITradeToolService;
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,6 +15,7 @@ import javax.annotation.Resource;
  * @date 2020年05月11日15:21:47
  */
 @RestController
+@Api(tags = "交易小工具接口", hidden = true)
 @RequestMapping("/tools/trade")
 public class TradeToolController {
 

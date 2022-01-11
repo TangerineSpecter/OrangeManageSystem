@@ -1,6 +1,5 @@
 package com.tangerinespecter.oms.common.config;
 
-import com.github.xiaoymin.knife4j.spring.annotations.EnableSwaggerBootstrapUi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -17,12 +16,11 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  */
 @Configuration
 @EnableSwagger2
-@EnableSwaggerBootstrapUi
 public class SwaggerConfig {
 	
 	@Bean
 	public Docket customDocket() {
-		return new Docket(DocumentationType.SWAGGER_2)
+		return new Docket(DocumentationType.OAS_30)
 				.apiInfo(apiInfo())
 				.select()
 				.apis(RequestHandlerSelectors.basePackage("com.tangerinespecter.oms.system.controller"))

@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
@@ -23,7 +24,7 @@ import javax.annotation.Resource;
  * @date 2019年09月08日00:01:21
  */
 @RestController
-@Api(tags = "二维码生成工具类")
+@Api(tags = "二维码生成工具接口")
 @RequestMapping("/tools/qr-code")
 public class QrCodeToolController {
 	
@@ -31,7 +32,7 @@ public class QrCodeToolController {
 	private IQrCodeToolService qrCodeToolService;
 	
 	@GetMapping("/page")
-	@ApiOperation("二维码页面跳转")
+	@ApiOperation(value = "二维码页面跳转", hidden = true)
 	@RequiresPermissions("tools:qr-code:page")
 	public ModelAndView pageInfo() {
 		return ServiceResult.jumpPage("tools/qrCode");
@@ -40,7 +41,7 @@ public class QrCodeToolController {
 	/**
 	 * 生成二维码
 	 */
-	@GetMapping("/create")
+	@PostMapping("/create")
 	@ApiOperation("创建二维码")
 	@LoggerInfo(value = "创建二维码", event = LogOperation.EVENT_ADD)
 	public ServiceResult createQrCode(@Validated QrCodeInfoVo vo) {

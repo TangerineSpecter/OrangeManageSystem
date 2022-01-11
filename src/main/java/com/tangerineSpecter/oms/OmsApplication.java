@@ -1,6 +1,5 @@
 package com.tangerinespecter.oms;
 
-import com.github.xiaoymin.knife4j.spring.annotations.EnableSwaggerBootstrapUi;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
@@ -16,7 +15,6 @@ import java.net.UnknownHostException;
 
 @Slf4j
 @EnableRabbit
-@EnableSwaggerBootstrapUi
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
 @MapperScan("com.tangerinespecter.oms.system.mapper")
 public class OmsApplication implements WebMvcConfigurer {

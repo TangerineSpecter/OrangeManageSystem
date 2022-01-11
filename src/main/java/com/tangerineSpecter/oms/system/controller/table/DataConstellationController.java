@@ -1,5 +1,6 @@
 package com.tangerinespecter.oms.system.controller.table;
 
+import com.github.pagehelper.PageInfo;
 import com.tangerinespecter.oms.common.listener.AccessLimit;
 import com.tangerinespecter.oms.common.query.ConstellationQueryObject;
 import com.tangerinespecter.oms.common.redis.PageModelKey;
@@ -25,27 +26,27 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 @RequestMapping("/table/constellation")
 public class DataConstellationController {
-
-    @Resource
-    private IDataConstellationService dataConstellationService;
-    @Resource
-    private PageResultService pageResultService;
-
-    /**
-     * 星座页面
-     */
-    @RequiresPermissions("table:constellation:page")
-    @RequestMapping(value = "/page", produces = "text/html;charset=UTF-8")
-    public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
-        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getConstellationPageKey, "data/constellation");
-    }
-
-    /**
-     * 星座列表
-     */
-    @AccessLimit(maxCount = 10)
-    @RequestMapping("/list")
-    public ServiceResult listInfo(ConstellationQueryObject qo) {
-        return dataConstellationService.queryForPage(qo);
-    }
+	
+	@Resource
+	private IDataConstellationService dataConstellationService;
+	@Resource
+	private PageResultService pageResultService;
+	
+	/**
+	 * 星座页面
+	 */
+	@RequiresPermissions("table:constellation:page")
+	@RequestMapping(value = "/page", produces = "text/html;charset=UTF-8")
+	public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
+		return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getConstellationPageKey, "data/constellation");
+	}
+	
+	/**
+	 * 星座列表
+	 */
+	@AccessLimit(maxCount = 10)
+	@RequestMapping("/list")
+	public ServiceResult listInfo(ConstellationQueryObject qo) {
+		return ServiceResult.pageSuccess(dataConstellationService.queryForPage(qo));
+	}
 }

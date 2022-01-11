@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class QueryObject {
+public class QueryObject<T> {
 
     /**
      * 搜索参数
@@ -34,5 +34,10 @@ public class QueryObject {
      * 默认一页十条
      */
     private Integer limit = 10;
-
+    
+    /**
+     * 参数
+     */
+    private T param;
+    
 }

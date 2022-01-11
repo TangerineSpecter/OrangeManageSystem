@@ -89,6 +89,7 @@ INSERT INTO `system_menu` VALUES (75, '权限管理', 7, '/system/permission/pag
 INSERT INTO `system_menu` VALUES (76, '每日壁纸', 28, '/tools/wall-paper/page', 'fa fa-photo', 2, '_self', 'f95bdecc9f5915a121727408c4d63812', 0, 0, 0);
 INSERT INTO `system_menu` VALUES (77, '版本记录', 7, '/page/versionHistory', 'fa fa fa-info-circle', 2, '_self', '0f7b8a04e50d1b9ad261614078c2d636', 5, 1, 0);
 INSERT INTO `system_menu` VALUES (79, '交易逻辑', 66, '/data/trade-logic/page', 'fa fa-bitcoin', 2, '_self', '3c979daca43162779bae457f75f58466', 10, 1, 0);
+INSERT INTO `system_menu` VALUES (84, '接口文档', 28, '/api-doc', 'layui-icon-face-smile-fine', 1, '_blank', 'c535b4f4cecbad34d556dd0a0c8c4738', 0, 0, 0);
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;

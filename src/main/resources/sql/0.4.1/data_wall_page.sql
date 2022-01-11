@@ -38,4 +38,4 @@ SET FOREIGN_KEY_CHECKS = 1;
 
 -- 新增菜单
 INSERT INTO `oms`.`system_menu` (`title`, `pid`, `href`, `icon`, `level`, `target`, `permission_code`, `sort`, `top`, `top_sort`)
-VALUES ('接口文档', 28, '/api-doc', 'layui-icon-face-smile-fine', 1, '_self', 'c535b4f4cecbad34d556dd0a0c8c4738', 0, 0, 0);
+VALUES ('接口文档', 28, '/api-doc', 'layui-icon-face-smile-fine', 1, '_blank', 'c535b4f4cecbad34d556dd0a0c8c4738', 0, 0, 0);

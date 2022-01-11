@@ -109,6 +109,7 @@ INSERT INTO `system_version_history_content` VALUES (73, 21, 3, '消息推送没
 INSERT INTO `system_version_history_content` VALUES (74, 21, 2, '收藏内容支持点击跳转链接');
 INSERT INTO `system_version_history_content` VALUES (75, 21, 0, '管理员分配角色功能');
 INSERT INTO `system_version_history_content` VALUES (76, 21, 3, '权限初始化无效权限没有移除bug');
+INSERT INTO `system_version_history_content` VALUES (77, 21, 0, '接口文档小工具');
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;

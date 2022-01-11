@@ -7,8 +7,10 @@ import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.service.data.IDataStockPortfolioService;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,8 +36,9 @@ public class DataStockPortfolioController {
 	/**
 	 * 交易记录页面
 	 */
+	@ApiOperation("交易组合页面")
 	@RequiresPermissions("data:stock-portfolio:page")
-	@RequestMapping(value = "/page", produces = "text/html;charset=UTF-8")
+	@GetMapping(value = "/page", produces = "text/html;charset=UTF-8")
 	public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
 		return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getStockPortfolioPageKey, "data/tradeRecord");
 	}
@@ -43,8 +46,9 @@ public class DataStockPortfolioController {
 	/**
 	 * 交易记录列表
 	 */
+	@ApiOperation("交易组合列表")
 	@AccessLimit(maxCount = 10)
-	@RequestMapping("/list")
+	@GetMapping("/list")
 	public ServiceResult listInfo(StockPortfolioQueryObject qo) {
 		return dataStockPortfolioService.queryForPage(qo);
 	}

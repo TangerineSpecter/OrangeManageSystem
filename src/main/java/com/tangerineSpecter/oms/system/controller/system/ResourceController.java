@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 
 /**
  * 资源控制
@@ -37,5 +38,14 @@ public class ResourceController {
 	@PostMapping("/upload-image")
 	public ServiceResult uploadImage(@Param("file") MultipartFile file) {
 		return resourceService.uploadImage(file);
+	}
+
+	/**
+	 * 上传文件
+	 */
+	@ApiOperation("上传文件")
+	@PostMapping("upload")
+	public String uploadFile(MultipartFile file, String fileName) throws IOException {
+		return resourceService.uploadFile(file, fileName);
 	}
 }

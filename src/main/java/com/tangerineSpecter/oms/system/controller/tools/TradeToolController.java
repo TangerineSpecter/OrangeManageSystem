@@ -15,7 +15,7 @@ import javax.annotation.Resource;
  * @date 2020年05月11日15:21:47
  */
 @RestController
-@Api(tags = "交易小工具接口", hidden = true)
+@Api(tags = "交易小工具接口")
 @RequestMapping("/tools/trade")
 public class TradeToolController {
 

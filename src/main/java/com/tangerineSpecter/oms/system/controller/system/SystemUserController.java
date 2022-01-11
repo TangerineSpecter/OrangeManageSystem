@@ -37,7 +37,7 @@ public class SystemUserController {
 	/**
 	 * 后台管理员
 	 */
-	@ApiOperation(value = "用户健康管理接口", hidden = true)
+	@ApiOperation(value = "用户健康管理接口")
 	@GetMapping("/page")
 	@RequiresPermissions("systemUser:page")
 	public ModelAndView systemUserPage() {
@@ -47,7 +47,7 @@ public class SystemUserController {
 	/**
 	 * 个人中心
 	 */
-	@ApiOperation(value = "用户个人中心页面", hidden = true)
+	@ApiOperation(value = "用户个人中心页面")
 	@GetMapping("/center")
 	public ModelAndView userCenter(Model model) {
 		SystemUser systemUser = (SystemUser) SecurityUtils.getSubject().getPrincipal();
@@ -58,7 +58,7 @@ public class SystemUserController {
 	/**
 	 * 裁剪图片
 	 */
-	@ApiOperation(value = "裁剪图片页面", hidden = true)
+	@ApiOperation(value = "裁剪图片页面")
 	@GetMapping("/profile")
 	public ModelAndView profile() {
 		return ServiceResult.jumpPage("system/profile");
@@ -67,7 +67,7 @@ public class SystemUserController {
 	/**
 	 * 后台管理员
 	 */
-	@ApiOperation(value = "编辑管理员角色页面", hidden = true)
+	@ApiOperation(value = "编辑管理员角色页面")
 	@GetMapping("/addRolePage")
 	public ModelAndView addRolePage() {
 		return ServiceResult.jumpPage("system/editSystemUserRole");
@@ -76,7 +76,7 @@ public class SystemUserController {
 	/**
 	 * 修改密码页面
 	 */
-	@ApiOperation(value = "修改密码页面", hidden = true)
+	@ApiOperation(value = "修改密码页面")
 	@GetMapping("/updatePwdPage")
 	public ModelAndView updatePwdPage(Model model) {
 		return ServiceResult.jumpPage("system/userPassword");

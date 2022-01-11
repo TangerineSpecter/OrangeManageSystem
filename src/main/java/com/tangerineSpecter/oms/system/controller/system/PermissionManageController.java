@@ -7,6 +7,7 @@ import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
 import com.tangerinespecter.oms.system.service.system.IPermissionManageService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,6 +39,7 @@ public class PermissionManageController {
 	/**
 	 * 权限管理
 	 */
+	@ApiOperation("权限管理页面")
 	@RequiresPermissions("system:permission:page")
 	@GetMapping(value = "/page", produces = "text/html;charset=UTF-8")
 	public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -47,6 +49,7 @@ public class PermissionManageController {
 	/**
 	 * 权限列表
 	 */
+	@ApiOperation("权限管理列表")
 	@AccessLimit(maxCount = 10)
 	@GetMapping("/list")
 	public ServiceResult listInfo(SystemPermissionQueryObject qo) {
@@ -56,6 +59,7 @@ public class PermissionManageController {
 	/**
 	 * 权限初始化
 	 */
+	@ApiOperation("权限初始化")
 	@AccessLimit(maxCount = 3)
 	@PostMapping("/init")
 	public ServiceResult init() {

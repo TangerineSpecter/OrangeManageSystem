@@ -12,6 +12,7 @@ import com.tangerinespecter.oms.system.valid.IdParam;
 import com.tangerinespecter.oms.system.valid.Insert;
 import com.tangerinespecter.oms.system.valid.Update;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -43,6 +44,7 @@ public class MenuSettingController {
 	/**
 	 * 菜单管理
 	 */
+	@ApiOperation("菜单管理页面")
 	@RequiresPermissions("system:menu:page")
 	@GetMapping(value = "/page", produces = "text/html;charset=UTF-8")
 	public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -52,6 +54,7 @@ public class MenuSettingController {
 	/**
 	 * 添加页面
 	 */
+	@ApiOperation("添加编辑菜单页面")
 	@GetMapping("/addPage")
 	public ModelAndView addMenuPage(Model model) {
 		model.addAttribute("menuList", menuSettingService.listInfo());
@@ -61,6 +64,7 @@ public class MenuSettingController {
 	/**
 	 * 菜单列表
 	 */
+	@ApiOperation("菜单列表")
 	@GetMapping("/list")
 	public ServiceResult<Object> listInfo() {
 		return menuSettingService.listInfo();
@@ -69,6 +73,7 @@ public class MenuSettingController {
 	/**
 	 * 添加菜单
 	 */
+	@ApiOperation("新增菜单")
 	@PostMapping("/insert")
 	@LoggerInfo(value = "添加菜单", event = LogOperation.EVENT_ADD)
 	public ServiceResult insertInfo(@Validated(Insert.class) @RequestBody SystemMenuInfoVo vo) {
@@ -78,6 +83,7 @@ public class MenuSettingController {
 	/**
 	 * 编辑菜单
 	 */
+	@ApiOperation("编辑菜单")
 	@PutMapping("/update")
 	@LoggerInfo(value = "编辑菜单", event = LogOperation.EVENT_UPDATE)
 	public ServiceResult updateInfo(@Validated(Update.class) @RequestBody SystemMenuInfoVo vo) {
@@ -87,6 +93,7 @@ public class MenuSettingController {
 	/**
 	 * 菜单信息
 	 */
+	@ApiOperation("菜单信息")
 	@GetMapping("/info/{id}")
 	public ServiceResult detailInfo(@PathVariable("id") Long id) {
 		return menuSettingService.detailInfo(id);
@@ -97,6 +104,7 @@ public class MenuSettingController {
 	 *
 	 * @param id 菜单ID
 	 */
+	@ApiOperation("删除菜单")
 	@DeleteMapping("/delete/{id}")
 	@LoggerInfo(value = "删除菜单", event = LogOperation.EVENT_DELETE)
 	public ServiceResult deleteInfo(@PathVariable("id") Long id) {
@@ -106,6 +114,7 @@ public class MenuSettingController {
 	/**
 	 * 置顶菜单
 	 */
+	@ApiOperation("置顶菜单")
 	@PutMapping("/top")
 	@LoggerInfo(value = "置顶菜单", event = LogOperation.EVENT_UPDATE)
 	public ServiceResult topInfo(@Validated(IdParam.class) @RequestBody SystemMenuInfoVo param) {
@@ -117,6 +126,7 @@ public class MenuSettingController {
 	 *
 	 * @return
 	 */
+	@ApiOperation("初始化菜单")
 	public List<SystemMenu> initMenuCode() {
 		return menuSettingService.initMenuCode();
 	}

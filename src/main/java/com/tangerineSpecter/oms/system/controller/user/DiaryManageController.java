@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
  * @date 2020年05月14日09:28:49
  */
 @RestController
-@Api(tags = "日记管理接口", hidden = true)
+@Api(tags = "日记管理接口")
 @RequestMapping("/user/diary")
 public class DiaryManageController {
 	
@@ -32,7 +32,7 @@ public class DiaryManageController {
 	/**
 	 * 日记管理页面
 	 */
-	@ApiOperation(value = "日记管理页面", hidden = true)
+	@ApiOperation(value = "日记管理页面")
 	@RequiresPermissions("user:diary:page")
 	@GetMapping(value = "/page", produces = "text/html;charset=UTF-8")
 	public String userHealthPage(HttpServletRequest request, HttpServletResponse response, Model model) {

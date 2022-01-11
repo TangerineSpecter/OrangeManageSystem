@@ -10,6 +10,7 @@ import com.tangerinespecter.oms.system.domain.vo.data.TradeRecordInfoVo;
 import com.tangerinespecter.oms.system.service.data.IDateTradeRecordService;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -40,6 +41,7 @@ public class DataTradeRecordController {
 	/**
 	 * 交易记录页面
 	 */
+	@ApiOperation("交易记录页面")
 	@RequiresPermissions("data:trade-record:page")
 	@GetMapping(value = "/page", produces = "text/html;charset=UTF-8")
 	public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -49,6 +51,7 @@ public class DataTradeRecordController {
 	/**
 	 * 交易记录列表
 	 */
+	@ApiOperation("交易记录列表")
 	@AccessLimit(maxCount = 10)
 	@GetMapping("/list")
 	public ServiceResult listInfo(TradeRecordQueryObject qo) {
@@ -58,6 +61,7 @@ public class DataTradeRecordController {
 	/**
 	 * 添加页面
 	 */
+	@ApiOperation("添加编辑页面")
 	@GetMapping("/addPage")
 	public ModelAndView addTradeRecordPage() {
 		return ServiceResult.jumpPage("data/addEditTradeRecord");
@@ -66,6 +70,7 @@ public class DataTradeRecordController {
 	/**
 	 * 交易数据初始化
 	 */
+	@ApiOperation("交易记录初始化")
 	@AccessLimit(maxCount = 10)
 	@PostMapping("/init")
 	public ServiceResult init() {
@@ -75,6 +80,7 @@ public class DataTradeRecordController {
 	/**
 	 * 添加交易数据
 	 */
+	@ApiOperation("添加交易记录")
 	@PostMapping("/insert")
 	@LoggerInfo(value = "添加交易数据", event = LogOperation.EVENT_ADD)
 	public ServiceResult insertInfo(@Validated @RequestBody TradeRecordInfoVo vo) {
@@ -84,6 +90,7 @@ public class DataTradeRecordController {
 	/**
 	 * 编辑交易数据
 	 */
+	@ApiOperation("编辑交易记录")
 	@PutMapping("/update")
 	@LoggerInfo(value = "编辑交易数据", event = LogOperation.EVENT_UPDATE)
 	public ServiceResult updateInfo(@Validated @RequestBody TradeRecordInfoVo vo) {
@@ -93,6 +100,7 @@ public class DataTradeRecordController {
 	/**
 	 * 交易数据详情
 	 */
+	@ApiOperation("交易记录信息")
 	@GetMapping("/info/{id}")
 	public ServiceResult detailInfo(@PathVariable("id") Long id) {
 		return dateTradeRecordService.detailInfo(id);
@@ -101,6 +109,7 @@ public class DataTradeRecordController {
 	/**
 	 * 删除交易数据
 	 */
+	@ApiOperation("删除交易记录")
 	@DeleteMapping("/delete/{id}")
 	@LoggerInfo(value = "删除交易数据", event = LogOperation.EVENT_DELETE)
 	public ServiceResult deleteInfo(@PathVariable("id") Long id) {
@@ -110,6 +119,7 @@ public class DataTradeRecordController {
 	/**
 	 * excel导入数据
 	 */
+	@ApiOperation("导入交易数据")
 	@PostMapping("/excel")
 	public ServiceResult excelInfo(MultipartFile file) {
 		return dateTradeRecordService.excelInfo(file);

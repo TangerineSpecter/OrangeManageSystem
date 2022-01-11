@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+
 @Slf4j
 @Service
 public class ResourceServiceImpl implements IResourceService {
@@ -24,5 +26,10 @@ public class ResourceServiceImpl implements IResourceService {
             log.error("文件上传异常:{}", e.getMessage());
             return ServiceResult.error(RetCode.FILE_UPLOAD_EXCEPTION);
         }
+    }
+
+    @Override
+    public String uploadFile(MultipartFile file, String fileName) throws IOException {
+        return FileUtils.uploadFile(file.getBytes());
     }
 }

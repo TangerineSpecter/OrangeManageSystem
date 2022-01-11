@@ -40,7 +40,7 @@ public class UserHealthManageController {
 	/**
 	 * 健康管理页面
 	 */
-	@ApiOperation(value = "健康管理页面", hidden = true)
+	@ApiOperation(value = "健康管理页面")
 	@RequiresPermissions("user:health:page")
 	@GetMapping(value = "/page", produces = "text/html;charset=UTF-8")
 	public String userHealthPage(HttpServletRequest request, HttpServletResponse response, Model model) {

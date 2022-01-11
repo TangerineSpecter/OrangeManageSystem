@@ -30,7 +30,7 @@ public class EveryDayWallPaperToolController {
 	@Resource
 	private IEveryDayWallPaperToolService everyDayWallPaperToolService;
 	
-	@ApiOperation(value = "每日壁纸页面", hidden = true)
+	@ApiOperation(value = "每日壁纸页面")
 	@GetMapping("/page")
 	@RequiresPermissions("tools:wall-paper:page")
 	public ModelAndView pageInfo(Model model) {

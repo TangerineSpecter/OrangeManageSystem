@@ -2,6 +2,8 @@ package com.tangerinespecter.oms.system.controller.system;
 
 import com.wf.captcha.utils.CaptchaUtil;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,7 +28,8 @@ public class CaptchaController {
 	 * @param request  请求报文
 	 * @param response 响应报文
 	 */
-	@RequestMapping("generate")
+	@ApiOperation("验证码生成")
+	@GetMapping("generate")
 	public void generate(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		CaptchaUtil.out(request, response);
 	}

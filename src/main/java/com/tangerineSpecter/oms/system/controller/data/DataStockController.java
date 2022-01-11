@@ -7,8 +7,10 @@ import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.service.data.IDataStockService;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,8 +38,9 @@ public class DataStockController {
 	/**
 	 * 股票池页面
 	 */
+	@ApiOperation("股票池页面")
 	@RequiresPermissions("data:stock:page")
-	@RequestMapping(value = "/page", produces = "text/html;charset=UTF-8")
+	@GetMapping(value = "/page", produces = "text/html;charset=UTF-8")
 	public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
 		return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getStockPageKey, "data/stock");
 	}
@@ -45,8 +48,9 @@ public class DataStockController {
 	/**
 	 * 股票池列表
 	 */
+	@ApiOperation("股票池列表")
 	@AccessLimit(maxCount = 10)
-	@RequestMapping("/list")
+	@GetMapping("/list")
 	public ServiceResult listInfo(StockQueryObject qo) {
 		return dataStockService.queryForPage(qo);
 	}

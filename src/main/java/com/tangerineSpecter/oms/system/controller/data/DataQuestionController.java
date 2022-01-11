@@ -11,6 +11,7 @@ import com.tangerinespecter.oms.system.service.data.IDataQuestionService;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
 import com.tangerinespecter.oms.system.valid.Update;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -42,6 +43,7 @@ public class DataQuestionController {
 	/**
 	 * 问题管理页面
 	 */
+	@ApiOperation("问题管理页面")
 	@RequiresPermissions("data:question:page")
 	@GetMapping(value = "/page", produces = "text/html;charset=UTF-8")
 	public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -51,6 +53,7 @@ public class DataQuestionController {
 	/**
 	 * 添加页面
 	 */
+	@ApiOperation("添加编辑问题管理")
 	@GetMapping("/addPage")
 	public ModelAndView addQuestionPage(Model model) {
 		return ServiceResult.jumpPage("data/addEditQuestion");
@@ -59,6 +62,7 @@ public class DataQuestionController {
 	/**
 	 * 问题列表
 	 */
+	@ApiOperation("问题管理列表")
 	@AccessLimit(maxCount = 10)
 	@GetMapping("/list")
 	public ServiceResult listInfo(QuestionQueryObject qo) {
@@ -68,6 +72,7 @@ public class DataQuestionController {
 	/**
 	 * 添加问题
 	 */
+	@ApiOperation("添加问题")
 	@PostMapping("/insert")
 	@LoggerInfo(value = "添加问题", event = LogOperation.EVENT_ADD)
 	public ServiceResult insertInfo(@Validated @RequestBody QuestionInfoVo vo) {
@@ -77,6 +82,7 @@ public class DataQuestionController {
 	/**
 	 * 修改问题
 	 */
+	@ApiOperation("修改问题")
 	@PutMapping("/update")
 	@LoggerInfo(value = "修改问题", event = LogOperation.EVENT_UPDATE)
 	public ServiceResult update(@Validated(Update.class) @RequestBody QuestionInfoVo vo) {
@@ -86,6 +92,7 @@ public class DataQuestionController {
 	/**
 	 * 删除问题
 	 */
+	@ApiOperation("删除问题")
 	@DeleteMapping("/delete/{id}")
 	@LoggerInfo(value = "删除问题", event = LogOperation.EVENT_DELETE)
 	public ServiceResult delete(@NotNull(message = "id不能为null") @PathVariable("id") Long id) {

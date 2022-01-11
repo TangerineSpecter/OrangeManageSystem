@@ -38,7 +38,7 @@ public class DataConstellationController {
 	/**
 	 * 星座页面
 	 */
-	@ApiOperation(value = "星座页面", hidden = true)
+	@ApiOperation(value = "星座页面")
 	@RequiresPermissions("table:constellation:page")
 	@GetMapping(value = "/page", produces = "text/html;charset=UTF-8")
 	public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {

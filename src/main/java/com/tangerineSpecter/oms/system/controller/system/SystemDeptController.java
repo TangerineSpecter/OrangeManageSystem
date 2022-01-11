@@ -23,7 +23,7 @@ import javax.validation.Valid;
  * @author TangerineSpecter
  * @date 2020年02月15日21:25:06
  */
-@Api(tags = "部门管理接口", hidden = true)
+@Api(tags = "部门管理接口")
 @RestController("/systemDept")
 public class SystemDeptController {
 	

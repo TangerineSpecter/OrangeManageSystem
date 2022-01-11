@@ -32,7 +32,7 @@ public class QrCodeToolController {
 	private IQrCodeToolService qrCodeToolService;
 	
 	@GetMapping("/page")
-	@ApiOperation(value = "二维码页面跳转", hidden = true)
+	@ApiOperation(value = "二维码页面跳转")
 	@RequiresPermissions("tools:qr-code:page")
 	public ModelAndView pageInfo() {
 		return ServiceResult.jumpPage("tools/qrCode");

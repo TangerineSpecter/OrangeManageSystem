@@ -10,6 +10,8 @@ import com.tangerinespecter.oms.system.service.page.PageResultService;
 import com.tangerinespecter.oms.system.service.system.ISystemBulletinService;
 import com.tangerinespecter.oms.system.valid.Update;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -38,10 +40,11 @@ public class SystemBulletinController {
 	private ISystemBulletinService systemBulletinService;
 	
 	/**
-	 * 收藏页面
+	 * 系统公告
 	 */
-	@GetMapping("system:bulletin:page")
-	@RequestMapping(value = "/page", produces = "text/html;charset=UTF-8")
+	@ApiOperation("系统公告页面")
+	@RequiresPermissions("system:bulletin:page")
+	@GetMapping(value = "/page", produces = "text/html;charset=UTF-8")
 	public String bulletinPage(HttpServletRequest request, HttpServletResponse response, Model model) {
 		return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getSystemBulletinPageKey, "system/systemBulletin");
 	}
@@ -49,6 +52,7 @@ public class SystemBulletinController {
 	/**
 	 * 添加页面
 	 */
+	@ApiOperation("添加编辑公告页面")
 	@GetMapping("/addPage")
 	public ModelAndView addBulletinPage(Model model) {
 		return ServiceResult.jumpPage("system/addEditBulletin");
@@ -57,6 +61,7 @@ public class SystemBulletinController {
 	/**
 	 * 公告列表
 	 */
+	@ApiOperation("系统公告列表")
 	@GetMapping("/list")
 	public ServiceResult bulletinPage(Model model, SystemBulletinQueryObject qo) {
 		return systemBulletinService.queryForPage(model, qo);
@@ -65,6 +70,7 @@ public class SystemBulletinController {
 	/**
 	 * 新增公告
 	 */
+	@ApiOperation("新增系统公告")
 	@PostMapping("/insert")
 	@LoggerInfo(value = "新增公告", event = LogOperation.EVENT_ADD)
 	public ServiceResult insert(@Validated @RequestBody SystemBulletinInfoVo data) {
@@ -74,6 +80,7 @@ public class SystemBulletinController {
 	/**
 	 * 编辑公告
 	 */
+	@ApiOperation("编辑系统公告")
 	@PutMapping("/update")
 	@LoggerInfo(value = "更新公告", event = LogOperation.EVENT_UPDATE)
 	public ServiceResult update(@Validated(Update.class) @RequestBody SystemBulletinInfoVo param) {
@@ -83,6 +90,7 @@ public class SystemBulletinController {
 	/**
 	 * 删除公告
 	 */
+	@ApiOperation("删除系统公告")
 	@DeleteMapping("/delete/{id}")
 	@LoggerInfo(value = "删除公告", event = LogOperation.EVENT_DELETE)
 	public ServiceResult delete(@NotNull(message = "id不能为空") @PathVariable("id") Long id) {
@@ -92,6 +100,7 @@ public class SystemBulletinController {
 	/**
 	 * 置顶公告
 	 */
+	@ApiOperation("置顶系统公告")
 	@PutMapping("/top")
 	@LoggerInfo(value = "置顶公告", event = LogOperation.EVENT_UPDATE)
 	public ServiceResult topInfo(@Validated(Update.class) @RequestBody SystemBulletinInfoVo param) {

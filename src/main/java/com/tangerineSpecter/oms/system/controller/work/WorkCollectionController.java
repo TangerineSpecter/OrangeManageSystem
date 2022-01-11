@@ -40,7 +40,7 @@ public class WorkCollectionController {
 	/**
 	 * 收藏页面
 	 */
-	@ApiOperation(value = "收藏页面", hidden = true)
+	@ApiOperation(value = "收藏页面")
 	@RequiresPermissions("work:collection:page")
 	@GetMapping(value = "/page", produces = "text/html;charset=UTF-8")
 	public String collectionPage(HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -50,7 +50,7 @@ public class WorkCollectionController {
 	/**
 	 * 添加页面
 	 */
-	@ApiOperation(value = "添加编辑页面", hidden = true)
+	@ApiOperation(value = "添加编辑页面")
 	@GetMapping("/addPage")
 	public ModelAndView addCollectionPage(Model model) {
 		return ServiceResult.jumpPage("work/addEditCollection");

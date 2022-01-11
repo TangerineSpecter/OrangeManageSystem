@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * 文件工具类
+ *
  * @author 丢失的橘子
  */
 @Slf4j
@@ -20,8 +21,6 @@ public class FileUtils {
 
     /**
      * 文件上传
-     *
-     * @return
      */
     public static String uploadFile(byte[] fileBytes) {
         Configuration cfg = new Configuration(Region.region2());

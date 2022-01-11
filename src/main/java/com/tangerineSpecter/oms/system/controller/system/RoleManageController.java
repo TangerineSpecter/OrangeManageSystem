@@ -9,6 +9,7 @@ import com.tangerinespecter.oms.system.service.page.PageResultService;
 import com.tangerinespecter.oms.system.service.system.IRoleManageService;
 import com.tangerinespecter.oms.system.valid.Insert;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -39,6 +40,7 @@ public class RoleManageController {
 	/**
 	 * 角色管理
 	 */
+	@ApiOperation("角色管理页面")
 	@RequiresPermissions("system:role:page")
 	@GetMapping(value = "/page", produces = "text/html;charset=UTF-8")
 	public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -48,6 +50,7 @@ public class RoleManageController {
 	/**
 	 * 添加页面
 	 */
+	@ApiOperation("添加编辑角色页面")
 	@GetMapping("/addPage")
 	public ModelAndView addAuthorizePage(Model model) {
 		return ServiceResult.jumpPage("system/roleAuthorize");
@@ -56,6 +59,7 @@ public class RoleManageController {
 	/**
 	 * 角色列表
 	 */
+	@ApiOperation("角色管理列表")
 	@GetMapping("/list")
 	public ServiceResult listInfo(SystemRoleQueryObject qo) {
 		return roleManageService.querySystemRoleList(qo);
@@ -64,6 +68,7 @@ public class RoleManageController {
 	/**
 	 * 添加角色
 	 */
+	@ApiOperation("添加角色")
 	@PostMapping("/insert")
 	public ServiceResult insert(@Validated(Insert.class) @RequestBody SystemRoleInfoVo param) {
 		return roleManageService.insert(param.getName());
@@ -72,6 +77,7 @@ public class RoleManageController {
 	/**
 	 * 角色授权
 	 */
+	@ApiOperation("角色授权")
 	@PutMapping("/authorize")
 	public ServiceResult authorize(@Validated @RequestBody SystemRoleInfoVo param) {
 		return roleManageService.authorize(param);
@@ -80,6 +86,7 @@ public class RoleManageController {
 	/**
 	 * 更新角色状态
 	 */
+	@ApiOperation("更新角色状态")
 	@PutMapping("/update-status")
 	public ServiceResult updateStatus(@Validated() @RequestBody SystemRoleInfoVo param) {
 		return roleManageService.updateStatus(param.getId());
@@ -88,6 +95,7 @@ public class RoleManageController {
 	/**
 	 * 删除角色
 	 */
+	@ApiOperation("删除角色")
 	@DeleteMapping("/delete/{id}")
 	public ServiceResult delete(@PathVariable("id") Long id) {
 		return roleManageService.delete(id);
@@ -96,6 +104,7 @@ public class RoleManageController {
 	/**
 	 * 获取角色权限列表
 	 */
+	@ApiOperation("获取角色权限列表")
 	@GetMapping("/get-permission")
 	public Set<SystemPermission> getRolePermission(@RequestParam("id") Long roleId) {
 		return roleManageService.getRolePermission(roleId);

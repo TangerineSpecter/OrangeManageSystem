@@ -11,6 +11,7 @@ import com.tangerinespecter.oms.system.domain.vo.data.EditTradeLogicVo;
 import com.tangerinespecter.oms.system.service.data.IDataTradeLogicService;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -41,8 +42,9 @@ public class DataTradeLogicController {
 	/**
 	 * 交易逻辑页面
 	 */
+	@ApiOperation("交易逻辑页面")
 	@RequiresPermissions("data:trade-logic:page")
-	@RequestMapping(value = "/page", produces = "text/html;charset=UTF-8")
+	@GetMapping(value = "/page", produces = "text/html;charset=UTF-8")
 	public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
 		return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getTradeLogicPageKey, "data/tradeLogic");
 	}
@@ -50,6 +52,7 @@ public class DataTradeLogicController {
 	/**
 	 * 添加页面
 	 */
+	@ApiOperation("添加页面")
 	@GetMapping("/addPage")
 	public ModelAndView addTradeRecordPage(Model model) {
 		return ServiceResult.jumpPage("data/addTradeLogic");
@@ -58,7 +61,8 @@ public class DataTradeLogicController {
 	/**
 	 * 编辑页面
 	 */
-	@RequestMapping("/editPage")
+	@ApiOperation("编辑页面")
+	@GetMapping("/editPage")
 	public ModelAndView editTradeRecordPage(Model model) {
 		return ServiceResult.jumpPage("data/editTradeLogic");
 	}
@@ -66,6 +70,7 @@ public class DataTradeLogicController {
 	/**
 	 * 交易逻辑列表
 	 */
+	@ApiOperation("交易逻辑列表")
 	@AccessLimit(maxCount = 10)
 	@GetMapping("/list")
 	public ServiceResult listInfo(TradeLogicQueryObject qo) {
@@ -75,6 +80,7 @@ public class DataTradeLogicController {
 	/**
 	 * 添加交易数据
 	 */
+	@ApiOperation("添加交易逻辑")
 	@PostMapping("/insert")
 	@LoggerInfo(value = "添加交易逻辑", event = LogOperation.EVENT_ADD)
 	public ServiceResult insertInfo(@Validated @RequestBody AddTradeLogicVo vo) {
@@ -84,6 +90,7 @@ public class DataTradeLogicController {
 	/**
 	 * 编辑交易数据
 	 */
+	@ApiOperation("编辑交易逻辑")
 	@PutMapping("/update")
 	@LoggerInfo(value = "编辑交易逻辑", event = LogOperation.EVENT_UPDATE)
 	public ServiceResult updateInfo(@Validated @RequestBody EditTradeLogicVo vo) {
@@ -93,6 +100,7 @@ public class DataTradeLogicController {
 	/**
 	 * 删除交易逻辑
 	 */
+	@ApiOperation("删除交易逻辑")
 	@DeleteMapping("/delete/{id}")
 	@LoggerInfo(value = "删除交易逻辑", event = LogOperation.EVENT_DELETE)
 	public ServiceResult deleteInfo(@PathVariable("id") Long id) {

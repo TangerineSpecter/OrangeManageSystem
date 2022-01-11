@@ -15,10 +15,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * Swagger配置类
  */
 @Configuration
-@EnableSwagger2//启用swagger
-@EnableSwaggerBootstrapUi//启动新版ui
+@EnableSwagger2
+@EnableSwaggerBootstrapUi
 public class SwaggerConfig {
-
+	
 	@Bean
 	public Docket customDocket() {
 		return new Docket(DocumentationType.SWAGGER_2)
@@ -27,7 +27,7 @@ public class SwaggerConfig {
 				.apis(RequestHandlerSelectors.any())
 				.build();
 	}
-
+	
 	/**
 	 * 配置Api相关信息
 	 */

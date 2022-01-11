@@ -61,10 +61,17 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/admin/**", "anon");
         filterChainDefinitionMap.put("/component/**", "anon");
         filterChainDefinitionMap.put("/config/**", "anon");
-
+    
+        //swagger资源
+//        filterChainDefinitionMap.put("/webjars/**", "anon");
+//        filterChainDefinitionMap.put("/swagger/**", "anon");
+//        filterChainDefinitionMap.put("/v2/api-docs", "anon");
+//        filterChainDefinitionMap.put("/v2/api-docs-ext", "anon");
+//        filterChainDefinitionMap.put("/swagger-ui.html", "anon");
+//        filterChainDefinitionMap.put("/swagger-resources/**", "anon");
+//        filterChainDefinitionMap.put("/doc.html", "anon");
+        
         filterChainDefinitionMap.put("/login", "anon");
-        filterChainDefinitionMap.put("/doc", "anon");
-        filterChainDefinitionMap.put("/doc.html", "anon");
         filterChainDefinitionMap.put("/errorPage", "anon");
         filterChainDefinitionMap.put("/system/captcha/**", "anon");
         // druid数据源监控页面不拦截

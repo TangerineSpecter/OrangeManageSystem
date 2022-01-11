@@ -129,6 +129,14 @@ public class IndexController {
     public ModelAndView exceptionPage() {
         return ServiceResult.jumpPage("error/500");
     }
+    
+    /**
+     * 接口文档
+     */
+    @GetMapping("/api-doc")
+    public String apiDoc() {
+        return "redirect:/doc.html";
+    }
 
     /**
      * 消息中心

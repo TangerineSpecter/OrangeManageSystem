@@ -87,6 +87,10 @@ public class PageModelKey extends BasePrefixKey {
      */
     public static PageModelKey getUserHealthPageKey = new PageModelKey("user_health_page:", EXPIRE_TIME);
     /**
+     * 卡片笔记菜单缓存
+     */
+    public static PageModelKey getCardNotePageKey = new PageModelKey("user_card_note_page:", EXPIRE_TIME);
+    /**
      * 日记管理菜单缓存
      */
     public static PageModelKey getUserDiaryPageKey = new PageModelKey("user_diary_page:", EXPIRE_TIME);

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('卡片笔记')"/>
+    <style>
+        * {
+            font-family: 'DIN-Regular', 'PingFang SC', Helvetica, Arial, sans-serif;
+            outline: none;
+        }
+
+        div {
+            display: block;
+        }
+
+        .card-time {
+            display: block;
+            font-size: 12px;
+            color: #8f9193;
+            text-decoration: none;
+        }
+
+        .pear-reply {
+            position: absolute;
+            right: 20px;
+            bottom: 12px;
+            height: 24px;
+            line-height: 24px;
+        }
+    </style>
+</head>
+<body class="pear-container">
+<div class="layui-row layui-col-space10">
+    <div class="layui-col-md3">
+        <div class="layui-row layui-col-space10">
+            <div class="layui-col-md12">
+                <div class="layui-card">
+                    <div class="layui-card-header">笔记记录</div>
+                    <div class="layui-card-body">
+                        <div name="datas"
+                             style="padding: 0 16px;display: flex;flex-direction: row;justify-content: space-between">
+                            <div name="data">
+                                <div style="font-weight: bold;font-size: 30px;line-height: 1;color: #9d9d9d;">43</div>
+                                <div data-v-356cff01="" style="font-size: 15px; color: #9d9d9d; line-height: 2;">NOTE
+                                </div>
+                            </div>
+                            <div name="data">
+                                <div style="font-weight: bold;font-size: 30px;line-height: 1;color: #9d9d9d;">18</div>
+                                <div data-v-356cff01="" style="font-size: 15px; color: #9d9d9d; line-height: 2;">TAG
+                                </div>
+                            </div>
+                            <div name="data">
+                                <div style="font-weight: bold;font-size: 30px;line-height: 1;color: #9d9d9d;">128</div>
+                                <div data-v-356cff01="" style="font-size: 15px; color: #9d9d9d; line-height: 2;">DAY
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-tab custom-tab layui-tab-brief" lay-filter="diaryNote">
+                            <div id="diary-echarts" style="background-color:#ffffff;min-height:400px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md12">
+                <div class="layui-card">
+                    <div class="layui-card-header">笔记搜索</div>
+                    <div class="layui-card-body layui-row layui-col-space10">
+                        <div class="layui-col-md8">
+                            <input type="text" name="title" hover="" placeholder="笔记关键词" autocomplete="off"
+                                   class="layui-input">
+                        </div>
+                        <div class="layui-col-md4">
+                            <button class="pear-btn">搜索</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md12">
+                <div class="layui-card">
+                    <div class="layui-card-header">笔记功能</div>
+                    <div class="layui-card-body">
+                        <button class="pear-btn">每日回顾</button>
+                        <button class="pear-btn">随机漫步</button>
+                        <button class="pear-btn">标签管理</button>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md12">
+                <div class="layui-card">
+                    <div class="layui-card-header">置顶标签</div>
+                    <div class="layui-card-body">
+                        <button lay-id="11" type="button"
+                                class="tag-item tag-item-normal layui-btn layui-btn-primary layui-btn-sm">标签1
+                            <i class="layui-icon layui-icon-down tag-close"></i>
+                        </button>
+                        <button lay-id="11" type="button"
+                                class="tag-item tag-item-normal layui-btn layui-btn-primary layui-btn-sm">标签2
+                            <i class="layui-icon layui-icon-down tag-close"></i>
+                        </button>
+                        <button lay-id="11" type="button"
+                                class="tag-item tag-item-normal layui-btn layui-btn-primary layui-btn-sm">标签3
+                            <i class="layui-icon layui-icon-down tag-close"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md12">
+                <div class="layui-card">
+                    <div class="layui-card-header">全部标签</div>
+                    <div class="layui-card-body" lay-newTags="true">
+                        <button lay-id="11" type="button"
+                                class="tag-item tag-item-normal layui-btn layui-btn-primary layui-btn-sm">标签1
+                            <i class="layui-icon layui-icon-up tag-close"></i>
+                        </button>
+                        <button lay-id="11" type="button"
+                                class="tag-item tag-item-normal layui-btn layui-btn-primary layui-btn-sm">标签2
+                            <i class="layui-icon layui-icon-up tag-close"></i>
+                        </button>
+                        <button lay-id="11" type="button"
+                                class="tag-item tag-item-normal layui-btn layui-btn-primary layui-btn-sm">标签3
+                            <i class="layui-icon layui-icon-up tag-close"></i>
+                        </button>
+                        <button lay-id="11" type="button"
+                                class="tag-item tag-item-normal layui-btn layui-btn-primary layui-btn-sm">标签1
+                            <i class="layui-icon layui-icon-up tag-close"></i>
+                        </button>
+                        <button lay-id="11" type="button"
+                                class="tag-item tag-item-normal layui-btn layui-btn-primary layui-btn-sm">标签2
+                            <i class="layui-icon layui-icon-up tag-close"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-col-md9">
+        <div class="layui-card">
+            <div class="layui-card-header">内容记录</div>
+            <div class="layui-card-body">
+                <textarea name="" id="edit" cols="30" rows="10"></textarea>
+                <div class="layui-btn-group" style="margin-top: 10px">
+                    <button class="pear-btn pear-btn-primary pear-btn" lay-event="getContent">提交内容</button>
+                </div>
+            </div>
+        </div>
+        <blockquote class="layui-elem-quote"><span style="font-size: 20px;font-weight: bold;">笔记内容</span></blockquote>
+        <div class="layui-card">
+            <div class="layui-card-header card-time">2022-01-01 12月25日 19:92</div>
+            <div class="layui-card-body">
+                <li>
+                    <p>这是测试笔记内容</p>
+                    <a href="javascript:;" data-id="1"
+                       class="pear-btn pear-btn-danger pear-btn-xs pear-reply">删除</a>
+                </li>
+            </div>
+        </div>
+        <div class="layui-card">
+            <div class="layui-card-header card-time">2022-01-04 12月25日 19:92</div>
+            <div class="layui-card-body">
+                <li>
+                    <p>这是测试笔记内容4</p>
+                    <a href="javascript:;" data-id="1"
+                       class="pear-btn pear-btn-danger pear-btn-xs pear-reply">删除</a>
+                </li>
+            </div>
+            <div class="layui-card-body">
+                <button lay-id="11" type="button"
+                        class="tag-item tag-item-normal layui-btn layui-btn-primary layui-btn-sm">标签1
+                </button>
+                <button lay-id="11" type="button"
+                        class="tag-item tag-item-normal layui-btn layui-btn-primary layui-btn-sm">标签2
+                </button>
+                <button lay-id="11" type="button"
+                        class="tag-item tag-item-normal layui-btn layui-btn-primary layui-btn-sm">标签3
+                </button>
+            </div>
+        </div>
+        <div class="layui-card">
+            <div class="layui-card-header card-time">2022-01-03 12月25日 19:92</div>
+            <div class="layui-card-body">
+                <li>
+                    <p>这是测试笔记内容3</p>
+                    <a href="javascript:;" data-id="1"
+                       class="pear-btn pear-btn-danger pear-btn-xs pear-reply">删除</a>
+                </li>
+            </div>
+        </div>
+        <div class="layui-card">
+            <div class="layui-card-header card-time">2022-01-02 12月25日 19:92</div>
+            <div class="layui-card-body">
+                <li>
+                    <p>这是测试笔记内容2</p>
+                    <a href="javascript:;" data-id="1"
+                       class="pear-btn pear-btn-danger pear-btn-xs pear-reply">删除</a>
+                </li>
+            </div>
+        </div>
+        <div class="layui-card">
+            <div class="layui-card-header card-time">2022-01-01 12月25日 19:92</div>
+            <div class="layui-card-body">
+                <li>
+                    <p>这是测试笔记内容1</p>
+                    <a href="javascript:;" data-id="1"
+                       class="pear-btn pear-btn-danger pear-btn-xs pear-reply">删除</a>
+                </li>
+            </div>
+        </div>
+    </div>
+</div>
+<th:block th:include="include :: footer"/>
+<script>
+
+    layui.use(['echarts', 'tinymce'], function () {
+        const echarts = layui.echarts,
+            tinymce = layui.tinymce;
+
+        tinymce.render({
+            elem: "#edit",
+            height: 400
+        }).getContent();
+
+        const diaryEcharts = echarts.init(document.getElementById('diary-echarts'), 'walden');
+
+        const option = {
+            tooltip: {
+                show: true,
+                trigger: 'item'
+            },
+            visualMap: {
+                min: 0,
+                max: 10,
+                show: false //不显示数值筛选
+            },
+            calendar: {
+                top: 20,
+                left: 20,
+                right: 20,
+                cellSize: [40],
+                range: ['2016-01-04', '2016-04-03'],
+                itemStyle: {
+                    borderWidth: 0.5
+                },
+                yearLabel: {
+                    show: false
+                },
+                monthLabel: {
+                    show: true, //不显示月份
+                    position: 'end',
+                    nameMap: 'cn'
+                },
+                dayLabel: {
+                    show: false,
+                    firstDay: 1 //周一开始
+                }
+            },
+            series: {
+                name: '笔记日期',
+                type: 'heatmap',
+                coordinateSystem: 'calendar',
+                data: getVirtulData('2016')
+            }
+        };
+
+        diaryEcharts.setOption(option);
+
+        window.onresize = function () {
+            diaryEcharts.resize();
+        }
+    });
+
+    function getVirtulData(year) {
+        year = year || '2017';
+        var date = +echarts.number.parseDate(year + '-01-01');
+        var end = +echarts.number.parseDate(+year + 1 + '-01-01');
+        var dayTime = 3600 * 24 * 1000;
+        var data = [];
+        for (var time = date; time < end; time += dayTime) {
+            data.push([
+                echarts.format.formatTime('yyyy-MM-dd', time),
+                Math.floor(Math.random() * 10)
+            ]);
+        }
+        return data;
+    }
+</script>
+</body>
+</html>

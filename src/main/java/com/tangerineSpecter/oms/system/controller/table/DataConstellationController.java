@@ -5,6 +5,7 @@ import com.tangerinespecter.oms.common.query.ConstellationQueryObject;
 import com.tangerinespecter.oms.common.query.QueryObject;
 import com.tangerinespecter.oms.common.redis.PageModelKey;
 import com.tangerinespecter.oms.common.result.ServiceResult;
+import com.tangerinespecter.oms.system.domain.entity.DataConstellation;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
 import com.tangerinespecter.oms.system.service.table.IDataConstellationService;
 import io.swagger.annotations.Api;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * 星座数据相关控制
@@ -53,8 +55,7 @@ public class DataConstellationController {
 	@AccessLimit(maxCount = 10)
 	@ApiOperation("星座列表")
 	@GetMapping("/list")
-	public ServiceResult listInfo(ConstellationQueryObject qo) {
-		qo.setSearchParams(qo);
+	public ServiceResult<List<DataConstellation>> listInfo(QueryObject<ConstellationQueryObject> qo) {
 		return ServiceResult.pageSuccess(dataConstellationService.queryForPage(qo));
 	}
 }

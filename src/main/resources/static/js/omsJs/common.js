@@ -151,7 +151,7 @@ var Ajax = new function () {
                 window.failInfo(iframe);
             }
         })
-    }
+    };
 
     /**
      * put请求
@@ -173,7 +173,7 @@ var Ajax = new function () {
                 window.failInfo(iframe);
             }
         })
-    }
+    };
 
     /**
      * delete请求
@@ -194,5 +194,5 @@ var Ajax = new function () {
                 window.failInfo(iframe);
             }
         })
-    }
-}
+    };
+};

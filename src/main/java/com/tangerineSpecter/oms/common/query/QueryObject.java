@@ -18,7 +18,7 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class QueryObject<T> {
+public class QueryObject<T> implements Serializable{
 
     /**
      * 搜索参数

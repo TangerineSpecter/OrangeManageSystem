@@ -18,7 +18,7 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ConstellationQueryObject extends QueryObject<ConstellationQueryObject> implements Serializable {
+public class ConstellationQueryObject implements Serializable {
     /**
      * 查询星座
      */

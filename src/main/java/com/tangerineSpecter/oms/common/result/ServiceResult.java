@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
+
 /**
  * 响应结果
  *
@@ -15,7 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@SuppressWarnings({"ALL"})
 public class ServiceResult<T> {
     /**
      * 返回状态
@@ -38,8 +39,6 @@ public class ServiceResult<T> {
      */
     private Long count;
 
-    private static ServiceResult result = new ServiceResult();
-
     private ServiceResult(boolean success, int code, String msg) {
         this.success = success;
         this.code = code;
@@ -57,7 +56,7 @@ public class ServiceResult<T> {
      * 请求成功
      */
     public static <R> ServiceResult<R> success() {
-        return new ServiceResult(true, RetCode.SUCCESS.getErrorCode(), RetCode.SUCCESS.getErrorDesc());
+        return new ServiceResult<>(true, RetCode.SUCCESS.getErrorCode(), RetCode.SUCCESS.getErrorDesc());
     }
 
     /**
@@ -77,50 +76,50 @@ public class ServiceResult<T> {
     /**
      * 返回页面结果
      */
-    public static <T> ServiceResult<T> pageSuccess(PageInfo<T> pageInfo) {
-        return new ServiceResult(true, RetCode.SUCCESS.getErrorCode(), RetCode.SUCCESS.getErrorDesc(), pageInfo.getList(), pageInfo.getTotal());
+    public static <T> ServiceResult<List<T>> pageSuccess(PageInfo<T> pageInfo) {
+        return new ServiceResult<>(true, RetCode.SUCCESS.getErrorCode(), RetCode.SUCCESS.getErrorDesc(), pageInfo.getList(), pageInfo.getTotal());
     }
 
     /**
      * 请求失败
      */
-    public static ServiceResult fail() {
-        return new ServiceResult(false, RetCode.FAIL.getErrorCode(), RetCode.FAIL.getErrorDesc());
+    public static <R> ServiceResult<R> fail() {
+        return new ServiceResult<>(false, RetCode.FAIL.getErrorCode(), RetCode.FAIL.getErrorDesc());
     }
 
     /**
      * 参数错误
      */
     public static <R> ServiceResult<R> paramError() {
-        return new ServiceResult(false, RetCode.PARAM_ERROR.getErrorCode(), RetCode.PARAM_ERROR.getErrorDesc());
+        return new ServiceResult<>(false, RetCode.PARAM_ERROR.getErrorCode(), RetCode.PARAM_ERROR.getErrorDesc());
     }
 
     /**
      * 系统错误
      */
     public static <R> ServiceResult<R> systemError() {
-        return new ServiceResult(false, RetCode.SYSTEM_ERROR.getErrorCode(), RetCode.SYSTEM_ERROR.getErrorDesc());
+        return new ServiceResult<>(false, RetCode.SYSTEM_ERROR.getErrorCode(), RetCode.SYSTEM_ERROR.getErrorDesc());
     }
 
     /**
      * 请求失败
      */
     public static <R> ServiceResult<R> error(RetCode rc) {
-        return new ServiceResult(false, rc.getErrorCode(), rc.getErrorDesc());
+        return new ServiceResult<>(false, rc.getErrorCode(), rc.getErrorDesc());
     }
 
     /**
      * 请求失败
      */
     public static <R> ServiceResult<R> error(String meessage) {
-        return new ServiceResult(false, RetCode.FAIL.getErrorCode(), meessage);
+        return new ServiceResult<>(false, RetCode.FAIL.getErrorCode(), meessage);
     }
 
     /**
      * 请求失败
      */
     public static <R> ServiceResult<R> validationError(String message) {
-        return new ServiceResult(false, RetCode.DATA_EXCEPTION.getErrorCode(), message);
+        return new ServiceResult<>(false, RetCode.DATA_EXCEPTION.getErrorCode(), message);
     }
 
     /**

@@ -3,11 +3,6 @@
 <head>
     <th:block th:include="include :: header('卡片笔记')"/>
     <style>
-        * {
-            font-family: 'DIN-Regular', 'PingFang SC', Helvetica, Arial, sans-serif;
-            outline: none;
-        }
-
         div {
             display: block;
         }
@@ -25,6 +20,10 @@
             bottom: 12px;
             height: 24px;
             line-height: 24px;
+        }
+
+        .note-card:hover {
+            box-shadow: 0px 2px 16px #dddddd;
         }
     </style>
 </head>
@@ -78,7 +77,7 @@
                 <div class="layui-card">
                     <div class="layui-card-header">笔记功能</div>
                     <div class="layui-card-body">
-                        <button class="pear-btn">每日回顾</button>
+                        <button class="pear-btn" lay-filter="dailyShow" lay-submit>每日回顾</button>
                         <button class="pear-btn">随机漫步</button>
                         <button class="pear-btn">标签管理</button>
                     </div>
@@ -88,45 +87,50 @@
                 <div class="layui-card">
                     <div class="layui-card-header">置顶标签</div>
                     <div class="layui-card-body">
-                        <button lay-id="11" type="button"
-                                class="tag-item tag-item-normal layui-btn layui-btn-primary layui-btn-sm">标签1
-                            <i class="layui-icon layui-icon-down tag-close"></i>
-                        </button>
-                        <button lay-id="11" type="button"
-                                class="tag-item tag-item-normal layui-btn layui-btn-primary layui-btn-sm">标签2
-                            <i class="layui-icon layui-icon-down tag-close"></i>
-                        </button>
-                        <button lay-id="11" type="button"
-                                class="tag-item tag-item-normal layui-btn layui-btn-primary layui-btn-sm">标签3
-                            <i class="layui-icon layui-icon-down tag-close"></i>
-                        </button>
+                        <div class="layui-btn-container tag" lay-filter="topTag" lay-allowclose="true"
+                             lay-newtag="true">
+                            <button lay-id="11" type="button"
+                                    class="tag-item tag-item-normal layui-btn layui-btn-primary layui-btn-sm">标签1
+                                <i class="layui-icon layui-icon-down tag-close"></i>
+                            </button>
+                            <button lay-id="11" type="button"
+                                    class="tag-item tag-item-normal layui-btn layui-btn-primary layui-btn-sm">标签2
+                                <i class="layui-icon layui-icon-down tag-close"></i>
+                            </button>
+                            <button lay-id="11" type="button"
+                                    class="tag-item tag-item-normal layui-btn layui-btn-primary layui-btn-sm">标签3
+                                <i class="layui-icon layui-icon-down tag-close"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="layui-col-md12">
                 <div class="layui-card">
                     <div class="layui-card-header">全部标签</div>
-                    <div class="layui-card-body" lay-newTags="true">
-                        <button lay-id="11" type="button"
-                                class="tag-item tag-item-normal layui-btn layui-btn-primary layui-btn-sm">标签1
-                            <i class="layui-icon layui-icon-up tag-close"></i>
-                        </button>
-                        <button lay-id="11" type="button"
-                                class="tag-item tag-item-normal layui-btn layui-btn-primary layui-btn-sm">标签2
-                            <i class="layui-icon layui-icon-up tag-close"></i>
-                        </button>
-                        <button lay-id="11" type="button"
-                                class="tag-item tag-item-normal layui-btn layui-btn-primary layui-btn-sm">标签3
-                            <i class="layui-icon layui-icon-up tag-close"></i>
-                        </button>
-                        <button lay-id="11" type="button"
-                                class="tag-item tag-item-normal layui-btn layui-btn-primary layui-btn-sm">标签1
-                            <i class="layui-icon layui-icon-up tag-close"></i>
-                        </button>
-                        <button lay-id="11" type="button"
-                                class="tag-item tag-item-normal layui-btn layui-btn-primary layui-btn-sm">标签2
-                            <i class="layui-icon layui-icon-up tag-close"></i>
-                        </button>
+                    <div class="layui-card-body">
+                        <div class="layui-btn-container tag" lay-filter="allTag" lay-allowclose="true" lay-newtag="true">
+                            <button lay-id="11" type="button"
+                                    class="tag-item tag-item-normal layui-btn layui-btn-primary layui-btn-sm">标签1
+                                <i class="layui-icon layui-icon-up tag-close"></i>
+                            </button>
+                            <button lay-id="11" type="button"
+                                    class="tag-item tag-item-normal layui-btn layui-btn-primary layui-btn-sm">标签2
+                                <i class="layui-icon layui-icon-up tag-close"></i>
+                            </button>
+                            <button lay-id="11" type="button"
+                                    class="tag-item tag-item-normal layui-btn layui-btn-primary layui-btn-sm">标签3
+                                <i class="layui-icon layui-icon-up tag-close"></i>
+                            </button>
+                            <button lay-id="11" type="button"
+                                    class="tag-item tag-item-normal layui-btn layui-btn-primary layui-btn-sm">标签1
+                                <i class="layui-icon layui-icon-up tag-close"></i>
+                            </button>
+                            <button lay-id="11" type="button"
+                                    class="tag-item tag-item-normal layui-btn layui-btn-primary layui-btn-sm">标签2
+                                <i class="layui-icon layui-icon-up tag-close"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -136,72 +140,38 @@
         <div class="layui-card">
             <div class="layui-card-header">内容记录</div>
             <div class="layui-card-body">
-                <textarea name="" id="edit" cols="30" rows="10"></textarea>
+                <textarea name="" id="edit" cols="30" rows="5"></textarea>
                 <div class="layui-btn-group" style="margin-top: 10px">
-                    <button class="pear-btn pear-btn-primary pear-btn" lay-event="getContent">提交内容</button>
+                    <button class="pear-btn pear-btn-primary pear-btn" lay-filter="submitBtn" lay-submit>提交内容</button>
                 </div>
             </div>
         </div>
         <blockquote class="layui-elem-quote"><span style="font-size: 20px;font-weight: bold;">笔记内容</span></blockquote>
-        <div class="layui-card">
-            <div class="layui-card-header card-time">2022-01-01 12月25日 19:92</div>
-            <div class="layui-card-body">
-                <li>
-                    <p>这是测试笔记内容</p>
-                    <a href="javascript:;" data-id="1"
+        <div class="noteCards" th:fragment="noteCards">
+            <div class="layui-card note-card" th:each="noteInfo:${noteList}">
+                <div class="layui-card-header card-time">
+                    <span th:text="${noteInfo.createTime}">
+                        2022-01-01 06:06:00
+                    </span>
+                    <a href="javascript:;" th:value="${noteInfo.id}" lay-filter="deleteBtn" lay-submit
                        class="pear-btn pear-btn-danger pear-btn-xs pear-reply">删除</a>
-                </li>
-            </div>
-        </div>
-        <div class="layui-card">
-            <div class="layui-card-header card-time">2022-01-04 12月25日 19:92</div>
-            <div class="layui-card-body">
-                <li>
-                    <p>这是测试笔记内容4</p>
-                    <a href="javascript:;" data-id="1"
-                       class="pear-btn pear-btn-danger pear-btn-xs pear-reply">删除</a>
-                </li>
-            </div>
-            <div class="layui-card-body">
-                <button lay-id="11" type="button"
-                        class="tag-item tag-item-normal layui-btn layui-btn-primary layui-btn-sm">标签1
-                </button>
-                <button lay-id="11" type="button"
-                        class="tag-item tag-item-normal layui-btn layui-btn-primary layui-btn-sm">标签2
-                </button>
-                <button lay-id="11" type="button"
-                        class="tag-item tag-item-normal layui-btn layui-btn-primary layui-btn-sm">标签3
-                </button>
-            </div>
-        </div>
-        <div class="layui-card">
-            <div class="layui-card-header card-time">2022-01-03 12月25日 19:92</div>
-            <div class="layui-card-body">
-                <li>
-                    <p>这是测试笔记内容3</p>
-                    <a href="javascript:;" data-id="1"
-                       class="pear-btn pear-btn-danger pear-btn-xs pear-reply">删除</a>
-                </li>
-            </div>
-        </div>
-        <div class="layui-card">
-            <div class="layui-card-header card-time">2022-01-02 12月25日 19:92</div>
-            <div class="layui-card-body">
-                <li>
-                    <p>这是测试笔记内容2</p>
-                    <a href="javascript:;" data-id="1"
-                       class="pear-btn pear-btn-danger pear-btn-xs pear-reply">删除</a>
-                </li>
-            </div>
-        </div>
-        <div class="layui-card">
-            <div class="layui-card-header card-time">2022-01-01 12月25日 19:92</div>
-            <div class="layui-card-body">
-                <li>
-                    <p>这是测试笔记内容1</p>
-                    <a href="javascript:;" data-id="1"
-                       class="pear-btn pear-btn-danger pear-btn-xs pear-reply">删除</a>
-                </li>
+                </div>
+                <div class="layui-card-body">
+                    <li>
+                        <p th:utext="${noteInfo.content}">笔记内容</p>
+                    </li>
+                </div>
+                <div class="layui-card-body">
+                    <button lay-id="11" type="button"
+                            class="tag-item tag-item-normal layui-btn layui-btn-primary layui-btn-sm">标签1
+                    </button>
+                    <button lay-id="11" type="button"
+                            class="tag-item tag-item-normal layui-btn layui-btn-primary layui-btn-sm">标签2
+                    </button>
+                    <button lay-id="11" type="button"
+                            class="tag-item tag-item-normal layui-btn layui-btn-primary layui-btn-sm">标签3
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -209,14 +179,16 @@
 <th:block th:include="include :: footer"/>
 <script>
 
-    layui.use(['echarts', 'tinymce'], function () {
+    layui.use(['echarts', 'tinymce', 'form', 'admin'], function () {
         const echarts = layui.echarts,
-            tinymce = layui.tinymce;
+            tinymce = layui.tinymce,
+            admin = layui.admin,
+            form = layui.form;
 
-        tinymce.render({
+        var edit = tinymce.render({
             elem: "#edit",
             height: 400
-        }).getContent();
+        });
 
         const diaryEcharts = echarts.init(document.getElementById('diary-echarts'), 'walden');
 
@@ -264,7 +236,38 @@
 
         window.onresize = function () {
             diaryEcharts.resize();
-        }
+        };
+
+        //监听提交
+        form.on('submit(submitBtn)', function () {
+            console.log(edit.getContent());
+            let content = edit.getContent();
+            Ajax.post('/user/card-note/insert', {content: content}, false);
+        });
+
+        //监听删除
+        form.on('submit(deleteBtn)', function (data) {
+            Ajax.delete('/user/card-note/delete', {id: data.id}, false);
+        });
+
+        //每日回顾
+        form.on('submit(dailyShow)', function () {
+            console.log(edit.getContent());
+            $(".noteCards").load("/user/card-note/page");
+            // $.ajax({
+            //     url: '/user/card-note/list',
+            //     dataType: 'json',
+            //     contentType: 'application/json',
+            //     data: {},
+            //     type: 'post',
+            //     success: function (result) {
+            //         $(".noteCards").html(result.data);
+            //     },
+            //     error: function () {
+            //     }
+            // });
+            admin.refreshThis();
+        });
     });
 
     function getVirtulData(year) {

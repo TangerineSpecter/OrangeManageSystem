@@ -1,4 +1,4 @@
-package com.tangerinespecter.oms.system.domain.dto.user;
+package com.tangerinespecter.oms.system.domain.vo.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

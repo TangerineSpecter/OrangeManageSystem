@@ -9,7 +9,7 @@ import com.tangerinespecter.oms.common.enums.HealthRecordTypeEnum;
 import com.tangerinespecter.oms.common.query.UserHealthQueryObject;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
-import com.tangerinespecter.oms.system.domain.dto.user.UserHealthInfoVo;
+import com.tangerinespecter.oms.system.domain.vo.user.UserHealthInfoVo;
 import com.tangerinespecter.oms.system.domain.entity.UserHealth;
 import com.tangerinespecter.oms.system.mapper.UserHealthMapper;
 import com.tangerinespecter.oms.system.service.user.IUserHealthManageService;

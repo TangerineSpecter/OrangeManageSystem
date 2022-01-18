@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 /**
- * 卡片笔记
+ * 卡片笔记标签表
  *
  * @author TangerineSpecter
  * @version v0.4.1
@@ -21,29 +21,29 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("user_card_note")
-public class UserCardNote implements Serializable {
-
-    @TableId(type = IdType.AUTO)
-    private Long id;
-    /**
-     * 笔记内容
-     */
-    private String content;
-    /**
-     * 管理员id
-     */
-    private Long adminId;
-    /**
-     * 创建时间
-     */
-    private String createTime;
+@TableName("user_card_note_tag")
+public class UserCardNoteTag implements Serializable {
+	
+	@TableId(type = IdType.AUTO)
+	private Long id;
+	/**
+	 * 标签名称
+	 */
+	private String name;
+	/**
+	 * 管理员id
+	 */
+	private Long adminId;
+	/**
+	 * 创建时间
+	 */
+	private String createTime;
     /**
      * 更新时间
      */
     private String updateTime;
-    /**
-     * 删除状态（0：未删除；1：已删除）
-     */
-    private Integer isDel;
+	/**
+	 * 删除状态（0：未删除；1：已删除）
+	 */
+	private Integer isDel;
 }

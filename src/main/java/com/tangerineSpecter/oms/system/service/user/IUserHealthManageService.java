@@ -2,7 +2,7 @@ package com.tangerinespecter.oms.system.service.user;
 
 import com.tangerinespecter.oms.common.query.UserHealthQueryObject;
 import com.tangerinespecter.oms.common.result.ServiceResult;
-import com.tangerinespecter.oms.system.domain.dto.user.UserHealthInfoVo;
+import com.tangerinespecter.oms.system.domain.vo.user.UserHealthInfoVo;
 import org.springframework.ui.Model;
 
 public interface IUserHealthManageService {

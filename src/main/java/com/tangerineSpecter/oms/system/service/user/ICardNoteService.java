@@ -2,7 +2,8 @@ package com.tangerinespecter.oms.system.service.user;
 
 import com.tangerinespecter.oms.common.query.UserCardNoteQueryObject;
 import com.tangerinespecter.oms.common.result.ServiceResult;
-import com.tangerinespecter.oms.system.domain.dto.user.CardNoteInfoVo;
+import com.tangerinespecter.oms.system.domain.dto.user.CardNoteInfoDto;
+import com.tangerinespecter.oms.system.domain.vo.user.CardNoteInfoVo;
 
 public interface ICardNoteService {
 	
@@ -12,4 +13,6 @@ public interface ICardNoteService {
 	ServiceResult insert(CardNoteInfoVo vo);
 	
 	ServiceResult delete(Long id);
+	
+	CardNoteInfoDto noteInfo();
 }

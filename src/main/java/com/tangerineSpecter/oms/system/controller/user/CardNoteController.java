@@ -1,11 +1,13 @@
 package com.tangerinespecter.oms.system.controller.user;
 
+import cn.hutool.core.date.DateTime;
+import cn.hutool.core.date.DateUtil;
 import com.tangerinespecter.oms.common.enums.LogOperation;
 import com.tangerinespecter.oms.common.listener.LoggerInfo;
 import com.tangerinespecter.oms.common.query.UserCardNoteQueryObject;
 import com.tangerinespecter.oms.common.redis.PageModelKey;
 import com.tangerinespecter.oms.common.result.ServiceResult;
-import com.tangerinespecter.oms.system.domain.dto.user.CardNoteInfoVo;
+import com.tangerinespecter.oms.system.domain.vo.user.CardNoteInfoVo;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
 import com.tangerinespecter.oms.system.service.user.ICardNoteService;
 import io.swagger.annotations.Api;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 
 /**
  * 卡片笔记
@@ -35,21 +38,17 @@ public class CardNoteController {
 	@Resource
 	private ICardNoteService cardNoteService;
 	
-	/**
-	 * 卡片笔记界面
-	 */
 	@ApiOperation(value = "卡片笔记界面")
 	@RequiresPermissions("user:card-note:page")
 	@GetMapping(value = "/page", produces = "text/html;charset=UTF-8")
 	public String cardNotePage(HttpServletRequest request, HttpServletResponse response, Model model) {
 		model.addAttribute("noteList", cardNoteService.queryForPage(new UserCardNoteQueryObject()).getData());
-		System.out.println(cardNoteService.queryForPage(new UserCardNoteQueryObject()).getData());
+		DateTime dateTime = DateUtil.beginOfMonth(DateUtil.offsetMonth(new Date(), -2));
+		model.addAttribute("rangeDate", new String[]{DateUtil.formatDate(dateTime), DateUtil.formatDate(DateUtil.offsetDay(dateTime, 90))});
+		model.addAttribute("noteInfo", cardNoteService.noteInfo());
 		return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getCardNotePageKey, "user/cardNoteManage");
 	}
 	
-	/**
-	 * 卡片日记内容
-	 */
 	@ApiOperation(value = "卡片笔记列表")
 	@GetMapping(value = "/list")
 	public ServiceResult queryForPage(Model model, UserCardNoteQueryObject qo) {
@@ -57,9 +56,6 @@ public class CardNoteController {
 		return cardNoteService.queryForPage(qo);
 	}
 	
-	/**
-	 * 新增卡片笔记
-	 */
 	@ApiOperation(value = "新增卡片笔记")
 	@LoggerInfo(value = "新增卡片笔记", event = LogOperation.EVENT_ADD)
 	@PostMapping(value = "/insert")
@@ -67,9 +63,6 @@ public class CardNoteController {
 		return cardNoteService.insert(vo);
 	}
 	
-	/**
-	 * 删除卡片笔记
-	 */
 	@ApiOperation(value = "删除卡片笔记")
 	@LoggerInfo(value = "新增卡片笔记", event = LogOperation.EVENT_ADD)
 	@DeleteMapping(value = "/delete/{id}")

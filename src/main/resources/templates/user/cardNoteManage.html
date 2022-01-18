@@ -38,23 +38,29 @@
                         <div name="datas"
                              style="padding: 0 16px;display: flex;flex-direction: row;justify-content: space-between">
                             <div name="data">
-                                <div style="font-weight: bold;font-size: 30px;line-height: 1;color: #9d9d9d;">43</div>
+                                <div style="font-weight: bold;font-size: 30px;line-height: 1;color: #9d9d9d;"
+                                     th:text="${noteInfo.noteCount}">0
+                                </div>
                                 <div data-v-356cff01="" style="font-size: 15px; color: #9d9d9d; line-height: 2;">NOTE
                                 </div>
                             </div>
                             <div name="data">
-                                <div style="font-weight: bold;font-size: 30px;line-height: 1;color: #9d9d9d;">18</div>
+                                <div style="font-weight: bold;font-size: 30px;line-height: 1;color: #9d9d9d;"
+                                     th:text="${noteInfo.tagCount}">0
+                                </div>
                                 <div data-v-356cff01="" style="font-size: 15px; color: #9d9d9d; line-height: 2;">TAG
                                 </div>
                             </div>
                             <div name="data">
-                                <div style="font-weight: bold;font-size: 30px;line-height: 1;color: #9d9d9d;">128</div>
+                                <div style="font-weight: bold;font-size: 30px;line-height: 1;color: #9d9d9d;"
+                                     th:text="${noteInfo.day}">0
+                                </div>
                                 <div data-v-356cff01="" style="font-size: 15px; color: #9d9d9d; line-height: 2;">DAY
                                 </div>
                             </div>
                         </div>
                         <div class="layui-tab custom-tab layui-tab-brief" lay-filter="diaryNote">
-                            <div id="diary-echarts" style="background-color:#ffffff;min-height:400px;"></div>
+                            <div id="diary-echarts" style="background-color:#ffffff;min-height:200px;"></div>
                         </div>
                     </div>
                 </div>
@@ -109,7 +115,8 @@
                 <div class="layui-card">
                     <div class="layui-card-header">全部标签</div>
                     <div class="layui-card-body">
-                        <div class="layui-btn-container tag" lay-filter="allTag" lay-allowclose="true" lay-newtag="true">
+                        <div class="layui-btn-container tag" lay-filter="allTag" lay-allowclose="true"
+                             lay-newtag="true">
                             <button lay-id="11" type="button"
                                     class="tag-item tag-item-normal layui-btn layui-btn-primary layui-btn-sm">标签1
                                 <i class="layui-icon layui-icon-up tag-close"></i>
@@ -177,7 +184,7 @@
     </div>
 </div>
 <th:block th:include="include :: footer"/>
-<script>
+<script th:inline="javascript">
 
     layui.use(['echarts', 'tinymce', 'form', 'admin'], function () {
         const echarts = layui.echarts,
@@ -185,17 +192,31 @@
             admin = layui.admin,
             form = layui.form;
 
-        var edit = tinymce.render({
+        const edit = tinymce.render({
             elem: "#edit",
             height: 400
         });
+
+        //初始化笔记信息
+        const submitInfos = [[${noteInfo.submitInfos}]];
+        const data = [];
+        for (let index = 0; index < submitInfos.length; index++) {
+            data[index] = [submitInfos[index].noteDay, submitInfos[index].count];
+        }
+        //初始化日期范围
+        const rangeDate = [[${rangeDate}]];
 
         const diaryEcharts = echarts.init(document.getElementById('diary-echarts'), 'walden');
 
         const option = {
             tooltip: {
+                position: 'top',
                 show: true,
-                trigger: 'item'
+                trigger: 'item',
+                formatter: function (p) {
+                    var format = echarts.format.formatTime('yyyy/MM/dd', p.data[0]);
+                    return p.data[1] + ' note on ' + format;
+                }
             },
             visualMap: {
                 min: 0,
@@ -206,10 +227,10 @@
                 top: 20,
                 left: 20,
                 right: 20,
-                cellSize: [40],
-                range: ['2016-01-04', '2016-04-03'],
+                cellSize: [20, 20],
+                range: rangeDate,
                 itemStyle: {
-                    borderWidth: 0.5
+                    borderWidth: 1
                 },
                 yearLabel: {
                     show: false
@@ -217,7 +238,7 @@
                 monthLabel: {
                     show: true, //不显示月份
                     position: 'end',
-                    nameMap: 'cn'
+                    nameMap: 'ZH'
                 },
                 dayLabel: {
                     show: false,
@@ -225,10 +246,9 @@
                 }
             },
             series: {
-                name: '笔记日期',
                 type: 'heatmap',
                 coordinateSystem: 'calendar',
-                data: getVirtulData('2016')
+                data: data
             }
         };
 
@@ -270,20 +290,6 @@
         });
     });
 
-    function getVirtulData(year) {
-        year = year || '2017';
-        var date = +echarts.number.parseDate(year + '-01-01');
-        var end = +echarts.number.parseDate(+year + 1 + '-01-01');
-        var dayTime = 3600 * 24 * 1000;
-        var data = [];
-        for (var time = date; time < end; time += dayTime) {
-            data.push([
-                echarts.format.formatTime('yyyy-MM-dd', time),
-                Math.floor(Math.random() * 10)
-            ]);
-        }
-        return data;
-    }
 </script>
 </body>
 </html>

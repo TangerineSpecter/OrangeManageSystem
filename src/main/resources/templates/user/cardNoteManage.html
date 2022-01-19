@@ -25,6 +25,22 @@
         .note-card:hover {
             box-shadow: 0px 2px 16px #dddddd;
         }
+
+        .note-tag {
+            color: #5783f7;
+            cursor: pointer;
+            background-color: #eef3fe;
+            font-size: 12px;
+            border-radius: 3px;
+        }
+
+        .note-tag:hover {
+            color: #eef3fe;
+            cursor: pointer;
+            background-color: #5783f7;
+            font-size: 12px;
+            border-radius: 3px;
+        }
     </style>
 </head>
 <body class="pear-container">
@@ -154,7 +170,7 @@
 <!--            </div>-->
 <!--        </div>-->
         <div class="layui-card">
-            <div class="layui-card-header">内容记录</div>
+<!--            <div class="layui-card-header">内容记录</div>-->
             <div class="layui-card-body">
                 <div id="noteContent">
                 </div>
@@ -164,11 +180,11 @@
             </div>
         </div>
 <!--        <blockquote class="layui-elem-quote"><span style="font-size: 20px;font-weight: bold;">笔记内容</span></blockquote>-->
-        <fieldset class="layui-elem-field layui-field-title">
-            <legend>笔记内容</legend>
-        </fieldset>
+<!--        <fieldset class="layui-elem-field layui-field-title">-->
+<!--            <legend>笔记内容</legend>-->
+<!--        </fieldset>-->
         <div class="noteCards" th:fragment="noteCards">
-            <div class="layui-card note-card" th:each="noteInfo:${noteList}">
+            <div class="layui-card note-card" style="border-radius: 6px;" th:each="noteInfo:${noteList}">
                 <div class="layui-card-header card-time">
                     <span th:text="${noteInfo.createTime}">
                         2022-01-01 06:06:00
@@ -183,13 +199,13 @@
                 </div>
                 <div class="layui-card-body">
                     <button lay-id="11" type="button"
-                            class="tag-item tag-item-normal layui-btn layui-btn-primary layui-btn-sm">标签1
+                            class="tag-item layui-btn layui-btn-primary layui-btn-sm note-tag">标签1
                     </button>
                     <button lay-id="11" type="button"
-                            class="tag-item tag-item-normal layui-btn layui-btn-primary layui-btn-sm">标签2
+                            class="tag-item layui-btn layui-btn-primary layui-btn-sm note-tag">标签2
                     </button>
                     <button lay-id="11" type="button"
-                            class="tag-item tag-item-normal layui-btn layui-btn-primary layui-btn-sm">标签3
+                            class="tag-item layui-btn layui-btn-primary layui-btn-sm note-tag">标签3
                     </button>
                 </div>
             </div>

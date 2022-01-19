@@ -160,17 +160,17 @@
         </div>
     </div>
     <div class="layui-col-md9">
-<!--        <div class="layui-card">-->
-<!--            <div class="layui-card-header">内容记录</div>-->
-<!--            <div class="layui-card-body">-->
-<!--                <textarea name="" id="edit" cols="30" rows="5"></textarea>-->
-<!--                <div class="layui-btn-group" style="margin-top: 10px">-->
-<!--                    <button class="pear-btn pear-btn-primary pear-btn" lay-filter="submitBtn" lay-submit>提交内容</button>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
+        <!--        <div class="layui-card">-->
+        <!--            <div class="layui-card-header">内容记录</div>-->
+        <!--            <div class="layui-card-body">-->
+        <!--                <textarea name="" id="edit" cols="30" rows="5"></textarea>-->
+        <!--                <div class="layui-btn-group" style="margin-top: 10px">-->
+        <!--                    <button class="pear-btn pear-btn-primary pear-btn" lay-filter="submitBtn" lay-submit>提交内容</button>-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--        </div>-->
         <div class="layui-card">
-<!--            <div class="layui-card-header">内容记录</div>-->
+            <!--            <div class="layui-card-header">内容记录</div>-->
             <div class="layui-card-body">
                 <div id="noteContent">
                 </div>
@@ -179,10 +179,10 @@
                 </div>
             </div>
         </div>
-<!--        <blockquote class="layui-elem-quote"><span style="font-size: 20px;font-weight: bold;">笔记内容</span></blockquote>-->
-<!--        <fieldset class="layui-elem-field layui-field-title">-->
-<!--            <legend>笔记内容</legend>-->
-<!--        </fieldset>-->
+        <!--        <blockquote class="layui-elem-quote"><span style="font-size: 20px;font-weight: bold;">笔记内容</span></blockquote>-->
+        <!--        <fieldset class="layui-elem-field layui-field-title">-->
+        <!--            <legend>笔记内容</legend>-->
+        <!--        </fieldset>-->
         <div class="noteCards" th:fragment="noteCards">
             <div class="layui-card note-card" style="border-radius: 6px;" th:each="noteInfo:${noteList}">
                 <div class="layui-card-header card-time">
@@ -225,6 +225,8 @@
         const editor = new E('#noteContent');
         // 设置编辑区域高度
         editor.config.height = 100;
+        // 菜单栏提示为下标
+        editor.config.menuTooltipPosition = 'down';
         editor.config.placeholder = '在此输入笔记内容';
         // 配置菜单栏，删减菜单，调整顺序
         editor.config.excludeMenus = [
@@ -238,7 +240,13 @@
             'fontSize',
             'indent', //缩进
             'lineHeight',
-            'todo'
+            'todo',
+            'fontName',
+            'italic', //斜体
+            'underline', //下划线
+            'backColor',
+            'list',
+            'splitLine' //分割线
         ];
         editor.create();
 

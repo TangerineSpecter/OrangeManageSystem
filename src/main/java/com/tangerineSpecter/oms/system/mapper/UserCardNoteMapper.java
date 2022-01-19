@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.tangerinespecter.oms.common.query.UserCardNoteQueryObject;
 import com.tangerinespecter.oms.system.domain.dto.user.CardNoteSubmitInfo;
 import com.tangerinespecter.oms.system.domain.entity.UserCardNote;
+import com.tangerinespecter.oms.system.domain.vo.user.CardNoteListVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -13,7 +14,7 @@ import java.util.List;
 public interface UserCardNoteMapper extends BaseMapper<UserCardNote> {
 	
 	
-	List<UserCardNote> queryForPage(UserCardNoteQueryObject qo);
+	List<CardNoteListVo> queryForPage(UserCardNoteQueryObject qo);
 	
 	/**
 	 * 获取笔记聚合信息

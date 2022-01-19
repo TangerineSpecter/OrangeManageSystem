@@ -8,6 +8,7 @@ import com.tangerinespecter.oms.common.query.UserCardNoteQueryObject;
 import com.tangerinespecter.oms.common.redis.PageModelKey;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.vo.user.CardNoteInfoVo;
+import com.tangerinespecter.oms.system.domain.vo.user.CardNoteTagVo;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
 import com.tangerinespecter.oms.system.service.user.ICardNoteService;
 import io.swagger.annotations.Api;
@@ -61,6 +62,13 @@ public class CardNoteController {
 	@PostMapping(value = "/insert")
 	public ServiceResult insert(@RequestBody @Validated CardNoteInfoVo vo) {
 		return cardNoteService.insert(vo);
+	}
+
+	@ApiOperation(value = "新增笔记标签")
+	@LoggerInfo(value = "新增笔记标签", event = LogOperation.EVENT_ADD)
+	@PostMapping(value = "/insert-tag")
+	public ServiceResult insertTag(@RequestBody @Validated CardNoteTagVo vo) {
+		return cardNoteService.insertTag(vo);
 	}
 	
 	@ApiOperation(value = "删除卡片笔记")

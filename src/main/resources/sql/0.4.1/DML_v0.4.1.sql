@@ -50,6 +50,7 @@ CREATE TABLE `user_card_note_tag`
     `id`          bigint   NOT NULL AUTO_INCREMENT,
     `name`        varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '标签名称',
     `admin_id`    bigint   NOT NULL COMMENT '管理员id',
+    `top`      tinyint  NOT NULL DEFAULT '0' COMMENT '是否置顶（0：未置顶；1：已置顶）',
     `is_del`      tinyint  NOT NULL                       DEFAULT '0' COMMENT '删除状态（0：未删除；1：已删除）',
     `create_time` datetime NOT NULL                       DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time` datetime                                DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',

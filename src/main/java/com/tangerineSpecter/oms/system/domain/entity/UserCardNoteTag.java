@@ -23,27 +23,31 @@ import java.io.Serializable;
 @AllArgsConstructor
 @TableName("user_card_note_tag")
 public class UserCardNoteTag implements Serializable {
-	
-	@TableId(type = IdType.AUTO)
-	private Long id;
-	/**
-	 * 标签名称
-	 */
-	private String name;
-	/**
-	 * 管理员id
-	 */
-	private Long adminId;
-	/**
-	 * 创建时间
-	 */
-	private String createTime;
+
+    @TableId(type = IdType.AUTO)
+    private Long id;
+    /**
+     * 标签名称
+     */
+    private String name;
+    /**
+     * 管理员id
+     */
+    private Long adminId;
+    /**
+     * 置顶状态
+     */
+    private Integer top;
+    /**
+     * 创建时间
+     */
+    private String createTime;
     /**
      * 更新时间
      */
     private String updateTime;
-	/**
-	 * 删除状态（0：未删除；1：已删除）
-	 */
-	private Integer isDel;
+    /**
+     * 删除状态（0：未删除；1：已删除）
+     */
+    private Integer isDel;
 }

@@ -7,7 +7,29 @@
         <result column="count" property="count"/>
     </resultMap>
 
-    <select id="queryForPage" resultType="com.tangerinespecter.oms.system.domain.entity.UserCardNote">
+    <resultMap id="cardNoteMap" type="com.tangerinespecter.oms.system.domain.vo.user.CardNoteListVo">
+        <result column="id" property="id"/>
+        <result column="content" property="content"/>
+        <result column="admin_id" property="adminId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="is_del" property="isDel"/>
+        <collection column="{noteId = id}" ofType="com.tangerinespecter.oms.system.domain.vo.user.NoteTagSimpleInfo"
+                    select="selectTagList" property="tags">
+            <result column="id" property="id"/>
+            <result column="name" property="name"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectTagList" resultType="com.tangerinespecter.oms.system.domain.vo.user.NoteTagSimpleInfo">
+        select tag.id, tag.name
+        from user_card_note_tag tag,
+             user_note_tag_assoc assoc
+        where tag.id = assoc.tag_id
+        and assoc.note_id = #{noteId}
+    </select>
+
+    <select id="queryForPage" resultMap="cardNoteMap">
         select *
         from user_card_note
         where admin_id = #{adminId}

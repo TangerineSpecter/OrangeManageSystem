@@ -109,18 +109,9 @@
                 <div class="layui-card">
                     <div class="layui-card-header">置顶标签</div>
                     <div class="layui-card-body">
-                        <div class="layui-btn-container tag" lay-filter="topTag" lay-allowclose="true"
-                             lay-newtag="true">
-                            <button lay-id="11" type="button"
-                                    class="tag-item tag-item-normal layui-btn layui-btn-primary layui-btn-sm">标签1
-                                <i class="layui-icon layui-icon-down tag-close"></i>
-                            </button>
-                            <button lay-id="11" type="button"
-                                    class="tag-item tag-item-normal layui-btn layui-btn-primary layui-btn-sm">标签2
-                                <i class="layui-icon layui-icon-down tag-close"></i>
-                            </button>
-                            <button lay-id="11" type="button"
-                                    class="tag-item tag-item-normal layui-btn layui-btn-primary layui-btn-sm">标签3
+                        <div class="layui-btn-container tag" lay-filter="topTag" th:each="tagInfo:${noteInfo.topTags}">
+                            <button lay-id="1" type="button" th:value="${tagInfo.id}"
+                                    class="tag-item tag-item-normal layui-btn layui-btn-primary layui-btn-sm" th:text="${tagInfo.name}">标签
                                 <i class="layui-icon layui-icon-down tag-close"></i>
                             </button>
                         </div>
@@ -132,25 +123,9 @@
                     <div class="layui-card-header">全部标签</div>
                     <div class="layui-card-body">
                         <div class="layui-btn-container tag" lay-filter="allTag" lay-allowclose="true"
-                             lay-newtag="true">
-                            <button lay-id="11" type="button"
-                                    class="tag-item tag-item-normal layui-btn layui-btn-primary layui-btn-sm">标签1
-                                <i class="layui-icon layui-icon-up tag-close"></i>
-                            </button>
-                            <button lay-id="11" type="button"
-                                    class="tag-item tag-item-normal layui-btn layui-btn-primary layui-btn-sm">标签2
-                                <i class="layui-icon layui-icon-up tag-close"></i>
-                            </button>
-                            <button lay-id="11" type="button"
-                                    class="tag-item tag-item-normal layui-btn layui-btn-primary layui-btn-sm">标签3
-                                <i class="layui-icon layui-icon-up tag-close"></i>
-                            </button>
-                            <button lay-id="11" type="button"
-                                    class="tag-item tag-item-normal layui-btn layui-btn-primary layui-btn-sm">标签1
-                                <i class="layui-icon layui-icon-up tag-close"></i>
-                            </button>
-                            <button lay-id="11" type="button"
-                                    class="tag-item tag-item-normal layui-btn layui-btn-primary layui-btn-sm">标签2
+                             lay-newtag="true" th:each="tagInfo:${noteInfo.allTags}">
+                            <button lay-id="1" type="button" th:value="${tagInfo.id}"
+                                    class="tag-item tag-item-normal layui-btn layui-btn-primary layui-btn-sm" th:text="${tagInfo.name}">标签
                                 <i class="layui-icon layui-icon-up tag-close"></i>
                             </button>
                         </div>
@@ -197,15 +172,9 @@
                         <p th:utext="${noteInfo.content}">笔记内容</p>
                     </li>
                 </div>
-                <div class="layui-card-body">
-                    <button lay-id="11" type="button"
-                            class="tag-item layui-btn layui-btn-primary layui-btn-sm note-tag">标签1
-                    </button>
-                    <button lay-id="11" type="button"
-                            class="tag-item layui-btn layui-btn-primary layui-btn-sm note-tag">标签2
-                    </button>
-                    <button lay-id="11" type="button"
-                            class="tag-item layui-btn layui-btn-primary layui-btn-sm note-tag">标签3
+                <div class="layui-card-body" th:each="tagInfo:${noteInfo.tags}">
+                    <button lay-id="1" type="button" th:value="${tagInfo.id}"
+                            class="tag-item layui-btn layui-btn-primary layui-btn-sm note-tag" th:text="${tagInfo.name}">
                     </button>
                 </div>
             </div>
@@ -216,10 +185,43 @@
 <script th:src="@{https://cdn.jsdelivr.net/npm/wangeditor@latest/dist/wangEditor.min.js}"></script>
 <script th:inline="javascript">
 
-    layui.use(['echarts', 'form', 'admin'], function () {
+    layui.use(['echarts', 'form', 'admin', 'tag'], function () {
         const echarts = layui.echarts,
             admin = layui.admin,
-            form = layui.form;
+            form = layui.form,
+            tag = layui.tag;
+
+        layui.code();
+
+        tag.render("allTag", {
+            skin: 'layui-btn layui-btn-primary layui-btn-sm', //标签样式
+            tagText: '<i class="layui-icon layui-icon-add-1"></i>添加标签' //标签添加按钮提示文本
+        });
+
+        tag.on('click(allTag)', function (data) {
+            console.log('点击');
+            console.log(this); //当前Tag标签所在的原始DOM元素
+            console.log(data.index); //得到当前Tag的所在下标
+            console.log(data.elem); //得到当前的Tag大容器
+        });
+
+        tag.on('add(allTag)', function (data) {
+            console.log(data.othis);
+            console.log(data.othis.value);
+            //console.log(this); //当前Tag标签所在的原始DOM元素
+            //console.log(data.index); //得到当前Tag的所在下标
+            //console.log(data.elem); //得到当前的Tag大容器
+            //console.log(data.othis); //得到新增的DOM对象
+            //return false; //返回false 取消新增操作； 同from表达提交事件。
+            // Ajax.post('/user/card-note/insert-tag',{},);
+        });
+
+        tag.on('delete(allTag)', function (data) {
+            console.log('删除');
+            console.log(this); //当前Tag标签所在的原始DOM元素
+            console.log(data.index); //得到当前Tag的所在下标
+            console.log(data.elem); //得到当前的Tag大容器
+        });
 
         const E = window.wangEditor;
         const editor = new E('#noteContent');

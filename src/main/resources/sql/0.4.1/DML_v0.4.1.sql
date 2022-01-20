@@ -8,14 +8,14 @@ DROP TABLE IF EXISTS `data_wall_page`;
 CREATE TABLE `data_wall_page`
 (
     `id`              bigint                                                        NOT NULL AUTO_INCREMENT,
-    `start_date`      bigint                                                        NULL DEFAULT NULL COMMENT '' 开始时间（yyyyMMdd）'',
-    `end_date`        bigint                                                        NULL DEFAULT NULL COMMENT '' 结束时间（yyyyMMdd）'',
-    `url`             varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '' 壁纸url '',
-    `full_start_date` bigint                                                        NULL DEFAULT NULL COMMENT '' 完整开始时间 '',
-    `copyright`       varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '' 版权信息 '',
-    `copyright_link`  varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '' 跳转搜索链接 '',
-    `title`           varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '' 标题 '',
-    `hash`            varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '' 哈希值 '',
+    `start_date`      bigint                                                        NULL DEFAULT NULL COMMENT '开始时间（yyyyMMdd）',
+    `end_date`        bigint                                                        NULL DEFAULT NULL COMMENT '结束时间（yyyyMMdd）',
+    `url`             varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '壁纸url',
+    `full_start_date` bigint                                                        NULL DEFAULT NULL COMMENT '完整开始时间',
+    `copyright`       varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '版权信息',
+    `copyright_link`  varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '跳转搜索链接',
+    `title`           varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '标题',
+    `hash`            varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '哈希值',
     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB
   CHARACTER SET = utf8mb4
@@ -50,7 +50,7 @@ CREATE TABLE `user_card_note_tag`
     `id`          bigint   NOT NULL AUTO_INCREMENT,
     `name`        varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '标签名称',
     `admin_id`    bigint   NOT NULL COMMENT '管理员id',
-    `top`      tinyint  NOT NULL DEFAULT '0' COMMENT '是否置顶（0：未置顶；1：已置顶）',
+    `top`         tinyint  NOT NULL                       DEFAULT '0' COMMENT '是否置顶（0：未置顶；1：已置顶）',
     `is_del`      tinyint  NOT NULL                       DEFAULT '0' COMMENT '删除状态（0：未删除；1：已删除）',
     `create_time` datetime NOT NULL                       DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time` datetime                                DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',

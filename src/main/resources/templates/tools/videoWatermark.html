@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('视频去水印')"/>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+
+        <div class="layui-fluid">
+            <div class="layui-card">
+                <div class="layui-card-body" style="padding-top: 40px;">
+                    <div class="layui-carousel" id="stepForm" lay-filter="stepForm" style="margin: 0 auto;">
+                        <div carousel-item>
+                            <div>
+                                <form class="layui-form" style="margin: 0 auto;max-width: 460px;padding-top: 40px;">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">视频地址:</label>
+                                        <div class="layui-input-block">
+                                            <textarea placeholder="必填" name="content" value="" lay-verify="content"
+                                                      class="layui-textarea"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">视频平台:</label>
+                                        <div class="layui-input-block">
+                                            <select name="type" class="layui-select">
+                                                <option value="">抖音</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <div class="layui-input-block">
+                                            <button class="pear-btn pear-btn-primary" lay-submit=""
+                                                    lay-filter="formStep">
+                                                水印清洗
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div>
+                                <form class="layui-form" style="margin: 0 auto;max-width: 460px;padding-top: 40px;">
+                                    <div class="layui-form-item">
+                                        <textarea id="videoUrl" name="videoUrl" value=""  class="layui-textarea" disabled>
+                                        </textarea>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <div class="layui-input-block">
+                                            <button type="button" class="pear-btn pear-btn-primary next">重新清洗</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div style="color: #666;margin-top: 30px;margin-bottom: 40px;padding-left: 30px;">
+                        <h3>说明</h3><br>
+                        <h4>视频水印清洗</h4>
+                        <p>目前仅支持抖音平台。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<th:block th:include="include :: footer"/>
+<script>
+    layui.use(['form', 'step'], function () {
+        var $ = layui.$,
+            form = layui.form,
+            step = layui.step;
+
+        step.render({
+            elem: '#stepForm',
+            filter: 'stepForm',
+            width: '100%', //设置容器宽度
+            stepWidth: '750px',
+            height: '500px',
+            stepItems: [{
+                title: '填写视频地址'
+            }, {
+                title: '水印去除结果'
+            }]
+        });
+
+        //自定义验证规则
+        form.verify({
+            content: function (value) {
+                if (value == null || value === "") {
+                    return '请输入视频地址';
+                }
+            }
+        });
+
+        form.on('submit(formStep)', function (data) {
+            $.post("/tools/video-watermark/clear-watermark", data.field, function (result) {
+                if (result.success) {
+                    $("#videoUrl").val(result.data);
+                    step.next('#stepForm');
+                } else {
+                    layer.open({
+                        title: "警告",
+                        content: result.msg
+                    })
+                }
+            }, "JSON");
+            return false;
+        });
+
+        $('.pre').click(function () {
+            step.pre('#stepForm');
+        });
+
+        $('.next').click(function () {
+            step.next('#stepForm');
+        });
+    })
+</script>
+</body>
+</html>

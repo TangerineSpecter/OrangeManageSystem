@@ -20,5 +20,5 @@ public class VideoWatermarkInfoVo {
 	 */
 	@NotBlank(message = "视频地址不能为空")
 	@ApiModelProperty("视频地址")
-	private String content;
+	private String url;
 }

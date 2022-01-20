@@ -17,7 +17,7 @@
                                     <div class="layui-form-item">
                                         <label class="layui-form-label">视频地址:</label>
                                         <div class="layui-input-block">
-                                            <textarea placeholder="必填" name="content" value="" lay-verify="content"
+                                            <textarea placeholder="必填" name="url" value="" lay-verify="url"
                                                       class="layui-textarea"></textarea>
                                         </div>
                                     </div>
@@ -42,7 +42,8 @@
                             <div>
                                 <form class="layui-form" style="margin: 0 auto;max-width: 460px;padding-top: 40px;">
                                     <div class="layui-form-item">
-                                        <textarea id="videoUrl" name="videoUrl" value=""  class="layui-textarea" disabled>
+                                        <textarea id="videoUrl" name="videoUrl" value="" class="layui-textarea"
+                                                  disabled>
                                         </textarea>
                                     </div>
                                     <div class="layui-form-item">
@@ -67,9 +68,10 @@
 </div>
 <th:block th:include="include :: footer"/>
 <script>
-    layui.use(['form', 'step'], function () {
+    layui.use(['form', 'step', 'toast'], function () {
         var $ = layui.$,
             form = layui.form,
+            toast = layui.toast,
             step = layui.step;
 
         step.render({
@@ -87,7 +89,7 @@
 
         //自定义验证规则
         form.verify({
-            content: function (value) {
+            url: function (value) {
                 if (value == null || value === "") {
                     return '请输入视频地址';
                 }
@@ -100,10 +102,7 @@
                     $("#videoUrl").val(result.data);
                     step.next('#stepForm');
                 } else {
-                    layer.open({
-                        title: "警告",
-                        content: result.msg
-                    })
+                    toast.error({message: result.msg, position: 'topCenter'});
                 }
             }, "JSON");
             return false;

@@ -127,7 +127,7 @@
                     break;
                 case 'delSystemRole':
                     layer.confirm('是否删除该角色？', function (index) {
-                        Ajax.delete("/system/role/delete/", {id: data.id}, false);
+                        Ajax.delete("/system/role/delete", {id: data.id}, false);
                     });
                     break;
             }

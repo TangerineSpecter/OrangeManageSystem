@@ -171,7 +171,7 @@
                 layer.msg('ID：' + data.id + ' 的查看操作');
             } else if (obj.event === 'del') {
                 layer.confirm('是否进行交易逻辑的删除？', {icon: 3, title: '提示'}, function (index) {
-                    Ajax.delete("/data/trade-logic/delete/", {id: data.id}, false);
+                    Ajax.delete("/data/trade-logic/delete", {id: data.id}, false);
                 });
             } else if (obj.event === 'edit') {
                 data.href = "/data/trade-logic/update";

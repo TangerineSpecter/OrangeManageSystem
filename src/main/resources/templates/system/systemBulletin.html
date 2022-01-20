@@ -111,7 +111,7 @@
                 layer.msg('ID：' + data.id + ' 的查看操作');
             } else if (obj.event === 'del') {
                 layer.confirm('是否删除该公告？', {icon: 3, title: '提示'}, function (index) {
-                    Ajax.delete('/system/bulletin/delete/', {id: data.id}, false);
+                    Ajax.delete('/system/bulletin/delete', {id: data.id}, false);
                 });
             } else if (obj.event === 'edit') {
                 data.href = "/system/bulletin/update";

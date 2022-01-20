@@ -120,7 +120,7 @@
                 window.refresh();
             } else if (obj.event === 'batchRemove') {
                 layer.confirm('是否删选中的系统菜单？', {icon: 3, title: '提示'}, function (index) {
-                    Ajax.delete('/system/menu/delete/', {id: data.id}, false);
+                    Ajax.delete('/system/menu/delete', {id: data.id}, false);
                 });
             } else if (obj.event === 'expandAll') {
                 treetable.expandAll("#menu-table");
@@ -135,7 +135,7 @@
             const data = obj.data;
             if (obj.event === 'remove') {
                 layer.confirm('是否删除该系统菜单？', {icon: 3, title: '提示'}, function (index) {
-                    Ajax.delete('/system/menu/delete/', {id: data.id}, false);
+                    Ajax.delete('/system/menu/delete', {id: data.id}, false);
                 });
             } else if (obj.event === 'edit') {
                 data.requestUrl = "/system/menu/update";

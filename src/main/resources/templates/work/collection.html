@@ -149,7 +149,7 @@
                 layer.msg('ID：' + data.id + ' 的查看操作');
             } else if (obj.event === 'del') {
                 layer.confirm('是否删除该收藏？', {icon: 3, title: '提示'}, function (index) {
-                    Ajax.delete("/work/collection/delete/", {id: data.id}, false);
+                    Ajax.delete("/work/collection/delete", {id: data.id}, false);
                 });
             } else if (obj.event === 'edit') {
                 data.href = "/work/collection/update";

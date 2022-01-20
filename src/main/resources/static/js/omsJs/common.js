@@ -183,7 +183,7 @@ var Ajax = new function () {
      */
     this.delete = function (url, data, iframe) {
         $.ajax({
-            url: url + data.id,
+            url: url + "/" + data.id,
             dataType: 'json',
             contentType: 'application/json',
             type: 'delete',

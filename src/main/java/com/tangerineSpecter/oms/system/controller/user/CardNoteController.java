@@ -55,7 +55,7 @@ public class CardNoteController {
 	@ApiOperation(value = "卡片笔记列表")
 	@GetMapping(value = "/list")
 	public String queryForPage(Model model, UserCardNoteQueryObject qo) {
-		model.addAttribute("noteList", cardNoteService.queryForPage(new UserCardNoteQueryObject()).getData());
+		model.addAttribute("noteList", cardNoteService.queryForPage(qo).getData());
 		return "user/cardNoteManage::noteCards";
 	}
 	

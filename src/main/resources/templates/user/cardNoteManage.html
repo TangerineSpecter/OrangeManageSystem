@@ -83,16 +83,18 @@
             </div>
             <div class="layui-col-md12">
                 <div class="layui-card">
-                    <div class="layui-card-header">笔记搜索</div>
-                    <div class="layui-card-body layui-row layui-col-space10">
-                        <div class="layui-col-md8">
-                            <input type="text" name="title" hover="" placeholder="笔记关键词" autocomplete="off"
-                                   class="layui-input">
+                    <form id="search-from" class="layui-form layui-form-pane" action="">
+                        <div class="layui-card-header">笔记搜索</div>
+                        <div class="layui-card-body layui-row layui-col-space10">
+                            <div class="layui-col-md8">
+                                <input type="text" name="keyword" hover="" placeholder="笔记关键词" autocomplete="off"
+                                       class="layui-input">
+                            </div>
+                            <div class="layui-col-md4">
+                                <button class="pear-btn" lay-filter="searchNote" lay-submit="">搜索</button>
+                            </div>
                         </div>
-                        <div class="layui-col-md4">
-                            <button class="pear-btn">搜索</button>
-                        </div>
-                    </div>
+                    </form>
                 </div>
             </div>
             <div class="layui-col-md12">
@@ -208,10 +210,10 @@
             console.log(data.othis);
             console.log(data.othis.value);
             console.log(this.innerText);
-            console.log(data.index)
+            console.log(data.index);
             let index = data.index;
-            console.log($("#allTag").children().eq(index))
-            console.log($("#allTag").children().eq(index).html())
+            console.log($("#allTag").children().eq(index));
+            console.log($("#allTag").children().eq(index).html());
             console.log($("#allTag").children().eq(index).text())
             //console.log(this); //当前Tag标签所在的原始DOM元素
             //console.log(data.index); //得到当前Tag的所在下标
@@ -224,8 +226,8 @@
         tag.on('delete(allTag)', function (data) {
             console.log('删除');
             console.log(this); //当前Tag标签所在的原始DOM元素
-            console.log(this.id)
-            console.log(this.parent.id)
+            console.log(this.id);
+            console.log(this.parent.id);
             console.log(data.index); //得到当前Tag的所在下标
             console.log(data.elem); //得到当前的Tag大容器
         });
@@ -363,7 +365,7 @@
 
         //每日回顾
         form.on('submit(dailyShow)', function () {
-            console.log(edit.getContent());
+            console.log("每日回顾");
             $(".noteCards").load("/user/card-note/page");
             // $.ajax({
             //     url: '/user/card-note/list',
@@ -377,7 +379,22 @@
             //     error: function () {
             //     }
             // });
-            admin.refreshThis();
+            return false;
+        });
+
+        //笔记搜索
+        form.on('submit(searchNote)', function (data) {
+            console.log("笔记搜索");
+            console.log(data);
+            $.ajax({
+                url: '/user/card-note/list',
+                data: {keyword: data.field.keyword},
+                type: 'get',
+                success: function (result) {
+                    $(".noteCards").html(result);
+                }
+            });
+            return false;
         });
 
         /**

@@ -26,7 +26,7 @@
         from user_card_note_tag tag,
              user_note_tag_assoc assoc
         where tag.id = assoc.tag_id
-        and assoc.note_id = #{noteId}
+          and assoc.note_id = #{noteId}
     </select>
 
     <select id="queryForPage" resultMap="cardNoteMap">
@@ -35,7 +35,7 @@
         where admin_id = #{adminId}
         and is_del = 0
         <if test="keyword!='' and keyword!=null">
-            <![CDATA[and `content` >= #{keyword}]]>
+            and content like concat('%',#{keyword}, '%')
         </if>
         order by id desc
     </select>

@@ -14,6 +14,7 @@ import com.tangerinespecter.oms.system.service.user.ICardNoteService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +31,7 @@ import java.util.Date;
  * @date 2022年1月16日 21:56:51
  */
 @Api(tags = "卡片笔记模块")
-@RestController
+@Controller
 @RequestMapping("/user/card-note")
 public class CardNoteController {
 	
@@ -39,6 +40,7 @@ public class CardNoteController {
 	@Resource
 	private ICardNoteService cardNoteService;
 	
+	@ResponseBody
 	@ApiOperation(value = "卡片笔记界面")
 	@RequiresPermissions("user:card-note:page")
 	@GetMapping(value = "/page", produces = "text/html;charset=UTF-8")
@@ -52,18 +54,20 @@ public class CardNoteController {
 	
 	@ApiOperation(value = "卡片笔记列表")
 	@GetMapping(value = "/list")
-	public ServiceResult queryForPage(Model model, UserCardNoteQueryObject qo) {
+	public String queryForPage(Model model, UserCardNoteQueryObject qo) {
 		model.addAttribute("noteList", cardNoteService.queryForPage(new UserCardNoteQueryObject()).getData());
-		return cardNoteService.queryForPage(qo);
+		return "user/cardNoteManage::noteCards";
 	}
 	
+	@ResponseBody
 	@ApiOperation(value = "新增卡片笔记")
 	@LoggerInfo(value = "新增卡片笔记", event = LogOperation.EVENT_ADD)
 	@PostMapping(value = "/insert")
 	public ServiceResult insert(@RequestBody @Validated CardNoteInfoVo vo) {
 		return cardNoteService.insert(vo);
 	}
-
+	
+	@ResponseBody
 	@ApiOperation(value = "新增笔记标签")
 	@LoggerInfo(value = "新增笔记标签", event = LogOperation.EVENT_ADD)
 	@PostMapping(value = "/insert-tag")
@@ -71,6 +75,7 @@ public class CardNoteController {
 		return cardNoteService.insertTag(vo);
 	}
 	
+	@ResponseBody
 	@ApiOperation(value = "删除卡片笔记")
 	@LoggerInfo(value = "新增卡片笔记", event = LogOperation.EVENT_ADD)
 	@DeleteMapping(value = "/delete/{id}")

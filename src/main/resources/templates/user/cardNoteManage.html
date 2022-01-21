@@ -125,7 +125,7 @@
                     <div class="layui-card-header">全部标签</div>
                     <div class="layui-card-body">
                         <div class="layui-btn-container tag" lay-filter="allTag" lay-allowclose="true"
-                             lay-newtag="true">
+                             lay-newtag="true" id="allTag">
                             <button lay-id="1" type="button" th:each="tagInfo:${noteInfo.allTags}"
                                     class="tag-item tag-item-normal layui-btn layui-btn-primary layui-btn-sm"
                                     th:text="${tagInfo.name}">标签
@@ -203,8 +203,16 @@
         });
 
         tag.on('add(allTag)', function (data) {
+            console.log(data);
+            console.log(this);
             console.log(data.othis);
             console.log(data.othis.value);
+            console.log(this.innerText);
+            console.log(data.index)
+            let index = data.index;
+            console.log($("#allTag").children().eq(index))
+            console.log($("#allTag").children().eq(index).html())
+            console.log($("#allTag").children().eq(index).text())
             //console.log(this); //当前Tag标签所在的原始DOM元素
             //console.log(data.index); //得到当前Tag的所在下标
             //console.log(data.elem); //得到当前的Tag大容器
@@ -315,15 +323,41 @@
         //监听提交
         form.on('submit(submitBtn)', function () {
             let content = editor.txt.html();
-            console.log(content);
-            Ajax.post('/user/card-note/insert', {content: content}, false);
+            // Ajax.post('/user/card-note/insert', {content: content}, false);
+            $.ajax({
+                url: '/user/card-note/insert',
+                dataType: 'json',
+                contentType: 'application/json',
+                data: JSON.stringify({content: content}),
+                type: 'post',
+                success: function (result) {
+                    window.addData(result, false);
+                    refreshCardNotes();
+                },
+                error: function () {
+                    window.failInfo(false);
+                }
+            });
         });
 
         //监听删除
         form.on('submit(deleteBtn)', function (data) {
             let that = this;
             layer.confirm('是否删除此条笔记？', {icon: 3, title: '提示'}, function (index) {
-                Ajax.delete('/user/card-note/delete', {id: that.id}, false);
+                // Ajax.delete('/user/card-note/delete', {id: that.id}, false);
+                $.ajax({
+                    url: '/user/card-note/delete' + "/" + that.id,
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    type: 'delete',
+                    success: function (result) {
+                        window.delData(result, false);
+                        refreshCardNotes();
+                    },
+                    error: function () {
+                        window.failInfo(false);
+                    }
+                })
             });
         });
 
@@ -345,6 +379,14 @@
             // });
             admin.refreshThis();
         });
+
+        /**
+         * 刷新笔记列表
+         */
+        const refreshCardNotes = function () {
+            $(".noteCards").load('/user/card-note/list');
+            editor.txt.clear();
+        }
     });
 
 </script>

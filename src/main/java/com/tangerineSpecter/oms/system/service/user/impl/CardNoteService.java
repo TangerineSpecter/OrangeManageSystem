@@ -72,7 +72,6 @@ public class CardNoteService implements ICardNoteService {
 		UserCardNoteTag tagVo = new UserCardNoteTag();
 		tagVo.setAdminId(SystemUtils.getSystemUserId());
 		tagVo.setName(vo.getName());
-		tagVo.setIsDel(1);
 		cardNoteTagMapper.insert(tagVo);
 		return ServiceResult.success();
 	}

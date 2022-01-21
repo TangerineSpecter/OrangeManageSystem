@@ -205,22 +205,9 @@
         });
 
         tag.on('add(allTag)', function (data) {
-            console.log(data);
-            console.log(this);
-            console.log(data.othis);
-            console.log(data.othis.value);
-            console.log(this.innerText);
-            console.log(data.index);
-            let index = data.index;
-            console.log($("#allTag").children().eq(index));
-            console.log($("#allTag").children().eq(index).html());
-            console.log($("#allTag").children().eq(index).text())
-            //console.log(this); //当前Tag标签所在的原始DOM元素
-            //console.log(data.index); //得到当前Tag的所在下标
-            //console.log(data.elem); //得到当前的Tag大容器
-            //console.log(data.othis); //得到新增的DOM对象
-            //return false; //返回false 取消新增操作； 同from表达提交事件。
-            // Ajax.post('/user/card-note/insert-tag',{},);
+            console.log($(data.othis).text());
+            let name = $(data.othis).text();
+            Ajax.post('/user/card-note/insert-tag', {name: name}, false);
         });
 
         tag.on('delete(allTag)', function (data) {

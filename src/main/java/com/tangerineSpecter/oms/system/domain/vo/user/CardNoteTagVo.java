@@ -1,5 +1,6 @@
 package com.tangerinespecter.oms.system.domain.vo.user;
 
+import com.tangerinespecter.oms.system.valid.Insert;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,7 +20,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class CardNoteTagVo implements Serializable {
 	
-	@NotBlank(message = "标签名称不能为空")
+	@NotBlank(message = "标签名称不能为空", groups = Insert.class)
 	@ApiModelProperty("笔记标签名称")
 	private String name;
 }

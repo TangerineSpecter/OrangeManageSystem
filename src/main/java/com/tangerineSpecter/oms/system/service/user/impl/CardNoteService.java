@@ -15,6 +15,7 @@ import com.tangerinespecter.oms.system.domain.vo.user.CardNoteListVo;
 import com.tangerinespecter.oms.system.domain.vo.user.CardNoteTagVo;
 import com.tangerinespecter.oms.system.mapper.UserCardNoteMapper;
 import com.tangerinespecter.oms.system.mapper.UserCardNoteTagMapper;
+import com.tangerinespecter.oms.system.mapper.UserNoteTagAssocMapper;
 import com.tangerinespecter.oms.system.service.user.ICardNoteService;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +30,8 @@ public class CardNoteService implements ICardNoteService {
 	private UserCardNoteMapper cardNoteMapper;
 	@Resource
 	private UserCardNoteTagMapper cardNoteTagMapper;
+	@Resource
+	private UserNoteTagAssocMapper noteTagAssocMapper;
 	
 	@Override
 	public ServiceResult queryForPage(UserCardNoteQueryObject qo) {
@@ -79,5 +82,12 @@ public class CardNoteService implements ICardNoteService {
 	@Override
 	public List<CardNoteListVo> randOne() {
 		return cardNoteMapper.randOne(SystemUtils.getSystemUserId());
+	}
+	
+	@Override
+	public ServiceResult deleteTag(Long tagId) {
+		cardNoteTagMapper.deleteById(tagId, SystemUtils.getSystemUserId());
+		noteTagAssocMapper.deleteByTagId(tagId);
+		return ServiceResult.success();
 	}
 }

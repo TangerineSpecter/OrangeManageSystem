@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
@@ -76,7 +77,7 @@ public class CardNoteController {
 	
 	@ResponseBody
 	@ApiOperation(value = "新增笔记标签")
-	@LoggerInfo(value = "新增笔记标签", event = LogOperation.EVENT_ADD)
+	@LoggerInfo(value = "新增笔记标签", event = LogOperation.EVENT_DELETE)
 	@PostMapping(value = "/insert-tag")
 	public ServiceResult insertTag(@RequestBody @Validated CardNoteTagVo vo) {
 		return cardNoteService.insertTag(vo);
@@ -88,5 +89,13 @@ public class CardNoteController {
 	@DeleteMapping(value = "/delete/{id}")
 	public ServiceResult delete(@PathVariable("id") Long id) {
 		return cardNoteService.delete(id);
+	}
+	
+	@ResponseBody
+	@ApiOperation(value = "删除笔记标签")
+	@LoggerInfo(value = "删除笔记标签", event = LogOperation.EVENT_DELETE)
+	@DeleteMapping(value = "/delete-tag/{tagId}")
+	public ServiceResult deleteTag(@NotNull(message = "标签id不能为空") @PathVariable("tagId") Long tagId) {
+		return cardNoteService.deleteTag(tagId);
 	}
 }

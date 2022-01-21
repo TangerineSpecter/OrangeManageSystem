@@ -112,7 +112,8 @@
                     <div class="layui-card-header">置顶标签</div>
                     <div class="layui-card-body">
                         <div class="layui-btn-container tag" lay-filter="topTag">
-                            <button lay-id="1" type="button" th:each="tagInfo:${noteInfo.topTags}"
+                            <button th:id="${tagInfo.id}" th:value="${tagInfo.id}" type="button"
+                                    th:each="tagInfo:${noteInfo.topTags}"
                                     class="tag-item tag-item-normal layui-btn layui-btn-primary layui-btn-sm"
                                     th:text="${tagInfo.name}">标签
                                 <i class="layui-icon layui-icon-down tag-close" th:value="${tagInfo.id}"
@@ -128,7 +129,8 @@
                     <div class="layui-card-body">
                         <div class="layui-btn-container tag" lay-filter="allTag" lay-allowclose="true"
                              lay-newtag="true" id="allTag">
-                            <button lay-id="1" type="button" th:each="tagInfo:${noteInfo.allTags}"
+                            <button th:id="${tagInfo.id}" th:value="${tagInfo.id}" type="button"
+                                    th:each="tagInfo:${noteInfo.allTags}"
                                     class="tag-item tag-item-normal layui-btn layui-btn-primary layui-btn-sm"
                                     th:text="${tagInfo.name}">标签
                                 <i class="layui-icon layui-icon-up tag-close" th:value="${tagInfo.id}"
@@ -184,9 +186,8 @@
 <script th:src="@{https://cdn.jsdelivr.net/npm/wangeditor@latest/dist/wangEditor.min.js}"></script>
 <script th:inline="javascript">
 
-    layui.use(['echarts', 'form', 'admin', 'tag'], function () {
+    layui.use(['echarts', 'form', 'tag'], function () {
         const echarts = layui.echarts,
-            admin = layui.admin,
             form = layui.form,
             tag = layui.tag;
 
@@ -211,12 +212,23 @@
         });
 
         tag.on('delete(allTag)', function (data) {
-            console.log('删除');
-            console.log(this); //当前Tag标签所在的原始DOM元素
-            console.log(this.id);
-            console.log(this.parent.id);
-            console.log(data.index); //得到当前Tag的所在下标
-            console.log(data.elem); //得到当前的Tag大容器
+            let tagId = $(this).parent().val();
+            // layer.confirm('删除标签会清理所有笔记关联，是否删除？', {icon: 3, title: '提示'}, function (index) {
+            // Ajax.delete('/user/card-note/delete', {id: that.id}, false);
+            $.ajax({
+                url: '/user/card-note/delete-tag' + "/" + tagId,
+                dataType: 'json',
+                contentType: 'application/json',
+                type: 'delete',
+                success: function (result) {
+                    window.delData(result, false);
+                    refreshCardNotes();
+                },
+                error: function () {
+                    window.failInfo(false);
+                }
+            })
+            // });
         });
 
         const E = window.wangEditor;

@@ -20,6 +20,14 @@
             <result column="name" property="name"/>
         </collection>
     </resultMap>
+    <select id="randOne" resultMap="cardNoteMap">
+        select *
+        from user_card_note
+        where admin_id = #{adminId}
+          and is_del = 0
+        order by RAND()
+        limit 1
+    </select>
 
     <select id="selectTagList" resultType="com.tangerinespecter.oms.system.domain.vo.user.NoteTagSimpleInfo">
         select tag.id, tag.name

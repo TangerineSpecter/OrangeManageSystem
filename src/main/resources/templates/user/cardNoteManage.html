@@ -102,8 +102,8 @@
                     <div class="layui-card-header">笔记功能</div>
                     <div class="layui-card-body">
                         <button class="pear-btn" lay-filter="dailyShow" lay-submit>每日回顾</button>
-                        <button class="pear-btn">随机漫步</button>
-                        <button class="pear-btn">标签管理</button>
+                        <button class="pear-btn" lay-filter="randomNote" lay-submit>随机漫步</button>
+                        <button class="pear-btn">漫步设置</button>
                     </div>
                 </div>
             </div>
@@ -363,29 +363,20 @@
             });
         });
 
-        //每日回顾
-        form.on('submit(dailyShow)', function () {
-            console.log("每日回顾");
-            $(".noteCards").load("/user/card-note/page");
-            // $.ajax({
-            //     url: '/user/card-note/list',
-            //     dataType: 'json',
-            //     contentType: 'application/json',
-            //     data: {},
-            //     type: 'post',
-            //     success: function (result) {
-            //         $(".noteCards").html(result.data);
-            //     },
-            //     error: function () {
-            //     }
-            // });
+        //随机漫步
+        form.on('submit(randomNote)', function () {
+            $.ajax({
+                url: '/user/card-note/random-note',
+                type: 'get',
+                success: function (result) {
+                    $(".noteCards").html(result);
+                }
+            });
             return false;
         });
 
         //笔记搜索
         form.on('submit(searchNote)', function (data) {
-            console.log("笔记搜索");
-            console.log(data);
             $.ajax({
                 url: '/user/card-note/list',
                 data: {keyword: data.field.keyword},

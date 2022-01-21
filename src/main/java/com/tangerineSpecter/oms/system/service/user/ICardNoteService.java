@@ -4,7 +4,10 @@ import com.tangerinespecter.oms.common.query.UserCardNoteQueryObject;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.dto.user.CardNoteInfoDto;
 import com.tangerinespecter.oms.system.domain.vo.user.CardNoteInfoVo;
+import com.tangerinespecter.oms.system.domain.vo.user.CardNoteListVo;
 import com.tangerinespecter.oms.system.domain.vo.user.CardNoteTagVo;
+
+import java.util.List;
 
 public interface ICardNoteService {
 	
@@ -16,6 +19,8 @@ public interface ICardNoteService {
 	ServiceResult delete(Long id);
 	
 	CardNoteInfoDto noteInfo();
-
-    ServiceResult insertTag(CardNoteTagVo vo);
+	
+	ServiceResult insertTag(CardNoteTagVo vo);
+	
+	List<CardNoteListVo> randOne();
 }

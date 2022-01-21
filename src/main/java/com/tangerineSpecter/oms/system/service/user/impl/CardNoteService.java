@@ -1,6 +1,5 @@
 package com.tangerinespecter.oms.system.service.user.impl;
 
-import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -25,56 +24,61 @@ import java.util.stream.Collectors;
 
 @Service
 public class CardNoteService implements ICardNoteService {
-
-    @Resource
-    private UserCardNoteMapper cardNoteMapper;
-    @Resource
-    private UserCardNoteTagMapper cardNoteTagMapper;
-
-    @Override
-    public ServiceResult queryForPage(UserCardNoteQueryObject qo) {
-        PageHelper.startPage(qo.getPage(), qo.getLimit());
-        List<CardNoteListVo> userCardNotes = cardNoteMapper.queryForPage(qo);
-        return ServiceResult.pageSuccess(new PageInfo<>(userCardNotes));
-    }
-
-    @Override
-    public ServiceResult insert(CardNoteInfoVo vo) {
-        UserCardNote cardNote = new UserCardNote();
-        cardNote.setContent(vo.getContent());
-        cardNote.setAdminId(SystemUtils.getSystemUserId());
-        cardNoteMapper.insert(cardNote);
-        return ServiceResult.success();
-    }
-
-    @Override
-    public ServiceResult delete(Long id) {
-        cardNoteMapper.update(UserCardNote.builder().isDel(1).build(),
-                new UpdateWrapper<UserCardNote>().eq("id", id));
-        return ServiceResult.success();
-    }
-
-    @Override
-    public CardNoteInfoDto noteInfo() {
-        CardNoteInfoDto result = new CardNoteInfoDto();
-        List<CardNoteSubmitInfo> submitInfos = cardNoteMapper.selectListSubmitInfo(SystemUtils.getSystemUserId());
-        result.setSubmitInfos(submitInfos);
-        result.setDay(submitInfos.size());
-        result.setNoteCount(submitInfos.stream().mapToInt(CardNoteSubmitInfo::getCount).sum());
-        result.setTagCount(cardNoteTagMapper.selectCountByAdminId(SystemUtils.getSystemUserId()));
-        List<UserCardNoteTag> allTags = cardNoteTagMapper.selectListByAdminId(SystemUtils.getSystemUserId());
-        result.setAllTags(allTags);
-        result.setTopTags(allTags.stream().filter(tag -> tag.getTop().equals(1)).collect(Collectors.toList()));
-        return result;
-    }
-
-    @Override
-    public ServiceResult insertTag(CardNoteTagVo vo) {
-        UserCardNoteTag tagVo = new UserCardNoteTag();
-        tagVo.setAdminId(SystemUtils.getSystemUserId());
-        tagVo.setName(vo.getName());
-        tagVo.setIsDel(1);
-        cardNoteTagMapper.insert(tagVo);
-        return ServiceResult.success();
-    }
+	
+	@Resource
+	private UserCardNoteMapper cardNoteMapper;
+	@Resource
+	private UserCardNoteTagMapper cardNoteTagMapper;
+	
+	@Override
+	public ServiceResult queryForPage(UserCardNoteQueryObject qo) {
+		PageHelper.startPage(qo.getPage(), qo.getLimit());
+		List<CardNoteListVo> userCardNotes = cardNoteMapper.queryForPage(qo);
+		return ServiceResult.pageSuccess(new PageInfo<>(userCardNotes));
+	}
+	
+	@Override
+	public ServiceResult insert(CardNoteInfoVo vo) {
+		UserCardNote cardNote = new UserCardNote();
+		cardNote.setContent(vo.getContent());
+		cardNote.setAdminId(SystemUtils.getSystemUserId());
+		cardNoteMapper.insert(cardNote);
+		return ServiceResult.success();
+	}
+	
+	@Override
+	public ServiceResult delete(Long id) {
+		cardNoteMapper.update(UserCardNote.builder().isDel(1).build(),
+				new UpdateWrapper<UserCardNote>().eq("id", id));
+		return ServiceResult.success();
+	}
+	
+	@Override
+	public CardNoteInfoDto noteInfo() {
+		CardNoteInfoDto result = new CardNoteInfoDto();
+		List<CardNoteSubmitInfo> submitInfos = cardNoteMapper.selectListSubmitInfo(SystemUtils.getSystemUserId());
+		result.setSubmitInfos(submitInfos);
+		result.setDay(submitInfos.size());
+		result.setNoteCount(submitInfos.stream().mapToInt(CardNoteSubmitInfo::getCount).sum());
+		result.setTagCount(cardNoteTagMapper.selectCountByAdminId(SystemUtils.getSystemUserId()));
+		List<UserCardNoteTag> allTags = cardNoteTagMapper.selectListByAdminId(SystemUtils.getSystemUserId());
+		result.setAllTags(allTags);
+		result.setTopTags(allTags.stream().filter(tag -> tag.getTop().equals(1)).collect(Collectors.toList()));
+		return result;
+	}
+	
+	@Override
+	public ServiceResult insertTag(CardNoteTagVo vo) {
+		UserCardNoteTag tagVo = new UserCardNoteTag();
+		tagVo.setAdminId(SystemUtils.getSystemUserId());
+		tagVo.setName(vo.getName());
+		tagVo.setIsDel(1);
+		cardNoteTagMapper.insert(tagVo);
+		return ServiceResult.success();
+	}
+	
+	@Override
+	public List<CardNoteListVo> randOne() {
+		return cardNoteMapper.randOne(SystemUtils.getSystemUserId());
+	}
 }

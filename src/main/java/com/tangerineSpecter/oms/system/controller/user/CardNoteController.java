@@ -59,6 +59,13 @@ public class CardNoteController {
 		return "user/cardNoteManage::noteCards";
 	}
 	
+	@ApiOperation(value = "随机漫步")
+	@GetMapping(value = "/random-note")
+	public String randomNote(Model model) {
+		model.addAttribute("noteList", cardNoteService.randOne());
+		return "user/cardNoteManage::noteCards";
+	}
+	
 	@ResponseBody
 	@ApiOperation(value = "新增卡片笔记")
 	@LoggerInfo(value = "新增卡片笔记", event = LogOperation.EVENT_ADD)

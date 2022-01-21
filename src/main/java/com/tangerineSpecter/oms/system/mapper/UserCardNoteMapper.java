@@ -18,8 +18,17 @@ public interface UserCardNoteMapper extends BaseMapper<UserCardNote> {
 	
 	/**
 	 * 获取笔记聚合信息
+	 *
 	 * @param adminId 管理员id
 	 * @return 提交记录信息
 	 */
 	List<CardNoteSubmitInfo> selectListSubmitInfo(@Param("adminId") Long adminId);
+	
+	/**
+	 * 随机一篇笔记
+	 *
+	 * @param adminId 管理员id
+	 * @return 笔记内容
+	 */
+	List<CardNoteListVo> randOne(@Param("adminId") Long adminId);
 }

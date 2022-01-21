@@ -38,14 +38,19 @@
     </select>
 
     <select id="queryForPage" resultMap="cardNoteMap">
-        select *
-        from user_card_note
-        where admin_id = #{adminId}
-        and is_del = 0
-        <if test="keyword!='' and keyword!=null">
-            and content like concat('%',#{keyword}, '%')
+        select distinct note.id, note.content, note.admin_id, note.is_del, note.create_time, note.update_time
+        from user_card_note note
+        left join user_note_tag_assoc assoc
+        on assoc.note_id = note.id
+        where note.admin_id = #{adminId}
+        and note.is_del = 0
+        <if test="keyword!='' and keyword !=null">
+            and note.content like concat('%',#{keyword}, '%')
         </if>
-        order by id desc
+        <if test="tagId !=null">
+            and assoc.tag_id = #{tagId}
+        </if>
+        order by note.create_time,note.id desc
     </select>
 
     <select id="selectListSubmitInfo" resultMap="submitMap">

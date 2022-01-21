@@ -199,14 +199,19 @@
         });
 
         tag.on('click(allTag)', function (data) {
-            console.log('点击');
-            console.log(this); //当前Tag标签所在的原始DOM元素
-            console.log(data.index); //得到当前Tag的所在下标
-            console.log(data.elem); //得到当前的Tag大容器
+            let tagId = $(this).val();
+            $.ajax({
+                url: '/user/card-note/list',
+                data: {tagId: tagId},
+                type: 'get',
+                success: function (result) {
+                    $(".noteCards").html(result);
+                }
+            });
+            return false;
         });
 
         tag.on('add(allTag)', function (data) {
-            console.log($(data.othis).text());
             let name = $(data.othis).text();
             Ajax.post('/user/card-note/insert-tag', {name: name}, false);
         });

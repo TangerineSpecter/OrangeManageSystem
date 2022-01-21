@@ -158,7 +158,8 @@
                     <span th:text="${noteInfo.createTime}">
                         2022-01-01 06:00:00
                     </span>
-                    <button class="layui-btn-primary layui-btn-lg pear-reply noteMenu" style="border: none;" th:id="${noteInfo.id}" th:value="${noteInfo.id}">
+                    <button class="layui-btn-primary layui-btn-lg pear-reply noteMenu" style="border: none;"
+                            th:id="${noteInfo.id}" th:value="${noteInfo.id}">
                         <i class="layui-icon layui-icon-more layui-font-12"></i>
                     </button>
                     <!--                    <a href="javascript:;" th:id="${noteInfo.id}" th:value="${noteInfo.id}" lay-filter="deleteBtn"-->
@@ -183,7 +184,6 @@
 <th:block th:include="include :: footer"/>
 <script th:src="@{https://cdn.jsdelivr.net/npm/wangeditor@latest/dist/wangEditor.min.js}"></script>
 <script th:inline="javascript">
-
     layui.use(['echarts', 'form', 'tag', 'dropdown'], function () {
         const echarts = layui.echarts,
             form = layui.form,
@@ -192,33 +192,38 @@
 
         layui.code();
 
-        //下拉菜单
-        dropdown.render({
-            elem: '.noteMenu', //可绑定在任意元素中，此处以上述按钮为例
-            data: [{
-                title: '标签设置',
-                id: 100,
-                href: '#'
-            }, {
-                title: '删除',
-                id: 101
-            }],
-            trigger: 'hover',
-            //菜单被点击的事件
-            click: function (obj) {
-                console.log(this);
-                let noteId = this.elem[0].id;
-                switch (obj.id) {
-                    case 100:
-                        layer.msg('标签设置，开发中...');
-                        break;
-                    case 101:
-                        deleteNote(noteId)
-                        break;
+        initNoteMenu();
+
+        function initNoteMenu() {
+            console.log("初始化下拉菜单")
+            //初始化下拉菜单
+            dropdown.render({
+                elem: '.noteMenu', //可绑定在任意元素中，此处以上述按钮为例
+                data: [{
+                    title: '标签设置',
+                    id: 100,
+                    href: '#'
+                }, {
+                    title: '删除',
+                    id: 101
+                }],
+                trigger: 'hover',
+                //菜单被点击的事件
+                click: function (obj) {
+                    console.log(this);
+                    let noteId = this.elem[0].id;
+                    switch (obj.id) {
+                        case 100:
+                            layer.msg('标签设置，开发中...');
+                            break;
+                        case 101:
+                            deleteNote(noteId)
+                            break;
+                    }
+                    console.log(obj);
                 }
-                console.log(obj);
-            }
-        });
+            });
+        }
 
         tag.render("allTag", {
             skin: 'layui-btn layui-btn-primary layui-btn-sm', //标签样式
@@ -432,6 +437,7 @@
                 type: 'get',
                 success: function (result) {
                     $(".noteCards").html(result);
+                    initNoteMenu();
                 }
             });
             return false;
@@ -445,6 +451,7 @@
                 type: 'get',
                 success: function (result) {
                     $(".noteCards").html(result);
+                    initNoteMenu();
                 }
             });
             return false;
@@ -454,7 +461,10 @@
          * 刷新笔记列表
          */
         const refreshCardNotes = function () {
-            $(".noteCards").load('/user/card-note/list');
+            console.log("刷新笔记列表")
+            $(".noteCards").load('/user/card-note/list', function () {
+                initNoteMenu();
+            });
             editor.txt.clear();
         }
     })

@@ -4,6 +4,7 @@ import com.tangerinespecter.oms.common.redis.PageModelKey;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
 import com.tangerinespecter.oms.system.service.statis.ITradeStatisService;
+import com.tangerinespecter.oms.system.service.system.ISystemInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -32,6 +33,8 @@ public class TradeStatisController {
 	private PageResultService pageResultService;
 	@Resource
 	private ITradeStatisService tradeStatisService;
+	@Resource
+	private ISystemInfoService systemInfoService;
 	
 	/**
 	 * 交易统计页面
@@ -40,9 +43,10 @@ public class TradeStatisController {
 	@RequiresPermissions("statis:trade:page")
 	@GetMapping(value = "/page", produces = "text/html;charset=UTF-8")
 	public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
+		model.addAttribute("statisticsInfo", systemInfoService.getStatisticsInfo());
 		return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getTradeStatisPageKey, "statis/tradeStatis");
 	}
-
+	
 	@ApiOperation("交易统计信息")
 	@GetMapping("/income-info")
 	public ServiceResult incomeValueStatisInfo() {

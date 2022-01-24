@@ -88,7 +88,6 @@ public class IndexController {
 	@GetMapping(value = "/home", produces = "text/html;charset=UTF-8")
 	@LoggerInfo(value = "用户访问首页", event = LogOperation.EVENT_VISIT)
 	public String homePage(HttpServletRequest request, HttpServletResponse response, Model model) {
-		model.addAttribute("statisticsInfo", systemInfoService.getStatisticsInfo());
 		model.addAttribute("systemInfo", systemInfoService.getSystemInfo());
 		model.addAttribute("noticeInfo", systemInfoService.getNoticeInfo());
 		return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getSystemHomePageKey, "common/home");

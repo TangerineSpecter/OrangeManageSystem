@@ -6,13 +6,16 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserHealthInfoVo {
+public class UserHealthInfoVo implements Serializable {
 
+    @NotNull(message = "id不能为空")
     private Long id;
     /**
      * 体重（斤）

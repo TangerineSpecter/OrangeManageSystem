@@ -85,7 +85,7 @@
             cols: [
                 [
                     {type: "checkbox", width: 50, fixed: "left"},
-                    {field: 'id', width: 80, title: 'ID', sort: true},
+                    {field: 'id', width: 80, title: 'ID', sort: true, type: 'numbers'},
                     {field: 'recordTime', width: 150, title: '记录日期'},
                     {field: 'weight', width: 100, title: '体重', edit: 'text'},
                     {field: 'bmi', width: 100, title: 'BMI值', edit: 'text'},
@@ -123,7 +123,9 @@
 
         //监听单元格编辑
         table.on('edit(currentTableFilter)', function (obj) {
-            updateFun(obj.data);
+            // updateFun(obj.data);
+            console.log(obj)
+            Ajax.put("/user/health/update", obj.data, false);
         });
 
         //头工具栏事件
@@ -153,8 +155,7 @@
                 layer.msg('ID：' + data.id + ' 的查看操作');
             } else if (obj.event === 'del') {
                 layer.confirm('是否删除该健康记录？', function (index) {
-                    deleteFun(data.id);
-                    layer.close(index);
+                    Ajax.delete("/user/health/delete", {id: data.id}, false);
                 });
             }
         });
@@ -191,12 +192,6 @@
             })
         }
 
-        //删除健康记录
-        function deleteFun(id) {
-            $.post("/user/health/delete", {id: id, icon: 3, title: '提示'}, function (result) {
-                window.delData(result);
-            }, "JSON");
-        }
     });
 </script>
 <script>

@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
@@ -24,7 +25,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName(value = "user_health")
-public class UserHealth {
+public class UserHealth implements Serializable {
 
     @TableId(type = IdType.AUTO)
     private Long id;

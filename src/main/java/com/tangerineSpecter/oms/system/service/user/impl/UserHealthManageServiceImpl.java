@@ -9,8 +9,9 @@ import com.tangerinespecter.oms.common.enums.HealthRecordTypeEnum;
 import com.tangerinespecter.oms.common.query.UserHealthQueryObject;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
-import com.tangerinespecter.oms.system.domain.vo.user.UserHealthInfoVo;
+import com.tangerinespecter.oms.system.convert.user.HealthConvert;
 import com.tangerinespecter.oms.system.domain.entity.UserHealth;
+import com.tangerinespecter.oms.system.domain.vo.user.UserHealthInfoVo;
 import com.tangerinespecter.oms.system.mapper.UserHealthMapper;
 import com.tangerinespecter.oms.system.service.user.IUserHealthManageService;
 import org.springframework.beans.BeanUtils;
@@ -37,9 +38,6 @@ public class UserHealthManageServiceImpl implements IUserHealthManageService {
 
     @Override
     public ServiceResult insert(Integer type) {
-        if (type == null) {
-            return ServiceResult.paramError();
-        }
         UserHealth userHealth = UserHealth.builder().adminId(SystemUtils.getSystemUserId())
                 .isDel(CommonConstant.IS_DEL_NO).build();
         if (HealthRecordTypeEnum.TODAY_RECORD_TYPE.getValue().equals(type)) {
@@ -59,24 +57,15 @@ public class UserHealthManageServiceImpl implements IUserHealthManageService {
 
     @Override
     public ServiceResult update(UserHealthInfoVo data) {
-        if (data.getId() == null) {
-            return ServiceResult.paramError();
-        }
         UserHealth userHealth = userHealthMapper.selectById(data.getId());
         BeanUtils.copyProperties(data, userHealth);
-        userHealthMapper.updateById(userHealth);
+        HealthConvert.INSTANCE.convert(data);
         return ServiceResult.success();
     }
 
     @Override
     public ServiceResult delete(Long id) {
-        if (id == null) {
-            return ServiceResult.paramError();
-        }
-        UserHealth userHealth = userHealthMapper.selectById(id);
-        userHealth.setIsDel(CommonConstant.IS_DEL_YES);
-        userHealthMapper.updateById(userHealth);
-        return ServiceResult.success();
+        return ServiceResult.success(userHealthMapper.deleteById(id));
     }
 
 }

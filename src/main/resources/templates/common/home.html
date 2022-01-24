@@ -9,7 +9,7 @@
 </head>
 <body class="pear-container">
 <div>
-    <div class="layui-row layui-col-space10">
+    <!-- <div class="layui-row layui-col-space10">
         <div class="layui-col-xs6 layui-col-md3">
             <div class="layui-card top-panel">
                 <div class="layui-card-header">今日收益</div>
@@ -58,7 +58,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <div class="layui-row layui-col-space10">
         <div class="layui-col-md9">
             <div class="layui-card">
@@ -153,19 +153,11 @@
         </div>
     </div>
 </div>
-<!-- 存放首页值 -->
-<input id="starName" type="hidden" th:value="${systemInfo.starName}"/>
-<input id="allLuckValue" type="hidden" th:value="${systemInfo.allLuck}"/>
-<input id="workLuckValue" type="hidden" th:value="${systemInfo.workLuck}"/>
-<input id="healthValue" type="hidden" th:value="${systemInfo.health}"/>
-<input id="loveValue" type="hidden" th:value="${systemInfo.love}"/>
-<input id="moneyValue" type="hidden" th:value="${systemInfo.money}"/>
-
 <!-- 资金信息 -->
 <input id="totalMoney" type="hidden" th:value="${statisticsInfo.lastThirtyTotalMoney}"/>
 <input id="lastDate" type="hidden" th:value="${statisticsInfo.lastThirtyDate}"/>
 <th:block th:include="include :: footer"/>
-<script>
+<script th:inline="javascript">
 
     layui.use(['layer', 'echarts', 'element', 'count'], function () {
         const $ = layui.jquery,
@@ -219,33 +211,28 @@
                 type: 'line',
                 data: totalMoney.split(","),
                 lineStyle: {
-                    normal: {
-                        width: 8,
-                        color: {
-                            type: 'linear',
-
-                            colorStops: [{
-                                offset: 0,
-                                color: '#A9F387' // 0% 处的颜色
-                            }, {
-                                offset: 1,
-                                color: '#48D8BF' // 100% 处的颜色
-                            }],
-                            globalCoord: false // 缺省为 false
-                        },
-                        shadowColor: 'rgba(72,216,191, 0.3)',
-                        shadowBlur: 10,
-                        shadowOffsetY: 20
-                    }
+                    width: 8,
+                    color: {
+                        type: 'linear',
+                        colorStops: [{
+                            offset: 0,
+                            color: '#A9F387' // 0% 处的颜色
+                        }, {
+                            offset: 1,
+                            color: '#48D8BF' // 100% 处的颜色
+                        }],
+                        globalCoord: false // 缺省为 false
+                    },
+                    shadowColor: 'rgba(72,216,191, 0.3)',
+                    shadowBlur: 10,
+                    shadowOffsetY: 20
                 },
                 itemStyle: {
-                    normal: {
-                        color: '#fff',
-                        borderWidth: 10,
-                        /*shadowColor: 'rgba(72,216,191, 0.3)',
-                        shadowBlur: 100,*/
-                        borderColor: "#A9F387"
-                    }
+                    color: '#fff',
+                    borderWidth: 10,
+                    /*shadowColor: 'rgba(72,216,191, 0.3)',
+                    shadowBlur: 100,*/
+                    borderColor: "#A9F387"
                 },
                 smooth: true
             }]
@@ -254,29 +241,29 @@
 
         window.onresize = function () {
             echartsRecords.resize();
-        }
+        };
 
         const echartsTodayLuck = echarts.init(document.getElementById('echarts-today-luck'), 'walden');
 
         /**
          * 今日运势初始化
          */
-        const data = [
-            $("#allLuckValue").val(),
-            $("#loveValue").val(),
-            $("#workLuckValue").val(),
-            $("#healthValue").val(),
-            $("#moneyValue").val()
-        ];
-        const starName = $("#starName").val();
+        const starName = [[${systemInfo.starName}]];
+        const allLuck = [[${systemInfo.allLuck}]];
+        const workLuck = [[${systemInfo.workLuck}]];
+        const love = [[${systemInfo.love}]];
+        const health = [[${systemInfo.health}]];
+        const money = [[${systemInfo.money}]];
+        //综合运势、爱情、工作、健康、金钱
+        const data = [allLuck, love, workLuck, health, money];
+
         //今日运势
         const luckOption = {
             tooltip: {
                 trigger: 'axis'
             },
             legend: {
-                left: 'center',
-                data: ['综合运势', '爱情运势', '工作运势', '健康运势', '金钱运势']
+                left: 'center'
             },
             radar: [
                 {
@@ -331,7 +318,7 @@
 
         window.onresize = function () {
             echartsTodayLuck.resize();
-        }
+        };
 
     });
 </script>

@@ -211,7 +211,6 @@
         initNoteMenu();
 
         function initNoteMenu() {
-            console.log("初始化下拉菜单")
             //初始化下拉菜单
             dropdown.render({
                 elem: '.noteMenu', //可绑定在任意元素中，此处以上述按钮为例
@@ -233,10 +232,9 @@
                             layer.msg('标签设置，开发中...');
                             break;
                         case 101:
-                            deleteNote(noteId)
+                            deleteNote(noteId);
                             break;
                     }
-                    console.log(obj);
                 }
             });
         }
@@ -444,7 +442,7 @@
                     }
                 })
             });
-        }
+        };
 
         //随机漫步
         form.on('submit(randomNote)', function () {
@@ -477,7 +475,6 @@
          * 刷新笔记列表
          */
         const refreshCardNotes = function () {
-            console.log("刷新笔记列表")
             $(".noteCards").load('/user/card-note/list', function () {
                 initNoteMenu();
             });

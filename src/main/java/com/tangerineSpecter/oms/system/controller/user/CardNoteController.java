@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -62,9 +63,9 @@ public class CardNoteController {
 	
 	@ApiOperation(value = "随机漫步")
 	@GetMapping(value = "/random-note")
-	public String randomNote(Model model) {
+	public ModelAndView randomNote(Model model) {
 		model.addAttribute("noteList", cardNoteService.randOne());
-		return "user/cardNoteManage::noteCards";
+		return ServiceResult.jumpPage("user/cardNoteManage::noteCards");
 	}
 	
 	@ResponseBody
@@ -77,18 +78,34 @@ public class CardNoteController {
 	
 	@ResponseBody
 	@ApiOperation(value = "新增笔记标签")
-	@LoggerInfo(value = "新增笔记标签", event = LogOperation.EVENT_DELETE)
+	@LoggerInfo(value = "新增笔记标签", event = LogOperation.EVENT_ADD)
 	@PostMapping(value = "/insert-tag")
 	public ServiceResult insertTag(@RequestBody @Validated CardNoteTagVo vo) {
 		return cardNoteService.insertTag(vo);
 	}
 	
 	@ResponseBody
+	@ApiOperation(value = "恢复卡片笔记")
+	@LoggerInfo(value = "恢复卡片笔记", event = LogOperation.EVENT_UPDATE)
+	@PutMapping(value = "/{id}/restore")
+	public ServiceResult restore(@NotNull(message = "id不能为null") @PathVariable("id") Long id) {
+		return cardNoteService.restore(id);
+	}
+	
+	@ResponseBody
 	@ApiOperation(value = "删除卡片笔记")
-	@LoggerInfo(value = "新增卡片笔记", event = LogOperation.EVENT_ADD)
+	@LoggerInfo(value = "删除卡片笔记", event = LogOperation.EVENT_DELETE)
 	@DeleteMapping(value = "/delete/{id}")
-	public ServiceResult delete(@PathVariable("id") Long id) {
+	public ServiceResult delete(@NotNull(message = "id不能为null") @PathVariable("id") Long id) {
 		return cardNoteService.delete(id);
+	}
+	
+	@ResponseBody
+	@ApiOperation(value = "完全删除卡片笔记")
+	@LoggerInfo(value = "完全删除卡片笔记", event = LogOperation.EVENT_DELETE)
+	@DeleteMapping(value = "/force-delete/{id}")
+	public ServiceResult forceDelete(@NotNull(message = "id不能为null") @PathVariable("id") Long id) {
+		return cardNoteService.forceDelete(id);
 	}
 	
 	@ResponseBody

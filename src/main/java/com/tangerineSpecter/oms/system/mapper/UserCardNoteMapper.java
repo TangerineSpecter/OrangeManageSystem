@@ -1,5 +1,6 @@
 package com.tangerinespecter.oms.system.mapper;
 
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.tangerinespecter.oms.common.query.UserCardNoteQueryObject;
 import com.tangerinespecter.oms.system.domain.dto.user.CardNoteSubmitInfo;
@@ -31,4 +32,19 @@ public interface UserCardNoteMapper extends BaseMapper<UserCardNote> {
 	 * @return 笔记内容
 	 */
 	List<CardNoteListVo> randOne(@Param("adminId") Long adminId);
+	
+	/**
+	 * 物理删除笔记
+	 *
+	 * @param id 笔记id
+	 */
+	void forceDeleteById(@Param("id") Long id);
+	
+	/**
+	 * 恢复笔记
+	 *
+	 * @param id 笔记id
+	 * @return 更新条数
+	 */
+	int restoreNoteById(@Param("id") Long id);
 }

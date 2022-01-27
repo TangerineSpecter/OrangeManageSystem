@@ -20,6 +20,16 @@
             <result column="name" property="name"/>
         </collection>
     </resultMap>
+    <update id="restoreNoteById">
+        update user_card_note
+        set is_del = 0
+        where id = #{id}
+    </update>
+    <delete id="forceDeleteById">
+        delete
+        from user_card_note
+        where id = #{id}
+    </delete>
     <select id="randOne" resultMap="cardNoteMap">
         select *
         from user_card_note
@@ -43,13 +53,20 @@
         left join user_note_tag_assoc assoc
         on assoc.note_id = note.id
         where note.admin_id = #{adminId}
-        and note.is_del = 0
         <if test="keyword!='' and keyword !=null">
             and note.content like concat('%',#{keyword}, '%')
         </if>
         <if test="tagId !=null">
             and assoc.tag_id = #{tagId}
         </if>
+        <choose>
+            <when test="isDel != null">
+                and note.is_del = #{isDel}
+            </when>
+            <otherwise>
+                and note.is_del = 0
+            </otherwise>
+        </choose>
         order by note.create_time desc,note.id desc
     </select>
 

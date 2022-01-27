@@ -25,4 +25,8 @@ public interface ICardNoteService {
 	List<CardNoteListVo> randOne();
 	
 	ServiceResult deleteTag(Long tagId);
+	
+	ServiceResult restore(Long id);
+	
+	ServiceResult forceDelete(Long id);
 }

@@ -116,7 +116,7 @@
                             <i class="icon pear-icon pear-icon-setting"></i>
                             漫步设置
                         </button>
-                        <button class="pear-btn">
+                        <button class="pear-btn" lay-filter="recycling" lay-submit>
                             <i class="icon pear-icon pear-icon-ashbin"></i>
                             回收站
                         </button>
@@ -178,9 +178,6 @@
                             th:id="${noteInfo.id}" th:value="${noteInfo.id}">
                         <i class="layui-icon layui-icon-more layui-font-12"></i>
                     </button>
-                    <!--                    <a href="javascript:;" th:id="${noteInfo.id}" th:value="${noteInfo.id}" lay-filter="deleteBtn"-->
-                    <!--                       lay-submit-->
-                    <!--                       class="pear-btn pear-btn-danger pear-btn-xs pear-reply">删除</a>-->
                 </div>
                 <div class="layui-card-body">
                     <li>
@@ -200,10 +197,11 @@
 <th:block th:include="include :: footer"/>
 <script th:src="@{https://cdn.jsdelivr.net/npm/wangeditor@latest/dist/wangEditor.min.js}"></script>
 <script th:inline="javascript">
-    layui.use(['echarts', 'form', 'tag', 'dropdown'], function () {
+    layui.use(['echarts', 'form', 'tag', 'dropdown', 'toast'], function () {
         const echarts = layui.echarts,
             form = layui.form,
             dropdown = layui.dropdown,
+            toast = layui.toast,
             tag = layui.tag;
 
         layui.code();
@@ -233,6 +231,38 @@
                             break;
                         case 101:
                             deleteNote(noteId);
+                            break;
+                    }
+                }
+            });
+        }
+
+        /**
+         * 回收站菜单
+         **/
+        function initRecyclingNoteMenu() {
+            //初始化下拉菜单
+            dropdown.render({
+                elem: '.noteMenu', //可绑定在任意元素中，此处以上述按钮为例
+                data: [{
+                    title: '恢复笔记',
+                    id: 102,
+                    href: '#'
+                }, {
+                    title: '完全删除',
+                    id: 103
+                }],
+                trigger: 'hover',
+                //菜单被点击的事件
+                click: function (obj) {
+                    console.log(this);
+                    let noteId = this.elem[0].id;
+                    switch (obj.id) {
+                        case 102:
+                            restore(noteId);
+                            break;
+                        case 103:
+                            forceDeleteNote(noteId);
                             break;
                     }
                 }
@@ -444,6 +474,40 @@
             });
         };
 
+        const forceDeleteNote = function (noteId) {
+            layer.confirm('是否彻底删除此条笔记？', {icon: 3, title: '提示'}, function (index) {
+                $.ajax({
+                    url: '/user/card-note/force-delete' + "/" + noteId,
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    type: 'delete',
+                    success: function (result) {
+                        window.delData(result, false);
+                        refreshCardNotes();
+                    },
+                    error: function () {
+                        window.failInfo(false);
+                    }
+                })
+            });
+        };
+
+        const restore = function (noteId) {
+            $.ajax({
+                url: '/user/card-note/' + noteId + "/restore",
+                dataType: 'json',
+                contentType: 'application/json',
+                type: 'put',
+                success: function (result) {
+                    toast.success({message: "已恢复", position: 'topCenter'});
+                    refreshCardNotes();
+                },
+                error: function () {
+                    window.failInfo(false);
+                }
+            })
+        };
+
         //随机漫步
         form.on('submit(randomNote)', function () {
             $.ajax({
@@ -452,6 +516,20 @@
                 success: function (result) {
                     $(".noteCards").html(result);
                     initNoteMenu();
+                }
+            });
+            return false;
+        });
+
+        //回收站
+        form.on('submit(recycling)', function () {
+            $.ajax({
+                url: '/user/card-note/list',
+                data: {isDel: 1},
+                type: 'get',
+                success: function (result) {
+                    $(".noteCards").html(result);
+                    initRecyclingNoteMenu();
                 }
             });
             return false;

@@ -1,6 +1,5 @@
 package com.tangerinespecter.oms.system.service.user.impl;
 
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.tangerinespecter.oms.common.query.UserCardNoteQueryObject;
@@ -51,8 +50,7 @@ public class CardNoteService implements ICardNoteService {
 	
 	@Override
 	public ServiceResult delete(Long id) {
-		cardNoteMapper.update(UserCardNote.builder().isDel(1).build(),
-				new UpdateWrapper<UserCardNote>().eq("id", id));
+		cardNoteMapper.deleteById(id);
 		return ServiceResult.success();
 	}
 	
@@ -85,9 +83,21 @@ public class CardNoteService implements ICardNoteService {
 	}
 	
 	@Override
+	public ServiceResult restore(Long id) {
+		cardNoteMapper.restoreNoteById(id);
+		return ServiceResult.success();
+	}
+	
+	@Override
 	public ServiceResult deleteTag(Long tagId) {
 		cardNoteTagMapper.deleteById(tagId, SystemUtils.getSystemUserId());
 		noteTagAssocMapper.deleteByTagId(tagId);
+		return ServiceResult.success();
+	}
+	
+	@Override
+	public ServiceResult forceDelete(Long id) {
+		cardNoteMapper.forceDeleteById(id);
 		return ServiceResult.success();
 	}
 }

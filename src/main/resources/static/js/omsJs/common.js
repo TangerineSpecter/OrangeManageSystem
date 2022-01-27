@@ -51,7 +51,7 @@ layui.use(['form', 'table', 'toast'], function () {
             }
             table.reload('currentTableId');
         }
-    }
+    };
 
     //编辑数据
     window.editData = function (result, iframe) {
@@ -72,7 +72,7 @@ layui.use(['form', 'table', 'toast'], function () {
             }
             table.reload('currentTableId');
         }
-    }
+    };
 
     //删除数据
     window.delData = function (result, iframe) {
@@ -93,7 +93,7 @@ layui.use(['form', 'table', 'toast'], function () {
                 toast.error({message: result.msg, position: 'topCenter'});
             }
         }
-    }
+    };
 
     window.failInfo = function (iframe) {
         if (iframe) {
@@ -101,7 +101,7 @@ layui.use(['form', 'table', 'toast'], function () {
         } else {
             toast.error({message: "操作失败", position: 'topCenter'});
         }
-    }
+    };
 
     /**
      * 打开提交窗口

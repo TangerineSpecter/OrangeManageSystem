@@ -24,11 +24,8 @@ public class UserCardNoteQueryObject extends QueryObject {
 	
 	@ApiModelProperty("搜索关键词")
 	private String keyword;
-	
 	@ApiModelProperty("标签id")
 	private Long tagId;
-	/**
-	 * 默认当前管理员
-	 */
-	private Long adminId = SystemUtils.getSystemUserId();
+	@ApiModelProperty("删除状态（0：未删除；1：已删除）")
+	private Integer isDel;
 }

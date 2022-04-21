@@ -104,10 +104,6 @@
                 <div class="layui-card">
                     <div class="layui-card-header">笔记功能</div>
                     <div class="layui-card-body">
-                        <button class="pear-btn" lay-filter="dailyShow" lay-submit>
-                            <i class="icon pear-icon pear-icon-notification"></i>
-                            每日回顾
-                        </button>
                         <button class="pear-btn" lay-filter="randomNote" lay-submit>
                             <i class="layui-icon layui-icon-release"></i>
                             随机漫步
@@ -115,6 +111,10 @@
                         <button class="pear-btn">
                             <i class="icon pear-icon pear-icon-setting"></i>
                             漫步设置
+                        </button>
+                        <button class="pear-btn" lay-filter="topTag" lay-submit>
+                            <i class="icon pear-icon pear-icon-notification"></i>
+                            置顶标签
                         </button>
                         <button class="pear-btn" lay-filter="recycling" lay-submit>
                             <i class="icon pear-icon pear-icon-ashbin"></i>
@@ -227,7 +227,9 @@
                     let noteId = this.elem[0].id;
                     switch (obj.id) {
                         case 100:
-                            layer.msg('标签设置，开发中...');
+                            data.href = "/user/card-note/update-tag";
+                            loadFormHeightModel("标签设置", data, '/user/card-note/tagSetting', '600px');
+                            // layer.msg('标签设置，开发中...');
                             break;
                         case 101:
                             deleteNote(noteId);
@@ -456,6 +458,7 @@
             });
         });
 
+        //删除笔记
         const deleteNote = function (noteId) {
             layer.confirm('是否删除此条笔记？', {icon: 3, title: '提示'}, function (index) {
                 $.ajax({
@@ -474,6 +477,7 @@
             });
         };
 
+        //彻底删除笔记
         const forceDeleteNote = function (noteId) {
             layer.confirm('是否彻底删除此条笔记？', {icon: 3, title: '提示'}, function (index) {
                 $.ajax({
@@ -492,6 +496,7 @@
             });
         };
 
+        //恢复笔记
         const restore = function (noteId) {
             $.ajax({
                 url: '/user/card-note/' + noteId + "/restore",
@@ -558,8 +563,7 @@
             });
             editor.txt.clear();
         }
-    })
-    ;
+    });
 
 </script>
 </body>

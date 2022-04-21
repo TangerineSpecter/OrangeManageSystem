@@ -46,8 +46,8 @@ public interface UserCardNoteTagMapper extends BaseMapper<UserCardNoteTag> {
 	 * @return 删除数量
 	 */
 	default int deleteById(Long tagId, Long adminId) {
-		UserCardNoteTag updateInfo = UserCardNoteTag.builder().isDel(1).build();
-		return update(updateInfo, new UpdateWrapper<UserCardNoteTag>()
+		return update(null, new UpdateWrapper<UserCardNoteTag>()
+				.set("is_del", 1)
 				.eq("id", tagId)
 				.eq("admin_id", adminId));
 	}

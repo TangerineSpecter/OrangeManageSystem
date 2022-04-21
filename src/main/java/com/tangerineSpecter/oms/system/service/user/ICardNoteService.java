@@ -3,6 +3,7 @@ package com.tangerinespecter.oms.system.service.user;
 import com.tangerinespecter.oms.common.query.UserCardNoteQueryObject;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.dto.user.CardNoteInfoDto;
+import com.tangerinespecter.oms.system.domain.entity.UserCardNoteTag;
 import com.tangerinespecter.oms.system.domain.vo.user.CardNoteInfoVo;
 import com.tangerinespecter.oms.system.domain.vo.user.CardNoteListVo;
 import com.tangerinespecter.oms.system.domain.vo.user.CardNoteTagVo;
@@ -29,4 +30,10 @@ public interface ICardNoteService {
 	ServiceResult restore(Long id);
 	
 	ServiceResult forceDelete(Long id);
+	
+	ServiceResult updateTag(CardNoteTagVo vo);
+	
+	List<UserCardNoteTag> getAllTags();
+	
+	List<Long> haveTagIds();
 }

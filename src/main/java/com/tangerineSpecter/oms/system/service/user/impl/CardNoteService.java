@@ -19,6 +19,7 @@ import com.tangerinespecter.oms.system.service.user.ICardNoteService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -62,7 +63,7 @@ public class CardNoteService implements ICardNoteService {
 		result.setDay(submitInfos.size());
 		result.setNoteCount(submitInfos.stream().mapToInt(CardNoteSubmitInfo::getCount).sum());
 		result.setTagCount(cardNoteTagMapper.selectCountByAdminId(SystemUtils.getSystemUserId()));
-		List<UserCardNoteTag> allTags = cardNoteTagMapper.selectListByAdminId(SystemUtils.getSystemUserId());
+		List<UserCardNoteTag> allTags = this.getAllTags();
 		result.setAllTags(allTags);
 		result.setTopTags(allTags.stream().filter(tag -> tag.getTop().equals(1)).collect(Collectors.toList()));
 		return result;
@@ -99,5 +100,20 @@ public class CardNoteService implements ICardNoteService {
 	public ServiceResult forceDelete(Long id) {
 		cardNoteMapper.forceDeleteById(id);
 		return ServiceResult.success();
+	}
+	
+	@Override
+	public ServiceResult updateTag(CardNoteTagVo vo) {
+		return ServiceResult.success();
+	}
+	
+	@Override
+	public List<UserCardNoteTag> getAllTags() {
+		return cardNoteTagMapper.selectListByAdminId(SystemUtils.getSystemUserId());
+	}
+	
+	@Override
+	public List<Long> haveTagIds() {
+		return Collections.emptyList();
 	}
 }

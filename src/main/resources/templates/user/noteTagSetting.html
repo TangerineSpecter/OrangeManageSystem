@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('笔记标签设置')"/>
+</head>
+<body>
+<form class="layui-form layui-form-pane" action="" lay-filter="data-form">
+    <div class="mainBox">
+        <div class="main-container">
+            <div class="main-container">
+                <input type="text" id="id" name="id" class="layui-input" style="display: none;">
+                <select id="noteTag" name="noteTag" xm-select="noteTag">
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="pear-btn pear-btn-primary pear-btn-sm" lay-submit=""
+                    lay-filter="submitBtn">
+                <i class="layui-icon layui-icon-ok"></i>
+                提交
+            </button>
+            <button type="reset" class="pear-btn pear-btn-sm">
+                <i class="layui-icon layui-icon-refresh"></i>
+                重置
+            </button>
+        </div>
+    </div>
+</form>
+
+<th:block th:include="include :: footer"/>
+<script th:inline="javascript">
+
+
+    //初始化页面数据
+    function initData(data) {
+        if (data.id !== undefined) {
+            initForm(data);
+        }
+        requestUrl = data.href;
+    }
+
+    /**
+     * 初始化表单
+     * @param data
+     */
+    function initForm(data) {
+        layui.use(['form'], function () {
+            const form = layui.form;
+            form.val("data-form", {
+                "id": data.id
+            });
+            form.render();
+        });
+    }
+
+    layui.use(['select', 'code', 'element', 'form'], function () {
+        let select = layui.select,
+            form = layui.form;
+        layui.code();
+
+        let allTags = [[${allTags}]];
+        console.log(allTags);
+        const tagDatas = [];
+        //初始化下拉框
+        $.each(allTags, function (index, item) {
+            console.log(item);
+            let tagInfo = {};
+            tagInfo.name = item.name;
+            tagInfo.id = item.id;
+            tagDatas.push(tagInfo);
+            // const option = "<option value='" + item.id + "'>" + item.name + "</option>";
+            // $("#noteTag").append(option);
+        });
+        console.log(tagDatas);
+        select.render('noteTag', tagDatas);
+        // select.render({
+        //     elem: 'noteTag',
+        //     data: tagDatas,
+        // });
+        // select.render();
+
+        //监听提交
+        form.on('submit(submitBtn)', function (data) {
+            Ajax.put(requestUrl, data.field, true);
+        });
+    });
+
+</script>
+
+</body>
+</html>

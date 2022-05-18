@@ -36,7 +36,7 @@ public class SystemNoticeReceiver {
 
     @RabbitHandler
     public void process(Message message) {
-        Long uid = message.getUid();
+        String uid = message.getUid();
         SystemUser systemUser = systemUserMapper.selectById(uid);
         if (systemUser == null) {
             log.warn("消息推送异常,管理员[{}]不存在", uid);
@@ -44,7 +44,7 @@ public class SystemNoticeReceiver {
         }
         SystemNotice systemNotice = SystemNotice.builder().title(message.getTitle()).content(message.getContent())
                 .readStatus(MessageConstant.NOT_READ).pushStatus(MessageConstant.IS_PUSH)
-                .adminId(uid).type(message.getType()).isDel(CommonConstant.IS_DEL_NO).build();
+                .uid(uid).type(message.getType()).isDel(CommonConstant.IS_DEL_NO).build();
         systemNoticeMapper.insert(systemNotice);
         chatHandler.sendAllUser(MessageTemplate.PUSH_NEW_MESSAGE.join(1));
     }

@@ -21,7 +21,7 @@ import javax.annotation.Resource;
  * 视频水印处理小工具
  *
  * @author liangjun.zhou
- * @version 0.4.1
+ * @version 0.5.0
  * @date 2022年01月20日17:30:35
  */
 @RestController

@@ -14,7 +14,7 @@ import java.io.Serializable;
  * 卡片笔记标签表
  *
  * @author TangerineSpecter
- * @version v0.4.1
+ * @version v0.5.0
  * @Date 2022年01月17日10:57:00
  */
 @Data
@@ -33,7 +33,7 @@ public class UserCardNoteTag implements Serializable {
     /**
      * 管理员id
      */
-    private Long adminId;
+    private String uid;
     /**
      * 置顶状态
      */

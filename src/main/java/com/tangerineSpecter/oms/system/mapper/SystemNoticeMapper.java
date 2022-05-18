@@ -11,23 +11,23 @@ import java.util.List;
 @Mapper
 public interface SystemNoticeMapper extends BaseMapper<SystemNotice> {
 
-    int queryNotReadNoticeCount(@Param("adminId") Long adminId);
+    int queryNotReadNoticeCount(@Param("uid") String uid);
 
     /**
      * 根据管理员查询
      *
-     * @param adminId
+     * @param uid 管理员id
      */
-    List<SystemNotice> selectListByAdminId(@Param("adminId") Long adminId);
+    List<SystemNotice> selectListByUid(@Param("uid") String uid);
 
     /**
      * 根据
      *
-     * @param adminId    管理员ID
+     * @param uid    管理员ID
      * @param readStatus 阅读状态
      * @return
      */
-    List<SystemNotice> selectListByReadStatus(@Param("adminId") Long adminId, @Param("readStatus") Integer readStatus);
+    List<SystemNotice> selectListByReadStatus(@Param("uid") String uid, @Param("readStatus") Integer readStatus);
 
     List<SystemNotice> queryForPage(SystemNoticeQueryObject qo);
 

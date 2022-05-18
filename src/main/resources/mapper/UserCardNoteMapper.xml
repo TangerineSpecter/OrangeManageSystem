@@ -10,7 +10,7 @@
     <resultMap id="cardNoteMap" type="com.tangerinespecter.oms.system.domain.vo.user.CardNoteListVo">
         <result column="id" property="id"/>
         <result column="content" property="content"/>
-        <result column="admin_id" property="adminId"/>
+        <result column="uid" property="uid"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
         <result column="is_del" property="isDel"/>
@@ -33,7 +33,7 @@
     <select id="randOne" resultMap="cardNoteMap">
         select *
         from user_card_note
-        where admin_id = #{adminId}
+        where uid = #{uid}
           and is_del = 0
         order by RAND()
         limit 1
@@ -48,11 +48,11 @@
     </select>
 
     <select id="queryForPage" resultMap="cardNoteMap">
-        select distinct note.id, note.content, note.admin_id, note.is_del, note.create_time, note.update_time
+        select distinct note.id, note.content, note.uid, note.is_del, note.create_time, note.update_time
         from user_card_note note
         left join user_note_tag_assoc assoc
         on assoc.note_id = note.id
-        where note.admin_id = #{adminId}
+        where note.uid = #{uid}
         <if test="keyword!='' and keyword !=null">
             and note.content like concat('%',#{keyword}, '%')
         </if>

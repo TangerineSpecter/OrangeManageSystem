@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
  * 验证码控制器
  *
  * @author 丢失的橘子
- * @version 0.4.1
+ * @version 0.5.0
  * @date 2022年1月7日 00:51:34
  */
 @RestController

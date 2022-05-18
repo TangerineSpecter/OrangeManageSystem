@@ -5,7 +5,7 @@
     <select id="queryForPage" resultType="com.tangerinespecter.oms.system.domain.entity.DataTradeLogic">
         select *
         from data_trade_logic
-        where admin_id = #{adminId}
+        where uid = #{uid}
         <if test="type != null">
             and type = #{type}
         </if>

@@ -9,5 +9,7 @@ INSERT INTO oms.system_menu (title, pid, href, icon, level, target, permission_c
 VALUES ('视频去水印', 28, '/tools/video-watermark/page', 'layui-icon-face-smile-fine', 1, '_self', '', 0, 0, 0);
 
 -- 新增版本记录
-INSERT INTO `oms`.`system_version_history_content` (`version_id`, `type`, `content`) VALUES (21, 0, '卡片笔记功能');
-INSERT INTO oms.system_version_history_content (version_id, type, content) VALUES (21, 0, '视频去水印小工具');
+INSERT INTO `oms`.`system_version_history` (`version`, `version_number`) VALUES ('0.5.0版本更新', 500);
+INSERT INTO oms.system_version_history_content (version_id, type, content) VALUES (22, 0, '后台界面框架改为Pear Admin');
+INSERT INTO `oms`.`system_version_history_content` (`version_id`, `type`, `content`) VALUES (22, 0, '卡片笔记功能');
+INSERT INTO oms.system_version_history_content (version_id, type, content) VALUES (22, 0, '视频去水印小工具');

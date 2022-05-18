@@ -38,7 +38,7 @@ public class UserHealthManageServiceImpl implements IUserHealthManageService {
 
     @Override
     public ServiceResult insert(Integer type) {
-        UserHealth userHealth = UserHealth.builder().adminId(SystemUtils.getSystemUserId())
+        UserHealth userHealth = UserHealth.builder().uid(SystemUtils.getSystemUserId())
                 .isDel(CommonConstant.IS_DEL_NO).build();
         if (HealthRecordTypeEnum.TODAY_RECORD_TYPE.getValue().equals(type)) {
             userHealth.setRecordTime(DateUtil.formatDate(new Date()));

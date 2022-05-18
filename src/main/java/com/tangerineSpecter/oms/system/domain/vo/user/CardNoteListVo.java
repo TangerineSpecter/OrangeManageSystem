@@ -19,7 +19,7 @@ public class CardNoteListVo {
     /**
      * 管理员id
      */
-    private Long adminId;
+    private String uid;
     /**
      * 创建时间
      */

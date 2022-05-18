@@ -2,6 +2,7 @@ package com.tangerinespecter.oms.system.service.system.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.github.pagehelper.PageHelper;
@@ -109,7 +110,7 @@ public class SystemUserServiceImpl implements ISystemUserService {
         List<SystemUserListDto> pageList = systemUserMapper.queryForPage(qo);
         List<SystemRole> allRoles = systemRoleMapper.selectAllList();
         pageList.forEach(u -> {
-            List<SystemRole> haveRoles = systemRoleMapper.selectRoleByUid(u.getId());
+            List<SystemRole> haveRoles = systemRoleMapper.selectRoleByUid(u.getUid());
             u.setRoles(allRoles);
             u.setHaveRoles(haveRoles);
             List<Long> haveRoleIds = haveRoles.stream().map(SystemRole::getId).collect(Collectors.toList());
@@ -151,22 +152,23 @@ public class SystemUserServiceImpl implements ISystemUserService {
 
     @Override
     public ServiceResult<Object> insertSystemUserInfo(SystemUser systemUser) {
-        if (StrUtil.isBlank(systemUser.getUsername()) || StrUtil.isBlank(systemUser.getPassword())) {
+        if (CharSequenceUtil.isBlank(systemUser.getUsername()) || CharSequenceUtil.isBlank(systemUser.getPassword())) {
             return ServiceResult.paramError();
         }
         SystemUser user = systemUserMapper.selectOneByUserName(systemUser.getUsername());
         if (user != null) {
             return ServiceResult.error(RetCode.REGISTER_REPEAT);
         }
-        String userSlat = SystemUtils.createUserSlat();
-        String password = SystemUtils.handleUserPassword(systemUser.getPassword(), userSlat);
-        SystemUser userInfo = SystemUser.builder().username(systemUser.getUsername()).password(password)
+        String userSalt = SystemUtils.createUserSalt();
+        String password = SystemUtils.handleUserPassword(systemUser.getPassword(), userSalt);
+        SystemUser userInfo = SystemUser.builder().uid(SystemUtils.createUid(userSalt))
+                .username(systemUser.getUsername()).password(password)
                 .admin(systemUser.getAdmin()).avatar(systemUser.getAvatar())
                 .city(systemUser.getCity()).birthday(systemUser.getBirthday())
                 .email(systemUser.getEmail()).brief(systemUser.getBrief())
                 .nickName(systemUser.getNickName()).sex(systemUser.getSex())
                 .phoneNumber(systemUser.getPhoneNumber()).isDel(CommonConstant.IS_DEL_NO)
-                .salt(userSlat).build();
+                .salt(userSalt).build();
         systemUserMapper.insert(userInfo);
         return ServiceResult.success();
     }

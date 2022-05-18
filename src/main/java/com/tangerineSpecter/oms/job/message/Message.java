@@ -13,7 +13,7 @@ public class Message {
     /**
      * 推送用户ID
      */
-    private Long uid;
+    private String uid;
     /**
      * 推送标题
      */

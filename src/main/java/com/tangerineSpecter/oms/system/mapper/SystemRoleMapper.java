@@ -24,10 +24,10 @@ public interface SystemRoleMapper extends BaseMapper<SystemRole> {
     /**
      * 根据uid和角色关系查询角色
      *
-     * @param uid
+     * @param uid 管理员id
      * @return
      */
-    List<SystemRole> selectRoleByUid(@Param("uid") Long uid);
+    List<SystemRole> selectRoleByUid(@Param("uid") String uid);
 
     SystemRole selectRoleById(@Param("id") Long roleId);
 

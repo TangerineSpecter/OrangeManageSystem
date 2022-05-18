@@ -43,7 +43,7 @@ public class SystemNotice implements Serializable {
     /**
      * 管理员ID
      */
-    private Long adminId;
+    private String uid;
     /**
      * 创建时间
      */

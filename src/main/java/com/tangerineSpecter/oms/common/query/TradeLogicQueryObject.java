@@ -27,5 +27,5 @@ public class TradeLogicQueryObject extends QueryObject {
      */
     private Integer status;
 
-    private Long adminId = SystemUtils.getSystemUserId();
+    private String uid = SystemUtils.getSystemUserId();
 }

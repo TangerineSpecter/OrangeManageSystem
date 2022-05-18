@@ -120,7 +120,7 @@ public class UserHealth implements Serializable {
     /**
      * 管理员ID
      */
-    private Long adminId;
+    private String uid;
     /**
      * 删除状态（0：未删除；1：已删除）
      */

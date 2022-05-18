@@ -27,7 +27,7 @@ public class QueryObject<T> implements Serializable{
     /**
      * 当前管理员ID
      */
-    private Long adminId = SystemUtils.getSystemUserId();
+    private String uid = SystemUtils.getSystemUserId();
     /**
      * 默认第一页
      */

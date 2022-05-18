@@ -12,7 +12,7 @@ import lombok.Setter;
  * 卡片笔记页面高级查询
  *
  * @author TangerineSpecter
- * @version 0.4.1
+ * @version 0.5.0
  * @date 2022年01月17日11:28:15
  */
 @Getter

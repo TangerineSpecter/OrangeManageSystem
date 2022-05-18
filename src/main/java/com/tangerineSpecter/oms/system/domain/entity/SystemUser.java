@@ -31,6 +31,8 @@ public class SystemUser implements Serializable {
 
     @TableId(type = IdType.AUTO)
     private Long id;
+
+    private String uid;
     /**
      * 帐号
      */

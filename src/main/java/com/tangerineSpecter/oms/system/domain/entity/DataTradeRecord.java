@@ -58,7 +58,7 @@ public class DataTradeRecord {
     /**
      * 管理员Id
      */
-    private Long adminId;
+    private String uid;
     /**
      * 创建时间
      */

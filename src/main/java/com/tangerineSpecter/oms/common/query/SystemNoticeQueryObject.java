@@ -22,7 +22,7 @@ public class SystemNoticeQueryObject extends QueryObject {
     /**
      * 管理员ID
      */
-    private Long adminId = SystemUtils.getSystemUserId();
+    private String uid = SystemUtils.getSystemUserId();
 
     private Integer readStatus;
 

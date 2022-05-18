@@ -35,7 +35,7 @@ public class DataTradeLogicServiceImpl implements IDataTradeLogicService {
         DataTradeLogic tradeLogic = DataTradeLogic.builder().name(vo.getName()).entryDate(vo.getEntryDate())
                 .entryPoint(vo.getEntryPoint()).profitPoint(vo.getProfitPoint())
                 .type(vo.getType()).lossPoint(vo.getLossPoint()).tradeLogic(vo.getTradeLogic())
-                .adminId(SystemUtils.getSystemUserId()).build();
+                .uid(SystemUtils.getSystemUserId()).build();
         dataTradeLogicMapper.insert(tradeLogic);
         return ServiceResult.success();
     }

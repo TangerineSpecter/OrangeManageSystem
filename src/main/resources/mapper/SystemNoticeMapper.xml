@@ -30,15 +30,15 @@
         from system_notice
         where is_del = 0
           and read_status = 0
-          and admin_id = #{adminId}
+          and uid = #{uid}
     </select>
-    <select id="selectListByAdminId" resultType="com.tangerinespecter.oms.system.domain.entity.SystemNotice">
+    <select id="selectListByUid" resultType="com.tangerinespecter.oms.system.domain.entity.SystemNotice">
         select *
         from system_notice
         where is_del = 0
           and push_status = 0
           and read_status = 0
-          and admin_id = #{adminId}
+          and uid = #{uid}
     </select>
     <select id="selectListByReadStatus"
             resultType="com.tangerinespecter.oms.system.domain.entity.SystemNotice">
@@ -46,12 +46,12 @@
         from system_notice
         where is_del = 0
           and read_status = #{readStatus}
-          and admin_id = #{adminId}
+          and uid = #{uid}
     </select>
     <select id="queryForPage" resultType="com.tangerinespecter.oms.system.domain.entity.SystemNotice">
         select *
         from system_notice
-        where admin_id = #{adminId}
+        where uid = #{uid}
         <if test="readStatus != null">
             and read_status = #{readStatus}
         </if>

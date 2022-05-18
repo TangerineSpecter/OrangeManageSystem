@@ -14,6 +14,8 @@ import java.util.List;
 public class SystemUserListDto {
 
     private Long id;
+
+    private String uid;
     /**
      * 帐号
      */

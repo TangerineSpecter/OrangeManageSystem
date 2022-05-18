@@ -1,10 +1,13 @@
 package com.tangerinespecter.oms.common.utils;
 
+import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
 import cn.hutool.crypto.digest.DigestAlgorithm;
+import cn.hutool.crypto.digest.DigestUtil;
 import cn.hutool.crypto.digest.Digester;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
@@ -22,10 +25,7 @@ import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.StringTokenizer;
+import java.util.*;
 
 /**
  * 系统工具类
@@ -90,14 +90,14 @@ public class SystemUtils {
     /**
      * 获取登录管理员ID
      *
-     * @return
+     * @return 管理员id
      */
-    public static Long getSystemUserId() {
+    public static String getSystemUserId() {
         SystemUser systemUser = getCurrentUser();
         if (systemUser == null) {
-            return -1L;
+            return "-1";
         }
-        return systemUser.getId();
+        return systemUser.getUid();
     }
 
     /**
@@ -126,10 +126,18 @@ public class SystemUtils {
     /**
      * 随机生成用户salt
      */
-    public static String createUserSlat() {
+    public static String createUserSalt() {
         int randomInt = RandomUtil.randomInt(10);
         String sub = IdUtil.randomUUID().substring(4, 11);
         return handleUserPassword(sub).substring(randomInt, randomInt + 6);
+    }
+
+    /**
+     * @param salt 用户盐
+     * @return 根据用户盐生成账户id
+     */
+    public static String createUid(String salt) {
+        return CharSequenceUtil.sub(DigestUtil.sha256Hex(salt + DateUtil.now()), 0, 12) + DateUtil.format(new Date(), "MMdd");
     }
 
     /**

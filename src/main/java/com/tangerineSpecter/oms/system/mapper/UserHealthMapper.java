@@ -18,12 +18,12 @@ public interface UserHealthMapper extends BaseMapper<UserHealth> {
     List<UserHealth> queryForPage(UserHealthQueryObject qo);
 
     /**
-     * 获取用户
+     * 获取健康信息
      *
-     * @param adminId
-     * @return
+     * @param uid 管理员id
+     * @return 健康信息
      */
-    List<UserHealth> queryUserWeight(@Param("adminId") Long adminId);
+    List<UserHealth> queryUserWeight(@Param("uid") String uid);
 
     /**
      * 根据记录时间查询最近一条数据

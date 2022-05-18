@@ -30,5 +30,5 @@ public class UserHealthQueryObject extends QueryObject {
     /**
      * 默认当前管理员
      */
-    private Long adminId = SystemUtils.getSystemUserId();
+    private String uid = SystemUtils.getSystemUserId();
 }

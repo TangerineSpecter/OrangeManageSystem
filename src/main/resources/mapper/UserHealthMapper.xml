@@ -6,7 +6,7 @@
     <select id="queryForPage" resultType="com.tangerinespecter.oms.system.domain.entity.UserHealth">
         select *
         from user_health
-        where admin_id = #{adminId}
+        where uid = #{uid}
         and is_del = 0
         <if test="startTime!='' and startTime!=null">
             <![CDATA[and `record_time` >= #{startTime}]]>
@@ -19,7 +19,7 @@
     <select id="queryUserWeight" resultType="com.tangerinespecter.oms.system.domain.entity.UserHealth">
         select *
         from user_health
-        where admin_id = #{adminId}
+        where uid = #{uid}
           and is_del = 0
         order by record_time desc
     </select>

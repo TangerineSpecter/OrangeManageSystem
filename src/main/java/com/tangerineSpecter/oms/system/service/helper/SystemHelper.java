@@ -52,7 +52,7 @@ public class SystemHelper {
      * 推送系统通知消息
      */
     public void pushSystemNotice() {
-        List<SystemNotice> systemNotices = systemNoticeMapper.selectListByAdminId(SystemUtils.getSystemUserId());
+        List<SystemNotice> systemNotices = systemNoticeMapper.selectListByUid(SystemUtils.getSystemUserId());
         if (systemNotices.isEmpty()) {
             return;
         }

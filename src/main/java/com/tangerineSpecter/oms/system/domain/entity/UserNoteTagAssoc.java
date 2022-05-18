@@ -14,7 +14,7 @@ import java.io.Serializable;
  * 卡片笔记标签关联表
  *
  * @author TangerineSpecter
- * @version v0.4.1
+ * @version v0.5.0
  * @Date 2022年01月21日17:42:53
  */
 @Data

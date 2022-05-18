@@ -124,7 +124,7 @@ public class DataTradeRecordServiceImpl implements IDateTradeRecordService {
                 Integer type = Convert.toInt(data.get(3));
                 DataTradeRecord tradeRecord = DataTradeRecord.builder().startMoney(Convert.toInt(NumberUtil.mul(startMoney, 100)))
                         .date(date).endMoney(Convert.toInt(NumberUtil.mul(endMoney, 100))).createTime(System.currentTimeMillis())
-                        .adminId(SystemUtils.getSystemUserId())
+                        .uid(SystemUtils.getSystemUserId())
                         .type(type).build();
                 dataTradeRecordMapper.insert(tradeRecord);
             }
@@ -142,7 +142,7 @@ public class DataTradeRecordServiceImpl implements IDateTradeRecordService {
         }
         DataTradeRecord tradeRecord = DataTradeRecord.builder().startMoney(Convert.toInt(vo.getStartMoney() * 100))
                 .endMoney(Convert.toInt(vo.getEndMoney() * 100)).type(vo.getType())
-                .adminId(SystemUtils.getSystemUserId())
+                .uid(SystemUtils.getSystemUserId())
                 .createTime(System.currentTimeMillis())
                 .date(vo.getDate()).build();
         dataTradeRecordMapper.insert(tradeRecord);

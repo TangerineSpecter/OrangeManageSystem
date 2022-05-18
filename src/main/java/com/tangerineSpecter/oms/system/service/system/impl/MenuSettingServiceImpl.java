@@ -176,21 +176,21 @@ public class MenuSettingServiceImpl implements IMenuSettingService {
         QueryWrapper<SystemUser> queryWrapper = new QueryWrapper<SystemUser>().eq("admin", SystemConstant.IS_SYSTEM_ADMIN)
                 .eq("is_del", CommonConstant.IS_DEL_NO);
         SystemUser systemUser = systemUserMapper.selectOne(queryWrapper);
-        Long adminId = null;
+        String uid = null;
         if (systemUser == null) {
             try {
                 systemUser = SystemUser.builder().admin(1).username("admin")
                         .password("123456").isDel(CommonConstant.IS_DEL_NO).build();
                 systemUserService.insertSystemUserInfo(systemUser);
                 log.info("超级管理员账号初始化完毕");
-                adminId = systemUser.getId();
+                uid = systemUser.getUid();
             } catch (Exception e) {
                 log.error("超级管理员账号初始化异常", e);
             }
         } else {
-            adminId = systemUser.getId();
+            uid = systemUser.getUid();
         }
-        initSystemAdminRole(adminId);
+        initSystemAdminRole(uid);
     }
 
     /**
@@ -198,19 +198,19 @@ public class MenuSettingServiceImpl implements IMenuSettingService {
      *
      * @return 管理员角色ID
      */
-    private void initSystemAdminRole(Long adminId) {
-        if (adminId == null) {
+    private void initSystemAdminRole(String uid) {
+        if (uid == null) {
             log.warn("初始化管理员角色异常");
             return;
         }
-        List<SystemRole> systemRole = systemRoleMapper.selectRoleByUid(adminId);
+        List<SystemRole> systemRole = systemRoleMapper.selectRoleByUid(uid);
         Long adminRoleId = null;
         if (systemRole == null) {
             SystemRole createSystemRole = SystemRole.builder().name("系统管理员")
                     .status(SystemConstant.IS_EFFECTIVE).remark("系统管理员").build();
             systemRoleMapper.insert(createSystemRole);
             adminRoleId = createSystemRole.getId();
-            SystemUserRole userRole = SystemUserRole.builder().uid(adminId).rid(adminRoleId).build();
+            SystemUserRole userRole = SystemUserRole.builder().uid(uid).rid(adminRoleId).build();
             systemUserRoleMapper.insert(userRole);
         } else {
             log.warn("管理员角色异常");

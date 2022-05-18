@@ -44,7 +44,7 @@ public class CardNoteService implements ICardNoteService {
 	public ServiceResult insert(CardNoteInfoVo vo) {
 		UserCardNote cardNote = new UserCardNote();
 		cardNote.setContent(vo.getContent());
-		cardNote.setAdminId(SystemUtils.getSystemUserId());
+		cardNote.setUid(SystemUtils.getSystemUserId());
 		cardNoteMapper.insert(cardNote);
 		return ServiceResult.success();
 	}
@@ -62,7 +62,7 @@ public class CardNoteService implements ICardNoteService {
 		result.setSubmitInfos(submitInfos);
 		result.setDay(submitInfos.size());
 		result.setNoteCount(submitInfos.stream().mapToInt(CardNoteSubmitInfo::getCount).sum());
-		result.setTagCount(cardNoteTagMapper.selectCountByAdminId(SystemUtils.getSystemUserId()));
+		result.setTagCount(cardNoteTagMapper.selectCountByUid(SystemUtils.getSystemUserId()));
 		List<UserCardNoteTag> allTags = this.getAllTags();
 		result.setAllTags(allTags);
 		result.setTopTags(allTags.stream().filter(tag -> tag.getTop().equals(1)).collect(Collectors.toList()));
@@ -72,7 +72,7 @@ public class CardNoteService implements ICardNoteService {
 	@Override
 	public ServiceResult insertTag(CardNoteTagVo vo) {
 		UserCardNoteTag tagVo = new UserCardNoteTag();
-		tagVo.setAdminId(SystemUtils.getSystemUserId());
+		tagVo.setUid(SystemUtils.getSystemUserId());
 		tagVo.setName(vo.getName());
 		cardNoteTagMapper.insert(tagVo);
 		return ServiceResult.success();
@@ -109,7 +109,7 @@ public class CardNoteService implements ICardNoteService {
 	
 	@Override
 	public List<UserCardNoteTag> getAllTags() {
-		return cardNoteTagMapper.selectListByAdminId(SystemUtils.getSystemUserId());
+		return cardNoteTagMapper.selectListByUid(SystemUtils.getSystemUserId());
 	}
 	
 	@Override

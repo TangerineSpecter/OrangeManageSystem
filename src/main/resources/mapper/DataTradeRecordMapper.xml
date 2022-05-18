@@ -6,7 +6,7 @@
         select *
         from data_trade_record
         <where>
-            admin_id = #{adminId}
+            uid = #{uid}
             <if test="type!=null">
                 and `type` = #{type}
             </if>

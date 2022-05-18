@@ -13,14 +13,14 @@
         select sp.*
         from system_user su
                  INNER JOIN system_user_role sur
-                            ON sur.uid = su.id
+                            ON sur.uid = su.uid
                  INNER JOIN system_role sr
                             ON sr.id = sur.rid
                  INNER JOIN system_permission_role spr
                             ON spr.rid = sr.id
                  INNER JOIN system_permission sp
                             ON sp.id = spr.pid
-        where su.id = ${uid}
+        where su.uid = #{uid}
           and su.is_del = 0
     </select>
     <select id="selectListByRoleId"
@@ -38,7 +38,7 @@
         from system_permission
         <where>
             <if test="name != null and name != ''">
-                `name` like concat("%",#{name},"%")
+                `name` like concat('%', #{name}, '%')
             </if>
         </where>
     </select>

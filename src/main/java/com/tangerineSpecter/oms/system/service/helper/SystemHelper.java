@@ -40,7 +40,7 @@ public class SystemHelper {
         List<UserPermissionListDto> permissions = CollUtil.newArrayList();
         try {
             SystemUser currentUser = SystemUtils.getCurrentUser();
-            Long userId = currentUser.getId();
+            String userId = currentUser.getUid();
             return systemPermissionMapper.getPermissionListByUid(userId);
         } catch (Exception ex) {
             log.error("获取当前登录用户权限列表异常");

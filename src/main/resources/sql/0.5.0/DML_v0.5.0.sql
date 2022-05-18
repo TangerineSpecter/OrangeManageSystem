@@ -85,6 +85,4 @@ alter table `user_card_note_tag` change admin_id uid varchar(64);
 alter table `user_card_note` change admin_id uid varchar(64);
 alter table `data_trade_logic` change admin_id uid varchar(64);
 alter table `data_trade_record` change admin_id uid varchar(64);
-
--- 修改uid值
-
+alter table `system_user_role` change uid uid varchar(64);

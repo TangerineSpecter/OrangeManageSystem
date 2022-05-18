@@ -32,5 +32,5 @@ public class SystemUserRole {
     /**
      * 用户ID
      */
-    private Long uid;
+    private String uid;
 }

@@ -84,7 +84,7 @@
                p.url
         from system_user u
                  INNER JOIN system_user_role ur
-                            ON ur.uid = u.id
+                            ON ur.uid = u.uid
                  INNER JOIN system_role r
                             ON r.id = ur.rid
                  INNER JOIN system_permission_role pr

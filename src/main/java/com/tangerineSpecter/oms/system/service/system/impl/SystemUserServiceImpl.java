@@ -208,7 +208,7 @@ public class SystemUserServiceImpl implements ISystemUserService {
         rolesReq.removeAll(intersectionIds);
         haveRoleIds.removeAll(intersectionIds);
         //新增角色
-        rolesReq.forEach(r -> systemUserRoleMapper.insert(SystemUserRole.builder().rid(r).uid(vo.getId()).build()));
+        rolesReq.forEach(r -> systemUserRoleMapper.insert(SystemUserRole.builder().rid(r).uid(vo.getUid()).build()));
         //移除角色
         haveRoleIds.forEach(r -> systemUserRoleMapper.delete(new UpdateWrapper<SystemUserRole>().eq("rid", r).eq("uid", vo.getId())));
         return ServiceResult.success();

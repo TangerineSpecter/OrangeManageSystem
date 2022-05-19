@@ -57,9 +57,7 @@ public class UserHealthManageServiceImpl implements IUserHealthManageService {
 
     @Override
     public ServiceResult update(UserHealthInfoVo data) {
-        UserHealth userHealth = userHealthMapper.selectById(data.getId());
-        BeanUtils.copyProperties(data, userHealth);
-        HealthConvert.INSTANCE.convert(data);
+        userHealthMapper.updateById(HealthConvert.INSTANCE.convert(data));
         return ServiceResult.success();
     }
 

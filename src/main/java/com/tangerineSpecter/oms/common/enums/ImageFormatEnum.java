@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 /**
  * 图片格式
  *
- * @author zhouliangjun
+ * @author TangineSpecter
  */
 @Getter
 @AllArgsConstructor

@@ -192,7 +192,7 @@ public class DataTradeRecordServiceImpl implements IDateTradeRecordService {
     }
 
     public static void main(String[] args) throws FileNotFoundException {
-//        String path = "/Users/zhouliangjun/Downloads/trade.xlsx";
+//        String path = "";
 //        File file = new File(path);
 //        if (file.exists()) {
 //            System.out.println("file not exist!");

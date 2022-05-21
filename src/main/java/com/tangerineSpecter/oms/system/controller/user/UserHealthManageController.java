@@ -10,6 +10,7 @@ import com.tangerinespecter.oms.system.service.page.PageResultService;
 import com.tangerinespecter.oms.system.service.user.IUserHealthManageService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -62,7 +63,7 @@ public class UserHealthManageController {
     @ApiOperation(value = "新增健康信息")
     @PostMapping("/insert")
     @LoggerInfo(value = "新增健康信息", event = LogOperation.EVENT_ADD)
-    public ServiceResult insert(@RequestParam("type") Integer type) {
+    public ServiceResult insert(@RequestParam("type") @ApiParam("0：今天的记录，1：昨天的记录") Integer type) {
         return userHealthManageService.insert(type);
     }
 

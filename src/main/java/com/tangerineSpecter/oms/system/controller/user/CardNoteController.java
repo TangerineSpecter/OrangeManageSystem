@@ -49,9 +49,8 @@ public class CardNoteController {
     @GetMapping(value = "/page", produces = "text/html;charset=UTF-8")
     public String cardNotePage(HttpServletRequest request, HttpServletResponse response, Model model) {
         model.addAttribute("noteList", cardNoteService.queryForPage(new UserCardNoteQueryObject()).getData());
-//        DateTime dateTime = DateUtil.beginOfMonth(DateUtil.offsetMonth(new Date(), -2));
-//		model.addAttribute("rangeDate", new String[]{DateUtil.formatDate(dateTime), DateUtil.formatDate(DateUtil.offsetDay(dateTime, 90))});
-        model.addAttribute("rangeDate", new String[]{DateUtil.formatDate(DateUtil.offsetDay(new Date(), -87)), DateUtil.formatDate(DateUtil.offsetDay(new Date(), 3))});
+        int offsetDay = 7 - DateUtil.thisDayOfWeek();
+        model.addAttribute("rangeDate", new String[]{DateUtil.formatDate(DateUtil.offsetDay(new Date(), -90 + offsetDay)), DateUtil.formatDate(DateUtil.offsetDay(new Date(), offsetDay))});
         model.addAttribute("noteInfo", cardNoteService.noteInfo());
         return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getCardNotePageKey, "user/cardNoteManage");
     }

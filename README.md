@@ -155,3 +155,4 @@ v0.5.0
 ## 相关参考资源
 
 - [Pear Admin Layui v3.9.4](https://gitee.com/pear-admin/Pear-Admin-Layui#https://github.com/PearAdmin/pear-admin-layui)
+- [wangEditor V4 富文本编辑器](https://github.com/wangeditor-team/wangEditor/tree/v4.7.13)

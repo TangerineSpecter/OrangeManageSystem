@@ -12,6 +12,7 @@ import com.tangerinespecter.oms.common.enums.GlobalBoolEnum;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.common.utils.ParamUtils;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
+import com.tangerinespecter.oms.system.convert.user.RoleConvert;
 import com.tangerinespecter.oms.system.domain.entity.*;
 import com.tangerinespecter.oms.system.domain.enums.UserStatusEnum;
 import com.tangerinespecter.oms.system.domain.vo.system.SystemMenuInfoVo;
@@ -206,10 +207,8 @@ public class MenuSettingServiceImpl implements IMenuSettingService {
         SystemRole createSystemRole = SystemRole.builder().name("系统管理员")
                 .status(UserStatusEnum.EFFECTIVE.getValue()).remark("系统管理员").build();
         systemRoleMapper.insert(createSystemRole);
-        Long newRoleId = createSystemRole.getId();
-        SystemUserRole userRole = SystemUserRole.builder().uid(uid).rid(newRoleId).build();
-        systemUserRoleMapper.insert(userRole);
-        initPermission(newRoleId);
+        systemUserRoleMapper.insert(RoleConvert.INSTANCE.create(uid, createSystemRole.getId()));
+        initPermission(createSystemRole.getId());
     }
 
     /**

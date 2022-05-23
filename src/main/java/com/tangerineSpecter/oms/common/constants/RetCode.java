@@ -41,22 +41,22 @@ public class RetCode {
     public static final RetCode VERIFY_CODE_ERROR = new RetCode(4, "验证码错误");
 
     /**
-     * 帐号已被注册
+     * 账号已被注册
      */
     public static final RetCode REGISTER_REPEAT = new RetCode(100, "该帐号已注册，请重新申请！");
 
     /**
-     * 帐号密码错误
+     * 账号密码错误
      */
     public static final RetCode ACCOUNTS_PASSWORD_ERROR = new RetCode(101, "密码错误，请重新确认后登录！");
 
     /**
-     * 注册帐号不存在
+     * 注册账号不存在
      */
     public static final RetCode REGISTER_ACCOUNTS_NOT_EXIST = new RetCode(102, "您输入的帐号不存在，请注册后重新登录！");
 
     /**
-     * 帐号不存在
+     * 账号不存在
      */
     public static final RetCode ACCOUNTS_NOT_EXIST = new RetCode(102, "帐号不存在！");
 
@@ -92,7 +92,7 @@ public class RetCode {
      */
     public static final RetCode SYSTEM_BULLETIN_MORE_THAN_UPPER = new RetCode(109, "系统公告只支持置顶一个");
     /**
-     * 帐号旧密码错误
+     * 账号旧密码错误
      */
     public static final RetCode ACCOUNTS_PASSWORD_OLD_ERROR = new RetCode(110, "原始密码不正确，请重新输入！");
     /**

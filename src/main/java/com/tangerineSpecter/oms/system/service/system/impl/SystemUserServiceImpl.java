@@ -2,6 +2,7 @@ package com.tangerinespecter.oms.system.service.system.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.lang.Assert;
 import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
@@ -11,6 +12,7 @@ import com.google.common.base.Splitter;
 import com.tangerinespecter.oms.common.constants.CommonConstant;
 import com.tangerinespecter.oms.common.constants.RetCode;
 import com.tangerinespecter.oms.common.constants.SystemConstant;
+import com.tangerinespecter.oms.common.exception.BusinessException;
 import com.tangerinespecter.oms.common.query.SystemUserQueryObject;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
@@ -175,15 +177,11 @@ public class SystemUserServiceImpl implements ISystemUserService {
 
     @Override
     public ServiceResult updatePassword(SystemUserPwdVo vo) {
-        SystemUser systemUser = (SystemUser) SecurityUtils.getSubject().getPrincipal();
-//        SystemUser systemUser = systemUserMapper.selectById(vo.getId());
-        if (systemUser == null) {
-            return ServiceResult.error(RetCode.ACCOUNTS_NOT_EXIST);
-        }
+        SystemUser systemUser = SystemUtils.getCurrentUser();
+        Assert.isTrue(systemUser != null, () -> new BusinessException(RetCode.ACCOUNTS_NOT_EXIST));
         String oldPassword = SystemUtils.handleUserPassword(vo.getOldPassword(), systemUser.getSalt());
-        if (!systemUser.getPassword().equals(oldPassword)) {
-            return ServiceResult.error(RetCode.ACCOUNTS_PASSWORD_OLD_ERROR);
-        }
+
+        Assert.isTrue(systemUser.getPassword().equals(oldPassword), () -> new BusinessException(RetCode.ACCOUNTS_PASSWORD_OLD_ERROR));
         String newPassword = SystemUtils.handleUserPassword(vo.getPassword(), systemUser.getSalt());
         systemUserMapper.updatePassword(systemUser.getId(), newPassword);
         return ServiceResult.success();
@@ -191,12 +189,8 @@ public class SystemUserServiceImpl implements ISystemUserService {
 
     @Override
     public ServiceResult updateSystemUserRole(SystemUserInfoVo vo) {
-        if (vo.getId() == null) {
-            return ServiceResult.paramError();
-        }
-        if (StrUtil.isBlank(vo.getRoleIds())) {
-            UpdateWrapper<SystemUserRole> queryWrapper = new UpdateWrapper<SystemUserRole>().eq("uid", vo.getId());
-            systemUserRoleMapper.delete(queryWrapper);
+        if (CharSequenceUtil.isBlank(vo.getRoleIds())) {
+            systemUserRoleMapper.deleteByUid(vo.getId());
             return ServiceResult.success();
         }
         Set<Long> haveRoleIds = systemUserRoleMapper.getHaveRoleIdsByUid(vo.getId());

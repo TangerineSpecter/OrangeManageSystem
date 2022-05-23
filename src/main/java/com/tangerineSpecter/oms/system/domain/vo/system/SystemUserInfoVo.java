@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * 系统管理员信息
  */
@@ -12,6 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SystemUserInfoVo {
 
+	@NotNull(message = "id不能为空")
 	private Long id;
 
 	private String uid;

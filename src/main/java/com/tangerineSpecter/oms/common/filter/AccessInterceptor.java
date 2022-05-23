@@ -59,7 +59,7 @@ public class AccessInterceptor implements HandlerInterceptor {
             } else if (count < accessLimit.maxCount()) {
                 redisHelper.incr(AccessKey.access, key, 1);
             } else {
-                throw new BusinessException(RetCode.BUSY.getErrorDesc());
+                throw new BusinessException(RetCode.BUSY);
             }
         }
         return true;

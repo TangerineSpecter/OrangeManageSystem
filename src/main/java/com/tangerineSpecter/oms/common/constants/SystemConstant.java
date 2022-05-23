@@ -33,13 +33,4 @@ public class SystemConstant {
      */
     public static final Integer IS_SYSTEM_ADMIN = 1;
 
-    /**
-     * 是否有效：冻结
-     */
-    public static final Integer IS_NOT_EFFECTIVE = 0;
-    /**
-     * 是否有效：可用
-     */
-    public static final Integer IS_EFFECTIVE = 1;
-
 }

@@ -3,6 +3,7 @@
 <mapper namespace="com.tangerinespecter.oms.system.mapper.SystemUserMapper">
     <resultMap id="systemUserMap" type="com.tangerinespecter.oms.system.domain.entity.SystemUser">
         <id column="id" property="id"/>
+        <result column="uid" property="uid"/>
         <result column="username" property="username"/>
         <result column="password" property="password"/>
         <result column="nick_name" property="nickName"/>
@@ -27,8 +28,13 @@
         </collection>
     </resultMap>
     <sql id="Base_Column_List">
-        username, nick_name, `password`, phone_number, create_time,
-        update_time, `admin`
+        username,
+        nick_name,
+        `password`,
+        phone_number,
+        create_time,
+        update_time,
+        `admin`
     </sql>
     <update id="updateLoginCountById">
         update system_user

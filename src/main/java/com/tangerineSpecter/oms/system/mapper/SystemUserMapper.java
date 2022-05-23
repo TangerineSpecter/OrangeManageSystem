@@ -1,6 +1,9 @@
 package com.tangerinespecter.oms.system.mapper;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.tangerinespecter.oms.common.constants.CommonConstant;
+import com.tangerinespecter.oms.common.constants.SystemConstant;
 import com.tangerinespecter.oms.common.query.SystemUserQueryObject;
 import com.tangerinespecter.oms.system.domain.dto.system.SystemUserListDto;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;
@@ -55,4 +58,15 @@ public interface SystemUserMapper extends BaseMapper<SystemUser> {
      */
     void updatePassword(@Param("id") Long id, @Param("password") String password);
 
+    /**
+     * 查询超级管理员账号（唯一）
+     * @return 超级管理员账号信息
+     */
+    default SystemUser selectOneByAdmin() {
+        QueryWrapper<SystemUser> queryWrapper = new QueryWrapper<SystemUser>()
+                .eq("admin", SystemConstant.IS_SYSTEM_ADMIN)
+                .eq("is_del", CommonConstant.IS_DEL_NO)
+                .last("limit 1");
+        return this.selectOne(queryWrapper);
+    }
 }

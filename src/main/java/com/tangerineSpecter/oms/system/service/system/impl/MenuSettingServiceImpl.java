@@ -1,14 +1,19 @@
 package com.tangerinespecter.oms.system.service.system.impl;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.lang.Assert;
+import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.tangerinespecter.oms.common.constants.CommonConstant;
 import com.tangerinespecter.oms.common.constants.RetCode;
 import com.tangerinespecter.oms.common.constants.SystemConstant;
+import com.tangerinespecter.oms.common.enums.GlobalBoolEnum;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.common.utils.ParamUtils;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.system.domain.entity.*;
+import com.tangerinespecter.oms.system.domain.enums.UserStatusEnum;
 import com.tangerinespecter.oms.system.domain.vo.system.SystemMenuInfoVo;
 import com.tangerinespecter.oms.system.mapper.*;
 import com.tangerinespecter.oms.system.service.system.IMenuSettingService;
@@ -19,6 +24,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -168,56 +174,42 @@ public class MenuSettingServiceImpl implements IMenuSettingService {
 
     /**
      * 初始化超级管理员
-     *
-     * @return
      */
     @Override
     public void initSystemUserAdmin() {
-        QueryWrapper<SystemUser> queryWrapper = new QueryWrapper<SystemUser>().eq("admin", SystemConstant.IS_SYSTEM_ADMIN)
-                .eq("is_del", CommonConstant.IS_DEL_NO);
-        SystemUser systemUser = systemUserMapper.selectOne(queryWrapper);
-        String uid = null;
-        if (systemUser == null) {
+        final SystemUser systemUser = systemUserMapper.selectOneByAdmin();
+        String uid = Optional.ofNullable(systemUser).map(SystemUser::getUid).orElseGet(() -> {
+            SystemUser newUser = SystemUser.builder().admin(GlobalBoolEnum.YES.getValue()).username("admin")
+                    .password("123456").isDel(GlobalBoolEnum.YES.getValue()).build();
             try {
-                systemUser = SystemUser.builder().admin(1).username("admin")
-                        .password("123456").isDel(CommonConstant.IS_DEL_NO).build();
-                systemUserService.insertSystemUserInfo(systemUser);
+                systemUserService.insertSystemUserInfo(newUser);
                 log.info("超级管理员账号初始化完毕");
-                uid = systemUser.getUid();
             } catch (Exception e) {
                 log.error("超级管理员账号初始化异常", e);
             }
-        } else {
-            uid = systemUser.getUid();
-        }
+            return newUser.getUid();
+        });
         initSystemAdminRole(uid);
     }
 
     /**
      * 初始化管理员角色
      *
-     * @return 管理员角色ID
+     * @param uid 管理员UID
      */
     private void initSystemAdminRole(String uid) {
-        if (uid == null) {
-            log.warn("初始化管理员角色异常");
-            return;
-        }
+        Assert.isTrue(CharSequenceUtil.isNotEmpty(uid), "超级管理员账号异常");
         List<SystemRole> systemRole = systemRoleMapper.selectRoleByUid(uid);
-        Long adminRoleId = null;
-        if (systemRole == null) {
-            SystemRole createSystemRole = SystemRole.builder().name("系统管理员")
-                    .status(SystemConstant.IS_EFFECTIVE).remark("系统管理员").build();
-            systemRoleMapper.insert(createSystemRole);
-            adminRoleId = createSystemRole.getId();
-            SystemUserRole userRole = SystemUserRole.builder().uid(uid).rid(adminRoleId).build();
-            systemUserRoleMapper.insert(userRole);
-        } else {
-            log.warn("管理员角色异常");
+        if (CollUtil.isNotEmpty(systemRole)) {
             return;
-//            adminRoleId = systemRole.getId();
         }
-        initPermission(adminRoleId);
+        SystemRole createSystemRole = SystemRole.builder().name("系统管理员")
+                .status(UserStatusEnum.EFFECTIVE.getValue()).remark("系统管理员").build();
+        systemRoleMapper.insert(createSystemRole);
+        Long newRoleId = createSystemRole.getId();
+        SystemUserRole userRole = SystemUserRole.builder().uid(uid).rid(newRoleId).build();
+        systemUserRoleMapper.insert(userRole);
+        initPermission(newRoleId);
     }
 
     /**
@@ -226,10 +218,7 @@ public class MenuSettingServiceImpl implements IMenuSettingService {
      * @param roleId 角色ID
      */
     private void initPermission(Long roleId) {
-        if (roleId == null) {
-            log.warn("超级管理员权限初始化异常");
-            return;
-        }
+        Assert.isTrue(roleId != null, "超级管理员角色异常");
         List<SystemMenu> systemMenus = menuSettingService.initMenuCode();
         List<SystemPermission> systemPermissions = systemPermissionMapper.selectList(null);
         List<String> permissionCodes = systemPermissions.stream().map(SystemPermission::getCode).collect(Collectors.toList());

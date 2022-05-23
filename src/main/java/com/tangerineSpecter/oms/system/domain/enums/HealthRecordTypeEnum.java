@@ -1,6 +1,7 @@
-package com.tangerinespecter.oms.common.enums;
+package com.tangerinespecter.oms.system.domain.enums;
 
 import cn.hutool.core.date.DateUtil;
+import com.tangerinespecter.oms.common.enums.IBaseDbEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

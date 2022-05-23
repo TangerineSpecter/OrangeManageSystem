@@ -86,3 +86,6 @@ alter table `user_card_note` change admin_id uid varchar(64);
 alter table `data_trade_logic` change admin_id uid varchar(64);
 alter table `data_trade_record` change admin_id uid varchar(64);
 alter table `system_user_role` change uid uid varchar(64);
+
+-- 索引
+ALTER TABLE system_role ADD UNIQUE (`name`)

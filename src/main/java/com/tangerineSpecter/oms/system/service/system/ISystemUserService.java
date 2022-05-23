@@ -1,7 +1,9 @@
 package com.tangerinespecter.oms.system.service.system;
 
+import com.github.pagehelper.PageInfo;
 import com.tangerinespecter.oms.common.query.SystemUserQueryObject;
 import com.tangerinespecter.oms.common.result.ServiceResult;
+import com.tangerinespecter.oms.system.domain.dto.system.SystemUserListDto;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;
 import com.tangerinespecter.oms.system.domain.pojo.AccountInfo;
 import com.tangerinespecter.oms.system.domain.vo.system.SystemUserInfoVo;
@@ -25,7 +27,7 @@ public interface ISystemUserService {
     /**
      * 后台管理员列表
      */
-    ServiceResult<Object> querySystemUserList(SystemUserQueryObject qo);
+    PageInfo<SystemUserListDto> querySystemUserList(SystemUserQueryObject qo);
 
     /**
      * 获取管理员信息

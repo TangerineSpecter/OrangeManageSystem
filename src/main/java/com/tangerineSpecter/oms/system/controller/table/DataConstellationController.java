@@ -1,6 +1,6 @@
 package com.tangerinespecter.oms.system.controller.table;
 
-import com.tangerinespecter.oms.common.listener.AccessLimit;
+import com.tangerinespecter.oms.common.anno.AccessLimit;
 import com.tangerinespecter.oms.common.query.ConstellationQueryObject;
 import com.tangerinespecter.oms.common.query.QueryObject;
 import com.tangerinespecter.oms.common.redis.PageModelKey;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;

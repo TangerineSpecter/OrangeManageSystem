@@ -3,7 +3,7 @@ package com.tangerinespecter.oms.system.controller;
 import cn.hutool.core.map.MapUtil;
 import com.tangerinespecter.oms.common.constants.SystemConstant;
 import com.tangerinespecter.oms.common.enums.LogOperation;
-import com.tangerinespecter.oms.common.listener.LoggerInfo;
+import com.tangerinespecter.oms.common.anno.LoggerInfo;
 import com.tangerinespecter.oms.common.redis.PageModelKey;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.common.utils.ParamUtils;
@@ -19,7 +19,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 

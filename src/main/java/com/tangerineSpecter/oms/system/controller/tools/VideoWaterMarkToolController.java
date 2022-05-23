@@ -1,7 +1,7 @@
 package com.tangerinespecter.oms.system.controller.tools;
 
 import com.tangerinespecter.oms.common.enums.LogOperation;
-import com.tangerinespecter.oms.common.listener.LoggerInfo;
+import com.tangerinespecter.oms.common.anno.LoggerInfo;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.vo.tools.VideoWatermarkInfoVo;
 import com.tangerinespecter.oms.system.service.tools.IVideoWaterMarkToolService;

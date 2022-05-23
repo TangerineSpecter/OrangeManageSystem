@@ -1,7 +1,7 @@
 package com.tangerinespecter.oms.system.controller.user;
 
 import com.tangerinespecter.oms.common.enums.LogOperation;
-import com.tangerinespecter.oms.common.listener.LoggerInfo;
+import com.tangerinespecter.oms.common.anno.LoggerInfo;
 import com.tangerinespecter.oms.common.query.UserHealthQueryObject;
 import com.tangerinespecter.oms.common.redis.PageModelKey;
 import com.tangerinespecter.oms.common.result.ServiceResult;

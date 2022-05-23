@@ -1,9 +1,12 @@
 package com.tangerinespecter.oms.system.controller.system;
 
+import com.github.pagehelper.PageInfo;
+import com.tangerinespecter.oms.common.anno.ReWriteBody;
 import com.tangerinespecter.oms.common.enums.LogOperation;
-import com.tangerinespecter.oms.common.listener.LoggerInfo;
+import com.tangerinespecter.oms.common.anno.LoggerInfo;
 import com.tangerinespecter.oms.common.query.SystemUserQueryObject;
 import com.tangerinespecter.oms.common.result.ServiceResult;
+import com.tangerinespecter.oms.system.domain.dto.system.SystemUserListDto;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;
 import com.tangerinespecter.oms.system.domain.vo.system.SystemUserInfoVo;
 import com.tangerinespecter.oms.system.domain.vo.system.SystemUserPwdVo;
@@ -26,6 +29,7 @@ import javax.annotation.Resource;
  * @version v0.0.5
  * @DateTime 2019年1月11日
  */
+@ReWriteBody
 @RestController
 @Api(tags = "系统用户管理接口")
 @RequestMapping("/systemUser")
@@ -87,7 +91,7 @@ public class SystemUserController {
 	 */
 	@ApiOperation(value = "后台管理员列表")
 	@GetMapping("/list")
-	public ServiceResult listInfo(SystemUserQueryObject qo) {
+	public PageInfo<SystemUserListDto> listInfo(SystemUserQueryObject qo) {
 		return systemUserService.querySystemUserList(qo);
 	}
 	

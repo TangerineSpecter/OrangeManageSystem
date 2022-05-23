@@ -2,7 +2,7 @@ package com.tangerinespecter.oms.common.filter;
 
 
 import com.alibaba.fastjson.JSON;
-import com.tangerinespecter.oms.common.listener.LoggerInfo;
+import com.tangerinespecter.oms.common.anno.LoggerInfo;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.system.domain.entity.SystemLog;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;

@@ -1,7 +1,9 @@
 package com.tangerinespecter.oms.system.service.system;
 
+import com.github.pagehelper.PageInfo;
 import com.tangerinespecter.oms.common.query.SystemRoleQueryObject;
 import com.tangerinespecter.oms.common.result.ServiceResult;
+import com.tangerinespecter.oms.system.domain.dto.system.SystemRoleListDto;
 import com.tangerinespecter.oms.system.domain.entity.SystemPermission;
 import com.tangerinespecter.oms.system.domain.vo.system.SystemRoleInfoVo;
 
@@ -15,17 +17,15 @@ public interface IRoleManageService {
      * @param qo
      * @return
      */
-    ServiceResult querySystemRoleList(SystemRoleQueryObject qo);
+    PageInfo<SystemRoleListDto> querySystemRoleList(SystemRoleQueryObject qo);
 
-    ServiceResult insert(String name);
+    void insert(String name);
 
-    ServiceResult update(SystemRoleInfoVo vo);
-
-    ServiceResult delete(Long id);
+    void delete(Long id);
 
     Set<SystemPermission> getRolePermission(Long roleId);
 
-    ServiceResult authorize(SystemRoleInfoVo vo);
+    void authorize(SystemRoleInfoVo vo);
 
-    ServiceResult updateStatus(Long id);
+    void updateStatus(Long id);
 }

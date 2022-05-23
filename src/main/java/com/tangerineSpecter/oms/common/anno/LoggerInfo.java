@@ -1,4 +1,4 @@
-package com.tangerinespecter.oms.common.listener;
+package com.tangerinespecter.oms.common.anno;
 
 import com.tangerinespecter.oms.common.enums.LogOperation;
 

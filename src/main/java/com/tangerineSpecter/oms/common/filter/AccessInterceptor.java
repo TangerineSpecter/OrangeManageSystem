@@ -3,7 +3,7 @@ package com.tangerinespecter.oms.common.filter;
 import com.tangerinespecter.oms.common.constants.RetCode;
 import com.tangerinespecter.oms.common.exception.BusinessException;
 import com.tangerinespecter.oms.common.exception.GlobalException;
-import com.tangerinespecter.oms.common.listener.AccessLimit;
+import com.tangerinespecter.oms.common.anno.AccessLimit;
 import com.tangerinespecter.oms.common.redis.AccessKey;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;

@@ -107,7 +107,7 @@ public class SystemUserServiceImpl implements ISystemUserService {
      * 后台管理员列表
      */
     @Override
-    public ServiceResult<Object> querySystemUserList(SystemUserQueryObject qo) {
+    public PageInfo<SystemUserListDto> querySystemUserList(SystemUserQueryObject qo) {
         PageHelper.startPage(qo.getPage(), qo.getLimit());
         List<SystemUserListDto> pageList = systemUserMapper.queryForPage(qo);
         List<SystemRole> allRoles = systemRoleMapper.selectAllList();
@@ -119,8 +119,7 @@ public class SystemUserServiceImpl implements ISystemUserService {
             u.setHaveRoleIds(haveRoleIds);
         });
         // 得到分页结果对象
-        PageInfo<SystemUserListDto> systemUserInfo = new PageInfo<>(pageList);
-        return ServiceResult.pageSuccess(pageList, systemUserInfo.getTotal());
+        return new PageInfo<>(pageList);
     }
 
     /**

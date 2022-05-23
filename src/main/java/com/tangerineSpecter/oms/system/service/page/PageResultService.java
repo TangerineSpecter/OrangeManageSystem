@@ -5,6 +5,7 @@ import com.tangerinespecter.oms.common.constants.SystemConstant;
 import com.tangerinespecter.oms.common.redis.KeyPrefix;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.system.service.helper.RedisHelper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.thymeleaf.context.IWebContext;
@@ -24,12 +25,11 @@ import java.util.List;
  * @Date 2019年1月9日
  */
 @Service
+@RequiredArgsConstructor
 public class PageResultService {
 
-    @Resource
-    private ThymeleafViewResolver thymeleafViewResolver;
-    @Resource
-    private RedisHelper redisHelper;
+    private final ThymeleafViewResolver thymeleafViewResolver;
+    private final RedisHelper redisHelper;
 
     /**
      * 分页处理

@@ -1,4 +1,4 @@
-package com.tangerinespecter.oms.common.listener;
+package com.tangerinespecter.oms.common.anno;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -1,5 +1,6 @@
 package com.tangerinespecter.oms.system.convert.user;
 
+import com.tangerinespecter.oms.system.domain.entity.SystemRole;
 import com.tangerinespecter.oms.system.domain.entity.SystemUserRole;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -16,4 +17,11 @@ public interface RoleConvert {
      * @return 对象
      */
     SystemUserRole create(String uid, Long rid);
+
+    /**
+     * 创建新角色
+     * @param name 角色名称
+     * @return 角色信息
+     */
+    SystemRole create(String name);
 }

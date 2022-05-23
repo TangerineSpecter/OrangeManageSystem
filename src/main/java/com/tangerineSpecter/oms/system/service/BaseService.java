@@ -1,6 +1,5 @@
 package com.tangerinespecter.oms.system.service;
 
-import com.github.pagehelper.IPage;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.tangerinespecter.oms.common.query.QueryObject;

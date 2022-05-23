@@ -1,6 +1,6 @@
 package com.tangerinespecter.oms.system.controller.data;
 
-import com.tangerinespecter.oms.common.listener.AccessLimit;
+import com.tangerinespecter.oms.common.anno.AccessLimit;
 import com.tangerinespecter.oms.common.query.StockQueryObject;
 import com.tangerinespecter.oms.common.redis.PageModelKey;
 import com.tangerinespecter.oms.common.result.ServiceResult;

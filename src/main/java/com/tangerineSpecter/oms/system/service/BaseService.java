@@ -1,15 +1,16 @@
 package com.tangerinespecter.oms.system.service;
 
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.github.pagehelper.page.PageMethod;
 import com.tangerinespecter.oms.common.query.QueryObject;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * @author 丢失的橘子
  */
-public interface BaseService<Param, Result> {
+public interface BaseService<Param extends Serializable, Result> {
 
     /**
      * 分页查询
@@ -18,7 +19,7 @@ public interface BaseService<Param, Result> {
      * @return 分页集合
      */
     default PageInfo<Result> queryForPage(QueryObject<Param> param) {
-        return PageHelper.startPage(param.getPage(), param.getLimit())
+        return PageMethod.startPage(param.getPage(), param.getLimit())
                 .doSelectPageInfo(() -> list(param.getSearchParams()));
     }
 

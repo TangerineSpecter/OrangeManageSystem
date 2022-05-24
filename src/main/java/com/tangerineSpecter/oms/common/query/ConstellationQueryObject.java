@@ -1,5 +1,7 @@
 package com.tangerinespecter.oms.common.query;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,10 +24,12 @@ public class ConstellationQueryObject implements Serializable {
     /**
      * 查询星座
      */
+    @ApiModelProperty("星座")
     private String star;
     /**
      * 查询日期
      */
+    @ApiModelProperty("日期")
     private String queryDay;
 
 }

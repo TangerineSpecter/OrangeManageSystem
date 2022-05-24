@@ -13,3 +13,4 @@ INSERT INTO `oms`.`system_version_history` (`version`, `version_number`) VALUES 
 INSERT INTO oms.system_version_history_content (version_id, type, content) VALUES (22, 0, '后台界面框架改为Pear Admin');
 INSERT INTO `oms`.`system_version_history_content` (`version_id`, `type`, `content`) VALUES (22, 0, '卡片笔记功能');
 INSERT INTO oms.system_version_history_content (version_id, type, content) VALUES (22, 0, '视频去水印小工具');
+INSERT INTO oms.system_version_history_content (version_id, type, content) VALUES (22, 2, '健康统计数据展示');

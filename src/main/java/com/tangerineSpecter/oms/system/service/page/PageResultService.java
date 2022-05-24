@@ -1,5 +1,6 @@
 package com.tangerinespecter.oms.system.service.page;
 
+import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.StrUtil;
 import com.tangerinespecter.oms.common.constants.SystemConstant;
 import com.tangerinespecter.oms.common.redis.KeyPrefix;
@@ -12,7 +13,6 @@ import org.thymeleaf.context.IWebContext;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -54,11 +54,11 @@ public class PageResultService {
      * @param model    model
      * @param redisKey 缓存key
      * @param pageUrl  页面跳转地址
-     * @return
+     * @return html模板内容
      */
     public String getPageHtmlContent(HttpServletRequest request, HttpServletResponse response, Model model, KeyPrefix redisKey, String pageUrl) {
-        String html = (String) redisHelper.get(redisKey, SystemUtils.getSystemUserId().toString());
-        if (!StrUtil.isBlank(html)) {
+        String html = (String) redisHelper.get(redisKey, SystemUtils.getSystemUserId());
+        if (!CharSequenceUtil.isBlank(html)) {
             return html;
         }
         IWebContext ctx = new WebContext(request, response, request.getServletContext(),
@@ -66,7 +66,7 @@ public class PageResultService {
         html = thymeleafViewResolver.getTemplateEngine().process(pageUrl, ctx);
         if (!StrUtil.isBlank(html)
                 && SystemConstant.NO_CACHE.equals(SystemConstant.systemConfig.getCacheTime())) {
-            redisHelper.set(redisKey, SystemUtils.getSystemUserId().toString(), html);
+            redisHelper.set(redisKey, SystemUtils.getSystemUserId(), html);
         }
         return html;
     }

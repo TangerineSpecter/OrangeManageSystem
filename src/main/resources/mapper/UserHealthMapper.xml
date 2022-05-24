@@ -22,5 +22,6 @@
         where uid = #{uid}
           and is_del = 0
         order by record_time desc
+        limit 30
     </select>
 </mapper>

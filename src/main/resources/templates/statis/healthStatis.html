@@ -3,141 +3,408 @@
 <head>
     <th:block th:include="include :: header('健康统计')"/>
 </head>
-<body>
-<div class="layuimini-main">
-    <div class="layui-card">
-        <div class="layui-card-header"><i class="fa fa-line-chart icon"></i>体重数据
-        </div>
-        <div class="layui-card-body">
-            <div id="echarts-weight" style="width: 100%;min-height:500px"></div>
-        </div>
-    </div>
-    <div class="layui-card">
-        <div class="layui-card-header"><i class="fa fa-line-chart icon"></i>脂肪数据
-        </div>
-        <div class="layui-card-body">
-            <div id="echarts-fat-weight" style="width: 100%;min-height:500px"></div>
+<body class="pear-container">
+<div class="layui-row layui-col-space10">
+    <!-- 体重数据 -->
+    <div class="layui-col-md6">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <div id="line1" style="min-height:400px;"></div>
+            </div>
         </div>
     </div>
-    <div class="layui-card">
-        <div class="layui-card-header"><i class="fa fa-line-chart icon"></i>压力数据
-        </div>
-        <div class="layui-card-body">
-            <div id="echarts-pressure" style="width: 100%;min-height:500px"></div>
-        </div>
-    </div>
-    <div class="layui-card">
-        <div class="layui-card-header"><i class="fa fa-line-chart icon"></i>睡眠数据
-        </div>
-        <div class="layui-card-body">
-            <div id="echarts-sleep-duration" style="width: 100%;min-height:500px"></div>
+    <div class="layui-col-md6">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <div id="line2" style="min-height:400px;"></div>
+            </div>
         </div>
     </div>
-    <div class="layui-card">
-        <div class="layui-card-header"><i class="fa fa-line-chart icon"></i>步数数据
+    <div class="layui-col-md6">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <div id="line3" style="min-height:400px;"></div>
+            </div>
         </div>
-        <div class="layui-card-body">
-            <div id="echarts-step-number" style="width: 100%;min-height:500px"></div>
+    </div>
+    <div class="layui-col-md6">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <div id="line4" style="min-height:400px;"></div>
+            </div>
         </div>
     </div>
 </div>
 <th:block th:include="include :: footer"/>
-<script>
-    layui.use(['form', 'table', 'laydate', 'layer'], function () {
-        const $ = layui.jquery,
-            form = layui.form,
-            table = layui.table,
-            laydate = layui.laydate;
+<script th:inline="javascript">
+    // layui.use(['form', 'table', 'laydate', 'layer'], function () {
+    //     const $ = layui.jquery,
+    //         form = layui.form,
+    //         table = layui.table,
+    //         laydate = layui.laydate;
+    //
+    //     //起始日期
+    //     laydate.render({
+    //         elem: '#startDay'
+    //     });
+    //
+    //     //结束日期
+    //     laydate.render({
+    //         elem: '#endDay'
+    //     });
+    //
+    //     // 监听搜索操作
+    //     form.on('submit(data-search-btn)', function (data) {
+    //         return false;
+    //     });
+    //
+    //     // 监听清空操作
+    //     form.on('submit(data-clear-btn)', function (data) {
+    //         return false;
+    //     });
+    //
+    //     //监听表格复选框选择
+    //     table.on('checkbox(currentTableFilter)', function (obj) {
+    //         console.log(obj)
+    //     });
+    // });
+    //
+    // $(function () {
+    //     initStatisCharts();
+    // });
+    //
+    // /**
+    //  * 体重曲线图表初始化
+    //  */
+    // function initStatisCharts() {
+    //     $.post("/statis/health/health-info", function (result) {
+    //         if (result.success) {
+    //             initCharts("#echarts-weight", "体重(斤)", result.data.weightData, result.data.date, '#87CEFA');
+    //             initCharts("#echarts-fat-weight", "脂肪（斤）", result.data.fatWeightData, result.data.date, '#EE5C42');
+    //             initCharts("#echarts-pressure", "压力", result.data.pressureData, result.data.date, '#4EEE94');
+    //             initCharts("#echarts-sleep-duration", "睡眠（小时）", result.data.sleepDurationData, result.data.date, '#FFDEAD');
+    //             initCharts("#echarts-step-number", "步数", result.data.stepNumberData, result.data.date, '#8B668B');
+    //         }
+    //     }, "JSON");
+    // }
 
-        //起始日期
-        laydate.render({
-            elem: '#startDay'
-        });
+    // function initCharts(id, name, data, date, color) {
+    //     const options = {
+    //         series: [{
+    //             name: name,
+    //             data: data.reverse()
+    //         }],
+    //         chart: {
+    //             height: 350,
+    //             type: 'area',
+    //             stacked: true
+    //         },
+    //         colors: [color],
+    //         dataLabels: {
+    //             enabled: true
+    //         },
+    //         stroke: {
+    //             curve: 'smooth'
+    //         },
+    //         grid: {
+    //             borderColor: '#111',
+    //             strokeDashArray: 7,
+    //         },
+    //         xaxis: {
+    //             type: 'date',
+    //             categories: date.reverse(),
+    //             lines: {
+    //                 show: true,
+    //             }
+    //         },
+    //         yaxis: {
+    //             lines: {
+    //                 show: true,
+    //             }
+    //         },
+    //         tooltip: {
+    //             x: {
+    //                 format: 'yyyy-MM-dd'
+    //             }
+    //         },
+    //     };
+    //
+    //     const chart = new ApexCharts(document.querySelector(id), options);
+    //     chart.render();
+    // }
 
-        //结束日期
-        laydate.render({
-            elem: '#endDay'
-        });
+    //数据处理
+    layui.use(['echarts'], function () {
+        let echarts = layui.echarts;
+        //初始化数据
+        const date = [[${healthInfo.date}]];
+        const weightData = [[${healthInfo.weightData}]];
+        const fatWeightData = [[${healthInfo.fatWeightData}]];
+        const bmiData = [[${healthInfo.bmiData}]];
+        const sleepDurationData = [[${healthInfo.sleepDurationData}]];
 
-        // 监听搜索操作
-        form.on('submit(data-search-btn)', function (data) {
-            return false;
-        });
-
-        // 监听清空操作
-        form.on('submit(data-clear-btn)', function (data) {
-            return false;
-        });
-
-        //监听表格复选框选择
-        table.on('checkbox(currentTableFilter)', function (obj) {
-            console.log(obj)
-        });
-    });
-
-    $(function () {
-        initStatisCharts();
-    });
+        initEcharts("line1", "体重数据(公斤)", lineStyle1(), date, weightData);
+        initEcharts("line2", "BMI数据", lineStyle2(), date, bmiData);
+        initEcharts("line3", "脂肪数据(公斤)", lineStyle3(), date, fatWeightData);
+        initEcharts("line4", "睡眠数据(小时)", lineStyle4(), date, sleepDurationData);
+    })
 
     /**
-     * 体重曲线图表初始化
+     * 初始化图表
+     * @param eChartsId 图表ID
+     * @param title 图表标题
+     * @param lineStyle 折线图样式
+     * @param xData x轴数据
+     * @param yData y轴数据
      */
-    function initStatisCharts() {
-        $.post("/statis/health/health-info", function (result) {
-            if (result.success) {
-                initCharts("#echarts-weight", "体重(斤)", result.data.weightData, result.data.date, '#87CEFA');
-                initCharts("#echarts-fat-weight", "脂肪（斤）", result.data.fatWeightData, result.data.date, '#EE5C42');
-                initCharts("#echarts-pressure", "压力", result.data.pressureData, result.data.date, '#4EEE94');
-                initCharts("#echarts-sleep-duration", "睡眠（小时）", result.data.sleepDurationData, result.data.date, '#FFDEAD');
-                initCharts("#echarts-step-number", "步数", result.data.stepNumberData, result.data.date, '#8B668B');
-            }
-        }, "JSON");
-    }
+    function initEcharts(eChartsId, title, lineStyle, xData, yData) {
+        const line = echarts.init(document.getElementById(eChartsId));
 
-    function initCharts(id, name, data, date, color) {
-        const options = {
-            series: [{
-                name: name,
-                data: data.reverse()
-            }],
-            chart: {
-                height: 350,
-                type: 'area',
-                stacked: true
+        const colorList = ["#9E87FF", '#73DDFF', '#fe9a8b', '#F56948', '#9E87FF']
+        const option = {
+            backgroundColor: '#fff',
+            title: {
+                text: title,
+                textStyle: {
+                    fontSize: 12,
+                    fontWeight: 400
+                },
+                left: 'center',
+                top: '5%'
             },
-            colors: [color],
-            dataLabels: {
-                enabled: true
-            },
-            stroke: {
-                curve: 'smooth'
-            },
-            grid: {
-                borderColor: '#111',
-                strokeDashArray: 7,
-            },
-            xaxis: {
-                type: 'date',
-                categories: date.reverse(),
-                lines: {
-                    show: true,
-                }
-            },
-            yaxis: {
-                lines: {
-                    show: true,
+            legend: {
+                icon: 'circle',
+                top: '5%',
+                right: '5%',
+                itemWidth: 6,
+                itemGap: 20,
+                textStyle: {
+                    color: '#556677'
                 }
             },
             tooltip: {
-                x: {
-                    format: 'yyyy-MM-dd'
-                }
+                trigger: 'axis',
+                axisPointer: {
+                    label: {
+                        show: true,
+                        backgroundColor: '#fff',
+                        color: '#556677',
+                        borderColor: 'rgba(0,0,0,0)',
+                        shadowColor: 'rgba(0,0,0,0)',
+                        shadowOffsetY: 0
+                    },
+                    lineStyle: {
+                        width: 0
+                    }
+                },
+                backgroundColor: '#fff',
+                textStyle: {
+                    color: '#5c6c7c'
+                },
+                padding: [10, 10],
+                extraCssText: 'box-shadow: 1px 0 2px 0 rgba(163,163,163,0.5)'
             },
+            grid: {
+                top: '15%'
+            },
+            xAxis: [{
+                type: 'category',
+                data: xData,
+                axisLine: {
+                    lineStyle: {
+                        color: '#DCE2E8'
+                    }
+                },
+                axisTick: {
+                    show: false
+                },
+                axisLabel: {
+                    interval: 1, //自定间隔x轴坐标数据
+                    textStyle: {
+                        color: '#556677'
+                    },
+                    // 默认x轴字体大小
+                    fontSize: 12,
+                    // margin:文字到x轴的距离
+                    margin: 15
+                },
+                axisPointer: {
+                    label: {
+                        // padding: [11, 5, 7],
+                        padding: [0, 0, 10, 0],
+
+                        // 这里的margin和axisLabel的margin要一致!
+                        margin: 15,
+                        // 移入时的字体大小
+                        fontSize: 12,
+                        backgroundColor: {
+                            type: 'linear',
+                            x: 0,
+                            y: 0,
+                            x2: 0,
+                            y2: 1,
+                            colorStops: [{
+                                offset: 0,
+                                color: '#fff' // 0% 处的颜色
+                            }, {
+                                // offset: 0.9,
+                                offset: 0.86,
+
+                                color: '#fff' // 0% 处的颜色
+                            }, {
+                                offset: 0.86,
+                                color: '#33c0cd' // 0% 处的颜色
+                            }, {
+                                offset: 1,
+                                color: '#33c0cd' // 100% 处的颜色
+                            }],
+                            global: false // 缺省为 false
+                        }
+                    }
+                },
+                boundaryGap: false,
+                inverse: true //反转坐标轴
+            }],
+            yAxis: [{
+                type: 'value', //y轴刻度自适应
+                scale: true, //y轴刻度自适应
+                axisTick: {
+                    show: false
+                },
+                axisLine: {
+                    show: true,
+                    lineStyle: {
+                        color: '#DCE2E8'
+                    }
+                },
+                axisLabel: {
+                    textStyle: {
+                        color: '#556677'
+                    }
+                },
+                splitLine: {
+                    show: false
+                }
+            }, {
+                type: 'value',
+                position: 'right',
+                axisTick: {
+                    show: false
+                },
+                axisLabel: {
+                    textStyle: {
+                        color: '#556677'
+                    },
+                    formatter: '{value}'
+                },
+                axisLine: {
+                    show: true,
+                    lineStyle: {
+                        color: '#DCE2E8'
+                    }
+                },
+                splitLine: {
+                    show: false
+                }
+            }],
+            series: [{
+                type: 'line',
+                data: yData,
+                symbolSize: 1,
+                symbol: 'circle',
+                smooth: true,
+                yAxisIndex: 0,
+                showSymbol: false,
+                lineStyle: lineStyle,
+                itemStyle: {
+                    normal: {
+                        color: colorList[0],
+                        borderColor: colorList[0]
+                    }
+                }
+            }
+            ]
         };
 
-        const chart = new ApexCharts(document.querySelector(id), options);
-        chart.render();
+        line.setOption(option);
+
+        window.onresize = function () {
+            line.resize();
+        }
     }
+
+    function lineStyle1() {
+        return {
+            width: 5,
+            color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [{
+                offset: 0,
+                color: '#9effff'
+            },
+                {
+                    offset: 1,
+                    color: '#9E87FF'
+                }
+            ]),
+            shadowColor: 'rgba(158,135,255, 0.3)',
+            shadowBlur: 10,
+            shadowOffsetY: 20
+        }
+    }
+
+    function lineStyle2() {
+        return {
+            width: 5,
+            color: new echarts.graphic.LinearGradient(1, 1, 0, 0, [{
+                offset: 0,
+                color: '#73DD39'
+            },
+                {
+                    offset: 1,
+                    color: '#73DDFF'
+                }
+            ]),
+            shadowColor: 'rgba(115,221,255, 0.3)',
+            shadowBlur: 10,
+            shadowOffsetY: 20
+        }
+    }
+
+    function lineStyle3() {
+        return {
+            width: 5,
+            color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                offset: 0,
+                color: '#fe9a'
+            },
+                {
+                    offset: 1,
+                    color: '#fe9a8b'
+                }
+            ]),
+            shadowColor: 'rgba(254,154,139, 0.3)',
+            shadowBlur: 10,
+            shadowOffsetY: 20
+        }
+    }
+
+    function lineStyle4() {
+        return {
+            width: 5,
+            color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                offset: 0,
+                color: '#ff99cc'
+            },
+                {
+                    offset: 1,
+                    color: '#ff3366'
+                }
+            ]),
+            shadowColor: 'rgba(254,154,139, 0.3)',
+            shadowBlur: 10,
+            shadowOffsetY: 20
+        }
+    }
+
 </script>
 </body>
 </html>

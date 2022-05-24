@@ -1,7 +1,9 @@
 package com.tangerinespecter.oms.system.service.statis.impl;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.NumberUtil;
-import com.tangerinespecter.oms.common.result.ServiceResult;
+import com.tangerinespecter.oms.common.utils.CollUtils;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.system.domain.dto.statis.HealthStatisInfoDto;
 import com.tangerinespecter.oms.system.domain.entity.UserHealth;
@@ -10,9 +12,8 @@ import com.tangerinespecter.oms.system.service.statis.IHealthStatisService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
 public class HealthStatisServiceImpl implements IHealthStatisService {
@@ -21,17 +22,18 @@ public class HealthStatisServiceImpl implements IHealthStatisService {
     private UserHealthMapper userHealthMapper;
 
     @Override
-    public ServiceResult healthStatisInfo() {
+    public HealthStatisInfoDto healthStatisInfo() {
+        HealthStatisInfoDto result = new HealthStatisInfoDto();
         List<UserHealth> userHealths = userHealthMapper.queryUserWeight(SystemUtils.getSystemUserId());
-        List<BigDecimal> weightList = userHealths.stream().map(UserHealth::getWeight).collect(Collectors.toList());
-        List<BigDecimal> fatWeight = userHealths.stream().map(UserHealth::getFatWeight).collect(Collectors.toList());
-        List<Integer> pressureList = userHealths.stream().map(UserHealth::getPressure).collect(Collectors.toList());
-        List<Integer> stepNumberList = userHealths.stream().map(UserHealth::getStepNumber).collect(Collectors.toList());
-        List<BigDecimal> sleepDurationList = userHealths.stream().map(u -> NumberUtil.div(u.getSleepDuration(), (Number) 60, 1)).collect(Collectors.toList());
-        List<String> date = userHealths.stream().map(UserHealth::getRecordTime).collect(Collectors.toList());
-        HealthStatisInfoDto infoDto = HealthStatisInfoDto.builder().date(date).weightData(weightList)
-                .fatWeightData(fatWeight).pressureData(pressureList).sleepDurationData(sleepDurationList)
-                .stepNumberData(stepNumberList).build();
-        return ServiceResult.success(infoDto);
+        CollUtils.forEach(userHealths, userHealth -> {
+            //格式化为MM-DD
+            String recordTime = userHealth.getRecordTime();
+            result.getDate().add(CharSequenceUtil.sub(recordTime, recordTime.length() - 5, recordTime.length()));
+            result.getWeightData().add(Optional.ofNullable(userHealth.getWeight()).orElse(CollUtil.get(result.getWeightData(), -1)));
+            result.getFatWeightData().add(Optional.ofNullable(userHealth.getFatWeight()).orElse(CollUtil.get(result.getFatWeightData(), -1)));
+            result.getSleepDurationData().add(NumberUtil.div(Optional.ofNullable(userHealth.getSleepDuration()).orElse(0), (Number) 60, 1));
+            result.getBmiData().add(Optional.ofNullable(userHealth.getBmi()).orElse(CollUtil.get(result.getBmiData(), -1)));
+        });
+        return result;
     }
 }

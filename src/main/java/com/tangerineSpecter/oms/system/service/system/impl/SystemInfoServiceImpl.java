@@ -6,9 +6,12 @@ import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.system.SystemUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
-import com.tangerinespecter.oms.common.constants.*;
+import com.tangerinespecter.oms.common.constants.CommonConstant;
+import com.tangerinespecter.oms.common.constants.MessageConstant;
+import com.tangerinespecter.oms.common.constants.ParamUtils;
+import com.tangerinespecter.oms.common.constants.SystemConstant;
+import com.tangerinespecter.oms.common.enums.TradeIncomeEnum;
 import com.tangerinespecter.oms.common.netty.ChatHandler;
 import com.tangerinespecter.oms.common.utils.DateUtils;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
@@ -26,10 +29,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -165,10 +165,8 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
                 .monthIncome(BigDecimal.valueOf(NumberUtil.div(monthIncome, 100, 2)))
                 .weekendIncome(BigDecimal.valueOf(NumberUtil.div(weekendIncome, 100, 2)))
                 .yearIncome(BigDecimal.valueOf(NumberUtil.div(yearIncome, 100, 2)))
-                .todayStatus(todayIncome >= 0 ? TradeConstant.TRADE_STATUS_PROFIT : TradeConstant.TRADE_STATUS_LOSS)
-                .monthStatus(monthIncome >= 0 ? TradeConstant.TRADE_STATUS_PROFIT : TradeConstant.TRADE_STATUS_LOSS)
-                .yearStatus(yearIncome >= 0 ? TradeConstant.TRADE_STATUS_PROFIT : TradeConstant.TRADE_STATUS_LOSS)
-                .weekendStatus(weekendIncome >= 0 ? TradeConstant.TRADE_STATUS_PROFIT : TradeConstant.TRADE_STATUS_LOSS)
+                .todayStatus(TradeIncomeEnum.getIncomeStatus(todayIncome)).monthStatus(TradeIncomeEnum.getIncomeStatus(monthIncome))
+                .yearStatus(TradeIncomeEnum.getIncomeStatus(yearIncome)).weekendStatus(TradeIncomeEnum.getIncomeStatus(weekendIncome))
                 .year(DateUtil.year(currentDate)).weekend(DateUtil.weekOfYear(currentDate)).month(DateUtil.month(currentDate) + 1)
                 .today(tradeLastDay).build();
         handlerLastThirtyData(statisticsInfo, lastThirtyMoneyInfo);
@@ -268,7 +266,7 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
      */
     private List<MenuChildInfo> getChildMenuInfo(Long pid, List<SystemMenu> rootMenu, Set<String> permissionCodes) {
         if (pid == null) {
-            return null;
+            return Collections.emptyList();
         }
         //子菜单
         List<MenuChildInfo> childList = new ArrayList<>();
@@ -291,8 +289,8 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
             }
             menu.setChildren(getChildMenuInfo(menu.getId(), rootMenu, permissionCodes));
         }
-        if (childList.size() == 0) {
-            return null;
+        if (CollUtil.isEmpty(childList)) {
+            return Collections.emptyList();
         }
         return childList;
     }

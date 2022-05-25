@@ -1,0 +1,31 @@
+/* 标签  */
+.label {
+    display: inline-block;
+    height: 2.25rem;
+    line-height: 2.25rem;
+    min-width: 6.125rem;
+    color: #666;
+    background-color: #e8e8e8;
+    border-radius: 0.25rem;
+    text-align: center;
+    vertical-align: top;
+    font-size: 1.0125rem;
+}
+
+/* 盈利 */
+.label-profit {
+    color: white;
+    background-color: #ff3180;
+}
+
+/* 亏损 */
+.label-loss {
+    color: white;
+    background-color: #33cc66;
+}
+
+/* 持平 */
+.label-fair {
+    color: white;
+    background-color: #ccccff;
+}

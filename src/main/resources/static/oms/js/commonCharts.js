@@ -10,7 +10,7 @@
  * @param xData x轴数据
  * @param yData y轴数据
  */
-window.initSimpleEcharts = function (echartsId, title, lineStyle, xData, yData) {
+window.initSimpleLineEcharts = function (echartsId, title, lineStyle, xData, yData) {
     const line = echarts.init(document.getElementById(echartsId));
 
     const colorList = ["#9E87FF", '#73DDFF', '#fe9a8b', '#F56948', '#9E87FF']
@@ -120,7 +120,7 @@ window.initSimpleEcharts = function (echartsId, title, lineStyle, xData, yData) 
         }],
         yAxis: [{
             type: 'value', //y轴刻度自适应
-            scale: true, //y轴刻度自适应
+            scale: true, //y轴刻度自适应最大最小值，可以不包含0值
             axisTick: {
                 show: false
             },
@@ -193,7 +193,7 @@ window.initSimpleEcharts = function (echartsId, title, lineStyle, xData, yData) 
  * @param xData x轴数据
  * @param yData y轴数据
  */
-window.initGridEcharts = function (echartsId, lineStyle, xData, yData) {
+window.initGridLineEcharts = function (echartsId, lineStyle, xData, yData) {
     const echartsRecords = echarts.init(document.getElementById(echartsId), 'walden');
     const option = {
         tooltip: {
@@ -250,6 +250,102 @@ window.initGridEcharts = function (echartsId, lineStyle, xData, yData) {
     window.onresize = function () {
         echartsRecords.resize();
     };
+}
+
+/**
+ * 描边柱状图
+ * @param echartsId 图表ID
+ * @param title  标题
+ * @param lineStyle 折线图样式
+ * @param xData x轴数据
+ * @param yData y轴数据
+ */
+window.initStrokeColumnCharts = function (echartsId, lineStyle, xData, yData) {
+    const column4 = echarts.init(document.getElementById(echartsId));
+    const option = {
+        backgroundColor: '#fff',
+        title: {
+            top: 10,
+            left: 15,
+            textStyle: {
+                color: "#35598d",
+                fontSize: 16,
+                fontWeight: 'normal'
+            }
+        },
+        tooltip: {
+            trigger: 'axis',
+            formatter: '{b}：{c}',
+        },
+        grid: {
+            left: '5%',
+            right: '6%',
+            bottom: '3%',
+            top: '20%',
+            containLabel: true
+        },
+        xAxis: {
+            type: 'category',
+            data: xData,
+            axisLabel: {          //坐标轴字体颜色
+                textStyle: {
+                    color: '#9eaaba'
+                }
+            },
+            axisLine: {
+                lineStyle: {
+                    color: "#e5e5e5"
+                }
+            },
+            axisTick: {       //y轴刻度线
+                show: false
+            },
+            splitLine: {    //网格
+                show: false,
+
+            }
+        },
+        yAxis: {
+            type: 'value',
+            axisLabel: {        //坐标轴字体颜色
+                textStyle: {
+                    color: '#9eaaba'
+                }
+            },
+            axisLine: {
+                show: false,
+            },
+            axisTick: {       //y轴刻度线
+                show: false
+            },
+            splitLine: {    //网格
+                show: true,
+                lineStyle: {
+                    color: '#dadde4',
+                    type: "dashed" //坐标网线类型
+                }
+            }
+        },
+        series: {
+            name: '',
+            type: 'bar',
+            barWidth: '40%',  //柱子宽度
+            itemStyle: {  //柱子颜色
+                normal: {
+                    borderWidth: 2,
+                    borderColor: 'rgb(79, 116, 223)',
+                    color: 'rgba(79, 116, 223, .3)',
+                }
+            },
+            data: yData
+        }
+    };
+
+    column4.setOption(option);
+
+    window.onresize = function () {
+        column4.resize();
+    }
 }
 
 /**

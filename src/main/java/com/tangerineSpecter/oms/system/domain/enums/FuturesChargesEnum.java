@@ -1,6 +1,9 @@
 package com.tangerinespecter.oms.system.domain.enums;
 
 import cn.hutool.core.util.NumberUtil;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.function.Function;
@@ -8,6 +11,10 @@ import java.util.function.Function;
 /**
  * 期货手续费枚举
  */
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@SuppressWarnings("all")
 public enum FuturesChargesEnum {
     /**
      * 白银
@@ -276,12 +283,6 @@ public enum FuturesChargesEnum {
      */
     public BigDecimal getCharges(Integer earnestMoneyPer) {
         return charges.apply(earnestMoneyPer);
-    }
-
-    FuturesChargesEnum(String code, String desc, Function<Integer, BigDecimal> charges) {
-        this.code = code;
-        this.desc = desc;
-        this.charges = charges;
     }
 
     public static void main(String[] args) {

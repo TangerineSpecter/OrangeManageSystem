@@ -37,102 +37,6 @@
 </div>
 <th:block th:include="include :: footer"/>
 <script th:inline="javascript">
-    // layui.use(['form', 'table', 'laydate', 'layer'], function () {
-    //     const $ = layui.jquery,
-    //         form = layui.form,
-    //         table = layui.table,
-    //         laydate = layui.laydate;
-    //
-    //     //起始日期
-    //     laydate.render({
-    //         elem: '#startDay'
-    //     });
-    //
-    //     //结束日期
-    //     laydate.render({
-    //         elem: '#endDay'
-    //     });
-    //
-    //     // 监听搜索操作
-    //     form.on('submit(data-search-btn)', function (data) {
-    //         return false;
-    //     });
-    //
-    //     // 监听清空操作
-    //     form.on('submit(data-clear-btn)', function (data) {
-    //         return false;
-    //     });
-    //
-    //     //监听表格复选框选择
-    //     table.on('checkbox(currentTableFilter)', function (obj) {
-    //         console.log(obj)
-    //     });
-    // });
-    //
-    // $(function () {
-    //     initStatisCharts();
-    // });
-    //
-    // /**
-    //  * 体重曲线图表初始化
-    //  */
-    // function initStatisCharts() {
-    //     $.post("/statis/health/health-info", function (result) {
-    //         if (result.success) {
-    //             initCharts("#echarts-weight", "体重(斤)", result.data.weightData, result.data.date, '#87CEFA');
-    //             initCharts("#echarts-fat-weight", "脂肪（斤）", result.data.fatWeightData, result.data.date, '#EE5C42');
-    //             initCharts("#echarts-pressure", "压力", result.data.pressureData, result.data.date, '#4EEE94');
-    //             initCharts("#echarts-sleep-duration", "睡眠（小时）", result.data.sleepDurationData, result.data.date, '#FFDEAD');
-    //             initCharts("#echarts-step-number", "步数", result.data.stepNumberData, result.data.date, '#8B668B');
-    //         }
-    //     }, "JSON");
-    // }
-
-    // function initCharts(id, name, data, date, color) {
-    //     const options = {
-    //         series: [{
-    //             name: name,
-    //             data: data.reverse()
-    //         }],
-    //         chart: {
-    //             height: 350,
-    //             type: 'area',
-    //             stacked: true
-    //         },
-    //         colors: [color],
-    //         dataLabels: {
-    //             enabled: true
-    //         },
-    //         stroke: {
-    //             curve: 'smooth'
-    //         },
-    //         grid: {
-    //             borderColor: '#111',
-    //             strokeDashArray: 7,
-    //         },
-    //         xaxis: {
-    //             type: 'date',
-    //             categories: date.reverse(),
-    //             lines: {
-    //                 show: true,
-    //             }
-    //         },
-    //         yaxis: {
-    //             lines: {
-    //                 show: true,
-    //             }
-    //         },
-    //         tooltip: {
-    //             x: {
-    //                 format: 'yyyy-MM-dd'
-    //             }
-    //         },
-    //     };
-    //
-    //     const chart = new ApexCharts(document.querySelector(id), options);
-    //     chart.render();
-    // }
-
     //数据处理
     layui.use(['echarts'], function () {
         let echarts = layui.echarts;
@@ -143,22 +47,22 @@
         const bmiData = [[${healthInfo.bmiData}]];
         const sleepDurationData = [[${healthInfo.sleepDurationData}]];
 
-        initEcharts("line1", "体重数据(公斤)", lineStyle1(), date, weightData);
-        initEcharts("line2", "BMI数据", lineStyle2(), date, bmiData);
-        initEcharts("line3", "脂肪数据(公斤)", lineStyle3(), date, fatWeightData);
-        initEcharts("line4", "睡眠数据(小时)", lineStyle4(), date, sleepDurationData);
+        initSimpleEcharts("line1", "体重数据(公斤)", lineStyle1(), date, weightData);
+        initSimpleEcharts("line2", "BMI数据", lineStyle2(), date, bmiData);
+        initSimpleEcharts("line3", "脂肪数据(公斤)", lineStyle3(), date, fatWeightData);
+        initSimpleEcharts("line4", "睡眠数据(小时)", lineStyle4(), date, sleepDurationData);
     })
 
     /**
-     * 初始化图表
-     * @param eChartsId 图表ID
+     * 初始化简单图表
+     * @param echartsId 图表ID
      * @param title 图表标题
      * @param lineStyle 折线图样式
      * @param xData x轴数据
      * @param yData y轴数据
      */
-    function initEcharts(eChartsId, title, lineStyle, xData, yData) {
-        const line = echarts.init(document.getElementById(eChartsId));
+    function initSimpleEcharts(echartsId, title, lineStyle, xData, yData) {
+        const line = echarts.init(document.getElementById(echartsId));
 
         const colorList = ["#9E87FF", '#73DDFF', '#fe9a8b', '#F56948', '#9E87FF']
         const option = {

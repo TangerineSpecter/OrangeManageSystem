@@ -1,12 +1,12 @@
 package com.tangerinespecter.oms.system.service.statis;
 
-import com.tangerinespecter.oms.common.result.ServiceResult;
+import com.tangerinespecter.oms.system.domain.dto.statis.TradeStatisIncomeInfoDto;
 
 public interface ITradeStatisService {
     /**
      * 收益数据分析
      *
-     * @return
+     * @return 收益数据
      */
-    ServiceResult incomeValueStatisInfo();
+    TradeStatisIncomeInfoDto incomeValueStatisInfo();
 }

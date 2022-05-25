@@ -1,6 +1,10 @@
 package com.tangerinespecter.oms.system.domain.enums;
 
 import cn.hutool.core.collection.CollUtil;
+import com.tangerinespecter.oms.common.enums.IBaseDbEnum;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +15,11 @@ import java.util.List;
  * @author tangerineSpecter
  * @version 0.0.6
  */
-public enum TradeRecordTypeEnum {
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@SuppressWarnings("all")
+public enum TradeRecordTypeEnum implements IBaseDbEnum {
     //股票
     STOCK_TYPE(0, "股票"),
     //期货
@@ -21,14 +29,9 @@ public enum TradeRecordTypeEnum {
     //基金
     FUND_TYPE(3, "基金");;
 
-    private Integer type;
+    private Integer value;
 
     private String desc;
-
-    TradeRecordTypeEnum(Integer type, String desc) {
-        this.type = type;
-        this.desc = desc;
-    }
 
     /**
      * 获取所有类型
@@ -39,12 +42,9 @@ public enum TradeRecordTypeEnum {
         TradeRecordTypeEnum[] values = TradeRecordTypeEnum.values();
         ArrayList<Integer> typeList = CollUtil.newArrayList();
         for (TradeRecordTypeEnum typeEnum : values) {
-            typeList.add(typeEnum.type);
+            typeList.add(typeEnum.value);
         }
         return typeList;
     }
 
-    public Integer getType() {
-        return this.type;
-    }
 }

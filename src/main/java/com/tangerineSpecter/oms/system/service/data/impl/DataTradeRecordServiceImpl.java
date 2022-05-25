@@ -136,7 +136,7 @@ public class DataTradeRecordServiceImpl implements IDateTradeRecordService {
 
     @Override
     public ServiceResult insertInfo(TradeRecordInfoVo vo) {
-        if (vo.getType().equals(TradeRecordTypeEnum.FOREIGN_EXCHANGE_TYPE.getType())) {
+        if (vo.getType().equals(TradeRecordTypeEnum.FOREIGN_EXCHANGE_TYPE.getValue())) {
             vo.setStartMoney(vo.getStartMoney() * USD_EXCHANGE_RATE);
             vo.setEndMoney(vo.getEndMoney() * USD_EXCHANGE_RATE);
         }
@@ -160,7 +160,7 @@ public class DataTradeRecordServiceImpl implements IDateTradeRecordService {
         if (dataTradeRecord == null) {
             return ServiceResult.error(RetCode.TRADE_RECORD_NOT_EXIST);
         }
-        if (vo.getType().equals(TradeRecordTypeEnum.FOREIGN_EXCHANGE_TYPE.getType())) {
+        if (vo.getType().equals(TradeRecordTypeEnum.FOREIGN_EXCHANGE_TYPE.getValue())) {
             vo.setStartMoney(vo.getStartMoney() * USD_EXCHANGE_RATE);
             vo.setEndMoney(vo.getEndMoney() * USD_EXCHANGE_RATE);
         }
@@ -202,6 +202,6 @@ public class DataTradeRecordServiceImpl implements IDateTradeRecordService {
 //        for (List<Object> objects : read) {
 //            System.out.println(objects);
 //        }
-        System.out.println(TradeRecordTypeEnum.FOREIGN_EXCHANGE_TYPE.getType());
+        System.out.println(TradeRecordTypeEnum.FOREIGN_EXCHANGE_TYPE.getValue());
     }
 }

@@ -12,14 +12,6 @@
     <div class="layui-row layui-col-space10">
         <div class="layui-col-md9">
             <div class="layui-card">
-                <div class="layui-card-header"><i class="fa fa-line-chart icon"></i>资金曲线</div>
-                <div class="layui-card-body">
-                    <div class="layui-tab custom-tab layui-tab-brief">
-                        <div id="echarts-records" style="background-color:#ffffff;min-height:400px;padding: 10px"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="layui-card">
                 <div class="layui-card-header">动态</div>
                 <div class="layui-card-body">
                     <dl class="layuiadmin-card-status">
@@ -112,83 +104,6 @@
             element = layui.element,
             count = layui.count,
             echarts = layui.echarts;
-
-        const echartsRecords = echarts.init(document.getElementById('echarts-records'), 'walden');
-
-        const totalMoney = [[${statisticsInfo.lastThirtyTotalMoney}]];
-        const lastDate = [[${statisticsInfo.lastThirtyDate}]];
-
-        const option = {
-            tooltip: {
-                trigger: 'axis'
-            },
-            xAxis: [{
-                type: 'category',
-                data: lastDate.split(","),
-                axisLine: {
-                    lineStyle: {
-                        color: "#999"
-                    }
-                }
-            }],
-            yAxis: [{
-                type: 'value',
-                splitNumber: 4,
-                splitLine: {
-                    lineStyle: {
-                        type: 'dashed',
-                        color: '#DDD'
-                    }
-                },
-                axisLine: {
-                    show: false,
-                    lineStyle: {
-                        color: "#333"
-                    },
-                },
-                nameTextStyle: {
-                    color: "#999"
-                },
-                splitArea: {
-                    show: false
-                }
-            }],
-            series: [{
-                name: '当前资金',
-                type: 'line',
-                data: totalMoney.split(","),
-                lineStyle: {
-                    width: 6,
-                    color: {
-                        type: 'linear',
-                        colorStops: [{
-                            offset: 0,
-                            color: '#A9F387' // 0% 处的颜色
-                        }, {
-                            offset: 1,
-                            color: '#48D8BF' // 100% 处的颜色
-                        }],
-                        globalCoord: false // 缺省为 false
-                    },
-                    shadowColor: 'rgba(72,216,191, 0.3)',
-                    shadowBlur: 10,
-                    shadowOffsetY: 20
-                },
-                itemStyle: {
-                    color: '#fff',
-                    borderWidth: 5,
-                    /*shadowColor: 'rgba(72,216,191, 0.3)',
-                    shadowBlur: 100,*/
-                    borderColor: "#A9F387"
-                },
-                smooth: true
-            }]
-        };
-        echartsRecords.setOption(option);
-
-        window.onresize = function () {
-            echartsRecords.resize();
-        };
 
         /**
          * 今日运势图表

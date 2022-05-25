@@ -1,9 +1,9 @@
 package com.tangerinespecter.oms.system.domain.dto.statis;
 
+import cn.hutool.core.collection.CollUtil;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -14,7 +14,6 @@ import java.util.List;
 @Data
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
 public class TradeStatisIncomeInfoDto {
 
     /**
@@ -33,8 +32,20 @@ public class TradeStatisIncomeInfoDto {
      * 外汇数据
      */
     private List<BigDecimal> foreignData;
- /**
+    /**
+     * 基金数据
+     */
+    private List<BigDecimal> fundsData;
+    /**
      * 时间
      */
     private List<String> date;
+
+    public TradeStatisIncomeInfoDto() {
+        this.totalIncome = CollUtil.newArrayList();
+        this.stockData = CollUtil.newArrayList();
+        this.futuresData = CollUtil.newArrayList();
+        this.foreignData = CollUtil.newArrayList();
+        this.date = CollUtil.newArrayList();
+    }
 }

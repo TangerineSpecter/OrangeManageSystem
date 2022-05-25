@@ -65,9 +65,9 @@ public class StatisticsInfo {
     /**
      * 最近30日资金曲线
      */
-    private String lastThirtyTotalMoney;
+    private List<Integer> lastThirtyTotalMoney;
     /**
-     * 最近30日期
+     * 最近30天日期
      */
-    private String lastThirtyDate;
+    private List<String> lastThirtyDate;
 }

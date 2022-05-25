@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="">
 <head>
     <th:block th:include="include :: header('交易统计')"/>
 </head>
@@ -13,7 +13,7 @@
                 <div class="layui-card-body">
                     <div class="layui-row layui-col-space5">
                         <div class="layui-col-xs8 layui-col-md8 top-panel-number" style="color: #28333E;"
-                             th:text="${statisticsInfo.todayIncome}"> 0
+                             th:text="${statisInfo.todayIncome}"> 0
                         </div>
                     </div>
                 </div>
@@ -25,7 +25,7 @@
                 <div class="layui-card-body">
                     <div class="layui-row layui-col-space5">
                         <div class="layui-col-xs8 layui-col-md8 top-panel-number" style="color: #28333E;"
-                             th:text="${statisticsInfo.weekendIncome}"> 0
+                             th:text="${statisInfo.weekendIncome}"> 0
                         </div>
                     </div>
                 </div>
@@ -37,7 +37,7 @@
                 <div class="layui-card-body">
                     <div class="layui-row layui-col-space5">
                         <div class="layui-col-xs8 layui-col-md8 top-panel-number" style="color: #28333E;"
-                             th:text="${statisticsInfo.monthIncome}"> 0
+                             th:text="${statisInfo.monthIncome}"> 0
                         </div>
                     </div>
                 </div>
@@ -49,11 +49,19 @@
                 <div class="layui-card-body">
                     <div class="layui-row layui-col-space5">
                         <div class="layui-col-xs8 layui-col-md8 top-panel-number" style="color: #28333E;"
-                             th:text="${statisticsInfo.yearIncome}"> 0
+                             th:text="${statisInfo.yearIncome}"> 0
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+<div class="layui-card">
+    <div class="layui-card-header"><i class="fa fa-line-chart icon"></i>资金曲线</div>
+    <div class="layui-card-body">
+        <div class="layui-tab custom-tab layui-tab-brief">
+            <div id="echarts-records" style="background-color:#ffffff;min-height:400px;padding: 10px"></div>
         </div>
     </div>
 </div>
@@ -67,168 +75,151 @@
         </div>
     </div>
     <div class="layui-card-body">
-        <div id="echarts-records" style="width: 100%;min-height:500px"></div>
+        <div id="echarts-income" style="width: 100%;min-height:500px"></div>
     </div>
 </div>
-<div class="layui-card">
-    <div class="layui-card-header"><i class="fa fa-line-chart icon"></i>股票数据
+<div class="layui-row layui-col-space10">
+    <div class="layui-col-md6">
+        <div class="layui-card">
+            <div class="layui-card-header"><i class="fa fa-line-chart icon"></i>股票数据</div>
+            <div class="layui-card-body">
+                <div id="echarts-stock" style="width: 100%;min-height:500px"></div>
+            </div>
+        </div>
     </div>
-    <div class="layui-card-body">
-        <div id="echarts-stock" style="width: 100%;min-height:500px"></div>
+    <div class="layui-col-md6">
+        <div class="layui-card">
+            <div class="layui-card-header"><i class="fa fa-line-chart icon"></i>期货数据</div>
+            <div class="layui-card-body">
+                <div id="echarts-futures" style="width: 100%;min-height:500px"></div>
+            </div>
+        </div>
     </div>
-</div>
-<div class="layui-card">
-    <div class="layui-card-header"><i class="fa fa-line-chart icon"></i>期货数据
+    <div class="layui-col-md6">
+        <div class="layui-card">
+            <div class="layui-card-header"><i class="fa fa-line-chart icon"></i>外汇数据</div>
+            <div class="layui-card-body">
+                <div id="echarts-foreign-exchange" style="width: 100%;min-height:500px"></div>
+            </div>
+        </div>
     </div>
-    <div class="layui-card-body">
-        <div id="echarts-futures" style="width: 100%;min-height:500px"></div>
+    <div class="layui-col-md6">
+        <div class="layui-card">
+            <div class="layui-card-header"><i class="fa fa-line-chart icon"></i>基金数据</div>
+            <div class="layui-card-body">
+                <div id="echarts-funds" style="width: 100%;min-height:500px"></div>
+            </div>
+        </div>
     </div>
-</div>
-<div class="layui-card">
-    <div class="layui-card-header"><i class="fa fa-line-chart icon"></i>外汇数据
-    </div>
-    <div class="layui-card-body">
-        <div id="echarts-foreign-exchange" style="width: 100%;min-height:500px"></div>
-    </div>
-</div>
 </div>
 <th:block th:include="include :: footer"/>
 <script th:inline="javascript">
-    layui.use(['form', 'table', 'laydate', 'layer', 'echarts'], function () {
-        const $ = layui.jquery,
-            form = layui.form,
-            table = layui.table,
-            laydate = layui.laydate,
-            echarts = layui.echarts;
+    layui.use(['echarts'], function () {
+        const echarts = layui.echarts;
 
-        //起始日期
-        laydate.render({
-            elem: '#startDay'
-        });
-
-        //结束日期
-        laydate.render({
-            elem: '#endDay'
-        });
-
-        // 监听搜索操作
-        form.on('submit(data-search-btn)', function (data) {
-            const test = [131, 40, 228, 541, 412, 109, 70];
-            console.log(test);
-            initTradeRecordCharts(test);
-            return false;
-        });
-
-        // 监听清空操作
-        form.on('submit(data-clear-btn)', function (data) {
-            return false;
-        });
-
-        //监听表格复选框选择
-        table.on('checkbox(currentTableFilter)', function (obj) {
-            console.log(obj)
-        });
-    });
-
-    $(function () {
-        initIncomeStatisCharts();
-        initStatisCharts();
+        //资金数据
+        const totalMoney = [[${statisInfo.lastThirtyTotalMoney}]];
+        const lastDate = [[${statisInfo.lastThirtyDate}]];
+        initEcharts("echarts-records", lineStyle1(), lastDate, totalMoney);
+        const date = [[${incomeInfo.date}]];
+        //收益数据
+        initGridEcharts("echarts-income", lineStyle1(), date, [[${incomeInfo.totalIncome}]])
+        //股票数据
+        initGridEcharts("echarts-stock", lineStyle1(), date, [[${incomeInfo.stockData}]]);
+        //期货数据
+        initGridEcharts("echarts-futures", lineStyle1(), date, [[${incomeInfo.futuresData}]]);
+        //外汇数据
+        initGridEcharts("echarts-foreign-exchange", lineStyle1(), date, [[${incomeInfo.foreignData}]]);
+        //基金数据
+        initGridEcharts("echarts-funds", lineStyle1(), date, [[${incomeInfo.fundsData}]]);
     });
 
     /**
-     * 收益曲线图表初始化
+     * 初始化网格图表
+     * @param echartsId 图表ID
+     * @param lineStyle 折线图样式
+     * @param xData x轴数据
+     * @param yData y轴数据
      */
-    function initIncomeStatisCharts() {
-
-        $.post("/statis/trade/income-info", function (result) {
-            if (result.success) {
-                const options = {
-                    series: [{
-                        name: '收益值',
-                        type: 'column',
-                        data: result.data.totalIncome.reverse()
-                    }],
-                    chart: {
-                        height: 350,
-                        type: 'area'
-                    },
-                    dataLabels: {
-                        enabled: false
-                    },
-                    stroke: {
-                        curve: 'smooth'
-                    },
-                    xaxis: {
-                        type: 'date',
-                        categories: result.data.date.reverse()
-                    },
-                    tooltip: {
-                        x: {
-                            format: 'yyyy-MM-dd'
-                        }
-                    },
-                };
-
-                const chart = new ApexCharts(document.querySelector("#echarts-records"), options);
-                chart.render();
-            }
-        }, "JSON");
-    }
-
-    function initStatisCharts() {
-        $.post("/statis/trade/income-info", function (result) {
-            if (result.success) {
-                initCharts("#echarts-stock", "体重(斤)", result.data.stockData, result.data.date, '#87CEFA');
-                initCharts("#echarts-futures", "脂肪（斤）", result.data.futuresData, result.data.date, '#EE5C42');
-                initCharts("#echarts-foreign-exchange", "压力", result.data.foreignData, result.data.date, '#4EEE94');
-            }
-        }, "JSON");
-    }
-
-    function initCharts(id, name, data, date, color) {
-        const options = {
-            series: [{
-                name: name,
-                data: data.reverse()
-            }],
-            chart: {
-                height: 350,
-                type: 'area',
-                stacked: true
-            },
-            colors: [color],
-            dataLabels: {
-                enabled: true
-            },
-            stroke: {
-                curve: 'smooth'
-            },
-            grid: {
-                borderColor: '#111',
-                strokeDashArray: 7,
-            },
-            xaxis: {
-                type: 'date',
-                categories: date.reverse(),
-                lines: {
-                    show: true,
-                }
-            },
-            yaxis: {
-                lines: {
-                    show: true,
-                }
-            },
+    function initGridEcharts(echartsId, lineStyle, xData, yData) {
+        const echartsRecords = echarts.init(document.getElementById(echartsId), 'walden');
+        const option = {
             tooltip: {
-                x: {
-                    format: 'yyyy-MM-dd'
-                }
+                trigger: 'axis'
             },
+            xAxis: [{
+                type: 'category',
+                data: xData,
+                axisLine: {
+                    lineStyle: {
+                        color: "#999"
+                    }
+                }
+            }],
+            yAxis: [{
+                type: 'value',
+                splitNumber: 4,
+                splitLine: {
+                    lineStyle: {
+                        type: 'dashed',
+                        color: '#DDD'
+                    }
+                },
+                axisLine: {
+                    show: false,
+                    lineStyle: {
+                        color: "#333"
+                    },
+                },
+                nameTextStyle: {
+                    color: "#999"
+                },
+                splitArea: {
+                    show: false
+                }
+            }],
+            series: [{
+                name: '当前资金',
+                type: 'line',
+                data: yData,
+                lineStyle: lineStyle,
+                itemStyle: {
+                    color: '#9966ff',
+                    borderWidth: 3,
+                    /*shadowColor: 'rgba(72,216,191, 0.3)',
+                    shadowBlur: 100,*/
+                    borderColor: "#A9F387"
+                },
+                smooth: true
+            }]
         };
+        echartsRecords.setOption(option);
 
-        const chart = new ApexCharts(document.querySelector(id), options);
-        chart.render();
+        window.onresize = function () {
+            echartsRecords.resize();
+        };
     }
+
+    function lineStyle1() {
+        return {
+            width: 6,
+            color: {
+                type: 'linear',
+                colorStops: [{
+                    offset: 0,
+                    color: '#A9F387' // 0% 处的颜色
+                }, {
+                    offset: 1,
+                    color: '#48D8BF' // 100% 处的颜色
+                }],
+                globalCoord: false // 缺省为 false
+            },
+            shadowColor: 'rgba(72,216,191, 0.3)',
+            shadowBlur: 10,
+            shadowOffsetY: 20
+        }
+    }
+
 </script>
 </body>
 </html>

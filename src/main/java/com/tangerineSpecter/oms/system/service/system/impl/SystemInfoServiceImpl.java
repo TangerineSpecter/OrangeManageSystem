@@ -203,8 +203,8 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
         }
         //补充最后一天
         totalMoneyList.add(sumMoney(moneyList));
-        statisticsInfo.setLastThirtyDate(Joiner.on(",").join(CollUtil.sub(dateList, dateList.size() - lastDayThreshold, dateList.size())));
-        statisticsInfo.setLastThirtyTotalMoney(Joiner.on(",").join(CollUtil.sub(totalMoneyList, totalMoneyList.size() - lastDayThreshold, totalMoneyList.size())));
+        statisticsInfo.setLastThirtyDate(CollUtil.sub(dateList, dateList.size() - lastDayThreshold, dateList.size()));
+        statisticsInfo.setLastThirtyTotalMoney(CollUtil.sub(totalMoneyList, totalMoneyList.size() - lastDayThreshold, totalMoneyList.size()));
     }
 
     /**

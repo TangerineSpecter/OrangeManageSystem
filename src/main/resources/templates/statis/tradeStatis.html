@@ -120,10 +120,10 @@
         //资金数据
         const totalMoney = [[${statisInfo.lastThirtyTotalMoney}]];
         const lastDate = [[${statisInfo.lastThirtyDate}]];
-        initEcharts("echarts-records", lineStyle1(), lastDate, totalMoney);
+        initGridEcharts("echarts-records", lineStyle1(), lastDate, totalMoney);
         const date = [[${incomeInfo.date}]];
         //收益数据
-        initGridEcharts("echarts-income", lineStyle1(), date, [[${incomeInfo.totalIncome}]])
+        initGridEcharts("echarts-income", lineStyle1(), date, [[${incomeInfo.totalIncome}]]);
         //股票数据
         initGridEcharts("echarts-stock", lineStyle1(), date, [[${incomeInfo.stockData}]]);
         //期货数据

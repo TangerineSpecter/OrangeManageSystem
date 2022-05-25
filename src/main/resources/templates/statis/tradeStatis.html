@@ -117,108 +117,20 @@
     layui.use(['echarts'], function () {
         const echarts = layui.echarts;
 
-        //资金数据
-        const totalMoney = [[${statisInfo.lastThirtyTotalMoney}]];
-        const lastDate = [[${statisInfo.lastThirtyDate}]];
-        initGridEcharts("echarts-records", lineStyle1(), lastDate, totalMoney);
         const date = [[${incomeInfo.date}]];
+        //资金数据
+        initGridEcharts("echarts-records", pointLineStyle('#A9F387', '#48D8BF'), [[${statisInfo.lastThirtyDate}]], [[${statisInfo.lastThirtyTotalMoney}]]);
         //收益数据
-        initGridEcharts("echarts-income", lineStyle1(), date, [[${incomeInfo.totalIncome}]]);
+        initGridEcharts("echarts-income", pointLineStyle('#A9F387', '#48D8BF'), date, [[${incomeInfo.totalIncome}]]);
         //股票数据
-        initGridEcharts("echarts-stock", lineStyle1(), date, [[${incomeInfo.stockData}]]);
+        initGridEcharts("echarts-stock", pointLineStyle('#A9F387', '#48D8BF'), date, [[${incomeInfo.stockData}]]);
         //期货数据
-        initGridEcharts("echarts-futures", lineStyle1(), date, [[${incomeInfo.futuresData}]]);
+        initGridEcharts("echarts-futures", pointLineStyle('#A9F387', '#48D8BF'), date, [[${incomeInfo.futuresData}]]);
         //外汇数据
-        initGridEcharts("echarts-foreign-exchange", lineStyle1(), date, [[${incomeInfo.foreignData}]]);
+        initGridEcharts("echarts-foreign-exchange", pointLineStyle('#A9F387', '#48D8BF'), date, [[${incomeInfo.foreignData}]]);
         //基金数据
-        initGridEcharts("echarts-funds", lineStyle1(), date, [[${incomeInfo.fundsData}]]);
+        initGridEcharts("echarts-funds", pointLineStyle('#A9F387', '#48D8BF'), date, [[${incomeInfo.fundsData}]]);
     });
-
-    /**
-     * 初始化网格图表
-     * @param echartsId 图表ID
-     * @param lineStyle 折线图样式
-     * @param xData x轴数据
-     * @param yData y轴数据
-     */
-    function initGridEcharts(echartsId, lineStyle, xData, yData) {
-        const echartsRecords = echarts.init(document.getElementById(echartsId), 'walden');
-        const option = {
-            tooltip: {
-                trigger: 'axis'
-            },
-            xAxis: [{
-                type: 'category',
-                data: xData,
-                axisLine: {
-                    lineStyle: {
-                        color: "#999"
-                    }
-                }
-            }],
-            yAxis: [{
-                type: 'value',
-                splitNumber: 4,
-                splitLine: {
-                    lineStyle: {
-                        type: 'dashed',
-                        color: '#DDD'
-                    }
-                },
-                axisLine: {
-                    show: false,
-                    lineStyle: {
-                        color: "#333"
-                    },
-                },
-                nameTextStyle: {
-                    color: "#999"
-                },
-                splitArea: {
-                    show: false
-                }
-            }],
-            series: [{
-                name: '当前资金',
-                type: 'line',
-                data: yData,
-                lineStyle: lineStyle,
-                itemStyle: {
-                    color: '#9966ff',
-                    borderWidth: 3,
-                    /*shadowColor: 'rgba(72,216,191, 0.3)',
-                    shadowBlur: 100,*/
-                    borderColor: "#A9F387"
-                },
-                smooth: true
-            }]
-        };
-        echartsRecords.setOption(option);
-
-        window.onresize = function () {
-            echartsRecords.resize();
-        };
-    }
-
-    function lineStyle1() {
-        return {
-            width: 6,
-            color: {
-                type: 'linear',
-                colorStops: [{
-                    offset: 0,
-                    color: '#A9F387' // 0% 处的颜色
-                }, {
-                    offset: 1,
-                    color: '#48D8BF' // 100% 处的颜色
-                }],
-                globalCoord: false // 缺省为 false
-            },
-            shadowColor: 'rgba(72,216,191, 0.3)',
-            shadowBlur: 10,
-            shadowOffsetY: 20
-        }
-    }
 
 </script>
 </body>

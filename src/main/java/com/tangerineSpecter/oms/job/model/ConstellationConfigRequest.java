@@ -1,6 +1,5 @@
-package com.tangerinespecter.oms.job.bean;
+package com.tangerinespecter.oms.job.model;
 
-import com.tangerinespecter.oms.common.constants.CommonConstant;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ConstellationConfigBean {
+public class ConstellationConfigRequest {
 
     /**
      * 星座名称

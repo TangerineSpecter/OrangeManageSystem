@@ -14,3 +14,6 @@ INSERT INTO oms.system_version_history_content (version_id, type, content) VALUE
 INSERT INTO `oms`.`system_version_history_content` (`version_id`, `type`, `content`) VALUES (22, 0, '卡片笔记功能');
 INSERT INTO oms.system_version_history_content (version_id, type, content) VALUES (22, 0, '视频去水印小工具');
 INSERT INTO oms.system_version_history_content (version_id, type, content) VALUES (22, 2, '健康统计数据展示');
+INSERT INTO oms.system_version_history_content (version_id, type, content) VALUES (22, 2, '交易统计数据展示');
+INSERT INTO oms.system_version_history_content (version_id, type, content) VALUES (22, 0, '星座数据爬虫');
+INSERT INTO oms.system_version_history_content (version_id, type, content) VALUES (22, 0, '汇率数据定时任务');

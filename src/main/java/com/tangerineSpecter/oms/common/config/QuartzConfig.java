@@ -1,6 +1,7 @@
 package com.tangerinespecter.oms.common.config;
 
 import com.tangerinespecter.oms.job.quartz.ConstellationDataQuartz;
+import com.tangerinespecter.oms.job.quartz.ExchangeRateDataQuartz;
 import com.tangerinespecter.oms.job.quartz.WallPageConfigQuartz;
 import org.quartz.*;
 import org.springframework.context.annotation.Bean;
@@ -47,6 +48,23 @@ public class QuartzConfig {
 		SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(quartzTime)
 				.repeatForever();
 		return TriggerBuilder.newTrigger().forJob(wallPageQuartz()).withIdentity("wallPageConfigQuartz")
+				.withSchedule(scheduleBuilder).build();
+	}
+
+	@Bean
+	public JobDetail exchangeRateQuartz() {
+		return JobBuilder.newJob(ExchangeRateDataQuartz.class).withIdentity("exchangeRateDataQuartz").storeDurably()
+				.build();
+	}
+
+	@Bean
+	public Trigger exchangeRateTrigger() {
+		//定时执行时间(单位：秒)
+		int quartzTime = 6 * 60 * 60;
+		// 设置时间周期单位秒
+		SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(quartzTime)
+				.repeatForever();
+		return TriggerBuilder.newTrigger().forJob(exchangeRateQuartz()).withIdentity("exchangeRateDataQuartz")
 				.withSchedule(scheduleBuilder).build();
 	}
 }

@@ -31,7 +31,7 @@ CREATE TABLE `user_card_note`
 (
     `id`          bigint   NOT NULL AUTO_INCREMENT,
     `content`     text COLLATE utf8mb4_unicode_ci COMMENT '笔记内容',
-    `uid`    bigint   NOT NULL COMMENT '管理员id',
+    `uid`         bigint   NOT NULL COMMENT '管理员id',
     `is_del`      tinyint  NOT NULL DEFAULT '0' COMMENT '删除状态（0：未删除；1：已删除）',
     `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time` datetime          DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
@@ -49,7 +49,7 @@ CREATE TABLE `user_card_note_tag`
 (
     `id`          bigint   NOT NULL AUTO_INCREMENT,
     `name`        varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '标签名称',
-    `uid`    bigint   NOT NULL COMMENT '管理员id',
+    `uid`         bigint   NOT NULL COMMENT '管理员id',
     `top`         tinyint  NOT NULL                       DEFAULT '0' COMMENT '是否置顶（0：未置顶；1：已置顶）',
     `is_del`      tinyint  NOT NULL                       DEFAULT '0' COMMENT '删除状态（0：未删除；1：已删除）',
     `create_time` datetime NOT NULL                       DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -74,18 +74,61 @@ CREATE TABLE `user_note_tag_assoc`
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci COMMENT ='用户笔记-标签关联表';
 
+DROP TABLE
+    IF
+        EXISTS `data_exchange`;
+CREATE TABLE `data_exchange`
+(
+    `id`          BIGINT      NOT NULL AUTO_INCREMENT,
+    `name`        VARCHAR(16) NOT NULL COMMENT '货币名称',
+    `code`        VARCHAR(16) NOT NULL COMMENT '货币代码',
+    `create_time` datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `update_time` datetime             DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY (`id`)
+) ENGINE = INNODB
+  AUTO_INCREMENT = 13
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_unicode_ci COMMENT = '货币数据';
+
+
+DROP TABLE
+    IF
+        EXISTS `data_exchange_rate`;
+CREATE TABLE `data_exchange_rate`
+(
+    `id`          BIGINT        NOT NULL AUTO_INCREMENT,
+    `name`        VARCHAR(16)   NOT NULL COMMENT '源货币名称',
+    `code`        VARCHAR(16)   NOT NULL COMMENT '源货币代码',
+    `price`       decimal(5, 2) NOT NULL COMMENT '每100源货币的RMB兑换值',
+    `record_time` date          not null comment '记录时间',
+    `create_time` datetime      NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `update_time` datetime               DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY (`id`)
+) ENGINE = INNODB
+  AUTO_INCREMENT = 13
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_unicode_ci COMMENT = '货币汇率数据';
+
 SET FOREIGN_KEY_CHECKS = 1;
 
 -- 新增字段
-alter table `system_user` add uid varchar(64) default null after `id`;
+alter table `system_user`
+    add uid varchar(64) default null after `id`;
 
 -- 修改字段
-alter table `user_health` change admin_id uid varchar(64);
-alter table `user_card_note_tag` change admin_id uid varchar(64);
-alter table `user_card_note` change admin_id uid varchar(64);
-alter table `data_trade_logic` change admin_id uid varchar(64);
-alter table `data_trade_record` change admin_id uid varchar(64);
-alter table `system_user_role` change uid uid varchar(64);
+alter table `user_health`
+    change admin_id uid varchar(64);
+alter table `user_card_note_tag`
+    change admin_id uid varchar(64);
+alter table `user_card_note`
+    change admin_id uid varchar(64);
+alter table `data_trade_logic`
+    change admin_id uid varchar(64);
+alter table `data_trade_record`
+    change admin_id uid varchar(64);
+alter table `system_user_role`
+    change uid uid varchar(64);
 
 -- 索引
-ALTER TABLE system_role ADD UNIQUE (`name`)
+ALTER TABLE system_role
+    ADD UNIQUE (`name`)

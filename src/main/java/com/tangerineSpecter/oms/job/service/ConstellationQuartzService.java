@@ -1,6 +1,10 @@
 package com.tangerinespecter.oms.job.service;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.lang.Assert;
+import cn.hutool.core.text.CharSequenceUtil;
 import com.alibaba.fastjson.JSONObject;
+import com.tangerinespecter.oms.common.utils.CollUtils;
 import com.tangerinespecter.oms.common.utils.DateUtils;
 import com.tangerinespecter.oms.common.utils.HttpUtils;
 import com.tangerinespecter.oms.common.utils.ParamUtils;
@@ -68,27 +72,44 @@ public class ConstellationQuartzService {
                 log.info("[星座定时任务执行完毕，当前没有需要插入的数据]");
                 return;
             }
-            for (String star : noStarList) {
-                Map<String, Object> configBean = new HashMap<>(16);
-                configBean.put(ParamUtils.CONS_NAME, star);
-                configBean.put(ParamUtils.KEY, juheApiConstellationKey);
-                configBean.put(ParamUtils.TYPE, TODAY);
-                String result = HttpUtils.interfaceInvoke(juheApiConstellationUrl, configBean,
-                        "POST");
-                log.info("[请求星座API成功获取数据]:star:{},result:{}", star, result);
-                JSONObject starObj = JSONObject.parseObject(result);
-                String resultcode = starObj.getString("error_code");
-                if (resultcode.equals(SUCCESS_CODE)) {
-                    dataConstellationMapper.insert(getDateConstellation(starObj));
-                    count++;
-                } else {
-                    log.error(String.format("[星座接口请求数据异常],error_code:{}; reason:{}", starObj.getString("error_code"),
-                            starObj.getString("reason")));
-                }
-            }
+            List<String> apiKeys = CharSequenceUtil.split(juheApiConstellationKey, ";");
+            this.handleStarData(noStarList, count, apiKeys, 0);
             log.info("[星座定时任务执行完毕],插入数据：{}", count);
         } catch (Exception e) {
             log.warn("[星座接口调用异常]:", e);
+        }
+    }
+
+    /**
+     * 处理星座数据
+     *
+     * @param noStarList 未处理的星座列表
+     * @param count      插入数量
+     * @param apiKeys    api的key列表
+     * @param keyNumber  key数值
+     */
+    private void handleStarData(List<String> noStarList, int count, List<String> apiKeys, int keyNumber) {
+        String apiKey = CollUtil.get(apiKeys, keyNumber);
+        if (CharSequenceUtil.isEmpty(apiKey)) {
+            return;
+        }
+        Map<String, Object> configBean = new HashMap<>(16);
+        configBean.put(ParamUtils.KEY, apiKey);
+        configBean.put(ParamUtils.TYPE, TODAY);
+        for (String star : noStarList) {
+            configBean.put(ParamUtils.CONS_NAME, star);
+            String result = HttpUtils.interfaceInvoke(juheApiConstellationUrl, configBean,
+                    "POST");
+            log.info("[请求星座API成功获取数据]:apiKey:{},star:{},result:{}", apiKey, star, result);
+            JSONObject starObj = JSONObject.parseObject(result);
+            String resultcode = starObj.getString("error_code");
+            if (resultcode.equals(SUCCESS_CODE)) {
+                dataConstellationMapper.insert(getDateConstellation(starObj));
+                count++;
+            } else {
+                log.error("[星座接口请求数据异常],error_code:{}; reason:{}", starObj.getString("error_code"), starObj.getString("reason"));
+                this.handleStarData(noStarList, count, apiKeys, ++keyNumber);
+            }
         }
     }
 

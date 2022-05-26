@@ -64,6 +64,20 @@ public class CollUtils {
         return from.stream().map(func).distinct().collect(Collectors.toList());
     }
 
+    public static <T, U> List<U> convertLimitList(Collection<T> from, Function<T, U> func, int limit) {
+        if (CollUtil.isEmpty(from)) {
+            return Collections.emptyList();
+        }
+        return from.stream().map(func).limit(limit).collect(Collectors.toList());
+    }
+
+    public static <T> List<T> convertLimitList(Collection<T> from, int limit) {
+        if (CollUtil.isEmpty(from)) {
+            return Collections.emptyList();
+        }
+        return from.stream().limit(limit).collect(Collectors.toList());
+    }
+
     public static <T, U> List<U> convertListOrDefault(Collection<T> from, Function<T, U> func, U defaultValue) {
         if (CollUtil.isEmpty(from)) {
             return CollUtil.newArrayList(defaultValue);

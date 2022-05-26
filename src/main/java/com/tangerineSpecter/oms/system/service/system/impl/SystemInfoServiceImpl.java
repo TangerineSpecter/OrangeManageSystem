@@ -13,6 +13,7 @@ import com.tangerinespecter.oms.common.constants.ParamUtils;
 import com.tangerinespecter.oms.common.constants.SystemConstant;
 import com.tangerinespecter.oms.common.enums.TradeIncomeEnum;
 import com.tangerinespecter.oms.common.netty.ChatHandler;
+import com.tangerinespecter.oms.common.utils.CollUtils;
 import com.tangerinespecter.oms.common.utils.DateUtils;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.system.domain.dto.system.*;
@@ -159,8 +160,6 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
         Date currentDate = new Date();
         //最近30天资金信息
         List<DataTradeRecord> lastThirtyMoneyInfo = dataTradeRecordMapper.getLastThirtyMoneyInfo();
-        //List<Integer> totalMoneyList = lastThirtyMoneyInfo.stream().map(DataTradeRecord::getEndMoney).collect(Collectors.toList());
-        //List<String> dateList = lastThirtyMoneyInfo.stream().map(DataTradeRecord::getDate).collect(Collectors.toList());
         StatisticsInfo statisticsInfo = StatisticsInfo.builder().todayIncome(BigDecimal.valueOf(NumberUtil.div(todayIncome, 100, 2)))
                 .monthIncome(BigDecimal.valueOf(NumberUtil.div(monthIncome, 100, 2)))
                 .weekendIncome(BigDecimal.valueOf(NumberUtil.div(weekendIncome, 100, 2)))
@@ -170,6 +169,7 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
                 .year(DateUtil.year(currentDate)).weekend(DateUtil.weekOfYear(currentDate)).month(DateUtil.month(currentDate) + 1)
                 .today(tradeLastDay).build();
         handlerLastThirtyData(statisticsInfo, lastThirtyMoneyInfo);
+
         return statisticsInfo;
     }
 
@@ -182,27 +182,10 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
     private void handlerLastThirtyData(StatisticsInfo statisticsInfo, List<DataTradeRecord> lastThirtyMoneyInfo) {
         //最近天数
         final int lastDayThreshold = 30;
-        List<String> dateList = CollUtil.newArrayList();
-        //总资金列表
-        List<Integer> totalMoneyList = CollUtil.newArrayList();
-        //单日资金
-        List<Integer> moneyList = CollUtil.newArrayList();
-        //初始化第一天
-        String today = lastThirtyMoneyInfo.get(0).getDate();
-        dateList.add(today);
-        for (DataTradeRecord dataTradeRecord : lastThirtyMoneyInfo) {
-            String date = dataTradeRecord.getDate();
-            if (!date.equals(today)) {
-                today = date;
-                dateList.add(date);
-                totalMoneyList.add(sumMoney(moneyList));
-            }
-            CollUtil.setOrAppend(moneyList, dataTradeRecord.getType(), dataTradeRecord.getEndMoney());
-        }
-        //补充最后一天
-        totalMoneyList.add(sumMoney(moneyList));
-        statisticsInfo.setLastThirtyDate(CollUtil.sub(dateList, dateList.size() - lastDayThreshold, dateList.size()));
-        statisticsInfo.setLastThirtyTotalMoney(CollUtil.sub(totalMoneyList, totalMoneyList.size() - lastDayThreshold, totalMoneyList.size()));
+        LinkedHashMap<String, List<DataTradeRecord>> lastThirtyMap = lastThirtyMoneyInfo.stream().collect(Collectors.groupingBy(DataTradeRecord::getDate, LinkedHashMap::new, Collectors.toList()));
+        statisticsInfo.setLastThirtyDate(CollUtils.convertLimitList(lastThirtyMap.keySet(), lastDayThreshold));
+        statisticsInfo.setLastThirtyTotalMoney(CollUtils.convertLimitList(lastThirtyMap.values(), dataTradeRecords ->
+                this.sumMoney(CollUtils.convertList(dataTradeRecords, DataTradeRecord::getEndMoney)), lastDayThreshold));
     }
 
     /**

@@ -206,7 +206,8 @@ window.initGridLineEcharts = function (echartsId, lineStyle, xData, yData) {
                 lineStyle: {
                     color: "#999"
                 }
-            }
+            },
+            inverse: true //反转坐标轴
         }],
         yAxis: [{
             type: 'value',
@@ -303,7 +304,8 @@ window.initStrokeColumnCharts = function (echartsId, lineStyle, xData, yData) {
             splitLine: {    //网格
                 show: false,
 
-            }
+            },
+            inverse: true //反转坐标轴
         },
         yAxis: {
             type: 'value',

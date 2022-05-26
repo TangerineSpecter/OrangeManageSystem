@@ -43,7 +43,7 @@
             <div class="layui-card">
                 <div class="layui-card-header"><i class="fa fa-fire icon"></i>今日运势</div>
                 <div class="layui-card-body layui-text">
-                    <div id="echarts-today-luck" style="width: 100%;min-height:500px"></div>
+                    <div id="echarts-today-luck" style="width: 100%;min-height:320px"></div>
                 </div>
             </div>
             <div class="layui-card">
@@ -140,7 +140,7 @@
                         {text: '金钱运势', max: 100}
                     ],
                     center: ['50%', '50%'],
-                    radius: 150
+                    radius: 100
                 }
             ],
             animations: {
@@ -158,7 +158,7 @@
             },
             series: [
                 {
-                    height: 350,
+                    height: 250,
                     type: 'radar',
                     tooltip: {
                         trigger: 'item'

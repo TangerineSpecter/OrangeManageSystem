@@ -1,6 +1,6 @@
 package com.tangerinespecter.oms.common.utils;
 
-import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.text.CharSequenceUtil;
 import com.tangerinespecter.oms.common.constants.CommonConstant;
 
 import java.text.SimpleDateFormat;
@@ -55,17 +55,17 @@ public class DateUtils {
      * @return 星座
      */
     public static String getStarNameByDate(String date) {
-        if (StrUtil.isBlank(date)) {
+        if (CharSequenceUtil.isBlank(date)) {
             return null;
         }
         String[] dateArr = date.split("-");
         if (dateArr.length != 3) {
             return null;
         }
-        Integer month = Integer.valueOf(dateArr[1]);
-        Integer day = Integer.valueOf(dateArr[2]);
+        int month = Integer.parseInt(dateArr[1]);
+        int day = Integer.parseInt(dateArr[2]);
         Integer[] arr = {20, 19, 21, 21, 21, 22, 23, 23, 23, 23, 22, 22};
-        Integer num = month * 2 - (day < arr[month - 1] ? 2 : 0);
+        int num = month * 2 - (day < arr[month - 1] ? 2 : 0);
         return STAR.substring(num, num + 2);
     }
 }

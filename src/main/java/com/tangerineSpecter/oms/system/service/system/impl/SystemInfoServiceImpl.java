@@ -11,7 +11,7 @@ import com.tangerinespecter.oms.common.constants.CommonConstant;
 import com.tangerinespecter.oms.common.constants.MessageConstant;
 import com.tangerinespecter.oms.common.constants.ParamUtils;
 import com.tangerinespecter.oms.common.constants.SystemConstant;
-import com.tangerinespecter.oms.common.enums.TradeIncomeEnum;
+import com.tangerinespecter.oms.system.domain.enums.TradeIncomeEnum;
 import com.tangerinespecter.oms.common.netty.ChatHandler;
 import com.tangerinespecter.oms.common.utils.CollUtils;
 import com.tangerinespecter.oms.common.utils.DateUtils;

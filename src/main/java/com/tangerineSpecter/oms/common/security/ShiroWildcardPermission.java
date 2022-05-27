@@ -1,9 +1,6 @@
 package com.tangerinespecter.oms.common.security;
 
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.comparator.CompareUtil;
-import cn.hutool.core.util.ArrayUtil;
-import com.google.common.collect.Collections2;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.Permission;
 import org.apache.shiro.authz.permission.WildcardPermission;
@@ -23,15 +20,14 @@ public class ShiroWildcardPermission extends WildcardPermission {
     /**
      * implies方法就是用来校验权限通过与否的
      *
-     * @param permission
-     * @return
+     * @param permission 权限集合
+     * @return true：校验通过
      */
     @Override
     public boolean implies(Permission permission) {
         if (!(permission instanceof ShiroWildcardPermission)) {
             return false;
         }
-
         List<Set<String>> targetParts = ((ShiroWildcardPermission) permission).getParts();
         List<String> permissionList = targetParts.stream().map(t -> t.iterator().next()).collect(Collectors.toList());
         List<String> requestList = getParts().stream().map(t -> t.iterator().next()).collect(Collectors.toList());

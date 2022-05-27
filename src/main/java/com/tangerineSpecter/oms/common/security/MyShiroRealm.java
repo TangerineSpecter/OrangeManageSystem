@@ -1,10 +1,12 @@
 package com.tangerinespecter.oms.common.security;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
 import com.tangerinespecter.oms.common.constants.CommonConstant;
 import com.tangerinespecter.oms.common.constants.RetCode;
 import com.tangerinespecter.oms.common.constants.SystemConstant;
+import com.tangerinespecter.oms.common.context.GlobalContext;
 import com.tangerinespecter.oms.common.utils.DateUtils;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.system.domain.entity.SystemPermission;
@@ -28,10 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.Resource;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 用户认证权限校验
@@ -83,18 +82,13 @@ public class MyShiroRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         String userName = (String) token.getPrincipal();
         String password = new String((char[]) token.getCredentials());
-        log.info("用户：{}在时间{}进行了登录,登录地址{}", userName, DateUtils.getSimpleFormat(CommonConstant.DEFAULT_FORMAT_SECOND),
-                SystemUtils.getLocalhostIP());
         SystemUser systemUser = systemUserMapper.getUserByUserName(userName);
-        if (systemUser == null) {
-            throw new UnknownAccountException(RetCode.REGISTER_ACCOUNTS_NOT_EXIST.getErrorDesc());
-        }
-        if (!password.equals(systemUser.getPassword())) {
-            throw new IncorrectCredentialsException(RetCode.ACCOUNTS_PASSWORD_ERROR.getErrorDesc());
-        }
-        log.info("用户：{}在时间{}进行了登录,登录地址{}", userName, DateUtils.getSimpleFormat(CommonConstant.DEFAULT_FORMAT_SECOND),
-                SystemUtils.getLocalhostIP());
-        stopPreviousSession(systemUser.getId());
+        Assert.isTrue(systemUser != null, () -> new UnknownAccountException(RetCode.REGISTER_ACCOUNTS_NOT_EXIST.getErrorDesc()));
+        Assert.isTrue(Objects.equals(password, systemUser.getPassword()), () -> new IncorrectCredentialsException(RetCode.ACCOUNTS_PASSWORD_ERROR.getErrorDesc()));
+        log.info("用户：{}在时间{}进行了登录,登录地址{}", userName, DateUtils.getSimpleFormat(CommonConstant.DEFAULT_FORMAT_SECOND), SystemUtils.getLocalhostIP());
+        stopPreviousSession(systemUser.getUid());
+        GlobalContext.setUid(systemUser.getUid());
+        GlobalContext.setNickName(systemUser.getNickName());
         return new SimpleAuthenticationInfo(systemUser, password, userName);
     }
 
@@ -142,9 +136,9 @@ public class MyShiroRealm extends AuthorizingRealm {
     /**
      * 踢掉上一个登录用户
      *
-     * @param id
+     * @param uid 用户id
      */
-    private void stopPreviousSession(Long id) {
+    private void stopPreviousSession(String uid) {
         Collection<Session> sessions = sessionDAO.getActiveSessions();
         Session currentSession = SecurityUtils.getSubject().getSession();
         Serializable currentSessionId = currentSession.getId();
@@ -155,7 +149,7 @@ public class MyShiroRealm extends AuthorizingRealm {
                 continue;
             }
             SystemUser user = (SystemUser) collection.getPrimaryPrincipal();
-            if (id.equals(user.getId())) {
+            if (uid.equals(user.getUid())) {
                 if (currentSessionId.equals(session.getId())) {
                     continue;
                 }

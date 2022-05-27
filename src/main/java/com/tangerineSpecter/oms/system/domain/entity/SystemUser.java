@@ -33,7 +33,7 @@ public class SystemUser implements Serializable {
 
     private String uid;
     /**
-     * 帐号
+     * 账号
      */
     private String username;
     /**

@@ -161,7 +161,7 @@ public class SystemUtils {
     /**
      * 获取本机ip地址
      *
-     * @return
+     * @return ip地址
      */
     public static String getLocalhostIP() {
         String ip = CommonConstant.NULL_KEY_STR;
@@ -363,7 +363,7 @@ public class SystemUtils {
      * @return 生成的部门Level, 如0.1.2
      */
     public static String calculateLevel(String parenLevel, Long parentId) {
-        if (StrUtil.isBlank(parenLevel)) {
+        if (CharSequenceUtil.isBlank(parenLevel)) {
             return LEVEL_ROOT;
         } else {
             return StrUtil.join(parenLevel, LEVEL_SEPARATOR, parentId);
@@ -375,7 +375,7 @@ public class SystemUtils {
      *
      * @param href   菜单跳转地址
      * @param menuId 菜单ID
-     * @return
+     * @return 菜单code
      */
     public static String getMenuCode(String href, Long menuId) {
         return SecureUtil.md5(CommonConstant.MENU_CODE + href + menuId);
@@ -385,7 +385,7 @@ public class SystemUtils {
      * 获取权限code
      *
      * @param permissionCode 菜单权限code
-     * @return
+     * @return 权限code
      */
     public static String getPermissionCode(String permissionCode) {
         return SecureUtil.md5(permissionCode + CommonConstant.PERMISSION_CODE);
@@ -398,7 +398,7 @@ public class SystemUtils {
      * @return 权限url
      */
     public static String getPermissionUrl(String href) {
-        if (StrUtil.isBlank(href)) {
+        if (CharSequenceUtil.isBlank(href)) {
             return null;
         }
         List<String> resultUrl = Splitter.on("/").omitEmptyStrings().splitToList(href);

@@ -1,8 +1,9 @@
 package com.tangerinespecter.oms.system.controller.user;
 
 import cn.hutool.core.date.DateUtil;
-import com.tangerinespecter.oms.common.enums.LogOperation;
 import com.tangerinespecter.oms.common.anno.LoggerInfo;
+import com.tangerinespecter.oms.common.anno.ReWriteBody;
+import com.tangerinespecter.oms.common.enums.LogOperation;
 import com.tangerinespecter.oms.common.query.UserCardNoteQueryObject;
 import com.tangerinespecter.oms.common.redis.PageModelKey;
 import com.tangerinespecter.oms.common.result.ServiceResult;
@@ -33,6 +34,7 @@ import java.util.Date;
  */
 @Api(tags = "卡片笔记模块")
 @Controller
+@ReWriteBody
 @RequestMapping("/user/card-note")
 public class CardNoteController {
 
@@ -46,7 +48,7 @@ public class CardNoteController {
     @RequiresPermissions("user:card-note:page")
     @GetMapping(value = "/page", produces = "text/html;charset=UTF-8")
     public String cardNotePage(HttpServletRequest request, HttpServletResponse response, Model model) {
-        model.addAttribute("noteList", cardNoteService.queryForPage(new UserCardNoteQueryObject()).getData());
+        model.addAttribute("noteList", cardNoteService.queryForPage(new UserCardNoteQueryObject()).getList());
         int offsetDay = 7 - DateUtil.thisDayOfWeek();
         model.addAttribute("rangeDate", new String[]{DateUtil.formatDate(DateUtil.offsetDay(new Date(), -90 + offsetDay)), DateUtil.formatDate(DateUtil.offsetDay(new Date(), offsetDay))});
         model.addAttribute("noteInfo", cardNoteService.noteInfo());
@@ -67,7 +69,7 @@ public class CardNoteController {
     @ApiOperation(value = "卡片笔记列表")
     @GetMapping(value = "/list")
     public String queryForPage(Model model, UserCardNoteQueryObject qo) {
-        model.addAttribute("noteList", cardNoteService.queryForPage(qo).getData());
+        model.addAttribute("noteList", cardNoteService.queryForPage(qo).getList());
         return "user/cardNoteManage::noteCards";
     }
 
@@ -82,55 +84,55 @@ public class CardNoteController {
     @ApiOperation(value = "新增卡片笔记")
     @LoggerInfo(value = "新增卡片笔记", event = LogOperation.EVENT_ADD)
     @PostMapping(value = "/insert")
-    public ServiceResult insert(@RequestBody @Validated CardNoteInfoVo vo) {
-        return cardNoteService.insert(vo);
+    public void insert(@RequestBody @Validated CardNoteInfoVo vo) {
+        cardNoteService.insert(vo);
     }
 
     @ResponseBody
     @ApiOperation(value = "新增笔记标签")
     @LoggerInfo(value = "新增笔记标签", event = LogOperation.EVENT_ADD)
     @PostMapping(value = "/insert-tag")
-    public ServiceResult insertTag(@RequestBody @Validated CardNoteTagVo vo) {
-        return cardNoteService.insertTag(vo);
+    public void insertTag(@RequestBody @Validated CardNoteTagVo vo) {
+        cardNoteService.insertTag(vo);
     }
 
     @ResponseBody
     @ApiOperation(value = "笔记关联标签")
     @LoggerInfo(value = "笔记关联标签", event = LogOperation.EVENT_UPDATE)
     @PutMapping(value = "/update-tag")
-    public ServiceResult updateTag(@RequestBody @Validated CardNoteTagVo vo) {
-        return cardNoteService.updateTag(vo);
+    public void updateTag(@RequestBody @Validated CardNoteTagVo vo) {
+        cardNoteService.updateTag(vo);
     }
 
     @ResponseBody
     @ApiOperation(value = "恢复卡片笔记")
     @LoggerInfo(value = "恢复卡片笔记", event = LogOperation.EVENT_UPDATE)
     @PutMapping(value = "/{id}/restore")
-    public ServiceResult restore(@NotNull(message = "id不能为null") @PathVariable("id") Long id) {
-        return cardNoteService.restore(id);
+    public void restore(@NotNull(message = "id不能为null") @PathVariable("id") Long id) {
+        cardNoteService.restore(id);
     }
 
     @ResponseBody
     @ApiOperation(value = "删除卡片笔记")
     @LoggerInfo(value = "删除卡片笔记", event = LogOperation.EVENT_DELETE)
     @DeleteMapping(value = "/delete/{id}")
-    public ServiceResult delete(@NotNull(message = "id不能为null") @PathVariable("id") Long id) {
-        return cardNoteService.delete(id);
+    public void delete(@NotNull(message = "id不能为null") @PathVariable("id") Long id) {
+        cardNoteService.delete(id);
     }
 
     @ResponseBody
     @ApiOperation(value = "完全删除卡片笔记")
     @LoggerInfo(value = "完全删除卡片笔记", event = LogOperation.EVENT_DELETE)
     @DeleteMapping(value = "/force-delete/{id}")
-    public ServiceResult forceDelete(@NotNull(message = "id不能为null") @PathVariable("id") Long id) {
-        return cardNoteService.forceDelete(id);
+    public void forceDelete(@NotNull(message = "id不能为null") @PathVariable("id") Long id) {
+        cardNoteService.forceDelete(id);
     }
 
     @ResponseBody
     @ApiOperation(value = "删除笔记标签")
     @LoggerInfo(value = "删除笔记标签", event = LogOperation.EVENT_DELETE)
     @DeleteMapping(value = "/delete-tag/{tagId}")
-    public ServiceResult deleteTag(@NotNull(message = "标签id不能为空") @PathVariable("tagId") Long tagId) {
-        return cardNoteService.deleteTag(tagId);
+    public void deleteTag(@NotNull(message = "标签id不能为空") @PathVariable("tagId") Long tagId) {
+        cardNoteService.deleteTag(tagId);
     }
 }

@@ -19,8 +19,10 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CardNoteInfoVo implements Serializable {
-	
+
 	@NotBlank(message = "笔记内容不能为空")
 	@ApiModelProperty("笔记内容")
 	private String content;
+
+
 }

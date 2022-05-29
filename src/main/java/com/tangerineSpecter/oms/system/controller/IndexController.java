@@ -1,13 +1,13 @@
 package com.tangerinespecter.oms.system.controller;
 
 import cn.hutool.core.map.MapUtil;
-import com.tangerinespecter.oms.common.constants.SystemConstant;
-import com.tangerinespecter.oms.common.enums.LogOperation;
 import com.tangerinespecter.oms.common.anno.LoggerInfo;
+import com.tangerinespecter.oms.common.constants.SystemConstant;
+import com.tangerinespecter.oms.common.context.UserContext;
+import com.tangerinespecter.oms.common.enums.LogOperation;
 import com.tangerinespecter.oms.common.redis.PageModelKey;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.common.utils.ParamUtils;
-import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.system.domain.pojo.AccountInfo;
 import com.tangerinespecter.oms.system.mapper.SystemNoticeMapper;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
@@ -74,7 +74,7 @@ public class IndexController {
     @ApiOperation("首页内容")
     @GetMapping(value = "/index", produces = "text/html;charset=UTF-8")
     public String index(HttpServletRequest request, HttpServletResponse response, Model model) {
-        model.addAttribute("systemUser", SystemUtils.getCurrentUser());
+        model.addAttribute("systemUser", UserContext.getCurrentUser());
         model.addAttribute("webTitle", SystemConstant.systemConfig.getWebTitle());
         return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getSystemIndexPageKey, "index");
     }
@@ -144,7 +144,7 @@ public class IndexController {
     @ApiOperation("消息中心")
     @GetMapping("/noticeCenter")
     public ModelAndView noticeCenter(Model model) {
-        int notReadNoticeCount = systemNoticeMapper.queryNotReadNoticeCount(SystemUtils.getSystemUserId());
+        int notReadNoticeCount = systemNoticeMapper.queryNotReadNoticeCount(UserContext.getUid());
         HashMap<String, Integer> data = MapUtil.newHashMap();
         data.put(ParamUtils.NOT_READ_NOTICE_COUNT, notReadNoticeCount);
         model.addAllAttributes(data);

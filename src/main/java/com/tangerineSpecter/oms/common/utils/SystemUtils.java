@@ -11,11 +11,10 @@ import cn.hutool.crypto.digest.DigestUtil;
 import cn.hutool.crypto.digest.Digester;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
-import com.tangerinespecter.oms.common.config.QiNiuConfig;
 import com.tangerinespecter.oms.common.constants.CommonConstant;
+import com.tangerinespecter.oms.common.context.UserContext;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.SecurityUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
@@ -71,36 +70,6 @@ public class SystemUtils {
     }
 
     /**
-     * 获取当前登录用户信息
-     *
-     * @return
-     */
-    public static SystemUser getCurrentUser() {
-        SystemUser systemUser = (SystemUser) SecurityUtils.getSubject().getPrincipal();
-        if (systemUser == null) {
-            return null;
-        }
-        String avatar = systemUser.getAvatar();
-        if (!StrUtil.isBlank(avatar) && !avatar.contains(QiNiuConfig.QI_NIU_RESOURCE_URL)) {
-            systemUser.setAvatar(QiNiuConfig.QI_NIU_RESOURCE_URL + systemUser.getAvatar());
-        }
-        return systemUser;
-    }
-
-    /**
-     * 获取登录管理员ID
-     *
-     * @return 管理员id
-     */
-    public static String getSystemUserId() {
-        SystemUser systemUser = getCurrentUser();
-        if (systemUser == null) {
-            return "-1";
-        }
-        return systemUser.getUid();
-    }
-
-    /**
      * 处理用户密码
      *
      * @param password
@@ -146,7 +115,7 @@ public class SystemUtils {
      * @param info
      */
     public static void refreshSession(SystemUser info) {
-        SystemUser systemUser = getCurrentUser();
+        SystemUser systemUser = UserContext.getCurrentUser();
         systemUser.setUsername(info.getUsername());
         systemUser.setPhoneNumber(info.getPhoneNumber());
         systemUser.setCity(info.getCity());

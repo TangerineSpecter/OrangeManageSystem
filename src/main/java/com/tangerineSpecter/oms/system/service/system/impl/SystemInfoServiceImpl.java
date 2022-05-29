@@ -2,8 +2,8 @@ package com.tangerinespecter.oms.system.service.system.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.NumberUtil;
-import cn.hutool.core.util.StrUtil;
 import cn.hutool.system.SystemUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.common.base.Splitter;
@@ -11,13 +11,14 @@ import com.tangerinespecter.oms.common.constants.CommonConstant;
 import com.tangerinespecter.oms.common.constants.MessageConstant;
 import com.tangerinespecter.oms.common.constants.ParamUtils;
 import com.tangerinespecter.oms.common.constants.SystemConstant;
-import com.tangerinespecter.oms.system.domain.enums.TradeIncomeEnum;
+import com.tangerinespecter.oms.common.context.UserContext;
 import com.tangerinespecter.oms.common.netty.ChatHandler;
 import com.tangerinespecter.oms.common.utils.CollUtils;
 import com.tangerinespecter.oms.common.utils.DateUtils;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.system.domain.dto.system.*;
 import com.tangerinespecter.oms.system.domain.entity.*;
+import com.tangerinespecter.oms.system.domain.enums.TradeIncomeEnum;
 import com.tangerinespecter.oms.system.domain.enums.TradeRecordTypeEnum;
 import com.tangerinespecter.oms.system.domain.pojo.ManagerInfoBean;
 import com.tangerinespecter.oms.system.domain.pojo.SystemInfoBean;
@@ -72,9 +73,8 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
     public SystemInfoBean getSystemInfo() {
         SystemInfoBean info = new SystemInfoBean();
         try {
-            SystemUser currentUser = SystemUtils.getCurrentUser();
-            String birthday = currentUser.getBirthday();
-            if (!StrUtil.isBlank(birthday)) {
+            String birthday = UserContext.getBirthday();
+            if (!CharSequenceUtil.isBlank(birthday)) {
                 List<Integer> list = Splitter.on("-").splitToList(birthday).parallelStream()
                         .map(Integer::parseInt).collect(Collectors.toList());
                 String constellation = DateUtil.getZodiac((list.get(1) - 1), list.get(2));
@@ -113,11 +113,7 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
     @Override
     public ManagerInfoBean getManagerInfo() {
         ManagerInfoBean info = new ManagerInfoBean();
-        SystemUser systemUser = SystemUtils.getCurrentUser();
-        if (systemUser == null) {
-            return info;
-        }
-        String birthday = systemUser.getBirthday();
+        String birthday = UserContext.getBirthday();
         String starName = DateUtils.getStarNameByDate(birthday);
         DataConstellation data = dataConstellationMapper.getConstellationByName(starName);
         if (data != null) {
@@ -143,7 +139,7 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
 //        homePageDataDto.setMenuInfo(menuInfo);
         //执行系统通知推送
         systemHelper.pushSystemNotice();
-        List<SystemNotice> systemNotices = systemNoticeMapper.selectListByReadStatus(SystemUtils.getSystemUserId(), MessageConstant.NOT_READ);
+        List<SystemNotice> systemNotices = systemNoticeMapper.selectListByReadStatus(UserContext.getUid(), MessageConstant.NOT_READ);
         if (CollUtil.isNotEmpty(systemNotices)) {
             homePageDataDto.setHaveMessage(true);
         }

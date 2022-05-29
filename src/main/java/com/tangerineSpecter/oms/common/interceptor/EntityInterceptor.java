@@ -1,6 +1,8 @@
 package com.tangerinespecter.oms.common.interceptor;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
+import com.tangerinespecter.oms.common.context.UserContext;
+import com.tangerinespecter.oms.common.enums.GlobalBoolEnum;
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.stereotype.Component;
 
@@ -27,14 +29,17 @@ public class EntityInterceptor implements MetaObjectHandler {
     }
 
     /**
-     * @Field 创建时间
+     * @Field createTime 创建时间
+     * @Field uid 当前登录用户id
      */
     public void createField(MetaObject metaObject) {
         this.strictInsertFill(metaObject, "createTime", LocalDateTime.class, LocalDateTime.now());
+        this.strictInsertFill(metaObject, "uid", String.class, UserContext.getUid());
+        this.strictInsertFill(metaObject, "isDel", Integer.class, GlobalBoolEnum.NO.getValue());
     }
 
     /**
-     * @Field 修改时间
+     * @Field updateTime 修改时间
      */
     public void updateField(MetaObject metaObject) {
         this.strictUpdateFill(metaObject, "updateTime", LocalDateTime.class, LocalDateTime.now());

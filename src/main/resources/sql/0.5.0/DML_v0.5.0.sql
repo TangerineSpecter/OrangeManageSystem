@@ -114,6 +114,8 @@ SET FOREIGN_KEY_CHECKS = 1;
 -- 新增字段
 alter table `system_user`
     add uid varchar(64) default null after `id`;
+alter table `data_trade_record`
+    add currency varchar(16) default 'CNY' comment '币种';
 
 -- 修改字段
 alter table `user_health`

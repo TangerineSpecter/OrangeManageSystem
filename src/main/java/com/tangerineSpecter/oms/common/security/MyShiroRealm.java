@@ -2,11 +2,12 @@ package com.tangerinespecter.oms.common.security;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;
-import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.text.CharSequenceUtil;
 import com.tangerinespecter.oms.common.constants.CommonConstant;
 import com.tangerinespecter.oms.common.constants.RetCode;
 import com.tangerinespecter.oms.common.constants.SystemConstant;
-import com.tangerinespecter.oms.common.context.GlobalContext;
+import com.tangerinespecter.oms.common.context.UserContext;
+import com.tangerinespecter.oms.common.utils.CollUtils;
 import com.tangerinespecter.oms.common.utils.DateUtils;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.system.domain.entity.SystemPermission;
@@ -30,7 +31,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.Resource;
 import java.io.Serializable;
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * 用户认证权限校验
@@ -52,23 +56,16 @@ public class MyShiroRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principal) {
-        SystemUser currentUser = systemUserMapper.selectOneByUserName(SystemUtils.getCurrentUser().getUsername());
-        List<String> permissionList = new ArrayList<>();
+        SystemUser currentUser = systemUserMapper.selectOneByUserName(UserContext.getUserName());
+        Set<String> permissionList = CollUtil.newHashSet();
         //获取当前用户角色
-        List<String> roleNameList = new ArrayList<>();
+        List<String> roleNameList = CollUtil.newArrayList();
         List<SystemRole> roleList = currentUser.getRoles();
-        if (CollUtil.isNotEmpty(roleList)) {
-            for (SystemRole role : roleList) {
-                roleNameList.add(role.getName());
-                //获取当前角色对应的权限
-                Set<SystemPermission> permissionSet = role.getPermissions();
-                for (SystemPermission permission : permissionSet) {
-                    if (StrUtil.isNotBlank(permission.getUrl())) {
-                        permissionList.add(permission.getUrl());
-                    }
-                }
-            }
-        }
+        CollUtils.forEach(roleList, role -> {
+            roleNameList.add(role.getName());
+            //获取当前角色对应的权限
+            CollUtil.addAll(permissionList, CollUtils.convertFilterSet(role.getPermissions(), permission -> CharSequenceUtil.isNotBlank(permission.getUrl()), SystemPermission::getUrl));
+        });
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         info.addStringPermissions(permissionList);
         info.addRoles(roleNameList);
@@ -87,8 +84,6 @@ public class MyShiroRealm extends AuthorizingRealm {
         Assert.isTrue(Objects.equals(password, systemUser.getPassword()), () -> new IncorrectCredentialsException(RetCode.ACCOUNTS_PASSWORD_ERROR.getErrorDesc()));
         log.info("用户：{}在时间{}进行了登录,登录地址{}", userName, DateUtils.getSimpleFormat(CommonConstant.DEFAULT_FORMAT_SECOND), SystemUtils.getLocalhostIP());
         stopPreviousSession(systemUser.getUid());
-        GlobalContext.setUid(systemUser.getUid());
-        GlobalContext.setNickName(systemUser.getNickName());
         return new SimpleAuthenticationInfo(systemUser, password, userName);
     }
 
@@ -124,7 +119,6 @@ public class MyShiroRealm extends AuthorizingRealm {
         if (CollectionUtils.isEmpty(perms)) {
             return false;
         }
-
         for (Permission perm : perms) {
             if (perm.implies(permission)) {
                 return true;

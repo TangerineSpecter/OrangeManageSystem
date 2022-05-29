@@ -4,9 +4,9 @@ import cn.hutool.core.util.StrUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.base.Splitter;
+import com.tangerinespecter.oms.common.context.UserContext;
 import com.tangerinespecter.oms.common.query.SystemNoticeQueryObject;
 import com.tangerinespecter.oms.common.result.ServiceResult;
-import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.job.message.Message;
 import com.tangerinespecter.oms.job.message.MessageKeys;
 import com.tangerinespecter.oms.job.message.MessageTypeEnum;
@@ -39,7 +39,7 @@ public class SystemNoticeServiceImpl implements ISystemNoticeService {
         response.setCharacterEncoding("utf-8");
         while (true) {
             try {
-                int noticeCount = systemNoticeMapper.queryNotReadNoticeCount(SystemUtils.getSystemUserId());
+                int noticeCount = systemNoticeMapper.queryNotReadNoticeCount(UserContext.getUid());
                 PrintWriter pw = response.getWriter();
                 if (noticeCount > 0) {
                     pw.write("data:true\n\n");

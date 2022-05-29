@@ -1,6 +1,5 @@
 package com.tangerinespecter.oms.common.query;
 
-import com.tangerinespecter.oms.common.utils.SystemUtils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,5 +26,4 @@ public class TradeLogicQueryObject extends QueryObject {
      */
     private Integer status;
 
-    private String uid = SystemUtils.getSystemUserId();
 }

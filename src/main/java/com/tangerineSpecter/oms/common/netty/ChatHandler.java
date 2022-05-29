@@ -1,7 +1,7 @@
 package com.tangerinespecter.oms.common.netty;
 
 import cn.hutool.core.map.MapUtil;
-import com.tangerinespecter.oms.common.utils.SystemUtils;
+import com.tangerinespecter.oms.common.context.UserContext;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelId;
@@ -31,7 +31,7 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
     /**
      * 管理员的channelID
      */
-    private static Map<Long, ChannelId> userChannelMap = MapUtil.newHashMap();
+    private static Map<String, ChannelId> userChannelMap = MapUtil.newHashMap();
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame msg) {
@@ -49,11 +49,11 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
      */
     public boolean sendCurrentUser(String content) {
         try {
-            Channel user = users.find(userChannelMap.get(SystemUtils.getSystemUserId()));
+            Channel user = users.find(userChannelMap.get(UserContext.getUid()));
             user.writeAndFlush(new TextWebSocketFrame(content));
             return true;
         } catch (Exception e) {
-            log.error("消息推送异常，异常用户ID[{}]", SystemUtils.getSystemUserId());
+            log.error("消息推送异常，异常用户ID[{}]", UserContext.getUid());
         }
         return false;
     }

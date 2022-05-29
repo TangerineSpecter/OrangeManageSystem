@@ -1,6 +1,5 @@
 package com.tangerinespecter.oms.common.query;
 
-import com.tangerinespecter.oms.common.utils.SystemUtils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,11 +17,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SystemNoticeQueryObject extends QueryObject {
-
-    /**
-     * 管理员ID
-     */
-    private String uid = SystemUtils.getSystemUserId();
 
     private Integer readStatus;
 

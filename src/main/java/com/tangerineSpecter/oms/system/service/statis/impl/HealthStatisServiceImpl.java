@@ -3,8 +3,8 @@ package com.tangerinespecter.oms.system.service.statis.impl;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.NumberUtil;
+import com.tangerinespecter.oms.common.context.UserContext;
 import com.tangerinespecter.oms.common.utils.CollUtils;
-import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.system.domain.dto.statis.HealthStatisInfoDto;
 import com.tangerinespecter.oms.system.domain.entity.UserHealth;
 import com.tangerinespecter.oms.system.mapper.UserHealthMapper;
@@ -24,7 +24,7 @@ public class HealthStatisServiceImpl implements IHealthStatisService {
     @Override
     public HealthStatisInfoDto healthStatisInfo() {
         HealthStatisInfoDto result = new HealthStatisInfoDto();
-        List<UserHealth> userHealths = userHealthMapper.queryUserWeight(SystemUtils.getSystemUserId());
+        List<UserHealth> userHealths = userHealthMapper.queryUserWeight(UserContext.getUid());
         CollUtils.forEach(userHealths, userHealth -> {
             //格式化为MM-DD
             String recordTime = userHealth.getRecordTime();

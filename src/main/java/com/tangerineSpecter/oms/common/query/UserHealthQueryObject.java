@@ -1,6 +1,5 @@
 package com.tangerinespecter.oms.common.query;
 
-import com.tangerinespecter.oms.common.utils.SystemUtils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,8 +26,4 @@ public class UserHealthQueryObject extends QueryObject {
      * 结束时间
      */
     private String endTime;
-    /**
-     * 默认当前管理员
-     */
-    private String uid = SystemUtils.getSystemUserId();
 }

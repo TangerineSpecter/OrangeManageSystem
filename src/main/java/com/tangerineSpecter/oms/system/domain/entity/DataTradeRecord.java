@@ -2,6 +2,7 @@ package com.tangerinespecter.oms.system.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,38 +24,24 @@ public class DataTradeRecord {
 
     @TableId(type = IdType.AUTO)
     private Long id;
-    /**
-     * 交易时间
-     */
+    @ApiModelProperty("交易时间")
     private String date;
-    /**
-     * 初始资金）
-     */
+    @ApiModelProperty("初始资金")
     private Integer startMoney;
-    /**
-     * 结束资金
-     */
+    @ApiModelProperty("结束资金")
     private Integer endMoney;
-    /**
-     * 收益值
-     */
+    @ApiModelProperty("收益值")
     private BigDecimal incomeValue;
-    /**
-     * 收益率
-     */
+    @ApiModelProperty("收益率")
     private BigDecimal incomeRate;
-    /**
-     * 夏普比率
-     */
+    @ApiModelProperty("夏普比率")
     private BigDecimal sharpeRatio;
-    /**
-     * 胜率
-     */
+    @ApiModelProperty("胜率，百分比")
     private BigDecimal winRate;
-    /**
-     * 交易类型（0：股票；1：期货；2：晚会）
-     */
+    @ApiModelProperty("交易类型（0：股票；1：期货；2：外汇；3：基金）")
     private Integer type;
+    @ApiModelProperty("币种，数据来源data_exchange_rate")
+    private String currency;
     /**
      * 管理员Id
      */

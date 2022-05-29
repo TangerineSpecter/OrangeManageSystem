@@ -92,11 +92,11 @@ public class CollUtils {
         return from.stream().map(func).collect(Collectors.toSet());
     }
 
-    public static <T, U> Set<U> convertDistinctSet(Collection<T> from, Function<T, U> func) {
+    public static <T, U> Set<U> convertFilterSet(Collection<T> from, Predicate<T> predicate, Function<T, U> func) {
         if (CollUtil.isEmpty(from)) {
             return Collections.emptySet();
         }
-        return from.stream().map(func).distinct().collect(Collectors.toSet());
+        return from.stream().filter(predicate).map(func).collect(Collectors.toSet());
     }
 
     public static <T, K> Map<K, T> convertMap(Collection<T> from, Function<T, K> keyFunc) {

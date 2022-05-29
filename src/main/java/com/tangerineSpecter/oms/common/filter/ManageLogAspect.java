@@ -3,9 +3,9 @@ package com.tangerinespecter.oms.common.filter;
 
 import com.alibaba.fastjson.JSON;
 import com.tangerinespecter.oms.common.anno.LoggerInfo;
+import com.tangerinespecter.oms.common.context.UserContext;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.system.domain.entity.SystemLog;
-import com.tangerinespecter.oms.system.domain.entity.SystemUser;
 import com.tangerinespecter.oms.system.mapper.SystemLogMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -38,7 +38,7 @@ public class ManageLogAspect {
     @Resource
     private SystemLogMapper systemLogMapper;
 
-    private static final Executor executor = Executors.newFixedThreadPool(20, r -> {
+    private static final Executor EXECUTOR = Executors.newFixedThreadPool(20, r -> {
         Thread t = new Thread(r);
         t.setName("log-aspect-" + t.getId());
         /*打开守护线程*/
@@ -54,7 +54,6 @@ public class ManageLogAspect {
     public Object controllerReturnBefore(ProceedingJoinPoint joinPoint) throws Throwable {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
-        SystemUser systemUser = SystemUtils.getCurrentUser();
 
         Method methodSignature = ((MethodSignature) joinPoint.getSignature()).getMethod();
         LoggerInfo loggerInfo = methodSignature.getAnnotation(LoggerInfo.class);
@@ -63,17 +62,12 @@ public class ManageLogAspect {
         long startTime = System.currentTimeMillis();
         Object proceed = joinPoint.proceed();
         long endTime = System.currentTimeMillis();
-        executor.execute(() -> {
-            logAccess(systemUser, joinPoint.getArgs(), request.getRequestURI(), method, hostAddress, (endTime - startTime), loggerInfo);
-        });
+        EXECUTOR.execute(() -> logAccess(joinPoint.getArgs(), request.getRequestURI(), method, hostAddress, (endTime - startTime), loggerInfo));
         return proceed;
     }
 
 
-    private void logAccess(SystemUser systemUser, Object[] args, String url, String method, String ipAddress, long requestTime, LoggerInfo loggerInfo) {
-        if (systemUser == null) {
-            return;
-        }
+    private void logAccess(Object[] args, String url, String method, String ipAddress, long requestTime, LoggerInfo loggerInfo) {
         try {
             for (int index = 0; index < args.length; index++) {
                 if (args[index] instanceof MultipartFile) {
@@ -81,10 +75,10 @@ public class ManageLogAspect {
                 }
             }
             if (loggerInfo != null && !loggerInfo.ignore()) {
-                SystemLog systemLog = SystemLog.builder().method(method).username(systemUser.getUsername()).operation(loggerInfo.value())
+                SystemLog systemLog = SystemLog.builder().method(method).username(UserContext.getNickName()).operation(loggerInfo.value())
                         .params(JSON.toJSONString(handlerParams(args))).time(requestTime).event(loggerInfo.event().getValue()).ip(ipAddress).build();
                 systemLogMapper.insert(systemLog);
-                log.info("接口日志记录, 请求url: {}, 用户信息: {}, 请求参数: {}", url, systemUser.getUsername(), JSON.toJSONString(handlerParams(args)));
+                log.info("接口日志记录, 请求url: {}, 用户信息: {}, 请求参数: {}", url, UserContext.getNickName(), JSON.toJSONString(handlerParams(args)));
             }
         } catch (Exception e) {
             log.error("记录用户访问信息出错", e);

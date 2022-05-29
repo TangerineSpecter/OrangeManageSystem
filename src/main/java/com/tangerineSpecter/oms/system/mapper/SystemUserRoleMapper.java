@@ -28,7 +28,7 @@ public interface SystemUserRoleMapper extends BaseMapper<SystemUserRole> {
             return Collections.emptySet();
         }
         List<SystemUserRole> haveRoles = selectList(new QueryWrapper<SystemUserRole>().eq("uid", uid));
-        return CollUtils.convertDistinctSet(haveRoles, SystemUserRole::getId);
+        return CollUtils.convertSet(haveRoles, SystemUserRole::getId);
     }
 
     /**

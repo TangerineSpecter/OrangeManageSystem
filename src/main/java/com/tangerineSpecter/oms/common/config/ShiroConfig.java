@@ -1,13 +1,14 @@
 package com.tangerinespecter.oms.common.config;
 
+import cn.hutool.core.map.MapUtil;
 import com.tangerinespecter.oms.common.security.CredentialMatcher;
+import com.tangerinespecter.oms.common.filter.CustomFilter;
 import com.tangerinespecter.oms.common.security.MyShiroRealm;
 import com.tangerinespecter.oms.common.security.UrlPermissionResolver;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.cache.MemoryConstrainedCacheManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.mgt.eis.MemorySessionDAO;
-import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
@@ -20,7 +21,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.servlet.Filter;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * @author liangjun.zhou
@@ -61,7 +64,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/admin/**", "anon");
         filterChainDefinitionMap.put("/component/**", "anon");
         filterChainDefinitionMap.put("/config/**", "anon");
-    
+
         //swagger资源
 //        filterChainDefinitionMap.put("/webjars/**", "anon");
 //        filterChainDefinitionMap.put("/swagger/**", "anon");
@@ -70,7 +73,7 @@ public class ShiroConfig {
 //        filterChainDefinitionMap.put("/swagger-ui.html", "anon");
 //        filterChainDefinitionMap.put("/swagger-resources/**", "anon");
 //        filterChainDefinitionMap.put("/doc.html", "anon");
-        
+
         filterChainDefinitionMap.put("/login", "anon");
         filterChainDefinitionMap.put("/errorPage", "anon");
         filterChainDefinitionMap.put("/system/captcha/**", "anon");
@@ -83,6 +86,12 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/index", "authc");
         // 除上以外所有url都必须所有用户认证才可以访问
         filterChainDefinitionMap.put("/**", "authc");
+
+        //所有请求走到自定义拦截器
+        Map<String, Filter> filterMap = MapUtil.newHashMap();
+        filterMap.put("customFilter", new CustomFilter());
+        shiroFilterFactoryBean.setFilters(filterMap);
+        filterChainDefinitionMap.put("/**", "customFilter");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         log.info("[初始化Shiro拦截器]");
         return shiroFilterFactoryBean;
@@ -206,7 +215,7 @@ public class ShiroConfig {
     /**
      * shiro session的管理
      */
-    @Bean
+    @Bean("sessionManager")
     public DefaultWebSessionManager sessionManager(@Qualifier("sessionIdCookie") SimpleCookie simpleCookie,
                                                    @Qualifier("sessionDAO") MemorySessionDAO sessionDAO) {  //配置默认的sesssion管理器
         DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();

@@ -1,19 +1,18 @@
 package com.tangerinespecter.oms.system.service.helper;
 
-import cn.hutool.core.collection.CollUtil;
 import com.tangerinespecter.oms.common.constants.MessageConstant;
+import com.tangerinespecter.oms.common.context.UserContext;
 import com.tangerinespecter.oms.common.netty.ChatHandler;
-import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.job.message.MessageTemplate;
 import com.tangerinespecter.oms.system.domain.dto.system.UserPermissionListDto;
 import com.tangerinespecter.oms.system.domain.entity.SystemNotice;
-import com.tangerinespecter.oms.system.domain.entity.SystemUser;
 import com.tangerinespecter.oms.system.mapper.SystemNoticeMapper;
 import com.tangerinespecter.oms.system.mapper.SystemPermissionMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -37,22 +36,19 @@ public class SystemHelper {
      * 获取当前登录用户的权限列表
      */
     public List<UserPermissionListDto> getCurrentUserPermissions() {
-        List<UserPermissionListDto> permissions = CollUtil.newArrayList();
         try {
-            SystemUser currentUser = SystemUtils.getCurrentUser();
-            String userId = currentUser.getUid();
-            return systemPermissionMapper.getPermissionListByUid(userId);
+            return systemPermissionMapper.getPermissionListByUid(UserContext.getUid());
         } catch (Exception ex) {
             log.error("获取当前登录用户权限列表异常");
         }
-        return permissions;
+        return Collections.emptyList();
     }
 
     /**
      * 推送系统通知消息
      */
     public void pushSystemNotice() {
-        List<SystemNotice> systemNotices = systemNoticeMapper.selectListByUid(SystemUtils.getSystemUserId());
+        List<SystemNotice> systemNotices = systemNoticeMapper.selectListByUid(UserContext.getUid());
         if (systemNotices.isEmpty()) {
             return;
         }

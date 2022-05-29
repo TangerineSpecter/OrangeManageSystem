@@ -4,7 +4,6 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.text.CharSequenceUtil;
-import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -12,6 +11,7 @@ import com.google.common.base.Splitter;
 import com.tangerinespecter.oms.common.constants.CommonConstant;
 import com.tangerinespecter.oms.common.constants.RetCode;
 import com.tangerinespecter.oms.common.constants.SystemConstant;
+import com.tangerinespecter.oms.common.context.UserContext;
 import com.tangerinespecter.oms.common.exception.BusinessException;
 import com.tangerinespecter.oms.common.query.SystemUserQueryObject;
 import com.tangerinespecter.oms.common.result.ServiceResult;
@@ -176,7 +176,7 @@ public class SystemUserServiceImpl implements ISystemUserService {
 
     @Override
     public ServiceResult updatePassword(SystemUserPwdVo vo) {
-        SystemUser systemUser = SystemUtils.getCurrentUser();
+        SystemUser systemUser = UserContext.getCurrentUser();
         Assert.isTrue(systemUser != null, () -> new BusinessException(RetCode.ACCOUNTS_NOT_EXIST));
         String oldPassword = SystemUtils.handleUserPassword(vo.getOldPassword(), systemUser.getSalt());
 

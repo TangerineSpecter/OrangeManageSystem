@@ -1,12 +1,8 @@
 package com.tangerinespecter.oms.system.domain.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.baomidou.mybatisplus.annotation.*;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.*;
 
 import java.io.Serializable;
 
@@ -22,28 +18,16 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("user_card_note")
-public class UserCardNote implements Serializable {
+@EqualsAndHashCode(callSuper = true)
+public class UserCardNote extends BaseEntity implements Serializable {
 
     @TableId(type = IdType.AUTO)
     private Long id;
-    /**
-     * 笔记内容
-     */
+    @ApiModelProperty("笔记内容")
     private String content;
-    /**
-     * 管理员id
-     */
+    @ApiModelProperty("创建人")
+    @TableField(value = "uid", fill = FieldFill.INSERT)
     private String uid;
-    /**
-     * 创建时间
-     */
-    private String createTime;
-    /**
-     * 更新时间
-     */
-    private String updateTime;
-    /**
-     * 删除状态（0：未删除；1：已删除）
-     */
+    @ApiModelProperty("删除状态（0：未删除；1：已删除）")
     private Integer isDel;
 }

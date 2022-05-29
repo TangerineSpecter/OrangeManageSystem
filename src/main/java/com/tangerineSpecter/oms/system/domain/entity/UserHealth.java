@@ -1,15 +1,10 @@
 package com.tangerinespecter.oms.system.domain.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.baomidou.mybatisplus.annotation.*;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.*;
 import lombok.experimental.Accessors;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
@@ -25,7 +20,8 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName(value = "user_health")
-public class UserHealth implements Serializable {
+@EqualsAndHashCode(callSuper = true)
+public class UserHealth extends BaseEntity {
 
     @TableId(type = IdType.AUTO)
     private Long id;
@@ -106,23 +102,15 @@ public class UserHealth implements Serializable {
      */
     private Integer sleepDuration;
     /**
-     * 创建时间
-     */
-    private String createTime;
-    /**
-     * 更新时间
-     */
-    private String updateTime;
-    /**
      * 记录时间
      */
     private String recordTime;
-    /**
-     * 管理员ID
-     */
+
+    @ApiModelProperty("创建人")
+    @TableField(value = "uid", fill = FieldFill.INSERT)
     private String uid;
-    /**
-     * 删除状态（0：未删除；1：已删除）
-     */
+
+    @ApiModelProperty("删除状态（0：未删除；1：已删除）")
+    @TableField(value = "is_del", fill = FieldFill.INSERT)
     private Integer isDel;
 }

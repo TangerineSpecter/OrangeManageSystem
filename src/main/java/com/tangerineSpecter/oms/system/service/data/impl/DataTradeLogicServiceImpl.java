@@ -3,9 +3,9 @@ package com.tangerinespecter.oms.system.service.data.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.tangerinespecter.oms.common.constants.RetCode;
+import com.tangerinespecter.oms.common.context.UserContext;
 import com.tangerinespecter.oms.common.query.TradeLogicQueryObject;
 import com.tangerinespecter.oms.common.result.ServiceResult;
-import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.system.domain.entity.DataTradeLogic;
 import com.tangerinespecter.oms.system.domain.vo.data.AddTradeLogicVo;
 import com.tangerinespecter.oms.system.domain.vo.data.EditTradeLogicVo;
@@ -35,7 +35,7 @@ public class DataTradeLogicServiceImpl implements IDataTradeLogicService {
         DataTradeLogic tradeLogic = DataTradeLogic.builder().name(vo.getName()).entryDate(vo.getEntryDate())
                 .entryPoint(vo.getEntryPoint()).profitPoint(vo.getProfitPoint())
                 .type(vo.getType()).lossPoint(vo.getLossPoint()).tradeLogic(vo.getTradeLogic())
-                .uid(SystemUtils.getSystemUserId()).build();
+                .uid(UserContext.getUid()).build();
         dataTradeLogicMapper.insert(tradeLogic);
         return ServiceResult.success();
     }

@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.shiro.SecurityUtils;
 
+import java.util.Optional;
+
 /**
  * @author 丢失的橘子
  */
@@ -37,7 +39,7 @@ public class UserContext {
 
     public static SystemUser getCurrentUser() {
         try {
-            return (SystemUser) SecurityUtils.getSubject().getPrincipal();
+            return Optional.ofNullable((SystemUser) SecurityUtils.getSubject().getPrincipal()).orElse(new SystemUser());
         } catch (Exception ignored) {
             return new SystemUser();
         }

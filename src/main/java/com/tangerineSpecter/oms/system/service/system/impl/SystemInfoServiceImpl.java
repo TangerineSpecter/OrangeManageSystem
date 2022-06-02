@@ -148,14 +148,14 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
 
     @Override
     public StatisticsInfo getStatisticsInfo() {
-        int todayIncome = dataTradeRecordMapper.getTotalIncomeByLastDay();
-        String tradeLastDay = dataTradeRecordMapper.getTradeLastDay();
-        int yearIncome = dataTradeRecordMapper.getTotalIncomeByLastYear();
-        int monthIncome = dataTradeRecordMapper.getTotalIncomeByLastMonth();
-        int weekendIncome = dataTradeRecordMapper.getTotalIncomeByDate(DateUtil.beginOfWeek(new Date()).toString(), DateUtil.endOfWeek(new Date()).toString());
+        int todayIncome = dataTradeRecordMapper.getTotalIncomeByLastDay(UserContext.getUid());
+        String tradeLastDay = dataTradeRecordMapper.getTradeLastDay(UserContext.getUid());
+        int yearIncome = dataTradeRecordMapper.getTotalIncomeByLastYear(UserContext.getUid());
+        int monthIncome = dataTradeRecordMapper.getTotalIncomeByLastMonth(UserContext.getUid());
+        int weekendIncome = dataTradeRecordMapper.getTotalIncomeByDate(DateUtil.beginOfWeek(new Date()).toString(), DateUtil.endOfWeek(new Date()).toString(), UserContext.getUid());
         Date currentDate = new Date();
         //最近30天资金信息
-        List<DataTradeRecord> lastThirtyMoneyInfo = dataTradeRecordMapper.getLastThirtyMoneyInfo();
+        List<DataTradeRecord> lastThirtyMoneyInfo = dataTradeRecordMapper.getLastThirtyMoneyInfo(UserContext.getUid());
         StatisticsInfo statisticsInfo = StatisticsInfo.builder().todayIncome(BigDecimal.valueOf(NumberUtil.div(todayIncome, 100, 2)))
                 .monthIncome(BigDecimal.valueOf(NumberUtil.div(monthIncome, 100, 2)))
                 .weekendIncome(BigDecimal.valueOf(NumberUtil.div(weekendIncome, 100, 2)))

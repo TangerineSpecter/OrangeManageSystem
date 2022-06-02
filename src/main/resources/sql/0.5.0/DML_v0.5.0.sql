@@ -116,6 +116,10 @@ alter table `system_user`
     add uid varchar(64) default null after `id`;
 alter table `data_trade_record`
     add currency varchar(16) default 'CNY' comment '币种';
+ALTER TABLE `data_trade_record`
+    ADD deposit int(16) DEFAULT 0 not null COMMENT '转入金额';
+ALTER TABLE `data_trade_record`
+    ADD withdrawal int(16) DEFAULT 0 not null COMMENT '转出金额';
 
 -- 修改字段
 alter table `user_health`
@@ -134,3 +138,16 @@ alter table `system_user_role`
 -- 索引
 ALTER TABLE system_role
     ADD UNIQUE (`name`)
+
+
+-- 修改字段类型
+ALTER TABLE `data_trade_record`
+    add `create_time_1` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间';
+ALTER TABLE `data_trade_record`
+    add `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间';
+UPDATE `data_trade_record`
+set create_time_1 = FROM_UNIXTIME(create_time / 1000);
+alter table `data_trade_record`
+    drop column create_time;
+ALTER TABLE `data_trade_record`
+    CHANGE create_time_1 create_time datetime;

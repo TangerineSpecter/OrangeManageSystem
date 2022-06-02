@@ -1,5 +1,6 @@
 package com.tangerinespecter.oms.system.mapper;
 
+import cn.hutool.core.text.CharSequenceUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.tangerinespecter.oms.system.domain.entity.DataExchangeRate;
@@ -17,5 +18,21 @@ public interface DataExchangeRateMapper extends BaseMapper<DataExchangeRate> {
     default List<DataExchangeRate> selectListByRecordTime(String recordTime) {
         QueryWrapper<DataExchangeRate> queryWrapper = new QueryWrapper<DataExchangeRate>().eq("record_time", recordTime);
         return selectList(queryWrapper);
+    }
+
+    /**
+     * 根据代码获取最后一条数据
+     *
+     * @param code 货币代码
+     * @return 汇率数据
+     */
+    default DataExchangeRate selectLastOneByCode(String code) {
+        if (CharSequenceUtil.isEmpty(code)) {
+            return new DataExchangeRate();
+        }
+        return selectOne(new QueryWrapper<DataExchangeRate>()
+                .eq("code", code)
+                .orderByDesc("record_time")
+                .last("limit 1"));
     }
 }

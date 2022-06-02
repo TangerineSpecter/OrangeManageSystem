@@ -1,23 +1,25 @@
 package com.tangerinespecter.oms.system.service.data;
 
+import com.github.pagehelper.PageInfo;
 import com.tangerinespecter.oms.common.query.TradeRecordQueryObject;
-import com.tangerinespecter.oms.common.result.ServiceResult;
+import com.tangerinespecter.oms.system.domain.entity.DataTradeRecord;
 import com.tangerinespecter.oms.system.domain.vo.data.TradeRecordInfoVo;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface IDateTradeRecordService {
 
-    ServiceResult queryForPage(TradeRecordQueryObject qo);
+    PageInfo<DataTradeRecord> queryForPage(TradeRecordQueryObject qo);
 
-    ServiceResult init();
+    void init();
 
-    ServiceResult excelInfo(MultipartFile file);
+    void excelInfo(MultipartFile file);
 
-    ServiceResult insertInfo(TradeRecordInfoVo vo);
+    void insertInfo(TradeRecordInfoVo vo);
 
-    ServiceResult updateInfo(TradeRecordInfoVo vo);
+    void updateInfo(TradeRecordInfoVo vo);
 
-    ServiceResult deleteInfo(Long id);
+    void deleteInfo(Long id);
 
-    ServiceResult detailInfo(Long id);
+    DataTradeRecord detailInfo(Long id);
+
 }

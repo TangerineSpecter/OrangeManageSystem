@@ -71,9 +71,9 @@ public class ExchangeRateQuartzService {
     private void updateExchangeData(List<DataExchange> exchangeList) {
         log.info("[汇率信息写入任务]");
         //获取当日汇率
-        List<String> existExchange = CollUtils.convertList(dataExchangeRateMapper.selectListByRecordTime(DateUtil.today()), DataExchangeRate::getName);
+        List<DataExchangeRate> dataExchangeRates = dataExchangeRateMapper.selectListByRecordTime(DateUtil.today());
         try {
-            if (CollUtil.size(existExchange) > 0) {
+            if (CollUtil.size(dataExchangeRates) > 0) {
                 return;
             }
             HashMap<String, Object> params = MapUtil.newHashMap();

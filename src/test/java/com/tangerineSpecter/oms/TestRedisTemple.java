@@ -7,6 +7,7 @@ import com.alibaba.fastjson.JSON;
 import com.tangerinespecter.oms.common.config.JuheApiConfig;
 import com.tangerinespecter.oms.system.domain.entity.DataExchangeRate;
 import com.tangerinespecter.oms.system.mapper.DataExchangeRateMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,6 +19,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+@Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class TestRedisTemple {
@@ -46,5 +48,11 @@ public class TestRedisTemple {
         LocalDateTime recordTime = dataExchangeRates.get(0).getRecordTime();
         System.out.println(dataExchangeRates);
         System.out.println(DateUtil.compare(new Date(), DateUtil.date(recordTime), DatePattern.NORM_DATE_PATTERN));
+    }
+
+    @Test
+    public void testSql() {
+        DataExchangeRate dataExchangeRate = dataExchangeRateMapper.selectById(null);
+        log.info(JSON.toJSONString(dataExchangeRate));
     }
 }

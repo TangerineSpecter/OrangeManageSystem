@@ -20,7 +20,7 @@
                     <label class="layui-form-label">开盘资金</label>
                     <div class="layui-input-block">
                         <input type="number" lay-filter="startMoney" name="startMoney" autocomplete="off"
-                               placeholder="请输入开盘资金" lay-verify="startMoney"
+                               placeholder="请输入开盘资金，不输入则默认以上次收盘资金为准" lay-verify="startMoney"
                                class="layui-input">
                     </div>
                 </div>
@@ -41,6 +41,35 @@
                             <option value="2">外汇</option>
                             <option value="3">基金</option>
                         </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">币种</label>
+                    <div class="layui-input-inline">
+                        <select lay-filter="currency" name="currency">
+                            <option value="CNY">人民币 / CNY</option>
+                            <option value="USD">美元 / USD</option>
+                            <option value="HKD">港币 / HKD</option>
+                            <option value="JPY">日元 / JPY</option>
+                            <option value="EUR">欧元 / EUR</option>
+                            <option value="GBP">英镑 / GPB</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">入金</label>
+                    <div class="layui-input-block">
+                        <input type="number" lay-filter="deposit" name="deposit" autocomplete="off"
+                               placeholder="请输入账户转入金额" lay-verify="deposit"
+                               class="layui-input" th:value="0">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">出金</label>
+                    <div class="layui-input-block">
+                        <input type="number" lay-filter="withdrawal" name="withdrawal" autocomplete="off"
+                               placeholder="请输入账户转出金额" lay-verify="withdrawal"
+                               class="layui-input" th:value="0">
                     </div>
                 </div>
             </div>
@@ -72,28 +101,22 @@
         requestUrl = data.href;
     }
 
-    //美元汇率
-    const USD_EXCHANGE_RATE = 7.2;
-
     /**
      * 初始化表单
      * @param data
      */
     function initForm(data) {
-        var startMoney = data.startMoney / 100;
-        var endMoney = data.endMoney / 100;
-        if (data.type === 2) {
-            startMoney = Math.ceil(startMoney / USD_EXCHANGE_RATE);
-            endMoney = Math.ceil(endMoney / USD_EXCHANGE_RATE);
-        }
         layui.use(['form'], function () {
             const form = layui.form;
             form.val("data-form", {
                 "id": data.id,
-                "startMoney": startMoney,
-                "endMoney": endMoney,
+                "startMoney": data.startMoney / 100,
+                "endMoney": data.endMoney / 100,
                 "date": data.date,
-                "type": data.type
+                "type": data.type,
+                "currency": data.currency,
+                "deposit": data.deposit / 100,
+                "withdrawal": data.withdrawal / 100
             });
             form.render();
         });
@@ -116,11 +139,11 @@
                     return '请选择交易时间';
                 }
             },
-            startMoney: function (value) {
-                if (value == null || value === "") {
-                    return '请输入开盘资金';
-                }
-            },
+            // startMoney: function (value) {
+            //     if (value == null || value === "") {
+            //         return '请输入开盘资金';
+            //     }
+            // },
             endMoney: function (value) {
                 if (value == null || value === "") {
                     return '请输入收盘资金';

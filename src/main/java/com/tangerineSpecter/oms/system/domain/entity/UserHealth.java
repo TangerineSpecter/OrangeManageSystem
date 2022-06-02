@@ -21,7 +21,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @TableName(value = "user_health")
 @EqualsAndHashCode(callSuper = true)
-public class UserHealth extends BaseEntity {
+public class UserHealth extends AdminEntity {
 
     @TableId(type = IdType.AUTO)
     private Long id;
@@ -105,10 +105,6 @@ public class UserHealth extends BaseEntity {
      * 记录时间
      */
     private String recordTime;
-
-    @ApiModelProperty("创建人")
-    @TableField(value = "uid", fill = FieldFill.INSERT)
-    private String uid;
 
     @ApiModelProperty("删除状态（0：未删除；1：已删除）")
     @TableField(value = "is_del", fill = FieldFill.INSERT)

@@ -157,8 +157,39 @@
                         }, title: '类型'
                     },
                     {
+                        field: 'type', align: 'center', templet: function (row) {
+                            if (row.currency == null) {
+                                return '--';
+                            } else if (row.currency === 'CNY') {
+                                return '<span>人民币</span>';
+                            } else if (row.currency === 'USD') {
+                                return '<span>美元</span>';
+                            } else if (row.currency === 'GPB') {
+                                return '<span>英镑</span>';
+                            } else if (row.currency === 'EUR') {
+                                return '<span>欧元</span>';
+                            }
+                        }, title: '币种'
+                    },
+                    {
                         field: 'winRate', align: 'center', title: '胜率', templet: function (row) {
                             return (row.winRate * 100).toFixed(2) + "%";
+                        }
+                    },
+                    {
+                        field: 'deposit', align: 'center', title: '转入金额', templet: function (row) {
+                            if(row.deposit === 0) {
+                                return '--'
+                            }
+                            return (row.deposit / 100);
+                        }
+                    },
+                    {
+                        field: 'withdrawal', align: 'center', title: '转出金额', templet: function (row) {
+                            if(row.withdrawal === 0) {
+                                return '--'
+                            }
+                            return (row.withdrawal / 100);
                         }
                     },
                     {

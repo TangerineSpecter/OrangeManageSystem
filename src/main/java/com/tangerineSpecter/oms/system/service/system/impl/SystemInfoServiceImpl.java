@@ -201,7 +201,11 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
     private int sumMoney(DataTradeRecord data) {
         return NumChainCal.startOf(data.getEndMoney())
                 .mul(tradeRecordService.getExchangeRateByCode(data.getCurrency()))
-                .div(100).getInteger();
+                //汇率以100R结算，除100
+                .div(100)
+                //单位分转元 除100
+                .div(100)
+                .getInteger();
     }
 
     @Override

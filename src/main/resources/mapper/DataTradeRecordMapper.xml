@@ -65,7 +65,7 @@
         ]]>
     </select>
     <select id="getLastThirtyMoneyInfo" resultType="com.tangerinespecter.oms.system.domain.entity.DataTradeRecord">
-        select end_money, DATE_FORMAT(`date`, '%Y-%m-%d') as `date`, type
+        select end_money, DATE_FORMAT(`date`, '%Y-%m-%d') as `date`, type, currency
         from data_trade_record
         where uid = #{uid}
         order by `date` desc

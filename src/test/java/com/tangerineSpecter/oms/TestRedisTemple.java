@@ -11,9 +11,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
@@ -24,8 +26,8 @@ import java.util.List;
 @SpringBootTest
 public class TestRedisTemple {
 
-    //    @Resource
-//    private RedisHelper redisHelper;
+    @Resource
+    private RedisTemplate<String, BigDecimal> redisTemplate;
     @Resource
     private DataExchangeRateMapper dataExchangeRateMapper;
 //
@@ -52,7 +54,8 @@ public class TestRedisTemple {
 
     @Test
     public void testSql() {
-        DataExchangeRate dataExchangeRate = dataExchangeRateMapper.selectById(null);
-        log.info(JSON.toJSONString(dataExchangeRate));
+//        DataExchangeRate dataExchangeRate = dataExchangeRateMapper.selectById(null);
+//        log.info(JSON.toJSONString(dataExchangeRate));
+        redisTemplate.opsForValue().set("DATA:EXCHANGE:RATE:", new BigDecimal(1));
     }
 }

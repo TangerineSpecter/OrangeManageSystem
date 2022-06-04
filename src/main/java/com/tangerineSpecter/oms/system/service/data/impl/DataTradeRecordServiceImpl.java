@@ -27,6 +27,7 @@ import com.tangerinespecter.oms.system.service.data.IDateTradeRecordService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -43,13 +44,7 @@ import java.util.stream.IntStream;
 @RequiredArgsConstructor
 public class DataTradeRecordServiceImpl implements IDateTradeRecordService {
 
-    /**
-     * 美元汇率
-     */
-    private static final Double USD_EXCHANGE_RATE = 7.2;
-
     private final DataTradeRecordMapper dataTradeRecordMapper;
-
     private final DataExchangeRateMapper dataExchangeRateMapper;
 
     /**
@@ -205,5 +200,21 @@ public class DataTradeRecordServiceImpl implements IDateTradeRecordService {
     public DataTradeRecord detailInfo(Long id) {
         Assert.notNull(id, () -> new BusinessException(RetCode.PARAM_ERROR));
         return dataTradeRecordMapper.selectById(id);
+    }
+
+    /**
+     * 根据代码获取最近的汇率
+     *
+     * @param code 货币代码
+     * @return 汇率
+     */
+    @Cacheable(cacheNames = "DATA:EXCHANGE:RATE", key = "#code")
+    public BigDecimal getExchangeRateByCode(String code) {
+        DataExchangeRate dataExchangeRate = dataExchangeRateMapper.selectLastOneByCode(code);
+        //无数据则采用CNY比例
+        if (dataExchangeRate == null) {
+            return new BigDecimal(1);
+        }
+        return dataExchangeRate.getPrice();
     }
 }

@@ -15,6 +15,7 @@ import com.tangerinespecter.oms.common.context.UserContext;
 import com.tangerinespecter.oms.common.netty.ChatHandler;
 import com.tangerinespecter.oms.common.utils.CollUtils;
 import com.tangerinespecter.oms.common.utils.DateUtils;
+import com.tangerinespecter.oms.common.utils.NumChainCal;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.system.domain.dto.system.*;
 import com.tangerinespecter.oms.system.domain.entity.*;
@@ -23,13 +24,14 @@ import com.tangerinespecter.oms.system.domain.enums.TradeRecordTypeEnum;
 import com.tangerinespecter.oms.system.domain.pojo.ManagerInfoBean;
 import com.tangerinespecter.oms.system.domain.pojo.SystemInfoBean;
 import com.tangerinespecter.oms.system.mapper.*;
+import com.tangerinespecter.oms.system.service.data.impl.DataTradeRecordServiceImpl;
 import com.tangerinespecter.oms.system.service.helper.SystemHelper;
 import com.tangerinespecter.oms.system.service.system.ISystemInfoService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -43,22 +45,17 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class SystemInfoServiceImpl implements ISystemInfoService {
-    @Resource
-    private DataConstellationMapper dataConstellationMapper;
-    @Resource
-    private SystemMenuMapper systemMenuMapper;
-    @Resource
-    private DataTradeRecordMapper dataTradeRecordMapper;
-    @Resource
-    private SystemNoticeMapper systemNoticeMapper;
-    @Resource
-    private SystemHelper systemHelper;
-    @Resource
-    private SystemBulletinMapper systemBulletinMapper;
-    @Resource
-    private ChatHandler chatHandler;
 
+    private final DataTradeRecordServiceImpl tradeRecordService;
+    private final DataConstellationMapper dataConstellationMapper;
+    private final SystemMenuMapper systemMenuMapper;
+    private final DataTradeRecordMapper dataTradeRecordMapper;
+    private final SystemNoticeMapper systemNoticeMapper;
+    private final SystemHelper systemHelper;
+    private final SystemBulletinMapper systemBulletinMapper;
+    private final ChatHandler chatHandler;
     private final Integer luck_threshold = 70;
     /**
      * 当前系统版本
@@ -156,16 +153,18 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
         Date currentDate = new Date();
         //最近30天资金信息
         List<DataTradeRecord> lastThirtyMoneyInfo = dataTradeRecordMapper.getLastThirtyMoneyInfo(UserContext.getUid());
-        StatisticsInfo statisticsInfo = StatisticsInfo.builder().todayIncome(BigDecimal.valueOf(NumberUtil.div(todayIncome, 100, 2)))
+        StatisticsInfo statisticsInfo = StatisticsInfo.builder()
+                .todayIncome(BigDecimal.valueOf(NumberUtil.div(todayIncome, 100, 2)))
                 .monthIncome(BigDecimal.valueOf(NumberUtil.div(monthIncome, 100, 2)))
                 .weekendIncome(BigDecimal.valueOf(NumberUtil.div(weekendIncome, 100, 2)))
                 .yearIncome(BigDecimal.valueOf(NumberUtil.div(yearIncome, 100, 2)))
+
                 .todayStatus(TradeIncomeEnum.getIncomeStatus(todayIncome)).monthStatus(TradeIncomeEnum.getIncomeStatus(monthIncome))
                 .yearStatus(TradeIncomeEnum.getIncomeStatus(yearIncome)).weekendStatus(TradeIncomeEnum.getIncomeStatus(weekendIncome))
+
                 .year(DateUtil.year(currentDate)).weekend(DateUtil.weekOfYear(currentDate)).month(DateUtil.month(currentDate) + 1)
                 .today(tradeLastDay).build();
         handlerLastThirtyData(statisticsInfo, lastThirtyMoneyInfo);
-
         return statisticsInfo;
     }
 
@@ -180,18 +179,29 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
         final int lastDayThreshold = 30;
         LinkedHashMap<String, List<DataTradeRecord>> lastThirtyMap = lastThirtyMoneyInfo.stream().collect(Collectors.groupingBy(DataTradeRecord::getDate, LinkedHashMap::new, Collectors.toList()));
         statisticsInfo.setLastThirtyDate(CollUtils.convertLimitList(lastThirtyMap.keySet(), lastDayThreshold));
-        statisticsInfo.setLastThirtyTotalMoney(CollUtils.convertLimitList(lastThirtyMap.values(), dataTradeRecords ->
-                this.sumMoney(CollUtils.convertList(dataTradeRecords, DataTradeRecord::getEndMoney)), lastDayThreshold));
+        statisticsInfo.setLastThirtyTotalMoney(CollUtils.convertLimitList(lastThirtyMap.values(), this::sumMoney, lastDayThreshold));
     }
 
     /**
      * 总资金计算
      *
-     * @param moneyList 资金列表
+     * @param records 资金数据列表
      * @return 总资金
      */
-    private Integer sumMoney(List<Integer> moneyList) {
-        return moneyList.stream().mapToInt(m -> m / 100).sum();
+    private Integer sumMoney(List<DataTradeRecord> records) {
+        return records.stream().mapToInt(this::sumMoney).sum();
+    }
+
+    /**
+     * 单条数据计算
+     *
+     * @param data 资金数据
+     * @return 计算结果
+     */
+    private int sumMoney(DataTradeRecord data) {
+        return NumChainCal.startOf(data.getEndMoney())
+                .mul(tradeRecordService.getExchangeRateByCode(data.getCurrency()))
+                .div(100).getInteger();
     }
 
     @Override

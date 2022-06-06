@@ -1,5 +1,6 @@
 package com.tangerinespecter.oms.system.domain.dto.system;
 
+import com.tangerinespecter.oms.system.domain.enums.TradeIncomeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -70,4 +71,24 @@ public class StatisticsInfo {
      * 最近30天日期
      */
     private List<String> lastThirtyDate;
+
+    public void setTodayIncome(BigDecimal todayIncome) {
+        this.todayIncome = todayIncome;
+        this.todayStatus = TradeIncomeEnum.getIncomeStatus(todayIncome);
+    }
+
+    public void setWeekendIncome(BigDecimal weekendIncome) {
+        this.weekendIncome = weekendIncome;
+        this.weekendStatus = TradeIncomeEnum.getIncomeStatus(weekendIncome);
+    }
+
+    public void setMonthIncome(BigDecimal monthIncome) {
+        this.monthIncome = monthIncome;
+        this.monthStatus = TradeIncomeEnum.getIncomeStatus(monthIncome);
+    }
+
+    public void setYearIncome(BigDecimal yearIncome) {
+        this.yearIncome = yearIncome;
+        this.yearStatus = TradeIncomeEnum.getIncomeStatus(yearIncome);
+    }
 }

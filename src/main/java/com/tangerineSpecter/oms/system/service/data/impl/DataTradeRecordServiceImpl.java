@@ -5,12 +5,11 @@ import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.poi.excel.ExcelReader;
 import cn.hutool.poi.excel.ExcelUtil;
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.github.pagehelper.page.PageMethod;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.tangerinespecter.oms.common.constants.CommonConstant;
 import com.tangerinespecter.oms.common.constants.RetCode;
 import com.tangerinespecter.oms.common.context.UserContext;
 import com.tangerinespecter.oms.common.exception.BusinessException;
@@ -73,17 +72,8 @@ public class DataTradeRecordServiceImpl implements IDateTradeRecordService {
 
     @Override
     public PageInfo<DataTradeRecord> queryForPage(TradeRecordQueryObject qo) {
-        PageHelper.startPage(qo.getPage(), qo.getLimit());
-        List<DataTradeRecord> pageList = dataTradeRecordMapper.queryForPage(qo);
-        for (DataTradeRecord dto : pageList) {
-            if (!CommonConstant.Number.COMMON_NUMBER_ZERO.equals(dto.getStartMoney())) {
-                BigDecimal incomeRate = NumberUtil.div(dto.getIncomeValue(), dto.getStartMoney(), 5);
-                dto.setIncomeRate(incomeRate);
-            }
-            BigDecimal incomeValue = NumberUtil.div(dto.getIncomeValue(), 100, 2);
-            dto.setIncomeValue(incomeValue);
-        }
-        return new PageInfo<>(pageList);
+        return PageMethod.startPage(qo.getPage(), qo.getLimit())
+                .doSelectPageInfo(() -> dataTradeRecordMapper.queryForPage(qo));
     }
 
     @Override
@@ -137,7 +127,7 @@ public class DataTradeRecordServiceImpl implements IDateTradeRecordService {
         //获胜次数
         int winCount = dataTradeRecordMapper.getTradeWinCountByTypeAndDate(data.getType(), data.getDate(), UserContext.getUid());
         int incomeValue = data.getEndMoney() - data.getStartMoney();
-        data.setIncomeValue(Convert.toBigDecimal(incomeValue));
+        data.setIncomeValue(incomeValue);
         data.setIncomeRate(NumberUtil.div(data.getIncomeValue(), data.getStartMoney(), 5));
         data.setWinRate(Convert.toBigDecimal(NumberUtil.div(winCount, totalCount, 5)));
         dataTradeRecordMapper.updateById(data);

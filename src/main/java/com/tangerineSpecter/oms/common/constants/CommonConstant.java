@@ -1,5 +1,10 @@
 package com.tangerinespecter.oms.common.constants;
 
+import cn.hutool.core.map.MapUtil;
+
+import java.math.BigDecimal;
+import java.util.Map;
+
 /**
  * 默认常量类
  *
@@ -8,7 +13,7 @@ package com.tangerinespecter.oms.common.constants;
  * @DateTime 2019年1月4日 23:02:18
  */
 public class CommonConstant {
-    
+
     /**
      * 用户key
      */
@@ -66,6 +71,11 @@ public class CommonConstant {
      * 时间格式——精确到秒
      */
     public static final String DEFAULT_FORMAT_SECOND = "yyyy-MM-dd HH:mm:ss";
+
+    /**
+     * 汇率map，将100R换算存储为1R换算
+     */
+    public static final Map<String, BigDecimal> EXCHANGE_RATE_MAP = MapUtil.newHashMap();
 
     /**
      * 基本常量

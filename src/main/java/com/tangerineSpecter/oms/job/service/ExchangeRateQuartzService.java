@@ -8,9 +8,11 @@ import cn.hutool.core.map.MapUtil;
 import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSON;
 import com.tangerinespecter.oms.common.config.JuheApiConfig;
+import com.tangerinespecter.oms.common.constants.CommonConstant;
 import com.tangerinespecter.oms.common.constants.RetCode;
 import com.tangerinespecter.oms.common.exception.BusinessException;
 import com.tangerinespecter.oms.common.utils.CollUtils;
+import com.tangerinespecter.oms.common.utils.NumChainCal;
 import com.tangerinespecter.oms.job.model.ExchangeListResponse;
 import com.tangerinespecter.oms.job.model.ExchangeRateResponse;
 import com.tangerinespecter.oms.system.domain.entity.DataExchange;
@@ -74,6 +76,7 @@ public class ExchangeRateQuartzService {
         List<DataExchangeRate> dataExchangeRates = dataExchangeRateMapper.selectListByRecordTime(DateUtil.today());
         try {
             if (CollUtil.size(dataExchangeRates) > 0) {
+                CollUtils.forEach(dataExchangeRates, exchangeRate -> CommonConstant.EXCHANGE_RATE_MAP.put(exchangeRate.getCode(), NumChainCal.startOf(exchangeRate.getPrice()).div(100).getBigDecimal()));
                 return;
             }
             HashMap<String, Object> params = MapUtil.newHashMap();

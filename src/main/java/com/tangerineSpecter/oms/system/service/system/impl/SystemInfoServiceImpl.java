@@ -1,9 +1,9 @@
 package com.tangerinespecter.oms.system.service.system.impl;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.text.CharSequenceUtil;
-import cn.hutool.core.util.NumberUtil;
 import cn.hutool.system.SystemUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.common.base.Splitter;
@@ -15,24 +15,22 @@ import com.tangerinespecter.oms.common.context.UserContext;
 import com.tangerinespecter.oms.common.netty.ChatHandler;
 import com.tangerinespecter.oms.common.utils.CollUtils;
 import com.tangerinespecter.oms.common.utils.DateUtils;
-import com.tangerinespecter.oms.common.utils.NumChainCal;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.system.domain.dto.system.*;
 import com.tangerinespecter.oms.system.domain.entity.*;
-import com.tangerinespecter.oms.system.domain.enums.TradeIncomeEnum;
 import com.tangerinespecter.oms.system.domain.enums.TradeRecordTypeEnum;
 import com.tangerinespecter.oms.system.domain.pojo.ManagerInfoBean;
 import com.tangerinespecter.oms.system.domain.pojo.SystemInfoBean;
 import com.tangerinespecter.oms.system.mapper.*;
-import com.tangerinespecter.oms.system.service.data.impl.DataTradeRecordServiceImpl;
 import com.tangerinespecter.oms.system.service.helper.SystemHelper;
+import com.tangerinespecter.oms.system.service.statis.impl.TradeStatisServiceImpl;
 import com.tangerinespecter.oms.system.service.system.ISystemInfoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
+import java.text.DateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -48,7 +46,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class SystemInfoServiceImpl implements ISystemInfoService {
 
-    private final DataTradeRecordServiceImpl tradeRecordService;
+    private final TradeStatisServiceImpl tradeStatisService;
     private final DataConstellationMapper dataConstellationMapper;
     private final SystemMenuMapper systemMenuMapper;
     private final DataTradeRecordMapper dataTradeRecordMapper;
@@ -145,67 +143,42 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
 
     @Override
     public StatisticsInfo getStatisticsInfo() {
-        int todayIncome = dataTradeRecordMapper.getTotalIncomeByLastDay(UserContext.getUid());
-        String tradeLastDay = dataTradeRecordMapper.getTradeLastDay(UserContext.getUid());
-        int yearIncome = dataTradeRecordMapper.getTotalIncomeByLastYear(UserContext.getUid());
-        int monthIncome = dataTradeRecordMapper.getTotalIncomeByLastMonth(UserContext.getUid());
-        int weekendIncome = dataTradeRecordMapper.getTotalIncomeByDate(DateUtil.beginOfWeek(new Date()).toString(), DateUtil.endOfWeek(new Date()).toString(), UserContext.getUid());
         Date currentDate = new Date();
+        //获取今年至今的交易数据
+        Map<String, List<DataTradeRecord>> tradeRecordMap = CollUtils.convertMultiLinkerHashMap(dataTradeRecordMapper.selectListByThisYear(UserContext.getUid()), DataTradeRecord::getDate);
+        StatisticsInfo statisticsInfo = new StatisticsInfo();
+        //TODO 待优化
+        statisticsInfo.setYearIncome(Convert.toBigDecimal(CollUtils.convertSumList(tradeRecordMap.keySet(), key -> tradeStatisService.sumIncome(tradeRecordMap.get(key)))));
+        statisticsInfo.setMonthIncome(Convert.toBigDecimal(CollUtils.convertFilterSumList(tradeRecordMap.keySet(),
+                key -> DateUtil.parse(key, DateFormat.getDateInstance()).getTime() >= DateUtil.beginOfMonth(new Date()).getTime(),
+                key -> tradeStatisService.sumIncome(tradeRecordMap.get(key)))));
+        statisticsInfo.setWeekendIncome(Convert.toBigDecimal(CollUtils.convertFilterSumList(tradeRecordMap.keySet(),
+                key -> DateUtil.parse(key, DateFormat.getDateInstance()).getTime() >= DateUtil.beginOfWeek(new Date(), true).getTime(),
+                key -> tradeStatisService.sumIncome(tradeRecordMap.get(key)))));
+        String lastDate = CollUtil.getFirst(tradeRecordMap.keySet());
+        statisticsInfo.setTodayIncome(Convert.toBigDecimal(tradeStatisService.sumIncome(tradeRecordMap.get(lastDate))));
+        //时间
+        statisticsInfo.setYear(DateUtil.year(currentDate));
+        statisticsInfo.setWeekend(DateUtil.weekOfYear(currentDate));
+        statisticsInfo.setMonth(DateUtil.month(currentDate) + 1);
+        statisticsInfo.setToday(lastDate);
         //最近30天资金信息
-        List<DataTradeRecord> lastThirtyMoneyInfo = dataTradeRecordMapper.getLastThirtyMoneyInfo(UserContext.getUid());
-        StatisticsInfo statisticsInfo = StatisticsInfo.builder()
-                .todayIncome(BigDecimal.valueOf(NumberUtil.div(todayIncome, 100, 2)))
-                .monthIncome(BigDecimal.valueOf(NumberUtil.div(monthIncome, 100, 2)))
-                .weekendIncome(BigDecimal.valueOf(NumberUtil.div(weekendIncome, 100, 2)))
-                .yearIncome(BigDecimal.valueOf(NumberUtil.div(yearIncome, 100, 2)))
-
-                .todayStatus(TradeIncomeEnum.getIncomeStatus(todayIncome)).monthStatus(TradeIncomeEnum.getIncomeStatus(monthIncome))
-                .yearStatus(TradeIncomeEnum.getIncomeStatus(yearIncome)).weekendStatus(TradeIncomeEnum.getIncomeStatus(weekendIncome))
-
-                .year(DateUtil.year(currentDate)).weekend(DateUtil.weekOfYear(currentDate)).month(DateUtil.month(currentDate) + 1)
-                .today(tradeLastDay).build();
-        handlerLastThirtyData(statisticsInfo, lastThirtyMoneyInfo);
+        this.handlerLastThirtyData(statisticsInfo);
         return statisticsInfo;
     }
 
     /**
      * 处理最近30天资金数据
      *
-     * @param statisticsInfo      数据信息
-     * @param lastThirtyMoneyInfo 最近资金信息
+     * @param statisticsInfo 数据信息
      */
-    private void handlerLastThirtyData(StatisticsInfo statisticsInfo, List<DataTradeRecord> lastThirtyMoneyInfo) {
+    private void handlerLastThirtyData(StatisticsInfo statisticsInfo) {
         //最近天数
         final int lastDayThreshold = 30;
-        LinkedHashMap<String, List<DataTradeRecord>> lastThirtyMap = lastThirtyMoneyInfo.stream().collect(Collectors.groupingBy(DataTradeRecord::getDate, LinkedHashMap::new, Collectors.toList()));
+        //TODO 待优化，每次查询出所有的数据
+        Map<String, List<DataTradeRecord>> lastThirtyMap = CollUtils.convertMultiLinkerHashMap(dataTradeRecordMapper.getLastThirtyMoneyInfo(UserContext.getUid()), DataTradeRecord::getDate);
         statisticsInfo.setLastThirtyDate(CollUtils.convertLimitList(lastThirtyMap.keySet(), lastDayThreshold));
-        statisticsInfo.setLastThirtyTotalMoney(CollUtils.convertLimitList(lastThirtyMap.values(), this::sumMoney, lastDayThreshold));
-    }
-
-    /**
-     * 总资金计算
-     *
-     * @param records 资金数据列表
-     * @return 总资金
-     */
-    private Integer sumMoney(List<DataTradeRecord> records) {
-        return records.stream().mapToInt(this::sumMoney).sum();
-    }
-
-    /**
-     * 单条数据计算
-     *
-     * @param data 资金数据
-     * @return 计算结果
-     */
-    private int sumMoney(DataTradeRecord data) {
-        return NumChainCal.startOf(data.getEndMoney())
-                .mul(tradeRecordService.getExchangeRateByCode(data.getCurrency()))
-                //汇率以100R结算，除100
-                .div(100)
-                //单位分转元 除100
-                .div(100)
-                .getInteger();
+        statisticsInfo.setLastThirtyTotalMoney(CollUtils.convertLimitList(lastThirtyMap.values(), tradeStatisService::sumMoney, lastDayThreshold));
     }
 
     @Override

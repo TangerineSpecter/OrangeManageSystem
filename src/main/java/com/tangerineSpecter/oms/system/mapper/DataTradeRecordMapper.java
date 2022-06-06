@@ -66,7 +66,7 @@ public interface DataTradeRecordMapper extends BaseMapper<DataTradeRecord> {
     int getTotalIncomeByDate(@Param("beginDate") String beginDate, @Param("endDate") String endDate, @Param("uid") String uid);
 
     /**
-     * 获取最近30日资金信息
+     * 获取最近30条资金信息
      *
      * @param uid 账户id
      * @return 记录列表
@@ -74,7 +74,7 @@ public interface DataTradeRecordMapper extends BaseMapper<DataTradeRecord> {
     List<DataTradeRecord> getLastThirtyMoneyInfo(@Param("uid") String uid);
 
     /**
-     * 获取最近30天的资金收益信息
+     * 获取最近30条的资金收益信息
      *
      * @param type TradeRecordTypeEnum枚举
      * @param uid  账户id
@@ -138,4 +138,38 @@ public interface DataTradeRecordMapper extends BaseMapper<DataTradeRecord> {
         return Optional.ofNullable(selectOne(new QueryWrapper<DataTradeRecord>().eq("type", type)
                 .eq("uid", uid).orderByDesc("date").last("limit 1"))).orElse(new DataTradeRecord()).getEndMoney();
     }
+
+    /**
+     * 获取今年以来的资金数据
+     *
+     * @param uid 管理员id
+     * @return 资金数据
+     */
+    List<DataTradeRecord> selectListByThisYear(@Param("uid") String uid);
+
+    /**
+     * 根据limit获取最近的交易天数
+     *
+     * @param uid   管理员id
+     * @param limit 数量
+     * @return 日期数量
+     */
+    List<String> selectTradeDateList(@Param("uid") String uid, @Param("limit") int limit);
+
+    /**
+     * 根据时间范围获取交易数据
+     *
+     * @param startDate 起始时间
+     * @param endDate   结束时间
+     * @param uid       管理员id
+     * @return 交易数据
+     */
+    default List<DataTradeRecord> selectListByDate(String startDate, String endDate, String uid) {
+        return selectList(new QueryWrapper<DataTradeRecord>()
+                .ge("date", startDate)
+                .le("date", endDate)
+                .eq("uid", uid)
+                .orderByDesc("date"));
+    }
+
 }

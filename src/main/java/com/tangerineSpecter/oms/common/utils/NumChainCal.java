@@ -4,9 +4,12 @@ import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.NumberUtil;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 /**
  * 链式计算
+ *
+ * @author 丢失的橘子
  */
 public class NumChainCal {
 
@@ -23,6 +26,9 @@ public class NumChainCal {
      * @return 计算器
      */
     public static NumChainCal startOf(Object value) {
+        if (value == null) {
+            return new NumChainCal(0);
+        }
         return new NumChainCal(value);
     }
 
@@ -34,6 +40,18 @@ public class NumChainCal {
      */
     public NumChainCal add(Object otherValue) {
         BigDecimal result = NumberUtil.add(this.value, Convert.toBigDecimal(otherValue));
+        return new NumChainCal(result);
+    }
+
+    /**
+     * 加法
+     *
+     * @param otherValue 加数
+     * @return 结果
+     */
+    public NumChainCal add(BigDecimal... otherValue) {
+        BigDecimal totalValue = NumberUtil.add(otherValue);
+        BigDecimal result = NumberUtil.add(this.value, totalValue);
         return new NumChainCal(result);
     }
 
@@ -59,6 +77,18 @@ public class NumChainCal {
         return new NumChainCal(result);
     }
 
+    /**
+     * 除法
+     *
+     * @param otherValue 除数
+     * @param scale      – 精确度，如果为负值，取绝对值
+     * @return 结果
+     */
+    public NumChainCal div(Object otherValue, int scale) {
+        BigDecimal result = NumberUtil.div(this.value, Convert.toBigDecimal(otherValue), scale);
+        return new NumChainCal(result);
+    }
+
 
     /**
      * 获取int数值
@@ -69,8 +99,13 @@ public class NumChainCal {
         return Convert.toInt(this.value);
     }
 
-    public static void main(String[] args) {
-        final Integer integer = NumChainCal.startOf(1).add(2).getInteger();
-        System.out.println(integer);
+    /**
+     * 获取BigDecimal数值
+     *
+     * @return BigDecimal结果
+     */
+    public BigDecimal getBigDecimal() {
+        return Convert.toBigDecimal(this.value).setScale(2, RoundingMode.CEILING);
     }
+
 }

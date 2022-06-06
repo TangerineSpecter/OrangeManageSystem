@@ -50,6 +50,20 @@ public class CollUtils {
         return from.stream().map(func).collect(Collectors.toList());
     }
 
+    public static <T> int convertSumList(Collection<T> from, Function<T, Integer> func) {
+        if (CollUtil.isEmpty(from)) {
+            return 0;
+        }
+        return from.parallelStream().map(func).mapToInt(i -> i).sum();
+    }
+
+    public static <T> int convertFilterSumList(Collection<T> from, Predicate<T> predicate, Function<T, Integer> func) {
+        if (CollUtil.isEmpty(from)) {
+            return 0;
+        }
+        return from.parallelStream().filter(predicate).map(func).mapToInt(i -> i).sum();
+    }
+
     public static <T, U> List<U> convertFilterList(Collection<T> from, Predicate<T> predicate, Function<T, U> func) {
         if (CollUtil.isEmpty(from)) {
             return Collections.emptyList();
@@ -148,6 +162,13 @@ public class CollUtils {
         return from.stream().collect(Collectors.groupingBy(keyFunc, Collectors.mapping(t -> t, Collectors.toList())));
     }
 
+    public static <T, K> Map<K, List<T>> convertMultiLinkerHashMap(Collection<T> from, Function<T, K> keyFunc) {
+        if (CollUtil.isEmpty(from)) {
+            return Collections.emptyMap();
+        }
+        return from.stream().collect(Collectors.groupingBy(keyFunc, LinkedHashMap::new, Collectors.mapping(t -> t, Collectors.toList())));
+    }
+
     public static <T, K> Map<K, Long> convertCountMultiMap(Collection<T> from, Function<T, K> keyFunc) {
         if (CollUtil.isEmpty(from)) {
             return Collections.emptyMap();
@@ -159,8 +180,7 @@ public class CollUtils {
         if (CollUtil.isEmpty(from)) {
             return Collections.emptyMap();
         }
-        return from.stream()
-                .collect(Collectors.groupingBy(keyFunc, Collectors.mapping(valueFunc, Collectors.toList())));
+        return from.stream().collect(Collectors.groupingBy(keyFunc, Collectors.mapping(valueFunc, Collectors.toList())));
     }
 
     public static <T, K, V> Map<K, Set<V>> convertMultiMap2(Collection<T> from, Function<T, K> keyFunc, Function<T, V> valueFunc) {

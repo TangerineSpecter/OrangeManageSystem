@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 /**
  * 收益状态枚举
  *
@@ -14,6 +16,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@SuppressWarnings("all")
 public enum TradeIncomeEnum implements IBaseDbEnum {
 
     TRADE_STATUS_PROFIT(0, "盈利"),
@@ -31,10 +34,10 @@ public enum TradeIncomeEnum implements IBaseDbEnum {
      * @param income 收益
      * @return 收益状态
      */
-    public static Integer getIncomeStatus(int income) {
-        if (income > 0) {
+    public static Integer getIncomeStatus(BigDecimal income) {
+        if (income.compareTo(BigDecimal.ZERO) == 1) {
             return TradeIncomeEnum.TRADE_STATUS_PROFIT.getValue();
-        } else if (income < 0) {
+        } else if (income.compareTo(BigDecimal.ZERO) == -1) {
             return TradeIncomeEnum.TRADE_STATUS_LOSS.getValue();
         } else {
             return TradeIncomeEnum.TRADE_STATUS_FAIR.getValue();

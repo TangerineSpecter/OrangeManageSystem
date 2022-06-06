@@ -34,7 +34,7 @@ public class DataTradeRecord extends AdminEntity {
     private Integer endMoney;
     @ApiModelProperty("收益值")
     @TableField("income_value")
-    private BigDecimal incomeValue;
+    private Integer incomeValue;
     @ApiModelProperty("收益率")
     @TableField("income_rate")
     private BigDecimal incomeRate;

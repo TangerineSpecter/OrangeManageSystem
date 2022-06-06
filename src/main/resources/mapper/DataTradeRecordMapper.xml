@@ -70,9 +70,8 @@
         where uid = #{uid}
         order by `date` desc
     </select>
-    <select id="queryTotalIncomeByDay"
-            resultType="com.tangerinespecter.oms.system.domain.entity.DataTradeRecord">
-        select (SUM(income_value) / 100) as incomeValue, DATE_FORMAT(`date`, '%Y-%m-%d') as `date`
+    <select id="queryTotalIncomeByDay" resultType="com.tangerinespecter.oms.system.domain.entity.DataTradeRecord">
+        select (SUM(income_value)) as incomeValue, DATE_FORMAT(`date`, '%Y-%m-%d') as `date`, currency
         from data_trade_record
         <where>
             uid = #{uid}
@@ -80,7 +79,7 @@
                 and type = #{type}
             </if>
         </where>
-        GROUP BY DATE_FORMAT(`date`, '%Y-%m-%d')
+        GROUP BY DATE_FORMAT(`date`, '%Y-%m-%d'), currency
         order by DATE_FORMAT(`date`, '%Y-%m-%d') desc
         limit 30
     </select>
@@ -91,5 +90,21 @@
         GROUP BY DATE_FORMAT(date, '%Y')
         order by DATE_FORMAT(date, '%Y') desc
         limit 1
+    </select>
+
+    <select id="selectListByThisYear" resultType="com.tangerinespecter.oms.system.domain.entity.DataTradeRecord">
+        select *
+        from data_trade_record
+        where DATE_FORMAT(date, '%Y') = YEAR(NOW())
+          and uid = #{uid}
+        order by `date` desc
+    </select>
+
+    <select id="selectTradeDateList" resultType="java.lang.String">
+        select distinct date
+        from data_trade_record
+        where uid = #{uid}
+        order by date desc
+        limit #{limit}
     </select>
 </mapper>

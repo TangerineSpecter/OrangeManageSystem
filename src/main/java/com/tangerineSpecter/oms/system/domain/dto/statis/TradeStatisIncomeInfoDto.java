@@ -46,6 +46,23 @@ public class TradeStatisIncomeInfoDto {
         this.stockData = CollUtil.newArrayList();
         this.futuresData = CollUtil.newArrayList();
         this.foreignData = CollUtil.newArrayList();
+        this.fundsData = CollUtil.newArrayList();
         this.date = CollUtil.newArrayList();
+    }
+
+    /**
+     * 设置交易数据
+     *
+     * @param stockData   股票数据
+     * @param futuresData 期货数据
+     * @param foreignData 外汇数据
+     * @param fundsData   基金数据
+     */
+    public void setTradeData(BigDecimal stockData, BigDecimal futuresData, BigDecimal foreignData, BigDecimal fundsData) {
+        this.stockData.add(stockData);
+        this.futuresData.add(futuresData);
+        this.foreignData.add(foreignData);
+        this.fundsData.add(fundsData);
+        this.totalIncome.add(stockData.add(futuresData).add(foreignData).add(fundsData));
     }
 }

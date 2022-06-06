@@ -57,7 +57,7 @@ public class TradeStatisServiceImpl implements ITradeStatisService {
      * @return 总资金
      */
     public int sumIncome(List<DataTradeRecord> records) {
-        return records.parallelStream().mapToInt(record -> sumMoney(record.getIncomeValue(), record.getCurrency()).getInteger()).sum();
+        return CollUtils.convertSumList(records, record -> this.sumMoney(record.getIncomeValue(), record.getCurrency()).getInteger());
     }
 
     /**

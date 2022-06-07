@@ -331,7 +331,7 @@ window.initStrokeColumnCharts = function (echartsId, lineStyle, xData, yData) {
         series: {
             name: '',
             type: 'bar',
-            barWidth: '40%',  //柱子宽度
+            barWidth: '50%',  //柱子宽度
             itemStyle: {  //柱子颜色
                 normal: {
                     borderWidth: 2,

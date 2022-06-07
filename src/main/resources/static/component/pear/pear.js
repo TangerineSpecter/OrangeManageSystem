@@ -1,11 +1,12 @@
-window.rootPath = (function(src) {
-	src = document.scripts[document.scripts.length - 1].src;
+window.rootPath = (function (src) {
+	src = document.currentScript
+		? document.currentScript.src
+		: document.scripts[document.scripts.length - 1].src;
 	return src.substring(0, src.lastIndexOf("/") + 1);
 })();
-
 layui.config({
 	base: rootPath + "module/",
-	version: "3.9.6"
+	version: "3.9.8"
 }).extend({
 	admin: "admin", 	// 框架布局组件
 	menu: "menu",		// 数据菜单组件
@@ -13,7 +14,7 @@ layui.config({
 	tab: "tab",			// 多选项卡组件
 	echarts: "echarts", // 数据图表组件
 	echartsTheme: "echartsTheme", // 数据图表主题
-	hash: "hash",		// 数据加密组件
+	encrypt: "encrypt",		// 数据加密组件
 	select: "select",	// 下拉多选组件
 	drawer: "drawer",	// 抽屉弹层组件
 	notice: "notice",	// 消息提示组件
@@ -24,7 +25,7 @@ layui.config({
 	dtree:"dtree",			// 树结构
 	tinymce:"tinymce/tinymce", // 编辑器
 	area:"area",			// 省市级联  
-	count:"count",			// 数字滚动组件
+	count:"count",			// 数字滚动
 	topBar: "topBar",		// 置顶组件
 	button: "button",		// 加载按钮
 	design: "design",		// 表单设计
@@ -37,7 +38,8 @@ layui.config({
 	http: "http",			// ajax请求组件
 	theme: "theme",			// 主题转换
 	message: "message",     // 通知组件
-	toast: "toast"          // 消息通知
+	toast: "toast",         // 消息通知
+	iconPicker: "iconPicker"// 图标选择
 }).use(['layer', 'theme'], function () {
 	layui.theme.changeTheme(window, false);
 });

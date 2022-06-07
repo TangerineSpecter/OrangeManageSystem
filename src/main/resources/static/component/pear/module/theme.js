@@ -73,6 +73,7 @@ layui.define(["jquery","layer"], function (exports) {
 		style += '.pear-tab-menu .item:hover{background-color:'+color+'!important}'
 		style += '.layui-form-danger:focus {border-color:#FF5722 !important}'
 		style += '.pear-admin .user .layui-this a:hover{color:white!important}'
+		style += '.pear-admin .user  a:hover{color:'+color+'!important}'
 		style += '.pear-notice .layui-this{color:'+color+'!important}'
         style += '.layui-form-radio:hover *, .layui-form-radioed, .layui-form-radioed>i{color:' + color + ' !important}';
 		style += '.pear-btn:hover {color: '+color+';background-color: ' + second + ';}'
@@ -86,6 +87,7 @@ layui.define(["jquery","layer"], function (exports) {
 			style += '.pear-admin.banner-layout .layui-header{ box-shadow: 2px 0 6px rgb(0 21 41 / 35%) }'
 			style += '.pear-admin .layui-header .layui-layout-control .layui-this *,.pear-admin.banner-layout .layui-header .layui-layout-control .layui-this *{ background-color: rgba(0,0,0,.1)!important;}'
 		}
+    style += '.menu-search-list li:hover,.menu-search-list li.this{background-color:'+ color +'}'
 		var colorPane = $("#pear-admin-color");
 		if(colorPane.length>0){
 			colorPane.html(style);

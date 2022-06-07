@@ -90,6 +90,11 @@
                 [
                     {type: 'checkbox'},
                     {field: 'title', minWidth: 200, title: '菜单名称'},
+                    {
+                        field: 'icon', title: '图标', align: 'center', width: 80, templet: function (row) {
+                            return '<i class="layui-icon ' + row.icon + '"></i>';
+                        }
+                    },
                     {field: 'permissionCode', title: '权限标识'},
                     {field: 'href', title: '菜单url'},
                     {field: 'sort', width: 80, align: 'center', title: '排序号'},

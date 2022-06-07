@@ -103,8 +103,9 @@
      */
     function initForm(data) {
         // $("#icon").val(data.icon);
-        layui.use(['form'], function () {
-            const form = layui.form;
+        layui.use(['form', 'iconPicker'], function () {
+            const form = layui.form,
+                iconPicker = layui.iconPicker;
             form.val("data-form", {
                 "id": data.id,
                 "href": data.href,
@@ -115,6 +116,7 @@
                 "sort": data.sort,
                 "icon": data.icon
             });
+            iconPicker.checkIcon("iconPicker", data.icon);
             form.render();
         });
     }
@@ -142,6 +144,7 @@
         iconPicker.render({
             // 选择器，推荐使用input
             elem: '#iconPicker',
+            style: 'color: #5FB878;',
             type: 'fontClass',
             placeholder: '',
             isSplit: true,

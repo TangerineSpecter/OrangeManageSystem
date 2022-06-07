@@ -9,6 +9,7 @@ import com.tangerinespecter.oms.common.constants.CommonConstant;
 import com.tangerinespecter.oms.common.constants.RetCode;
 import com.tangerinespecter.oms.common.constants.SystemConstant;
 import com.tangerinespecter.oms.common.enums.GlobalBoolEnum;
+import com.tangerinespecter.oms.common.exception.BusinessException;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.common.utils.ParamUtils;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
@@ -121,13 +122,8 @@ public class MenuSettingServiceImpl implements IMenuSettingService {
 
     @Override
     public ServiceResult updateInfo(SystemMenuInfoVo vo) {
-        if (vo.getId() == null) {
-            return ServiceResult.paramError();
-        }
         SystemMenu systemMenu = systemMenuMapper.selectById(vo.getId());
-        if (checkMenuHrefExist(vo.getId(), vo.getHref())) {
-            return ServiceResult.error(RetCode.SYSTEM_MENU_HREF_EXIST);
-        }
+        Assert.isTrue(!checkMenuHrefExist(vo.getId(), vo.getHref()), () -> new BusinessException(RetCode.SYSTEM_MENU_HREF_EXIST));
         String beforeHref = systemMenu.getHref();
         systemMenu.setTitle(vo.getTitle());
         systemMenu.setHref(vo.getHref());

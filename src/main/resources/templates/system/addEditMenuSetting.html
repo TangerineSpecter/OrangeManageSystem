@@ -26,7 +26,8 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">菜单图标</label>
                     <div class="layui-input-inline">
-                        <input type="text" id="iconPicker" name="icon" value="layui-icon-face-smile-fine" lay-verify="icon" lay-filter="iconPicker">
+                        <input type="text" id="iconPicker" name="icon" value="layui-icon-face-smile-fine"
+                               lay-verify="icon" lay-filter="iconPicker">
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -118,9 +119,9 @@
         });
     }
 
-    layui.use(['form', 'layer', 'icon', 'code', 'element'], function () {
+    layui.use(['form', 'layer', 'iconPicker', 'code', 'element'], function () {
         const form = layui.form,
-            icon = layui.icon;
+            iconPicker = layui.iconPicker;
 
         layui.code();
 
@@ -138,10 +139,10 @@
             }
         });
 
-        icon.render({
+        iconPicker.render({
             // 选择器，推荐使用input
             elem: '#iconPicker',
-            style: 'color: #5FB878;',
+            type: 'fontClass',
             placeholder: '',
             isSplit: true,
             page: false,

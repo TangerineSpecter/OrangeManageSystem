@@ -34,7 +34,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = AuthorizationException.class)
     public ModelAndView exceptionHandler(AuthorizationException exception) {
         log.error("发生异常，异常信息:[{}]", "无操作权限");
-        return new ModelAndView("/unauthorized");
+        return new ModelAndView("/error/403");
     }
 
     /**

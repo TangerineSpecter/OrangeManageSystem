@@ -336,7 +336,14 @@ window.initStrokeColumnCharts = function (echartsId, lineStyle, xData, yData) {
                 normal: {
                     borderWidth: 2,
                     borderColor: 'rgb(79, 116, 223)',
-                    color: 'rgba(79, 116, 223, .3)',
+                    color: function (param) {
+                        if (param.value > 0) {
+                            return '#ff2d51';
+                        } else {
+                            return '#7fecad';
+                            // return 'rgba(79, 116, 223, .3)';
+                        }
+                    },
                 }
             },
             data: yData

@@ -56,6 +56,17 @@ public class NumChainCal {
     }
 
     /**
+     * 减法
+     *
+     * @param otherValue 减数
+     * @return 结果
+     */
+    public NumChainCal sub(Object otherValue) {
+        BigDecimal result = NumberUtil.sub(this.value, Convert.toBigDecimal(otherValue));
+        return new NumChainCal(result);
+    }
+
+    /**
      * 乘法
      *
      * @param otherValue 乘数

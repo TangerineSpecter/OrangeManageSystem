@@ -128,15 +128,16 @@ public interface DataTradeRecordMapper extends BaseMapper<DataTradeRecord> {
      * 根据类型获取最后一条数据结束资金
      *
      * @param type 类型
+     * @param date 记录时间
      * @param uid  管理员id
      * @return 交易数据
      */
-    default Integer selectLastEndMoneyByType(Integer type, String uid) {
+    default Integer selectLastEndMoneyByType(Integer type, String date, String uid) {
         if (CharSequenceUtil.isEmpty(uid)) {
             return 0;
         }
         return Optional.ofNullable(selectOne(new QueryWrapper<DataTradeRecord>().eq("type", type)
-                .eq("uid", uid).orderByDesc("date").last("limit 1"))).orElse(new DataTradeRecord()).getEndMoney();
+                .eq("uid", uid).le("date", date).orderByDesc("date").last("limit 1"))).orElse(new DataTradeRecord()).getEndMoney();
     }
 
     /**

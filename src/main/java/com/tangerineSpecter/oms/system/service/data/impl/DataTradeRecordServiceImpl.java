@@ -61,23 +61,32 @@ public class DataTradeRecordServiceImpl implements IDateTradeRecordService {
     private void handlerTradeData(Integer type) {
         CompletableFuture.runAsync(() -> {
             List<DataTradeRecord> dataTradeRecords = dataTradeRecordMapper.selectListByType(type, UserContext.getUid());
+            this.refreshTradeDifference(dataTradeRecords);
             CollUtils.forEach(dataTradeRecords, this::handlerSingleTradeData);
-            //计算前后日期金额差值
-            IntStream.range(1, dataTradeRecords.size()).forEach(index -> {
-                DataTradeRecord lastData = dataTradeRecords.get(index);
-                DataTradeRecord currentData = dataTradeRecords.get(index - 1);
-                //前后金额差值
-                int subtractMoney = lastData.getStartMoney() - currentData.getEndMoney();
-                if (subtractMoney > 0) {
-                    lastData.setDeposit(subtractMoney);
-                } else if (subtractMoney < 0) {
-                    lastData.setWithdrawal(Math.abs(subtractMoney));
-                } else {
-                    lastData.setDeposit(0);
-                    lastData.setWithdrawal(0);
-                }
-                dataTradeRecordMapper.updateById(lastData);
-            });
+        });
+    }
+
+    /**
+     * 刷新账户出入金差额
+     *
+     * @param dataTradeRecords 资金数据
+     */
+    private void refreshTradeDifference(List<DataTradeRecord> dataTradeRecords) {
+        //计算前后日期金额差值
+        IntStream.range(1, dataTradeRecords.size()).forEach(index -> {
+            DataTradeRecord lastData = dataTradeRecords.get(index);
+            DataTradeRecord currentData = dataTradeRecords.get(index - 1);
+            //前后金额差值
+            int subtractMoney = lastData.getStartMoney() - currentData.getEndMoney();
+            if (subtractMoney > 0) {
+                lastData.setDeposit(subtractMoney);
+            } else if (subtractMoney < 0) {
+                lastData.setWithdrawal(Math.abs(subtractMoney));
+            } else {
+                lastData.setDeposit(0);
+                lastData.setWithdrawal(0);
+            }
+            dataTradeRecordMapper.updateById(lastData);
         });
     }
 
@@ -95,13 +104,19 @@ public class DataTradeRecordServiceImpl implements IDateTradeRecordService {
             log.info("交易数据不存在");
             return;
         }
+        //总交易次数
         int totalCount = dataTradeRecordMapper.selectCountLeDateByType(data.getType(), data.getDate(), UserContext.getUid());
         //获胜次数
         int winCount = dataTradeRecordMapper.getTradeWinCountByTypeAndDate(data.getType(), data.getDate(), UserContext.getUid());
-        int incomeValue = data.getEndMoney() - data.getStartMoney();
+        //原始本金 = 开盘资金 - 入金 + 出金
+        int originalMoney = NumChainCal.startOf(data.getStartMoney())
+                .sub(data.getDeposit()).add(data.getWithdrawal()).getInteger();
+        //收益值 = 收盘资金 - 原始本金
+        int incomeValue = NumChainCal.startOf(data.getEndMoney()).sub(originalMoney).getInteger();
         data.setIncomeValue(incomeValue);
-        data.setIncomeRate(NumberUtil.div(data.getIncomeValue(), data.getStartMoney(), 5));
-        data.setWinRate(Convert.toBigDecimal(NumberUtil.div(winCount, totalCount, 5)));
+        //根据原始本金计算收益率
+        data.setIncomeRate(NumChainCal.startOf(data.getIncomeValue()).div(originalMoney, 5).getBigDecimal());
+        data.setWinRate(NumChainCal.startOf(winCount).div(totalCount, 5).getBigDecimal());
         dataTradeRecordMapper.updateById(data);
     }
 
@@ -162,13 +177,11 @@ public class DataTradeRecordServiceImpl implements IDateTradeRecordService {
 
     @Override
     public void deleteInfo(Long id) {
-        Assert.notNull(id, () -> new BusinessException(RetCode.PARAM_ERROR));
         dataTradeRecordMapper.deleteById(id);
     }
 
     @Override
     public DataTradeRecord detailInfo(Long id) {
-        Assert.notNull(id, () -> new BusinessException(RetCode.PARAM_ERROR));
         return dataTradeRecordMapper.selectById(id);
     }
 

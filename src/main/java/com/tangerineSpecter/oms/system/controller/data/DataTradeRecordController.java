@@ -25,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.constraints.NotNull;
 
 /**
  * 交易数据相关
@@ -107,7 +108,7 @@ public class DataTradeRecordController {
      */
     @ApiOperation("交易记录信息")
     @GetMapping("/info/{id}")
-    public DataTradeRecord detailInfo(@PathVariable("id") Long id) {
+    public DataTradeRecord detailInfo(@NotNull(message = "id不能为null") @PathVariable("id") Long id) {
         return dateTradeRecordService.detailInfo(id);
     }
 
@@ -117,7 +118,7 @@ public class DataTradeRecordController {
     @ApiOperation("删除交易记录")
     @DeleteMapping("/delete/{id}")
     @LoggerInfo(value = "删除交易数据", event = LogOperation.EVENT_DELETE)
-    public void deleteInfo(@PathVariable("id") Long id) {
+    public void deleteInfo(@NotNull(message = "id不能为null") @PathVariable("id") Long id) {
         dateTradeRecordService.deleteInfo(id);
     }
 

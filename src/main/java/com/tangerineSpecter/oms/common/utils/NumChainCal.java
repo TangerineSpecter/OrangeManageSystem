@@ -96,7 +96,11 @@ public class NumChainCal {
      * @return 结果
      */
     public NumChainCal div(Object otherValue, int scale) {
-        BigDecimal result = NumberUtil.div(this.value, Convert.toBigDecimal(otherValue), scale);
+        BigDecimal convertValue = Convert.toBigDecimal(otherValue);
+        if (convertValue.equals(BigDecimal.ZERO)) {
+            return new NumChainCal(0);
+        }
+        BigDecimal result = NumberUtil.div(this.value, convertValue, scale);
         return new NumChainCal(result);
     }
 
@@ -116,7 +120,7 @@ public class NumChainCal {
      * @return BigDecimal结果
      */
     public BigDecimal getBigDecimal() {
-        return Convert.toBigDecimal(this.value).setScale(2, RoundingMode.CEILING);
+        return Convert.toBigDecimal(this.value).setScale(4, RoundingMode.CEILING);
     }
 
 }

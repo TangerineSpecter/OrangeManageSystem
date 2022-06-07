@@ -192,8 +192,9 @@ window.initSimpleLineEcharts = function (echartsId, title, lineStyle, xData, yDa
  * @param lineStyle 折线图样式
  * @param xData x轴数据
  * @param yData y轴数据
+ * @param dataName 数据描述
  */
-window.initGridLineEcharts = function (echartsId, lineStyle, xData, yData) {
+window.initGridLineEcharts = function (echartsId, lineStyle, xData, yData, dataName) {
     const echartsRecords = echarts.init(document.getElementById(echartsId), 'walden');
     const option = {
         tooltip: {
@@ -232,7 +233,7 @@ window.initGridLineEcharts = function (echartsId, lineStyle, xData, yData) {
             }
         }],
         series: [{
-            name: '当前资金',
+            name: dataName,
             type: 'line',
             data: yData,
             lineStyle: lineStyle,
@@ -329,7 +330,7 @@ window.initStrokeColumnCharts = function (echartsId, lineStyle, xData, yData) {
             }
         },
         series: {
-            name: '',
+            name: '收益',
             type: 'bar',
             barWidth: '50%',  //柱子宽度
             itemStyle: {  //柱子颜色
@@ -338,9 +339,9 @@ window.initStrokeColumnCharts = function (echartsId, lineStyle, xData, yData) {
                     borderColor: 'rgb(79, 116, 223)',
                     color: function (param) {
                         if (param.value > 0) {
-                            return '#ff2d51';
+                            return '#ee6666';
                         } else {
-                            return '#7fecad';
+                            return '#91cc75';
                             // return 'rgba(79, 116, 223, .3)';
                         }
                     },

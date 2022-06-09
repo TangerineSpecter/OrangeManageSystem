@@ -23,8 +23,18 @@ public interface SystemPermissionRoleMapper extends BaseMapper<SystemPermissionR
 
     /**
      * 批量插入角色权限关系
-     * @param rid 角色id
+     *
+     * @param rid           角色id
      * @param permissionIds 权限id列表
      */
-    void batchInsert(@Param("rid") Long rid,@Param("permissionIds") Collection<Long> permissionIds);
+    void batchInsert(@Param("rid") Long rid, @Param("permissionIds") Collection<Long> permissionIds);
+
+    /**
+     * 根据pid删除角色权限
+     *
+     * @param pid 权限父级id
+     */
+    default void deleteByPid(Long pid) {
+        delete(new QueryWrapper<SystemPermissionRole>().eq("pid", pid));
+    }
 }

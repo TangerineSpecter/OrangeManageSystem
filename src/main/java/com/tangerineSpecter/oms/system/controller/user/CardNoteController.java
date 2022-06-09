@@ -13,6 +13,7 @@ import com.tangerinespecter.oms.system.service.page.PageResultService;
 import com.tangerinespecter.oms.system.service.user.ICardNoteService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,7 +21,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotNull;
@@ -35,13 +35,12 @@ import java.util.Date;
 @Api(tags = "卡片笔记模块")
 @Controller
 @ReWriteBody
+@RequiredArgsConstructor
 @RequestMapping("/user/card-note")
 public class CardNoteController {
 
-    @Resource
-    private PageResultService pageResultService;
-    @Resource
-    private ICardNoteService cardNoteService;
+    private final PageResultService pageResultService;
+    private final ICardNoteService cardNoteService;
 
     @ResponseBody
     @ApiOperation(value = "卡片笔记界面")

@@ -220,7 +220,7 @@ public class ShiroConfig {
                                                    @Qualifier("sessionDAO") MemorySessionDAO sessionDAO) {  //配置默认的sesssion管理器
         DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
         //全局会话超时时间
-        sessionManager.setGlobalSessionTimeout(2 * 60 * 60 * 1000);
+        sessionManager.setGlobalSessionTimeout(2 * 60 * 60 * 1000L);
         sessionManager.setSessionIdCookie(simpleCookie);
         sessionManager.setSessionDAO(sessionDAO());
         //删除无效的session

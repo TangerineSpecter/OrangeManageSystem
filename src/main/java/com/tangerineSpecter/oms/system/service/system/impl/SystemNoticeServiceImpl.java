@@ -1,12 +1,11 @@
 package com.tangerinespecter.oms.system.service.system.impl;
 
 import cn.hutool.core.util.StrUtil;
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.github.pagehelper.page.PageMethod;
 import com.google.common.base.Splitter;
 import com.tangerinespecter.oms.common.context.UserContext;
 import com.tangerinespecter.oms.common.query.SystemNoticeQueryObject;
-import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.job.message.Message;
 import com.tangerinespecter.oms.job.message.MessageKeys;
 import com.tangerinespecter.oms.job.message.MessageTypeEnum;
@@ -58,53 +57,47 @@ public class SystemNoticeServiceImpl implements ISystemNoticeService {
     }
 
     @Override
-    public ServiceResult messageSend(MessageVo vo) {
+    public void messageSend(MessageVo vo) {
         Message message = new Message();
         BeanUtils.copyProperties(vo, message);
         message.setMessageType(MessageTypeEnum.SYSTEM_NOTICE);
         rabbitTemplate.convertAndSend(MessageKeys.SYSTEM_NOTICE_QUEUE, message);
-        return ServiceResult.success();
     }
 
     @Override
-    public ServiceResult queryForPage(SystemNoticeQueryObject qo) {
-        PageHelper.startPage(qo.getPage(), qo.getLimit());
-        List<SystemNotice> pageList = systemNoticeMapper.queryForPage(qo);
-        PageInfo<SystemNotice> bulletinInfo = new PageInfo<>(pageList);
-        return ServiceResult.pageSuccess(pageList, bulletinInfo.getTotal());
+    public PageInfo<SystemNotice> queryForPage(SystemNoticeQueryObject qo) {
+        return PageMethod.startPage(qo.getPage(), qo.getLimit())
+                .doSelectPageInfo(() -> systemNoticeMapper.queryForPage(qo));
     }
 
     @Override
-    public ServiceResult batchUpdateDelStatus(NoticeUpdateStatusVo vo) {
+    public void batchUpdateDelStatus(NoticeUpdateStatusVo vo) {
         if (StrUtil.isBlank(vo.getIds()) || vo.getIsDel() == null) {
-            return ServiceResult.success();
+            return;
         }
         List<Long> ids = Splitter.on(",").omitEmptyStrings().splitToList(vo.getIds())
                 .parallelStream().map(Long::parseLong).collect(Collectors.toList());
         systemNoticeMapper.updateDelStatusByIds(ids, vo.getIsDel());
-        return ServiceResult.success();
     }
 
     @Override
-    public ServiceResult batchClear(NoticeUpdateStatusVo vo) {
+    public void batchClear(NoticeUpdateStatusVo vo) {
         if (StrUtil.isBlank(vo.getIds())) {
-            return ServiceResult.success();
+            return;
         }
         List<Long> ids = Splitter.on(",").omitEmptyStrings().splitToList(vo.getIds())
                 .parallelStream().map(Long::parseLong).collect(Collectors.toList());
         systemNoticeMapper.deleteNoticeByIds(ids);
-        return ServiceResult.success();
     }
 
     @Override
-    public ServiceResult batchUpdateReadStatus(NoticeUpdateStatusVo vo) {
+    public void batchUpdateReadStatus(NoticeUpdateStatusVo vo) {
         if (StrUtil.isBlank(vo.getIds()) || vo.getReadStatus() == null) {
-            return ServiceResult.success();
+            return;
         }
         List<Long> ids = Splitter.on(",").omitEmptyStrings().splitToList(vo.getIds())
                 .parallelStream().map(Long::parseLong).collect(Collectors.toList());
         systemNoticeMapper.updateReadStatusByIds(ids, vo.getReadStatus());
-        return ServiceResult.success();
     }
 
     @Override

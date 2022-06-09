@@ -60,6 +60,7 @@ public interface SystemUserMapper extends BaseMapper<SystemUser> {
 
     /**
      * 查询超级管理员账号（唯一）
+     *
      * @return 超级管理员账号信息
      */
     default SystemUser selectOneByAdmin() {

@@ -9,12 +9,15 @@ import cn.hutool.crypto.SecureUtil;
 import cn.hutool.crypto.digest.DigestAlgorithm;
 import cn.hutool.crypto.digest.DigestUtil;
 import cn.hutool.crypto.digest.Digester;
+import cn.hutool.extra.servlet.ServletUtil;
+import cn.hutool.system.SystemUtil;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.tangerinespecter.oms.common.constants.CommonConstant;
 import com.tangerinespecter.oms.common.context.UserContext;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.connector.Request;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
@@ -102,6 +105,8 @@ public class SystemUtils {
     }
 
     /**
+     * 生成uid
+     *
      * @param salt 用户盐
      * @return 根据用户盐生成账户id
      */
@@ -112,7 +117,7 @@ public class SystemUtils {
     /**
      * 刷新当前用户session
      *
-     * @param info
+     * @param info 管理员信息
      */
     public static void refreshSession(SystemUser info) {
         SystemUser systemUser = UserContext.getCurrentUser();
@@ -372,6 +377,10 @@ public class SystemUtils {
         }
         List<String> resultUrl = Splitter.on("/").omitEmptyStrings().splitToList(href);
         return Joiner.on(":").join(resultUrl);
+    }
+
+    public static void main(String[] args) {
+        System.out.println( SystemUtils.getLocalhostIP());
     }
 
 }

@@ -1,9 +1,9 @@
 package com.tangerinespecter.oms.system.controller.system;
 
 import com.github.pagehelper.PageInfo;
+import com.tangerinespecter.oms.common.anno.LoggerInfo;
 import com.tangerinespecter.oms.common.anno.ReWriteBody;
 import com.tangerinespecter.oms.common.enums.LogOperation;
-import com.tangerinespecter.oms.common.anno.LoggerInfo;
 import com.tangerinespecter.oms.common.query.SystemUserQueryObject;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.dto.system.SystemUserListDto;
@@ -34,105 +34,105 @@ import javax.annotation.Resource;
 @Api(tags = "系统用户管理接口")
 @RequestMapping("/systemUser")
 public class SystemUserController {
-	
-	@Resource
-	private ISystemUserService systemUserService;
-	
-	/**
-	 * 后台管理员
-	 */
-	@ApiOperation(value = "用户健康管理接口")
-	@GetMapping("/page")
-	@RequiresPermissions("systemUser:page")
-	public ModelAndView systemUserPage() {
-		return ServiceResult.jumpPage("system/systemUser");
-	}
-	
-	/**
-	 * 个人中心
-	 */
-	@ApiOperation(value = "用户个人中心页面")
-	@GetMapping("/center")
-	public ModelAndView userCenter(Model model) {
-		SystemUser systemUser = (SystemUser) SecurityUtils.getSubject().getPrincipal();
-		model.addAttribute("userInfo", systemUser);
-		return ServiceResult.jumpPage("system/userCenter");
-	}
-	
-	/**
-	 * 裁剪图片
-	 */
-	@ApiOperation(value = "裁剪图片页面")
-	@GetMapping("/profile")
-	public ModelAndView profile() {
-		return ServiceResult.jumpPage("system/profile");
-	}
-	
-	/**
-	 * 后台管理员
-	 */
-	@ApiOperation(value = "编辑管理员角色页面")
-	@GetMapping("/addRolePage")
-	public ModelAndView addRolePage() {
-		return ServiceResult.jumpPage("system/editSystemUserRole");
-	}
-	
-	/**
-	 * 修改密码页面
-	 */
-	@ApiOperation(value = "修改密码页面")
-	@GetMapping("/updatePwdPage")
-	public ModelAndView updatePwdPage(Model model) {
-		return ServiceResult.jumpPage("system/userPassword");
-	}
-	
-	/**
-	 * 后台管理员
-	 */
-	@ApiOperation(value = "后台管理员列表")
-	@GetMapping("/list")
-	public PageInfo<SystemUserListDto> listInfo(SystemUserQueryObject qo) {
-		return systemUserService.querySystemUserList(qo);
-	}
-	
-	/**
-	 * 添加系统管理员
-	 */
-	@ApiOperation(value = "新增后台管理员")
-	@PostMapping("/insert")
-	@LoggerInfo(value = "用户添加管理员", event = LogOperation.EVENT_ADD)
-	public ServiceResult insert(@Validated @RequestBody SystemUser systemUser) {
-		return systemUserService.insertSystemUserInfo(systemUser);
-	}
-	
-	/**
-	 * 修改系统用户信息
-	 */
-	@ApiOperation(value = "修改后台管理员")
-	@PutMapping("/update")
-	@LoggerInfo(value = "用户更新管理员", event = LogOperation.EVENT_UPDATE)
-	public ServiceResult update(@Validated @RequestBody SystemUserInfoVo vo) {
-		return systemUserService.updateSystemUserInfo(vo);
-	}
-	
-	/**
-	 * 修改系统用户角色
-	 */
-	@ApiOperation(value = "修改管理员角色")
-	@PutMapping("/update-role")
-	@LoggerInfo(value = "用户更新管理员角色", event = LogOperation.EVENT_UPDATE)
-	public ServiceResult updateRole(@Validated @RequestBody SystemUserInfoVo vo) {
-		return systemUserService.updateSystemUserRole(vo);
-	}
-	
-	/**
-	 * 修改密码
-	 */
-	@ApiOperation(value = "修改账号密码")
-	@PutMapping("/update-password")
-	@LoggerInfo(value = "修改密码", event = LogOperation.EVENT_UPDATE)
-	public ServiceResult updatePassword(@Validated @RequestBody SystemUserPwdVo vo) {
-		return systemUserService.updatePassword(vo);
-	}
+
+    @Resource
+    private ISystemUserService systemUserService;
+
+    /**
+     * 后台管理员
+     */
+    @ApiOperation(value = "用户健康管理接口")
+    @GetMapping("/page")
+    @RequiresPermissions("systemUser:page")
+    public ModelAndView systemUserPage() {
+        return ServiceResult.jumpPage("system/systemUser");
+    }
+
+    /**
+     * 个人中心
+     */
+    @ApiOperation(value = "用户个人中心页面")
+    @GetMapping("/center")
+    public ModelAndView userCenter(Model model) {
+        SystemUser systemUser = (SystemUser) SecurityUtils.getSubject().getPrincipal();
+        model.addAttribute("userInfo", systemUser);
+        return ServiceResult.jumpPage("system/userCenter");
+    }
+
+    /**
+     * 裁剪图片
+     */
+    @ApiOperation(value = "裁剪图片页面")
+    @GetMapping("/profile")
+    public ModelAndView profile() {
+        return ServiceResult.jumpPage("system/profile");
+    }
+
+    /**
+     * 后台管理员
+     */
+    @ApiOperation(value = "编辑管理员角色页面")
+    @GetMapping("/addRolePage")
+    public ModelAndView addRolePage() {
+        return ServiceResult.jumpPage("system/editSystemUserRole");
+    }
+
+    /**
+     * 修改密码页面
+     */
+    @ApiOperation(value = "修改密码页面")
+    @GetMapping("/updatePwdPage")
+    public ModelAndView updatePwdPage(Model model) {
+        return ServiceResult.jumpPage("system/userPassword");
+    }
+
+    /**
+     * 后台管理员
+     */
+    @ApiOperation(value = "后台管理员列表")
+    @GetMapping("/list")
+    public PageInfo<SystemUserListDto> listInfo(SystemUserQueryObject qo) {
+        return systemUserService.querySystemUserList(qo);
+    }
+
+    /**
+     * 添加系统管理员
+     */
+    @ApiOperation(value = "新增后台管理员")
+    @PostMapping("/insert")
+    @LoggerInfo(value = "用户添加管理员", event = LogOperation.EVENT_ADD)
+    public void insert(@Validated @RequestBody SystemUser systemUser) {
+        systemUserService.insertSystemUserInfo(systemUser);
+    }
+
+    /**
+     * 修改系统用户信息
+     */
+    @ApiOperation(value = "修改后台管理员")
+    @PutMapping("/update")
+    @LoggerInfo(value = "用户更新管理员", event = LogOperation.EVENT_UPDATE)
+    public void update(@Validated @RequestBody SystemUserInfoVo vo) {
+        systemUserService.updateSystemUserInfo(vo);
+    }
+
+    /**
+     * 修改系统用户角色
+     */
+    @ApiOperation(value = "修改管理员角色")
+    @PutMapping("/update-role")
+    @LoggerInfo(value = "用户更新管理员角色", event = LogOperation.EVENT_UPDATE)
+    public void updateRole(@Validated @RequestBody SystemUserInfoVo vo) {
+        systemUserService.updateSystemUserRole(vo);
+    }
+
+    /**
+     * 修改密码
+     */
+    @ApiOperation(value = "修改账号密码")
+    @PutMapping("/update-password")
+    @LoggerInfo(value = "修改密码", event = LogOperation.EVENT_UPDATE)
+    public void updatePassword(@Validated @RequestBody SystemUserPwdVo vo) {
+        systemUserService.updatePassword(vo);
+    }
 }
 

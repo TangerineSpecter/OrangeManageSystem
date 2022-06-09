@@ -1,6 +1,6 @@
 package com.tangerinespecter.oms.system.service.system;
 
-import com.tangerinespecter.oms.common.result.ServiceResult;
+import com.github.pagehelper.PageInfo;
 import com.tangerinespecter.oms.system.domain.entity.SystemMenu;
 import com.tangerinespecter.oms.system.domain.vo.system.SystemMenuInfoVo;
 
@@ -8,54 +8,55 @@ import java.util.List;
 
 public interface IMenuSettingService {
 
-    ServiceResult<Object> listInfo();
+    /**
+     * 菜单列表
+     *
+     * @return 菜单列表
+     */
+    PageInfo<SystemMenu> listInfo();
 
     /**
      * 删除菜单
      *
-     * @param id
-     * @return
+     * @param id 菜单id
      */
-    ServiceResult deleteInfo(Long id);
+    void deleteInfo(Long id);
 
     /**
      * 添加菜单
      *
-     * @param vo
-     * @return
+     * @param vo 菜单信息
      */
-    ServiceResult insertInfo(SystemMenuInfoVo vo);
+    void insertInfo(SystemMenuInfoVo vo);
 
     /**
      * 菜单详情
      *
-     * @param id
-     * @return
+     * @param id 菜单id
+     * @return 菜单信息
      */
-    ServiceResult detailInfo(Long id);
+    SystemMenu detailInfo(Long id);
 
     /**
      * 更新菜单
      *
-     * @param vo
-     * @return
+     * @param vo 菜单信息
      */
-    ServiceResult updateInfo(SystemMenuInfoVo vo);
+    void updateInfo(SystemMenuInfoVo vo);
 
     /**
      * 初始化菜单Code
      *
-     * @return
+     * @return 菜单初始化结果
      */
     List<SystemMenu> initMenuCode();
 
     /**
      * 置顶菜单
      *
-     * @param id
-     * @return
+     * @param id 菜单id
      */
-    ServiceResult topInfo(Long id);
+    void topInfo(Long id);
 
     /**
      * 初始化管理员菜单

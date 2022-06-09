@@ -3,15 +3,10 @@ package com.tangerinespecter.oms.job.init;
 import com.tangerinespecter.oms.common.constants.SystemConstant;
 import com.tangerinespecter.oms.system.mapper.SystemConfigMapper;
 import com.tangerinespecter.oms.system.service.system.IMenuSettingService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.core.AmqpAdmin;
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.DirectExchange;
-import org.springframework.amqp.core.Queue;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.Resource;
 
 /**
  * 初始化管理后台
@@ -20,12 +15,11 @@ import javax.annotation.Resource;
  */
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class InitAdminManageBean implements InitializingBean {
 
-    @Resource
-    private IMenuSettingService menuSettingService;
-    @Resource
-    private SystemConfigMapper systemConfigMapper;
+    private final IMenuSettingService menuSettingService;
+    private final SystemConfigMapper systemConfigMapper;
 
     @Override
     public void afterPropertiesSet() {

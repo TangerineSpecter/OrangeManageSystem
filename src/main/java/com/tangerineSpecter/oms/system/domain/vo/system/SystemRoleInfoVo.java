@@ -3,6 +3,7 @@ package com.tangerinespecter.oms.system.domain.vo.system;
 import com.tangerinespecter.oms.system.valid.Delete;
 import com.tangerinespecter.oms.system.valid.Insert;
 import com.tangerinespecter.oms.system.valid.Update;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

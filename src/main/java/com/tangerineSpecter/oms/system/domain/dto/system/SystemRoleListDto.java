@@ -6,9 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -36,4 +34,15 @@ public class SystemRoleListDto {
      * 角色拥有权限id列表
      */
     private List<Long> havePermissionIds;
+
+    /**
+     * 初始化角色用有的权限
+     *
+     * @param permissions       权限列表
+     * @param havePermissionIds 拥有的权限ids
+     */
+    public void initPermission(List<SystemPermission> permissions, List<Long> havePermissionIds) {
+        this.permissions = permissions;
+        this.havePermissionIds = havePermissionIds;
+    }
 }

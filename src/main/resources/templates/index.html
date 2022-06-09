@@ -82,13 +82,13 @@
 <script>
     layui.use(['admin', 'jquery', 'popup', 'form'], function () {
         const admin = layui.admin,
-            popup = layui.popup;
+            popup = layui.popup,
+            $ = layui.jquery;
 
         // admin.setAvatar("admin/images/avatar.jpg","丢失的橘子");
 
         admin.setConfigType("yml");
         admin.setConfigPath("config/pear.config.yml");
-
         admin.render();
 
         // 登出逻辑
@@ -99,13 +99,11 @@
             // 注销逻辑 返回 true / false
             return true;
         });
-
         // 初始化消息回调
         admin.message();
 
         // 实现消息回调 [消息列表点击事件]
         // admin.message(function(id, title, context, form) {});
-
     });
 
     function updatePwd() {

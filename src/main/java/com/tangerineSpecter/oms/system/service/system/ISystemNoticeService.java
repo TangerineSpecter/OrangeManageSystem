@@ -1,7 +1,7 @@
 package com.tangerinespecter.oms.system.service.system;
 
+import com.github.pagehelper.PageInfo;
 import com.tangerinespecter.oms.common.query.SystemNoticeQueryObject;
-import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.entity.SystemNotice;
 import com.tangerinespecter.oms.system.domain.vo.system.MessageVo;
 import com.tangerinespecter.oms.system.domain.vo.system.NoticeUpdateStatusVo;
@@ -17,15 +17,15 @@ public interface ISystemNoticeService {
      */
     void push(HttpServletResponse response);
 
-    ServiceResult messageSend(MessageVo vo);
+    void messageSend(MessageVo vo);
 
-    ServiceResult queryForPage(SystemNoticeQueryObject qo);
+    PageInfo<SystemNotice> queryForPage(SystemNoticeQueryObject qo);
 
-    ServiceResult batchUpdateDelStatus(NoticeUpdateStatusVo ids);
+    void batchUpdateDelStatus(NoticeUpdateStatusVo ids);
 
-    ServiceResult batchClear(NoticeUpdateStatusVo ids);
+    void batchClear(NoticeUpdateStatusVo ids);
 
-    ServiceResult batchUpdateReadStatus(NoticeUpdateStatusVo ids);
+    void batchUpdateReadStatus(NoticeUpdateStatusVo ids);
 
     /**
      * 获取消息详情

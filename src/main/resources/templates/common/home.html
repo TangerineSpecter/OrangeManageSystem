@@ -5,27 +5,86 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="../../admin/css/other/console1.css"/>
+    <link rel="stylesheet" href="../../admin/css/other/home.css"/>
 </head>
 <body class="pear-container">
 <div>
     <div class="layui-row layui-col-space10">
         <div class="layui-col-md9">
-            <div class="layui-card">
-                <div class="layui-card-header">动态</div>
-                <div class="layui-card-body">
-                    <dl class="layuiadmin-card-status">
-                        <dd>
-                            <div class="layui-status-img"><a href="javascript:;"><img
-                                    style="width: 32px;height: 32px;border-radius: 50px;"
-                                    src="../../admin/images/avatar.jpg"></a></div>
-                            <div>
-                                <p>七彩枫叶 在 <a class="pear-text" lay-href="https://gitee.com/Jmysy/Pear-Admin-Layui">Pear
-                                    Admin 专区</a> 回答问题</p>
-                                <span>几秒前</span>
+            <div class="layui-row layui-col-space10">
+                <div class="layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-header">
+                            快捷菜单
+                        </div>
+                        <div class="layui-card-body">
+                            <div class="layui-row layui-col-space10">
+                                <div class="layui-col-md3 layui-col-sm3 layui-col-xs3 layui-center"
+                                     th:each="menu:${systemInfo.menus}">
+                                    <div class="pear-card"
+                                         th:attr="data-id=${menu.id},data-title=${menu.title},data-url=${menu.href}">
+                                        <i th:class="'layui-icon ' + ${menu.icon}"></i>
+                                    </div>
+                                    <span class="pear-card-title" th:text="${menu.title}">主页</span>
+                                </div>
                             </div>
-                        </dd>
-                    </dl>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-header">
+                            代办任务
+                        </div>
+                        <div class="layui-card-body">
+                            <div class="layui-row layui-col-space10">
+                                <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                                    <div class="pear-card2">
+                                        <div class="title">待审评论</div>
+                                        <div class="count pear-text">21</div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                                    <div class="pear-card2">
+                                        <div class="title">待审帖子</div>
+                                        <div class="count pear-text">32</div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                                    <div class="pear-card2">
+                                        <div class="title">待审文章</div>
+                                        <div class="count pear-text">14</div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                                    <div class="pear-card2">
+                                        <div class="title">待审用户</div>
+                                        <div class="count pear-text">63</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-card-header">动态</div>
+                        <div class="layui-card-body">
+                            <dl class="layuiadmin-card-status">
+                                <dd>
+                                    <div class="layui-status-img"><a href="javascript:;"><img
+                                            style="width: 32px;height: 32px;border-radius: 50px;"
+                                            src="../../admin/images/avatar.jpg"></a></div>
+                                    <div>
+                                        <p>七彩枫叶 在 <a class="pear-text"
+                                                     lay-href="https://gitee.com/Jmysy/Pear-Admin-Layui">Pear
+                                            Admin 专区</a> 回答问题</p>
+                                        <span>几秒前</span>
+                                    </div>
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -104,6 +163,17 @@
             element = layui.element,
             count = layui.count,
             echarts = layui.echarts;
+
+        //点击跳转
+        $("body").on("click", "[data-url]", function () {
+            console.log("click")
+            parent.layui.tab.addTabOnlyByElem("content", {
+                id: $(this).attr("data-id"),
+                title: $(this).attr("data-title"),
+                url: $(this).attr("data-url"),
+                close: true
+            })
+        })
 
         /**
          * 今日运势图表

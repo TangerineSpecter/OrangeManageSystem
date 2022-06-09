@@ -4,15 +4,14 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.github.pagehelper.PageInfo;
+import com.github.pagehelper.page.PageMethod;
 import com.tangerinespecter.oms.common.constants.CommonConstant;
 import com.tangerinespecter.oms.common.constants.RetCode;
 import com.tangerinespecter.oms.common.constants.SystemConstant;
-import com.tangerinespecter.oms.common.enums.GlobalBoolEnum;
 import com.tangerinespecter.oms.common.exception.BusinessException;
-import com.tangerinespecter.oms.common.result.ServiceResult;
-import com.tangerinespecter.oms.common.utils.ParamUtils;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
+import com.tangerinespecter.oms.system.convert.system.MenuConvert;
 import com.tangerinespecter.oms.system.convert.user.RoleConvert;
 import com.tangerinespecter.oms.system.domain.entity.*;
 import com.tangerinespecter.oms.system.domain.enums.UserStatusEnum;
@@ -21,109 +20,84 @@ import com.tangerinespecter.oms.system.mapper.*;
 import com.tangerinespecter.oms.system.service.system.IMenuSettingService;
 import com.tangerinespecter.oms.system.service.system.IPermissionManageService;
 import com.tangerinespecter.oms.system.service.system.ISystemUserService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * @author 丢失的橘子
+ */
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class MenuSettingServiceImpl implements IMenuSettingService {
 
-    @Resource
-    private SystemMenuMapper systemMenuMapper;
-    @Resource
-    private SystemUserMapper systemUserMapper;
-    @Resource
-    private ISystemUserService systemUserService;
-    @Resource
-    private SystemRoleMapper systemRoleMapper;
-    @Resource
-    private SystemPermissionMapper systemPermissionMapper;
-    @Resource
-    private SystemUserRoleMapper systemUserRoleMapper;
-    @Resource
-    private SystemPermissionRoleMapper systemPermissionRoleMapper;
-    @Resource
-    private IMenuSettingService menuSettingService;
-    @Resource
-    private IPermissionManageService permissionManageService;
+    private final SystemMenuMapper systemMenuMapper;
+    private final SystemUserMapper systemUserMapper;
+    private final ISystemUserService systemUserService;
+    private final SystemRoleMapper systemRoleMapper;
+    private final SystemPermissionMapper systemPermissionMapper;
+    private final SystemUserRoleMapper systemUserRoleMapper;
+    private final SystemPermissionRoleMapper systemPermissionRoleMapper;
+    private final IPermissionManageService permissionManageService;
 
     @Override
-    public ServiceResult<Object> listInfo() {
-        List<SystemMenu> list = systemMenuMapper.selectList(null);
-        return ServiceResult.pageSuccess(list, (long) list.size());
+    public PageInfo<SystemMenu> listInfo() {
+        return PageMethod.startPage(1, 0).doSelectPageInfo(() -> systemMenuMapper.selectList(null));
     }
 
     @Override
-    public ServiceResult deleteInfo(Long id) {
-        if (id == null) {
-            return ServiceResult.paramError();
-        }
+    public void deleteInfo(Long id) {
         SystemMenu systemMenu = systemMenuMapper.selectById(id);
-        if (systemMenu == null) {
-            return ServiceResult.error(RetCode.SYSTEM_MENU_NOT_EXIST);
-        }
+        Assert.notNull(systemMenu, () -> new BusinessException(RetCode.SYSTEM_MENU_NOT_EXIST));
         List<SystemMenu> menuList = systemMenuMapper.selectByPid(systemMenu.getId());
-        if (menuList.size() > 0) {
-            return ServiceResult.error(RetCode.SYSTEM_MENU_CHILD_EXIST);
-        }
+        Assert.isTrue(menuList.isEmpty(), () -> new BusinessException(RetCode.SYSTEM_MENU_CHILD_EXIST));
         systemMenuMapper.deleteById(id);
         permissionManageService.deleteInfo(SystemUtils.getPermissionCode(systemMenu.getPermissionCode()));
-        return ServiceResult.success();
     }
 
     @Override
-    public ServiceResult insertInfo(SystemMenuInfoVo vo) {
-        if (checkMenuHrefExist(null, vo.getHref())) {
-            return ServiceResult.error(RetCode.SYSTEM_MENU_HREF_EXIST);
-        }
-        SystemMenu systemMenu = SystemMenu.builder().title(vo.getTitle()).href(vo.getHref())
-                .icon(vo.getIcon()).level(vo.getLevel()).pid(vo.getPid())
-                .target(vo.getTarget()).sort(vo.getSort()).build();
+    public void insertInfo(SystemMenuInfoVo vo) {
+        Assert.isTrue(checkMenuHrefNotExist(null, vo.getHref()), () -> new BusinessException(RetCode.SYSTEM_MENU_HREF_EXIST));
+        SystemMenu systemMenu = MenuConvert.INSTANCE.convert(vo);
         systemMenuMapper.insert(systemMenu);
         systemMenu.setPermissionCode(SystemUtils.getMenuCode(systemMenu.getHref(), systemMenu.getId()));
         systemMenuMapper.updateById(systemMenu);
         permissionManageService.init();
-        return ServiceResult.success();
     }
 
     /**
-     * 校验菜单地址是否存在
+     * 校验菜单地址是否不存在
      *
      * @param id   菜单ID
      * @param href 菜单地址
-     * @return true:存在
+     * @return true:不存在
      */
-    private boolean checkMenuHrefExist(Long id, String href) {
-        QueryWrapper<SystemMenu> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("href", href);
-        SystemMenu selectMenu = systemMenuMapper.selectOne(queryWrapper);
-        if (id != null) {
-            if (selectMenu == null) {
-                return false;
-            }
-            return !id.equals(selectMenu.getId());
+    private boolean checkMenuHrefNotExist(Long id, String href) {
+        SystemMenu menu = systemMenuMapper.selectOneByHref(href);
+        //不存在，则能添加
+        if (menu == null) {
+            return true;
         }
-        return selectMenu != null;
+        //存在，但是同一个或者id为空，则能添加
+        return id == null || Objects.equals(id, menu.getId());
     }
 
     @Override
-    public ServiceResult detailInfo(Long id) {
-        if (id == null) {
-            return ServiceResult.paramError();
-        }
-        SystemMenu systemMenu = systemMenuMapper.selectById(id);
-        return ServiceResult.success(systemMenu);
+    public SystemMenu detailInfo(Long id) {
+        return systemMenuMapper.selectById(id);
     }
 
     @Override
-    public ServiceResult updateInfo(SystemMenuInfoVo vo) {
+    public void updateInfo(SystemMenuInfoVo vo) {
         SystemMenu systemMenu = systemMenuMapper.selectById(vo.getId());
-        Assert.isTrue(!checkMenuHrefExist(vo.getId(), vo.getHref()), () -> new BusinessException(RetCode.SYSTEM_MENU_HREF_EXIST));
+        Assert.isTrue(checkMenuHrefNotExist(vo.getId(), vo.getHref()), () -> new BusinessException(RetCode.SYSTEM_MENU_HREF_EXIST));
         String beforeHref = systemMenu.getHref();
         systemMenu.setTitle(vo.getTitle());
         systemMenu.setHref(vo.getHref());
@@ -136,7 +110,6 @@ public class MenuSettingServiceImpl implements IMenuSettingService {
         //重置权限url
         SystemMenu menu = systemMenuMapper.selectById(vo.getId());
         systemPermissionMapper.updateUrlByCode(SystemUtils.getPermissionUrl(beforeHref), SystemUtils.getPermissionUrl(vo.getHref()), SystemUtils.getPermissionCode(menu.getPermissionCode()));
-        return ServiceResult.success();
     }
 
     @Override
@@ -154,19 +127,13 @@ public class MenuSettingServiceImpl implements IMenuSettingService {
     }
 
     @Override
-    public ServiceResult topInfo(Long id) {
+    public void topInfo(Long id) {
         SystemMenu menu = systemMenuMapper.selectById(id);
-        if (menu == null) {
-            return ServiceResult.error(RetCode.SYSTEM_MENU_NOT_EXIST);
-        }
-        QueryWrapper<SystemMenu> queryWrapper = new QueryWrapper<SystemMenu>().eq(ParamUtils.TOP, CommonConstant.IS_TOP);
-        Integer count = systemMenuMapper.selectCount(queryWrapper);
-        if (CommonConstant.IS_NOT_TOP.equals(menu.getTop()) && count >= SystemConstant.SYSTEM_MENU_TOP_COUNT_THRESHOLD) {
-            return ServiceResult.error(RetCode.SYSTEM_MENU_MORE_THAN_UPPER);
-        }
+        Assert.notNull(menu, () -> new BusinessException(RetCode.SYSTEM_MENU_NOT_EXIST));
+        //只有置顶的时候进行校验上限
+        Assert.isFalse(CommonConstant.IS_NOT_TOP.equals(menu.getTop()) && systemMenuMapper.selectTopCount() >= SystemConstant.SYSTEM_MENU_TOP_COUNT_THRESHOLD, () -> new BusinessException(RetCode.SYSTEM_MENU_MORE_THAN_UPPER));
         menu.setTop(CommonConstant.IS_TOP.equals(menu.getTop()) ? CommonConstant.IS_NOT_TOP : CommonConstant.IS_TOP);
         systemMenuMapper.updateById(menu);
-        return ServiceResult.success();
     }
 
     /**
@@ -174,10 +141,9 @@ public class MenuSettingServiceImpl implements IMenuSettingService {
      */
     @Override
     public void initSystemUserAdmin() {
-        final SystemUser systemUser = systemUserMapper.selectOneByAdmin();
+        SystemUser systemUser = systemUserMapper.selectOneByAdmin();
         String uid = Optional.ofNullable(systemUser).map(SystemUser::getUid).orElseGet(() -> {
-            SystemUser newUser = SystemUser.builder().admin(GlobalBoolEnum.YES.getValue()).username("admin")
-                    .password("123456").isDel(GlobalBoolEnum.YES.getValue()).build();
+            SystemUser newUser = systemUserService.insertSystemUserInfo(new SystemUser("admin", "123456"));
             try {
                 systemUserService.insertSystemUserInfo(newUser);
                 log.info("超级管理员账号初始化完毕");
@@ -214,7 +180,7 @@ public class MenuSettingServiceImpl implements IMenuSettingService {
      */
     private void initPermission(Long roleId) {
         Assert.isTrue(roleId != null, "超级管理员角色异常");
-        List<SystemMenu> systemMenus = menuSettingService.initMenuCode();
+        List<SystemMenu> systemMenus = this.initMenuCode();
         List<SystemPermission> systemPermissions = systemPermissionMapper.selectList(null);
         List<String> permissionCodes = systemPermissions.stream().map(SystemPermission::getCode).collect(Collectors.toList());
         systemMenus.forEach(menu -> {

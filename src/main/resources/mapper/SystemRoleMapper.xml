@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tangerinespecter.oms.system.mapper.SystemRoleMapper">
-
     <resultMap id="systemUserMap" type="com.tangerinespecter.oms.system.domain.entity.SystemRole">
         <id column="id" property="id"/>
         <result column="name" property="name"/>
@@ -30,11 +29,11 @@
         select *
         from system_role
         <where>
-            <if test="type!=null">
+            <if test="type != null">
                 and `type` = #{type}
             </if>
-            <if test="name!=null and name !=''">
-                and `name` like concat('%',#{name},'%')
+            <if test="name != null and name != ''">
+                and `name` like concat('%', #{name}, '%')
             </if>
         </where>
     </select>

@@ -1,7 +1,9 @@
 package com.tangerinespecter.oms.system.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,32 +23,25 @@ public class SystemConfig {
 
     @TableId(type = IdType.AUTO)
     private Long id;
-    /**
-     * web标题
-     */
+    @ApiModelProperty("web标题")
+    @TableField("web_title")
     private String webTitle;
-    /**
-     * webUrl
-     */
+    @ApiModelProperty("webUrl")
+    @TableField("web_url")
     private String webUrl;
-    /**
-     * 缓存时间
-     */
+    @ApiModelProperty("缓存时间")
+    @TableField("cache_time")
     private Integer cacheTime;
-    /**
-     * 文件大小
-     */
+    @ApiModelProperty("文件大小")
+    @TableField("file_size")
     private Long fileSize;
-    /**
-     * 主页标题
-     */
+    @ApiModelProperty("主页标题")
+    @TableField("home_title")
     private String homeTitle;
-    /**
-     * 上传格式限制
-     */
+    @ApiModelProperty("上传格式限制")
+    @TableField("file_suffix")
     private String fileSuffix;
-    /**
-     * 版权信息
-     */
+    @ApiModelProperty("版权信息")
+    @TableField("copyright")
     private String copyright;
 }

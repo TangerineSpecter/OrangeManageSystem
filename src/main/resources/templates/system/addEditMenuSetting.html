@@ -45,7 +45,7 @@
                     <div class="layui-input-inline">
                         <select lay-filter="pid" name="pid" lay-search="">
                             <option value="-1" selected="">无</option>
-                            <option th:each="systemMenu:${menuList.data}" th:text="${systemMenu.title}"
+                            <option th:each="systemMenu:${menuList.list}" th:text="${systemMenu.title}"
                                     th:value="${systemMenu.id}"></option>
                         </select>
                     </div>

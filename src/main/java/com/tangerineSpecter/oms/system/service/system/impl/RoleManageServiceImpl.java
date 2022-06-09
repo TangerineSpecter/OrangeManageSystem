@@ -3,8 +3,8 @@ package com.tangerinespecter.oms.system.service.system.impl;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.text.CharSequenceUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.github.pagehelper.page.PageMethod;
 import com.google.common.base.Splitter;
 import com.tangerinespecter.oms.common.constants.CommonConstant;
 import com.tangerinespecter.oms.common.constants.RetCode;
@@ -29,9 +29,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
+/**
+ * @author 丢失的橘子
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -43,17 +46,15 @@ public class RoleManageServiceImpl implements IRoleManageService {
 
     @Override
     public PageInfo<SystemRoleListDto> querySystemRoleList(SystemRoleQueryObject qo) {
-        PageHelper.startPage(qo.getPage(), qo.getLimit());
-        List<SystemRoleListDto> pageList = systemRoleMapper.queryForPage(qo);
+        PageInfo<SystemRoleListDto> pageList = PageMethod.startPage(qo.getPage(), qo.getLimit())
+                .doSelectPageInfo(() -> systemRoleMapper.queryForPage(qo));
         List<SystemPermission> systemPermissions = systemPermissionMapper.selectList(null);
-        for (SystemRoleListDto systemRole : pageList) {
-            systemRole.setPermissions(systemPermissions);
-            Set<SystemPermission> rolePermission = getRolePermission(systemRole.getId());
-            List<Long> havePermissionIds = rolePermission.stream().map(SystemPermission::getId).collect(Collectors.toList());
-            systemRole.setHavePermissionIds(havePermissionIds);
-        }
+        CollUtils.forEach(pageList.getList(), systemRole -> {
+            List<Long> havePermissionIds = CollUtils.convertList(getRolePermission(systemRole.getId()), SystemPermission::getId);
+            systemRole.initPermission(systemPermissions, havePermissionIds);
+        });
         // 得到分页结果对象
-        return new PageInfo<>(pageList);
+        return pageList;
     }
 
     @Override
@@ -74,11 +75,8 @@ public class RoleManageServiceImpl implements IRoleManageService {
 
     @Override
     public Set<SystemPermission> getRolePermission(Long roleId) {
-        if (roleId == null) {
-            return CollUtil.newHashSet();
-        }
-        SystemRole systemRole = systemRoleMapper.selectRoleById(roleId);
-        return systemRole.getPermissions();
+        return Optional.ofNullable(systemRoleMapper.selectRoleById(roleId))
+                .map(SystemRole::getPermissions).orElse(CollUtil.newHashSet());
     }
 
     @Override

@@ -2,9 +2,9 @@ package com.tangerinespecter.oms.common.redis;
 
 public interface KeyPrefix {
 
-    public int expireSeconds();
+    int expireSeconds();
 
-    public String getPrefix();
+    String getPrefix();
 
-    public int getExpireSeconds();
+    int getExpireSeconds();
 }

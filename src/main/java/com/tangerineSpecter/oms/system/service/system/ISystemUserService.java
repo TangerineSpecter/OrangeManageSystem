@@ -2,7 +2,6 @@ package com.tangerinespecter.oms.system.service.system;
 
 import com.github.pagehelper.PageInfo;
 import com.tangerinespecter.oms.common.query.SystemUserQueryObject;
-import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.dto.system.SystemUserListDto;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;
 import com.tangerinespecter.oms.system.domain.pojo.AccountInfo;
@@ -22,7 +21,7 @@ public interface ISystemUserService {
     /**
      * 校验登录
      */
-    ServiceResult<Object> verifyLogin(HttpServletRequest request, HttpServletResponse response, @Valid AccountInfo model);
+    void verifyLogin(HttpServletRequest request, HttpServletResponse response, @Valid AccountInfo model);
 
     /**
      * 后台管理员列表
@@ -37,7 +36,7 @@ public interface ISystemUserService {
     /**
      * 更新账户信息
      */
-    ServiceResult<Object> updateSystemUserInfo(SystemUserInfoVo systemUser);
+    void updateSystemUserInfo(SystemUserInfoVo systemUser);
 
     /**
      * 创建管理员
@@ -45,12 +44,12 @@ public interface ISystemUserService {
      * @param systemUser 管理员信息
      * @return 创建结果
      */
-    ServiceResult<Object> insertSystemUserInfo(SystemUser systemUser);
+    SystemUser insertSystemUserInfo(SystemUser systemUser);
 
     /**
      * 修改密码
      */
-    ServiceResult updatePassword(SystemUserPwdVo vo);
+    void updatePassword(SystemUserPwdVo vo);
 
     /**
      * 更新角色
@@ -58,5 +57,5 @@ public interface ISystemUserService {
      * @param vo
      * @return
      */
-    ServiceResult updateSystemUserRole(SystemUserInfoVo vo);
+    void updateSystemUserRole(SystemUserInfoVo vo);
 }

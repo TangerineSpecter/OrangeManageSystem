@@ -1,78 +1,56 @@
 package com.tangerinespecter.oms.system.service.system.impl;
 
-import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.github.pagehelper.page.PageMethod;
 import com.tangerinespecter.oms.common.query.SystemPermissionQueryObject;
-import com.tangerinespecter.oms.common.result.ServiceResult;
+import com.tangerinespecter.oms.common.utils.CollUtils;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
-import com.tangerinespecter.oms.system.domain.entity.SystemMenu;
+import com.tangerinespecter.oms.system.convert.system.PermissionConvert;
 import com.tangerinespecter.oms.system.domain.entity.SystemPermission;
-import com.tangerinespecter.oms.system.domain.entity.SystemPermissionRole;
 import com.tangerinespecter.oms.system.mapper.SystemMenuMapper;
 import com.tangerinespecter.oms.system.mapper.SystemPermissionMapper;
 import com.tangerinespecter.oms.system.mapper.SystemPermissionRoleMapper;
 import com.tangerinespecter.oms.system.service.system.IPermissionManageService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.List;
-import java.util.stream.Collectors;
 
+/**
+ * @author 丢失的橘子
+ */
 @Service
+@RequiredArgsConstructor
 public class PermissionManageServiceImpl implements IPermissionManageService {
 
-    @Resource
-    private SystemPermissionMapper systemPermissionMapper;
-    @Resource
-    private SystemMenuMapper systemMenuMapper;
-    @Resource
-    private SystemPermissionRoleMapper systemPermissionRoleMapper;
+    private final SystemPermissionMapper systemPermissionMapper;
+    private final SystemMenuMapper systemMenuMapper;
+    private final SystemPermissionRoleMapper systemPermissionRoleMapper;
 
     @Override
-    public ServiceResult queryForPage(SystemPermissionQueryObject qo) {
-        PageHelper.startPage(qo.getPage(), qo.getLimit());
-        List<SystemPermission> pageList = systemPermissionMapper.queryForPage(qo);
-        // 得到分页结果对象
-        PageInfo<SystemPermission> systemUserInfo = new PageInfo<>(pageList);
-        return ServiceResult.pageSuccess(pageList, systemUserInfo.getTotal());
+    public PageInfo<SystemPermission> queryForPage(SystemPermissionQueryObject qo) {
+        return PageMethod.startPage(qo.getPage(), qo.getLimit())
+                .doSelectPageInfo(() -> systemPermissionMapper.queryForPage(qo));
     }
 
     @Override
-    public ServiceResult init() {
-        List<SystemMenu> systemMenus = systemMenuMapper.selectList(null);
-        List<SystemPermission> systemPermissions = systemPermissionMapper.selectList(null);
-        List<String> permissionCodes = systemPermissions.stream().map(SystemPermission::getCode).collect(Collectors.toList());
-        systemMenus.forEach(menu -> {
-            //如果存在新的菜单不在权限表内
-            if (!permissionCodes.contains(SystemUtils.getPermissionCode(menu.getPermissionCode()))) {
-                SystemPermission permission = SystemPermission.builder().name(menu.getTitle() + "权限")
-                        .code(SystemUtils.getPermissionCode(menu.getPermissionCode()))
-                        .sort(0).url(SystemUtils.getPermissionUrl(menu.getHref())).remark(null).sort(0).build();
-                systemPermissionMapper.insert(permission);
+    public void init() {
+        List<String> permissionCodes = CollUtils.convertList(systemPermissionMapper.selectList(null), SystemPermission::getCode);
+        CollUtils.forEach(systemMenuMapper.selectList(null), menu -> {
+            //新的菜单在已有权限表内，jump
+            if (permissionCodes.contains(SystemUtils.getPermissionCode(menu.getPermissionCode()))) {
+                return;
             }
+            systemPermissionMapper.insert(PermissionConvert.INSTANCE.convert(menu));
         });
-        return ServiceResult.success();
     }
 
-    /**
-     * 删除权限
-     *
-     * @param code
-     * @return
-     */
     @Override
-    public ServiceResult deleteInfo(String code) {
-        if (StrUtil.isBlank(code)) {
-            return ServiceResult.paramError();
-        }
+    public void deleteInfo(String code) {
         SystemPermission systemPermission = systemPermissionMapper.queryPermissionByCode(code);
         Long id = systemPermission.getId();
         systemPermissionMapper.deleteById(id);
-        QueryWrapper<SystemPermissionRole> queryWrapper = new QueryWrapper<SystemPermissionRole>()
-                .eq("pid", id);
-        systemPermissionRoleMapper.delete(queryWrapper);
-        return ServiceResult.success();
+        systemPermissionRoleMapper.deleteByPid(id);
     }
+
 }

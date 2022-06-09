@@ -6,6 +6,7 @@ import lombok.Getter;
  * 日志事件枚举
  */
 @Getter
+@SuppressWarnings("all")
 public enum LogOperation implements IBaseDbEnum {
 
     EVENT_LOGIN(1, "登录"),

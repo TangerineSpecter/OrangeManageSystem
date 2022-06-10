@@ -8,14 +8,15 @@ import com.tangerinespecter.oms.common.query.UserCardNoteQueryObject;
 import com.tangerinespecter.oms.common.redis.PageModelKey;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.vo.user.CardNoteInfoVo;
+import com.tangerinespecter.oms.system.domain.vo.user.CardNoteTagAssocVo;
 import com.tangerinespecter.oms.system.domain.vo.user.CardNoteTagVo;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
 import com.tangerinespecter.oms.system.service.user.ICardNoteService;
+import com.tangerinespecter.oms.system.valid.Update;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +34,7 @@ import java.util.Date;
  * @date 2022年1月16日 21:56:51
  */
 @Api(tags = "卡片笔记模块")
-@Controller
+@RestController
 @ReWriteBody
 @RequiredArgsConstructor
 @RequestMapping("/user/card-note")
@@ -42,7 +43,6 @@ public class CardNoteController {
     private final PageResultService pageResultService;
     private final ICardNoteService cardNoteService;
 
-    @ResponseBody
     @ApiOperation(value = "卡片笔记界面")
     @RequiresPermissions("user:card-note:page")
     @GetMapping(value = "/page", produces = "text/html;charset=UTF-8")
@@ -58,18 +58,18 @@ public class CardNoteController {
      * 标签设置页面
      */
     @ApiOperation("标签设置页面")
-    @GetMapping("/tagSetting")
-    public ModelAndView tagSetting(Model model) {
+    @GetMapping("/tagSetting/{noteId}")
+    public ModelAndView tagSetting(Model model, @PathVariable("noteId") Long noteId) {
         model.addAttribute("allTags", cardNoteService.getAllTags());
-        model.addAttribute("haveTags", cardNoteService.haveTagIds());
+        model.addAttribute("haveTags", cardNoteService.haveTagIds(noteId));
         return ServiceResult.jumpPage("user/noteTagSetting");
     }
 
     @ApiOperation(value = "卡片笔记列表")
     @GetMapping(value = "/list")
-    public String queryForPage(Model model, UserCardNoteQueryObject qo) {
+    public ModelAndView queryForPage(Model model, UserCardNoteQueryObject qo) {
         model.addAttribute("noteList", cardNoteService.queryForPage(qo).getList());
-        return "user/cardNoteManage::noteCards";
+        return ServiceResult.jumpPage("user/cardNoteManage::noteCards");
     }
 
     @ApiOperation(value = "随机漫步")
@@ -79,7 +79,6 @@ public class CardNoteController {
         return ServiceResult.jumpPage("user/cardNoteManage::noteCards");
     }
 
-    @ResponseBody
     @ApiOperation(value = "新增卡片笔记")
     @LoggerInfo(value = "新增卡片笔记", event = LogOperation.EVENT_ADD)
     @PostMapping(value = "/insert")
@@ -87,7 +86,6 @@ public class CardNoteController {
         cardNoteService.insert(vo);
     }
 
-    @ResponseBody
     @ApiOperation(value = "新增笔记标签")
     @LoggerInfo(value = "新增笔记标签", event = LogOperation.EVENT_ADD)
     @PostMapping(value = "/insert-tag")
@@ -95,15 +93,20 @@ public class CardNoteController {
         cardNoteService.insertTag(vo);
     }
 
-    @ResponseBody
-    @ApiOperation(value = "笔记关联标签")
-    @LoggerInfo(value = "笔记关联标签", event = LogOperation.EVENT_UPDATE)
+    @ApiOperation(value = "修改标签")
+    @LoggerInfo(value = "修改标签", event = LogOperation.EVENT_UPDATE)
     @PutMapping(value = "/update-tag")
-    public void updateTag(@RequestBody @Validated CardNoteTagVo vo) {
+    public void updateTag(@RequestBody @Validated(Update.class) CardNoteTagVo vo) {
         cardNoteService.updateTag(vo);
     }
 
-    @ResponseBody
+    @ApiOperation(value = "修改笔记标签关联")
+    @LoggerInfo(value = "修改笔记标签关联", event = LogOperation.EVENT_UPDATE)
+    @PutMapping(value = "/update-tag-assoc")
+    public void updateTagAssoc(@RequestBody @Validated CardNoteTagAssocVo vo) {
+        cardNoteService.updateTagAssoc(vo);
+    }
+
     @ApiOperation(value = "恢复卡片笔记")
     @LoggerInfo(value = "恢复卡片笔记", event = LogOperation.EVENT_UPDATE)
     @PutMapping(value = "/{id}/restore")
@@ -111,7 +114,6 @@ public class CardNoteController {
         cardNoteService.restore(id);
     }
 
-    @ResponseBody
     @ApiOperation(value = "删除卡片笔记")
     @LoggerInfo(value = "删除卡片笔记", event = LogOperation.EVENT_DELETE)
     @DeleteMapping(value = "/delete/{id}")
@@ -119,7 +121,6 @@ public class CardNoteController {
         cardNoteService.delete(id);
     }
 
-    @ResponseBody
     @ApiOperation(value = "完全删除卡片笔记")
     @LoggerInfo(value = "完全删除卡片笔记", event = LogOperation.EVENT_DELETE)
     @DeleteMapping(value = "/force-delete/{id}")
@@ -127,7 +128,6 @@ public class CardNoteController {
         cardNoteService.forceDelete(id);
     }
 
-    @ResponseBody
     @ApiOperation(value = "删除笔记标签")
     @LoggerInfo(value = "删除笔记标签", event = LogOperation.EVENT_DELETE)
     @DeleteMapping(value = "/delete-tag/{tagId}")

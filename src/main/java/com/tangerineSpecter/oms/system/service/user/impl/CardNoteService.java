@@ -1,5 +1,6 @@
 package com.tangerinespecter.oms.system.service.user.impl;
 
+import cn.hutool.core.text.CharSequenceUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.tangerinespecter.oms.common.context.UserContext;
@@ -10,6 +11,7 @@ import com.tangerinespecter.oms.system.domain.dto.user.CardNoteSubmitInfo;
 import com.tangerinespecter.oms.system.domain.entity.UserCardNoteTag;
 import com.tangerinespecter.oms.system.domain.vo.user.CardNoteInfoVo;
 import com.tangerinespecter.oms.system.domain.vo.user.CardNoteListVo;
+import com.tangerinespecter.oms.system.domain.vo.user.CardNoteTagAssocVo;
 import com.tangerinespecter.oms.system.domain.vo.user.CardNoteTagVo;
 import com.tangerinespecter.oms.system.mapper.UserCardNoteMapper;
 import com.tangerinespecter.oms.system.mapper.UserCardNoteTagMapper;
@@ -94,6 +96,17 @@ public class CardNoteService implements ICardNoteService {
 
     @Override
     public void updateTag(CardNoteTagVo vo) {
+        //TODO 更新标签名称
+    }
+
+    @Override
+    public void updateTagAssoc(CardNoteTagAssocVo vo) {
+        noteTagAssocMapper.deleteByNoteId(vo.getId());
+        if (CharSequenceUtil.isEmpty(vo.getNoteTag())) {
+            return;
+        }
+        List<Long> tagIds = CharSequenceUtil.split(vo.getNoteTag(), ',', -1, true, Long::parseLong);
+        noteTagAssocMapper.batchInsert(vo.getId(), tagIds);
     }
 
     @Override
@@ -102,7 +115,7 @@ public class CardNoteService implements ICardNoteService {
     }
 
     @Override
-    public List<Long> haveTagIds() {
-        return Collections.emptyList();
+    public List<Long> haveTagIds(Long noteId) {
+        return noteTagAssocMapper.selectTagIdsByNoteId(noteId);
     }
 }

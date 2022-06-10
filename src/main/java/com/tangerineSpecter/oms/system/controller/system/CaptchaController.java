@@ -21,17 +21,17 @@ import javax.servlet.http.HttpServletResponse;
 @Api(tags = "验证码接口")
 @RequestMapping("system/captcha")
 public class CaptchaController {
-	
-	/**
-	 * 验证码生成
-	 *
-	 * @param request  请求报文
-	 * @param response 响应报文
-	 */
-	@ApiOperation("验证码生成")
-	@GetMapping("generate")
-	public void generate(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		CaptchaUtil.out(request, response);
-	}
-	
+
+    /**
+     * 验证码生成
+     *
+     * @param request  请求报文
+     * @param response 响应报文
+     */
+    @ApiOperation("验证码生成")
+    @GetMapping("generate")
+    public void generate(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CaptchaUtil.out(request, response);
+    }
+
 }

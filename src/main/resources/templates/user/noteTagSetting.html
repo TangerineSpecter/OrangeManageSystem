@@ -55,35 +55,27 @@
         });
     }
 
-    layui.use(['select', 'code', 'element', 'form'], function () {
+    layui.use(['select', 'code', 'element', 'form', 'jquery'], function () {
         let select = layui.select,
+            $ = layui.jquery,
             form = layui.form;
         layui.code();
 
         let allTags = [[${allTags}]];
-        console.log(allTags);
+        let haveTags = [[${haveTags}]];
         const tagDatas = [];
+        console.log(haveTags);
         //初始化下拉框
         $.each(allTags, function (index, item) {
-            console.log(item);
-            let tagInfo = {};
-            tagInfo.name = item.name;
-            tagInfo.id = item.id;
-            tagDatas.push(tagInfo);
-            // const option = "<option value='" + item.id + "'>" + item.name + "</option>";
-            // $("#noteTag").append(option);
+            let selected = $.inArray(item.id, haveTags) > -1;
+            $("#noteTag").append(new Option(item.name, item.id, selected, selected));
         });
-        console.log(tagDatas);
-        select.render('noteTag', tagDatas);
-        // select.render({
-        //     elem: 'noteTag',
-        //     data: tagDatas,
-        // });
-        // select.render();
-
+        select.render();
         //监听提交
         form.on('submit(submitBtn)', function (data) {
             Ajax.put(requestUrl, data.field, true);
+            window.parent.refreshCardNotes();
+            return false;
         });
     });
 

@@ -31,16 +31,16 @@ public class QiNiuConfig {
 
     @Value("${qi.niu.resource.url}")
     public void setQiNiuResourceUrl(String qiNiuResourceUrl) {
-        QI_NIU_RESOURCE_URL = qiNiuResourceUrl;
+        QiNiuConfig.QI_NIU_RESOURCE_URL = qiNiuResourceUrl;
     }
 
     @Value("${qi.niu.access.key}")
     public void setQiNiuAccessKey(String qiNiuAccessKey) {
-        QI_NIU_ACCESS_KEY = qiNiuAccessKey;
+        QiNiuConfig.QI_NIU_ACCESS_KEY = qiNiuAccessKey;
     }
 
     @Value("${qi.niu.secret.key}")
     public void setQiNiuSecretKey(String qiNiuSecretKey) {
-        QI_NIU_SECRET_KEY = qiNiuSecretKey;
+        QiNiuConfig.QI_NIU_SECRET_KEY = qiNiuSecretKey;
     }
 }

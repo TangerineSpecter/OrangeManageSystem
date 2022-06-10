@@ -6,6 +6,7 @@
         div {
             display: block;
         }
+
         /* 卡片时间展示 */
         .card-time {
             display: block;
@@ -187,8 +188,8 @@
                         <p th:utext="${noteInfo.content}">笔记内容</p>
                     </li>
                 </div>
-                <div class="layui-card-body" th:each="tagInfo:${noteInfo.tags}">
-                    <button lay-id="1" type="button" th:value="${tagInfo.id}"
+                <div class="layui-card-body">
+                    <button th:each="tagInfo:${noteInfo.tags}" lay-id="1" type="button" th:value="${tagInfo.id}"
                             class="tag-item layui-btn layui-btn-primary layui-btn-sm note-tag"
                             th:text="${tagInfo.name}">
                     </button>
@@ -200,8 +201,9 @@
 <th:block th:include="include :: footer"/>
 <script th:src="@{/oms/wangeditor/wangEditor_4.7.15.min.js}"></script>
 <script th:inline="javascript">
-    layui.use(['echarts', 'form', 'tag', 'dropdown', 'toast'], function () {
+    layui.use(['echarts', 'form', 'tag', 'dropdown', 'toast', 'jquery'], function () {
         const echarts = layui.echarts,
+            $ = layui.jquery,
             form = layui.form,
             dropdown = layui.dropdown,
             toast = layui.toast,
@@ -226,13 +228,13 @@
                 trigger: 'hover',
                 //菜单被点击的事件
                 click: function (obj) {
-                    console.log(this);
                     let noteId = this.elem[0].id;
                     switch (obj.id) {
                         case 100:
-                            data.href = "/user/card-note/update-tag";
-                            loadFormHeightModel("标签设置", data, '/user/card-note/tagSetting', '600px');
-                            // layer.msg('标签设置，开发中...');
+                            loadFormHeightModel("标签设置", {
+                                id: noteId,
+                                href: "/user/card-note/update-tag-assoc"
+                            }, '/user/card-note/tagSetting/' + noteId, '600px');
                             break;
                         case 101:
                             deleteNote(noteId);
@@ -560,7 +562,8 @@
         /**
          * 刷新笔记列表
          */
-        const refreshCardNotes = function () {
+        window.refreshCardNotes = function () {
+            console.log($(".noteCards"));
             $(".noteCards").load('/user/card-note/list', function () {
                 initNoteMenu();
             });

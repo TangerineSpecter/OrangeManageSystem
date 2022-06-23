@@ -120,6 +120,8 @@ ALTER TABLE `data_trade_record`
     ADD deposit int(16) DEFAULT 0 not null COMMENT '转入金额';
 ALTER TABLE `data_trade_record`
     ADD withdrawal int(16) DEFAULT 0 not null COMMENT '转出金额';
+ALTER TABLE `data_trade_record`
+    add remark varchar(255) default null comment '备注' after `withdrawal`;
 
 -- 修改字段
 alter table `user_health`
@@ -137,7 +139,7 @@ alter table `system_user_role`
 
 -- 索引
 ALTER TABLE system_role
-    ADD UNIQUE (`name`)
+    ADD UNIQUE (`name`);
 
 
 -- 修改字段类型

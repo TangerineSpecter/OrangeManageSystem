@@ -72,6 +72,13 @@
                                class="layui-input" th:value="0">
                     </div>
                 </div>
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">备注</label>
+                    <div class="layui-input-block">
+                    <textarea name="remark" placeholder="在此输入交易备注"
+                              class="layui-textarea" style="height: 100px;"></textarea>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -116,7 +123,8 @@
                 "type": data.type,
                 "currency": data.currency,
                 "deposit": data.deposit / 100,
-                "withdrawal": data.withdrawal / 100
+                "withdrawal": data.withdrawal / 100,
+                "remark": data.remark
             });
             form.render();
         });

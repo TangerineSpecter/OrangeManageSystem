@@ -72,8 +72,8 @@ public class ExchangeRateQuartzService {
      */
     private void updateExchangeData(List<DataExchange> exchangeList) {
         log.info("[汇率信息写入任务]");
-        //获取当日汇率
-        List<DataExchangeRate> dataExchangeRates = dataExchangeRateMapper.selectListByRecordTime(DateUtil.today());
+        //获取最近一次汇率，避免凌晨时分数据没更新而失效
+        List<DataExchangeRate> dataExchangeRates = dataExchangeRateMapper.selectListByLastRecordTime();
         try {
             if (CollUtil.size(dataExchangeRates) > 0) {
                 CollUtils.forEach(dataExchangeRates, exchangeRate -> CommonConstant.EXCHANGE_RATE_MAP.put(exchangeRate.getCode(), NumChainCal.startOf(exchangeRate.getPrice()).div(100).getBigDecimal()));

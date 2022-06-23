@@ -84,6 +84,10 @@ public class NumChainCal {
      * @return 结果
      */
     public NumChainCal div(Object otherValue) {
+        BigDecimal convertValue = Convert.toBigDecimal(otherValue);
+        if (convertValue.equals(BigDecimal.ZERO)) {
+            return new NumChainCal(0);
+        }
         BigDecimal result = NumberUtil.div(this.value, Convert.toBigDecimal(otherValue));
         return new NumChainCal(result);
     }

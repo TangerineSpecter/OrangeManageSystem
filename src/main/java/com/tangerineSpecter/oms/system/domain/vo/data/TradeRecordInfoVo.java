@@ -39,4 +39,6 @@ public class TradeRecordInfoVo implements Serializable {
     private Double deposit;
     @ApiModelProperty("转出金额")
     private Double withdrawal;
+    @ApiModelProperty("备注")
+    private String remark;
 }

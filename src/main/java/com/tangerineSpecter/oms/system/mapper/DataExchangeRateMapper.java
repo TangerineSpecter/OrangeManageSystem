@@ -35,4 +35,11 @@ public interface DataExchangeRateMapper extends BaseMapper<DataExchangeRate> {
                 .orderByDesc("record_time")
                 .last("limit 1"));
     }
+
+    /**
+     * 获取最近记录的汇率数据
+     *
+     * @return 汇率数据
+     */
+    List<DataExchangeRate> selectListByLastRecordTime();
 }

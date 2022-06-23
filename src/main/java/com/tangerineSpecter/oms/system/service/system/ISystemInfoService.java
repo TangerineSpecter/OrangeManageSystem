@@ -24,26 +24,28 @@ public interface ISystemInfoService {
     /**
      * 初始化首页
      *
-     * @return
+     * @return 首页信息
      */
     HomePageDataDto initHome();
 
     /**
      * 收益统计信息
      *
-     * @return
+     * @return 收益数据
      */
     StatisticsInfo getStatisticsInfo();
 
     /**
      * 系统公告信息
-     * @return
+     *
+     * @return 公告信息
      */
     SystemNoticeInfo getNoticeInfo();
 
     /**
      * 初始化菜单
-     * @return
+     *
+     * @return 菜单列表
      */
     List<MenuChildInfo> initMenu();
 }

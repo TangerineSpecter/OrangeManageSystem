@@ -56,4 +56,7 @@ public class DataTradeRecord extends AdminEntity {
     @ApiModelProperty("转出金额")
     @TableField("withdrawal")
     private Integer withdrawal;
+    @ApiModelProperty("备注")
+    @TableField("remark")
+    private String remark;
 }

@@ -108,8 +108,8 @@ public class DataTradeRecordServiceImpl implements IDateTradeRecordService {
         int totalCount = dataTradeRecordMapper.selectCountLeDateByType(data.getType(), data.getDate(), UserContext.getUid());
         //获胜次数
         int winCount = dataTradeRecordMapper.getTradeWinCountByTypeAndDate(data.getType(), data.getDate(), UserContext.getUid());
-        //收益值 = 收盘资金 - 开盘资金 + 出金
-        int incomeValue = NumChainCal.startOf(data.getEndMoney()).sub(data.getStartMoney()).add(data.getWithdrawal()).getInteger();
+        //收益值 = 收盘资金 - 开盘资金
+        int incomeValue = NumChainCal.startOf(data.getEndMoney()).sub(data.getStartMoney()).getInteger();
         data.setIncomeValue(incomeValue);
         //根据原始本金计算收益率
         data.setIncomeRate(NumChainCal.startOf(data.getIncomeValue()).div(data.getStartMoney(), 5).getBigDecimal());

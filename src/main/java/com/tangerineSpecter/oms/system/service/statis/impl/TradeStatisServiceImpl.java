@@ -10,19 +10,24 @@ import com.tangerinespecter.oms.system.domain.entity.DataTradeRecord;
 import com.tangerinespecter.oms.system.domain.enums.TradeRecordTypeEnum;
 import com.tangerinespecter.oms.system.mapper.DataTradeRecordMapper;
 import com.tangerinespecter.oms.system.service.statis.ITradeStatisService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * @author 丢失的橘子
+ */
+@Slf4j
 @Service
+@RequiredArgsConstructor
 public class TradeStatisServiceImpl implements ITradeStatisService {
 
-    @Resource
-    private DataTradeRecordMapper tradeRecordMapper;
+    private final DataTradeRecordMapper tradeRecordMapper;
 
     @Override
     public TradeStatisIncomeInfoDto incomeValueStatisInfo() {
@@ -31,11 +36,18 @@ public class TradeStatisServiceImpl implements ITradeStatisService {
         incomeInfo.setDate(tradeRecordMapper.selectTradeDateList(UserContext.getUid(), 30));
         List<DataTradeRecord> tradeRecords = tradeRecordMapper.selectListByDate(CollUtil.getLast(incomeInfo.getDate()), CollUtil.getFirst(incomeInfo.getDate()), UserContext.getUid());
         Map<String, DataTradeRecord> tradeRecordMap = CollUtils.convertMap(tradeRecords, tradeRecord -> tradeRecord.getDate() + tradeRecord.getType());
-        CollUtils.forEach(incomeInfo.getDate(), date -> incomeInfo.setTradeData(
-                this.sumMoney(tradeRecordMap.get(date + TradeRecordTypeEnum.STOCK_TYPE.getValue())),
-                this.sumMoney(tradeRecordMap.get(date + TradeRecordTypeEnum.FUTURES_TYPE.getValue())),
-                this.sumMoney(tradeRecordMap.get(date + TradeRecordTypeEnum.FOREIGN_EXCHANGE_TYPE.getValue())),
-                this.sumMoney(tradeRecordMap.get(date + TradeRecordTypeEnum.FUND_TYPE.getValue())))
+        CollUtils.forEach(incomeInfo.getDate(), date -> {
+                    incomeInfo.setTradeData(
+                            this.sumMoney(tradeRecordMap.get(date + TradeRecordTypeEnum.STOCK_TYPE.getValue())),
+                            this.sumMoney(tradeRecordMap.get(date + TradeRecordTypeEnum.FUTURES_TYPE.getValue())),
+                            this.sumMoney(tradeRecordMap.get(date + TradeRecordTypeEnum.FOREIGN_EXCHANGE_TYPE.getValue())),
+                            this.sumMoney(tradeRecordMap.get(date + TradeRecordTypeEnum.FUND_TYPE.getValue())));
+                    incomeInfo.setTradeTotalIncome(
+                            this.sumTotalMoney(tradeRecordMap.get(date + TradeRecordTypeEnum.STOCK_TYPE.getValue())),
+                            this.sumTotalMoney(tradeRecordMap.get(date + TradeRecordTypeEnum.FUTURES_TYPE.getValue())),
+                            this.sumTotalMoney(tradeRecordMap.get(date + TradeRecordTypeEnum.FOREIGN_EXCHANGE_TYPE.getValue())),
+                            this.sumTotalMoney(tradeRecordMap.get(date + TradeRecordTypeEnum.FUND_TYPE.getValue())));
+                }
         );
         return incomeInfo;
     }
@@ -69,6 +81,17 @@ public class TradeStatisServiceImpl implements ITradeStatisService {
     private BigDecimal sumMoney(DataTradeRecord tradeRecord) {
         tradeRecord = Optional.ofNullable(tradeRecord).orElse(new DataTradeRecord());
         return this.sumMoney(tradeRecord.getIncomeValue(), tradeRecord.getCurrency()).getBigDecimal();
+    }
+
+    /**
+     * 单条累计数据计算
+     *
+     * @param tradeRecord 资金数据
+     * @return 计算结果
+     */
+    private BigDecimal sumTotalMoney(DataTradeRecord tradeRecord) {
+        tradeRecord = Optional.ofNullable(tradeRecord).orElse(new DataTradeRecord());
+        return this.sumMoney(tradeRecord.getTotalIncomeValue(), tradeRecord.getCurrency()).getBigDecimal();
     }
 
     /**

@@ -332,7 +332,7 @@ window.initStrokeColumnCharts = function (echartsId, lineStyle, xData, yData) {
         series: {
             name: '收益',
             type: 'bar',
-            barWidth: '50%',  //柱子宽度
+            barWidth: '80%',  //柱子宽度
             itemStyle: {  //柱子颜色
                 normal: {
                     borderWidth: 2,

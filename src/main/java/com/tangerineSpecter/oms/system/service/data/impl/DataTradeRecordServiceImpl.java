@@ -1,5 +1,6 @@
 package com.tangerinespecter.oms.system.service.data.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.NumberUtil;
@@ -61,8 +62,8 @@ public class DataTradeRecordServiceImpl implements IDateTradeRecordService {
     private void handlerTradeData(Integer type) {
         CompletableFuture.runAsync(() -> {
             List<DataTradeRecord> dataTradeRecords = dataTradeRecordMapper.selectListByType(type, UserContext.getUid());
-            this.refreshTradeDifference(dataTradeRecords);
             CollUtils.forEach(dataTradeRecords, this::handlerSingleTradeData);
+            this.refreshTradeDifference(dataTradeRecords);
         });
     }
 
@@ -73,20 +74,10 @@ public class DataTradeRecordServiceImpl implements IDateTradeRecordService {
      */
     private void refreshTradeDifference(List<DataTradeRecord> dataTradeRecords) {
         //计算前后日期金额差值
-        IntStream.range(1, dataTradeRecords.size()).forEach(index -> {
-            DataTradeRecord lastData = dataTradeRecords.get(index);
-            DataTradeRecord currentData = dataTradeRecords.get(index - 1);
-            //前后金额差值
-            int subtractMoney = lastData.getStartMoney() - currentData.getEndMoney();
-            if (subtractMoney > 0) {
-                lastData.setDeposit(subtractMoney);
-            } else if (subtractMoney < 0) {
-                lastData.setWithdrawal(Math.abs(subtractMoney));
-            } else {
-                lastData.setDeposit(0);
-                lastData.setWithdrawal(0);
-            }
-            dataTradeRecordMapper.updateById(lastData);
+        IntStream.range(0, dataTradeRecords.size()).forEach(index -> {
+            DataTradeRecord currentData = CollUtil.get(dataTradeRecords, index);
+            DataTradeRecord beforeData = CollUtil.get(dataTradeRecords, index - 1 < 0 ? Integer.MAX_VALUE : index - 1);
+            dataTradeRecordMapper.updateById(currentData.initData(beforeData));
         });
     }
 

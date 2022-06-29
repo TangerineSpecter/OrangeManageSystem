@@ -15,6 +15,7 @@ import com.tangerinespecter.oms.system.service.page.PageResultService;
 import com.tangerinespecter.oms.system.valid.Update;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -22,7 +23,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotNull;
@@ -36,17 +36,13 @@ import javax.validation.constraints.NotNull;
 @ReWriteBody
 @RestController
 @Api(tags = "交易记录接口")
+@RequiredArgsConstructor
 @RequestMapping("/data/trade-record")
 public class DataTradeRecordController {
 
-    @Resource
-    private IDateTradeRecordService dateTradeRecordService;
-    @Resource
-    private PageResultService pageResultService;
+    private final IDateTradeRecordService dateTradeRecordService;
+    private final PageResultService pageResultService;
 
-    /**
-     * 交易记录页面
-     */
     @ApiOperation("交易记录页面")
     @RequiresPermissions("data:trade-record:page")
     @GetMapping(value = "/page", produces = "text/html;charset=UTF-8")
@@ -54,9 +50,6 @@ public class DataTradeRecordController {
         return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getTradeRecordPageKey, "data/tradeRecord");
     }
 
-    /**
-     * 交易记录列表
-     */
     @ApiOperation("交易记录列表")
     @AccessLimit(maxCount = 10)
     @GetMapping("/list")
@@ -64,18 +57,12 @@ public class DataTradeRecordController {
         return dateTradeRecordService.queryForPage(qo);
     }
 
-    /**
-     * 添加页面
-     */
     @ApiOperation("添加编辑页面")
     @GetMapping("/addPage")
     public ModelAndView addTradeRecordPage() {
         return ServiceResult.jumpPage("data/addEditTradeRecord");
     }
 
-    /**
-     * 交易数据初始化
-     */
     @ApiOperation("交易记录初始化")
     @AccessLimit(maxCount = 10)
     @PostMapping("/init")
@@ -83,9 +70,6 @@ public class DataTradeRecordController {
         dateTradeRecordService.init();
     }
 
-    /**
-     * 添加交易数据
-     */
     @ApiOperation("添加交易记录")
     @PostMapping("/insert")
     @LoggerInfo(value = "添加交易数据", event = LogOperation.EVENT_ADD)
@@ -93,9 +77,6 @@ public class DataTradeRecordController {
         dateTradeRecordService.insertInfo(vo);
     }
 
-    /**
-     * 编辑交易数据
-     */
     @ApiOperation("编辑交易记录")
     @PutMapping("/update")
     @LoggerInfo(value = "编辑交易数据", event = LogOperation.EVENT_UPDATE)
@@ -103,18 +84,12 @@ public class DataTradeRecordController {
         dateTradeRecordService.updateInfo(vo);
     }
 
-    /**
-     * 交易数据详情
-     */
     @ApiOperation("交易记录信息")
     @GetMapping("/info/{id}")
     public DataTradeRecord detailInfo(@NotNull(message = "id不能为null") @PathVariable("id") Long id) {
         return dateTradeRecordService.detailInfo(id);
     }
 
-    /**
-     * 删除交易数据
-     */
     @ApiOperation("删除交易记录")
     @DeleteMapping("/delete/{id}")
     @LoggerInfo(value = "删除交易数据", event = LogOperation.EVENT_DELETE)
@@ -122,9 +97,6 @@ public class DataTradeRecordController {
         dateTradeRecordService.deleteInfo(id);
     }
 
-    /**
-     * excel导入数据
-     */
     @ApiOperation("导入交易数据")
     @PostMapping("/excel")
     public void excelInfo(MultipartFile file) {

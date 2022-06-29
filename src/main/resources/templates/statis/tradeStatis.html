@@ -122,9 +122,17 @@
 <div class="layui-row layui-col-space10">
     <div class="layui-col-md6">
         <div class="layui-card">
-            <div class="layui-card-header header-font"><i class="fa fa-line-chart icon"></i>股票数据</div>
+            <div class="layui-card-header header-font"><i class="fa fa-line-chart icon"></i>股票收益数据</div>
             <div class="layui-card-body">
                 <div id="echarts-stock" style="width: 100%;min-height:500px"></div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-col-md6">
+        <div class="layui-card">
+            <div class="layui-card-header header-font"><i class="fa fa-line-chart icon"></i>股票累计收益</div>
+            <div class="layui-card-body">
+                <div id="echarts-stock-total" style="width: 100%;min-height:500px"></div>
             </div>
         </div>
     </div>
@@ -138,6 +146,14 @@
     </div>
     <div class="layui-col-md6">
         <div class="layui-card">
+            <div class="layui-card-header header-font"><i class="fa fa-line-chart icon"></i>期货累计收益</div>
+            <div class="layui-card-body">
+                <div id="echarts-futures-total" style="width: 100%;min-height:500px"></div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-col-md6">
+        <div class="layui-card">
             <div class="layui-card-header header-font"><i class="fa fa-line-chart icon"></i>外汇数据</div>
             <div class="layui-card-body">
                 <div id="echarts-foreign-exchange" style="width: 100%;min-height:500px"></div>
@@ -146,9 +162,25 @@
     </div>
     <div class="layui-col-md6">
         <div class="layui-card">
+            <div class="layui-card-header header-font"><i class="fa fa-line-chart icon"></i>外汇累计收益</div>
+            <div class="layui-card-body">
+                <div id="echarts-foreign-exchange-total" style="width: 100%;min-height:500px"></div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-col-md6">
+        <div class="layui-card">
             <div class="layui-card-header header-font"><i class="fa fa-line-chart icon"></i>基金数据</div>
             <div class="layui-card-body">
                 <div id="echarts-funds" style="width: 100%;min-height:500px"></div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-col-md6">
+        <div class="layui-card">
+            <div class="layui-card-header header-font"><i class="fa fa-line-chart icon"></i>基金累计收益</div>
+            <div class="layui-card-body">
+                <div id="echarts-funds-total" style="width: 100%;min-height:500px"></div>
             </div>
         </div>
     </div>
@@ -164,13 +196,21 @@
         //收益数据
         initStrokeColumnCharts("echarts-income", pointLineStyle('#A9F387', '#48D8BF'), date, [[${incomeInfo.totalIncome}]]);
         //股票数据
-        initGridLineEcharts("echarts-stock", simpleLineStyle('#9effff', '#9E87FF'), date, [[${incomeInfo.stockData}]], '收益');
+        initStrokeColumnCharts("echarts-stock", pointLineStyle('#A9F387', '#48D8BF'), date, [[${incomeInfo.stockData}]]);
+        //股票累计数据
+        initGridLineEcharts("echarts-stock-total", simpleLineStyle('#9effff', '#9E87FF'), date, [[${incomeInfo.stockTotalIncome}]], '收益');
         //期货数据
-        initGridLineEcharts("echarts-futures", simpleLineStyle('#73DD39', '#73DDFF'), date, [[${incomeInfo.futuresData}]], '收益');
+        initStrokeColumnCharts("echarts-futures", pointLineStyle('#A9F387', '#48D8BF'), date, [[${incomeInfo.futuresData}]]);
+        //期货累计数据
+        initGridLineEcharts("echarts-futures-total", simpleLineStyle('#73DD39', '#73DDFF'), date, [[${incomeInfo.futuresTotalIncome}]], '收益');
         //外汇数据
-        initGridLineEcharts("echarts-foreign-exchange", simpleLineStyle('#fe9a', '#fe9a8b'), date, [[${incomeInfo.foreignData}]], '收益');
+        initStrokeColumnCharts("echarts-foreign-exchange", pointLineStyle('#A9F387', '#48D8BF'), date, [[${incomeInfo.foreignData}]]);
+        //外汇累计数据
+        initGridLineEcharts("echarts-foreign-exchange-total", simpleLineStyle('#fe9a', '#fe9a8b'), date, [[${incomeInfo.foreignTotalIncome}]], '收益');
         //基金数据
-        initGridLineEcharts("echarts-funds", simpleLineStyle('#ff99cc', '#ff3366'), date, [[${incomeInfo.fundsData}]], '收益');
+        initStrokeColumnCharts("echarts-funds", pointLineStyle('#A9F387', '#48D8BF'), date, [[${incomeInfo.fundsData}]]);
+        //基金累计数据
+        initGridLineEcharts("echarts-funds-total", simpleLineStyle('#ff99cc', '#ff3366'), date, [[${incomeInfo.fundsTotalIncome}]], '收益');
     });
 
 </script>

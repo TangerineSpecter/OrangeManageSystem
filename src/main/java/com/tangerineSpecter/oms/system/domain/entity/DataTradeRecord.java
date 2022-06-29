@@ -28,13 +28,16 @@ public class DataTradeRecord extends AdminEntity {
     private String date;
     @ApiModelProperty("初始资金")
     @TableField("start_money")
-    private Integer startMoney;
+    private Integer startMoney = 0;
     @ApiModelProperty("结束资金")
     @TableField("end_money")
-    private Integer endMoney;
+    private Integer endMoney = 0;
     @ApiModelProperty("收益值")
     @TableField("income_value")
-    private Integer incomeValue;
+    private Integer incomeValue = 0;
+    @ApiModelProperty("累计收益值")
+    @TableField("total_income_value")
+    private Integer totalIncomeValue = 0;
     @ApiModelProperty("收益率")
     @TableField("income_rate")
     private BigDecimal incomeRate;
@@ -59,4 +62,30 @@ public class DataTradeRecord extends AdminEntity {
     @ApiModelProperty("备注")
     @TableField("remark")
     private String remark;
+
+    /**
+     * 初始化数据
+     *
+     * @param beforeData 上一条数据
+     * @return 数据
+     */
+    public DataTradeRecord initData(DataTradeRecord beforeData) {
+        if (beforeData == null) {
+            //第一条数据进行重置计算
+            this.totalIncomeValue = 0;
+            this.withdrawal = 0;
+            this.deposit = 0;
+            return this;
+        }
+        //累计收益
+        this.totalIncomeValue = beforeData.getTotalIncomeValue() + this.incomeValue;
+        //前后金额差值
+        int subtractMoney = this.startMoney - beforeData.getEndMoney();
+        if (subtractMoney > 0) {
+            this.deposit = subtractMoney;
+        } else if (subtractMoney < 0) {
+            this.withdrawal = Math.abs(subtractMoney);
+        }
+        return this;
+    }
 }

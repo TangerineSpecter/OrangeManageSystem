@@ -96,7 +96,7 @@ public class DataTradeRecordServiceImpl implements IDateTradeRecordService {
             return;
         }
         //总交易次数
-        int totalCount = dataTradeRecordMapper.selectCountLeDateByType(data.getType(), data.getDate(), UserContext.getUid());
+        long totalCount = dataTradeRecordMapper.selectCountLeDateByType(data.getType(), data.getDate(), UserContext.getUid());
         //获胜次数
         int winCount = dataTradeRecordMapper.getTradeWinCountByTypeAndDate(data.getType(), data.getDate(), UserContext.getUid());
         //收益值 = 收盘资金 - 开盘资金

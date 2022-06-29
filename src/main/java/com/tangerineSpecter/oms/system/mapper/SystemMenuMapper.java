@@ -39,7 +39,7 @@ public interface SystemMenuMapper extends BaseMapper<SystemMenu> {
      *
      * @return 置顶数量
      */
-    default Integer selectTopCount() {
+    default Long selectTopCount() {
         return selectCount(new QueryWrapper<SystemMenu>().eq(ParamUtils.TOP, CommonConstant.IS_TOP));
     }
 }

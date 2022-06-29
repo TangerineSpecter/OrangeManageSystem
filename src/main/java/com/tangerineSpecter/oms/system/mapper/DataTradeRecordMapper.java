@@ -114,9 +114,9 @@ public interface DataTradeRecordMapper extends BaseMapper<DataTradeRecord> {
      * @param uid  管理员id
      * @return 数量
      */
-    default Integer selectCountLeDateByType(Integer type, String date, String uid) {
+    default Long selectCountLeDateByType(Integer type, String date, String uid) {
         if (CharSequenceUtil.isEmpty(uid)) {
-            return 0;
+            return 0L;
         }
         return selectCount(new QueryWrapper<DataTradeRecord>().eq("type", type)
                 .eq("uid", uid)

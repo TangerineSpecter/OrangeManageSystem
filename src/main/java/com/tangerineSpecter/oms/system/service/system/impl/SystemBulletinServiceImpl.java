@@ -54,7 +54,7 @@ public class SystemBulletinServiceImpl implements ISystemBulletinService {
         SystemBulletin systemBulletin = systemBulletinMapper.selectById(id);
         Assert.notNull(systemBulletin, () -> new BusinessException(RetCode.SYSTEM_BULLETIN_NOT_EXIST));
         QueryWrapper<SystemBulletin> queryWrapper = new QueryWrapper<SystemBulletin>().eq(ParamUtils.TOP, CommonConstant.IS_TOP);
-        Integer count = systemBulletinMapper.selectCount(queryWrapper);
+        Long count = systemBulletinMapper.selectCount(queryWrapper);
         Assert.isTrue(CommonConstant.IS_NOT_TOP.equals(systemBulletin.getTop()) && count < 1, () -> new BusinessException(RetCode.SYSTEM_BULLETIN_MORE_THAN_UPPER));
         systemBulletin.setTop(CommonConstant.IS_TOP.equals(systemBulletin.getTop()) ? CommonConstant.IS_NOT_TOP : CommonConstant.IS_TOP);
         systemBulletinMapper.updateById(systemBulletin);

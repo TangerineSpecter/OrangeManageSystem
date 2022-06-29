@@ -18,9 +18,9 @@ public interface UserCardNoteTagMapper extends BaseMapper<UserCardNoteTag> {
      * @param uid 管理员id
      * @return 标签数量
      */
-    default int selectCountByUid(String uid) {
+    default Long selectCountByUid(String uid) {
         if (uid == null) {
-            return 0;
+            return 0L;
         }
         return selectCount(new QueryWrapper<UserCardNoteTag>()
                 .eq("uid", uid)

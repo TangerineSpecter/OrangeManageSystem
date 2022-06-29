@@ -5,7 +5,6 @@ import cn.hutool.core.lang.Assert;
 import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.StrUtil;
 import com.github.pagehelper.PageInfo;
-import com.github.pagehelper.page.PageMethod;
 import com.tangerinespecter.oms.common.constants.CommonConstant;
 import com.tangerinespecter.oms.common.constants.RetCode;
 import com.tangerinespecter.oms.common.constants.SystemConstant;
@@ -23,7 +22,6 @@ import com.tangerinespecter.oms.system.service.system.ISystemUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -49,7 +47,7 @@ public class MenuSettingServiceImpl implements IMenuSettingService {
 
     @Override
     public PageInfo<SystemMenu> listInfo() {
-        return PageMethod.startPage(1, 0).doSelectPageInfo(() -> systemMenuMapper.selectList(null));
+        return new PageInfo<>(systemMenuMapper.selectList(null));
     }
 
     @Override

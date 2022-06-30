@@ -3,7 +3,8 @@
     display: inline-block;
     height: 2.25rem;
     line-height: 2.25rem;
-    min-width: 6.125rem;
+    /*min-width: 6.125rem;*/
+    width: 100%;
     color: #666;
     background-color: #e8e8e8;
     border-radius: 0.25rem;

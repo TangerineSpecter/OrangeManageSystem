@@ -107,4 +107,18 @@
         order by date desc
         limit #{limit}
     </select>
+
+    <select id="selectRecentListByType" resultType="com.tangerinespecter.oms.system.domain.entity.DataTradeRecord">
+        <![CDATA[
+        select rs.*
+        from (
+                 SELECT row_number() over (partition by tr.type order by tr.date desc) row_num,
+                        tr.*
+                 FROM data_trade_record tr
+                 where tr.uid = #{uid}
+                 GROUP BY tr.type, tr.date
+                 order by tr.date desc) as rs
+        where rs.row_num <= #{limit}
+        ]]>
+    </select>
 </mapper>

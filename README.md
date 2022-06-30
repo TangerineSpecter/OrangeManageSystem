@@ -45,7 +45,7 @@ v0.5.0
 - 分页插件：Bootstrap-Paginator 1.0
 
 **开发环境：**
-- 数据库：Mysql 5.7
+- 数据库：Mysql 8.0.28
 - 版本管理：Git 2.9.2
 - 依赖管理：Maven 3.6.1
 

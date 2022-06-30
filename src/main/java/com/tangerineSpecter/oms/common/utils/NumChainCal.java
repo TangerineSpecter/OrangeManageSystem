@@ -39,8 +39,8 @@ public class NumChainCal {
      * @return 结果
      */
     public NumChainCal add(Object otherValue) {
-        BigDecimal result = NumberUtil.add(this.value, Convert.toBigDecimal(otherValue));
-        return new NumChainCal(result);
+        this.value = NumberUtil.add(this.value, Convert.toBigDecimal(otherValue));
+        return this;
     }
 
     /**
@@ -51,8 +51,8 @@ public class NumChainCal {
      */
     public NumChainCal add(BigDecimal... otherValue) {
         BigDecimal totalValue = NumberUtil.add(otherValue);
-        BigDecimal result = NumberUtil.add(this.value, totalValue);
-        return new NumChainCal(result);
+        this.value = NumberUtil.add(this.value, totalValue);
+        return this;
     }
 
     /**
@@ -62,8 +62,8 @@ public class NumChainCal {
      * @return 结果
      */
     public NumChainCal sub(Object otherValue) {
-        BigDecimal result = NumberUtil.sub(this.value, Convert.toBigDecimal(otherValue));
-        return new NumChainCal(result);
+        this.value = NumberUtil.sub(this.value, Convert.toBigDecimal(otherValue));
+        return this;
     }
 
     /**
@@ -73,8 +73,8 @@ public class NumChainCal {
      * @return 结果
      */
     public NumChainCal mul(Object otherValue) {
-        BigDecimal result = NumberUtil.mul(this.value, Convert.toBigDecimal(otherValue));
-        return new NumChainCal(result);
+        this.value = NumberUtil.mul(this.value, Convert.toBigDecimal(otherValue));
+        return this;
     }
 
     /**
@@ -86,10 +86,10 @@ public class NumChainCal {
     public NumChainCal div(Object otherValue) {
         BigDecimal convertValue = Convert.toBigDecimal(otherValue);
         if (convertValue.equals(BigDecimal.ZERO)) {
-            return new NumChainCal(0);
+            return this;
         }
-        BigDecimal result = NumberUtil.div(this.value, Convert.toBigDecimal(otherValue));
-        return new NumChainCal(result);
+        this.value = NumberUtil.div(this.value, Convert.toBigDecimal(otherValue));
+        return this;
     }
 
     /**
@@ -102,10 +102,10 @@ public class NumChainCal {
     public NumChainCal div(Object otherValue, int scale) {
         BigDecimal convertValue = Convert.toBigDecimal(otherValue);
         if (convertValue.equals(BigDecimal.ZERO)) {
-            return new NumChainCal(0);
+            return this;
         }
-        BigDecimal result = NumberUtil.div(this.value, convertValue, scale);
-        return new NumChainCal(result);
+        this.value = NumberUtil.div(this.value, convertValue, scale);
+        return this;
     }
 
 
@@ -125,6 +125,16 @@ public class NumChainCal {
      */
     public BigDecimal getBigDecimal() {
         return Convert.toBigDecimal(this.value).setScale(4, RoundingMode.CEILING);
+    }
+
+    /**
+     * 获取BigDecimal数值
+     *
+     * @param scale 保留小数位数
+     * @return BigDecimal结果
+     */
+    public BigDecimal getBigDecimal(int scale) {
+        return Convert.toBigDecimal(this.value).setScale(scale, RoundingMode.CEILING);
     }
 
 }

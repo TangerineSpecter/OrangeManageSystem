@@ -122,6 +122,8 @@ ALTER TABLE `data_trade_record`
     ADD withdrawal int(16) DEFAULT 0 not null COMMENT '转出金额';
 ALTER TABLE `data_trade_record`
     add remark varchar(255) default null comment '备注' after `withdrawal`;
+alter table `data_trade_record`
+    add total_income_value int(16) default 0 comment '累计收益值（单位：分）' after `income_value`;
 
 -- 修改字段
 alter table `user_health`

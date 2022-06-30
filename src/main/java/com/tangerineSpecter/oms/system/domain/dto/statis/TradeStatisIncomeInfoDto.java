@@ -5,50 +5,68 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.List;
 
 /**
  * 收益统计数据
+ *
+ * @author 丢失的橘子
  */
 @Data
 @Builder
 @AllArgsConstructor
-public class TradeStatisIncomeInfoDto {
+public class TradeStatisIncomeInfoDto implements Serializable {
 
     /**
      * 总收益
      */
     private List<BigDecimal> totalIncome;
     /**
+     * 股票时间
+     */
+    private List<String> stockDate;
+    /**
      * 股票数据
      */
-    private List<BigDecimal> stockData;
+    private List<BigDecimal> stockIncome;
     /**
      * 股票累计收益
      */
     private List<BigDecimal> stockTotalIncome;
     /**
+     * 期货时间
+     */
+    private List<String> futuresDate;
+    /**
      * 期货数据
      */
-    private List<BigDecimal> futuresData;
+    private List<BigDecimal> futuresIncome;
     /**
      * 期货累计收益
      */
     private List<BigDecimal> futuresTotalIncome;
     /**
+     * 外汇时间
+     */
+    private List<String> foreignDate;
+    /**
      * 外汇数据
      */
-    private List<BigDecimal> foreignData;
+    private List<BigDecimal> foreignIncome;
     /**
      * 外汇累计收益
      */
     private List<BigDecimal> foreignTotalIncome;
     /**
+     * 基金时间
+     */
+    private List<String> fundsDate;
+    /**
      * 基金数据
      */
-    private List<BigDecimal> fundsData;
+    private List<BigDecimal> fundsIncome;
     /**
      * 基金累计收益
      */
@@ -59,46 +77,84 @@ public class TradeStatisIncomeInfoDto {
     private List<String> date;
 
     public TradeStatisIncomeInfoDto() {
+        //总收益
         this.totalIncome = CollUtil.newArrayList();
-        this.stockData = CollUtil.newArrayList();
-        this.futuresData = CollUtil.newArrayList();
-        this.foreignData = CollUtil.newArrayList();
-        this.fundsData = CollUtil.newArrayList();
+        //时间
+        this.stockDate = CollUtil.newArrayList();
+        this.futuresDate = CollUtil.newArrayList();
+        this.foreignDate = CollUtil.newArrayList();
+        this.fundsDate = CollUtil.newArrayList();
+        //收益数据
+        this.stockIncome = CollUtil.newArrayList();
+        this.futuresIncome = CollUtil.newArrayList();
+        this.foreignIncome = CollUtil.newArrayList();
+        this.fundsIncome = CollUtil.newArrayList();
+        //总收益数据
         this.stockTotalIncome = CollUtil.newArrayList();
         this.futuresTotalIncome = CollUtil.newArrayList();
         this.foreignTotalIncome = CollUtil.newArrayList();
         this.fundsTotalIncome = CollUtil.newArrayList();
+        //时间
         this.date = CollUtil.newArrayList();
     }
 
     /**
-     * 设置交易数据
+     * 初始化股票数据
      *
-     * @param stockData   股票数据
-     * @param futuresData 期货数据
-     * @param foreignData 外汇数据
-     * @param fundsData   基金数据
+     * @param date        时间
+     * @param income      收益
+     * @param totalIncome 累计收益
+     * @return 收益
      */
-    public void setTradeData(BigDecimal stockData, BigDecimal futuresData, BigDecimal foreignData, BigDecimal fundsData) {
-        this.stockData.add(stockData);
-        this.futuresData.add(futuresData);
-        this.foreignData.add(foreignData);
-        this.fundsData.add(fundsData);
-        this.totalIncome.add(stockData.add(futuresData).add(foreignData).add(fundsData).setScale(0, RoundingMode.CEILING));
+    public BigDecimal initStockIncome(String date, BigDecimal income, BigDecimal totalIncome) {
+        this.stockDate.add(date);
+        this.stockIncome.add(income);
+        this.stockTotalIncome.add(totalIncome);
+        return income;
     }
 
     /**
-     * 设置累计收益
+     * 初始化期货数据
      *
-     * @param stockTotalIncome   股票累计数据
-     * @param futuresTotalIncome 期货累计数据
-     * @param foreignTotalIncome 外汇累计数据
-     * @param fundsTotalIncome   基金累计数据
+     * @param date        时间
+     * @param income      收益
+     * @param totalIncome 累计收益
+     * @return 收益
      */
-    public void setTradeTotalIncome(BigDecimal stockTotalIncome, BigDecimal futuresTotalIncome, BigDecimal foreignTotalIncome, BigDecimal fundsTotalIncome) {
-        this.stockTotalIncome.add(stockTotalIncome);
-        this.futuresTotalIncome.add(futuresTotalIncome);
-        this.foreignTotalIncome.add(foreignTotalIncome);
-        this.fundsTotalIncome.add(fundsTotalIncome);
+    public BigDecimal initFuturesIncome(String date, BigDecimal income, BigDecimal totalIncome) {
+        this.futuresDate.add(date);
+        this.futuresIncome.add(income);
+        this.futuresTotalIncome.add(totalIncome);
+        return income;
+    }
+
+    /**
+     * 初始化外汇数据
+     *
+     * @param date        时间
+     * @param income      收益
+     * @param totalIncome 累计收益
+     * @return 收益
+     */
+    public BigDecimal initForeignIncome(String date, BigDecimal income, BigDecimal totalIncome) {
+        this.foreignDate.add(date);
+        this.foreignIncome.add(income);
+        this.foreignTotalIncome.add(totalIncome);
+        return income;
+    }
+
+    /**
+     * 初始化基金数据
+     *
+     * @param date        时间
+     * @param income      收益
+     * @param totalIncome 累计收益
+     * @return 收益
+     */
+    public BigDecimal initFundsIncome(String date, BigDecimal income, BigDecimal totalIncome) {
+        this.fundsDate.add(date);
+        this.fundsIncome.add(income);
+        this.fundsTotalIncome.add(totalIncome);
+        return income;
     }
 }

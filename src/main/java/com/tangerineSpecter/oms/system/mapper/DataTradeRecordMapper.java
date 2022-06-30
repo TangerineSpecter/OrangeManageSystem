@@ -173,4 +173,12 @@ public interface DataTradeRecordMapper extends BaseMapper<DataTradeRecord> {
                 .orderByDesc("date"));
     }
 
+    /**
+     * 根据类型分组后获取每组limit条数据
+     *
+     * @param uid   账号uid
+     * @param limit 最近条数
+     * @return 分组聚合数据结果
+     */
+    List<DataTradeRecord> selectRecentListByType(@Param("uid") String uid, @Param("limit") int limit);
 }

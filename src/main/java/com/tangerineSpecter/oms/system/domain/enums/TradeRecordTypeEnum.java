@@ -27,7 +27,9 @@ public enum TradeRecordTypeEnum implements IBaseDbEnum {
     //外汇
     FOREIGN_EXCHANGE_TYPE(2, "外汇"),
     //基金
-    FUND_TYPE(3, "基金");;
+    FUND_TYPE(3, "基金"),
+    //未知类型
+    UNKNOWN(-1, "未知");
 
     private Integer value;
 
@@ -45,6 +47,21 @@ public enum TradeRecordTypeEnum implements IBaseDbEnum {
             typeList.add(typeEnum.value);
         }
         return typeList;
+    }
+
+    /**
+     * 根据类型获取枚举
+     *
+     * @param type 类型
+     * @return
+     */
+    public static TradeRecordTypeEnum getType(int type) {
+        for (TradeRecordTypeEnum recordTypeEnum : TradeRecordTypeEnum.values()) {
+            if (recordTypeEnum.value.equals(type)) {
+                return recordTypeEnum;
+            }
+        }
+        return UNKNOWN;
     }
 
 }

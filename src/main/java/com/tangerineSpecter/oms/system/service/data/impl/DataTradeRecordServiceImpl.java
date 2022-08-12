@@ -2,6 +2,7 @@ package com.tangerinespecter.oms.system.service.data.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.convert.Convert;
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.poi.excel.ExcelReader;
@@ -105,7 +106,8 @@ public class DataTradeRecordServiceImpl implements IDateTradeRecordService {
         //根据原始本金计算收益率
         data.setIncomeRate(NumChainCal.startOf(data.getIncomeValue()).div(data.getStartMoney(), 5).getBigDecimal());
         data.setWinRate(NumChainCal.startOf(winCount).div(totalCount, 5).getBigDecimal());
-        dataTradeRecordMapper.updateById(data);
+        DataTradeRecord beforeData = dataTradeRecordMapper.selectLastOneBeforeDate(data.getDate());
+        dataTradeRecordMapper.updateById(data.initData(beforeData));
     }
 
     @Override

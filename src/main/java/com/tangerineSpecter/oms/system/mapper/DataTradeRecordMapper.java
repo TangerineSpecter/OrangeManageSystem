@@ -3,6 +3,7 @@ package com.tangerinespecter.oms.system.mapper;
 import cn.hutool.core.text.CharSequenceUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.tangerinespecter.oms.common.context.UserContext;
 import com.tangerinespecter.oms.common.query.TradeRecordQueryObject;
 import com.tangerinespecter.oms.system.domain.entity.DataTradeRecord;
 import org.apache.ibatis.annotations.Mapper;
@@ -181,4 +182,17 @@ public interface DataTradeRecordMapper extends BaseMapper<DataTradeRecord> {
      * @return 分组聚合数据结果
      */
     List<DataTradeRecord> selectRecentListByType(@Param("uid") String uid, @Param("limit") int limit);
+
+    /**
+     * 查询日期之前的最后一条数据
+     *
+     * @param date 时间日期
+     * @return 交易数据
+     */
+    default DataTradeRecord selectLastOneBeforeDate(String date) {
+        return selectOne(new QueryWrapper<DataTradeRecord>()
+                .eq("uid", UserContext.getUid())
+                .lt("date", date)
+                .last("limit 1"));
+    }
 }

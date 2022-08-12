@@ -54,7 +54,7 @@ public class TradeStatisServiceImpl implements ITradeStatisService {
             //最近1年的月统计
             DateTime offsetMonth = DateUtil.offsetMonth(new Date(), -11);
             DateTime beginOfMonth = DateUtil.beginOfMonth(offsetMonth);
-            tradeRecords = tradeRecordMapper.selectListByDate(beginOfMonth.toString(), DateUtil.now(), UserContext.getUid());
+            tradeRecords = tradeRecordMapper.selectListByDate(beginOfMonth.toString(), DateUtil.now());
             List<DateTime> monthDate = DateUtil.rangeToList(beginOfMonth, new Date(), DateField.MONTH);
             CollUtils.convertList(CollUtil.reverse(monthDate), dateTime -> incomeInfo.getDate().add(DateUtil.format(dateTime, DatePattern.NORM_MONTH_PATTERN)));
             tradeRecordMap = CollUtils.convertMultiLinkerHashMap(tradeRecords, tradeRecord -> DateUtil.parse(tradeRecord.getDate()).toString(DatePattern.NORM_MONTH_PATTERN));

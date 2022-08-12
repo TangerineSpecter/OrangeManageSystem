@@ -2,7 +2,6 @@ package com.tangerinespecter.oms.system.service.data.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.convert.Convert;
-import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.poi.excel.ExcelReader;
@@ -62,7 +61,7 @@ public class DataTradeRecordServiceImpl implements IDateTradeRecordService {
      */
     private void handlerTradeData(Integer type) {
         CompletableFuture.runAsync(() -> {
-            List<DataTradeRecord> dataTradeRecords = dataTradeRecordMapper.selectListByType(type, UserContext.getUid());
+            List<DataTradeRecord> dataTradeRecords = dataTradeRecordMapper.selectListByType(type);
             CollUtils.forEach(dataTradeRecords, this::handlerSingleTradeData);
             this.refreshTradeDifference(dataTradeRecords);
         });
@@ -97,7 +96,7 @@ public class DataTradeRecordServiceImpl implements IDateTradeRecordService {
             return;
         }
         //总交易次数
-        long totalCount = dataTradeRecordMapper.selectCountLeDateByType(data.getType(), data.getDate(), UserContext.getUid());
+        long totalCount = dataTradeRecordMapper.selectCountLeDateByType(data.getType(), data.getDate());
         //获胜次数
         int winCount = dataTradeRecordMapper.getTradeWinCountByTypeAndDate(data.getType(), data.getDate(), UserContext.getUid());
         //收益值 = 收盘资金 - 开盘资金
@@ -142,7 +141,7 @@ public class DataTradeRecordServiceImpl implements IDateTradeRecordService {
         DataTradeRecord tradeRecord = TradeConvert.INSTANCE.convert(vo);
         //无数据则采用上一次
         if (tradeRecord.getStartMoney() == null) {
-            Integer endMoney = dataTradeRecordMapper.selectLastEndMoneyByType(vo.getType(), vo.getDate(), UserContext.getUid());
+            Integer endMoney = dataTradeRecordMapper.selectLastEndMoneyByType(vo.getType(), vo.getDate());
             tradeRecord.setStartMoney(endMoney);
         }
         //依据出入金额计算起始资金
@@ -157,7 +156,7 @@ public class DataTradeRecordServiceImpl implements IDateTradeRecordService {
         DataTradeRecord tradeRecord = TradeConvert.INSTANCE.convert(vo);
         //无数据则采用上一次
         if (tradeRecord.getStartMoney() == null) {
-            Integer endMoney = dataTradeRecordMapper.selectLastEndMoneyByType(vo.getType(), vo.getDate(), UserContext.getUid());
+            Integer endMoney = dataTradeRecordMapper.selectLastEndMoneyByType(vo.getType(), vo.getDate());
             tradeRecord.setStartMoney(endMoney);
         }
         int i = dataTradeRecordMapper.updateById(tradeRecord);

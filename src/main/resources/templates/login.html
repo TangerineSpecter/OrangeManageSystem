@@ -41,9 +41,9 @@
 <th:block th:include="include :: footer"/>
 <script>
     layui.use(['form', 'button', 'popup'], function () {
-        var form = layui.form;
-        var button = layui.button;
-        var popup = layui.popup;
+        const form = layui.form;
+        const button = layui.button;
+        const popup = layui.popup;
         let captchaPath = "/system/captcha/generate";
 
         $(document).keyup(function (event) {

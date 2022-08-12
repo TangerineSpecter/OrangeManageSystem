@@ -1,6 +1,5 @@
 package com.tangerinespecter.oms.system.mapper;
 
-import cn.hutool.core.text.CharSequenceUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.tangerinespecter.oms.common.context.UserContext;
@@ -9,7 +8,6 @@ import com.tangerinespecter.oms.system.domain.entity.DataTradeRecord;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -95,15 +93,11 @@ public interface DataTradeRecordMapper extends BaseMapper<DataTradeRecord> {
      * 根据类型获取记录列表
      *
      * @param type TradeRecordTypeEnum枚举
-     * @param uid  管理员id
      * @return 记录列表
      */
-    default List<DataTradeRecord> selectListByType(Integer type, String uid) {
-        if (CharSequenceUtil.isEmpty(uid)) {
-            return Collections.emptyList();
-        }
+    default List<DataTradeRecord> selectListByType(Integer type) {
         return selectList(new QueryWrapper<DataTradeRecord>().eq("type", type)
-                .eq("uid", uid)
+                .eq("uid", UserContext.getUid())
                 .orderByAsc("date"));
     }
 
@@ -112,15 +106,11 @@ public interface DataTradeRecordMapper extends BaseMapper<DataTradeRecord> {
      *
      * @param type TradeRecordTypeEnum枚举
      * @param date 记录时间
-     * @param uid  管理员id
      * @return 数量
      */
-    default Long selectCountLeDateByType(Integer type, String date, String uid) {
-        if (CharSequenceUtil.isEmpty(uid)) {
-            return 0L;
-        }
+    default Long selectCountLeDateByType(Integer type, String date) {
         return selectCount(new QueryWrapper<DataTradeRecord>().eq("type", type)
-                .eq("uid", uid)
+                .eq("uid", UserContext.getUid())
                 .le("date", date)
                 .orderByAsc("date"));
     }
@@ -130,15 +120,12 @@ public interface DataTradeRecordMapper extends BaseMapper<DataTradeRecord> {
      *
      * @param type 类型
      * @param date 记录时间
-     * @param uid  管理员id
      * @return 交易数据
      */
-    default Integer selectLastEndMoneyByType(Integer type, String date, String uid) {
-        if (CharSequenceUtil.isEmpty(uid)) {
-            return 0;
-        }
+    default Integer selectLastEndMoneyByType(Integer type, String date) {
         return Optional.ofNullable(selectOne(new QueryWrapper<DataTradeRecord>().eq("type", type)
-                .eq("uid", uid).le("date", date).orderByDesc("date").last("limit 1"))).orElse(new DataTradeRecord()).getEndMoney();
+                .eq("uid", UserContext.getUid()).le("date", date)
+                .orderByDesc("date").last("limit 1"))).orElse(new DataTradeRecord()).getEndMoney();
     }
 
     /**
@@ -163,14 +150,13 @@ public interface DataTradeRecordMapper extends BaseMapper<DataTradeRecord> {
      *
      * @param startDate 起始时间
      * @param endDate   结束时间
-     * @param uid       管理员id
      * @return 交易数据
      */
-    default List<DataTradeRecord> selectListByDate(String startDate, String endDate, String uid) {
+    default List<DataTradeRecord> selectListByDate(String startDate, String endDate) {
         return selectList(new QueryWrapper<DataTradeRecord>()
                 .ge("date", startDate)
                 .le("date", endDate)
-                .eq("uid", uid)
+                .eq("uid", UserContext.getUid())
                 .orderByDesc("date"));
     }
 

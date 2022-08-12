@@ -5,8 +5,8 @@ import com.tangerinespecter.oms.system.domain.dto.statis.TradeStatisIncomeInfoDt
 public interface ITradeStatisService {
     /**
      * 收益数据分析
-     *
+     * @param type 类型，1：每日；2：每月
      * @return 收益数据
      */
-    TradeStatisIncomeInfoDto incomeValueStatisInfo();
+    TradeStatisIncomeInfoDto incomeValueStatisInfo(Integer type);
 }

@@ -50,7 +50,7 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setUnauthorizedUrl("/errorPage");
 
         // 拦截器
-        LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
+        LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         //配置shiro拦截器链
         //authc 需要认证
         //anon  不需要认证
@@ -88,10 +88,10 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/**", "authc");
 
         //所有请求走到自定义拦截器
-        Map<String, Filter> filterMap = MapUtil.newHashMap();
-        filterMap.put("customFilter", new CustomFilter());
-        shiroFilterFactoryBean.setFilters(filterMap);
-        filterChainDefinitionMap.put("/**", "customFilter");
+//        Map<String, Filter> filterMap = MapUtil.newHashMap();
+//        filterMap.put("customFilter", new CustomFilter());
+//        shiroFilterFactoryBean.setFilters(filterMap);
+//        filterChainDefinitionMap.put("/**", "customFilter");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         log.info("[初始化Shiro拦截器]");
         return shiroFilterFactoryBean;

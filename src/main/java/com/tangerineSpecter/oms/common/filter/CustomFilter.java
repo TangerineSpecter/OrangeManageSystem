@@ -19,6 +19,7 @@ public class CustomFilter extends AccessControlFilter {
      */
     @Override
     protected boolean isAccessAllowed(ServletRequest servletRequest, ServletResponse servletResponse, Object o) throws Exception {
+        log.info("access allowed...");
         return true;
     }
 
@@ -27,6 +28,7 @@ public class CustomFilter extends AccessControlFilter {
      */
     @Override
     protected boolean onAccessDenied(ServletRequest servletRequest, ServletResponse servletResponse) throws Exception {
+        log.info("access denied...");
         return false;
     }
 }

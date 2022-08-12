@@ -108,12 +108,12 @@
             <div class="layui-card-header header-font"><i class="fa fa-line-chart icon"></i>收益数据
                 <div class="layui-btn-group layuiadmin-btn-group" style="position: absolute;right: 15px;">
                     <a href="javascript:;" class="layui-btn layui-btn-primary layui-btn-xs"
-                       onclick="">每日</a>
+                       onclick="incomeDaily()">每日</a>
                     <a href="javascript:;" class="layui-btn layui-btn-primary layui-btn-xs"
-                       onclick="">每月</a>
+                       onclick="incomeMonthly()">每月</a>
                 </div>
             </div>
-            <div class="layui-card-body">
+            <div id="income-echarts" class="layui-card-body">
                 <div id="echarts-income" style="width: 100%;min-height:500px"></div>
             </div>
         </div>
@@ -213,6 +213,36 @@
         initGridLineEcharts("echarts-funds-total", simpleLineStyle('#ff99cc', '#ff3366'), [[${incomeInfo.fundsDate}]], [[${incomeInfo.fundsTotalIncome}]], '收益');
     });
 
+    /**
+     * 每日收益
+     */
+    const incomeDaily = function () {
+        refreshIncomeData(1);
+    }
+
+    /**
+     * 每月收益
+     */
+    const incomeMonthly = function () {
+        refreshIncomeData(2);
+    }
+
+    /**
+     * 刷新收益数据
+     * @param type 1：每日，2：每月
+     */
+    const refreshIncomeData = function (type) {
+        $.ajax({
+            url: '/statis/trade/income-data/' + type,
+            type: 'get',
+            dataType: 'json',
+            async: false,
+            success: function (result) {
+                //收益数据
+                initStrokeColumnCharts("echarts-income", pointLineStyle('#A9F387', '#48D8BF'), result.data.date, result.data.totalIncome);
+            }
+        });
+    }
 </script>
 </body>
 </html>

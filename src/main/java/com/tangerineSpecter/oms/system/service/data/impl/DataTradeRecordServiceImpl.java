@@ -105,7 +105,7 @@ public class DataTradeRecordServiceImpl implements IDateTradeRecordService {
         //根据原始本金计算收益率
         data.setIncomeRate(NumChainCal.startOf(data.getIncomeValue()).div(data.getStartMoney(), 5).getBigDecimal());
         data.setWinRate(NumChainCal.startOf(winCount).div(totalCount, 5).getBigDecimal());
-        DataTradeRecord beforeData = dataTradeRecordMapper.selectLastOneBeforeDate(data.getDate());
+        DataTradeRecord beforeData = dataTradeRecordMapper.selectLastOneBeforeDate(data.getType(), data.getDate());
         dataTradeRecordMapper.updateById(data.initData(beforeData));
     }
 

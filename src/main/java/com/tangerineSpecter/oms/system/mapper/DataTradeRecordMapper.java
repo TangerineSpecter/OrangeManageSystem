@@ -172,12 +172,14 @@ public interface DataTradeRecordMapper extends BaseMapper<DataTradeRecord> {
     /**
      * 查询日期之前的最后一条数据
      *
+     * @param type 类型 TradeRecordTypeEnum
      * @param date 时间日期
      * @return 交易数据
      */
-    default DataTradeRecord selectLastOneBeforeDate(String date) {
+    default DataTradeRecord selectLastOneBeforeDate(Integer type, String date) {
         return selectOne(new QueryWrapper<DataTradeRecord>()
                 .eq("uid", UserContext.getUid())
+                .eq("type", type)
                 .lt("date", date)
                 .last("limit 1"));
     }

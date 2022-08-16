@@ -3,10 +3,15 @@ package com.tangerinespecter.oms.system.domain.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.tangerinespecter.oms.common.constants.CommonConstant;
+import com.tangerinespecter.oms.common.utils.CollUtils;
+import com.tangerinespecter.oms.common.utils.NumChainCal;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * 交易记录表
@@ -87,5 +92,57 @@ public class DataTradeRecord extends AdminEntity {
             this.withdrawal = Math.abs(subtractMoney);
         }
         return this;
+    }
+
+    /**
+     * 总资金计算
+     *
+     * @param tradeRecords 资金数据列表
+     * @return 总资金
+     */
+    public Integer sumMoney(List<DataTradeRecord> tradeRecords) {
+        return tradeRecords.stream().mapToInt(tradeRecord -> sumMoney(tradeRecord.getEndMoney(), tradeRecord.getCurrency()).getInteger()).sum();
+    }
+
+    /**
+     * 总收益计算
+     *
+     * @param tradeRecords 资金数据列表
+     * @return 总资金
+     */
+    public int sumIncome(List<DataTradeRecord> tradeRecords) {
+        return CollUtils.convertSumList(tradeRecords, tradeRecord -> this.sumMoney(tradeRecord.getIncomeValue(), tradeRecord.getCurrency()).getInteger());
+    }
+
+    /**
+     * 单条数据计算
+     *
+     * @return 计算结果
+     */
+    public BigDecimal sumMoney() {
+        return this.sumMoney(this.getIncomeValue(), this.getCurrency()).getBigDecimal(2);
+    }
+
+    /**
+     * 单条累计数据计算
+     *
+     * @return 计算结果
+     */
+    public BigDecimal sumTotalMoney() {
+        return this.sumMoney(this.getTotalIncomeValue(), this.getCurrency()).getBigDecimal(2);
+    }
+
+    /**
+     * 单条数据计算
+     *
+     * @param money    资金数据
+     * @param currency 币种
+     * @return 计算结果
+     */
+    public NumChainCal sumMoney(Integer money, String currency) {
+        return NumChainCal.startOf(money)
+                .mul(CommonConstant.EXCHANGE_RATE_MAP.getOrDefault(currency, new BigDecimal(1)))
+                //单位分转元 除100
+                .div(100);
     }
 }

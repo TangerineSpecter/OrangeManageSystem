@@ -15,6 +15,7 @@ import java.util.Objects;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@SuppressWarnings("all")
 public enum StarNameEnum implements IBaseDbEnum {
 
     ARIES(1, "Aries", "白羊座"),

@@ -1,6 +1,10 @@
 package com.tangerinespecter.oms.system.domain.dto.statis;
 
 import cn.hutool.core.collection.CollUtil;
+import com.tangerinespecter.oms.common.utils.CollUtils;
+import com.tangerinespecter.oms.common.utils.NumChainCal;
+import com.tangerinespecter.oms.system.domain.entity.DataTradeRecord;
+import com.tangerinespecter.oms.system.domain.enums.TradeRecordTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -102,59 +106,85 @@ public class TradeStatisIncomeInfoDto implements Serializable {
      * 初始化股票数据
      *
      * @param date        时间
-     * @param income      收益
-     * @param totalIncome 累计收益
+     * @param tradeRecord 交易数据
      * @return 收益
      */
-    public BigDecimal initStockIncome(String date, BigDecimal income, BigDecimal totalIncome) {
+    public BigDecimal initStockIncome(String date, DataTradeRecord tradeRecord) {
+        if (tradeRecord == null || !TradeRecordTypeEnum.STOCK_TYPE.getValue().equals(tradeRecord.getType())) {
+            return BigDecimal.ZERO;
+        }
         this.stockDate.add(date);
-        this.stockIncome.add(income);
-        this.stockTotalIncome.add(totalIncome);
-        return income;
+        this.stockIncome.add(tradeRecord.sumMoney());
+        this.stockTotalIncome.add(tradeRecord.sumTotalMoney());
+        return CollUtil.getLast(this.stockIncome);
     }
 
     /**
      * 初始化期货数据
      *
      * @param date        时间
-     * @param income      收益
-     * @param totalIncome 累计收益
-     * @return 收益
+     * @param tradeRecord 交易数据
      */
-    public BigDecimal initFuturesIncome(String date, BigDecimal income, BigDecimal totalIncome) {
+    public BigDecimal initFuturesIncome(String date, DataTradeRecord tradeRecord) {
+        if (tradeRecord == null || !TradeRecordTypeEnum.FUTURES_TYPE.getValue().equals(tradeRecord.getType())) {
+            return BigDecimal.ZERO;
+        }
         this.futuresDate.add(date);
-        this.futuresIncome.add(income);
-        this.futuresTotalIncome.add(totalIncome);
-        return income;
+        this.futuresIncome.add(tradeRecord.sumMoney());
+        this.futuresTotalIncome.add(tradeRecord.sumTotalMoney());
+        return CollUtil.getLast(this.futuresIncome);
     }
 
     /**
      * 初始化外汇数据
      *
      * @param date        时间
-     * @param income      收益
-     * @param totalIncome 累计收益
+     * @param tradeRecord 交易数据
      * @return 收益
      */
-    public BigDecimal initForeignIncome(String date, BigDecimal income, BigDecimal totalIncome) {
+    public BigDecimal initForeignIncome(String date, DataTradeRecord tradeRecord) {
+        if (tradeRecord == null || !TradeRecordTypeEnum.FOREIGN_EXCHANGE_TYPE.getValue().equals(tradeRecord.getType())) {
+            return BigDecimal.ZERO;
+        }
         this.foreignDate.add(date);
-        this.foreignIncome.add(income);
-        this.foreignTotalIncome.add(totalIncome);
-        return income;
+        this.foreignIncome.add(tradeRecord.sumMoney());
+        this.foreignTotalIncome.add(tradeRecord.sumTotalMoney());
+        return CollUtil.getLast(this.foreignIncome);
     }
 
     /**
      * 初始化基金数据
      *
      * @param date        时间
-     * @param income      收益
-     * @param totalIncome 累计收益
+     * @param tradeRecord 交易数据
      * @return 收益
      */
-    public BigDecimal initFundsIncome(String date, BigDecimal income, BigDecimal totalIncome) {
+    public BigDecimal initFundsIncome(String date, DataTradeRecord tradeRecord) {
+        if (tradeRecord == null || !TradeRecordTypeEnum.FUND_TYPE.getValue().equals(tradeRecord.getType())) {
+            return BigDecimal.ZERO;
+        }
         this.fundsDate.add(date);
-        this.fundsIncome.add(income);
-        this.fundsTotalIncome.add(totalIncome);
-        return income;
+        this.fundsIncome.add(tradeRecord.sumMoney());
+        this.fundsTotalIncome.add(tradeRecord.sumTotalMoney());
+        return CollUtil.getLast(this.fundsIncome);
+    }
+
+    /**
+     * 初始化节点时间收益数据
+     *
+     * @param date             时间
+     * @param dataTradeRecords 交易数据
+     */
+    public void initAllIncome(String date, List<DataTradeRecord> dataTradeRecords) {
+        NumChainCal numChainCal = NumChainCal.startOf(0);
+        CollUtils.forEach(dataTradeRecords, tradeRecord ->
+                numChainCal.add(
+                        this.initStockIncome(date, tradeRecord),
+                        this.initFuturesIncome(date, tradeRecord),
+                        this.initForeignIncome(date, tradeRecord),
+                        this.initFundsIncome(date, tradeRecord)
+                ));
+        //汇总返回
+        this.totalIncome.add(numChainCal.getBigDecimal());
     }
 }

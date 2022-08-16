@@ -181,6 +181,7 @@ public interface DataTradeRecordMapper extends BaseMapper<DataTradeRecord> {
                 .eq("uid", UserContext.getUid())
                 .eq("type", type)
                 .lt("date", date)
+                .orderByDesc("date")
                 .last("limit 1"));
     }
 }

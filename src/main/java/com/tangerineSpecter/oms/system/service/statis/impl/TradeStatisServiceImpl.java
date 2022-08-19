@@ -7,7 +7,6 @@ import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import com.tangerinespecter.oms.common.context.UserContext;
 import com.tangerinespecter.oms.common.utils.CollUtils;
-import com.tangerinespecter.oms.common.utils.NumChainCal;
 import com.tangerinespecter.oms.system.domain.dto.statis.TradeStatisIncomeInfoDto;
 import com.tangerinespecter.oms.system.domain.entity.DataTradeRecord;
 import com.tangerinespecter.oms.system.domain.enums.PeriodEnum;
@@ -42,7 +41,7 @@ public class TradeStatisServiceImpl implements ITradeStatisService {
         } else {
             tradeRecordMap = this.getDailyDataMap(incomeInfo);
         }
-        CollUtils.forEach(incomeInfo.getDate(), date -> incomeInfo.initAllIncome(date, tradeRecordMap.get(date)));
+        CollUtils.forEach(tradeRecordMap.keySet(), date -> incomeInfo.initAllIncome(date, tradeRecordMap.get(date)));
         return incomeInfo;
     }
 

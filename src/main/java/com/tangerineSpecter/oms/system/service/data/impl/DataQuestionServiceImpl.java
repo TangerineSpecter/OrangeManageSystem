@@ -2,7 +2,6 @@ package com.tangerinespecter.oms.system.service.data.impl;
 
 import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.page.PageMethod;
-import com.tangerinespecter.oms.common.constants.CommonConstant;
 import com.tangerinespecter.oms.common.query.QuestionQueryObject;
 import com.tangerinespecter.oms.system.convert.data.QuestionConvert;
 import com.tangerinespecter.oms.system.domain.entity.DataQuestion;
@@ -27,8 +26,6 @@ public class DataQuestionServiceImpl implements IDataQuestionService {
 
     @Override
     public void insertInfo(QuestionInfoVo vo) {
-//        DataQuestion question = DataQuestion.builder().question(vo.getQuestion()).content(vo.getContent())
-//                .isDel(CommonConstant.IS_DEL_NO).build();
         dataQuestionMapper.insert(QuestionConvert.INSTANCE.convert(vo));
     }
 

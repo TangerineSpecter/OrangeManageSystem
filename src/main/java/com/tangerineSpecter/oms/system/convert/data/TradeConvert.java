@@ -1,7 +1,11 @@
 package com.tangerinespecter.oms.system.convert.data;
 
 import cn.hutool.core.convert.Convert;
+import com.tangerinespecter.oms.system.convert.BaseConvert;
+import com.tangerinespecter.oms.system.domain.entity.DataTradeLogic;
 import com.tangerinespecter.oms.system.domain.entity.DataTradeRecord;
+import com.tangerinespecter.oms.system.domain.vo.data.AddTradeLogicVo;
+import com.tangerinespecter.oms.system.domain.vo.data.EditTradeLogicVo;
 import com.tangerinespecter.oms.system.domain.vo.data.TradeRecordInfoVo;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -13,7 +17,7 @@ import org.mapstruct.factory.Mappers;
  * @author 丢失的橘子
  */
 @Mapper
-public interface TradeConvert {
+public interface TradeConvert extends BaseConvert {
 
     TradeConvert INSTANCE = Mappers.getMapper(TradeConvert.class);
 
@@ -24,6 +28,25 @@ public interface TradeConvert {
             @Mapping(target = "withdrawal", expression = "java(convertDbMoneyData(vo.getWithdrawal()))")
     })
     DataTradeRecord convert(TradeRecordInfoVo vo);
+
+    /**
+     * 编辑参数 -> 交易逻辑model
+     *
+     * @param vo 编辑参数
+     * @return 交易逻辑model
+     */
+    DataTradeLogic convert(EditTradeLogicVo vo);
+
+    /**
+     * 添加参数 -> 交易逻辑model
+     *
+     * @param vo 添加参数
+     * @return 交易逻辑model
+     */
+    @Mappings({
+            @Mapping(target = "uid", expression = "java(uid())")
+    })
+    DataTradeLogic convert(AddTradeLogicVo vo);
 
     /**
      * 转化为db data
@@ -38,4 +61,5 @@ public interface TradeConvert {
         }
         return Convert.toInt(moneyData * 100);
     }
+
 }

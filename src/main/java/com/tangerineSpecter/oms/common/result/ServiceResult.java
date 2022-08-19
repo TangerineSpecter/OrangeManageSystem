@@ -111,8 +111,8 @@ public class ServiceResult<T> {
     /**
      * 请求失败
      */
-    public static <R> ServiceResult<R> error(String meessage) {
-        return new ServiceResult<>(false, RetCode.FAIL.getErrorCode(), meessage);
+    public static <R> ServiceResult<R> error(String message) {
+        return new ServiceResult<>(false, RetCode.FAIL.getErrorCode(), message);
     }
 
     /**
@@ -128,8 +128,6 @@ public class ServiceResult<T> {
      * @param pagePath 跳转路径
      */
     public static ModelAndView jumpPage(String pagePath) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName(pagePath);
-        return modelAndView;
+        return new ModelAndView(pagePath);
     }
 }

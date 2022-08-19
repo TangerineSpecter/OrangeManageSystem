@@ -1,8 +1,10 @@
 package com.tangerinespecter.oms.system.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,20 +28,16 @@ public class DataQuestion implements Serializable {
 
     @TableId(type = IdType.AUTO)
     private Long id;
-    /**
-     * 问题
-     */
+    @ApiModelProperty("问题")
+    @TableField("question")
     private String question;
-    /**
-     * 回答内容
-     */
+    @ApiModelProperty("回答内容")
+    @TableField("content")
     private String content;
-    /**
-     * 创建时间
-     */
+    @ApiModelProperty("创建时间")
+    @TableField("create_time")
     private String createTime;
-    /**
-     * 删除状态（0：未删除；1：已删除）
-     */
+    @ApiModelProperty("删除状态（0：未删除；1：已删除）")
+    @TableField("is_del")
     private Integer isDel;
 }

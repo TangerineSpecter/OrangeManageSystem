@@ -6,7 +6,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 @Mapper
-public interface HealthConvert {
+public interface HealthConvert extends BaseConvert {
 
     HealthConvert INSTANCE = Mappers.getMapper(HealthConvert.class);
 

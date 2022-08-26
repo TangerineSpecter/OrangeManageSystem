@@ -62,7 +62,7 @@ public class DataTradeRecordServiceImpl implements IDateTradeRecordService {
     private void handlerTradeData(Integer type) {
         CompletableFuture.runAsync(() -> {
             List<DataTradeRecord> dataTradeRecords = dataTradeRecordMapper.selectListByType(type);
-            CollUtils.forEach(dataTradeRecords, this::handlerSingleTradeData);
+            CollUtils.forEach(dataTradeRecords, data -> dataTradeRecordMapper.updateById(this.handlerSingleTradeData(data)));
             this.refreshTradeDifference(dataTradeRecords);
         });
     }
@@ -76,8 +76,8 @@ public class DataTradeRecordServiceImpl implements IDateTradeRecordService {
         //计算前后日期金额差值
         IntStream.range(0, dataTradeRecords.size()).forEach(index -> {
             DataTradeRecord currentData = CollUtil.get(dataTradeRecords, index);
-            DataTradeRecord beforeData = CollUtil.get(dataTradeRecords, index - 1 < 0 ? Integer.MAX_VALUE : index - 1);
-            dataTradeRecordMapper.updateById(currentData.initData(beforeData));
+            DataTradeRecord prevData = CollUtil.get(dataTradeRecords, index - 1 < 0 ? Integer.MAX_VALUE : index - 1);
+            dataTradeRecordMapper.updateById(currentData.initData(prevData));
         });
     }
 
@@ -87,26 +87,32 @@ public class DataTradeRecordServiceImpl implements IDateTradeRecordService {
      * @param id 交易数据id
      */
     private void handlerSingleTradeData(Long id) {
-        this.handlerSingleTradeData(dataTradeRecordMapper.selectById(id));
+        DataTradeRecord data = this.handlerSingleTradeData(dataTradeRecordMapper.selectById(id));
+        DataTradeRecord prevData = dataTradeRecordMapper.selectLastOneBeforeDate(data.getType(), data.getDate());
+        dataTradeRecordMapper.updateById(data.initData(prevData));
     }
 
-    private void handlerSingleTradeData(DataTradeRecord data) {
+    /**
+     * 计算单笔交易数据
+     *
+     * @param data 交易数据
+     * @return 返回处理过的数据
+     */
+    private DataTradeRecord handlerSingleTradeData(DataTradeRecord data) {
         if (data == null) {
-            log.info("交易数据不存在");
-            return;
+            return new DataTradeRecord();
         }
         //总交易次数
         long totalCount = dataTradeRecordMapper.selectCountLeDateByType(data.getType(), data.getDate());
         //获胜次数
         int winCount = dataTradeRecordMapper.getTradeWinCountByTypeAndDate(data.getType(), data.getDate(), UserContext.getUid());
-        //收益值 = 收盘资金 - 开盘资金
-        int incomeValue = NumChainCal.startOf(data.getEndMoney()).sub(data.getStartMoney()).getInteger();
-        data.setIncomeValue(incomeValue);
-        //根据原始本金计算收益率
-        data.setIncomeRate(NumChainCal.startOf(data.getIncomeValue()).div(data.getStartMoney(), 5).getBigDecimal());
+        //胜率 = 获胜次数 / 总交易次数
         data.setWinRate(NumChainCal.startOf(winCount).div(totalCount, 5).getBigDecimal());
-        DataTradeRecord beforeData = dataTradeRecordMapper.selectLastOneBeforeDate(data.getType(), data.getDate());
-        dataTradeRecordMapper.updateById(data.initData(beforeData));
+        //收益值 = 收盘资金 - 开盘资金
+        data.setIncomeValue(NumChainCal.startOf(data.getEndMoney()).sub(data.getStartMoney()).getInteger());
+        //根据原始本金计算收益率 = 收益值 / 开盘资金
+        data.setIncomeRate(NumChainCal.startOf(data.getIncomeValue()).div(data.getStartMoney(), 5).getBigDecimal());
+        return data;
     }
 
     @Override
@@ -148,7 +154,7 @@ public class DataTradeRecordServiceImpl implements IDateTradeRecordService {
         tradeRecord.setStartMoney(NumChainCal.startOf(tradeRecord.getStartMoney())
                 .add(tradeRecord.getDeposit()).sub(tradeRecord.getWithdrawal()).getInteger());
         dataTradeRecordMapper.insert(tradeRecord);
-        handlerSingleTradeData(tradeRecord.getId());
+        this.handlerSingleTradeData(tradeRecord.getId());
     }
 
     @Override
@@ -161,7 +167,7 @@ public class DataTradeRecordServiceImpl implements IDateTradeRecordService {
         }
         int i = dataTradeRecordMapper.updateById(tradeRecord);
         Assert.isTrue(i > 0, () -> new BusinessException(RetCode.TRADE_RECORD_NOT_EXIST));
-        handlerSingleTradeData(tradeRecord.getId());
+        this.handlerSingleTradeData(tradeRecord.getId());
     }
 
     @Override

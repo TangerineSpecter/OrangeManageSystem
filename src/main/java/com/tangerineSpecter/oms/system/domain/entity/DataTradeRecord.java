@@ -11,7 +11,6 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * 交易记录表
@@ -60,10 +59,10 @@ public class DataTradeRecord extends AdminEntity {
     private String currency;
     @ApiModelProperty("转入金额")
     @TableField("deposit")
-    private Integer deposit;
+    private Integer deposit = 0;
     @ApiModelProperty("转出金额")
     @TableField("withdrawal")
-    private Integer withdrawal;
+    private Integer withdrawal = 0;
     @ApiModelProperty("备注")
     @TableField("remark")
     private String remark;
@@ -71,27 +70,33 @@ public class DataTradeRecord extends AdminEntity {
     /**
      * 初始化数据
      *
-     * @param beforeData 上一条数据
+     * @param prevData 上一条数据
      * @return 数据
      */
-    public DataTradeRecord initData(DataTradeRecord beforeData) {
-        if (beforeData == null) {
-            //第一条数据进行重置计算
-            this.totalIncomeValue = 0;
-            this.withdrawal = 0;
-            this.deposit = 0;
+    public DataTradeRecord initData(DataTradeRecord prevData) {
+        this.initIncome();
+        if (prevData == null) {
             return this;
         }
         //累计收益
-        this.totalIncomeValue = beforeData.getTotalIncomeValue() + this.incomeValue;
+        this.totalIncomeValue = prevData.getTotalIncomeValue() + this.incomeValue;
         //前后金额差值
-        int subtractMoney = this.startMoney - beforeData.getEndMoney();
+        int subtractMoney = this.startMoney - prevData.getEndMoney();
         if (subtractMoney > 0) {
             this.deposit = subtractMoney;
         } else if (subtractMoney < 0) {
             this.withdrawal = Math.abs(subtractMoney);
         }
         return this;
+    }
+
+    /**
+     * 初始化收益差值
+     */
+    private void initIncome() {
+        this.totalIncomeValue = 0;
+        this.withdrawal = 0;
+        this.deposit = 0;
     }
 
     /**

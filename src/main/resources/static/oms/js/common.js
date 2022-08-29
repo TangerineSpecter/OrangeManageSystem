@@ -10,10 +10,11 @@ function removeLastOne(str) {
 }
 
 
-layui.use(['form', 'table', 'toast'], function () {
+layui.use(['form', 'table', 'toast', 'treetable'], function () {
     const form = layui.form,
         toast = layui.toast,
-        table = layui.table;
+        table = layui.table,
+        treetable = layui.treetable;
 
     //表单搜索
     form.on('submit(data-search-btn)', function (data) {
@@ -42,6 +43,7 @@ layui.use(['form', 'table', 'toast'], function () {
                 parent.layui.toast.error({message: result.msg, position: 'topCenter'});
             }
             parent.layui.table.reload('currentTableId');
+            parent.layui.treetable.reload("#menu-table");
         } else {
             if (result.success) {
                 toast.success({message: '添加成功', position: 'topCenter'});
@@ -50,6 +52,7 @@ layui.use(['form', 'table', 'toast'], function () {
                 toast.error({message: result.msg, position: 'topCenter'});
             }
             table.reload('currentTableId');
+            treetable.reload("#menu-table");
         }
     };
 
@@ -63,6 +66,7 @@ layui.use(['form', 'table', 'toast'], function () {
                 parent.layui.toast.error({message: result.msg, position: 'topCenter'});
             }
             parent.layui.table.reload('currentTableId');
+            parent.layui.treetable.reload("#menu-table");
         } else {
             if (result.success) {
                 toast.success({message: '编辑成功', position: 'topCenter'});
@@ -71,6 +75,7 @@ layui.use(['form', 'table', 'toast'], function () {
                 toast.error({message: result.msg, position: 'topCenter'});
             }
             table.reload('currentTableId');
+            treetable.reload("#menu-table");
         }
     };
 
@@ -80,6 +85,7 @@ layui.use(['form', 'table', 'toast'], function () {
             if (result.success) {
                 parent.layui.toast.success({message: '删除成功', position: 'topCenter'});
                 parent.layui.table.reload('currentTableId');
+                parent.layui.treetable.reload("#menu-table");
                 parent.layer.close(parent.layer.getFrameIndex(window.name));
             } else {
                 parent.layui.toast.error({message: result.msg, position: 'topCenter'});
@@ -88,6 +94,7 @@ layui.use(['form', 'table', 'toast'], function () {
             if (result.success) {
                 toast.success({message: '删除成功', position: 'topCenter'});
                 table.reload('currentTableId');
+                treetable.reload("#menu-table");
                 layer.close(layer.index);
             } else {
                 toast.error({message: result.msg, position: 'topCenter'});

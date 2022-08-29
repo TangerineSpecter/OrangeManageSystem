@@ -149,7 +149,7 @@
         });
 
         form.on('submit(menu-query)', function (data) {
-            var keyword = data.field.keyword;
+            const keyword = data.field.keyword;
             treetable.search('#menu-table', keyword);
             return false;
         });

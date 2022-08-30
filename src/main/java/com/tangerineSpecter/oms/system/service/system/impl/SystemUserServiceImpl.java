@@ -4,25 +4,25 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.text.CharSequenceUtil;
-import cn.hutool.extra.servlet.ServletUtil;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.base.Splitter;
-import com.tangerinespecter.oms.common.constants.CommonConstant;
+import com.tangerinespecter.oms.common.config.CosConfig;
 import com.tangerinespecter.oms.common.constants.RetCode;
 import com.tangerinespecter.oms.common.constants.SystemConstant;
 import com.tangerinespecter.oms.common.context.UserContext;
 import com.tangerinespecter.oms.common.enums.GlobalBoolEnum;
 import com.tangerinespecter.oms.common.exception.BusinessException;
 import com.tangerinespecter.oms.common.query.SystemUserQueryObject;
-import com.tangerinespecter.oms.common.utils.DateUtils;
+import com.tangerinespecter.oms.common.utils.CosClient;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.system.domain.dto.system.SystemUserListDto;
 import com.tangerinespecter.oms.system.domain.entity.SystemRole;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;
 import com.tangerinespecter.oms.system.domain.entity.SystemUserRole;
 import com.tangerinespecter.oms.system.domain.pojo.AccountInfo;
+import com.tangerinespecter.oms.system.domain.pojo.FileInfoBean;
 import com.tangerinespecter.oms.system.domain.vo.system.SystemUserInfoVo;
 import com.tangerinespecter.oms.system.domain.vo.system.SystemUserPwdVo;
 import com.tangerinespecter.oms.system.mapper.SystemRoleMapper;
@@ -62,6 +62,7 @@ public class SystemUserServiceImpl implements ISystemUserService {
     private final SystemUserMapper systemUserMapper;
     private final SystemRoleMapper systemRoleMapper;
     private final SystemUserRoleMapper systemUserRoleMapper;
+    private final CosClient cosClient;
     private final RedisHelper redisHelper;
 
     @Override
@@ -115,14 +116,15 @@ public class SystemUserServiceImpl implements ISystemUserService {
 
     @Override
     public void updateSystemUserInfo(SystemUserInfoVo systemUser) {
-        SystemUser info = systemUserMapper.selectById(systemUser.getId());
-        Assert.isTrue(info != null, () -> new BusinessException(RetCode.ACCOUNTS_NOT_EXIST));
-        info.setNickName(systemUser.getNickName()).setSex(systemUser.getSex())
-                .setCity(systemUser.getCity()).setBrief(systemUser.getBrief())
-                .setEmail(systemUser.getEmail()).setPhoneNumber(systemUser.getPhoneNumber())
-                .setSex(systemUser.getSex()).setAvatar(systemUser.getAvatarUrl());
-        systemUserMapper.updateUserInfo(info);
-        SystemUtils.refreshSession(info);
+        SystemUser currentUser = UserContext.getCurrentUser();
+        currentUser.setNickName(systemUser.getNickName());
+        currentUser.setSex(systemUser.getSex());
+        currentUser.setCity(systemUser.getCity());
+        currentUser.setBrief(systemUser.getBrief());
+        currentUser.setEmail(systemUser.getEmail());
+        currentUser.setPhoneNumber(systemUser.getPhoneNumber());
+        systemUserMapper.updateUserInfo(currentUser);
+        SystemUtils.refreshSession(currentUser);
     }
 
     @Override
@@ -172,6 +174,17 @@ public class SystemUserServiceImpl implements ISystemUserService {
         rolesReq.forEach(r -> systemUserRoleMapper.insert(SystemUserRole.builder().rid(r).uid(vo.getUid()).build()));
         //移除角色
         haveRoleIds.forEach(r -> systemUserRoleMapper.delete(new UpdateWrapper<SystemUserRole>().eq("rid", r).eq("uid", vo.getId())));
+    }
+
+    @Override
+    public void updateAvatar(FileInfoBean avatarInfo) {
+        SystemUser currentUser = UserContext.getCurrentUser();
+        String beforeAvatar = currentUser.getAvatar();
+        currentUser.setAvatar(avatarInfo.getName());
+        systemUserMapper.updateById(currentUser);
+        //清理cos头像资源
+        cosClient.delete(CosConfig.AVATAR_ZONE, beforeAvatar);
+        SystemUtils.refreshSession(currentUser);
     }
 
 }

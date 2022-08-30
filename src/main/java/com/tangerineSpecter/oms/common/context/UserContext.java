@@ -1,6 +1,5 @@
 package com.tangerinespecter.oms.common.context;
 
-import com.tangerinespecter.oms.common.config.QiNiuConfig;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -70,7 +69,7 @@ public class UserContext {
     }
 
     public static String getAvatar() {
-        return QiNiuConfig.QI_NIU_RESOURCE_URL + getCurrentUser().getAvatar();
+        return getCurrentUser().getAvatar();
     }
 
     public String getBrief() {

@@ -291,6 +291,12 @@
             <artifactId>thumbnailator</artifactId>
             <version>${thumbnailator.version}</version>
         </dependency>
+        <!-- tencent cos cloud -->
+        <dependency>
+            <groupId>com.qcloud</groupId>
+            <artifactId>cos_api</artifactId>
+            <version>5.6.101</version>
+        </dependency>
     </dependencies>
 
     <build>

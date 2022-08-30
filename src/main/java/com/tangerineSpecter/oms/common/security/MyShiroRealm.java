@@ -3,7 +3,7 @@ package com.tangerinespecter.oms.common.security;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.text.CharSequenceUtil;
-import cn.hutool.extra.servlet.ServletUtil;
+import com.tangerinespecter.oms.common.config.CosConfig;
 import com.tangerinespecter.oms.common.constants.CommonConstant;
 import com.tangerinespecter.oms.common.constants.RetCode;
 import com.tangerinespecter.oms.common.constants.SystemConstant;
@@ -51,6 +51,8 @@ public class MyShiroRealm extends AuthorizingRealm {
     private SystemUserMapper systemUserMapper;
     @Autowired
     private SessionDAO sessionDAO;
+    @Resource
+    private CosConfig cosConfig;
 
     /**
      * 获取用户角色权限
@@ -84,6 +86,7 @@ public class MyShiroRealm extends AuthorizingRealm {
         Assert.isTrue(systemUser != null, () -> new UnknownAccountException(RetCode.REGISTER_ACCOUNTS_NOT_EXIST.getErrorDesc()));
         Assert.isTrue(Objects.equals(password, systemUser.getPassword()), () -> new IncorrectCredentialsException(RetCode.ACCOUNTS_PASSWORD_ERROR.getErrorDesc()));
         log.info("用户：{}在时间{}进行了登录,登录地址{}", userName, DateUtils.getSimpleFormat(CommonConstant.DEFAULT_FORMAT_SECOND), SystemUtils.getLocalhostIP());
+        cosConfig.initAvatar(systemUser);
         stopPreviousSession(systemUser.getUid());
         return new SimpleAuthenticationInfo(systemUser, password, userName);
     }

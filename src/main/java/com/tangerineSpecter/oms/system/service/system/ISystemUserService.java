@@ -5,6 +5,7 @@ import com.tangerinespecter.oms.common.query.SystemUserQueryObject;
 import com.tangerinespecter.oms.system.domain.dto.system.SystemUserListDto;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;
 import com.tangerinespecter.oms.system.domain.pojo.AccountInfo;
+import com.tangerinespecter.oms.system.domain.pojo.FileInfoBean;
 import com.tangerinespecter.oms.system.domain.vo.system.SystemUserInfoVo;
 import com.tangerinespecter.oms.system.domain.vo.system.SystemUserPwdVo;
 import org.springframework.ui.Model;
@@ -34,7 +35,7 @@ public interface ISystemUserService {
     void getSystemInfo(Model model, Long id);
 
     /**
-     * 更新账户信息
+     * 修改系统用户信息
      */
     void updateSystemUserInfo(SystemUserInfoVo systemUser);
 
@@ -58,4 +59,11 @@ public interface ISystemUserService {
      * @return
      */
     void updateSystemUserRole(SystemUserInfoVo vo);
+
+    /**
+     * 更新头像
+     *
+     * @param avatarInfo 头像文件信息
+     */
+    void updateAvatar(FileInfoBean avatarInfo);
 }

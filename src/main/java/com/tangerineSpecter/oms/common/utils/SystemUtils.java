@@ -9,15 +9,12 @@ import cn.hutool.crypto.SecureUtil;
 import cn.hutool.crypto.digest.DigestAlgorithm;
 import cn.hutool.crypto.digest.DigestUtil;
 import cn.hutool.crypto.digest.Digester;
-import cn.hutool.extra.servlet.ServletUtil;
-import cn.hutool.system.SystemUtil;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.tangerinespecter.oms.common.constants.CommonConstant;
 import com.tangerinespecter.oms.common.context.UserContext;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.connector.Request;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
@@ -380,7 +377,7 @@ public class SystemUtils {
     }
 
     public static void main(String[] args) {
-        System.out.println( SystemUtils.getLocalhostIP());
+        System.out.println(SystemUtils.getLocalhostIP());
     }
 
 }

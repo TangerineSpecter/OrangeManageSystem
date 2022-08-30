@@ -11,10 +11,11 @@
             <div class="layui-card-body" style="padding: 25px;">
                 <div class="text-center layui-text">
                     <div class="user-info-head" id="userInfoHead">
-                        <img src="../../admin/images/avatar.jpg" id="userAvatar" width="115px" height="115px" alt="">
+                        <img src="" id="userAvatar" width="115px" height="115px" alt="">
                     </div>
                     <h2 style="padding-top: 20px;font-size: 20px;" th:text="${userInfo.nickName}">丢失的橘子</h2>
-                    <p style="padding-top: 8px;margin-top: 10px;font-size: 13.5px;" th:text="${userInfo.brief}">China ， 中国</p>
+                    <p style="padding-top: 8px;margin-top: 10px;font-size: 13.5px;" th:text="${userInfo.brief}">China ，
+                        中国</p>
                 </div>
             </div>
             <div style="height: 45px;border-top: 1px whitesmoke solid;text-align: center;line-height: 45px;font-size: 13.5px;">
@@ -51,136 +52,88 @@
     <div class="layui-col-md9">
         <div class="layui-card">
             <div class="layui-card-header">
-                我的文章
+                基本信息
             </div>
             <div class="layui-card-body">
-                <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
-                    <div class="layui-tab-content">
-                        <div class="layui-tab-item layui-show">
-                            <div class="layui-row layui-col-space10" style="margin: 15px;">
-                                <div class="layui-col-md1">
-                                    <img src="../../admin/images/act.jpg"
-                                         style="width: 100%;height: 100%;border-radius: 5px;"/>
-                                </div>
-                                <div class="layui-col-md11" style="height: 80px;">
-                                    <div class="title">为什么程序员们愿意在GitHub上开源自己的成果给别人免费使用和学习？</div>
-                                    <div class="content">
-                                        “Git的精髓在于让所有人的贡献无缝合并。而GitHub的天才之处，在于理解了Git的精髓。”来一句我们程序员们接地气的话：分享是一种快乐~
-                                    </div>
-                                    <div class="comment">2020-06-12 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 评论 5 点赞 12 转发
-                                        4
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="layui-row layui-col-space10" style="margin: 15px;">
-                                <div class="layui-col-md1">
-                                    <img src="../../admin/images/act.jpg"
-                                         style="width: 100%;height: 100%;border-radius: 5px;"/>
-                                </div>
-                                <div class="layui-col-md11" style="height: 80px;">
-                                    <div class="title">为什么程序员们愿意在GitHub上开源自己的成果给别人免费使用和学习？</div>
-                                    <div class="content">
-                                        “Git的精髓在于让所有人的贡献无缝合并。而GitHub的天才之处，在于理解了Git的精髓。”来一句我们程序员们接地气的话：分享是一种快乐~
-                                    </div>
-                                    <div class="comment">2020-06-12 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 评论 5 点赞 12 转发
-                                        4
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="layui-row layui-col-space10" style="margin: 15px;">
-                                <div class="layui-col-md1">
-                                    <img src="../../admin/images/act.jpg"
-                                         style="width: 100%;height: 100%;border-radius: 5px;"/>
-                                </div>
-                                <div class="layui-col-md11" style="height: 80px;">
-                                    <div class="title">为什么程序员们愿意在GitHub上开源自己的成果给别人免费使用和学习？</div>
-                                    <div class="content">
-                                        “Git的精髓在于让所有人的贡献无缝合并。而GitHub的天才之处，在于理解了Git的精髓。”来一句我们程序员们接地气的话：分享是一种快乐~
-                                    </div>
-                                    <div class="comment">2020-06-12 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 评论 5 点赞 12 转发
-                                        4
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="layui-row layui-col-space10" style="margin: 15px;">
-                                <div class="layui-col-md1">
-                                    <img src="../../admin/images/act.jpg"
-                                         style="width: 100%;height: 100%;border-radius: 5px;"/>
-                                </div>
-                                <div class="layui-col-md11" style="height: 80px;">
-                                    <div class="title">为什么程序员们愿意在GitHub上开源自己的成果给别人免费使用和学习？</div>
-                                    <div class="content">
-                                        “Git的精髓在于让所有人的贡献无缝合并。而GitHub的天才之处，在于理解了Git的精髓。”来一句我们程序员们接地气的话：分享是一种快乐~
-                                    </div>
-                                    <div class="comment">2020-06-12 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 评论 5 点赞 12 转发
-                                        4
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="layui-row layui-col-space10" style="margin: 15px;">
-                                <div class="layui-col-md1">
-                                    <img src="../../admin/images/act.jpg"
-                                         style="width: 100%;height: 100%;border-radius: 5px;"/>
-                                </div>
-                                <div class="layui-col-md11" style="height: 80px;">
-                                    <div class="title">为什么程序员们愿意在GitHub上开源自己的成果给别人免费使用和学习？</div>
-                                    <div class="content">
-                                        “Git的精髓在于让所有人的贡献无缝合并。而GitHub的天才之处，在于理解了Git的精髓。”来一句我们程序员们接地气的话：分享是一种快乐~
-                                    </div>
-                                    <div class="comment">2020-06-12 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 评论 5 点赞 12 转发
-                                        4
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="layui-row layui-col-space10" style="margin: 15px;">
-                                <div class="layui-col-md1">
-                                    <img src="../../admin/images/act.jpg"
-                                         style="width: 100%;height: 100%;border-radius: 5px;"/>
-                                </div>
-                                <div class="layui-col-md11" style="height: 80px;">
-                                    <div class="title">为什么程序员们愿意在GitHub上开源自己的成果给别人免费使用和学习？</div>
-                                    <div class="content">
-                                        “Git的精髓在于让所有人的贡献无缝合并。而GitHub的天才之处，在于理解了Git的精髓。”来一句我们程序员们接地气的话：分享是一种快乐~
-                                    </div>
-                                    <div class="comment">2020-06-12 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 评论 5 点赞 12 转发
-                                        4
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="layui-row layui-col-space10" style="margin: 15px;">
-                                <div class="layui-col-md1">
-                                    <img src="../../admin/images/act.jpg"
-                                         style="width: 100%;height: 100%;border-radius: 5px;"/>
-                                </div>
-                                <div class="layui-col-md11" style="height: 80px;">
-                                    <div class="title">为什么程序员们愿意在GitHub上开源自己的成果给别人免费使用和学习？</div>
-                                    <div class="content">
-                                        “Git的精髓在于让所有人的贡献无缝合并。而GitHub的天才之处，在于理解了Git的精髓。”来一句我们程序员们接地气的话：分享是一种快乐~
-                                    </div>
-                                    <div class="comment">2020-06-12 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 评论 5 点赞 12 转发
-                                        4
-                                    </div>
-                                </div>
-                            </div>
+                <form class="layui-form" action="" onsubmit="return false">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">昵称</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="nickName" required lay-verify="required" placeholder="请输入账号昵称"
+                                   autocomplete="off" class="layui-input" th:value="${userInfo.nickName}">
                         </div>
                     </div>
-                </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">性别</label>
+                        <div class="layui-input-block">
+                            <input th:field="${userInfo.sex}" type="radio" name="sex" value="0" title="男">
+                            <input th:field="${userInfo.sex}" type="radio" name="sex" value="1" title="女">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">手机号</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="phoneNumber" required lay-verify="required" placeholder="请输入手机号"
+                                   autocomplete="off" class="layui-input" th:value="${userInfo.phoneNumber}">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">邮箱</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="email" required lay-verify="required" placeholder="请输入邮箱"
+                                   autocomplete="off" class="layui-input" th:value="${userInfo.email}">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">城市</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="city" required lay-verify="required" placeholder="请输入城市"
+                                   autocomplete="off" class="layui-input" th:value="${userInfo.city}">
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label">简介</label>
+                        <div class="layui-input-block">
+                            <textarea name="brief" placeholder="(^_^)/在此输入简介..." class="layui-textarea"
+                                      th:text="${userInfo.brief}"></textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button type="submit" class="pear-btn pear-btn-primary pear-btn-sm" lay-submit=""
+                                    lay-filter="submitBtn">
+                                <i class="layui-icon layui-icon-ok"></i>
+                                更新信息
+                            </button>
+                            <button type="reset" class="pear-btn pear-btn-sm">
+                                <i class="layui-icon layui-icon-refresh"></i>
+                                重置
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 </div>
 <th:block th:include="include :: footer"/>
-<script>
-    layui.use(['jquery', 'element', 'layer', 'convert'], function () {
+<script th:inline="javascript">
+    layui.use(['jquery', 'element', 'layer', 'convert', 'form'], function () {
         var element = layui.element,
             layer = layui.layer,
             $ = layui.jquery,
-            convert = layui.convert;
+            convert = layui.convert,
+            form = layui.form;
 
+        // var image = new Image();
+        // image.src = [[${userInfo.avatar}]];
+        // image.onload = function () {
+        //     $("#userAvatar").attr("src", convert.imageToBase64(image));
+        // }
         var image = new Image();
-        image.src = "../../admin/images/avatar.jpg";
+        image.src = [[${userInfo.avatar}]];
         image.onload = function () {
-            $("#userAvatar").attr("src", convert.imageToBase64(image));
+            $("#userAvatar").attr("src", image.src);
         }
 
         window.callback = function (data) {
@@ -200,6 +153,12 @@
                     window['layui-layer-iframe' + index].submitForm();
                 }
             });
+        });
+
+        //更新信息
+        form.on('submit(submitBtn)', function (data) {
+            Ajax.put("/systemUser/update", data.field, false);
+            return false;
         });
     });
 </script>

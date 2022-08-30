@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "tencent.cos.secretId",
+      "type": "java.lang.String",
+      "description": "Description for tencent.cos.secretId."
+  }
+] }

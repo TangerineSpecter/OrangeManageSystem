@@ -170,6 +170,18 @@
             return false;
         });
 
+        //监听变更
+        form.on('select(type)', function (data) {
+            //外汇类型为2，默认使用美元
+            let currency = "CNY";
+            if (data.value === "2") {
+                currency = "USD";
+            }
+            form.val("data-form", {
+                "currency": currency
+            });
+            form.render();
+        });
     });
 
 </script>

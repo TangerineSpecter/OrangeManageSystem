@@ -140,7 +140,7 @@ public class SystemUserServiceImpl implements ISystemUserService {
                 .city(systemUser.getCity()).birthday(systemUser.getBirthday())
                 .email(systemUser.getEmail()).brief(systemUser.getBrief())
                 .nickName(systemUser.getNickName()).sex(systemUser.getSex())
-                .phoneNumber(systemUser.getPhoneNumber()).isDel(GlobalBoolEnum.YES.getValue())
+                .phoneNumber(systemUser.getPhoneNumber()).isDel(GlobalBoolEnum.FALSE.getValue())
                 .salt(userSalt).build();
         systemUserMapper.insert(userInfo);
         return userInfo;

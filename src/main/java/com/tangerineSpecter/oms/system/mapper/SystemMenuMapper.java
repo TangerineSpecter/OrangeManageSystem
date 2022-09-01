@@ -42,4 +42,15 @@ public interface SystemMenuMapper extends BaseMapper<SystemMenu> {
     default Long selectTopCount() {
         return selectCount(new QueryWrapper<SystemMenu>().eq(ParamUtils.TOP, CommonConstant.IS_TOP));
     }
+
+    /**
+     * 获取权限code为null的菜单列表
+     *
+     * @return 菜单列表
+     */
+    default List<SystemMenu> selectNullPermissionCodeList() {
+        QueryWrapper<SystemMenu> queryWrapper = new QueryWrapper<SystemMenu>()
+                .isNotNull("permission_code");
+        return selectList(queryWrapper);
+    }
 }

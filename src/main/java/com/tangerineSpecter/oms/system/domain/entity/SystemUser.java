@@ -103,7 +103,7 @@ public class SystemUser implements Serializable {
     public SystemUser(String username, String password) {
         this.username = username;
         this.password = password;
-        this.isDel = GlobalBoolEnum.NO.getValue();
-        this.admin = GlobalBoolEnum.NO.getValue();
+        this.isDel = GlobalBoolEnum.FALSE.getValue();
+        this.admin = GlobalBoolEnum.FALSE.getValue();
     }
 }

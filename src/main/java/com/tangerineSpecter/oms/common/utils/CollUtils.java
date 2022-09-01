@@ -212,11 +212,12 @@ public class CollUtils {
         coll.add(item);
     }
 
-    public static <T> void forEach(Collection<T> coll, Consumer<T> consumer) {
+    public static <T> List<T> forEach(Collection<T> coll, Consumer<T> consumer) {
         if (CollUtil.isEmpty(coll)) {
-            return;
+            return Collections.emptyList();
         }
         coll.forEach(consumer);
+        return CollUtil.newArrayList(coll);
     }
 
 }

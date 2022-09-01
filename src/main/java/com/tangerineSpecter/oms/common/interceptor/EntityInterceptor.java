@@ -35,7 +35,7 @@ public class EntityInterceptor implements MetaObjectHandler {
     public void createField(MetaObject metaObject) {
         this.strictInsertFill(metaObject, "createTime", LocalDateTime.class, LocalDateTime.now());
         this.strictInsertFill(metaObject, "uid", String.class, UserContext.getUid());
-        this.strictInsertFill(metaObject, "isDel", Integer.class, GlobalBoolEnum.NO.getValue());
+        this.strictInsertFill(metaObject, "isDel", Integer.class, GlobalBoolEnum.FALSE.getValue());
     }
 
     /**

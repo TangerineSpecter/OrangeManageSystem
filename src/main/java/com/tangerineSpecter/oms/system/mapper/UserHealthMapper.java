@@ -37,7 +37,7 @@ public interface UserHealthMapper extends BaseMapper<UserHealth> {
         }
         return selectOne(new QueryWrapper<UserHealth>()
                 .eq("record_time", recordTime)
-                .eq("is_del", GlobalBoolEnum.NO.getValue())
+                .eq("is_del", GlobalBoolEnum.FALSE.getValue())
                 .last("limit 1"));
     }
 }

@@ -35,7 +35,7 @@ public interface UserCardNoteTagMapper extends BaseMapper<UserCardNoteTag> {
      */
     default List<UserCardNoteTag> selectListByUid(String uid) {
         return selectList(new QueryWrapper<UserCardNoteTag>()
-                .eq("is_del", GlobalBoolEnum.NO.getValue())
+                .eq("is_del", GlobalBoolEnum.FALSE.getValue())
                 .eq("uid", uid));
     }
 

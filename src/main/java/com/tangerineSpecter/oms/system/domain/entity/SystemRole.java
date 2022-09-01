@@ -3,6 +3,7 @@ package com.tangerinespecter.oms.system.domain.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.tangerinespecter.oms.system.domain.enums.UserStatusEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -49,4 +50,9 @@ public class SystemRole {
 
     private List<SystemMenu> menus;
 
+    public SystemRole(String name) {
+        this.name = name;
+        this.remark = name;
+        this.status = UserStatusEnum.EFFECTIVE.getValue();
+    }
 }

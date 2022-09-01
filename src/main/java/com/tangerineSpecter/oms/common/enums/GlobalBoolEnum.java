@@ -13,8 +13,8 @@ import lombok.NoArgsConstructor;
 @SuppressWarnings("all")
 public enum GlobalBoolEnum implements IBaseDbEnum {
 
-    NO(0, "否"),
-    YES(1, "是");
+    FALSE(0, "否"),
+    TRUE(1, "是");
 
     private Integer value;
 

@@ -33,4 +33,9 @@ public class SystemPermissionRole {
      * 权限ID
      */
     private Long pid;
+
+    public SystemPermissionRole(Long rid, Long pid) {
+        this.rid = rid;
+        this.pid = pid;
+    }
 }

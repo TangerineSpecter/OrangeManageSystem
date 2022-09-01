@@ -195,7 +195,7 @@ public class CollUtils {
     }
 
     public static <T> T getFirst(List<T> from) {
-        return !CollectionUtil.isEmpty(from) ? from.get(0) : null;
+        return !CollUtil.isEmpty(from) ? from.get(0) : null;
     }
 
     public static <T> T findFirst(List<T> from, Predicate<T> predicate) {

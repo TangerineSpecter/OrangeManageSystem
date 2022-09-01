@@ -10,11 +10,12 @@ function removeLastOne(str) {
 }
 
 
-layui.use(['form', 'table', 'toast', 'treetable'], function () {
+layui.use(['form', 'table', 'toast', 'treetable', 'layer'], function () {
     const form = layui.form,
         toast = layui.toast,
         table = layui.table,
-        treetable = layui.treetable;
+        treetable = layui.treetable,
+        layer = layui.layer;
 
     //表单搜索
     form.on('submit(data-search-btn)', function (data) {
@@ -135,6 +136,27 @@ layui.use(['form', 'table', 'toast', 'treetable'], function () {
         });
     }
 
+    /**
+     * 系统公告弹窗
+     * @param title   公告标题
+     * @param content 公告内容
+     */
+    window.notice = function (title, content) {
+        layer.open({
+            type: 1,
+            title: title, //不显示标题栏
+            closeBtn: false,
+            area: '300px;',
+            shade: 0.8,
+            id: 'LAY_layuipro', //设定一个id，防止重复弹出
+            btn: ['关闭'],
+            btnAlign: 'c',
+            moveType: 1, //拖拽模式，0或者1
+            content: content,
+            success: function (layero) {
+            }
+        });
+    }
 });
 
 var Ajax = new function () {

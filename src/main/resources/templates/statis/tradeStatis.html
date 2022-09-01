@@ -187,8 +187,9 @@
 </div>
 <th:block th:include="include :: footer"/>
 <script th:inline="javascript">
-    layui.use(['echarts'], function () {
-        const echarts = layui.echarts;
+    layui.use(['echarts', 'count'], function () {
+        const echarts = layui.echarts,
+            count = layui.count;
 
         const date = [[${incomeInfo.date}]];
         //资金数据
@@ -211,6 +212,14 @@
         initStrokeColumnCharts("echarts-funds", pointLineStyle('#A9F387', '#48D8BF'), [[${incomeInfo.fundsDate}]], [[${incomeInfo.fundsIncome}]]);
         //基金累计数据
         initGridLineEcharts("echarts-funds-total", simpleLineStyle('#ff99cc', '#ff3366'), [[${incomeInfo.fundsDate}]], [[${incomeInfo.fundsTotalIncome}]], '收益');
+
+        // const todayIncome = [[${statisInfo.todayIncome}]];
+        // //数字滚动
+        // count.up("todayIncome", {
+        //     time: 8000,
+        //     num: todayIncome,
+        //     regulator: 100
+        // })
     });
 
     /**

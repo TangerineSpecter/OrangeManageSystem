@@ -89,13 +89,16 @@
             </div>
         </div>
         <div class="layui-col-md3">
-            <div class="layui-card">
+            <div id="systemNotice" class="layui-card">
                 <div class="layui-card-header">系统公告</div>
                 <div class="layui-card-body">
                     <ul class="list" th:each="noticeInfo:${noticeInfo.noticeInfos}">
-                        <li class="list-item"><span class="title" th:text="${noticeInfo.title}">公告标题</span>&emsp;<span
-                                class="layui-badge" th:if="${noticeInfo.top} == 1">置顶</span>
-                            <span class="footer" th:text="${noticeInfo.createTime}">2022-01-01</span></li>
+                        <li class="list-item" th:value="${noticeInfo.id}">
+                            <!--                            <span th:value="${noticeInfo.id}" style="display: none;"></span>-->
+                            <span class="title" th:text="${noticeInfo.title}">公告标题</span>&emsp;
+                            <span class="layui-badge" th:if="${noticeInfo.top} == 1">置顶</span>
+                            <span class="footer" th:text="${noticeInfo.createTime}">2022-01-01</span>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -255,7 +258,23 @@
             echartsTodayLuck.resize();
         };
 
+        /**
+         * 系统公告点击事件
+         */
+        $("#systemNotice .list .list-item").on('click', function () {
+            const id = $(this).val();
+            const notices = [[${noticeInfo.noticeInfos}]];
+            const notice = {};
+            notices.forEach(function (data) {
+                if (data.id === id) {
+                    notice.title = data.title;
+                    notice.content = '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">' + data.content + '</div>';
+                }
+            });
+            window.notice(notice.title, notice.content);
+        });
     });
+
 </script>
 </body>
 </html>

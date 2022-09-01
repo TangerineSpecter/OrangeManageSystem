@@ -2,6 +2,7 @@ package com.tangerinespecter.oms.system.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,11 +12,14 @@ import java.io.Serializable;
 
 /**
  * 系统消息表
+ *
+ * @author 丢失的橘子
  */
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@TableName("system_notice")
 public class SystemNotice implements Serializable {
 
     @TableId(type = IdType.AUTO)

@@ -12,6 +12,7 @@
     <div class="layui-row layui-col-space10">
         <div class="layui-col-md9">
             <div class="layui-row layui-col-space10">
+                <!-- 快捷菜单 -->
                 <div class="layui-col-md6">
                     <div class="layui-card">
                         <div class="layui-card-header">
@@ -88,9 +89,11 @@
                 </div>
             </div>
         </div>
+        <!-- 公告栏 -->
         <div class="layui-col-md3">
             <div id="systemNotice" class="layui-card">
-                <div class="layui-card-header">系统公告</div>
+                <div class="layui-card-header"><i class="layui-icon layui-icon-speaker" style="color:red;"></i>系统公告
+                </div>
                 <div class="layui-card-body">
                     <ul class="list" th:each="noticeInfo:${noticeInfo.noticeInfos}">
                         <li class="list-item" th:value="${noticeInfo.id}">
@@ -102,21 +105,27 @@
                     </ul>
                 </div>
             </div>
+            <!-- 今日运势 -->
             <div class="layui-card">
-                <div class="layui-card-header"><i class="fa fa-fire icon"></i>今日运势</div>
+                <div class="layui-card-header"><i class="layui-icon layui-icon-star" style="color:orange;"></i> 今日运势
+                </div>
                 <div class="layui-card-body layui-text">
                     <div id="echarts-today-luck" style="width: 100%;min-height:320px"></div>
                 </div>
             </div>
             <div class="layui-card">
-                <div class="layui-card-header">
+                <div class="layui-card-header"><i class="layui-icon layui-icon-face-smile-b"
+                                                  style="color:deepskyblue;"></i>
                     今日寄语
                 </div>
                 <div class="layui-card-body" style="line-height:40px;" th:text="${systemInfo.todayTip}">
                 </div>
             </div>
+            <!-- 系统信息说明 -->
             <div class="layui-card">
-                <div class="layui-card-header"><i class="fa fa-fire icon"></i>系统信息</div>
+                <div class="layui-card-header"><i class="layui-icon layui-icon-about" style="color:grey;"></i>
+                    系统信息
+                </div>
                 <div class="layui-card-body layui-text">
                     <table class="layui-table">
                         <colgroup>

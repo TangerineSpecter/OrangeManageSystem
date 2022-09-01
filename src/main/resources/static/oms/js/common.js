@@ -146,7 +146,7 @@ layui.use(['form', 'table', 'toast', 'treetable', 'layer'], function () {
             type: 1,
             title: title, //不显示标题栏
             closeBtn: false,
-            area: '300px;',
+            area: '500px;',
             shade: 0.8,
             id: 'LAY_layuipro', //设定一个id，防止重复弹出
             btn: ['关闭'],

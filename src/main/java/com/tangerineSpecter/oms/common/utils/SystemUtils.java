@@ -112,24 +112,6 @@ public class SystemUtils {
     }
 
     /**
-     * 刷新当前用户session
-     *
-     * @param info 管理员信息
-     */
-    public static void refreshSession(SystemUser info) {
-        SystemUser systemUser = UserContext.getCurrentUser();
-        systemUser.setUsername(info.getUsername());
-        systemUser.setPhoneNumber(info.getPhoneNumber());
-        systemUser.setCity(info.getCity());
-        systemUser.setSex(info.getSex());
-        systemUser.setEmail(info.getEmail());
-        systemUser.setAvatar(info.getAvatar());
-        systemUser.setBrief(info.getBrief());
-        systemUser.setBirthday(info.getBirthday());
-        systemUser.setNickName(info.getNickName());
-    }
-
-    /**
      * 获取本机ip地址
      *
      * @return ip地址

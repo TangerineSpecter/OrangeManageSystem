@@ -32,7 +32,8 @@
             <li class="layui-nav-item user">
                 <!-- 头 像 -->
                 <a href="javascript:void(0);">
-                    <img th:src="${systemUser.avatar}" src="admin/images/avatar.jpg" class="layui-nav-img">
+                    <img id="indexAvatar" th:src="${systemUser.avatar}" src="admin/images/avatar.jpg"
+                         class="layui-nav-img">
                 </a>
                 <!-- 功 能 菜 单 -->
                 <dl class="layui-nav-child">
@@ -84,8 +85,6 @@
         const admin = layui.admin,
             popup = layui.popup,
             $ = layui.jquery;
-
-        // admin.setAvatar("admin/images/avatar.jpg","丢失的橘子");
 
         admin.setConfigType("yml");
         admin.setConfigPath("config/pear.config.yml");

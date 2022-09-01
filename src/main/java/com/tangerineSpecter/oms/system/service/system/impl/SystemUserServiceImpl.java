@@ -124,7 +124,7 @@ public class SystemUserServiceImpl implements ISystemUserService {
         currentUser.setEmail(systemUser.getEmail());
         currentUser.setPhoneNumber(systemUser.getPhoneNumber());
         systemUserMapper.updateUserInfo(currentUser);
-        SystemUtils.refreshSession(currentUser);
+        this.refreshSession(currentUser);
     }
 
     @Override
@@ -184,7 +184,24 @@ public class SystemUserServiceImpl implements ISystemUserService {
         systemUserMapper.updateById(currentUser);
         //清理cos头像资源
         cosClient.delete(CosConfig.AVATAR_ZONE, beforeAvatar);
-        SystemUtils.refreshSession(currentUser);
+        this.refreshSession(currentUser);
     }
 
+    /**
+     * 刷新当前用户session
+     *
+     * @param info 管理员信息
+     */
+    public void refreshSession(SystemUser info) {
+        SystemUser systemUser = UserContext.getCurrentUser();
+        systemUser.setUsername(info.getUsername());
+        systemUser.setPhoneNumber(info.getPhoneNumber());
+        systemUser.setCity(info.getCity());
+        systemUser.setSex(info.getSex());
+        systemUser.setEmail(info.getEmail());
+        systemUser.setBrief(info.getBrief());
+        systemUser.setBirthday(info.getBirthday());
+        systemUser.setNickName(info.getNickName());
+        cosClient.initAvatar(info);
+    }
 }

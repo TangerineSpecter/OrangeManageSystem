@@ -62,7 +62,7 @@ public class MenuSettingServiceImpl implements IMenuSettingService {
 
     @Override
     public void insertInfo(SystemMenuInfoVo vo) {
-        Assert.isTrue(checkMenuHrefNotExist(null, vo.getHref()), () -> new BusinessException(RetCode.SYSTEM_MENU_HREF_EXIST));
+        Assert.isTrue(this.checkMenuHrefNotExist(null, vo.getHref()), () -> new BusinessException(RetCode.SYSTEM_MENU_HREF_EXIST));
         SystemMenu systemMenu = MenuConvert.INSTANCE.convert(vo);
         systemMenuMapper.insert(systemMenu);
         systemMenu.setPermissionCode(SystemUtils.getMenuCode(systemMenu.getHref(), systemMenu.getId()));
@@ -78,13 +78,17 @@ public class MenuSettingServiceImpl implements IMenuSettingService {
      * @return true:不存在
      */
     private boolean checkMenuHrefNotExist(Long id, String href) {
-        SystemMenu menu = systemMenuMapper.selectOneByHref(href);
+        SystemMenu menu = systemMenuMapper.selectById(id);
         //不存在，则能添加
         if (menu == null) {
             return true;
         }
         //存在，但是同一个或者id为空，则能添加
-        return id == null || Objects.equals(id, menu.getId());
+        if (id == null || Objects.equals(id, menu.getId())) {
+            return true;
+        }
+        //地址不为空，并且不相等，则能添加
+        return CharSequenceUtil.isNotEmpty(href) && !Objects.equals(href, menu.getHref());
     }
 
     @Override
@@ -95,7 +99,7 @@ public class MenuSettingServiceImpl implements IMenuSettingService {
     @Override
     public void updateInfo(SystemMenuInfoVo vo) {
         SystemMenu systemMenu = systemMenuMapper.selectById(vo.getId());
-        Assert.isTrue(checkMenuHrefNotExist(vo.getId(), vo.getHref()), () -> new BusinessException(RetCode.SYSTEM_MENU_HREF_EXIST));
+        Assert.isTrue(this.checkMenuHrefNotExist(vo.getId(), vo.getHref()), () -> new BusinessException(RetCode.SYSTEM_MENU_HREF_EXIST));
         String beforeHref = systemMenu.getHref();
         systemMenu.setTitle(vo.getTitle());
         systemMenu.setHref(vo.getHref());

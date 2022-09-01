@@ -3,12 +3,12 @@ package com.tangerinespecter.oms.common.security;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.text.CharSequenceUtil;
-import com.tangerinespecter.oms.common.config.CosConfig;
 import com.tangerinespecter.oms.common.constants.CommonConstant;
 import com.tangerinespecter.oms.common.constants.RetCode;
 import com.tangerinespecter.oms.common.constants.SystemConstant;
 import com.tangerinespecter.oms.common.context.UserContext;
 import com.tangerinespecter.oms.common.utils.CollUtils;
+import com.tangerinespecter.oms.common.utils.CosClient;
 import com.tangerinespecter.oms.common.utils.DateUtils;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.system.domain.entity.SystemPermission;
@@ -52,7 +52,7 @@ public class MyShiroRealm extends AuthorizingRealm {
     @Autowired
     private SessionDAO sessionDAO;
     @Resource
-    private CosConfig cosConfig;
+    private CosClient cosClient;
 
     /**
      * 获取用户角色权限
@@ -86,7 +86,7 @@ public class MyShiroRealm extends AuthorizingRealm {
         Assert.isTrue(systemUser != null, () -> new UnknownAccountException(RetCode.REGISTER_ACCOUNTS_NOT_EXIST.getErrorDesc()));
         Assert.isTrue(Objects.equals(password, systemUser.getPassword()), () -> new IncorrectCredentialsException(RetCode.ACCOUNTS_PASSWORD_ERROR.getErrorDesc()));
         log.info("用户：{}在时间{}进行了登录,登录地址{}", userName, DateUtils.getSimpleFormat(CommonConstant.DEFAULT_FORMAT_SECOND), SystemUtils.getLocalhostIP());
-        cosConfig.initAvatar(systemUser);
+        cosClient.initAvatar(systemUser);
         stopPreviousSession(systemUser.getUid());
         return new SimpleAuthenticationInfo(systemUser, password, userName);
     }

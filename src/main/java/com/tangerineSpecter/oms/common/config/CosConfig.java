@@ -31,13 +31,4 @@ public class CosConfig {
      */
     public static final String AVATAR_ZONE = "avatar-zone/";
 
-    /**
-     * 组装头像地址
-     *
-     * @param systemUser 头像
-     * @return 头像地址
-     */
-    public void initAvatar(SystemUser systemUser) {
-        systemUser.setAvatar(this.bucketPath + CosConfig.AVATAR_ZONE + systemUser.getAvatar());
-    }
 }

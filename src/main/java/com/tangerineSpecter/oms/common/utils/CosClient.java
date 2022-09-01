@@ -1,8 +1,6 @@
 package com.tangerinespecter.oms.common.utils;
 
 import cn.hutool.core.convert.Convert;
-import cn.hutool.core.io.FileUtil;
-import cn.hutool.core.stream.StreamUtil;
 import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.IdUtil;
 import com.qcloud.cos.COSClient;
@@ -10,10 +8,10 @@ import com.qcloud.cos.ClientConfig;
 import com.qcloud.cos.auth.BasicCOSCredentials;
 import com.qcloud.cos.model.*;
 import com.qcloud.cos.region.Region;
-import com.sun.tools.internal.ws.processor.util.DirectoryUtil;
 import com.tangerinespecter.oms.common.config.CosConfig;
 import com.tangerinespecter.oms.common.constants.RetCode;
 import com.tangerinespecter.oms.common.exception.BusinessException;
+import com.tangerinespecter.oms.system.domain.entity.SystemUser;
 import com.tangerinespecter.oms.system.domain.pojo.FileInfoBean;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -35,6 +33,20 @@ public class CosClient {
 
     @Resource
     private CosConfig cosConfig;
+
+    /**
+     * 组装头像地址
+     *
+     * @param systemUser 头像
+     * @return 头像地址
+     */
+    public void initAvatar(SystemUser systemUser) {
+        //头像地址为空，或者包含完整地址则不处理
+        if (CharSequenceUtil.isEmpty(systemUser.getAvatar()) || CharSequenceUtil.contains(systemUser.getAvatar(), cosConfig.getBucketPath())) {
+            return;
+        }
+        systemUser.setAvatar(cosConfig.getBucketPath() + CosConfig.AVATAR_ZONE + systemUser.getAvatar());
+    }
 
     /**
      * 创建cos连接

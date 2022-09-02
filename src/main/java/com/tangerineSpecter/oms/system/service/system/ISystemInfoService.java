@@ -1,9 +1,6 @@
 package com.tangerinespecter.oms.system.service.system;
 
-import com.tangerinespecter.oms.system.domain.dto.system.HomePageDataDto;
-import com.tangerinespecter.oms.system.domain.dto.system.MenuChildInfo;
-import com.tangerinespecter.oms.system.domain.dto.system.StatisticsInfo;
-import com.tangerinespecter.oms.system.domain.dto.system.SystemNoticeInfo;
+import com.tangerinespecter.oms.system.domain.dto.system.*;
 import com.tangerinespecter.oms.system.domain.pojo.ManagerInfoBean;
 import com.tangerinespecter.oms.system.domain.pojo.SystemInfoBean;
 
@@ -48,4 +45,11 @@ public interface ISystemInfoService {
      * @return 菜单列表
      */
     List<MenuChildInfo> initMenu();
+
+    /**
+     * 初始化菜单
+     *
+     * @return 消息列表
+     */
+    List<MessageDto> message();
 }

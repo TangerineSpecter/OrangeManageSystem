@@ -43,4 +43,7 @@ public class QueryObject<T extends Serializable> implements Serializable {
     @ApiModelProperty("页面大小")
     private Integer limit = 10;
 
+    public void initAllPage() {
+        this.limit = Integer.MAX_VALUE;
+    }
 }

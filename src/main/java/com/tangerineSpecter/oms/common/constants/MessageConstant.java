@@ -18,4 +18,8 @@ public class MessageConstant {
      * 已推送
      */
     public static final Integer IS_PUSH = 1;
+    /**
+     * 系统通知
+     */
+    public static final Integer SYSTEM_NOTICE = 0;
 }

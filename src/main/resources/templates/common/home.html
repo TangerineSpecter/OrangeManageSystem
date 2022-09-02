@@ -277,7 +277,7 @@
             notices.forEach(function (data) {
                 if (data.id === id) {
                     notice.title = data.title;
-                    notice.content = '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">' + data.content + '</div>';
+                    notice.content = data.content;
                 }
             });
             window.notice(notice.title, notice.content);

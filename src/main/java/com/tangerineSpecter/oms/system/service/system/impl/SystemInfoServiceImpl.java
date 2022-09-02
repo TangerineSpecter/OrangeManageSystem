@@ -6,6 +6,7 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.system.SystemUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.github.pagehelper.PageInfo;
 import com.google.common.base.Splitter;
 import com.tangerinespecter.oms.common.constants.CommonConstant;
 import com.tangerinespecter.oms.common.constants.MessageConstant;
@@ -13,11 +14,14 @@ import com.tangerinespecter.oms.common.constants.ParamUtils;
 import com.tangerinespecter.oms.common.constants.SystemConstant;
 import com.tangerinespecter.oms.common.context.UserContext;
 import com.tangerinespecter.oms.common.netty.ChatHandler;
+import com.tangerinespecter.oms.common.query.SystemNoticeQueryObject;
 import com.tangerinespecter.oms.common.utils.CollUtils;
 import com.tangerinespecter.oms.common.utils.DateUtils;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
+import com.tangerinespecter.oms.system.convert.system.MessageConvert;
 import com.tangerinespecter.oms.system.domain.dto.system.*;
 import com.tangerinespecter.oms.system.domain.entity.*;
+import com.tangerinespecter.oms.system.domain.enums.MessageEnum;
 import com.tangerinespecter.oms.system.domain.enums.TradeRecordTypeEnum;
 import com.tangerinespecter.oms.system.domain.pojo.ManagerInfoBean;
 import com.tangerinespecter.oms.system.domain.pojo.SystemInfoBean;
@@ -25,6 +29,7 @@ import com.tangerinespecter.oms.system.mapper.*;
 import com.tangerinespecter.oms.system.service.helper.SystemHelper;
 import com.tangerinespecter.oms.system.service.statis.impl.TradeStatisServiceImpl;
 import com.tangerinespecter.oms.system.service.system.ISystemInfoService;
+import com.tangerinespecter.oms.system.service.system.ISystemNoticeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -53,6 +58,7 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
     private final SystemNoticeMapper systemNoticeMapper;
     private final SystemHelper systemHelper;
     private final SystemBulletinMapper systemBulletinMapper;
+    private final ISystemNoticeService noticeService;
     private final ChatHandler chatHandler;
     private final Integer luck_threshold = 70;
     /**
@@ -261,4 +267,24 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
         return childList;
     }
 
+    @Override
+    public List<MessageDto> message() {
+        PageInfo<SystemNotice> pageInfo = noticeService.queryForPage(new SystemNoticeQueryObject(true));
+        List<MessageDto.ChildrenDto> messageInfos = MessageConvert.INSTANCE.convert(pageInfo.getList());
+        List<MessageDto> result = MessageEnum.initMessageList();
+        List<MessageDto.ChildrenDto> notReadMessage = CollUtils.filterList(messageInfos, message -> MessageConstant.NOT_READ.equals(message.getReadStatus()));
+        List<MessageDto.ChildrenDto> systemMessage = CollUtils.filterList(messageInfos, message -> MessageConstant.SYSTEM_NOTICE.equals(message.getType()));
+        for (MessageDto messageDto : result) {
+            if (MessageEnum.ALL_NOTICE.getValue().equals(messageDto.getId())) {
+                messageDto.setChildren(messageInfos);
+            }
+            if (MessageEnum.NOT_READ_NOTICE.getValue().equals(messageDto.getId())) {
+                messageDto.setChildren(notReadMessage);
+            }
+            if (MessageEnum.SYSTEM_NOTICE.getValue().equals(messageDto.getId())) {
+                messageDto.setChildren(systemMessage);
+            }
+        }
+        return result;
+    }
 }

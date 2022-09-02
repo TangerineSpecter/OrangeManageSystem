@@ -1,17 +1,20 @@
 package com.tangerinespecter.oms.system.controller.system;
 
+import cn.hutool.core.collection.CollUtil;
 import com.tangerinespecter.oms.common.result.ServiceResult;
+import com.tangerinespecter.oms.system.domain.dto.system.MessageDto;
 import com.tangerinespecter.oms.system.domain.dto.system.HomePageDataDto;
 import com.tangerinespecter.oms.system.domain.dto.system.MenuChildInfo;
 import com.tangerinespecter.oms.system.service.system.ISystemInfoService;
+import com.tangerinespecter.oms.system.service.system.ISystemNoticeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -44,6 +47,15 @@ public class SystemInfoController {
     @GetMapping("/initMenu")
     public List<MenuChildInfo> initMenu() {
         return systemInfoService.initMenu();
+    }
+
+    /**
+     * 消息通知
+     */
+    @ApiOperation(value = "消息通知")
+    @GetMapping("/message")
+    public List<MessageDto> message() {
+        return systemInfoService.message();
     }
 
     /**

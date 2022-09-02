@@ -21,13 +21,16 @@
         <div id="control" class="layui-layout-control"></div>
         <!-- 顶 部 右 侧 菜 单 -->
         <ul class="layui-nav layui-layout-right">
+            <!-- 全屏 -->
             <li class="layui-nav-item layui-hide-xs">
                 <a href="#" class="fullScreen layui-icon layui-icon-screen-full"></a>
             </li>
+            <!-- 网页跳转 -->
             <li class="layui-nav-item layui-hide-xs">
                 <a href="https://github.com/TangerineSpecter/OrangeManageSystem"
                    class="layui-icon layui-icon-website"></a>
             </li>
+            <!-- 消息 -->
             <li class="layui-nav-item layui-hide-xs message"></li>
             <li class="layui-nav-item user">
                 <!-- 头 像 -->
@@ -102,7 +105,10 @@
         admin.message();
 
         // 实现消息回调 [消息列表点击事件]
-        // admin.message(function(id, title, context, form) {});
+        admin.message(function (id, title, context, form) {
+            console.log("消息点击")
+            window.notice(title, context);
+        });
     });
 
     function updatePwd() {

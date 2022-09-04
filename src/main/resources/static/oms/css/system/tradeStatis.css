@@ -16,17 +16,22 @@
 /* 盈利 */
 .label-profit {
     color: white;
-    background-color: #ff3180;
+    background-color: #eb4e5c;
 }
 
 /* 亏损 */
 .label-loss {
     color: white;
-    background-color: #33cc66;
+    background-color: #00aa6d;
 }
 
 /* 持平 */
 .label-fair {
     color: white;
     background-color: #ccccff;
+}
+
+.income-font {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-weight: 700;
 }

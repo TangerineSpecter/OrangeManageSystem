@@ -197,12 +197,9 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
 
     @Override
     public List<MenuChildInfo> initMenu() {
-        QueryWrapper<SystemMenu> queryWrapper = new QueryWrapper<>();
-        queryWrapper.orderBy(true, false, "sort");
-        List<SystemMenu> list = systemMenuMapper.selectList(queryWrapper);
-        List<UserPermissionListDto> permissions = systemHelper.getCurrentUserPermissions();
-        Set<String> permissionCodes = permissions.stream().map(UserPermissionListDto::getCode).collect(Collectors.toSet());
-        return getMenuChildInfo(list, permissionCodes);
+        List<SystemMenu> haveMenus = systemMenuMapper.selectList(new QueryWrapper<SystemMenu>().orderByDesc("sort"));
+        Set<String> permissionCodes = CollUtils.convertSet(systemHelper.getCurrentUserPermissions(), UserPermissionListDto::getCode);
+        return getMenuChildInfo(haveMenus, permissionCodes);
     }
 
     /**

@@ -2,7 +2,9 @@ package com.tangerinespecter.oms.common.utils;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.convert.Convert;
 
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.function.*;
 import java.util.stream.Collectors;
@@ -57,11 +59,19 @@ public class CollUtils {
         return from.parallelStream().map(func).mapToInt(i -> i).sum();
     }
 
+    public static <T> BigDecimal convertSum2BigDecimal(Collection<T> from, Function<T, Integer> func) {
+        return Convert.toBigDecimal(convertSumList(from, func));
+    }
+
     public static <T> int convertFilterSumList(Collection<T> from, Predicate<T> predicate, Function<T, Integer> func) {
         if (CollUtil.isEmpty(from)) {
             return 0;
         }
         return from.parallelStream().filter(predicate).map(func).mapToInt(i -> i).sum();
+    }
+
+    public static <T> BigDecimal convertFilterSum2BigDecimal(Collection<T> from, Predicate<T> predicate, Function<T, Integer> func) {
+        return Convert.toBigDecimal(convertFilterSumList(from, predicate, func));
     }
 
     public static <T, U> List<U> convertFilterList(Collection<T> from, Predicate<T> predicate, Function<T, U> func) {

@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.text.CharSequenceUtil;
+import cn.hutool.core.util.SystemPropsUtil;
 import cn.hutool.system.SystemUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.PageInfo;
@@ -22,7 +23,6 @@ import com.tangerinespecter.oms.system.convert.system.MessageConvert;
 import com.tangerinespecter.oms.system.domain.dto.system.*;
 import com.tangerinespecter.oms.system.domain.entity.*;
 import com.tangerinespecter.oms.system.domain.enums.MessageEnum;
-import com.tangerinespecter.oms.system.domain.enums.TradeRecordTypeEnum;
 import com.tangerinespecter.oms.system.domain.pojo.ManagerInfoBean;
 import com.tangerinespecter.oms.system.domain.pojo.SystemInfoBean;
 import com.tangerinespecter.oms.system.mapper.*;
@@ -60,7 +60,7 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
     private final SystemBulletinMapper systemBulletinMapper;
     private final ISystemNoticeService noticeService;
     private final ChatHandler chatHandler;
-    private final Integer luck_threshold = 70;
+    private static final Integer LUCK_THRESHOLD = 70;
     /**
      * 当前系统版本
      */
@@ -95,17 +95,13 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
             List<SystemMenu> menus = systemMenuMapper.selectList(queryWrapper);
             menuList.addAll(menus);
             info.setMenus(menuList);
-            info.setOsName(SystemUtil.get(SystemUtil.OS_NAME))
+            info.setOsName(SystemPropsUtil.get(SystemUtil.OS_NAME))
                     .setSystemTitle(SystemConstant.systemConfig.getHomeTitle())
                     .setVersion(systemVersion);
         } catch (Exception e) {
             log.error("[系统信息获取异常]:", e);
         }
         return info;
-    }
-
-    public static void main(String[] args) {
-        System.out.println(TradeRecordTypeEnum.getTypes().size());
     }
 
     /**
@@ -149,25 +145,21 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
 
     @Override
     public StatisticsInfo getStatisticsInfo() {
-        Date currentDate = new Date();
         //获取今年至今的交易数据
         Map<String, List<DataTradeRecord>> tradeRecordMap = CollUtils.convertMultiLinkerHashMap(dataTradeRecordMapper.selectListByThisYear(UserContext.getUid()), DataTradeRecord::getDate);
         StatisticsInfo statisticsInfo = new StatisticsInfo();
         //TODO 待优化
-        statisticsInfo.setYearIncome(Convert.toBigDecimal(CollUtils.convertSumList(tradeRecordMap.keySet(), key -> tradeStatisService.sumIncome(tradeRecordMap.get(key)))));
-        statisticsInfo.setMonthIncome(Convert.toBigDecimal(CollUtils.convertFilterSumList(tradeRecordMap.keySet(),
+        statisticsInfo.setYearIncome(CollUtils.convertSum2BigDecimal(tradeRecordMap.keySet(), key -> tradeStatisService.sumIncome(tradeRecordMap.get(key))));
+        statisticsInfo.setMonthIncome(CollUtils.convertFilterSum2BigDecimal(tradeRecordMap.keySet(),
                 key -> DateUtil.parse(key, DateFormat.getDateInstance()).getTime() >= DateUtil.beginOfMonth(new Date()).getTime(),
-                key -> tradeStatisService.sumIncome(tradeRecordMap.get(key)))));
-        statisticsInfo.setWeekendIncome(Convert.toBigDecimal(CollUtils.convertFilterSumList(tradeRecordMap.keySet(),
+                key -> tradeStatisService.sumIncome(tradeRecordMap.get(key))));
+        statisticsInfo.setWeekendIncome(CollUtils.convertFilterSum2BigDecimal(tradeRecordMap.keySet(),
                 key -> DateUtil.parse(key, DateFormat.getDateInstance()).getTime() >= DateUtil.beginOfWeek(new Date(), true).getTime(),
-                key -> tradeStatisService.sumIncome(tradeRecordMap.get(key)))));
+                key -> tradeStatisService.sumIncome(tradeRecordMap.get(key))));
         String lastDate = CollUtil.getFirst(tradeRecordMap.keySet());
         statisticsInfo.setTodayIncome(Convert.toBigDecimal(tradeStatisService.sumIncome(tradeRecordMap.get(lastDate))));
         //时间
-        statisticsInfo.setYear(DateUtil.year(currentDate));
-        statisticsInfo.setWeekend(DateUtil.weekOfYear(currentDate));
-        statisticsInfo.setMonth(DateUtil.month(currentDate) + 1);
-        statisticsInfo.setToday(lastDate);
+        statisticsInfo.initDate(lastDate);
         //最近30天资金信息
         this.handlerLastThirtyData(statisticsInfo);
         return statisticsInfo;
@@ -189,10 +181,8 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
 
     @Override
     public SystemNoticeInfo getNoticeInfo() {
-        SystemNoticeInfo noticeInfo = new SystemNoticeInfo();
         List<SystemBulletin> systemBulletins = systemBulletinMapper.queryRecentlyBulletinList();
-        noticeInfo.setNoticeInfos(systemBulletins);
-        return noticeInfo;
+        return new SystemNoticeInfo(systemBulletins);
     }
 
     @Override
@@ -257,9 +247,6 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
                 continue;
             }
             menu.setChildren(getChildMenuInfo(menu.getId(), rootMenu, permissionCodes));
-        }
-        if (CollUtil.isEmpty(childList)) {
-            return Collections.emptyList();
         }
         return childList;
     }

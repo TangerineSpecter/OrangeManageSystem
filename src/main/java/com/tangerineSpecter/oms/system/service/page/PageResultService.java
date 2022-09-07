@@ -1,7 +1,6 @@
 package com.tangerinespecter.oms.system.service.page;
 
 import cn.hutool.core.text.CharSequenceUtil;
-import cn.hutool.core.util.StrUtil;
 import com.tangerinespecter.oms.common.constants.SystemConstant;
 import com.tangerinespecter.oms.common.context.UserContext;
 import com.tangerinespecter.oms.common.redis.KeyPrefix;
@@ -34,7 +33,7 @@ public class PageResultService {
     /**
      * 分页处理
      *
-     * @param model
+     * @param model 页面view
      * @param list  列表
      * @param total 总数
      * @param page  页数
@@ -58,14 +57,12 @@ public class PageResultService {
      */
     public String getPageHtmlContent(HttpServletRequest request, HttpServletResponse response, Model model, KeyPrefix redisKey, String pageUrl) {
         String html = (String) redisHelper.get(redisKey, UserContext.getUid());
-        if (!CharSequenceUtil.isBlank(html)) {
+        if (CharSequenceUtil.isNotEmpty(html)) {
             return html;
         }
-        IWebContext ctx = new WebContext(request, response, request.getServletContext(),
-                request.getLocale(), model.asMap());
+        IWebContext ctx = new WebContext(request, response, request.getServletContext(), request.getLocale(), model.asMap());
         html = thymeleafViewResolver.getTemplateEngine().process(pageUrl, ctx);
-        if (!StrUtil.isBlank(html)
-                && SystemConstant.NO_CACHE.equals(SystemConstant.systemConfig.getCacheTime())) {
+        if (CharSequenceUtil.isNotEmpty(html) && SystemConstant.NO_CACHE.equals(SystemConstant.systemConfig.getCacheTime())) {
             redisHelper.set(redisKey, UserContext.getUid(), html);
         }
         return html;

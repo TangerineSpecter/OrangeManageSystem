@@ -60,7 +60,7 @@ public class QuartzConfig {
 	@Bean
 	public Trigger exchangeRateTrigger() {
 		//定时执行时间(单位：秒)
-		int quartzTime = 6 * 60 * 60;
+		int quartzTime = 3 * 60 * 60;
 		// 设置时间周期单位秒
 		SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(quartzTime)
 				.repeatForever();

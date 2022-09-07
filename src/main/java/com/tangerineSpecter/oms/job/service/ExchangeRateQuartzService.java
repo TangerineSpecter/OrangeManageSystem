@@ -2,6 +2,7 @@ package com.tangerinespecter.oms.job.service;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.convert.Convert;
+import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.map.MapUtil;
@@ -67,6 +68,7 @@ public class ExchangeRateQuartzService {
 
     /**
      * 更新汇率信息
+     * 3小时执行一次
      *
      * @param exchangeList 货币列表
      */
@@ -75,7 +77,16 @@ public class ExchangeRateQuartzService {
         //获取最近一次汇率，避免凌晨时分数据没更新而失效
         List<DataExchangeRate> dataExchangeRates = dataExchangeRateMapper.selectListByLastRecordTime();
         try {
-            if (CollUtil.size(dataExchangeRates) > 0) {
+            //早上8点前不更新数据
+            DateTime morning = DateUtil.offsetHour(DateUtil.beginOfDay(new Date()), 8);
+            if (DateUtil.compare(new Date(), morning) == -1) {
+                log.info("[当前时间为8.AM之前，不进行汇率更新]");
+                CollUtils.forEach(dataExchangeRates, exchangeRate -> CommonConstant.EXCHANGE_RATE_MAP.put(exchangeRate.getCode(), NumChainCal.startOf(exchangeRate.getPrice()).div(100).getBigDecimal()));
+                return;
+            }
+            //当天数据则不更新数据
+            if (Objects.equals(CollUtil.getFirst(dataExchangeRates).getRecordTime().toLocalDate().toString(), DateUtil.today())) {
+                log.info("[当天汇率数据已更新，不进行数据处理]");
                 CollUtils.forEach(dataExchangeRates, exchangeRate -> CommonConstant.EXCHANGE_RATE_MAP.put(exchangeRate.getCode(), NumChainCal.startOf(exchangeRate.getPrice()).div(100).getBigDecimal()));
                 return;
             }
@@ -90,7 +101,7 @@ public class ExchangeRateQuartzService {
         } catch (Exception e) {
             log.error("[货币汇率接口请求数据异常],异常信息： " + e);
         }
-        log.info("汇率更新完毕");
+        log.info("[汇率更新完毕]");
     }
 
     /**

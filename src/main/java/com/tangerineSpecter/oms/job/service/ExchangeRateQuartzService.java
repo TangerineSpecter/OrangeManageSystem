@@ -97,7 +97,9 @@ public class ExchangeRateQuartzService {
             Assert.isTrue(response.isSuccess(), "[汇率接口请求失败],error_code:{}; reason:{}", response.getErrorCode(), response.getReason());
             List<List<String>> exchangeRateList = Optional.of(response).map(ExchangeRateResponse::getResult)
                     .map(ExchangeRateResponse::getList).orElseThrow(() -> new BusinessException(RetCode.DATA_EXCEPTION));
-            CollUtils.forEach(this.convert2DbData(exchangeRateList, exchangeList), dataExchangeRateMapper::insert);
+            List<DataExchangeRate> responseRateDate = this.convert2DbData(exchangeRateList, exchangeList);
+            CollUtils.forEach(responseRateDate, dataExchangeRateMapper::insert);
+            CollUtils.forEach(responseRateDate, exchangeRate -> CommonConstant.EXCHANGE_RATE_MAP.put(exchangeRate.getCode(), NumChainCal.startOf(exchangeRate.getPrice()).div(100).getBigDecimal()));
         } catch (Exception e) {
             log.error("[货币汇率接口请求数据异常],异常信息： " + e);
         }

@@ -216,7 +216,6 @@
         //基金累计数据
         initGridLineEcharts("echarts-funds-total", simpleLineStyle('#ff99cc', '#ff3366'), [[${incomeInfo.fundsDate}]], [[${incomeInfo.fundsTotalIncome}]], '收益');
 
-        const todayIncome = [[${statisInfo.todayIncome}]];
         //数字滚动
         count.up("todayIncome", {
             num: [[${statisInfo.todayIncome}]], time: 5000, regulator: 100

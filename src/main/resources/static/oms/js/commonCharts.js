@@ -339,9 +339,9 @@ window.initStrokeColumnCharts = function (echartsId, lineStyle, xData, yData) {
                     borderColor: 'rgb(79, 116, 223)',
                     color: function (param) {
                         if (param.value > 0) {
-                            return '#f56262';
+                            return '#eb4e5c';
                         } else {
-                            return '#91cc75';
+                            return '#00af92';
                             // return 'rgba(79, 116, 223, .3)';
                         }
                     },

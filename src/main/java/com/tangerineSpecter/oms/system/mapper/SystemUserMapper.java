@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.tangerinespecter.oms.common.constants.CommonConstant;
 import com.tangerinespecter.oms.common.constants.SystemConstant;
+import com.tangerinespecter.oms.common.enums.GlobalBoolEnum;
 import com.tangerinespecter.oms.common.query.SystemUserQueryObject;
 import com.tangerinespecter.oms.system.domain.dto.system.SystemUserListDto;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;
@@ -66,7 +67,7 @@ public interface SystemUserMapper extends BaseMapper<SystemUser> {
     default SystemUser selectOneByAdmin() {
         QueryWrapper<SystemUser> queryWrapper = new QueryWrapper<SystemUser>()
                 .eq("admin", SystemConstant.IS_SYSTEM_ADMIN)
-                .eq("is_del", CommonConstant.IS_DEL_NO)
+                .eq("is_del", GlobalBoolEnum.FALSE.getValue())
                 .last("limit 1");
         return this.selectOne(queryWrapper);
     }

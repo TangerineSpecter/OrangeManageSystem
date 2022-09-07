@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.tangerinespecter.oms.common.constants.CommonConstant;
 import com.tangerinespecter.oms.common.constants.RetCode;
+import com.tangerinespecter.oms.common.enums.GlobalBoolEnum;
 import com.tangerinespecter.oms.common.query.WorkCollectionQueryObject;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.dto.work.WorkCollectionInfoVo;
@@ -42,7 +43,7 @@ public class WorkCollectionServiceImpl implements IWorkCollectionService {
     public ServiceResult insert(WorkCollectionInfoVo data) {
         WorkCollection workCollection = new WorkCollection();
         BeanUtils.copyProperties(data, workCollection);
-        workCollection.setIsDel(CommonConstant.IS_DEL_NO);
+        workCollection.setIsDel(GlobalBoolEnum.FALSE.getValue());
         workCollectionMapper.insert(workCollection);
         return ServiceResult.success();
     }
@@ -70,7 +71,7 @@ public class WorkCollectionServiceImpl implements IWorkCollectionService {
             return ServiceResult.paramError();
         }
         WorkCollection workCollection = workCollectionMapper.selectById(id);
-        workCollection.setIsDel(CommonConstant.IS_DEL_YES);
+        workCollection.setIsDel(GlobalBoolEnum.TRUE.getValue());
         workCollectionMapper.updateById(workCollection);
         return ServiceResult.success();
     }

@@ -38,15 +38,6 @@ public class CommonConstant {
     public static final Integer ONE_HOUR = 60 * 60 * 1000;
 
     /**
-     * 未删除
-     */
-    public static final Integer IS_DEL_NO = 0;
-    /**
-     * 已删除
-     */
-    public static final Integer IS_DEL_YES = 1;
-
-    /**
      * 冻结
      */
     public static final Integer STATUS_FREEZE = 0;
@@ -63,14 +54,6 @@ public class CommonConstant {
      * 置顶：是
      */
     public static final Integer IS_TOP = 1;
-    /**
-     * 默认格式
-     */
-    public static final String DEFAULT_FORMAT = "yyyy-MM-dd";
-    /**
-     * 时间格式——精确到秒
-     */
-    public static final String DEFAULT_FORMAT_SECOND = "yyyy-MM-dd HH:mm:ss";
 
     /**
      * 汇率map，将100R换算存储为1R换算

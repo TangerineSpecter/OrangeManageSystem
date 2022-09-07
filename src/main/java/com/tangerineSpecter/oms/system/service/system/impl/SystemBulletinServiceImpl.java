@@ -6,6 +6,7 @@ import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.page.PageMethod;
 import com.tangerinespecter.oms.common.constants.CommonConstant;
 import com.tangerinespecter.oms.common.constants.RetCode;
+import com.tangerinespecter.oms.common.enums.GlobalBoolEnum;
 import com.tangerinespecter.oms.common.exception.BusinessException;
 import com.tangerinespecter.oms.common.query.SystemBulletinQueryObject;
 import com.tangerinespecter.oms.common.utils.ParamUtils;
@@ -32,7 +33,7 @@ public class SystemBulletinServiceImpl implements ISystemBulletinService {
     @Override
     public void insert(SystemBulletinInfoVo data) {
         SystemBulletin systemBulletin = SystemBulletin.builder().title(data.getTitle()).content(data.getContent())
-                .isDel(CommonConstant.IS_DEL_NO).top(CommonConstant.IS_NOT_TOP).build();
+                .isDel(GlobalBoolEnum.FALSE.getValue()).top(CommonConstant.IS_NOT_TOP).build();
         systemBulletinMapper.insert(systemBulletin);
     }
 

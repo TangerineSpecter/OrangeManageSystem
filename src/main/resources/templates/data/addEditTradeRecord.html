@@ -151,7 +151,8 @@
             const dataArr = calEndMoney.split("+");
             let totalMoney = 0;
             $.each(dataArr, function (i, item) {
-                totalMoney += Number(item);
+                let number = Number(item);
+                totalMoney += isNaN(number) ? 0 : number;
             })
             form.val('data-form', {
                 "endMoney": totalMoney

@@ -1,7 +1,6 @@
 package com.tangerinespecter.oms.system.service.system.impl;
 
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.convert.Convert;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.SystemPropsUtil;
@@ -35,7 +34,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.text.DateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -146,20 +144,9 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
     @Override
     public StatisticsInfo getStatisticsInfo() {
         //获取今年至今的交易数据
-        Map<String, List<DataTradeRecord>> tradeRecordMap = CollUtils.convertMultiLinkerHashMap(dataTradeRecordMapper.selectListByThisYear(UserContext.getUid()), DataTradeRecord::getDate);
-        StatisticsInfo statisticsInfo = new StatisticsInfo();
-        //TODO 待优化
-        statisticsInfo.setYearIncome(CollUtils.convertSum2BigDecimal(tradeRecordMap.keySet(), key -> tradeStatisService.sumIncome(tradeRecordMap.get(key))));
-        statisticsInfo.setMonthIncome(CollUtils.convertFilterSum2BigDecimal(tradeRecordMap.keySet(),
-                key -> DateUtil.parse(key, DateFormat.getDateInstance()).getTime() >= DateUtil.beginOfMonth(new Date()).getTime(),
-                key -> tradeStatisService.sumIncome(tradeRecordMap.get(key))));
-        statisticsInfo.setWeekendIncome(CollUtils.convertFilterSum2BigDecimal(tradeRecordMap.keySet(),
-                key -> DateUtil.parse(key, DateFormat.getDateInstance()).getTime() >= DateUtil.beginOfWeek(new Date(), true).getTime(),
-                key -> tradeStatisService.sumIncome(tradeRecordMap.get(key))));
-        String lastDate = CollUtil.getFirst(tradeRecordMap.keySet());
-        statisticsInfo.setTodayIncome(Convert.toBigDecimal(tradeStatisService.sumIncome(tradeRecordMap.get(lastDate))));
-        //时间
-        statisticsInfo.initDate(lastDate);
+        Map<String, List<DataTradeRecord>> tradeRecordMap = CollUtils.convertMultiLinkedHashMap(dataTradeRecordMapper.selectListByThisYear(UserContext.getUid()), DataTradeRecord::getDate);
+        Map<String, Integer> totalIncomeMap = CollUtils.convertLinkedMap(tradeRecordMap.keySet(), key -> key, key -> tradeStatisService.sumIncome(tradeRecordMap.get(key)));
+        StatisticsInfo statisticsInfo = new StatisticsInfo(totalIncomeMap);
         //最近30天资金信息
         this.handlerLastThirtyData(statisticsInfo);
         return statisticsInfo;
@@ -174,7 +161,7 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
         //最近天数
         final int lastDayThreshold = 30;
         //TODO 待优化，每次查询出所有的数据
-        Map<String, List<DataTradeRecord>> lastThirtyMap = CollUtils.convertMultiLinkerHashMap(dataTradeRecordMapper.getLastThirtyMoneyInfo(UserContext.getUid()), DataTradeRecord::getDate);
+        Map<String, List<DataTradeRecord>> lastThirtyMap = CollUtils.convertMultiLinkedHashMap(dataTradeRecordMapper.getLastThirtyMoneyInfo(UserContext.getUid()), DataTradeRecord::getDate);
         statisticsInfo.setLastThirtyDate(CollUtils.convertLimitList(lastThirtyMap.keySet(), lastDayThreshold));
         statisticsInfo.setLastThirtyTotalMoney(CollUtils.convertLimitList(lastThirtyMap.values(), tradeStatisService::sumMoney, lastDayThreshold));
     }

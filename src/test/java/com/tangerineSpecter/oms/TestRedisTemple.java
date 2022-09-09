@@ -70,7 +70,7 @@ public class TestRedisTemple {
 //        DataExchangeRate dataExchangeRate = dataExchangeRateMapper.selectById(null);
 //        log.info(JSON.toJSONString(dataExchangeRate));
 //        redisTemplate.opsForValue().set("DATA:EXCHANGE:RATE:", new BigDecimal(1));
-        final Map<String, List<DataTradeRecord>> tradeRecordMap = CollUtils.convertMultiLinkerHashMap(dataTradeRecordMapper.selectListByThisYear("8a279e62b91c0518"), DataTradeRecord::getDate);
+        final Map<String, List<DataTradeRecord>> tradeRecordMap = CollUtils.convertMultiLinkedHashMap(dataTradeRecordMapper.selectListByThisYear("8a279e62b91c0518"), DataTradeRecord::getDate);
         System.out.println(JSON.toJSONString(tradeRecordMap));
         List<String> date = CollUtils.convertFilterList(tradeRecordMap.keySet(),
                 key -> DateUtil.parse(key, DateFormat.getDateInstance()).getTime() > 1,

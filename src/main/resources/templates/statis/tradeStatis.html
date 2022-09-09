@@ -18,16 +18,14 @@
             <div class="layui-card-header header-font">近日收益</div>
             <div class="layui-card-body">
                 <div class="layui-row layui-col-space5">
-                    <div id="todayIncome" class="layui-col-xs8 layui-col-md8 top-panel-number income-font" style="color: #28333E;">
+                    <div id="todayIncome" class="layui-col-xs8 layui-col-md8 top-panel-number income-font"
+                         style="color: #28333E;">
                         0
-                        <!--                         th:text="${statisInfo.todayIncome}"> 0-->
                     </div>
                     <div class="layui-col-xs4 layui-col-md4 top-panel-tips">
-                        <div th:switch="${statisInfo.todayStatus}">
-                            <span th:case="0" class="label label-profit">盈利</span>
-                            <span th:case="1" class="label label-loss">亏损</span>
-                            <span th:case="2" class="label label-fair">持平</span>
-                        </div>
+                        <span th:if="${statisInfo.todayIncome > 0}" class="label label-profit">盈利</span>
+                        <span th:if="${statisInfo.todayIncome < 0}" class="label label-loss">亏损</span>
+                        <span th:if="${statisInfo.todayIncome == 0}" class="label label-fair">持平</span>
                     </div>
                 </div>
             </div>
@@ -40,14 +38,11 @@
                 <div class="layui-row layui-col-space5">
                     <div id="weekendIncome" class="layui-col-xs8 layui-col-md8 top-panel-number income-font"
                          style="color: #28333E;"> 0
-                        <!--                         th:text="${statisInfo.weekendIncome}"> 0-->
                     </div>
                     <div class="layui-col-xs4 layui-col-md4 top-panel-tips">
-                        <div th:switch="${statisInfo.weekendStatus}">
-                            <span th:case="0" class="label label-profit">盈利</span>
-                            <span th:case="1" class="label label-loss">亏损</span>
-                            <span th:case="2" class="label label-fair">持平</span>
-                        </div>
+                        <span th:if="${statisInfo.weekendIncome > 0}" class="label label-profit">盈利</span>
+                        <span th:if="${statisInfo.weekendIncome < 0}" class="label label-loss">亏损</span>
+                        <span th:if="${statisInfo.weekendIncome == 0}" class="label label-fair">持平</span>
                     </div>
                 </div>
             </div>
@@ -58,16 +53,14 @@
             <div class="layui-card-header header-font">本月收益</div>
             <div class="layui-card-body">
                 <div class="layui-row layui-col-space5">
-                    <div id="monthIncome" class="layui-col-xs8 layui-col-md8 top-panel-number income-font" style="color: #28333E;">
+                    <div id="monthIncome" class="layui-col-xs8 layui-col-md8 top-panel-number income-font"
+                         style="color: #28333E;">
                         0
-                        <!--                         th:text="${statisInfo.monthIncome}"> 0-->
                     </div>
                     <div class="layui-col-xs4 layui-col-md4 top-panel-tips">
-                        <div th:switch="${statisInfo.monthStatus}">
-                            <span th:case="0" class="label label-profit">盈利</span>
-                            <span th:case="1" class="label label-loss">亏损</span>
-                            <span th:case="2" class="label label-fair">持平</span>
-                        </div>
+                        <span th:if="${statisInfo.monthIncome > 0}" class="label label-profit">盈利</span>
+                        <span th:if="${statisInfo.monthIncome < 0}" class="label label-loss">亏损</span>
+                        <span th:if="${statisInfo.monthIncome == 0}" class="label label-fair">持平</span>
                     </div>
                 </div>
             </div>
@@ -78,15 +71,13 @@
             <div class="layui-card-header header-font">今年收益</div>
             <div class="layui-card-body">
                 <div class="layui-row layui-col-space5">
-                    <div id="yearIncome" class="layui-col-xs8 layui-col-md8 top-panel-number income-font" style="color: #28333E;"> 0
-                        <!--                         th:text="${statisInfo.yearIncome}"> 0-->
+                    <div id="yearIncome" class="layui-col-xs8 layui-col-md8 top-panel-number income-font"
+                         style="color: #28333E;"> 0
                     </div>
                     <div class="layui-col-xs4 layui-col-md4 top-panel-tips">
-                        <div th:switch="${statisInfo.yearStatus}">
-                            <span th:case="0" class="label label-profit">盈利</span>
-                            <span th:case="1" class="label label-loss">亏损</span>
-                            <span th:case="2" class="label label-fair">持平</span>
-                        </div>
+                        <span th:if="${statisInfo.yearIncome > 0}" class="label label-profit">盈利</span>
+                        <span th:if="${statisInfo.yearIncome < 0}" class="label label-loss">亏损</span>
+                        <span th:if="${statisInfo.yearIncome == 0}" class="label label-fair">持平</span>
                     </div>
                 </div>
             </div>

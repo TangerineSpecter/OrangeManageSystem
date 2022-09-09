@@ -54,7 +54,7 @@ public class TradeStatisServiceImpl implements ITradeStatisService {
         List<DataTradeRecord> tradeRecords = tradeRecordMapper.selectRecentListByType(UserContext.getUid(), 30);
         List<String> dates = tradeRecords.stream().map(DataTradeRecord::getDate).distinct().limit(30).collect(Collectors.toList());
         incomeInfo.setDate(dates);
-        return CollUtils.convertMultiLinkerHashMap(tradeRecords, DataTradeRecord::getDate);
+        return CollUtils.convertMultiLinkedHashMap(tradeRecords, DataTradeRecord::getDate);
     }
 
     /**
@@ -69,7 +69,7 @@ public class TradeStatisServiceImpl implements ITradeStatisService {
         List<DataTradeRecord> tradeRecords = tradeRecordMapper.selectListByDate(beginOfMonth.toString(), DateUtil.now());
         List<DateTime> monthDate = DateUtil.rangeToList(beginOfMonth, new Date(), DateField.MONTH);
         CollUtils.convertList(CollUtil.reverse(monthDate), dateTime -> incomeInfo.getDate().add(DateUtil.format(dateTime, DatePattern.NORM_MONTH_PATTERN)));
-        return CollUtils.convertMultiLinkerHashMap(tradeRecords, tradeRecord -> DateUtil.parse(tradeRecord.getDate()).toString(DatePattern.NORM_MONTH_PATTERN));
+        return CollUtils.convertMultiLinkedHashMap(tradeRecords, tradeRecord -> DateUtil.parse(tradeRecord.getDate()).toString(DatePattern.NORM_MONTH_PATTERN));
     }
 
     /**

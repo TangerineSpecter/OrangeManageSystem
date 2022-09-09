@@ -165,6 +165,13 @@ public class CollUtils {
         return from.stream().collect(Collectors.toMap(keyFunc, valueFunc, mergeFunction, supplier));
     }
 
+    public static <T, K, V> Map<K, V> convertLinkedMap(Collection<T> from, Function<T, K> keyFunc, Function<T, V> valueFunc) {
+        if (CollUtil.isEmpty(from)) {
+            return Collections.emptyMap();
+        }
+        return from.stream().collect(Collectors.toMap(keyFunc, valueFunc, (v1, v2) -> v1, LinkedHashMap::new));
+    }
+
     public static <T, K> Map<K, List<T>> convertMultiMap(Collection<T> from, Function<T, K> keyFunc) {
         if (CollUtil.isEmpty(from)) {
             return Collections.emptyMap();
@@ -172,7 +179,7 @@ public class CollUtils {
         return from.stream().collect(Collectors.groupingBy(keyFunc, Collectors.mapping(t -> t, Collectors.toList())));
     }
 
-    public static <T, K> Map<K, List<T>> convertMultiLinkerHashMap(Collection<T> from, Function<T, K> keyFunc) {
+    public static <T, K> Map<K, List<T>> convertMultiLinkedHashMap(Collection<T> from, Function<T, K> keyFunc) {
         if (CollUtil.isEmpty(from)) {
             return Collections.emptyMap();
         }

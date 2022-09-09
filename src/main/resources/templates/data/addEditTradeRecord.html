@@ -27,9 +27,14 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">收盘资金</label>
                     <div class="layui-input-block">
-                        <input type="number" lay-filter="endMoney" name="endMoney" autocomplete="off"
+                        <input type="text" lay-filter="endMoney" name="endMoney" autocomplete="off"
                                placeholder="请输入收盘资金" lay-verify="endMoney"
-                               class="layui-input">
+                               class="layui-input" style="position: absolute;width: 84%"/>
+                        <button type="button" class="pear-btn pear-btn-warming pear-btn-sm" onclick="calculateFun()"
+                                style="position: absolute;height: 100%;margin-left: 366px">
+                            <i class="layui-icon layui-icon-tabs"></i>
+                            计算
+                        </button>
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -130,6 +135,31 @@
         });
     }
 
+    /**
+     * 计算收盘资金
+     */
+    function calculateFun() {
+        layui.use(['form', 'toast'], function () {
+            const form = layui.form,
+                toast = layui.toast;
+            const data = form.val('data-form');
+            const calEndMoney = data.endMoney;
+            if (calEndMoney === '') {
+                toast.warning({message: "收盘资金无计算内容", position: 'topCenter'});
+                return;
+            }
+            const dataArr = calEndMoney.split("+");
+            let totalMoney = 0;
+            $.each(dataArr, function (i, item) {
+                totalMoney += Number(item);
+            })
+            form.val('data-form', {
+                "endMoney": totalMoney
+            })
+            form.render();
+        })
+    }
+
     layui.use(['form', 'layer', 'laydate'], function () {
         const form = layui.form,
             layer = layui.layer,
@@ -157,6 +187,11 @@
                 if (value == null || value === "") {
                     return '请输入收盘资金';
                 }
+                //检测是否纯数字
+                const reg = /^[0-9]+.?[0-9]*/;
+                if (!reg.test(value)) {
+                    return '收盘资金仅支持记录数字';
+                }
             }
         });
 
@@ -182,6 +217,7 @@
             });
             form.render();
         });
+
     });
 
 </script>

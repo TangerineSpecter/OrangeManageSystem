@@ -1,14 +1,11 @@
 package com.tangerinespecter.oms.system.convert.system;
 
-import cn.hutool.core.date.DateTime;
-import cn.hutool.core.date.DateUtil;
 import com.tangerinespecter.oms.system.convert.BaseConvert;
 import com.tangerinespecter.oms.system.domain.dto.system.MessageDto;
 import com.tangerinespecter.oms.system.domain.entity.SystemNotice;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
-import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -30,15 +27,4 @@ public interface MessageConvert extends BaseConvert {
     })
     MessageDto.ChildrenDto convert(SystemNotice notice);
 
-    /**
-     * 格式化时间为yyyy-MM-dd
-     *
-     * @param date 时间，字符串
-     * @return 格式化结果
-     */
-    @Named("formatDate")
-    default String formatDate(String date) {
-        DateTime dateTime = DateUtil.parseDateTime(date);
-        return DateUtil.formatDate(dateTime);
-    }
 }

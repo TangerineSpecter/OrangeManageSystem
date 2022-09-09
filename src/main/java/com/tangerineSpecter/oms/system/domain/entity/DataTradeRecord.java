@@ -106,7 +106,7 @@ public class DataTradeRecord extends AdminEntity {
      * @return 总资金
      */
     public Integer sumMoney(List<DataTradeRecord> tradeRecords) {
-        return tradeRecords.stream().mapToInt(tradeRecord -> sumMoney(tradeRecord.getEndMoney(), tradeRecord.getCurrency()).getInteger()).sum();
+        return tradeRecords.stream().mapToInt(DataTradeRecord::sumEndMoney).sum();
     }
 
     /**
@@ -126,6 +126,24 @@ public class DataTradeRecord extends AdminEntity {
      */
     public BigDecimal sumMoney() {
         return this.sumMoney(this.getIncomeValue(), this.getCurrency()).getBigDecimal(2);
+    }
+
+    /**
+     * 单条数据计算
+     *
+     * @return 计算结果
+     */
+    public Integer sumMoney2Int() {
+        return this.sumMoney(this.getIncomeValue(), this.getCurrency()).getInteger();
+    }
+
+    /**
+     * 单条数据计算
+     *
+     * @return 计算结果
+     */
+    public Integer sumEndMoney() {
+        return this.sumMoney(this.getEndMoney(), this.getCurrency()).getInteger();
     }
 
     /**

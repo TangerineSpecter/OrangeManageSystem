@@ -186,6 +186,13 @@ public class CollUtils {
         return from.stream().collect(Collectors.groupingBy(keyFunc, LinkedHashMap::new, Collectors.mapping(t -> t, Collectors.toList())));
     }
 
+    public static <T, K, V> Map<K, List<V>> convertMultiLinkedHashMap(Collection<T> from, Function<T, K> keyFunc, Function<T, V> valueFunc) {
+        if (CollUtil.isEmpty(from)) {
+            return Collections.emptyMap();
+        }
+        return from.stream().collect(Collectors.groupingBy(keyFunc, LinkedHashMap::new, Collectors.mapping(valueFunc, Collectors.toList())));
+    }
+
     public static <T, K> Map<K, Long> convertCountMultiMap(Collection<T> from, Function<T, K> keyFunc) {
         if (CollUtil.isEmpty(from)) {
             return Collections.emptyMap();

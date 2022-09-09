@@ -90,6 +90,7 @@ public class StatisticsInfo {
         this.month = DateUtil.month(currentDate) + 1;
         this.weekend = DateUtil.weekOfYear(currentDate);
         this.today = CollUtil.getFirst(tradeRecordMap.keySet());
+        this.lastThirtyTotalMoney = CollUtil.newArrayList();
         this.calIncome(tradeRecordMap);
     }
 

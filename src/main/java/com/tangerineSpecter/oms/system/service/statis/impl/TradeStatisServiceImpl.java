@@ -79,7 +79,7 @@ public class TradeStatisServiceImpl implements ITradeStatisService {
      * @return 总资金
      */
     public Integer sumMoney(List<DataTradeRecord> tradeRecords) {
-        return tradeRecords.stream().mapToInt(tradeRecord -> tradeRecord.sumMoney(tradeRecord.getEndMoney(), tradeRecord.getCurrency()).getInteger()).sum();
+        return tradeRecords.stream().mapToInt(DataTradeRecord::sumEndMoney).sum();
     }
 
     /**
@@ -89,7 +89,7 @@ public class TradeStatisServiceImpl implements ITradeStatisService {
      * @return 总资金
      */
     public int sumIncome(List<DataTradeRecord> tradeRecords) {
-        return CollUtils.convertSumList(tradeRecords, tradeRecord -> tradeRecord.sumMoney(tradeRecord.getIncomeValue(), tradeRecord.getCurrency()).getInteger());
+        return CollUtils.convertSumList(tradeRecords, DataTradeRecord::sumMoney2Int);
     }
 
 }

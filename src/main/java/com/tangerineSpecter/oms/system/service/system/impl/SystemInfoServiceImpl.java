@@ -2,6 +2,7 @@ package com.tangerinespecter.oms.system.service.system.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.SystemPropsUtil;
 import cn.hutool.system.SystemUtil;
@@ -17,11 +18,16 @@ import com.tangerinespecter.oms.common.netty.ChatHandler;
 import com.tangerinespecter.oms.common.query.SystemNoticeQueryObject;
 import com.tangerinespecter.oms.common.utils.CollUtils;
 import com.tangerinespecter.oms.common.utils.DateUtils;
+import com.tangerinespecter.oms.common.utils.NumChainCal;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.system.convert.system.MessageConvert;
 import com.tangerinespecter.oms.system.domain.dto.system.*;
-import com.tangerinespecter.oms.system.domain.entity.*;
+import com.tangerinespecter.oms.system.domain.entity.DataConstellation;
+import com.tangerinespecter.oms.system.domain.entity.DataTradeRecord;
+import com.tangerinespecter.oms.system.domain.entity.SystemMenu;
+import com.tangerinespecter.oms.system.domain.entity.SystemNotice;
 import com.tangerinespecter.oms.system.domain.enums.MessageEnum;
+import com.tangerinespecter.oms.system.domain.enums.TradeRecordTypeEnum;
 import com.tangerinespecter.oms.system.domain.pojo.ManagerInfoBean;
 import com.tangerinespecter.oms.system.domain.pojo.SystemInfoBean;
 import com.tangerinespecter.oms.system.mapper.*;
@@ -160,16 +166,35 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
     private void handlerLastThirtyData(StatisticsInfo statisticsInfo) {
         //最近天数
         final int lastDayThreshold = 30;
-        //TODO 待优化，每次查询出所有的数据
-        Map<String, List<DataTradeRecord>> lastThirtyMap = CollUtils.convertMultiLinkedHashMap(dataTradeRecordMapper.getLastThirtyMoneyInfo(UserContext.getUid()), DataTradeRecord::getDate);
+        //按照类型分组，每个类型取阈值条数。key：时间；value：交易数据
+        Map<String, List<DataTradeRecord>> lastThirtyMap = CollUtils.convertMultiLinkedHashMap(dataTradeRecordMapper.selectRecentListByType(UserContext.getUid(), lastDayThreshold), DataTradeRecord::getDate);
         statisticsInfo.setLastThirtyDate(CollUtils.convertLimitList(lastThirtyMap.keySet(), lastDayThreshold));
-        statisticsInfo.setLastThirtyTotalMoney(CollUtils.convertLimitList(lastThirtyMap.values(), tradeStatisService::sumMoney, lastDayThreshold));
+        //key倒序从前往后累计
+        List<String> reverseKey = CollUtil.reverse(new ArrayList<>(lastThirtyMap.keySet()));
+        //数据标记map，key：类型；value：资金
+        HashMap<Integer, Integer> flagMap = MapUtil.newHashMap();
+        //资金记录
+        List<Integer> moneyList = CollUtil.newArrayList();
+        //遍历每天数据
+        CollUtils.forEach(reverseKey, date -> {
+            Map<Integer, Integer> endMoneyMap = CollUtils.convertMap(lastThirtyMap.get(date), DataTradeRecord::getType, DataTradeRecord::sumEndMoney);
+            NumChainCal numChainCal = NumChainCal.startOf(0);
+            //遍历当天的每笔数据
+            CollUtils.forEach(TradeRecordTypeEnum.getTypes(), type -> {
+                //获取当天收盘金额，如果没有则从上一次记录的金额获取，仍然没有则为0
+                Integer endMoney = endMoneyMap.getOrDefault(type, flagMap.getOrDefault(type, 0));
+                //标记本次金额
+                flagMap.put(type, endMoney);
+                numChainCal.add(endMoney);
+            });
+            moneyList.add(numChainCal.getInteger());
+        });
+        statisticsInfo.setLastThirtyTotalMoney(CollUtils.convertLimitList(CollUtil.reverse(moneyList), lastDayThreshold));
     }
 
     @Override
     public SystemNoticeInfo getNoticeInfo() {
-        List<SystemBulletin> systemBulletins = systemBulletinMapper.queryRecentlyBulletinList();
-        return new SystemNoticeInfo(systemBulletins);
+        return new SystemNoticeInfo(systemBulletinMapper.queryRecentlyBulletinList());
     }
 
     @Override

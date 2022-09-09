@@ -2,6 +2,7 @@ package com.tangerinespecter.oms.system.domain.enums;
 
 import cn.hutool.core.collection.CollUtil;
 import com.tangerinespecter.oms.common.enums.IBaseDbEnum;
+import com.tangerinespecter.oms.common.utils.CollUtils;
 import com.tangerinespecter.oms.system.domain.dto.system.MessageDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

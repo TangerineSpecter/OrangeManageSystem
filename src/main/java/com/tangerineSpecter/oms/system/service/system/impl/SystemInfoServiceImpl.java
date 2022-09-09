@@ -265,22 +265,8 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
 
     @Override
     public List<MessageDto> message() {
+        //获取当前用户消息
         PageInfo<SystemNotice> pageInfo = noticeService.queryForPage(new SystemNoticeQueryObject(true));
-        List<MessageDto.ChildrenDto> messageInfos = MessageConvert.INSTANCE.convert(pageInfo.getList());
-        List<MessageDto> result = MessageEnum.initMessageList();
-        List<MessageDto.ChildrenDto> notReadMessage = CollUtils.filterList(messageInfos, message -> MessageConstant.NOT_READ.equals(message.getReadStatus()));
-        List<MessageDto.ChildrenDto> systemMessage = CollUtils.filterList(messageInfos, message -> MessageConstant.SYSTEM_NOTICE.equals(message.getType()));
-        for (MessageDto messageDto : result) {
-            if (MessageEnum.ALL_NOTICE.getValue().equals(messageDto.getId())) {
-                messageDto.setChildren(messageInfos);
-            }
-            if (MessageEnum.NOT_READ_NOTICE.getValue().equals(messageDto.getId())) {
-                messageDto.setChildren(notReadMessage);
-            }
-            if (MessageEnum.SYSTEM_NOTICE.getValue().equals(messageDto.getId())) {
-                messageDto.setChildren(systemMessage);
-            }
-        }
-        return result;
+        return CollUtils.forEach(MessageEnum.initMessageList(), messageDto -> messageDto.setChildren(MessageConvert.INSTANCE.convert(pageInfo.getList())));
     }
 }

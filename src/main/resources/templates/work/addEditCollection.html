@@ -65,7 +65,7 @@
 <script>
 
     //初始化收藏类型
-    $.getJSON("/json/collectionType.json", function (data) {
+    $.getJSON("/oms/json/collectionType.json", function (data) {
         $.each(data, function (index, item) {
             const option = "<option value='" + item.type + "'>" + item.name + "</option>";
             $("select[name='type']").append(option);

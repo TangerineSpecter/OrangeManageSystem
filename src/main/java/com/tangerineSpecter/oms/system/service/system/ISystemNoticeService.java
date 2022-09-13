@@ -19,13 +19,34 @@ public interface ISystemNoticeService {
 
     void messageSend(MessageVo vo);
 
+    /**
+     * 消息中心列表
+     *
+     * @param qo 查询参数
+     * @return 分页结果
+     */
     PageInfo<SystemNotice> queryForPage(SystemNoticeQueryObject qo);
 
-    void batchUpdateDelStatus(NoticeUpdateStatusVo ids);
+    /**
+     * 批量修改删除状态
+     *
+     * @param vo 修改参数
+     */
+    void batchUpdateDelStatus(NoticeUpdateStatusVo vo);
 
-    void batchClear(NoticeUpdateStatusVo ids);
+    /**
+     * 彻底清理消息
+     *
+     * @param vo 清理参数
+     */
+    void batchClear(NoticeUpdateStatusVo vo);
 
-    void batchUpdateReadStatus(NoticeUpdateStatusVo ids);
+    /**
+     * 批量已读状态
+     *
+     * @param vo 修改参数
+     */
+    void batchUpdateReadStatus(NoticeUpdateStatusVo vo);
 
     /**
      * 获取消息详情

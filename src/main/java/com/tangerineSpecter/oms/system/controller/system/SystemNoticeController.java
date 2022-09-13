@@ -8,14 +8,16 @@ import com.tangerinespecter.oms.system.domain.entity.SystemNotice;
 import com.tangerinespecter.oms.system.domain.vo.system.MessageVo;
 import com.tangerinespecter.oms.system.domain.vo.system.NoticeUpdateStatusVo;
 import com.tangerinespecter.oms.system.service.system.ISystemNoticeService;
+import com.tangerinespecter.oms.system.valid.Delete;
+import com.tangerinespecter.oms.system.valid.Update;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -33,12 +35,8 @@ import javax.validation.Valid;
 @RequestMapping("/system/notice")
 public class SystemNoticeController {
 
-    @Resource
-    private ISystemNoticeService systemNoticeService;
+    private final ISystemNoticeService systemNoticeService;
 
-    /**
-     * 消息内容
-     */
     @ApiOperation(value = "消息中心页面")
     @GetMapping("/content")
     public ModelAndView noticeCenter(Model model, @RequestParam("id") Long id) {
@@ -46,39 +44,27 @@ public class SystemNoticeController {
         return ServiceResult.jumpPage("system/systemNoticeContent");
     }
 
-    /**
-     * 消息中心列表
-     */
     @ApiOperation(value = "消息中心列表")
     @GetMapping("/list")
     public PageInfo<SystemNotice> listInfo(SystemNoticeQueryObject qo) {
         return systemNoticeService.queryForPage(qo);
     }
 
-    /**
-     * 批量已读状态
-     */
     @ApiOperation(value = "批量更新消息状态")
     @PutMapping("/batch/read-status")
-    public void batchUpdateReadStatus(NoticeUpdateStatusVo vo) {
+    public void batchUpdateReadStatus(@RequestBody @Validated(Update.class) NoticeUpdateStatusVo vo) {
         systemNoticeService.batchUpdateReadStatus(vo);
     }
 
-    /**
-     * 批量修改删除状态
-     */
     @ApiOperation(value = "批量删除消息")
-    @DeleteMapping("/batch/delete")
-    public void batchUpdateDelStatus(NoticeUpdateStatusVo vo) {
+    @PutMapping("/batch/delete")
+    public void batchUpdateDelStatus(@RequestBody @Validated(Delete.class) NoticeUpdateStatusVo vo) {
         systemNoticeService.batchUpdateDelStatus(vo);
     }
 
-    /**
-     * 彻底清理消息
-     */
     @ApiOperation(value = "彻底清除消息")
-    @DeleteMapping("/batch/clear")
-    public void batchClear(NoticeUpdateStatusVo vo) {
+    @PutMapping("/batch/clear")
+    public void batchClear(@RequestBody NoticeUpdateStatusVo vo) {
         systemNoticeService.batchClear(vo);
     }
 

@@ -31,7 +31,13 @@
                    class="layui-icon layui-icon-website"></a>
             </li>
             <!-- 消息 -->
-            <li class="layui-nav-item layui-hide-xs message"></li>
+            <!--            <li class="layui-nav-item layui-hide-xs message" user-menu-url="/noticeCenter"></li>-->
+            <li class="layui-nav-item layui-hide-xs">
+                <a href="javascript:void(0);" class="layui-icon layui-icon-notice"
+                   user-menu-id="2333" user-menu-url="/noticeCenter" user-menu-title="消息中心">
+                    <span class="layui-badge-dot" th:if="${notReadNoticeCount > 0}"></span>
+                </a>
+            </li>
             <li class="layui-nav-item user">
                 <!-- 头 像 -->
                 <a href="javascript:void(0);">

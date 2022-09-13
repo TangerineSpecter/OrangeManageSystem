@@ -1,6 +1,9 @@
 package com.tangerinespecter.oms.system.mapper;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.tangerinespecter.oms.common.context.UserContext;
+import com.tangerinespecter.oms.common.enums.GlobalBoolEnum;
 import com.tangerinespecter.oms.common.query.SystemNoticeQueryObject;
 import com.tangerinespecter.oms.system.domain.entity.SystemNotice;
 import org.apache.ibatis.annotations.Mapper;
@@ -11,7 +14,17 @@ import java.util.List;
 @Mapper
 public interface SystemNoticeMapper extends BaseMapper<SystemNotice> {
 
-    int queryNotReadNoticeCount(@Param("uid") String uid);
+    /**
+     * 获取当前用户未读消息数量
+     *
+     * @return 未读消息数量
+     */
+    default long queryNotReadNoticeCount() {
+        return selectCount(new QueryWrapper<SystemNotice>()
+                .eq("is_del", GlobalBoolEnum.FALSE.getValue())
+                .eq("read_status", GlobalBoolEnum.FALSE.getValue())
+                .eq("uid", UserContext.getUid()));
+    }
 
     /**
      * 根据管理员查询
@@ -23,7 +36,7 @@ public interface SystemNoticeMapper extends BaseMapper<SystemNotice> {
     /**
      * 根据
      *
-     * @param uid    管理员ID
+     * @param uid        管理员ID
      * @param readStatus 阅读状态
      * @return
      */
@@ -53,4 +66,5 @@ public interface SystemNoticeMapper extends BaseMapper<SystemNotice> {
      * @param readStatus 已读状态
      */
     void updateReadStatusByIds(@Param("ids") List<Long> ids, @Param("readStatus") Integer readStatus);
+
 }

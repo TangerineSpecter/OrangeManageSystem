@@ -1,10 +1,8 @@
 package com.tangerinespecter.oms.system.service.system.impl;
 
-import cn.hutool.core.util.StrUtil;
 import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.page.PageMethod;
 import com.google.common.base.Splitter;
-import com.tangerinespecter.oms.common.context.UserContext;
 import com.tangerinespecter.oms.common.query.SystemNoticeQueryObject;
 import com.tangerinespecter.oms.job.message.Message;
 import com.tangerinespecter.oms.job.message.MessageKeys;
@@ -38,7 +36,7 @@ public class SystemNoticeServiceImpl implements ISystemNoticeService {
         response.setCharacterEncoding("utf-8");
         while (true) {
             try {
-                int noticeCount = systemNoticeMapper.queryNotReadNoticeCount(UserContext.getUid());
+                long noticeCount = systemNoticeMapper.queryNotReadNoticeCount();
                 PrintWriter pw = response.getWriter();
                 if (noticeCount > 0) {
                     pw.write("data:true\n\n");
@@ -72,9 +70,6 @@ public class SystemNoticeServiceImpl implements ISystemNoticeService {
 
     @Override
     public void batchUpdateDelStatus(NoticeUpdateStatusVo vo) {
-        if (StrUtil.isBlank(vo.getIds()) || vo.getIsDel() == null) {
-            return;
-        }
         List<Long> ids = Splitter.on(",").omitEmptyStrings().splitToList(vo.getIds())
                 .parallelStream().map(Long::parseLong).collect(Collectors.toList());
         systemNoticeMapper.updateDelStatusByIds(ids, vo.getIsDel());
@@ -82,9 +77,6 @@ public class SystemNoticeServiceImpl implements ISystemNoticeService {
 
     @Override
     public void batchClear(NoticeUpdateStatusVo vo) {
-        if (StrUtil.isBlank(vo.getIds())) {
-            return;
-        }
         List<Long> ids = Splitter.on(",").omitEmptyStrings().splitToList(vo.getIds())
                 .parallelStream().map(Long::parseLong).collect(Collectors.toList());
         systemNoticeMapper.deleteNoticeByIds(ids);
@@ -92,9 +84,6 @@ public class SystemNoticeServiceImpl implements ISystemNoticeService {
 
     @Override
     public void batchUpdateReadStatus(NoticeUpdateStatusVo vo) {
-        if (StrUtil.isBlank(vo.getIds()) || vo.getReadStatus() == null) {
-            return;
-        }
         List<Long> ids = Splitter.on(",").omitEmptyStrings().splitToList(vo.getIds())
                 .parallelStream().map(Long::parseLong).collect(Collectors.toList());
         systemNoticeMapper.updateReadStatusByIds(ids, vo.getReadStatus());

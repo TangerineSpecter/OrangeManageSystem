@@ -18,20 +18,14 @@
         </foreach>
     </update>
     <delete id="deleteNoticeByIds">
-        delete from system_notice
+        delete
+        from system_notice
         where id IN
         <foreach collection="ids" open="(" close=")" separator="," item="id" index="index">
             #{id}
         </foreach>
     </delete>
 
-    <select id="queryNotReadNoticeCount" resultType="java.lang.Integer">
-        select count(id)
-        from system_notice
-        where is_del = 0
-          and read_status = 0
-          and uid = #{uid}
-    </select>
     <select id="selectListByUid" resultType="com.tangerinespecter.oms.system.domain.entity.SystemNotice">
         select *
         from system_notice

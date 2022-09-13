@@ -63,6 +63,7 @@ public class IndexController {
     public String index(HttpServletRequest request, HttpServletResponse response, Model model) {
         model.addAttribute("systemUser", UserContext.getCurrentUser());
         model.addAttribute("webTitle", SystemConstant.systemConfig.getWebTitle());
+        model.addAttribute(ParamUtils.NOT_READ_NOTICE_COUNT, systemNoticeMapper.queryNotReadNoticeCount());
         return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getSystemIndexPageKey, "index");
     }
 
@@ -109,11 +110,8 @@ public class IndexController {
     @ApiOperation("消息中心")
     @GetMapping("/noticeCenter")
     public ModelAndView noticeCenter(Model model) {
-        int notReadNoticeCount = systemNoticeMapper.queryNotReadNoticeCount(UserContext.getUid());
-        HashMap<String, Integer> data = MapUtil.newHashMap();
-        data.put(ParamUtils.NOT_READ_NOTICE_COUNT, notReadNoticeCount);
-        model.addAllAttributes(data);
-        return ServiceResult.jumpPage("system/systemNotice");
+        model.addAttribute(ParamUtils.NOT_READ_NOTICE_COUNT, systemNoticeMapper.queryNotReadNoticeCount());
+        return ServiceResult.jumpPage("system/noticeCenter");
     }
 
 }

@@ -38,7 +38,7 @@ layui.use(['form', 'table', 'toast', 'treetable', 'layer'], function () {
     window.addData = function (result, iframe) {
         if (iframe) {
             if (result.success) {
-                parent.layui.toast.success({message: '添加成功', position: 'topCenter'});
+                parent.layui.toast.success({message: '操作成功', position: 'topCenter'});
                 parent.layer.close(parent.layer.getFrameIndex(window.name));
             } else {
                 parent.layui.toast.error({message: result.msg, position: 'topCenter'});
@@ -47,7 +47,7 @@ layui.use(['form', 'table', 'toast', 'treetable', 'layer'], function () {
             parent.layui.treetable.reload("#menu-table");
         } else {
             if (result.success) {
-                toast.success({message: '添加成功', position: 'topCenter'});
+                toast.success({message: '操作成功', position: 'topCenter'});
                 layer.close(layer.index);
             } else {
                 toast.error({message: result.msg, position: 'topCenter'});
@@ -61,7 +61,7 @@ layui.use(['form', 'table', 'toast', 'treetable', 'layer'], function () {
     window.editData = function (result, iframe) {
         if (iframe) {
             if (result.success) {
-                parent.layui.toast.success({message: '编辑成功', position: 'topCenter'});
+                parent.layui.toast.success({message: '操作成功', position: 'topCenter'});
                 parent.layer.close(parent.layer.getFrameIndex(window.name));
             } else {
                 parent.layui.toast.error({message: result.msg, position: 'topCenter'});
@@ -70,7 +70,7 @@ layui.use(['form', 'table', 'toast', 'treetable', 'layer'], function () {
             parent.layui.treetable.reload("#menu-table");
         } else {
             if (result.success) {
-                toast.success({message: '编辑成功', position: 'topCenter'});
+                toast.success({message: '操作成功', position: 'topCenter'});
                 layer.close(layer.index);
             } else {
                 toast.error({message: result.msg, position: 'topCenter'});
@@ -93,7 +93,7 @@ layui.use(['form', 'table', 'toast', 'treetable', 'layer'], function () {
             }
         } else {
             if (result.success) {
-                toast.success({message: '删除成功', position: 'topCenter'});
+                toast.success({message: '操作成功', position: 'topCenter'});
                 table.reload('currentTableId');
                 treetable.reload("#menu-table");
                 layer.close(layer.index);

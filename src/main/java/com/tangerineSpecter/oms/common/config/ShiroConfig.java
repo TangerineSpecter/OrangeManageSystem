@@ -65,6 +65,12 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/component/**", "anon");
         filterChainDefinitionMap.put("/config/**", "anon");
 
+        //hyper静态资源
+        filterChainDefinitionMap.put("/hyper/css/**", "anon");
+        filterChainDefinitionMap.put("/hyper/fonts/**", "anon");
+        filterChainDefinitionMap.put("/hyper/img/**", "anon");
+        filterChainDefinitionMap.put("/hyper/js/**", "anon");
+
         //swagger资源
 //        filterChainDefinitionMap.put("/webjars/**", "anon");
 //        filterChainDefinitionMap.put("/swagger/**", "anon");

@@ -156,7 +156,7 @@
             const data = obj.data;
             if (obj.event === 'show') {
                 window.notice(data.title, data.content, function () {
-                    table.reload(globalTableId);
+                    table.reloadData(globalTableId);
                 });
                 //展示后更新已读状态
                 Ajax.put("/system/notice/batch/read-status", {

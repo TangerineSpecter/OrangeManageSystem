@@ -55,21 +55,21 @@ public class StatisticsInfo {
      */
     private Integer year;
     /**
-     * 今日盈亏状态（0：盈利；1：亏损）
+     * 今日收益率
      */
-    private Integer todayStatus;
+    private BigDecimal todayRate = BigDecimal.valueOf(1.2);
     /**
-     * 本周盈亏状态（0：盈利；1：亏损）
+     * 本周收益率
      */
-    private Integer weekendStatus;
+    private BigDecimal weekendRate = BigDecimal.valueOf(-13.2);
     /**
-     * 本月盈亏状态（0：盈利；1：亏损）
+     * 本月收益率
      */
-    private Integer monthStatus;
+    private BigDecimal monthRate = BigDecimal.valueOf(-8.13);
     /**
-     * 本年盈亏状态（0：盈利；1：亏损）
+     * 本年收益率
      */
-    private Integer yearStatus;
+    private BigDecimal yearRate = BigDecimal.valueOf(0);
     /**
      * 最近30日资金曲线
      */

@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.tangerinespecter.oms.common.anno.ReWriteBody;
 import com.tangerinespecter.oms.common.query.SystemNoticeQueryObject;
 import com.tangerinespecter.oms.common.result.ServiceResult;
+import com.tangerinespecter.oms.common.utils.ParamUtils;
 import com.tangerinespecter.oms.system.domain.entity.SystemNotice;
 import com.tangerinespecter.oms.system.domain.vo.system.MessageVo;
 import com.tangerinespecter.oms.system.domain.vo.system.NoticeUpdateStatusVo;
@@ -52,14 +53,14 @@ public class SystemNoticeController {
 
     @ApiOperation(value = "批量更新消息状态")
     @PutMapping("/batch/read-status")
-    public void batchUpdateReadStatus(@RequestBody @Validated(Update.class) NoticeUpdateStatusVo vo) {
-        systemNoticeService.batchUpdateReadStatus(vo);
+    public long batchUpdateReadStatus(Model model, @RequestBody @Validated(Update.class) NoticeUpdateStatusVo vo) {
+        return systemNoticeService.batchUpdateReadStatus(vo);
     }
 
     @ApiOperation(value = "批量删除消息")
     @PutMapping("/batch/delete")
-    public void batchUpdateDelStatus(@RequestBody @Validated(Delete.class) NoticeUpdateStatusVo vo) {
-        systemNoticeService.batchUpdateDelStatus(vo);
+    public long batchUpdateDelStatus(@RequestBody @Validated(Delete.class) NoticeUpdateStatusVo vo) {
+        return systemNoticeService.batchUpdateDelStatus(vo);
     }
 
     @ApiOperation(value = "彻底清除消息")

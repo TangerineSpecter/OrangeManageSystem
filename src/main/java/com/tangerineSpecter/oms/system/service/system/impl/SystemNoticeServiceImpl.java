@@ -69,10 +69,11 @@ public class SystemNoticeServiceImpl implements ISystemNoticeService {
     }
 
     @Override
-    public void batchUpdateDelStatus(NoticeUpdateStatusVo vo) {
+    public long batchUpdateDelStatus(NoticeUpdateStatusVo vo) {
         List<Long> ids = Splitter.on(",").omitEmptyStrings().splitToList(vo.getIds())
                 .parallelStream().map(Long::parseLong).collect(Collectors.toList());
         systemNoticeMapper.updateDelStatusByIds(ids, vo.getIsDel());
+        return systemNoticeMapper.queryNotReadNoticeCount();
     }
 
     @Override
@@ -83,10 +84,11 @@ public class SystemNoticeServiceImpl implements ISystemNoticeService {
     }
 
     @Override
-    public void batchUpdateReadStatus(NoticeUpdateStatusVo vo) {
+    public long batchUpdateReadStatus(NoticeUpdateStatusVo vo) {
         List<Long> ids = Splitter.on(",").omitEmptyStrings().splitToList(vo.getIds())
                 .parallelStream().map(Long::parseLong).collect(Collectors.toList());
         systemNoticeMapper.updateReadStatusByIds(ids, vo.getReadStatus());
+        return systemNoticeMapper.queryNotReadNoticeCount();
     }
 
     @Override

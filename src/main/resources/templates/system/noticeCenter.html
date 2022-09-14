@@ -7,32 +7,76 @@
 <div class="layui-card">
     <div class="layui-tab" lay-filter="notice">
         <ul class="layui-tab-title">
-            <li class="layui-this" lay-id="currentTableId" lay-url="/system/notice/list" lay-toolbar="normalToolbar">
+            <li class="layui-this" lay-id="currentTableId" lay-url="/system/notice/list">
                 全部消息
             </li>
-            <li lay-id="notReadTableId" lay-url="/system/notice/list?readStatus=0" lay-toolbar="normalToolbar">未读消息
-                <span class="layui-badge" th:text="${notReadNoticeCount}" th:if="${notReadNoticeCount > 0}"></span>
+            <li lay-id="notReadTableId" lay-url="/system/notice/list?readStatus=0">未读消息
+                <span id="notReadNotice" class="layui-badge" th:text="${notReadNoticeCount}"
+                      th:if="${notReadNoticeCount > 0}"></span>
             </li>
-            <li lay-id="isReadTableId" lay-url="/system/notice/list?readStatus=1" lay-toolbar="delToolbar">已读消息</li>
-            <li lay-id="recycleTableId" lay-url="/system/notice/list?isDel=1" lay-toolbar="recycleToolbar">回收站</li>
+            <li lay-id="isReadTableId" lay-url="/system/notice/list?readStatus=1">已读消息</li>
+            <li lay-id="recycleTableId" lay-url="/system/notice/list?isDel=1">回收站</li>
         </ul>
         <div class="layui-tab-content">
             <div class="layui-tab-item layui-show">
+                <div class="layui-card-body">
+                    <button plain data-type="isRead" data-table-id="currentTableId"
+                            class="pear-btn pear-btn-primary pear-btn-md">
+                        <i class="layui-icon layui-icon-ok"></i>
+                        标记已读
+                    </button>
+                    <button plain data-type="delete" data-table-id="currentTableId"
+                            class="pear-btn pear-btn-danger pear-btn-md">
+                        <i class="layui-icon layui-icon-delete"></i>
+                        删除
+                    </button>
+                </div>
                 <div class="layui-card-body">
                     <table id="currentTableId" lay-filter="currentTableId"></table>
                 </div>
             </div>
             <div class="layui-tab-item">
                 <div class="layui-card-body">
+                    <button plain data-type="isRead" data-table-id="notReadTableId"
+                            class="pear-btn pear-btn-primary pear-btn-md">
+                        <i class="layui-icon layui-icon-ok"></i>
+                        标记已读
+                    </button>
+                    <button plain data-type="delete" data-table-id="notReadTableId"
+                            class="pear-btn pear-btn-danger pear-btn-md">
+                        <i class="layui-icon layui-icon-delete"></i>
+                        删除
+                    </button>
+                </div>
+                <div class="layui-card-body">
                     <table id="notReadTableId" lay-filter="notReadTableId"></table>
                 </div>
             </div>
             <div class="layui-tab-item">
                 <div class="layui-card-body">
+                    <button plain data-type="delete" data-table-id="isReadTableId"
+                            class="pear-btn pear-btn-danger pear-btn-md">
+                        <i class="layui-icon layui-icon-delete"></i>
+                        删除
+                    </button>
+                </div>
+                <div class="layui-card-body">
                     <table id="isReadTableId" lay-filter="isReadTableId"></table>
                 </div>
             </div>
             <div class="layui-tab-item">
+                <div class="layui-card-body">
+                    <button plain data-type="renew" data-table-id="recycleTableId"
+                            class="pear-btn pear-btn-primary pear-btn-md">
+                        <i class="layui-icon layui-icon-refresh"></i>
+                        恢复
+                    </button>
+                    <button plain data-type="clear" data-table-id="recycleTableId"
+                            class="pear-btn pear-btn-danger pear-btn-md">
+                        <i class="layui-icon layui-icon-delete"></i>
+                        彻底删除
+                    </button>
+                </div>
                 <div class="layui-card-body">
                     <table id="recycleTableId" lay-filter="recycleTableId"></table>
                 </div>
@@ -41,43 +85,11 @@
     </div>
 </div>
 
-<script type="text/html" id="normalToolbar">
-    <button data-type="isRead" data-table-id="currentTableId"
-            class="pear-btn pear-btn-primary pear-btn-md">
-        <i class="layui-icon layui-icon-ok"></i>
-        标记已读
-    </button>
-    <button data-type="delete" data-table-id="currentTableId"
-            class="pear-btn pear-btn-danger pear-btn-md">
-        <i class="layui-icon layui-icon-delete"></i>
-        删除
-    </button>
-</script>
-
-<script type="text/html" id="delToolbar">
-    <button data-type="delete" data-table-id="isReadTableId"
-            class="pear-btn pear-btn-danger pear-btn-md">
-        <i class="layui-icon layui-icon-delete"></i>
-        删除
-    </button>
-</script>
-
-<script type="text/html" id="recycleToolbar">
-    <button data-type="renew" data-table-id="recycleTableId"
-            class="pear-btn pear-btn-primary pear-btn-md">
-        <i class="layui-icon layui-icon-refresh"></i>
-        恢复
-    </button>
-    <button data-type="clear" data-table-id="recycleTableId"
-            class="pear-btn pear-btn-danger pear-btn-md">
-        <i class="layui-icon layui-icon-delete"></i>
-        彻底删除
-    </button>
-</script>
-
 <th:block th:include="include :: footer"/>
 <script>
+
     layui.use(['table', 'jquery', 'element'], function () {
+        let globalTableId = "currentTableId";
         let table = layui.table,
             $ = layui.jquery,
             element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块;
@@ -86,9 +98,8 @@
          * 初始化消息表格
          * @param tableId 表格id
          * @param url 数据地址
-         * @param toolbar 表格工具栏
          */
-        window.initNoticeTable = function (tableId, url, toolbar) {
+        function initNoticeTable(tableId, url) {
             //加载表格
             table.render({
                 elem: '#' + tableId,
@@ -97,51 +108,9 @@
                 cols: cols,
                 skin: 'line',
                 even: true,
-                toolbar: '#' + toolbar,
-                defaultToolbar: [{
-                    layEvent: 'refresh',
-                    icon: 'layui-icon-refresh',
-                }, 'filter', 'print', 'exports'],
                 done: function (res, curr, count) {
 
                 }
-            });
-            //按钮事件绑定
-            $(".pear-btn").on('click', function () {
-                const type = $(this).data('type');
-                const tableId = $(this).data("table-id");
-                const rowDatas = table.checkStatus(tableId).data;
-                if (rowDatas.length === 0) {
-                    layer.msg("请选择需要处理的消息");
-                    return;
-                }
-                let ids = [];
-                $.each(rowDatas, function (index, item) {
-                    ids.push(item.id);
-                });
-                let jsonData = {'ids': ids.join(",")};
-                switch (type) {
-                    case 'isRead':
-                        //1：表示已读
-                        jsonData.readStatus = 1;
-                        Ajax.put("/system/notice/batch/read-status", jsonData, false);
-                        break;
-                    case 'renew':
-                        //0:不删除
-                        jsonData.isDel = 0;
-                        Ajax.put("/system/notice/batch/delete", jsonData, false);
-                        break;
-                    case 'delete':
-                        //1:删除
-                        jsonData.isDel = 1;
-                        Ajax.put("/system/notice/batch/delete", jsonData, false);
-                        break;
-                    case 'clear':
-                        Ajax.put("/system/notice/batch/clear", jsonData, false);
-                        break;
-                }
-                //刷新表格
-                table.reload(tableId);
             });
         }
 
@@ -172,27 +141,90 @@
         ]
 
         //初始化
-        window.initNoticeTable('currentTableId', '/system/notice/list', 'normalToolbar');
+        initNoticeTable('currentTableId', '/system/notice/list');
 
         //监听tab切换
         element.on('tab(notice)', function () {
             const tableId = this.getAttribute('lay-id');
             const url = this.getAttribute('lay-url');
-            const toolbar = this.getAttribute('lay-toolbar');
-            window.initNoticeTable(tableId, url, toolbar);
+            initNoticeTable(tableId, url);
+            globalTableId = tableId;
         });
 
         //单元格事件（双击事件为：rowDouble）—— 全部tool
         table.on('tool', function (obj) {
-            window.show(obj);
-        });
-
-        window.show = function (obj) {
             const data = obj.data;
             if (obj.event === 'show') {
-                window.notice(data.title, data.content);
+                window.notice(data.title, data.content, function () {
+                    table.reload(globalTableId);
+                });
+                //展示后更新已读状态
+                Ajax.put("/system/notice/batch/read-status", {
+                    'ids': data.id,
+                    'readStatus': 1
+                }, false, function (result) {
+                    handleNoticeCountShow(result.data);
+                });
+            }
+        });
+
+        /**
+         * 处理消息状态展示
+         * @param noticeCount 消息数量
+         */
+        function handleNoticeCountShow(noticeCount) {
+            //未读消息为0，则清除消息红点，否则调整数量展示
+            if (noticeCount === 0) {
+                parent.$("#notice").hide();
+                $("#notReadNotice").hide();
+            } else {
+                $("#notReadNotice").text(noticeCount);
             }
         }
+
+        //按钮事件绑定
+        $(".pear-btn").on('click', function () {
+            const type = $(this).data('type');
+            const tableId = $(this).data("table-id");
+            const rowDatas = table.checkStatus(tableId).data;
+            if (rowDatas.length === 0) {
+                layer.msg("请选择需要处理的消息");
+                return;
+            }
+            let ids = [];
+            $.each(rowDatas, function (index, item) {
+                ids.push(item.id);
+            });
+            let jsonData = {'ids': ids.join(",")};
+            switch (type) {
+                case 'isRead':
+                    //1：表示已读
+                    jsonData.readStatus = 1;
+                    Ajax.put("/system/notice/batch/read-status", jsonData, false, function (result) {
+                        handleNoticeCountShow(result.data);
+                    });
+                    break;
+                case 'renew':
+                    //0:不删除
+                    jsonData.isDel = 0;
+                    Ajax.put("/system/notice/batch/delete", jsonData, false, function (result) {
+                        handleNoticeCountShow(result.data);
+                    });
+                    break;
+                case 'delete':
+                    //1:删除
+                    jsonData.isDel = 1;
+                    Ajax.put("/system/notice/batch/delete", jsonData, false, function (result) {
+                        handleNoticeCountShow(result.data);
+                    });
+                    break;
+                case 'clear':
+                    Ajax.put("/system/notice/batch/clear", jsonData, false);
+                    break;
+            }
+            //刷新表格
+            table.reload(tableId);
+        });
 
     });
 </script>

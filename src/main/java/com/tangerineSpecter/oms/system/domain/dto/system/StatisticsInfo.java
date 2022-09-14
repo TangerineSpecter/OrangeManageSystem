@@ -25,19 +25,19 @@ public class StatisticsInfo {
     /**
      * 当天收益
      */
-    private BigDecimal todayIncome;
+    private BigDecimal todayIncome = BigDecimal.ZERO;
     /**
      * 本周收益
      */
-    private BigDecimal weekendIncome;
+    private BigDecimal weekendIncome = BigDecimal.ZERO;
     /**
      * 当月收益
      */
-    private BigDecimal monthIncome;
+    private BigDecimal monthIncome = BigDecimal.ZERO;
     /**
      * 当年收益
      */
-    private BigDecimal yearIncome;
+    private BigDecimal yearIncome = BigDecimal.ZERO;
     /**
      * 今天日期
      */
@@ -120,7 +120,7 @@ public class StatisticsInfo {
     private BigDecimal calYearIncome(long currentTime, Integer income) {
         long thisYear = DateUtil.beginOfYear(new Date()).getTime();
         if (currentTime >= thisYear) {
-            return NumChainCal.startOf(this.yearIncome).add(income).getBigDecimal();
+            return NumChainCal.startOf(this.yearIncome).add(income).getBigDecimal(0);
         }
         return this.yearIncome;
     }
@@ -135,7 +135,7 @@ public class StatisticsInfo {
     private BigDecimal calMonthIncome(long currentTime, Integer income) {
         long thisMonth = DateUtil.beginOfMonth(new Date()).getTime();
         if (currentTime >= thisMonth) {
-            return NumChainCal.startOf(this.monthIncome).add(income).getBigDecimal();
+            return NumChainCal.startOf(this.monthIncome).add(income).getBigDecimal(0);
         }
         return this.monthIncome;
     }
@@ -150,7 +150,7 @@ public class StatisticsInfo {
     private BigDecimal calWeekendIncome(long currentTime, Integer income) {
         long thisWeek = DateUtil.beginOfWeek(new Date()).getTime();
         if (currentTime >= thisWeek) {
-            return NumChainCal.startOf(this.weekendIncome).add(income).getBigDecimal();
+            return NumChainCal.startOf(this.weekendIncome).add(income).getBigDecimal(0);
         }
         return this.weekendIncome;
     }
@@ -164,7 +164,7 @@ public class StatisticsInfo {
      */
     private BigDecimal calTodayIncome(String date, Integer income) {
         if (Objects.equals(this.today, date)) {
-            return NumChainCal.startOf(this.todayIncome).add(income).getBigDecimal();
+            return NumChainCal.startOf(this.todayIncome).add(income).getBigDecimal(0);
         }
         return this.todayIncome;
     }

@@ -140,8 +140,9 @@ layui.use(['form', 'table', 'toast', 'treetable', 'layer'], function () {
      * 系统公告弹窗
      * @param title   公告标题
      * @param content 公告内容
+     * @param callback 回调执行
      */
-    window.notice = function (title, content) {
+    window.notice = function (title, content, callback = null) {
         layer.open({
             type: 1,
             title: title, //不显示标题栏
@@ -153,7 +154,12 @@ layui.use(['form', 'table', 'toast', 'treetable', 'layer'], function () {
             btnAlign: 'c',
             moveType: 1, //拖拽模式，0或者1
             content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">' + content + '</div>',
-            success: function (layero) {
+            success: function (result) {
+            },
+            end: function (result) {
+                //无论销毁还是取消都执行
+                if (typeof callback == "function")
+                    callback();
             }
         });
     }
@@ -187,8 +193,9 @@ var Ajax = new function () {
      * @param url 请求地址
      * @param data 请求数据
      * @param iframe 是否iframe请求
+     * @param callback 回调操作
      */
-    this.put = function (url, data, iframe) {
+    this.put = function (url, data, iframe, callback = null) {
         $.ajax({
             url: url,
             dataType: 'json',
@@ -196,7 +203,11 @@ var Ajax = new function () {
             data: JSON.stringify(data),
             type: 'put',
             success: function (result) {
-                window.editData(result, iframe);
+                if (typeof callback == "function") {
+                    callback(result);
+                } else {
+                    window.editData(result, iframe);
+                }
             },
             error: function () {
                 window.failInfo(iframe);

@@ -31,8 +31,9 @@ public interface ISystemNoticeService {
      * 批量修改删除状态
      *
      * @param vo 修改参数
+     * @return 未读消息数量
      */
-    void batchUpdateDelStatus(NoticeUpdateStatusVo vo);
+    long batchUpdateDelStatus(NoticeUpdateStatusVo vo);
 
     /**
      * 彻底清理消息
@@ -45,8 +46,9 @@ public interface ISystemNoticeService {
      * 批量已读状态
      *
      * @param vo 修改参数
+     * @return 消息未读条数
      */
-    void batchUpdateReadStatus(NoticeUpdateStatusVo vo);
+    long batchUpdateReadStatus(NoticeUpdateStatusVo vo);
 
     /**
      * 获取消息详情

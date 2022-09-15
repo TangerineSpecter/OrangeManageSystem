@@ -190,11 +190,12 @@ window.initSimpleLineEcharts = function (echartsId, title, lineStyle, xData, yDa
  * 初始化网格图表
  * @param echartsId 图表ID
  * @param lineStyle 折线图样式
+ * @param pointColor 转折点颜色
  * @param xData x轴数据
  * @param yData y轴数据
  * @param dataName 数据描述
  */
-window.initGridLineEcharts = function (echartsId, lineStyle, xData, yData, dataName) {
+window.initGridLineEcharts = function (echartsId, lineStyle, pointColor, xData, yData, dataName) {
     const echartsRecords = echarts.init(document.getElementById(echartsId), 'walden');
     const option = {
         tooltip: {
@@ -252,7 +253,7 @@ window.initGridLineEcharts = function (echartsId, lineStyle, xData, yData, dataN
             //阶梯图
             // step: true,
             itemStyle: {
-                color: '#48D8BF',
+                color: pointColor,
                 borderWidth: 4,
                 // shadowColor: 'rgba(72,216,191, 0.3)',
                 // shadowBlur: 100,

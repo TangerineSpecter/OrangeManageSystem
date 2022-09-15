@@ -260,9 +260,9 @@ window.initGridLineEcharts = function (echartsId, lineStyle, pointColor, xData, 
                 borderColor: "#FFF"
             },
             //开启平滑
-            smooth: true,
+            // smooth: true,
             //平滑单调性，仅针对x处理，默认是xy
-            smoothMonotone: 'x'
+            // smoothMonotone: 'x'
         }]
     };
     echartsRecords.setOption(option);
@@ -349,14 +349,14 @@ window.initStrokeColumnCharts = function (echartsId, lineStyle, xData, yData) {
         series: {
             name: '收益',
             type: 'bar',
-            barWidth: '50%',  //柱子宽度
+            barWidth: '80%',  //柱子宽度
             barGap: 0,
             itemStyle: {  //柱子颜色
                 normal: {
                     // borderWidth: 2,
                     // borderColor: 'rgb(79, 116, 223)',
                     // 柱形图圆角，初始化效果
-                    barBorderRadius: 15,
+                    // barBorderRadius: 15,
                     color: function (param) {
                         if (param.value > 0) {
                             // return '#eb4e5c';

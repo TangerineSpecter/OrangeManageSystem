@@ -63,7 +63,7 @@ public class CollUtils {
         if (CollUtil.isEmpty(from)) {
             return Collections.emptyList();
         }
-        return from.stream().map(func).sorted(Comparator.reverseOrder()).limit(limit).collect(Collectors.toList());
+        return CollUtil.reverse(new ArrayList<>(from)).stream().map(func).limit(limit).collect(Collectors.toList());
     }
 
     public static <T> int convertSumList(Collection<T> from, Function<T, Integer> func) {

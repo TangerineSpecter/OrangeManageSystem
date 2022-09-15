@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:include="include :: header('交易记录')"/>
+    <th:block th:include="include :: hyperCss"/>
 </head>
 <body class="pear-container">
 <div class="layui-card">
@@ -48,7 +49,8 @@
 </div>
 <div class="layui-card">
     <div class="layui-card-body">
-        <table class="table table-centered table-nowrap mb-0" id="currentTableId" lay-filter="currentTableFilter"></table>
+        <table class="table table-centered table-nowrap mb-0" id="currentTableId"
+               lay-filter="currentTableFilter"></table>
     </div>
 </div>
 <th:block th:include="include :: footer"/>

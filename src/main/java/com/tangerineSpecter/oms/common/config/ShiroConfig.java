@@ -1,8 +1,6 @@
 package com.tangerinespecter.oms.common.config;
 
-import cn.hutool.core.map.MapUtil;
 import com.tangerinespecter.oms.common.security.CredentialMatcher;
-import com.tangerinespecter.oms.common.filter.CustomFilter;
 import com.tangerinespecter.oms.common.security.MyShiroRealm;
 import com.tangerinespecter.oms.common.security.UrlPermissionResolver;
 import lombok.extern.slf4j.Slf4j;
@@ -21,9 +19,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.servlet.Filter;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  * @author liangjun.zhou
@@ -60,16 +56,16 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/js/**", "anon");
         filterChainDefinitionMap.put("/img/**", "anon");
 
+        //oms静态资源
+        filterChainDefinitionMap.put("/oms/**", "anon");
+
         //pear-admin静态资源
         filterChainDefinitionMap.put("/admin/**", "anon");
         filterChainDefinitionMap.put("/component/**", "anon");
         filterChainDefinitionMap.put("/config/**", "anon");
 
         //hyper静态资源
-        filterChainDefinitionMap.put("/hyper/css/**", "anon");
-        filterChainDefinitionMap.put("/hyper/fonts/**", "anon");
-        filterChainDefinitionMap.put("/hyper/img/**", "anon");
-        filterChainDefinitionMap.put("/hyper/js/**", "anon");
+        filterChainDefinitionMap.put("/hyper/**", "anon");
 
         //swagger资源
 //        filterChainDefinitionMap.put("/webjars/**", "anon");

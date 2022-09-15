@@ -93,8 +93,8 @@ public class StatisticsInfo implements Serializable {
             this.calInputMoney(calStatisData);
         });
         this.calIncomeRate(lastTotalMoney);
-        this.lastThirtyDate = CollUtils.convertReverseList(calStatisDto, RecordCalStatisDto::getDate);
-        this.lastThirtyTotalMoney = CollUtils.convertReverseList(calStatisDto, RecordCalStatisDto::getTotalEndMoney);
+        this.lastThirtyDate = CollUtils.convertReverseLimitList(calStatisDto, RecordCalStatisDto::getDate, 15);
+        this.lastThirtyTotalMoney = CollUtils.convertReverseLimitList(calStatisDto, RecordCalStatisDto::getTotalEndMoney, 15);
     }
 
     /**

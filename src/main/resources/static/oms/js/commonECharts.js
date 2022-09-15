@@ -203,16 +203,22 @@ window.initGridLineEcharts = function (echartsId, lineStyle, xData, yData, dataN
         xAxis: [{
             type: 'category',
             data: xData,
+            //坐标轴轴线
             axisLine: {
                 lineStyle: {
                     color: "#999"
                 }
             },
+            //分割线
+            splitLine: {
+                show: false
+            },
             inverse: true //反转坐标轴
         }],
         yAxis: [{
             type: 'value',
-            splitNumber: 4,
+            //分割数量
+            splitNumber: 5,
             splitLine: {
                 lineStyle: {
                     type: 'dashed',
@@ -230,21 +236,32 @@ window.initGridLineEcharts = function (echartsId, lineStyle, xData, yData, dataN
             },
             splitArea: {
                 show: false
-            }
+            },
+            //是否脱离0轴
+            scale: true
         }],
         series: [{
             name: dataName,
             type: 'line',
             data: yData,
             lineStyle: lineStyle,
+            //实心圆点
+            symbol: 'circle',
+            //标记大小
+            symbolSize: 12,
+            //阶梯图
+            // step: true,
             itemStyle: {
-                color: '#9966ff',
-                borderWidth: 3,
-                /*shadowColor: 'rgba(72,216,191, 0.3)',
-                shadowBlur: 100,*/
-                borderColor: "#A9F387"
+                color: '#48D8BF',
+                borderWidth: 4,
+                // shadowColor: 'rgba(72,216,191, 0.3)',
+                // shadowBlur: 100,
+                borderColor: "#FFF"
             },
-            smooth: true
+            //开启平滑
+            smooth: true,
+            //平滑单调性，仅针对x处理，默认是xy
+            smoothMonotone: 'x'
         }]
     };
     echartsRecords.setOption(option);
@@ -393,7 +410,7 @@ window.simpleLineStyle = function (startColor, endColor) {
  */
 window.pointLineStyle = function (startColor, endColor) {
     return {
-        width: 6,
+        width: 5,
         color: {
             type: 'linear',
             colorStops: [{
@@ -405,7 +422,7 @@ window.pointLineStyle = function (startColor, endColor) {
             }],
             globalCoord: false // 缺省为 false
         },
-        shadowColor: 'rgba(72,216,191, 0.3)',
+        shadowColor: 'rgba(72,216,191, 0.7)',
         shadowBlur: 10,
         shadowOffsetY: 20
     }

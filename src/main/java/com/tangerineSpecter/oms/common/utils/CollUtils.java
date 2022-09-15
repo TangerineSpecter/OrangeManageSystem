@@ -59,6 +59,13 @@ public class CollUtils {
         return from.stream().map(func).sorted(Comparator.reverseOrder()).collect(Collectors.toList());
     }
 
+    public static <T, U extends Comparable<? super U>> List<U> convertReverseLimitList(Collection<T> from, Function<T, U> func, long limit) {
+        if (CollUtil.isEmpty(from)) {
+            return Collections.emptyList();
+        }
+        return from.stream().map(func).sorted(Comparator.reverseOrder()).limit(limit).collect(Collectors.toList());
+    }
+
     public static <T> int convertSumList(Collection<T> from, Function<T, Integer> func) {
         if (CollUtil.isEmpty(from)) {
             return 0;

@@ -20,24 +20,24 @@
                     <i class="mdi mdi-currency-cny widget-icon bg-danger rounded-circle text-white"></i>
                 </div>
                 <h5 class="text-muted fw-normal mt-0" title="今日收益">今日收益</h5>
-                <h3 class="mt-3 mb-3" th:utext="${'￥' + #numbers.formatInteger(statisInfo.todayIncome,1,'COMMA')}"></h3>
+                <h3 class="mt-3 mb-3" th:utext="${#numbers.formatCurrency(statisInfo.todayIncome)}"></h3>
                 <p class="mb-0 text-muted">
                     <span th:fragment="ratePanel(rate)">
                         <span th:with="value = ${rate == null ? statisInfo.todayRate : rate}">
                             <!-- 上涨 -->
                             <span class="badge bg-danger me-1" th:if="${value > 0}">
                                 <i class="mdi mdi-arrow-up-bold"></i>
-                                [[${value}]]%
+                                [[${#numbers.formatPercent(value, 1, 1)}]]
                             </span>
                             <!-- 下跌 -->
                             <span class="badge bg-success me-1" th:if="${value < 0}">
                                 <i class="mdi mdi-arrow-down-bold"></i>
-                                [[${value}]]%
+                                [[${#numbers.formatPercent(value, 1, 1)}]]
                             </span>
                             <!-- 持平 -->
                             <span class="badge bg-warning me-1" th:if="${value == 0}">
                                 <i class="mdi mdi-swap-horizontal-bold"></i>
-                                [[${value}]]%
+                                [[${#numbers.formatPercent(value, 1, 1)}]]
                             </span>
                         </span>
                     </span>
@@ -55,7 +55,7 @@
                 </div>
                 <h5 class="fw-normal mt-0" title="本周收益">本周收益</h5>
                 <h3 class="mt-3 mb-3 text-white"
-                    th:text="${'￥' + #numbers.formatInteger(statisInfo.weekendIncome,1,'COMMA')}"></h3>
+                    th:text="${#numbers.formatCurrency(statisInfo.weekendIncome)}"></h3>
                 <p class="mb-0">
                     <span th:include="statis/tradeStatis :: ratePanel(${statisInfo.weekendRate})"></span>
                     第<span class="text-nowrap" th:text="${statisInfo.weekend}"></span>周
@@ -72,7 +72,7 @@
                 </div>
                 <h5 class="fw-normal mt-0" title="本月收益">本月收益</h5>
                 <h3 class="mt-3 mb-3 text-white"
-                    th:text="${'￥' + #numbers.formatInteger(statisInfo.monthIncome,1,'COMMA')}"></h3>
+                    th:text="${#numbers.formatCurrency(statisInfo.monthIncome)}"></h3>
                 <p class="mb-0">
                     <span th:include="statis/tradeStatis :: ratePanel(${statisInfo.monthRate})"></span>
                     <span class="text-nowrap" th:text="${statisInfo.month}"></span>月
@@ -89,7 +89,7 @@
                 </div>
                 <h5 class="fw-normal mt-0" title="今年收益">今年收益</h5>
                 <h3 class="mt-3 mb-3 text-white"
-                    th:text="${'￥' + #numbers.formatInteger(statisInfo.yearIncome,1,'COMMA')}"></h3>
+                    th:text="${#numbers.formatCurrency(statisInfo.yearIncome)}"></h3>
                 <p class="mb-0">
                     <span th:include="statis/tradeStatis :: ratePanel(${statisInfo.yearRate})"></span>
                     <span class="text-nowrap" th:text="${statisInfo.year}"></span>年

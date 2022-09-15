@@ -142,8 +142,28 @@ public class DataTradeRecord extends AdminEntity {
      *
      * @return 计算结果
      */
+    public Integer sumStartMoney() {
+        return this.sumMoney(this.getStartMoney(), this.getCurrency()).getInteger();
+    }
+
+    /**
+     * 单条数据计算
+     *
+     * @return 计算结果
+     */
     public Integer sumEndMoney() {
         return this.sumMoney(this.getEndMoney(), this.getCurrency()).getInteger();
+    }
+
+    /**
+     * 单条数据投入计算
+     * 投入 = 入金 - 出金
+     *
+     * @return 计算结果
+     */
+    public Integer sumInputMoney() {
+        return NumChainCal.startOf(this.sumMoney(this.getDeposit(), this.getCurrency()).getInteger())
+                .sub(this.sumMoney(this.getWithdrawal(), this.getCurrency()).getInteger()).getInteger();
     }
 
     /**

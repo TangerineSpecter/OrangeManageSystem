@@ -149,13 +149,49 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
 
     @Override
     public StatisticsInfo getStatisticsInfo() {
-        //获取今年至今的交易数据
-        Map<String, List<DataTradeRecord>> tradeRecordMap = CollUtils.convertMultiLinkedHashMap(dataTradeRecordMapper.selectListByThisYear(UserContext.getUid()), DataTradeRecord::getDate);
-        Map<String, Integer> totalIncomeMap = CollUtils.convertLinkedMap(tradeRecordMap.keySet(), key -> key, key -> tradeStatisService.sumIncome(tradeRecordMap.get(key)));
-        StatisticsInfo statisticsInfo = new StatisticsInfo(totalIncomeMap);
-        //最近30天资金信息
-        this.handlerLastThirtyData(statisticsInfo);
-        return statisticsInfo;
+        //获取今年~至今（偏移天数）的交易数据，因为要做资金累计，需要最后一次记录的数据，如果采用时间查询会遗漏今年没有进行记录的资金数据
+        long thisYearOfDay = DateUtil.betweenDay(DateUtil.beginOfYear(new Date()), new Date(), false);
+        List<DataTradeRecord> thisYearTradeRecords = dataTradeRecordMapper.selectRecentListByType(UserContext.getUid(), thisYearOfDay);
+        //根据时间分组
+        Map<String, List<DataTradeRecord>> tradeRecordMap = CollUtils.convertMultiLinkedHashMap(thisYearTradeRecords, DataTradeRecord::getDate);
+        return new StatisticsInfo(this.handlerThisYearData(tradeRecordMap));
+    }
+
+    /**
+     * 处理今年起的交易数据
+     *
+     * @param thisYearTradeRecordMap 今年的交易数据
+     * @return 统计计算结果
+     */
+    private List<RecordCalStatisDto> handlerThisYearData(Map<String, List<DataTradeRecord>> thisYearTradeRecordMap) {
+        //key倒序从前往后累计
+        List<String> reverseKey = CollUtil.reverse(new ArrayList<>(thisYearTradeRecordMap.keySet()));
+        //数据标记map，key：类型；value：资金
+        HashMap<Integer, Integer> flagMap = MapUtil.newHashMap();
+        //资金记录
+        List<RecordCalStatisDto> calStatisList = CollUtil.newArrayList();
+        //遍历每天数据，遍历顺序 年初 ~ 至今
+        CollUtils.forEach(reverseKey, date -> {
+            List<DataTradeRecord> tradeRecords = thisYearTradeRecordMap.get(date);
+            //当天各类型结算，key：type，value：endMoney
+            Map<Integer, Integer> endMoneyMap = CollUtils.convertMap(tradeRecords, DataTradeRecord::getType, DataTradeRecord::sumEndMoney);
+            //每天投入，
+            int todayInputMoney = CollUtils.convertSumList(tradeRecords, DataTradeRecord::sumInputMoney);
+            //每天总收益
+            int todayIncome = CollUtils.convertSumList(tradeRecords, DataTradeRecord::sumMoney2Int);
+            NumChainCal numChainCal = NumChainCal.startOf(0);
+            //遍历当天的每笔数据
+            CollUtils.forEach(TradeRecordTypeEnum.getTypes(), type -> {
+                //获取当天收盘金额，如果没有则从上一次记录的金额获取，仍然没有则为0
+                Integer endMoney = endMoneyMap.getOrDefault(type, flagMap.getOrDefault(type, 0));
+                //标记本次金额
+                flagMap.put(type, endMoney);
+                numChainCal.add(endMoney);
+            });
+            Integer totalEndMoney = numChainCal.getInteger();
+            calStatisList.add(new RecordCalStatisDto(date, totalEndMoney, todayIncome, todayInputMoney));
+        });
+        return calStatisList;
     }
 
     /**
@@ -165,7 +201,7 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
      */
     private void handlerLastThirtyData(StatisticsInfo statisticsInfo) {
         //最近天数
-        final int lastDayThreshold = 30;
+        final long lastDayThreshold = 30;
         //按照类型分组，每个类型取阈值条数。key：时间；value：交易数据
         Map<String, List<DataTradeRecord>> lastThirtyMap = CollUtils.convertMultiLinkedHashMap(dataTradeRecordMapper.selectRecentListByType(UserContext.getUid(), lastDayThreshold), DataTradeRecord::getDate);
         statisticsInfo.setLastThirtyDate(CollUtils.convertLimitList(lastThirtyMap.keySet(), lastDayThreshold));

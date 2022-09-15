@@ -167,7 +167,7 @@ public interface DataTradeRecordMapper extends BaseMapper<DataTradeRecord> {
      * @param limit 最近条数
      * @return 分组聚合数据结果
      */
-    List<DataTradeRecord> selectRecentListByType(@Param("uid") String uid, @Param("limit") int limit);
+    List<DataTradeRecord> selectRecentListByType(@Param("uid") String uid, @Param("limit") long limit);
 
     /**
      * 查询日期之前的最后一条数据

@@ -1,5 +1,5 @@
 /**
- * 公共图表模板
+ * echarts公共图表模板
  */
 
 /**
@@ -257,7 +257,6 @@ window.initGridLineEcharts = function (echartsId, lineStyle, xData, yData, dataN
 /**
  * 描边柱状图
  * @param echartsId 图表ID
- * @param title  标题
  * @param lineStyle 折线图样式
  * @param xData x轴数据
  * @param yData y轴数据
@@ -332,17 +331,21 @@ window.initStrokeColumnCharts = function (echartsId, lineStyle, xData, yData) {
         series: {
             name: '收益',
             type: 'bar',
-            barWidth: '80%',  //柱子宽度
+            barWidth: '50%',  //柱子宽度
+            barGap: 0,
             itemStyle: {  //柱子颜色
                 normal: {
-                    borderWidth: 2,
-                    borderColor: 'rgb(79, 116, 223)',
+                    // borderWidth: 2,
+                    // borderColor: 'rgb(79, 116, 223)',
+                    // 柱形图圆角，初始化效果
+                    barBorderRadius: 15,
                     color: function (param) {
                         if (param.value > 0) {
-                            return '#eb4e5c';
+                            // return '#eb4e5c';
+                            return 'rgb(253, 57, 122)';
                         } else {
-                            return '#00af92';
-                            // return 'rgba(79, 116, 223, .3)';
+                            // return '#00af92';
+                            return 'rgb(10, 187, 135)';
                         }
                     },
                 }

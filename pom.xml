@@ -29,7 +29,7 @@
         <mybatis-plus.version>3.5.2</mybatis-plus.version>
         <okhttp.version>4.10.0</okhttp.version>
         <zxing.version>3.5.0</zxing.version>
-        <jsoup.version>1.14.3</jsoup.version>
+        <jsoup.version>1.15.3</jsoup.version>
         <aspectj.version>1.9.9.1</aspectj.version>
         <selenium.version>4.2.1</selenium.version>
         <poi.version>5.2.2</poi.version>

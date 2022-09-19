@@ -15,21 +15,35 @@ VALUES ('视频去水印', 28, '/tools/video-watermark/page', 'layui-icon-face-s
 INSERT INTO `oms`.`system_version_history` (`version`, `version_number`)
 VALUES ('0.5.0版本更新', 500);
 INSERT INTO oms.system_version_history_content (version_id, type, content)
-VALUES (22, 0, '后台界面框架改为Pear Admin');
+VALUES ((select id from system_version_history where version_number = 500 limit 1), 0, '后台界面框架改为Pear Admin');
 INSERT INTO `oms`.`system_version_history_content` (`version_id`, `type`, `content`)
-VALUES (22, 0, '卡片笔记功能');
+VALUES ((select id from system_version_history where version_number = 500 limit 1), 0, '卡片笔记功能');
 INSERT INTO oms.system_version_history_content (version_id, type, content)
-VALUES (22, 0, '视频去水印小工具');
+VALUES ((select id from system_version_history where version_number = 500 limit 1), 0, '视频去水印小工具');
 INSERT INTO oms.system_version_history_content (version_id, type, content)
-VALUES (22, 2, '健康统计数据展示');
+VALUES ((select id from system_version_history where version_number = 500 limit 1), 2, '健康统计数据展示');
 INSERT INTO oms.system_version_history_content (version_id, type, content)
-VALUES (22, 2, '交易统计数据展示');
+VALUES ((select id from system_version_history where version_number = 500 limit 1), 2, '交易统计数据展示');
 INSERT INTO oms.system_version_history_content (version_id, type, content)
-VALUES (22, 0, '星座数据爬虫');
+VALUES ((select id from system_version_history where version_number = 500 limit 1), 0, '星座数据爬虫');
 INSERT INTO oms.system_version_history_content (version_id, type, content)
-VALUES (22, 0, '汇率数据定时任务');
+VALUES ((select id from system_version_history where version_number = 500 limit 1), 0, '汇率数据定时任务');
 INSERT INTO oms.system_version_history_content (version_id, type, content)
-VALUES (22, 0, '交易记录支持多币种');
+VALUES ((select id from system_version_history where version_number = 500 limit 1), 0, '交易记录支持多币种，接入汇率数据');
+INSERT INTO oms.system_version_history_content (version_id, type, content)
+VALUES ((select id from system_version_history where version_number = 500 limit 1), 2, '交易统计资金统计调整为历史累计');
+INSERT INTO oms.system_version_history_content (version_id, type, content)
+VALUES ((select id from system_version_history where version_number = 500 limit 1), 2, '交易统计资金统计调整为累计');
+INSERT INTO oms.system_version_history_content (version_id, type, content)
+VALUES ((select id from system_version_history where version_number = 500 limit 1), 1, '交易记录窗口默认数值，减少填写过于繁琐');
+INSERT INTO oms.system_version_history_content (version_id, type, content)
+VALUES ((select id from system_version_history where version_number = 500 limit 1), 0, '交易统计新增收益率统计数据');
+INSERT INTO oms.system_version_history_content (version_id, type, content)
+VALUES ((select id from system_version_history where version_number = 500 limit 1), 0, '交易记录窗口新增计算操作，方便计算资金');
+INSERT INTO oms.system_version_history_content (version_id, type, content)
+VALUES ((select id from system_version_history where version_number = 500 limit 1), 4, '资源服务由七牛云调整为腾讯云cos');
+INSERT INTO oms.system_version_history_content (version_id, type, content)
+VALUES ((select id from system_version_history where version_number = 500 limit 1), 1, '交易统计数据处理性能');
 
 -- 修改交易数据数据类型
 update data_trade_record

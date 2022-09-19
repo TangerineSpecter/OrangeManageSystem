@@ -124,8 +124,10 @@
         //监听单元格编辑
         table.on('edit(currentTableFilter)', function (obj) {
             // updateFun(obj.data);
-            console.log(obj)
-            Ajax.put("/user/health/update", obj.data, false);
+            Ajax.put("/user/health/update", obj.data, false, function() {
+                toast.success({message: '操作成功', position: 'topCenter'});
+                table.reloadData('currentTableId');
+            });
         });
 
         //头工具栏事件

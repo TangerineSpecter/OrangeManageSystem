@@ -6,14 +6,14 @@
  * 初始化简单图表
  * @param echartsId 图表ID
  * @param title 图表标题
- * @param lineStyle 折线图样式
+ * @param color 折线图样式
  * @param xData x轴数据
  * @param yData y轴数据
  */
-window.initSimpleLineEcharts = function (echartsId, title, lineStyle, xData, yData) {
+window.initSimpleLineEcharts = function (echartsId, title, color, xData, yData) {
     const line = echarts.init(document.getElementById(echartsId));
 
-    const colorList = ["#9E87FF", '#73DDFF', '#fe9a8b', '#F56948', '#9E87FF']
+    // const colorList = ["#9E87FF", '#73DDFF', '#fe9a8b', '#F56948', '#9E87FF']
     const option = {
         backgroundColor: '#fff',
         title: {
@@ -102,7 +102,6 @@ window.initSimpleLineEcharts = function (echartsId, title, lineStyle, xData, yDa
                         }, {
                             // offset: 0.9,
                             offset: 0.86,
-
                             color: '#fff' // 0% 处的颜色
                         }, {
                             offset: 0.86,
@@ -163,18 +162,23 @@ window.initSimpleLineEcharts = function (echartsId, title, lineStyle, xData, yDa
         series: [{
             type: 'line',
             data: yData,
-            symbolSize: 1,
-            symbol: 'circle',
             smooth: true,
             yAxisIndex: 0,
-            showSymbol: false,
-            lineStyle: lineStyle,
+            showSymbol: true,
+            lineStyle: simpleLineStyle(color),
+            //实心圆点
+            symbol: 'circle',
+            //标记大小
+            symbolSize: 12,
+            //阶梯图
+            // step: true,
             itemStyle: {
-                normal: {
-                    color: colorList[0],
-                    borderColor: colorList[0]
-                }
-            }
+                color: color,
+                borderWidth: 4,
+                // shadowColor: 'rgba(72,216,191, 0.3)',
+                // shadowBlur: 100,
+                borderColor: "#FFF"
+            },
         }
         ]
     };
@@ -212,7 +216,7 @@ window.initGridLineEcharts = function (echartsId, lineStyle, pointColor, xData, 
             },
             //分割线
             splitLine: {
-                show: false
+                show: true
             },
             inverse: true //反转坐标轴
         }],
@@ -221,6 +225,7 @@ window.initGridLineEcharts = function (echartsId, lineStyle, pointColor, xData, 
             //分割数量
             splitNumber: 5,
             splitLine: {
+                show: false,
                 lineStyle: {
                     type: 'dashed',
                     color: '#DDD'
@@ -380,7 +385,7 @@ window.initStrokeColumnCharts = function (echartsId, lineStyle, xData, yData) {
 }
 
 /**
- * 简单折线样式
+ * 简单渐变折线样式
  * @param startColor 起始颜色
  * @param endColor 结束颜色
  * @returns {{shadowOffsetY: number, color, shadowBlur: number, width: number, shadowColor: string}}
@@ -397,6 +402,21 @@ window.simpleLineStyle = function (startColor, endColor) {
                 color: endColor
             }
         ]),
+        shadowColor: 'rgba(158,135,255, 0.3)',
+        shadowBlur: 10,
+        shadowOffsetY: 20
+    }
+}
+
+/**
+ * 简单折线样式
+ * @returns {{shadowOffsetY: number, color, shadowBlur: number, width: number, shadowColor: string}}
+ * @param color 颜色
+ */
+window.simpleLineStyle = function (color) {
+    return {
+        width: 5,
+        color: color,
         shadowColor: 'rgba(158,135,255, 0.3)',
         shadowBlur: 10,
         shadowOffsetY: 20

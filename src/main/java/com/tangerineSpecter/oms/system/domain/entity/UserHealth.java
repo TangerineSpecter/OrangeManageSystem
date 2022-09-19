@@ -50,7 +50,7 @@ public class UserHealth extends AdminEntity {
      */
     private BigDecimal fatWeight;
     /**
-     * 基础代谢率（百分比）
+     * 基础代谢率（Kcal）
      */
     private Integer basalMetabolismRate;
     /**

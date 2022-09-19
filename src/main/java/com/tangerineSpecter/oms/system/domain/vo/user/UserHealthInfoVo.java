@@ -60,7 +60,7 @@ public class UserHealthInfoVo implements Serializable {
      */
     @ApiModelProperty("基础代谢率（百分比）")
     @Min(value = 0, message = "代谢率超出最小合理范围")
-    @Max(value = 100, message = "代谢率超出最大合理范围")
+    @Max(value = 5000, message = "代谢率超出最大合理范围")
     private Integer basalMetabolismRate;
     /**
      * 身体水分（百分比）

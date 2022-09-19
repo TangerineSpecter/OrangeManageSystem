@@ -46,11 +46,14 @@
         const fatWeightData = [[${healthInfo.fatWeightData}]];
         const bmiData = [[${healthInfo.bmiData}]];
         const sleepDurationData = [[${healthInfo.sleepDurationData}]];
-
-        initSimpleLineEcharts("line1", "体重数据(公斤)", simpleLineStyle('#9effff', '#9E87FF'), date, weightData);
-        initSimpleLineEcharts("line2", "BMI数据", simpleLineStyle('#73DD39', '#73DDFF'), date, bmiData);
-        initSimpleLineEcharts("line3", "脂肪数据(公斤)", simpleLineStyle('#fe9a', '#fe9a8b'), date, fatWeightData);
-        initSimpleLineEcharts("line4", "睡眠数据(小时)", simpleLineStyle('#ff99cc', '#ff3366'), date, sleepDurationData);
+        //'#9effff', '#9E87FF'
+        initSimpleLineEcharts("line1", "体重数据(公斤)", '#9E87FF', date, weightData);
+        //'#73DD39', '#73DDFF'
+        initSimpleLineEcharts("line2", "BMI数据", '#73DDFF', date, bmiData);
+        //'#fe9a', '#fe9a8b'
+        initSimpleLineEcharts("line3", "脂肪数据(公斤)", '#fe9a8b', date, fatWeightData);
+        //'#ff99cc', '#ff3366'
+        initSimpleLineEcharts("line4", "睡眠数据(小时)", '#ff3366', date, sleepDurationData);
     })
 
 </script>

@@ -123,7 +123,7 @@
                         totalRow: true,
                         templet: function (row) {
                             if (row.incomeValue > 0) {
-                                return "<span class='text-danger fw-semibold'>" + (row.incomeValue / 100) + "</span>";
+                                return "<span class='text-danger fw-semibold'>+" + (row.incomeValue / 100) + "</span>";
                             } else if (row.incomeValue < 0) {
                                 return "<span class='text-success fw-semibold'>" + (row.incomeValue / 100) + "</span>";
                             } else {
@@ -137,7 +137,7 @@
                         sort: true,
                         templet: function (row) {
                             if (row.incomeRate > 0) {
-                                return "<span class='text-danger fw-semibold'>" + (row.incomeRate * 100).toFixed(2) + "%" + "</span>";
+                                return "<span class='text-danger fw-semibold'>+" + (row.incomeRate * 100).toFixed(2) + "%" + "</span>";
                             } else if (row.incomeRate < 0) {
                                 return "<span class='text-success fw-semibold'>" + (row.incomeRate * 100).toFixed(2) + "%" + "</span>";
                             } else {

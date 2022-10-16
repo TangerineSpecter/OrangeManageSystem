@@ -17,4 +17,13 @@
             select DISTINCT code
             from data_fund_history);
     </select>
+
+    <select id="queryForPage" resultType="com.tangerinespecter.oms.system.domain.entity.DataFundHistory">
+        select id, code, date, earnings_rate, net_value
+        from data_fund_history
+        <where>
+            code = #{code}
+        </where>
+        order by date desc
+    </select>
 </mapper>

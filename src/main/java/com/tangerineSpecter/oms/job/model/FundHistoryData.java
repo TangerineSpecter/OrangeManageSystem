@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * 基金历史数据
@@ -20,7 +21,7 @@ import java.time.LocalDate;
 public class FundHistoryData implements Serializable {
 
     @JSONField(name = "date")
-    private LocalDate date;
+    private LocalDateTime date;
     @JSONField(name = "nav")
     private BigDecimal nav;
     @JSONField(name = "percentage")

@@ -2,6 +2,7 @@ package com.tangerinespecter.oms.system.mapper;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.tangerinespecter.oms.common.query.FundHistoryQueryObject;
 import com.tangerinespecter.oms.system.domain.entity.DataFundHistory;
 import org.apache.ibatis.annotations.Param;
 
@@ -33,4 +34,12 @@ public interface DataFundHistoryMapper extends BaseMapper<DataFundHistory> {
      * @return 基金code列表
      */
     List<String> selectNotHistoryFundCodeList();
+
+    /**
+     * 基金历史数据分页查询
+     *
+     * @param qo 高级查询条件
+     * @return 分页结果
+     */
+    List<DataFundHistory> queryForPage(FundHistoryQueryObject qo);
 }

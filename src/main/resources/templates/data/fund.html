@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('基金数据')"/>
+    <th:block th:include="include :: hyperCss"/>
+</head>
+<body class="pear-container">
+<div class="layui-row layui-col-space10">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <form class="layui-form" action="">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">关键词</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="keyword" placeholder="请输入基金名称\代码" class="layui-input">
+                        </div>
+                        <button class="pear-btn pear-btn-md pear-btn-primary" lay-submit lay-filter="data-search-btn">
+                            <i class="layui-icon layui-icon-search"></i>
+                            查询
+                        </button>
+                        <button type="reset" class="pear-btn pear-btn-md">
+                            <i class="layui-icon layui-icon-refresh"></i>
+                            重置
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="layui-col-md6">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table id="currentTableId" lay-filter="currentTableId"></table>
+            </div>
+        </div>
+    </div>
+    <div class="layui-col-md6">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table id="historyTableId" lay-filter="historyTableId"></table>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<script type="text/html" id="currentTableToolbar">
+    <button class="pear-btn pear-btn-primary pear-btn-md" lay-event="init">
+        <i class="layui-icon layui-icon-add-1"></i>
+        初始化
+    </button>
+</script>
+
+<script type="text/html" id="currentTableBar">
+    <button class="pear-btn pear-btn-warming pear-btn-sm" lay-event="details">
+        <i class="layui-icon layui-icon-transfer"></i>
+    </button>
+</script>
+
+<script type="text/html" id="historyTableToolbar">
+    <!--    <button class="pear-btn pear-btn-primary pear-btn-md" lay-event="add">-->
+    <!--        <i class="layui-icon layui-icon-add-1"></i>-->
+    <!--        新增-->
+    <!--    </button>-->
+</script>
+<th:block th:include="include :: footer"/>
+<script>
+    layui.use(['table', 'form', 'jquery'], function () {
+        let table = layui.table;
+        let form = layui.form;
+        let $ = layui.jquery;
+
+        let MODULE_PATH = "table/fund/";
+
+        let typeCode;
+
+        let cols = [
+            [{
+                type: 'checkbox'
+            },
+                {
+                    title: '基金名称',
+                    field: 'name',
+                    align: 'center',
+                    width: 200
+                },
+                {
+                    title: '基金代码',
+                    field: 'code',
+                    align: 'center'
+                },
+                {
+                    title: '基金类型',
+                    field: 'type',
+                    align: 'center'
+                },
+                {
+                    title: '操作',
+                    toolbar: '#currentTableBar',
+                    align: 'center',
+                    width: 180
+                }
+            ]
+        ];
+
+        let dataCols = [
+            [{
+                type: 'checkbox'
+            },
+                {
+                    title: '日期',
+                    field: 'date',
+                    align: 'center',
+                    width: 120
+                },
+                {
+                    title: '净值',
+                    field: 'netValue',
+                    align: 'center'
+                },
+                {
+                    title: '日涨幅',
+                    field: 'earningsRate',
+                    align: 'center',
+                    templet: function (row) {
+                        if (row.earningsRate > 0) {
+                            return "<span class='text-danger fw-semibold'>+" + row.earningsRate + "%</span>";
+                        } else if (row.earningsRate < 0) {
+                            return "<span class='text-success fw-semibold'>" + row.earningsRate + "%</span>";
+                        } else {
+                            return "<span class='text-warning fw-semibold'>0%</span>";
+                        }
+                    }
+                }
+            ]
+        ];
+
+        table.render({
+            elem: '#currentTableId',
+            url: "list",
+            page: true,
+            cols: cols,
+            skin: 'line',
+            height: 'full-148',
+            toolbar: '#currentTableToolbar',
+            defaultToolbar: [{
+                title: '刷新',
+                layEvent: 'refresh',
+                icon: 'layui-icon-refresh',
+            }, 'filter', 'print', 'exports']
+        });
+
+        window.renderData = function (code) {
+            typeCode = code;
+            $(".empty").hide();
+
+            table.render({
+                elem: '#historyTableId',
+                url: "history-list?code=" + code,
+                page: true,
+                height: 'full-148',
+                cols: dataCols,
+                skin: 'line',
+                toolbar: '#historyTableToolbar'
+            });
+        }
+
+        table.on('tool(currentTableId)', function (obj) {
+            if (obj.event === 'remove') {
+            } else if (obj.event === 'edit') {
+            } else if (obj.event === 'details') {
+                window.renderData(obj.data['code'])
+            }
+        });
+
+        table.on('toolbar(currentTableId)', function (obj) {
+            if (obj.event === 'init') {
+                Ajax.post("/table/fund/init-fund", {}, false);
+            } else if (obj.event === 'refresh') {
+            } else if (obj.event === 'batchRemove') {
+                layer.msg("批量删除")
+            }
+        });
+
+        table.on('tool(historyTableId)', function (obj) {
+            if (obj.event === 'remove') {
+                window.removeData(obj);
+            } else if (obj.event === 'edit') {
+                window.editData(obj);
+            } else if (obj.event === 'details') {
+                window.details(obj);
+            }
+        });
+
+        table.on('toolbar(historyTableId)', function (obj) {
+            if (obj.event === 'add') {
+                window.addData();
+            } else if (obj.event === 'refresh') {
+                window.refreshData();
+            } else if (obj.event === 'batchRemove') {
+                layer.msg("批量删除")
+            }
+        });
+
+        form.on('submit(history-search-btn)', function (data) {
+            data.field.typeCode = typeCode;
+            table.reload('historyTableId', {
+                where: data.field
+            })
+            return false;
+        });
+
+        window.refreshData = function () {
+            table.reloadData('historyTableId');
+        }
+    })
+</script>
+</html>

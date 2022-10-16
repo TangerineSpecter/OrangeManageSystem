@@ -19,7 +19,7 @@ layui.use(['form', 'table', 'toast', 'treetable', 'layer'], function () {
 
     //表单搜索
     form.on('submit(data-search-btn)', function (data) {
-        table.reload('currentTableId', {
+        table.reloadData('currentTableId', {
             where: data.field
         });
         return false;
@@ -27,7 +27,7 @@ layui.use(['form', 'table', 'toast', 'treetable', 'layer'], function () {
 
     //表单重置
     form.on('submit(data-reset-btn)', function () {
-        table.reload('currentTableId', {
+        table.reloadData('currentTableId', {
             where: ""
         });
         form.reset();

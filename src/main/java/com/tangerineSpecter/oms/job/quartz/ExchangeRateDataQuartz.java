@@ -2,6 +2,7 @@ package com.tangerinespecter.oms.job.quartz;
 
 import com.tangerinespecter.oms.job.service.ConstellationQuartzService;
 import com.tangerinespecter.oms.job.service.ExchangeRateQuartzService;
+import org.jetbrains.annotations.NotNull;
 import org.quartz.JobExecutionContext;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
@@ -20,7 +21,7 @@ public class ExchangeRateDataQuartz extends QuartzJobBean {
     private ExchangeRateQuartzService exchangeRateQuartzService;
 
     @Override
-    protected void executeInternal(JobExecutionContext jobExecutionContext) {
+    protected void executeInternal(@NotNull JobExecutionContext jobExecutionContext) {
         exchangeRateQuartzService.runData();
     }
 

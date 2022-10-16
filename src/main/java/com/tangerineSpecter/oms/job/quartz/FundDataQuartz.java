@@ -1,27 +1,27 @@
 package com.tangerinespecter.oms.job.quartz;
 
+import com.tangerinespecter.oms.job.service.FundDataQuartzService;
 import com.tangerinespecter.oms.job.service.WallPageQuartzService;
 import org.jetbrains.annotations.NotNull;
 import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
 import javax.annotation.Resource;
 
 /**
- * 每日壁纸任务
+ * 基金数据任务
  *
  * @author 丢失的橘子
- * @version 0.5.0
- * @date 2022年01月06日19:27:35
+ * @version 0.5.1
+ * @date 2022年10月15日16:12:36
  */
-public class WallPageConfigQuartz extends QuartzJobBean {
+public class FundDataQuartz extends QuartzJobBean {
 
     @Resource
-    private WallPageQuartzService wallPageQuartzService;
+    private FundDataQuartzService fundDataQuartzService;
 
     @Override
     protected void executeInternal(@NotNull JobExecutionContext jobExecutionContext) {
-        wallPageQuartzService.runData();
+        fundDataQuartzService.runData();
     }
 }

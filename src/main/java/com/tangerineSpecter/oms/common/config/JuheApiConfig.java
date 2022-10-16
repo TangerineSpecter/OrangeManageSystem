@@ -3,6 +3,9 @@ package com.tangerinespecter.oms.common.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * 聚合数据api配置
+ */
 @Configuration
 public class JuheApiConfig {
 

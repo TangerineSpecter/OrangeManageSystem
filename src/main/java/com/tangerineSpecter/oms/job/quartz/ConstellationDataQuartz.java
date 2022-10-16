@@ -1,6 +1,7 @@
 package com.tangerinespecter.oms.job.quartz;
 
 import com.tangerinespecter.oms.job.service.ConstellationQuartzService;
+import org.jetbrains.annotations.NotNull;
 import org.quartz.JobExecutionContext;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
@@ -19,7 +20,7 @@ public class ConstellationDataQuartz extends QuartzJobBean {
     private ConstellationQuartzService constellationQuartzService;
 
     @Override
-    protected void executeInternal(JobExecutionContext jobExecutionContext) {
+    protected void executeInternal(@NotNull JobExecutionContext jobExecutionContext) {
         constellationQuartzService.runData();
     }
 

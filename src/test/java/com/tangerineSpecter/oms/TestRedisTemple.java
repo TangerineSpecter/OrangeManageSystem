@@ -9,9 +9,13 @@ import com.tangerinespecter.oms.common.config.JuheApiConfig;
 import com.tangerinespecter.oms.common.constants.CommonConstant;
 import com.tangerinespecter.oms.common.utils.CollUtils;
 import com.tangerinespecter.oms.common.utils.NumChainCal;
+import com.tangerinespecter.oms.job.service.FundDataQuartzService;
 import com.tangerinespecter.oms.system.domain.entity.DataExchangeRate;
+import com.tangerinespecter.oms.system.domain.entity.DataFund;
+import com.tangerinespecter.oms.system.domain.entity.DataFundHistory;
 import com.tangerinespecter.oms.system.domain.entity.DataTradeRecord;
 import com.tangerinespecter.oms.system.mapper.DataExchangeRateMapper;
+import com.tangerinespecter.oms.system.mapper.DataFundHistoryMapper;
 import com.tangerinespecter.oms.system.mapper.DataTradeRecordMapper;
 import com.tangerinespecter.oms.system.service.data.impl.DataTradeRecordServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +47,10 @@ public class TestRedisTemple {
     private DataTradeRecordMapper dataTradeRecordMapper;
     @Resource
     private DataTradeRecordServiceImpl tradeRecordService;
+    @Resource
+    private FundDataQuartzService fundDataQuartzService;
+    @Resource
+    private DataFundHistoryMapper dataFundHistoryMapper;
 //
 //    @Test
 //    public void testRedis() {
@@ -95,5 +103,15 @@ public class TestRedisTemple {
         }
         long endTime = System.currentTimeMillis();
         System.out.println((endTime - startTime) / 1000);
+    }
+
+    @Test
+    public void fundData() {
+//        final List<DataFund> allFunds = fundDataQuartzService.getAllFunds();
+//        System.out.println(JSON.toJSONString(allFunds));
+//        final List<DataFundHistory> fundHistory = fundDataQuartzService.getFundHistory("162703");
+//        System.out.println(JSON.toJSONString(fundHistory));
+        final List<String> codes = dataFundHistoryMapper.selectNotHistoryFundCodeList();
+        fundDataQuartzService.handleFundHistoryData(codes);
     }
 }

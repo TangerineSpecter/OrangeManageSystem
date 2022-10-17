@@ -42,3 +42,9 @@
     color: #666;
     background-color: #e8e8e8;
 }
+
+/* 未知 */
+.label-unknown {
+    color: #666;
+    background-color: #9966ff;
+}

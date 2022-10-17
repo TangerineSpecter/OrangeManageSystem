@@ -1,28 +1,34 @@
 package com.tangerinespecter.oms.system.domain.dto.system;
 
-import com.tangerinespecter.oms.system.domain.entity.SystemVersionHistoryContent;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.List;
 
+/**
+ * 版本历史更新记录
+ *
+ * @author 丢失的橘子
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class VersionHistoryListDto {
-
-    private Long id;
+public class VersionHistoryListDto implements Serializable {
 
     private String version;
 
     private String createTime;
 
-    private List<SystemVersionHistoryContent> historyInfos;
+    private List<History> historyInfos;
 
-    public VersionHistoryListDto(String version, String createTime, List<SystemVersionHistoryContent> historyInfos) {
-        this.version = version;
-        this.createTime = createTime;
-        this.historyInfos = historyInfos;
+    @Data
+    public static class History {
+
+        private Integer type;
+
+        private String content;
     }
+
 }

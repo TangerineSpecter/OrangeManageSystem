@@ -4,5 +4,36 @@
       "name": "tencent.cos.secretId",
       "type": "java.lang.String",
       "description": "Description for tencent.cos.secretId."
-  }
-] }
+    },
+    {
+      "name": "system.version",
+      "type": "java.lang.String",
+      "description": "Description for system.version."
+    },
+    {
+      "name": "system.version1",
+      "type": "java.lang.String",
+      "description": "Description for system.version1."
+    },
+    {
+      "name": "history",
+      "type": "com.tangerinespecter.oms.system.domain.pojo.SystemVersionInfo",
+      "description": "Description for history."
+    },
+    {
+      "name": "history.code",
+      "type": "java.lang.String",
+      "description": "Description for history."
+    },
+    {
+      "name": "history.num",
+      "type": "java.lang.Integer",
+      "description": "Description for history."
+    },
+    {
+      "name": "system.history",
+      "type": "java.lang.String",
+      "description": "Description for system.history."
+    }
+  ]
+}

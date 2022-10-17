@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.tangerinespecter</groupId>
     <artifactId>OrangeManageSystem</artifactId>
-    <version>0.5.0</version>
+    <version>0.5.1</version>
     <name>oms</name>
     <description>This is TangerineSpecter Manage System Project.</description>
 
@@ -45,6 +45,11 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
         <!-- validation校验 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

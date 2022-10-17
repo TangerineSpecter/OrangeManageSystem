@@ -1,7 +1,6 @@
 package com.tangerinespecter.oms.job.quartz;
 
 import com.tangerinespecter.oms.job.service.FundDataQuartzService;
-import com.tangerinespecter.oms.job.service.WallPageQuartzService;
 import org.jetbrains.annotations.NotNull;
 import org.quartz.JobExecutionContext;
 import org.springframework.scheduling.quartz.QuartzJobBean;

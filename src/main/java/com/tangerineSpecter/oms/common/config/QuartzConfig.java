@@ -8,6 +8,8 @@ import org.quartz.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.text.ParseException;
+
 /**
  * Quartz定时配置
  *
@@ -25,14 +27,16 @@ public class QuartzConfig {
     }
 
     @Bean
-    public Trigger constellationQuartzTrigger() {
-        //定时执行时间(单位：秒)
-        int quartzTime = 6 * 60 * 60;
-        // 设置时间周期单位秒
-        SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(quartzTime)
-                .repeatForever();
+    public Trigger constellationQuartzTrigger() throws ParseException {
+//        //定时执行时间(单位：秒)
+//        int quartzTime = 6 * 60 * 60;
+//        // 设置时间周期单位秒
+//        SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(quartzTime)
+//                .repeatForever();
+        // 每间隔6小时执行
+        CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule(new CronExpression("0 0 0/6 * * ?"));
         return TriggerBuilder.newTrigger().forJob(constellationQuartz()).withIdentity("constellationQuartz")
-                .withSchedule(scheduleBuilder).build();
+                .withSchedule(cronScheduleBuilder).build();
     }
 
     @Bean
@@ -42,14 +46,11 @@ public class QuartzConfig {
     }
 
     @Bean
-    public Trigger wallPageQuartzTrigger() {
-        //定时执行时间(单位：秒)
-        int quartzTime = 6 * 60 * 60;
-        // 设置时间周期单位秒
-        SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(quartzTime)
-                .repeatForever();
+    public Trigger wallPageQuartzTrigger() throws ParseException {
+        // 每间隔6小时执行
+        CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule(new CronExpression("0 0 0/6 * * ?"));
         return TriggerBuilder.newTrigger().forJob(wallPageQuartz()).withIdentity("wallPageConfigQuartz")
-                .withSchedule(scheduleBuilder).build();
+                .withSchedule(cronScheduleBuilder).build();
     }
 
     @Bean
@@ -59,14 +60,11 @@ public class QuartzConfig {
     }
 
     @Bean
-    public Trigger exchangeRateTrigger() {
-        //定时执行时间(单位：秒)
-        int quartzTime = 3 * 60 * 60;
-        // 设置时间周期单位秒
-        SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(quartzTime)
-                .repeatForever();
+    public Trigger exchangeRateTrigger() throws ParseException {
+        // 每间隔3小时执行
+        CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule(new CronExpression("0 0 0/3 * * ?"));
         return TriggerBuilder.newTrigger().forJob(exchangeRateQuartz()).withIdentity("exchangeRateDataQuartz")
-                .withSchedule(scheduleBuilder).build();
+                .withSchedule(cronScheduleBuilder).build();
     }
 
     @Bean
@@ -76,13 +74,10 @@ public class QuartzConfig {
     }
 
     @Bean
-    public Trigger fundDataTrigger() {
-        //定时执行时间(单位：秒)
-        int quartzTime = 22 * 60 * 60;
-        // 设置时间周期单位秒
-        SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(quartzTime)
-                .repeatForever();
+    public Trigger fundDataTrigger() throws ParseException {
+        // 每天定时23点执行
+        CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule(new CronExpression("0 0 23 * * ?"));
         return TriggerBuilder.newTrigger().forJob(fundDataQuartz()).withIdentity("fundDataQuartz")
-                .withSchedule(scheduleBuilder).build();
+                .withSchedule(cronScheduleBuilder).build();
     }
 }

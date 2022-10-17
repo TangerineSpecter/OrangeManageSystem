@@ -1,0 +1,170 @@
+system:
+  #当前系统版本
+  version: v0.5.1
+# 版本历史信息，0：新增；1：优化；2：改善；3：修复；4：重构；-1：未知
+version:
+  history:
+    - code: v0.5.1
+      date: 2022-10-17
+      content:
+        - info: 新增：基金数据管理
+        - info: 新增：基金数据定时任务
+        - info: 重构：版本历史记录加载方式
+        - info: 优化：定时器执行方式
+    - code: v0.5.0
+      date: 2022-05-17
+      content:
+        - info: 优化：交易统计数据处理性能
+        - info: 优化：资源服务由七牛云调整为腾讯云cos
+        - info: 新增：交易记录窗口新增计算操作，方便计算资金
+        - info: 新增：交易统计新增收益率统计数据
+        - info: 优化：交易记录窗口默认数值，减少填写过于繁琐
+        - info: 改善：交易统计资金统计调整为累计
+        - info: 改善：交易统计资金统计调整为历史累计
+        - info: 新增：交易记录支持多币种，接入汇率数据
+        - info: 新增：汇率数据定时任务
+        - info: 新增：星座数据爬虫
+        - info: 改善：交易统计数据展示
+        - info: 改善：健康统计数据展示
+        - info: 改善：后台界面框架改为Pear Admin
+        - info: 新增：视频去水印小工具
+        - info: 新增：卡片笔记功能
+    - code: v0.4.1
+      date: 2020-06-07
+      content:
+        - info: 修复：权限初始化无效权限没有移除bug
+        - info: 新增：管理员分配角色功能
+        - info: 改善：收藏内容支持点击跳转链接
+        - info: 修复：消息推送没有小红点提示bug
+        - info: 优化：首页资金曲线计算方式
+        - info: 修复：点击消息没有更新已读状态bug
+        - info: 新增：交易逻辑管理
+    - code: v0.4.0
+      date: 2020-06-05
+      content:
+        - info: 改善：首页资金曲线为滚动式
+        - info: 修复：菜单地址为空编辑报错bug
+        - info: 改善：菜单地址唯一
+        - info: 新增：系统消息通知中心
+        - info: 新增：消息通知提示音
+        - info: 新增：集成netty框架
+        - info: 新增：集成RabbitMQ中间件
+        - info: 新增：系统版本更新历史模块
+    - code: v0.3.4
+      date: 2020-05-26
+      content:
+        - info: 新增：必应每日壁纸模块
+        - info: 新增：角色管理模块
+        - info: 改善：后台全局异常日志打印
+    - code: v0.3.3
+      date: 2020-05-20
+      content:
+        - info: 修复：菜单管理编辑菜单地址回显bug
+        - info: 修复：添加菜单权限初始化、删除菜单权限清理bug
+        - info: 修复：修复密码修改不生效bug
+        - info: 改善：首页展示
+        - info: 改善：调整健康记录数据单位
+        - info: 改善：健康记录更新弹窗提示方式
+        - info: 改善：限制同一账号登录在线
+        - info: 修复：权限验证
+        - info: 改善：角色权限关系
+        - info: 新增：系统权限管理模块
+        - info: 改善：权限匹配为全匹配规则
+    - code: v0.3.2
+      date: 2020-05-14
+      content:
+        - info: 修复：账号资料更新异常bug
+        - info: 新增：健康管理新增步数统计
+        - info: 修复：首页快捷入口图表展示bug
+        - info: 新增：账号密码修改功能
+        - info: 新增：七牛云图床SDK支持
+        - info: 改善：交易记录为私人所有
+    - code: v0.3.1
+      date: 2020-05-12
+      content:
+        - info: 新增：健康管理数据统计模块
+        - info: 修复：系统日志搜索功能
+        - info: 改善：进行layui版本升级为2.5.6
+        - info: 改善：列表清空操作清空查询数据
+    - code: v0.3.0
+      date: 2020-05-09
+      content:
+        - info: 修复：交易记录数据为0的bug
+        - info: 新增：个人健康管理模块
+        - info: 新增：系统公告管理模块
+    - code: v0.2.1
+      date: 2020-05-04
+      content:
+        - info: 改善：优化添加编辑页传参方式
+        - info: 改善：编辑页数据初始化方式
+        - info: 新增：交易数据统计模块
+        - info: 新增：session监听器
+        - info: 新增：首页新增资金管理图表
+    - code: v0.2.0
+      date: 2020-04-28
+      content:
+        - info: 修复：股票池搜索功能
+        - info: 改善：编辑收藏内容页面
+    - code: v0.1.2
+      date: 2020-04-26
+      content:
+        - info: 新增：菜单管理首页置顶按钮
+        - info: 新增：首页版本号展示
+        - info: 新增：问题管理模块
+    - code: v0.1.1
+      date: 2020-04-21
+      content:
+        - info: 新增：apexCharts图表组件
+        - info: 新增：个人星座运势图
+        - info: 新增：首页系统公告栏展示
+    - code: v0.1.0
+      date: 2020-04-20
+      content:
+        - info: 新增：菜单权限控制
+    - code: v0.0.9
+      date: 2020-04-19
+      content:
+        - info: 新增：超级管理员权限初始化
+    - code: v0.0.8
+      date: 2020-04-18
+      content:
+        - info: 新增：首页数据展示
+        - info: 新增：角色管理模块
+    - code: v0.0.7
+      date: 2020-04-15
+      content:
+        - info: 新增：股票池模块
+    - code: v0.0.6
+      date: 2020-04-14
+      content:
+        - info: 新增：交易数据管理模块
+    - code: v0.0.5
+      date: 2020-02-15
+      content:
+        - info: 修复：登录信息更新失败bug
+        - info: 新增：权限管理功能
+    - code: v0.0.4
+      date: 2019-09-19
+      content:
+        - info: 改善：shiro授权方式
+        - info: 新增：收藏管理模块
+        - info: 新增：首页天气组件
+    - code: v0.0.3
+      date: 2019-09-10
+      content:
+        - info: 新增：同一用户频繁请求进行次数限流
+        - info: 新增：二维码生成模块
+        - info: 改善：列表页面进行redis缓存处理
+    - code: v0.0.2
+      date: 2019-09-07
+      content:
+        - info: 新增：系统菜单管理模块
+        - info: 新增：星座列表模块
+        - info: 新增：聚合数据API支持
+        - info: 新增：账号设置功能
+        - info: 新增：管理员管理模块
+        - info: 新增：系统日志管理模块
+    - code: v0.0.1
+      date: 2019-01-03
+      content:
+        - info: 新增：系统初始化...

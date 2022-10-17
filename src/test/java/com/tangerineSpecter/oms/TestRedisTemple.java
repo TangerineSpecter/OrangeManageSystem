@@ -14,6 +14,7 @@ import com.tangerinespecter.oms.system.domain.entity.DataExchangeRate;
 import com.tangerinespecter.oms.system.domain.entity.DataFund;
 import com.tangerinespecter.oms.system.domain.entity.DataFundHistory;
 import com.tangerinespecter.oms.system.domain.entity.DataTradeRecord;
+import com.tangerinespecter.oms.system.domain.pojo.SystemVersionInfo;
 import com.tangerinespecter.oms.system.mapper.DataExchangeRateMapper;
 import com.tangerinespecter.oms.system.mapper.DataFundHistoryMapper;
 import com.tangerinespecter.oms.system.mapper.DataTradeRecordMapper;
@@ -51,6 +52,13 @@ public class TestRedisTemple {
     private FundDataQuartzService fundDataQuartzService;
     @Resource
     private DataFundHistoryMapper dataFundHistoryMapper;
+    @Resource
+    private SystemVersionInfo versionInfo;
+
+    @Test
+    public void version() {
+        System.out.println(JSON.toJSONString(versionInfo));
+    }
 //
 //    @Test
 //    public void testRedis() {

@@ -16,7 +16,7 @@
                     <i class="layui-icon layui-timeline-axis"></i>
                     <div class="layui-timeline-content layui-text">
                         <h3 class="layui-timeline-title">
-                            <span th:text="${info.version}"></span>&ensp;
+                            <span th:text="${info.version+'版本更新'}"></span>&ensp;
                             <span class="layui-badge-rim" th:text="${info.createTime}"></span></h3>
                         <ul th:each="historyInfo:${info.historyInfos}">
                             <li>
@@ -34,6 +34,14 @@
                                 </div>
                                 <div th:if="${historyInfo.type} == 3">
                                     <span class="label label-fix">修复</span>
+                                    <span th:text="${historyInfo.content}">这里是更新记录</span>
+                                </div>
+                                <div th:if="${historyInfo.type} == 4">
+                                    <span class="label label-refactor">重构</span>
+                                    <span th:text="${historyInfo.content}">这里是更新记录</span>
+                                </div>
+                                <div th:if="${historyInfo.type} == -1">
+                                    <span class="label label-fix">未知</span>
                                     <span th:text="${historyInfo.content}">这里是更新记录</span>
                                 </div>
                             </li>

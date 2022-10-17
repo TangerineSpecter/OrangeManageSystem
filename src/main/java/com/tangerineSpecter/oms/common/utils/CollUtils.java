@@ -3,6 +3,7 @@ package com.tangerinespecter.oms.common.utils;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.convert.Convert;
+import com.tangerinespecter.oms.system.domain.dto.system.VersionHistoryListDto;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -258,4 +259,10 @@ public class CollUtils {
         return CollUtil.newArrayList(coll);
     }
 
+    public static <T, U extends Comparable<? super U>> List<T> sortList(Collection<T> from, Function<? super T, ? extends U> keyExtractor) {
+        if (CollUtil.isEmpty(from)) {
+            return Collections.emptyList();
+        }
+        return from.stream().sorted(Comparator.comparing(keyExtractor)).collect(Collectors.toList());
+    }
 }

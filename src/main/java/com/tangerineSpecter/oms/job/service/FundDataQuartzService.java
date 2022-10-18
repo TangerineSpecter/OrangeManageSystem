@@ -56,7 +56,6 @@ public class FundDataQuartzService {
                         if (CollUtil.isNotEmpty(insertHistoryData)) {
                             dataFundHistoryMapper.batchInsert(insertHistoryData);
                         }
-
                     } catch (Exception e) {
                         log.error("基金[{}]数据处理异常，异常信息：[{}]，" + e, fundCode, e.getMessage());
                     }

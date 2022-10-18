@@ -36,7 +36,7 @@ public class DataFundServiceImpl implements IDataFundService {
         List<DataFund> insertFundData = CollUtils.filterList(allFunds, data -> !existFundCodes.contains(data.getCode()));
         log.info("查询基金数量：[{}], 已入库基金数量：[{}]，新增基金数：[{}]", allFunds.size(), existFundCodes.size(), insertFundData.size());
         CollUtils.forEach(insertFundData, dataFundMapper::insert);
-        return new FundInitDataDto(allFunds, insertFundData);
+        return new FundInitDataDto(insertFundData, allFunds);
     }
 
     /**

@@ -10,6 +10,7 @@ import com.tangerinespecter.oms.job.model.FundHistoryData;
 import com.tangerinespecter.oms.job.model.FundHistoryResponse;
 import com.tangerinespecter.oms.system.convert.data.FundConvert;
 import com.tangerinespecter.oms.system.domain.dto.data.FundInitDataDto;
+import com.tangerinespecter.oms.system.domain.entity.DataFund;
 import com.tangerinespecter.oms.system.domain.entity.DataFundHistory;
 import com.tangerinespecter.oms.system.mapper.DataFundHistoryMapper;
 import com.tangerinespecter.oms.system.mapper.DataFundMapper;
@@ -39,7 +40,7 @@ public class FundDataQuartzService {
         log.info("[执行基金每日数据写入任务]");
         FundInitDataDto fundInitDataDto = dataFundService.initFund();
         //处理基金历史数据
-//        this.handleFundHistoryData(CollUtils.convertList(fundInitDataDto.getAllFundData(), DataFund::getCode));
+        this.handleFundHistoryData(CollUtils.convertList(fundInitDataDto.getAllFundData(), DataFund::getCode));
         log.info("[基金数据定时任务执行完毕]");
     }
 

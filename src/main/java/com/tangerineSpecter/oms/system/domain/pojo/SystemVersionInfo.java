@@ -4,7 +4,6 @@ import lombok.Data;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -13,7 +12,6 @@ import java.util.List;
 @Getter
 @Component
 @ConfigurationProperties(SystemVersionInfo.PREFIX)
-//@PropertySource(value = "classpath:/application-version.yaml")
 public class SystemVersionInfo {
 
     public static final String PREFIX = "version";
@@ -27,7 +25,7 @@ public class SystemVersionInfo {
 
         private String date;
 
-        public List<Content> content;
+        private List<Content> content;
 
         @Data
         public static class Content {

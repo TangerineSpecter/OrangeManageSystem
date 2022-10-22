@@ -63,6 +63,8 @@
 
         table.render({
             elem: '#currentTableId',
+            method: 'POST',
+            contentType: 'application/json',
             url: '/table/constellation/list',
             skin: 'line',
             cols: [

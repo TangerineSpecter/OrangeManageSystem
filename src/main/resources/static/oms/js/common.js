@@ -20,15 +20,15 @@ layui.use(['form', 'table', 'toast', 'treetable', 'layer'], function () {
     //表单搜索
     form.on('submit(data-search-btn)', function (data) {
         table.reloadData('currentTableId', {
-            where: data.field
+            where: {searchParams: data.field}
         });
         return false;
     });
 
     //表单重置
     form.on('submit(data-reset-btn)', function () {
-        table.reloadData('currentTableId', {
-            where: ""
+        table.reload('currentTableId', {
+            where: {searchParams: {}}
         });
         form.reset();
         return false;
@@ -178,6 +178,27 @@ var Ajax = new function () {
             dataType: 'json',
             contentType: 'application/json',
             data: JSON.stringify(data),
+            type: 'post',
+            success: function (result) {
+                window.addData(result, iframe);
+            },
+            error: function () {
+                window.failInfo(iframe);
+            }
+        })
+    };
+
+    /**
+     * post表单请求
+     * @param url 请求地址
+     * @param data 请求数据
+     * @param iframe 是否iframe请求
+     */
+    this.postForm = function (url, data, iframe) {
+        $.ajax({
+            url: url,
+            dataType: 'json',
+            data: data,
             type: 'post',
             success: function (result) {
                 window.addData(result, iframe);

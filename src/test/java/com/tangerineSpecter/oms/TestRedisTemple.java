@@ -120,6 +120,6 @@ public class TestRedisTemple {
 //        final List<DataFundHistory> fundHistory = fundDataQuartzService.getFundHistory("162703");
 //        System.out.println(JSON.toJSONString(fundHistory));
         final List<String> codes = dataFundHistoryMapper.selectNotHistoryFundCodeList();
-        fundDataQuartzService.handleFundHistoryData(codes);
+//        fundDataQuartzService.handleFundHistoryData(codes);
     }
 }

@@ -19,7 +19,7 @@
                             <i class="layui-icon layui-icon-search"></i>
                             查询
                         </button>
-                        <button type="reset" class="pear-btn pear-btn-md">
+                        <button type="reset" class="pear-btn pear-btn-md" lay-filter="data-reset-btn">
                             <i class="layui-icon layui-icon-refresh"></i>
                             重置
                         </button>
@@ -59,10 +59,10 @@
 </script>
 
 <script type="text/html" id="historyTableToolbar">
-    <!--    <button class="pear-btn pear-btn-primary pear-btn-md" lay-event="add">-->
-    <!--        <i class="layui-icon layui-icon-add-1"></i>-->
-    <!--        新增-->
-    <!--    </button>-->
+    <button class="pear-btn pear-btn-primary pear-btn-md" lay-event="initHistoryData">
+        <i class="layui-icon layui-icon-add-1"></i>
+        初始化
+    </button>
 </script>
 <th:block th:include="include :: footer"/>
 <script>
@@ -70,8 +70,6 @@
         let table = layui.table;
         let form = layui.form;
         let $ = layui.jquery;
-
-        let MODULE_PATH = "table/fund/";
 
         let typeCode;
 
@@ -139,7 +137,8 @@
         table.render({
             elem: '#currentTableId',
             url: "list",
-            page: true,
+            method: 'POST',
+            contentType: 'application/json',
             cols: cols,
             skin: 'line',
             height: 'full-148',
@@ -148,7 +147,10 @@
                 title: '刷新',
                 layEvent: 'refresh',
                 icon: 'layui-icon-refresh',
-            }, 'filter', 'print', 'exports']
+            }, 'filter', 'print', 'exports'],
+            limits: [10, 15, 20, 25, 50, 100],
+            limit: 10,
+            page: true
         });
 
         window.renderData = function (code) {
@@ -157,19 +159,22 @@
 
             table.render({
                 elem: '#historyTableId',
-                url: "history-list?code=" + code,
-                page: true,
+                url: "history-list",
+                method: 'POST',
+                contentType: 'application/json',
+                where: {searchParams: {code: code}},
                 height: 'full-148',
                 cols: dataCols,
                 skin: 'line',
-                toolbar: '#historyTableToolbar'
+                toolbar: '#historyTableToolbar',
+                limits: [10, 15, 20, 25, 50, 100],
+                limit: 10,
+                page: true
             });
         }
 
         table.on('tool(currentTableId)', function (obj) {
-            if (obj.event === 'remove') {
-            } else if (obj.event === 'edit') {
-            } else if (obj.event === 'details') {
+            if (obj.event === 'details') {
                 window.renderData(obj.data['code'])
             }
         });
@@ -177,43 +182,16 @@
         table.on('toolbar(currentTableId)', function (obj) {
             if (obj.event === 'init') {
                 Ajax.post("/table/fund/init-fund", {}, false);
-            } else if (obj.event === 'refresh') {
-            } else if (obj.event === 'batchRemove') {
-                layer.msg("批量删除")
-            }
-        });
-
-        table.on('tool(historyTableId)', function (obj) {
-            if (obj.event === 'remove') {
-                window.removeData(obj);
-            } else if (obj.event === 'edit') {
-                window.editData(obj);
-            } else if (obj.event === 'details') {
-                window.details(obj);
             }
         });
 
         table.on('toolbar(historyTableId)', function (obj) {
-            if (obj.event === 'add') {
-                window.addData();
-            } else if (obj.event === 'refresh') {
-                window.refreshData();
-            } else if (obj.event === 'batchRemove') {
-                layer.msg("批量删除")
+            if (obj.event === 'initHistoryData') {
+                const code = obj.config.where.searchParams.code;
+                Ajax.post("/table/fund/init-fund-history", [code], false);
             }
         });
 
-        form.on('submit(history-search-btn)', function (data) {
-            data.field.typeCode = typeCode;
-            table.reload('historyTableId', {
-                where: data.field
-            })
-            return false;
-        });
-
-        window.refreshData = function () {
-            table.reloadData('historyTableId');
-        }
     })
 </script>
 </html>

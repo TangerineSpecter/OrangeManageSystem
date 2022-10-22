@@ -52,8 +52,8 @@ public class DataConstellationController {
      */
     @AccessLimit(maxCount = 10)
     @ApiOperation("星座列表")
-    @GetMapping("/list")
-    public PageInfo<DataConstellation> listInfo(QueryObject<ConstellationQueryObject> param) {
+    @PostMapping("/list")
+    public PageInfo<DataConstellation> listInfo(@RequestBody QueryObject<ConstellationQueryObject> param) {
         return dataConstellationService.queryForPage(param);
     }
 }

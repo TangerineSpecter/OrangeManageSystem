@@ -15,16 +15,15 @@ import com.tangerinespecter.oms.system.service.table.IDataFundHistoryService;
 import com.tangerinespecter.oms.system.service.table.IDataFundService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * 基金数据相关控制
@@ -59,9 +58,8 @@ public class FundDataController {
      */
     @AccessLimit(maxCount = 50)
     @ApiOperation("基金列表")
-    @GetMapping("/list")
-    public PageInfo<DataFund> listInfo(QueryObject<FundQueryObject> param, FundQueryObject qo) {
-        param.setSearchParams(qo);
+    @PostMapping("/list")
+    public PageInfo<DataFund> listInfo(@RequestBody QueryObject<FundQueryObject> param) {
         return dataFundService.queryForPage(param);
     }
 
@@ -70,9 +68,8 @@ public class FundDataController {
      */
     @AccessLimit(maxCount = 50)
     @ApiOperation("基金历史数据列表")
-    @GetMapping("/history-list")
-    public PageInfo<DataFundHistory> historyListInfo(QueryObject<FundHistoryQueryObject> param, FundHistoryQueryObject qo) {
-        param.setSearchParams(qo);
+    @PostMapping("/history-list")
+    public PageInfo<DataFundHistory> historyListInfo(@RequestBody QueryObject<FundHistoryQueryObject> param) {
         return dataFundHistoryService.queryForPage(param);
     }
 
@@ -80,5 +77,11 @@ public class FundDataController {
     @PostMapping("/init-fund")
     public int initFund() {
         return CollUtil.size(dataFundService.initFund().getAllFundData());
+    }
+
+    @ApiOperation("基金历史数据初始化")
+    @PostMapping("/init-fund-history")
+    public void initFundHistory(@ApiParam("基金代码") @RequestBody List<String> fundCode) {
+        dataFundService.initFundHistory(fundCode);
     }
 }

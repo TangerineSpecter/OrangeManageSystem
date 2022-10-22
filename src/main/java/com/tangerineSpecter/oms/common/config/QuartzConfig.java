@@ -8,6 +8,7 @@ import org.quartz.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.annotation.Resource;
 import java.text.ParseException;
 
 /**
@@ -19,6 +20,9 @@ import java.text.ParseException;
  */
 @Configuration
 public class QuartzConfig {
+
+    @Resource
+    private QuartzTimeConfig quartzTimeConfig;
 
     @Bean
     public JobDetail constellationQuartz() {
@@ -34,7 +38,7 @@ public class QuartzConfig {
 //        SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(quartzTime)
 //                .repeatForever();
         // 每间隔6小时执行
-        CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule(new CronExpression("0 0 0/6 * * ?"));
+        CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule(new CronExpression(quartzTimeConfig.getConstellationQuartzTime()));
         return TriggerBuilder.newTrigger().forJob(constellationQuartz()).withIdentity("constellationQuartz")
                 .withSchedule(cronScheduleBuilder).build();
     }
@@ -48,7 +52,7 @@ public class QuartzConfig {
     @Bean
     public Trigger wallPageQuartzTrigger() throws ParseException {
         // 每间隔6小时执行
-        CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule(new CronExpression("0 0 0/6 * * ?"));
+        CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule(new CronExpression(quartzTimeConfig.getWallPageQuartzTime()));
         return TriggerBuilder.newTrigger().forJob(wallPageQuartz()).withIdentity("wallPageConfigQuartz")
                 .withSchedule(cronScheduleBuilder).build();
     }
@@ -62,7 +66,7 @@ public class QuartzConfig {
     @Bean
     public Trigger exchangeRateTrigger() throws ParseException {
         // 每间隔3小时执行
-        CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule(new CronExpression("0 0 0/3 * * ?"));
+        CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule(new CronExpression(quartzTimeConfig.getExchangeRateQuartzTime()));
         return TriggerBuilder.newTrigger().forJob(exchangeRateQuartz()).withIdentity("exchangeRateDataQuartz")
                 .withSchedule(cronScheduleBuilder).build();
     }
@@ -76,7 +80,7 @@ public class QuartzConfig {
     @Bean
     public Trigger fundDataTrigger() throws ParseException {
         // 每天定时23点执行
-        CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule(new CronExpression("0 0 23 * * ?"));
+        CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule(new CronExpression(quartzTimeConfig.getFundDataQuartzTime()));
         return TriggerBuilder.newTrigger().forJob(fundDataQuartz()).withIdentity("fundDataQuartz")
                 .withSchedule(cronScheduleBuilder).build();
     }

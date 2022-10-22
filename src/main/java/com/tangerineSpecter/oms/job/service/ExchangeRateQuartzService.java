@@ -24,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -34,6 +35,13 @@ public class ExchangeRateQuartzService {
 
     private final DataExchangeMapper dataExchangeMapper;
     private final DataExchangeRateMapper dataExchangeRateMapper;
+
+    @PostConstruct
+    public void init() {
+        List<DataExchangeRate> dataExchangeRates = dataExchangeRateMapper.selectListByLastRecordTime();
+        CollUtils.forEach(dataExchangeRates, exchangeRate -> CommonConstant.EXCHANGE_RATE_MAP.put(exchangeRate.getCode(), NumChainCal.startOf(exchangeRate.getPrice()).div(100).getBigDecimal()));
+
+    }
 
     public void runData() {
         log.info("[执行汇率数据写入任务]");
@@ -81,7 +89,7 @@ public class ExchangeRateQuartzService {
             DateTime morning = DateUtil.offsetHour(DateUtil.beginOfDay(new Date()), 8);
             if (DateUtil.compare(new Date(), morning) == -1) {
                 log.info("[当前时间为8.AM之前，不进行汇率更新]");
-                CollUtils.forEach(dataExchangeRates, exchangeRate -> CommonConstant.EXCHANGE_RATE_MAP.put(exchangeRate.getCode(), NumChainCal.startOf(exchangeRate.getPrice()).div(100).getBigDecimal()));
+//                CollUtils.forEach(dataExchangeRates, exchangeRate -> CommonConstant.EXCHANGE_RATE_MAP.put(exchangeRate.getCode(), NumChainCal.startOf(exchangeRate.getPrice()).div(100).getBigDecimal()));
                 return;
             }
             //当天数据则不更新数据

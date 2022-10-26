@@ -1,20 +1,12 @@
 package com.tangerinespecter.oms.system.service.data;
 
-import com.github.pagehelper.PageInfo;
 import com.tangerinespecter.oms.common.query.TradeRecordQueryObject;
 import com.tangerinespecter.oms.system.domain.entity.DataTradeRecord;
 import com.tangerinespecter.oms.system.domain.vo.data.TradeRecordInfoVo;
+import com.tangerinespecter.oms.system.service.BaseService;
 import org.springframework.web.multipart.MultipartFile;
 
-public interface IDateTradeRecordService {
-
-    /**
-     * 交易记录列表
-     *
-     * @param qo 查询参数
-     * @return 分页结果
-     */
-    PageInfo<DataTradeRecord> queryForPage(TradeRecordQueryObject qo);
+public interface IDataTradeRecordService extends BaseService<TradeRecordQueryObject, DataTradeRecord> {
 
     /**
      * 交易数据初始化

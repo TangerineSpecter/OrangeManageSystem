@@ -91,6 +91,9 @@
         table.render({
             elem: '#currentTableId',
             url: '/data/trade-record/list',
+            method: 'POST',
+            contentType: 'application/json',
+            where: {searchParams: {}},
             toolbar: '#toolbar',//开启头部工具栏
             skin: 'line',
             size: 'lg',

@@ -5,12 +5,13 @@ import com.tangerinespecter.oms.common.anno.AccessLimit;
 import com.tangerinespecter.oms.common.anno.LoggerInfo;
 import com.tangerinespecter.oms.common.anno.ReWriteBody;
 import com.tangerinespecter.oms.common.enums.LogOperation;
+import com.tangerinespecter.oms.common.query.QueryObject;
 import com.tangerinespecter.oms.common.query.TradeRecordQueryObject;
 import com.tangerinespecter.oms.common.redis.PageModelKey;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.entity.DataTradeRecord;
 import com.tangerinespecter.oms.system.domain.vo.data.TradeRecordInfoVo;
-import com.tangerinespecter.oms.system.service.data.IDateTradeRecordService;
+import com.tangerinespecter.oms.system.service.data.IDataTradeRecordService;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
 import com.tangerinespecter.oms.system.valid.Update;
 import io.swagger.annotations.Api;
@@ -40,7 +41,7 @@ import javax.validation.constraints.NotNull;
 @RequestMapping("/data/trade-record")
 public class DataTradeRecordController {
 
-    private final IDateTradeRecordService dateTradeRecordService;
+    private final IDataTradeRecordService dataTradeRecordService;
     private final PageResultService pageResultService;
 
     @ApiOperation("交易记录页面")
@@ -52,9 +53,9 @@ public class DataTradeRecordController {
 
     @ApiOperation("交易记录列表")
     @AccessLimit(maxCount = 10)
-    @GetMapping("/list")
-    public PageInfo<DataTradeRecord> listInfo(TradeRecordQueryObject qo) {
-        return dateTradeRecordService.queryForPage(qo);
+    @PostMapping("/list")
+    public PageInfo<DataTradeRecord> listInfo(@RequestBody QueryObject<TradeRecordQueryObject> qo) {
+        return dataTradeRecordService.queryForPage(qo);
     }
 
     @ApiOperation("添加编辑页面")
@@ -67,40 +68,40 @@ public class DataTradeRecordController {
     @AccessLimit(maxCount = 10)
     @PostMapping("/init")
     public void init() {
-        dateTradeRecordService.init();
+        dataTradeRecordService.init();
     }
 
     @ApiOperation("添加交易记录")
     @PostMapping("/insert")
     @LoggerInfo(value = "添加交易数据", event = LogOperation.EVENT_ADD)
     public void insertInfo(@Validated @RequestBody TradeRecordInfoVo vo) {
-        dateTradeRecordService.insertInfo(vo);
+        dataTradeRecordService.insertInfo(vo);
     }
 
     @ApiOperation("编辑交易记录")
     @PutMapping("/update")
     @LoggerInfo(value = "编辑交易数据", event = LogOperation.EVENT_UPDATE)
     public void updateInfo(@Validated(Update.class) @RequestBody TradeRecordInfoVo vo) {
-        dateTradeRecordService.updateInfo(vo);
+        dataTradeRecordService.updateInfo(vo);
     }
 
     @ApiOperation("交易记录信息")
     @GetMapping("/info/{id}")
     public DataTradeRecord detailInfo(@NotNull(message = "id不能为null") @PathVariable("id") Long id) {
-        return dateTradeRecordService.detailInfo(id);
+        return dataTradeRecordService.detailInfo(id);
     }
 
     @ApiOperation("删除交易记录")
     @DeleteMapping("/delete/{id}")
     @LoggerInfo(value = "删除交易数据", event = LogOperation.EVENT_DELETE)
     public void deleteInfo(@NotNull(message = "id不能为null") @PathVariable("id") Long id) {
-        dateTradeRecordService.deleteInfo(id);
+        dataTradeRecordService.deleteInfo(id);
     }
 
     @ApiOperation("导入交易数据")
     @PostMapping("/excel")
     public void excelInfo(MultipartFile file) {
-        dateTradeRecordService.excelInfo(file);
+        dataTradeRecordService.excelInfo(file);
     }
 
 }

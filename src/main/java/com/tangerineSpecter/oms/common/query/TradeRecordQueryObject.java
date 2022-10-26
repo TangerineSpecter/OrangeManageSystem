@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 /**
  * 交易数据页面高级查询
  *
@@ -16,7 +18,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class TradeRecordQueryObject extends QueryObject {
+public class TradeRecordQueryObject extends BaseQueryObject implements Serializable {
     /**
      * 交易类型(0:股票；1：期货；2：外汇)
      */

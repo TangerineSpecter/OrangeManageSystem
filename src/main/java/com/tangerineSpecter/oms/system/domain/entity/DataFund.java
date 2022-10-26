@@ -6,13 +6,10 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.apache.ibatis.type.Alias;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -23,12 +20,14 @@ import java.time.LocalDateTime;
  * @since 2022-10-15
  */
 @Data
+@Alias("DataExchangeRate")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @TableName("data_fund")
 @ApiModel(value = "DataFund对象", description = "基金数据表")
-public class DataFund implements Serializable {
+public class DataFund extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -52,12 +51,6 @@ public class DataFund implements Serializable {
 
     @ApiModelProperty("删除状态（0：未删除；1：已删除）")
     private Integer isDel;
-
-    @ApiModelProperty("创建时间")
-    private LocalDateTime createTime;
-
-    @ApiModelProperty("更新时间")
-    private LocalDateTime updateTime;
 
     /**
      * 响应数据 -> 基金model

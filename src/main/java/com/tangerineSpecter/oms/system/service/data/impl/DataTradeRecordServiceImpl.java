@@ -6,8 +6,6 @@ import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.poi.excel.ExcelReader;
 import cn.hutool.poi.excel.ExcelUtil;
-import com.github.pagehelper.PageInfo;
-import com.github.pagehelper.page.PageMethod;
 import com.tangerinespecter.oms.common.constants.RetCode;
 import com.tangerinespecter.oms.common.context.UserContext;
 import com.tangerinespecter.oms.common.exception.BusinessException;
@@ -21,7 +19,7 @@ import com.tangerinespecter.oms.system.domain.enums.TradeRecordTypeEnum;
 import com.tangerinespecter.oms.system.domain.vo.data.TradeRecordInfoVo;
 import com.tangerinespecter.oms.system.mapper.DataExchangeRateMapper;
 import com.tangerinespecter.oms.system.mapper.DataTradeRecordMapper;
-import com.tangerinespecter.oms.system.service.data.IDateTradeRecordService;
+import com.tangerinespecter.oms.system.service.data.IDataTradeRecordService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
@@ -35,18 +33,20 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.IntStream;
 
+/**
+ * @author 丢失的橘子
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class DataTradeRecordServiceImpl implements IDateTradeRecordService {
+public class DataTradeRecordServiceImpl implements IDataTradeRecordService {
 
     private final DataTradeRecordMapper dataTradeRecordMapper;
     private final DataExchangeRateMapper dataExchangeRateMapper;
 
     @Override
-    public PageInfo<DataTradeRecord> queryForPage(TradeRecordQueryObject qo) {
-        return PageMethod.startPage(qo.getPage(), qo.getLimit())
-                .doSelectPageInfo(() -> dataTradeRecordMapper.queryForPage(qo));
+    public List<DataTradeRecord> list(TradeRecordQueryObject qo) {
+        return dataTradeRecordMapper.queryForPage(qo);
     }
 
     @Override

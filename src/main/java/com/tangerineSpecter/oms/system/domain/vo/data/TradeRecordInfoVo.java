@@ -1,6 +1,7 @@
 package com.tangerinespecter.oms.system.domain.vo.data;
 
 import com.tangerinespecter.oms.system.valid.Update;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,9 +17,10 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ApiModel("交易信息模型")
 public class TradeRecordInfoVo implements Serializable {
 
-    @NotNull(groups = {Update.class}, message = "id不能为空")
+    @NotNull(groups = {Update.class}, message = "更新时，id不能为空")
     @ApiModelProperty("交易数据id")
     private Long id;
     @ApiModelProperty("开盘资金")

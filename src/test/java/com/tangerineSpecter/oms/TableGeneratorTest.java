@@ -39,7 +39,7 @@ public class TableGeneratorTest {
                             .pathInfo(Collections.singletonMap(OutputFile.xml, "./src/test/java/com/tangerinespecter/oms/代码生成")); // 设置mapperXml生成路径
                 })
                 .strategyConfig(builder -> {
-                    builder.addInclude("data_fund_history") // 设置需要生成的表名
+                    builder.addInclude("data_food_library") // 设置需要生成的表名
                             .addTablePrefix("t_", "c_"); // 设置过滤表前缀
                 })
                 .templateEngine(new FreemarkerTemplateEngine()) // 使用Freemarker引擎模板，默认的是Velocity引擎模板

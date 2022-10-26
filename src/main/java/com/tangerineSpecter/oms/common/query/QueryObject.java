@@ -1,6 +1,5 @@
 package com.tangerinespecter.oms.common.query;
 
-import com.tangerinespecter.oms.common.context.UserContext;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,11 +26,6 @@ public class QueryObject<T extends Serializable> implements Serializable {
      */
     @ApiModelProperty(value = "搜索参数", hidden = true)
     private T searchParams;
-    /**
-     * 当前管理员ID
-     */
-    @ApiModelProperty(value = "操作管理员uid", hidden = true)
-    private String uid = UserContext.getUid();
     /**
      * 默认第一页
      */

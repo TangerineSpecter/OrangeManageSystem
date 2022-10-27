@@ -1,19 +1,11 @@
 package com.tangerinespecter.oms.system.service.data;
 
-import com.github.pagehelper.PageInfo;
 import com.tangerinespecter.oms.common.query.QuestionQueryObject;
 import com.tangerinespecter.oms.system.domain.entity.DataQuestion;
 import com.tangerinespecter.oms.system.domain.vo.data.QuestionInfoVo;
+import com.tangerinespecter.oms.system.service.BaseService;
 
-public interface IDataQuestionService {
-
-    /**
-     * 问题列表
-     *
-     * @param qo 查询参数
-     * @return 分页结果
-     */
-    PageInfo<DataQuestion> queryForPage(QuestionQueryObject qo);
+public interface IDataQuestionService extends BaseService<QuestionQueryObject, DataQuestion> {
 
     /**
      * 添加问题

@@ -3,6 +3,7 @@ package com.tangerinespecter.oms.system.controller.data;
 import com.github.pagehelper.PageInfo;
 import com.tangerinespecter.oms.common.anno.AccessLimit;
 import com.tangerinespecter.oms.common.anno.ReWriteBody;
+import com.tangerinespecter.oms.common.query.QueryObject;
 import com.tangerinespecter.oms.common.query.StockQueryObject;
 import com.tangerinespecter.oms.common.redis.PageModelKey;
 import com.tangerinespecter.oms.system.domain.entity.DataStock;
@@ -13,9 +14,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -49,8 +48,8 @@ public class DataStockController {
 
     @ApiOperation("股票池列表")
     @AccessLimit(maxCount = 10)
-    @GetMapping("/list")
-    public PageInfo<DataStock> listInfo(StockQueryObject qo) {
+    @PostMapping("/list")
+    public PageInfo<DataStock> listInfo(@RequestBody QueryObject<StockQueryObject> qo) {
         return dataStockService.queryForPage(qo);
     }
 }

@@ -1,13 +1,18 @@
 package com.tangerinespecter.oms.system.controller.work;
 
-import com.tangerinespecter.oms.common.enums.LogOperation;
+import com.github.pagehelper.PageInfo;
 import com.tangerinespecter.oms.common.anno.LoggerInfo;
+import com.tangerinespecter.oms.common.anno.ReWriteBody;
+import com.tangerinespecter.oms.common.enums.LogOperation;
+import com.tangerinespecter.oms.common.query.QueryObject;
 import com.tangerinespecter.oms.common.query.WorkCollectionQueryObject;
 import com.tangerinespecter.oms.common.redis.PageModelKey;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.dto.work.WorkCollectionInfoVo;
+import com.tangerinespecter.oms.system.domain.entity.WorkCollection;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
 import com.tangerinespecter.oms.system.service.work.IWorkCollectionService;
+import com.tangerinespecter.oms.system.valid.Update;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -17,9 +22,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.constraints.NotNull;
 
 /**
  * 收藏信息相关控制
@@ -28,6 +33,7 @@ import javax.servlet.http.HttpServletResponse;
  * @version v0.1.2
  * @Date 2019年1月22日
  */
+@ReWriteBody
 @RestController
 @RequiredArgsConstructor
 @Api(tags = "收藏信息接口")
@@ -60,9 +66,9 @@ public class WorkCollectionController {
      * 收藏列表
      */
     @ApiOperation("收藏列表")
-    @GetMapping("/list")
-    public ServiceResult constellationPage(Model model, WorkCollectionQueryObject qo) {
-        return workCollectionService.queryForPage(model, qo);
+    @PostMapping("/list")
+    public PageInfo<WorkCollection> constellationPage(@RequestBody QueryObject<WorkCollectionQueryObject> qo) {
+        return workCollectionService.queryForPage(qo);
     }
 
     /**
@@ -71,8 +77,8 @@ public class WorkCollectionController {
     @ApiOperation("新增收藏")
     @PostMapping("/insert")
     @LoggerInfo(value = "新增收藏", event = LogOperation.EVENT_ADD)
-    public ServiceResult insert(@Validated @RequestBody WorkCollectionInfoVo data) {
-        return workCollectionService.insert(data);
+    public void insert(@Validated @RequestBody WorkCollectionInfoVo data) {
+        workCollectionService.insert(data);
     }
 
     /**
@@ -81,8 +87,8 @@ public class WorkCollectionController {
     @ApiOperation("编辑收藏")
     @PutMapping("/update")
     @LoggerInfo(value = "更新收藏", event = LogOperation.EVENT_UPDATE)
-    public ServiceResult update(@Validated @RequestBody WorkCollectionInfoVo data) {
-        return workCollectionService.update(data);
+    public void update(@Validated(Update.class) @RequestBody WorkCollectionInfoVo data) {
+        workCollectionService.update(data);
     }
 
     /**
@@ -91,7 +97,7 @@ public class WorkCollectionController {
     @ApiOperation("删除收藏")
     @DeleteMapping("/delete/{id}")
     @LoggerInfo(value = "删除收藏", event = LogOperation.EVENT_DELETE)
-    public ServiceResult delete(@PathVariable("id") Long id) {
-        return workCollectionService.delete(id);
+    public void delete(@PathVariable("id") @NotNull(message = "id不能为空") Long id) {
+        workCollectionService.delete(id);
     }
 }

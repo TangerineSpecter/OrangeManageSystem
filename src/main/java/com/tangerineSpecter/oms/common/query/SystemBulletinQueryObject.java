@@ -16,7 +16,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SystemBulletinQueryObject extends QueryObject {
+public class SystemBulletinQueryObject extends BaseQueryObject {
 
     /**
      * 公告标题

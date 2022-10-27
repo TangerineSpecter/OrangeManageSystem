@@ -1,17 +1,11 @@
 package com.tangerinespecter.oms.system.service.system;
 
-import com.github.pagehelper.PageInfo;
 import com.tangerinespecter.oms.common.query.SystemBulletinQueryObject;
 import com.tangerinespecter.oms.system.domain.dto.system.SystemBulletinInfoVo;
 import com.tangerinespecter.oms.system.domain.entity.SystemBulletin;
-import org.springframework.ui.Model;
+import com.tangerinespecter.oms.system.service.BaseService;
 
-public interface ISystemBulletinService {
-
-    /**
-     * 公告列表
-     */
-    PageInfo<SystemBulletin> queryForPage(Model model, SystemBulletinQueryObject qo);
+public interface ISystemBulletinService extends BaseService<SystemBulletinQueryObject, SystemBulletin> {
 
     /**
      * 新增公告

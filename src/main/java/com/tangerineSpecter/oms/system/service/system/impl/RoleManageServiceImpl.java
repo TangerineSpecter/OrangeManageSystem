@@ -3,8 +3,6 @@ package com.tangerinespecter.oms.system.service.system.impl;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.text.CharSequenceUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.github.pagehelper.PageInfo;
-import com.github.pagehelper.page.PageMethod;
 import com.google.common.base.Splitter;
 import com.tangerinespecter.oms.common.constants.CommonConstant;
 import com.tangerinespecter.oms.common.constants.RetCode;
@@ -45,11 +43,13 @@ public class RoleManageServiceImpl implements IRoleManageService {
     private final SystemPermissionMapper systemPermissionMapper;
 
     @Override
-    public PageInfo<SystemRoleListDto> querySystemRoleList(SystemRoleQueryObject qo) {
-        PageInfo<SystemRoleListDto> pageList = PageMethod.startPage(qo.getPage(), qo.getLimit())
-                .doSelectPageInfo(() -> systemRoleMapper.queryForPage(qo));
+    public List<SystemRoleListDto> list(SystemRoleQueryObject qo) {
+        return this.querySystemRoleList(systemRoleMapper.queryForPage(qo));
+    }
+
+    public List<SystemRoleListDto> querySystemRoleList(List<SystemRoleListDto> pageList) {
         List<SystemPermission> systemPermissions = systemPermissionMapper.selectList(null);
-        CollUtils.forEach(pageList.getList(), systemRole -> {
+        CollUtils.forEach(pageList, systemRole -> {
             List<Long> havePermissionIds = CollUtils.convertList(getRolePermission(systemRole.getId()), SystemPermission::getId);
             systemRole.initPermission(systemPermissions, havePermissionIds);
         });

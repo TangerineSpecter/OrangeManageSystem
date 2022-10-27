@@ -1,18 +1,10 @@
 package com.tangerinespecter.oms.system.service.system;
 
-import com.github.pagehelper.PageInfo;
 import com.tangerinespecter.oms.common.query.SystemPermissionQueryObject;
 import com.tangerinespecter.oms.system.domain.entity.SystemPermission;
+import com.tangerinespecter.oms.system.service.BaseService;
 
-public interface IPermissionManageService {
-
-    /**
-     * 权限列表
-     *
-     * @param qo 查询分页参数
-     * @return 分页结果
-     */
-    PageInfo<SystemPermission> queryForPage(SystemPermissionQueryObject qo);
+public interface IPermissionManageService extends BaseService<SystemPermissionQueryObject, SystemPermission> {
 
     /**
      * 权限初始化

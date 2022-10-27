@@ -16,7 +16,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class StockPortfolioQueryObject extends QueryObject {
+public class StockPortfolioQueryObject extends BaseQueryObject {
 
     private String keyword;
 }

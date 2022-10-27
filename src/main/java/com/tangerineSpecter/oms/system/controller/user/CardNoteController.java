@@ -4,6 +4,7 @@ import cn.hutool.core.date.DateUtil;
 import com.tangerinespecter.oms.common.anno.LoggerInfo;
 import com.tangerinespecter.oms.common.anno.ReWriteBody;
 import com.tangerinespecter.oms.common.enums.LogOperation;
+import com.tangerinespecter.oms.common.query.QueryObject;
 import com.tangerinespecter.oms.common.query.UserCardNoteQueryObject;
 import com.tangerinespecter.oms.common.redis.PageModelKey;
 import com.tangerinespecter.oms.common.result.ServiceResult;
@@ -47,7 +48,7 @@ public class CardNoteController {
     @RequiresPermissions("user:card-note:page")
     @GetMapping(value = "/page", produces = "text/html;charset=UTF-8")
     public String cardNotePage(HttpServletRequest request, HttpServletResponse response, Model model) {
-        model.addAttribute("noteList", cardNoteService.queryForPage(new UserCardNoteQueryObject()).getList());
+        model.addAttribute("noteList", cardNoteService.list(new UserCardNoteQueryObject()));
         int offsetDay = 7 - DateUtil.thisDayOfWeek();
         model.addAttribute("rangeDate", new String[]{DateUtil.formatDate(DateUtil.offsetDay(new Date(), -90 + offsetDay)), DateUtil.formatDate(DateUtil.offsetDay(new Date(), offsetDay))});
         model.addAttribute("noteInfo", cardNoteService.noteInfo());
@@ -66,8 +67,8 @@ public class CardNoteController {
     }
 
     @ApiOperation(value = "卡片笔记列表")
-    @GetMapping(value = "/list")
-    public ModelAndView queryForPage(Model model, UserCardNoteQueryObject qo) {
+    @PostMapping(value = "/list")
+    public ModelAndView queryForPage(Model model, @RequestBody QueryObject<UserCardNoteQueryObject> qo) {
         model.addAttribute("noteList", cardNoteService.queryForPage(qo).getList());
         return ServiceResult.jumpPage("user/cardNoteManage::noteCards");
     }

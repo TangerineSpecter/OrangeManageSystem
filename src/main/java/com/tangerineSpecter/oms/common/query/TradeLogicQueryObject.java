@@ -16,7 +16,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class TradeLogicQueryObject extends QueryObject {
+public class TradeLogicQueryObject extends BaseQueryObject {
     /**
      * 交易类型(0:股票；1：期货；2：外汇)
      */

@@ -70,79 +70,68 @@
             laydate = layui.laydate,
             layer = layui.layer;
 
-        table.render({
-            elem: '#currentTableId',
-            url: '/data/trade-logic/list',
-            toolbar: '#toolbar',//开启头部工具栏
-            defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
-                title: '提示'
-                , layEvent: 'LAYTABLE_TIPS'
-                , icon: 'layui-icon-tips'
-            }],
-            cols: [
-                [
-                    {type: "checkbox", width: 50, fixed: "left"},
-                    {field: 'id', title: 'ID', width: 80, sort: true, fixed: "left"},
-                    {field: 'name', title: '交易名称', width: 100},
-                    {
-                        field: 'type', align: 'center', width: 100, templet: function (row) {
-                            if (row.type == null) {
-                                return '--';
-                            } else if (row.type === 0) {
-                                return '<span style="color: #00a2d4">股票</span>';
-                            } else if (row.type === 1) {
-                                return '<span style="color: tomato">期货</span>';
-                            } else if (row.type === 2) {
-                                return '<span style="color: #BA55D3">外汇</span>';
-                            }
-                        }, title: '交易类型'
-                    },
-                    {field: 'entryDate', title: '开仓时间', width: 120, sort: true},
-                    {field: 'exitDate', title: '平仓时间', width: 120, sort: true},
-                    {field: 'entryPoint', title: '入场点', width: 100},
-                    {field: 'exitPoint', title: '出场点', width: 100},
-                    {
-                        title: '点数', width: 100, templet: function (row) {
-                            if (row.exitPoint == null) {
-                                return '--';
-                            }
-                            return Math.abs(row.exitPoint - row.entryPoint);
+        const cols = [
+            [
+                {type: "checkbox", width: 50, fixed: "left"},
+                {field: 'id', title: 'ID', width: 80, sort: true, fixed: "left"},
+                {field: 'name', title: '交易名称', width: 100},
+                {
+                    field: 'type', align: 'center', width: 100, templet: function (row) {
+                        if (row.type == null) {
+                            return '--';
+                        } else if (row.type === 0) {
+                            return '<span style="color: #00a2d4">股票</span>';
+                        } else if (row.type === 1) {
+                            return '<span style="color: tomato">期货</span>';
+                        } else if (row.type === 2) {
+                            return '<span style="color: #BA55D3">外汇</span>';
                         }
-                    },
-                    {field: 'profitPoint', title: '止盈点', width: 100},
-                    {field: 'lossPoint', title: '止损点', width: 100},
-                    {
-                        title: '盈亏比', width: 100, align: 'center', templet: function (row) {
-                            //盈利值
-                            let profitValue = row.profitPoint - row.entryPoint;
-                            //亏损值
-                            let lossValue = row.lossPoint - row.entryPoint;
-                            return Math.abs(profitValue / lossValue).toFixed(1);
+                    }, title: '交易类型'
+                },
+                {field: 'entryDate', title: '开仓时间', width: 120, sort: true},
+                {field: 'exitDate', title: '平仓时间', width: 120, sort: true},
+                {field: 'entryPoint', title: '入场点', width: 100},
+                {field: 'exitPoint', title: '出场点', width: 100},
+                {
+                    title: '点数', width: 100, templet: function (row) {
+                        if (row.exitPoint == null) {
+                            return '--';
                         }
-                    },
-                    {
-                        title: '盈亏结果', width: 100, align: 'center', templet: function (row) {
-                            if (row.status === -1) {
-                                return '<span class="layui-badge-rim">未平仓</span>';
-                            } else if (row.status === 0) {
-                                return '<span class="layui-badge">盈利</span>';
-                            } else if (row.status === 1) {
-                                return '<span class="layui-badge layui-bg-green">亏损</span>';
-                            }
-                        }
-                    },
-                    {field: 'closingPrice', title: '当日收盘价', width: 120},
-                    {field: 'tradeLogic', title: '交易逻辑', width: 500},
-                    {field: 'conclusion', title: '交易结论', width: 500},
-                    {
-                        toolbar: '#operationBar', align: 'center', title: '操作', width: 200, fixed: "right"
+                        return Math.abs(row.exitPoint - row.entryPoint);
                     }
-                ]
-            ],
-            limits: [10, 15, 20, 25, 50, 100],
-            limit: 10,
-            page: true
-        });
+                },
+                {field: 'profitPoint', title: '止盈点', width: 100},
+                {field: 'lossPoint', title: '止损点', width: 100},
+                {
+                    title: '盈亏比', width: 100, align: 'center', templet: function (row) {
+                        //盈利值
+                        let profitValue = row.profitPoint - row.entryPoint;
+                        //亏损值
+                        let lossValue = row.lossPoint - row.entryPoint;
+                        return Math.abs(profitValue / lossValue).toFixed(1);
+                    }
+                },
+                {
+                    title: '盈亏结果', width: 100, align: 'center', templet: function (row) {
+                        if (row.status === -1) {
+                            return '<span class="layui-badge-rim">未平仓</span>';
+                        } else if (row.status === 0) {
+                            return '<span class="layui-badge">盈利</span>';
+                        } else if (row.status === 1) {
+                            return '<span class="layui-badge layui-bg-green">亏损</span>';
+                        }
+                    }
+                },
+                {field: 'closingPrice', title: '当日收盘价', width: 120},
+                {field: 'tradeLogic', title: '交易逻辑', width: 500},
+                {field: 'conclusion', title: '交易结论', width: 500},
+                {
+                    toolbar: '#operationBar', align: 'center', title: '操作', width: 200, fixed: "right"
+                }
+            ]
+        ];
+
+        OmsTable.init('#currentTableId', '/data/trade-logic/list', cols);
 
         //监听表格复选框选择
         table.on('checkbox(currentTableFilter)', function (obj) {

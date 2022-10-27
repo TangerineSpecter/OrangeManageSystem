@@ -2,8 +2,6 @@ package com.tangerinespecter.oms.system.service.system.impl;
 
 import cn.hutool.core.lang.Assert;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.github.pagehelper.PageInfo;
-import com.github.pagehelper.page.PageMethod;
 import com.tangerinespecter.oms.common.constants.CommonConstant;
 import com.tangerinespecter.oms.common.constants.RetCode;
 import com.tangerinespecter.oms.common.enums.GlobalBoolEnum;
@@ -16,7 +14,8 @@ import com.tangerinespecter.oms.system.mapper.SystemBulletinMapper;
 import com.tangerinespecter.oms.system.service.system.ISystemBulletinService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -25,9 +24,8 @@ public class SystemBulletinServiceImpl implements ISystemBulletinService {
     private final SystemBulletinMapper systemBulletinMapper;
 
     @Override
-    public PageInfo<SystemBulletin> queryForPage(Model model, SystemBulletinQueryObject qo) {
-        return PageMethod.startPage(qo.getPage(), qo.getLimit())
-                .doSelectPageInfo(() -> systemBulletinMapper.queryForPage(qo));
+    public List<SystemBulletin> list(SystemBulletinQueryObject qo) {
+        return systemBulletinMapper.queryForPage(qo);
     }
 
     @Override

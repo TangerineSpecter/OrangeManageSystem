@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.tangerinespecter.oms.common.anno.LoggerInfo;
 import com.tangerinespecter.oms.common.anno.ReWriteBody;
 import com.tangerinespecter.oms.common.enums.LogOperation;
+import com.tangerinespecter.oms.common.query.QueryObject;
 import com.tangerinespecter.oms.common.query.UserHealthQueryObject;
 import com.tangerinespecter.oms.common.redis.PageModelKey;
 import com.tangerinespecter.oms.system.domain.entity.UserHealth;
@@ -54,9 +55,9 @@ public class UserHealthManageController {
      * 健康管理列表
      */
     @ApiOperation(value = "健康管理列表")
-    @GetMapping("/list")
-    public PageInfo<UserHealth> userHealthPage(Model model, UserHealthQueryObject qo) {
-        return userHealthManageService.queryForPage(model, qo);
+    @PostMapping("/list")
+    public PageInfo<UserHealth> userHealthPage(@RequestBody QueryObject<UserHealthQueryObject> qo) {
+        return userHealthManageService.queryForPage(qo);
     }
 
     /**

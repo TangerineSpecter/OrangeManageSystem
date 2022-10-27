@@ -1,15 +1,9 @@
 package com.tangerinespecter.oms.system.service.system;
 
 import com.tangerinespecter.oms.common.query.SystemLogQueryObject;
-import com.tangerinespecter.oms.common.result.ServiceResult;
+import com.tangerinespecter.oms.system.domain.dto.system.LoggerListDto;
+import com.tangerinespecter.oms.system.service.BaseService;
 
-public interface ISystemLogService {
+public interface ISystemLogService extends BaseService<SystemLogQueryObject, LoggerListDto> {
 
-    /**
-     * 系统日志
-     *
-     * @param qo
-     * @return 日志列表
-     */
-    ServiceResult queryForPage(SystemLogQueryObject qo);
 }

@@ -66,30 +66,22 @@
             elem: '#endDay'
         });
 
-        table.render({
-            elem: '#currentTableId',
-            url: '/data/stock/list',
-            toolbar: '#toolbar',
-            cellMinWidth: 100,
-            totalRow: true,
-            cols: [
-                [
-                    {type: "checkbox", width: 50, fixed: "left"},
-                    {field: 'id', title: 'ID', sort: true},
-                    {field: 'market', title: '市场'},
-                    {field: 'code', align: 'center', title: '股票代码'},
-                    {field: 'fullCode', align: 'center', title: '股票完整代码'},
-                    {field: 'name', align: 'center', title: '股票名称'},
-                    {field: 'listingDate', align: 'center', title: '上市时间', sort: true},
-                    {field: 'currCapital', align: 'center', title: '流通股本（万股）', sort: true},
-                    {field: 'profitFour', align: 'center', title: '四季度净利润', sort: true},
-                    {field: 'totalCapital', align: 'center', title: '总股本', sort: true, fixed: "right"},
-                ]
-            ],
-            limits: [10, 15, 20, 25, 50, 100],
-            limit: 10,
-            page: true
-        });
+        const cols = [
+            [
+                {type: "checkbox", width: 50, fixed: "left"},
+                {field: 'id', title: 'ID', sort: true},
+                {field: 'market', title: '市场'},
+                {field: 'code', align: 'center', title: '股票代码'},
+                {field: 'fullCode', align: 'center', title: '股票完整代码'},
+                {field: 'name', align: 'center', title: '股票名称'},
+                {field: 'listingDate', align: 'center', title: '上市时间', sort: true},
+                {field: 'currCapital', align: 'center', title: '流通股本（万股）', sort: true},
+                {field: 'profitFour', align: 'center', title: '四季度净利润', sort: true},
+                {field: 'totalCapital', align: 'center', title: '总股本', sort: true, fixed: "right"},
+            ]
+        ];
+
+        OmsTable.init('#currentTableId', '/data/stock/list', cols);
 
         //监听表格复选框选择
         table.on('checkbox(currentTableFilter)', function (obj) {

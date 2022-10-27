@@ -1,7 +1,6 @@
 package com.tangerinespecter.oms.system.service.system.impl;
 
 import com.github.pagehelper.PageInfo;
-import com.github.pagehelper.page.PageMethod;
 import com.tangerinespecter.oms.common.query.SystemPermissionQueryObject;
 import com.tangerinespecter.oms.common.utils.CollUtils;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
@@ -28,9 +27,8 @@ public class PermissionManageServiceImpl implements IPermissionManageService {
     private final SystemPermissionRoleMapper systemPermissionRoleMapper;
 
     @Override
-    public PageInfo<SystemPermission> queryForPage(SystemPermissionQueryObject qo) {
-        return PageMethod.startPage(qo.getPage(), qo.getLimit())
-                .doSelectPageInfo(() -> systemPermissionMapper.queryForPage(qo));
+    public List<SystemPermission> list(SystemPermissionQueryObject qo) {
+        return systemPermissionMapper.queryForPage(qo);
     }
 
     @Override

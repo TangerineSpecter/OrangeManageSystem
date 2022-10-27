@@ -16,7 +16,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class WorkCollectionQueryObject extends QueryObject {
+public class WorkCollectionQueryObject extends BaseQueryObject {
 
     /**
      * 标题

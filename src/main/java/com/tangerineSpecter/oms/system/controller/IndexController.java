@@ -1,6 +1,5 @@
 package com.tangerinespecter.oms.system.controller;
 
-import cn.hutool.core.map.MapUtil;
 import com.tangerinespecter.oms.common.anno.LoggerInfo;
 import com.tangerinespecter.oms.common.anno.ReWriteBody;
 import com.tangerinespecter.oms.common.constants.SystemConstant;
@@ -26,7 +25,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
 
 /**
  * 默认控制

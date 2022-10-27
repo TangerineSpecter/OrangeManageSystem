@@ -16,7 +16,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SystemPermissionQueryObject extends QueryObject {
+public class SystemPermissionQueryObject extends BaseQueryObject {
     /**
      * 权限名称
      */

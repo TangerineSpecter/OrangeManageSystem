@@ -1,8 +1,6 @@
 package com.tangerinespecter.oms.system.service.data.impl;
 
 import cn.hutool.core.lang.Assert;
-import com.github.pagehelper.PageInfo;
-import com.github.pagehelper.page.PageMethod;
 import com.tangerinespecter.oms.common.constants.RetCode;
 import com.tangerinespecter.oms.common.exception.BusinessException;
 import com.tangerinespecter.oms.common.query.TradeLogicQueryObject;
@@ -15,6 +13,7 @@ import com.tangerinespecter.oms.system.service.data.IDataTradeLogicService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service
 public class DataTradeLogicServiceImpl implements IDataTradeLogicService {
@@ -23,9 +22,8 @@ public class DataTradeLogicServiceImpl implements IDataTradeLogicService {
     private DataTradeLogicMapper dataTradeLogicMapper;
 
     @Override
-    public PageInfo<DataTradeLogic> queryForPage(TradeLogicQueryObject qo) {
-        return PageMethod.startPage(qo.getPage(), qo.getLimit())
-                .doSelectPageInfo(() -> dataTradeLogicMapper.queryForPage(qo));
+    public List<DataTradeLogic> list(TradeLogicQueryObject qo) {
+        return dataTradeLogicMapper.queryForPage(qo);
     }
 
     @Override

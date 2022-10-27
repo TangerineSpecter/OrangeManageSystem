@@ -12,6 +12,7 @@ version:
         - info: 新增：食物信息管理
         - info: 重构：版本历史记录加载方式
         - info: 优化：定时器执行方式
+        - info: 重构：表格数据加载方式
     - code: v0.5.0
       date: 2022-05-17
       content:

@@ -1,7 +1,5 @@
 package com.tangerinespecter.oms.system.service.system.impl;
 
-import com.github.pagehelper.PageInfo;
-import com.github.pagehelper.page.PageMethod;
 import com.google.common.base.Splitter;
 import com.tangerinespecter.oms.common.query.SystemNoticeQueryObject;
 import com.tangerinespecter.oms.job.message.Message;
@@ -63,9 +61,8 @@ public class SystemNoticeServiceImpl implements ISystemNoticeService {
     }
 
     @Override
-    public PageInfo<SystemNotice> queryForPage(SystemNoticeQueryObject qo) {
-        return PageMethod.startPage(qo.getPage(), qo.getLimit())
-                .doSelectPageInfo(() -> systemNoticeMapper.queryForPage(qo));
+    public List<SystemNotice> list(SystemNoticeQueryObject qo) {
+        return systemNoticeMapper.queryForPage(qo);
     }
 
     @Override

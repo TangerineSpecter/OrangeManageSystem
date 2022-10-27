@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.tangerinespecter.oms.common.anno.LoggerInfo;
 import com.tangerinespecter.oms.common.anno.ReWriteBody;
 import com.tangerinespecter.oms.common.enums.LogOperation;
+import com.tangerinespecter.oms.common.query.QueryObject;
 import com.tangerinespecter.oms.common.query.SystemBulletinQueryObject;
 import com.tangerinespecter.oms.common.redis.PageModelKey;
 import com.tangerinespecter.oms.common.result.ServiceResult;
@@ -56,9 +57,9 @@ public class SystemBulletinController {
     }
 
     @ApiOperation("系统公告列表")
-    @GetMapping("/list")
-    public PageInfo<SystemBulletin> bulletinPage(Model model, SystemBulletinQueryObject qo) {
-        return systemBulletinService.queryForPage(model, qo);
+    @PostMapping("/list")
+    public PageInfo<SystemBulletin> bulletinPage(@RequestBody QueryObject<SystemBulletinQueryObject> qo) {
+        return systemBulletinService.queryForPage(qo);
     }
 
     @ApiOperation("新增系统公告")

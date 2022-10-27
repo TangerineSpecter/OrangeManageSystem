@@ -16,9 +16,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SystemRoleQueryObject extends QueryObject {
+public class SystemRoleQueryObject extends BaseQueryObject {
 
-    private Integer type;
+    private Integer status;
 
     private String name;
 }

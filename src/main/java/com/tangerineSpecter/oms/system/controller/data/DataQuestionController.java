@@ -5,6 +5,7 @@ import com.tangerinespecter.oms.common.anno.AccessLimit;
 import com.tangerinespecter.oms.common.anno.LoggerInfo;
 import com.tangerinespecter.oms.common.anno.ReWriteBody;
 import com.tangerinespecter.oms.common.enums.LogOperation;
+import com.tangerinespecter.oms.common.query.QueryObject;
 import com.tangerinespecter.oms.common.query.QuestionQueryObject;
 import com.tangerinespecter.oms.common.redis.PageModelKey;
 import com.tangerinespecter.oms.common.result.ServiceResult;
@@ -60,8 +61,8 @@ public class DataQuestionController {
 
     @ApiOperation("问题管理列表")
     @AccessLimit(maxCount = 10)
-    @GetMapping("/list")
-    public PageInfo<DataQuestion> listInfo(QuestionQueryObject qo) {
+    @PostMapping("/list")
+    public PageInfo<DataQuestion> listInfo(@RequestBody QueryObject<QuestionQueryObject> qo) {
         return dataQuestionService.queryForPage(qo);
     }
 

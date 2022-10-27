@@ -15,7 +15,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SystemLogQueryObject extends QueryObject {
+public class SystemLogQueryObject extends BaseQueryObject {
     /**
      * 操作关键词
      */

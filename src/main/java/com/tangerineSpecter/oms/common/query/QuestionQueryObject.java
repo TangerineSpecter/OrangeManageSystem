@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class QuestionQueryObject extends QueryObject {
+public class QuestionQueryObject extends BaseQueryObject {
 
     private String question;
 }

@@ -163,7 +163,43 @@ layui.use(['form', 'table', 'toast', 'treetable', 'layer'], function () {
             }
         });
     }
+
 });
+
+var OmsTable = new function () {
+    /**
+     * 初始化表格
+     * @param id 表格id
+     * @param url 接口地址
+     * @param cols 表格数据
+     */
+    this.init = function (id, url, cols) {
+        layui.use(['table'], function () {
+            const table = layui.table;
+            table.render({
+                elem: id,
+                url: url,
+                method: 'POST',
+                contentType: 'application/json',
+                where: {searchParams: {}},
+                toolbar: '#toolbar',//开启头部工具栏
+                skin: 'line',
+                size: 'lg',
+                defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
+                    title: '提示'
+                    , layEvent: 'LAYTABLE_TIPS'
+                    , icon: 'layui-icon-tips'
+                }],
+                cellMinWidth: 100,
+                totalRow: true,
+                cols: cols,
+                limits: [10, 15, 20, 25, 50, 100],
+                limit: 10,
+                page: true
+            });
+        });
+    }
+}
 
 var Ajax = new function () {
     /**

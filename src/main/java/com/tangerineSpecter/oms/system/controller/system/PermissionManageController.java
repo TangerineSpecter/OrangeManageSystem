@@ -3,6 +3,7 @@ package com.tangerinespecter.oms.system.controller.system;
 import com.github.pagehelper.PageInfo;
 import com.tangerinespecter.oms.common.anno.AccessLimit;
 import com.tangerinespecter.oms.common.anno.ReWriteBody;
+import com.tangerinespecter.oms.common.query.QueryObject;
 import com.tangerinespecter.oms.common.query.SystemPermissionQueryObject;
 import com.tangerinespecter.oms.common.redis.PageModelKey;
 import com.tangerinespecter.oms.system.domain.entity.SystemPermission;
@@ -13,10 +14,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -47,8 +45,8 @@ public class PermissionManageController {
 
     @ApiOperation("权限管理列表")
     @AccessLimit(maxCount = 10)
-    @GetMapping("/list")
-    public PageInfo<SystemPermission> listInfo(SystemPermissionQueryObject qo) {
+    @PostMapping("/list")
+    public PageInfo<SystemPermission> listInfo(@RequestBody QueryObject<SystemPermissionQueryObject> qo) {
         return permissionManageService.queryForPage(qo);
     }
 

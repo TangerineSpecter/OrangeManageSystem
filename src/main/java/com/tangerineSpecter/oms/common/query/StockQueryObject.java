@@ -16,7 +16,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class StockQueryObject extends QueryObject {
+public class StockQueryObject extends BaseQueryObject {
     /**
      * 市场（sh\sz\hk)
      */

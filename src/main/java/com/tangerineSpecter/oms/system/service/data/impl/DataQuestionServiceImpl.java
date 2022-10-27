@@ -1,27 +1,25 @@
 package com.tangerinespecter.oms.system.service.data.impl;
 
-import com.github.pagehelper.PageInfo;
-import com.github.pagehelper.page.PageMethod;
 import com.tangerinespecter.oms.common.query.QuestionQueryObject;
 import com.tangerinespecter.oms.system.convert.data.QuestionConvert;
 import com.tangerinespecter.oms.system.domain.entity.DataQuestion;
 import com.tangerinespecter.oms.system.domain.vo.data.QuestionInfoVo;
 import com.tangerinespecter.oms.system.mapper.DataQuestionMapper;
 import com.tangerinespecter.oms.system.service.data.IDataQuestionService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class DataQuestionServiceImpl implements IDataQuestionService {
 
-    @Resource
-    private DataQuestionMapper dataQuestionMapper;
+    private final DataQuestionMapper dataQuestionMapper;
 
     @Override
-    public PageInfo<DataQuestion> queryForPage(QuestionQueryObject qo) {
-        return PageMethod.startPage(qo.getPage(), qo.getLimit())
-                .doSelectPageInfo(() -> dataQuestionMapper.queryForPage(qo));
+    public List<DataQuestion> list(QuestionQueryObject qo) {
+        return dataQuestionMapper.queryForPage(qo);
     }
 
     @Override

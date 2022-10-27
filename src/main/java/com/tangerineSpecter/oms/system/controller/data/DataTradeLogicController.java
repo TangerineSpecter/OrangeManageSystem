@@ -5,6 +5,7 @@ import com.tangerinespecter.oms.common.anno.AccessLimit;
 import com.tangerinespecter.oms.common.anno.LoggerInfo;
 import com.tangerinespecter.oms.common.anno.ReWriteBody;
 import com.tangerinespecter.oms.common.enums.LogOperation;
+import com.tangerinespecter.oms.common.query.QueryObject;
 import com.tangerinespecter.oms.common.query.TradeLogicQueryObject;
 import com.tangerinespecter.oms.common.redis.PageModelKey;
 import com.tangerinespecter.oms.common.result.ServiceResult;
@@ -67,8 +68,8 @@ public class DataTradeLogicController {
 
     @ApiOperation("交易逻辑列表")
     @AccessLimit(maxCount = 10)
-    @GetMapping("/list")
-    public PageInfo<DataTradeLogic> listInfo(TradeLogicQueryObject qo) {
+    @PostMapping("/list")
+    public PageInfo<DataTradeLogic> listInfo(@RequestBody QueryObject<TradeLogicQueryObject> qo) {
         return dataTradeLogicService.queryForPage(qo);
     }
 

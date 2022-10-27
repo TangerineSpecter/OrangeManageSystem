@@ -73,48 +73,37 @@
             elem: '#endTime'
         });
 
-        table.render({
-            elem: '#currentTableId',
-            url: '/user/health/list',
-            toolbar: '#toolbar',//开启头部工具栏
-            defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
-                title: '提示'
-                , layEvent: 'LAYTABLE_TIPS'
-                , icon: 'layui-icon-tips'
-            }],
-            cols: [
-                [
-                    {type: "checkbox", width: 50, fixed: "left"},
-                    {field: 'id', width: 80, title: 'ID', sort: true, fixed: 'left', type: 'numbers'},
-                    {field: 'recordTime', width: 150, fixed: 'left', title: '记录日期'},
-                    {field: 'weight', width: 100, title: '体重', edit: 'text'},
-                    {field: 'bmi', width: 100, title: 'BMI值', edit: 'text'},
-                    {field: 'bodyFatRate', width: 100, title: '体脂率', edit: 'text'},
-                    {field: 'viscusLevel', width: 100, title: '内脏等级', edit: 'text'},
-                    {field: 'muscleWeight', width: 100, title: '肌肉重量', edit: 'text'},
-                    {field: 'fatWeight', width: 100, title: '脂肪量', edit: 'text'},
-                    {field: 'basalMetabolismRate', width: 100, title: '基础代谢率', edit: 'text'},
-                    {field: 'bodyMoistureRate', width: 100, title: '身体水分', edit: 'text'},
-                    {field: 'physicalAge', width: 100, title: '身体年龄', edit: 'text'},
-                    {field: 'leanBodyMass', width: 100, title: '去脂体重', edit: 'text'},
-                    {field: 'subcutaneousFatRate', width: 100, title: '皮下脂肪', edit: 'text'},
-                    {field: 'skeletalMuscleRate', width: 100, title: '骨骼肌率', edit: 'text'},
-                    {field: 'proteinRate', width: 100, title: '蛋白质', edit: 'text'},
-                    {field: 'boneWeight', width: 100, title: '骨头重量', edit: 'text'},
-                    {field: 'heartRate', width: 100, title: '平均心率', edit: 'text'},
-                    {field: 'stepNumber', width: 100, title: '步数', edit: 'text'},
-                    {field: 'calorie', width: 100, title: '卡路里', edit: 'text'},
-                    {field: 'pressure', width: 100, title: '压力', edit: 'text'},
-                    {field: 'sleepDuration', width: 100, title: '睡眠时长', edit: 'text'},
-                    {
-                        toolbar: '#operationBar', align: 'center', width: 120, title: '操作', fixed: "right"
-                    }
-                ]
-            ],
-            limits: [10, 15, 20, 25, 50, 100],
-            limit: 10,
-            page: true
-        });
+        const cols = [
+            [
+                {type: "checkbox", width: 50, fixed: "left"},
+                {field: 'id', width: 80, title: 'ID', sort: true, fixed: 'left', type: 'numbers'},
+                {field: 'recordTime', width: 150, fixed: 'left', title: '记录日期'},
+                {field: 'weight', width: 100, title: '体重', edit: 'text'},
+                {field: 'bmi', width: 100, title: 'BMI值', edit: 'text'},
+                {field: 'bodyFatRate', width: 100, title: '体脂率', edit: 'text'},
+                {field: 'viscusLevel', width: 100, title: '内脏等级', edit: 'text'},
+                {field: 'muscleWeight', width: 100, title: '肌肉重量', edit: 'text'},
+                {field: 'fatWeight', width: 100, title: '脂肪量', edit: 'text'},
+                {field: 'basalMetabolismRate', width: 100, title: '基础代谢率', edit: 'text'},
+                {field: 'bodyMoistureRate', width: 100, title: '身体水分', edit: 'text'},
+                {field: 'physicalAge', width: 100, title: '身体年龄', edit: 'text'},
+                {field: 'leanBodyMass', width: 100, title: '去脂体重', edit: 'text'},
+                {field: 'subcutaneousFatRate', width: 100, title: '皮下脂肪', edit: 'text'},
+                {field: 'skeletalMuscleRate', width: 100, title: '骨骼肌率', edit: 'text'},
+                {field: 'proteinRate', width: 100, title: '蛋白质', edit: 'text'},
+                {field: 'boneWeight', width: 100, title: '骨头重量', edit: 'text'},
+                {field: 'heartRate', width: 100, title: '平均心率', edit: 'text'},
+                {field: 'stepNumber', width: 100, title: '步数', edit: 'text'},
+                {field: 'calorie', width: 100, title: '卡路里', edit: 'text'},
+                {field: 'pressure', width: 100, title: '压力', edit: 'text'},
+                {field: 'sleepDuration', width: 100, title: '睡眠时长', edit: 'text'},
+                {
+                    toolbar: '#operationBar', align: 'center', width: 120, title: '操作', fixed: "right"
+                }
+            ]
+        ];
+
+        OmsTable.init('#currentTableId', '/user/health/list', cols);
 
         //监听表格复选框选择
         table.on('checkbox(currentTableFilter)', function (obj) {
@@ -124,7 +113,7 @@
         //监听单元格编辑
         table.on('edit(currentTableFilter)', function (obj) {
             // updateFun(obj.data);
-            Ajax.put("/user/health/update", obj.data, false, function() {
+            Ajax.put("/user/health/update", obj.data, false, function () {
                 toast.success({message: '操作成功', position: 'topCenter'});
                 table.reloadData('currentTableId');
             });

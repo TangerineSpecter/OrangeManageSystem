@@ -174,7 +174,8 @@
             </div>
         </div>
         <div class="noteCards">
-            <div class="layui-card note-card" style="border-radius: 6px;" th:each="noteInfo:${noteList}" th:fragment="noteCards">
+            <div class="layui-card note-card" style="border-radius: 6px;" th:each="noteInfo:${noteList}"
+                 th:fragment="noteCards">
                 <div class="layui-card-header card-time">
                     <span th:text="${noteInfo.createTime}">
                         2022-01-01 06:00:00
@@ -202,6 +203,7 @@
 <th:block th:include="include :: footer"/>
 <script th:src="@{/oms/wangeditor/wangEditor_4.7.15.min.js}"></script>
 <script th:inline="javascript">
+
     layui.use(['echarts', 'form', 'tag', 'dropdown', 'toast', 'jquery', 'loading', 'code'], function () {
         const echarts = layui.echarts,
             $ = layui.jquery,
@@ -288,7 +290,7 @@
             $.ajax({
                 url: '/user/card-note/list',
                 data: {tagId: tagId},
-                type: 'get',
+                type: 'POST',
                 success: function (result) {
                     $(".noteCards").html(result);
                 }
@@ -301,7 +303,7 @@
             $.ajax({
                 url: '/user/card-note/list',
                 data: {tagId: tagId},
-                type: 'get',
+                type: 'POST',
                 success: function (result) {
                     $(".noteCards").html(result);
                 }
@@ -380,7 +382,7 @@
                 show: true,
                 trigger: 'item',
                 formatter: function (p) {
-                    var format = echarts.format.formatTime('yyyy/MM/dd', p.data[0]);
+                    const format = echarts.format.formatTime('yyyy/MM/dd', p.data[0]);
                     return p.data[1] + ' note on ' + format;
                 }
             },
@@ -537,8 +539,9 @@
         form.on('submit(recycling)', function () {
             $.ajax({
                 url: '/user/card-note/list',
-                data: {isDel: 1},
-                type: 'get',
+                data: initQueryParam({isDel: 1}),
+                contentType: 'application/json',
+                type: 'POST',
                 success: function (result) {
                     $(".noteCards").html(result);
                     initRecyclingNoteMenu();
@@ -551,8 +554,12 @@
         form.on('submit(searchNote)', function (data) {
             $.ajax({
                 url: '/user/card-note/list',
-                data: {keyword: data.field.keyword},
-                type: 'get',
+                data: initQueryParam({
+                    keyword: data.field.keyword,
+                    isDel: 0
+                }),
+                contentType: 'application/json',
+                type: 'POST',
                 success: function (result) {
                     $(".noteCards").html(result);
                     initNoteMenu();
@@ -577,6 +584,14 @@
             editor.txt.clear();
             loading.blockRemove(".noteCards", 1000);
             // loading.loadRemove(500);
+        }
+
+        function initQueryParam(param) {
+            return JSON.stringify({
+                page: 1,
+                limit: 10,
+                searchParams: param
+            });
         }
     });
 

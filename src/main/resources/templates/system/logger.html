@@ -84,39 +84,34 @@
             elem: '#endTime'
         });
 
-        table.render({
-            elem: '#currentTableId',
-            url: '/system/log/list',
-            skin: 'line',
-            cols: [
-                [
-                    {type: "checkbox", width: 50, fixed: "left"},
-                    {field: 'id', width: 80, title: 'ID', sort: true},
-                    {field: 'username', width: 100, title: '操作人'},
-                    {field: 'eventDesc', width: 100, title: '操作事件'},
-                    {field: 'method', width: 250, title: '操作方法'},
-                    {field: 'params', width: 250, title: '操作参数'},
-                    {field: 'operation', width: 150, title: '操作内容'},
-                    {
-                        field: 'time', width: 100, title: '操作耗时', sort: true, templet: function (d) {
-                            if (d.time <= 1000) {
-                                return '<span class="layui-badge" style="background-color: #36b368">' + d.time + ' ms</span>';
-                            } else if (d.time > 1000 && d.time <= 5000) {
-                                return '<span class="layui-badge layui-bg-orange">' + d.time + ' ms</span>';
-                            } else if (d.time > 5000) {
-                                return '<span class="layui-badge layui-bg">' + d.time + ' ms</span>';
-                            }
-
+        const cols = [
+            [
+                {type: "checkbox", width: 50, fixed: "left"},
+                {field: 'id', width: 80, title: 'ID', sort: true},
+                {field: 'username', width: 100, title: '操作人'},
+                {field: 'eventDesc', width: 100, title: '操作事件'},
+                {field: 'method', width: 250, title: '操作方法'},
+                {field: 'params', width: 250, title: '操作参数'},
+                {field: 'operation', width: 150, title: '操作内容'},
+                {
+                    field: 'time', width: 100, title: '操作耗时', sort: true, templet: function (d) {
+                        if (d.time <= 1000) {
+                            return '<span class="layui-badge" style="background-color: #36b368">' + d.time + ' ms</span>';
+                        } else if (d.time > 1000 && d.time <= 5000) {
+                            return '<span class="layui-badge layui-bg-orange">' + d.time + ' ms</span>';
+                        } else if (d.time > 5000) {
+                            return '<span class="layui-badge layui-bg">' + d.time + ' ms</span>';
                         }
-                    },
-                    {field: 'ip', width: 150, title: 'IP地址'},
-                    {field: 'createTime', minWidth: 200, title: '操作时间', sort: true}
-                ]
-            ],
-            limits: [10, 15, 20, 25, 50, 100],
-            limit: 10,
-            page: true
-        });
+
+                    }
+                },
+                {field: 'ip', width: 150, title: 'IP地址'},
+                {field: 'createTime', minWidth: 200, title: '操作时间', sort: true}
+            ]
+        ];
+
+        OmsTable.init('#currentTableId', '/system/log/list', cols);
+
     });
 </script>
 </body>

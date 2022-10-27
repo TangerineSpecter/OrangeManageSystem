@@ -8,6 +8,7 @@ import com.tangerinespecter.oms.system.domain.pojo.AccountInfo;
 import com.tangerinespecter.oms.system.domain.pojo.FileInfoBean;
 import com.tangerinespecter.oms.system.domain.vo.system.SystemUserInfoVo;
 import com.tangerinespecter.oms.system.domain.vo.system.SystemUserPwdVo;
+import com.tangerinespecter.oms.system.service.BaseService;
 import org.springframework.ui.Model;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,17 +18,12 @@ import javax.validation.Valid;
 /**
  * @author TangerineSpecter
  */
-public interface ISystemUserService {
+public interface ISystemUserService extends BaseService<SystemUserQueryObject, SystemUserListDto> {
 
     /**
      * 校验登录
      */
     void verifyLogin(HttpServletRequest request, HttpServletResponse response, @Valid AccountInfo model);
-
-    /**
-     * 后台管理员列表
-     */
-    PageInfo<SystemUserListDto> querySystemUserList(SystemUserQueryObject qo);
 
     /**
      * 获取管理员信息

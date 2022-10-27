@@ -79,6 +79,18 @@
     <select id="queryForPage" resultType="com.tangerinespecter.oms.system.domain.dto.system.SystemUserListDto">
         select *
         from system_user
+        <where>
+            <if test="name != null and name != ''">
+                and (
+                        nick_name like concat('%', #{name}, '%')
+                    or
+                        username like concat('%', #{name}, '%')
+                )
+            </if>
+            <if test="loginTime != null and loginTime != ''">
+                and date_format(last_login_date, '%Y-%m-%d') = #{loginTime}
+            </if>
+        </where>
     </select>
     <select id="selectOneByUserName" resultMap="systemUserMap">
         select u.*,

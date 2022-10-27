@@ -5,6 +5,7 @@ import com.tangerinespecter.oms.common.anno.LoggerInfo;
 import com.tangerinespecter.oms.common.anno.ReWriteBody;
 import com.tangerinespecter.oms.common.context.UserContext;
 import com.tangerinespecter.oms.common.enums.LogOperation;
+import com.tangerinespecter.oms.common.query.QueryObject;
 import com.tangerinespecter.oms.common.query.SystemUserQueryObject;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.dto.system.SystemUserListDto;
@@ -73,9 +74,9 @@ public class SystemUserController {
     }
 
     @ApiOperation(value = "后台管理员列表")
-    @GetMapping("/list")
-    public PageInfo<SystemUserListDto> listInfo(SystemUserQueryObject qo) {
-        return systemUserService.querySystemUserList(qo);
+    @PostMapping("/list")
+    public PageInfo<SystemUserListDto> listInfo(@RequestBody QueryObject<SystemUserQueryObject> qo) {
+        return systemUserService.queryForPage(qo);
     }
 
     @ApiOperation(value = "新增后台管理员")

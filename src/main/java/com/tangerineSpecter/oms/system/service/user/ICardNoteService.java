@@ -1,6 +1,5 @@
 package com.tangerinespecter.oms.system.service.user;
 
-import com.github.pagehelper.PageInfo;
 import com.tangerinespecter.oms.common.query.UserCardNoteQueryObject;
 import com.tangerinespecter.oms.system.domain.dto.user.CardNoteInfoDto;
 import com.tangerinespecter.oms.system.domain.entity.UserCardNoteTag;
@@ -8,13 +7,12 @@ import com.tangerinespecter.oms.system.domain.vo.user.CardNoteInfoVo;
 import com.tangerinespecter.oms.system.domain.vo.user.CardNoteListVo;
 import com.tangerinespecter.oms.system.domain.vo.user.CardNoteTagAssocVo;
 import com.tangerinespecter.oms.system.domain.vo.user.CardNoteTagVo;
+import com.tangerinespecter.oms.system.service.BaseService;
 
 import java.util.List;
 
-public interface ICardNoteService {
+public interface ICardNoteService extends BaseService<UserCardNoteQueryObject, CardNoteListVo> {
 
-
-    PageInfo<CardNoteListVo> queryForPage(UserCardNoteQueryObject qo);
 
     void insert(CardNoteInfoVo vo);
 

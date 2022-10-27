@@ -43,25 +43,17 @@
         const table = layui.table,
             layer = layui.layer;
 
-        table.render({
-            elem: '#currentTableId',
-            url: '/system/permission/list',
-            toolbar: '#toolbar',//开启头部工具栏
-            cellMinWidth: 100,
-            skin: 'line',
-            cols: [
-                [
-                    {type: "checkbox", width: 50, fixed: "left"},
-                    {field: 'id', title: 'ID', sort: true, fixed: "left"},
-                    {field: 'name', title: '权限名称', sort: true},
-                    {field: 'url', title: '权限地址', sort: true},
-                    {field: 'code', title: '权限code', sort: true, fixed: "right"}
-                ]
-            ],
-            limits: [10, 15, 20, 25, 50, 100],
-            limit: 10,
-            page: true
-        });
+        const cols = [
+            [
+                {type: "checkbox", width: 50, fixed: "left"},
+                {field: 'id', title: 'ID', sort: true, fixed: "left"},
+                {field: 'name', title: '权限名称', sort: true},
+                {field: 'url', title: '权限地址', sort: true},
+                {field: 'code', title: '权限code', sort: true, fixed: "right"}
+            ]
+        ];
+
+        OmsTable.init('#currentTableId', '/system/permission/list', cols);
 
         //监听表格复选框选择
         table.on('checkbox(currentTableFilter)', function (obj) {

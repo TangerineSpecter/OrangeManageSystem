@@ -2,8 +2,6 @@ package com.tangerinespecter.oms.system.service.user.impl;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Assert;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.tangerinespecter.oms.common.constants.RetCode;
 import com.tangerinespecter.oms.common.exception.BusinessException;
 import com.tangerinespecter.oms.common.query.UserHealthQueryObject;
@@ -13,24 +11,21 @@ import com.tangerinespecter.oms.system.domain.enums.HealthRecordTypeEnum;
 import com.tangerinespecter.oms.system.domain.vo.user.UserHealthInfoVo;
 import com.tangerinespecter.oms.system.mapper.UserHealthMapper;
 import com.tangerinespecter.oms.system.service.user.IUserHealthManageService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
-import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class UserHealthManageServiceImpl implements IUserHealthManageService {
 
-    @Resource
-    private UserHealthMapper userHealthMapper;
+    private final UserHealthMapper userHealthMapper;
 
     @Override
-    public PageInfo<UserHealth> queryForPage(Model model, UserHealthQueryObject qo) {
-        PageHelper.startPage(qo.getPage(), qo.getLimit());
-        List<UserHealth> pageList = userHealthMapper.queryForPage(qo);
-        return new PageInfo<>(pageList);
+    public List<UserHealth> list(UserHealthQueryObject qo) {
+        return userHealthMapper.queryForPage(qo);
     }
 
     @Override

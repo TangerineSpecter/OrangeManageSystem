@@ -17,7 +17,7 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">状态</label>
                     <div class="layui-input-inline">
-                        <select name="type" class="layui-select">
+                        <select name="status" class="layui-select">
                             <option value="">全部</option>
                             <option value="0">冻结</option>
                             <option value="1">可用</option>
@@ -74,30 +74,18 @@
             elem: '#queryDay'
         });
 
-        table.render({
-            elem: '#currentTableId',
-            url: '/system/role/list',
-            toolbar: '#toolbar',//开启头部工具栏
-            defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
-                title: '提示'
-                , layEvent: 'LAYTABLE_TIPS'
-                , icon: 'layui-icon-tips'
-            }],
-            cellMinWidth: 100,
-            cols: [
-                [
-                    {type: "checkbox", fixed: "left"},
-                    {field: 'id', title: 'ID', width: 80, sort: true},
-                    {field: 'name', title: '角色名'},
-                    {field: 'remark', minWidth: 150, title: '备注', fixed: "right"},
-                    {field: 'status', title: '状态', width: 120, templet: '#switchTpl', unresize: true},
-                    {toolbar: '#operationBar', align: 'center', title: '操作', width: 150, fixed: "right"}
-                ]
-            ],
-            limits: [10, 15, 20, 25, 50, 100],
-            limit: 10,
-            page: true
-        });
+        const cols = [
+            [
+                {type: "checkbox", fixed: "left"},
+                {field: 'id', title: 'ID', width: 80, sort: true},
+                {field: 'name', title: '角色名'},
+                {field: 'remark', minWidth: 150, title: '备注', fixed: "right"},
+                {field: 'status', title: '状态', width: 120, templet: '#switchTpl', unresize: true},
+                {toolbar: '#operationBar', align: 'center', title: '操作', width: 150, fixed: "right"}
+            ]
+        ];
+
+        OmsTable.init('#currentTableId', '/system/role/list', cols);
 
         //头工具栏事件
         table.on('toolbar(currentTableFilter)', function (obj) {

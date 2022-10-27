@@ -16,7 +16,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserHealthQueryObject extends QueryObject {
+public class UserHealthQueryObject extends BaseQueryObject {
 
     /**
      * 起始日期

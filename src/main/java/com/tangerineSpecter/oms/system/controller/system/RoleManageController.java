@@ -2,6 +2,7 @@ package com.tangerinespecter.oms.system.controller.system;
 
 import com.github.pagehelper.PageInfo;
 import com.tangerinespecter.oms.common.anno.ReWriteBody;
+import com.tangerinespecter.oms.common.query.QueryObject;
 import com.tangerinespecter.oms.common.query.SystemRoleQueryObject;
 import com.tangerinespecter.oms.common.redis.PageModelKey;
 import com.tangerinespecter.oms.common.result.ServiceResult;
@@ -37,80 +38,80 @@ import java.util.Set;
 @Api(tags = "角色管理接口")
 @RequestMapping("/system/role")
 public class RoleManageController {
-	
-	private final PageResultService pageResultService;
-	private final IRoleManageService roleManageService;
-	
-	/**
-	 * 角色管理
-	 */
-	@ApiOperation("角色管理页面")
-	@RequiresPermissions("system:role:page")
-	@GetMapping(value = "/page", produces = "text/html;charset=UTF-8")
-	public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
-		return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getSystemRolePageKey, "system/roleManage");
-	}
-	
-	/**
-	 * 添加页面
-	 */
-	@ApiOperation("添加编辑角色页面")
-	@GetMapping("/addPage")
-	public ModelAndView addAuthorizePage(Model model) {
-		return ServiceResult.jumpPage("system/roleAuthorize");
-	}
-	
-	/**
-	 * 角色列表
-	 */
-	@ApiOperation("角色管理列表")
-	@GetMapping("/list")
-	public PageInfo<SystemRoleListDto> listInfo(SystemRoleQueryObject qo) {
-		return roleManageService.querySystemRoleList(qo);
-	}
-	
-	/**
-	 * 添加角色
-	 */
-	@ApiOperation("添加角色")
-	@PostMapping("/insert")
-	public void insert(@Validated(Insert.class) @RequestBody SystemRoleInfoVo param) {
-		roleManageService.insert(param.getName());
-	}
-	
-	/**
-	 * 角色授权
-	 */
-	@ApiOperation("角色授权")
-	@PutMapping("/authorize")
-	public void authorize(@Validated @RequestBody SystemRoleInfoVo param) {
-		roleManageService.authorize(param);
-	}
-	
-	/**
-	 * 更新角色状态
-	 */
-	@ApiOperation("更新角色状态")
-	@PutMapping("/update-status")
-	public void updateStatus(@Validated(Update.class) @RequestBody SystemRoleInfoVo param) {
-		roleManageService.updateStatus(param.getId());
-	}
-	
-	/**
-	 * 删除角色
-	 */
-	@ApiOperation("删除角色")
-	@DeleteMapping("/delete/{id}")
-	public void delete(@PathVariable("id") Long id) {
-		roleManageService.delete(id);
-	}
-	
-	/**
-	 * 获取角色权限列表
-	 */
-	@ApiOperation("获取角色权限列表")
-	@GetMapping("/get-permission")
-	public Set<SystemPermission> getRolePermission(@RequestParam("id") Long roleId) {
-		return roleManageService.getRolePermission(roleId);
-	}
+
+    private final PageResultService pageResultService;
+    private final IRoleManageService roleManageService;
+
+    /**
+     * 角色管理
+     */
+    @ApiOperation("角色管理页面")
+    @RequiresPermissions("system:role:page")
+    @GetMapping(value = "/page", produces = "text/html;charset=UTF-8")
+    public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
+        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getSystemRolePageKey, "system/roleManage");
+    }
+
+    /**
+     * 添加页面
+     */
+    @ApiOperation("添加编辑角色页面")
+    @GetMapping("/addPage")
+    public ModelAndView addAuthorizePage(Model model) {
+        return ServiceResult.jumpPage("system/roleAuthorize");
+    }
+
+    /**
+     * 角色列表
+     */
+    @ApiOperation("角色管理列表")
+    @PostMapping("/list")
+    public PageInfo<SystemRoleListDto> listInfo(@RequestBody QueryObject<SystemRoleQueryObject> qo) {
+        return roleManageService.queryForPage(qo);
+    }
+
+    /**
+     * 添加角色
+     */
+    @ApiOperation("添加角色")
+    @PostMapping("/insert")
+    public void insert(@Validated(Insert.class) @RequestBody SystemRoleInfoVo param) {
+        roleManageService.insert(param.getName());
+    }
+
+    /**
+     * 角色授权
+     */
+    @ApiOperation("角色授权")
+    @PutMapping("/authorize")
+    public void authorize(@Validated @RequestBody SystemRoleInfoVo param) {
+        roleManageService.authorize(param);
+    }
+
+    /**
+     * 更新角色状态
+     */
+    @ApiOperation("更新角色状态")
+    @PutMapping("/update-status")
+    public void updateStatus(@Validated(Update.class) @RequestBody SystemRoleInfoVo param) {
+        roleManageService.updateStatus(param.getId());
+    }
+
+    /**
+     * 删除角色
+     */
+    @ApiOperation("删除角色")
+    @DeleteMapping("/delete/{id}")
+    public void delete(@PathVariable("id") Long id) {
+        roleManageService.delete(id);
+    }
+
+    /**
+     * 获取角色权限列表
+     */
+    @ApiOperation("获取角色权限列表")
+    @GetMapping("/get-permission")
+    public Set<SystemPermission> getRolePermission(@RequestParam("id") Long roleId) {
+        return roleManageService.getRolePermission(roleId);
+    }
 }

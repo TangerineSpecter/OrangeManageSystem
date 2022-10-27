@@ -1,8 +1,6 @@
 package com.tangerinespecter.oms.system.service.user.impl;
 
 import cn.hutool.core.text.CharSequenceUtil;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.tangerinespecter.oms.common.context.UserContext;
 import com.tangerinespecter.oms.common.query.UserCardNoteQueryObject;
 import com.tangerinespecter.oms.system.convert.user.CardNoteConvert;
@@ -20,7 +18,6 @@ import com.tangerinespecter.oms.system.service.user.ICardNoteService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,10 +32,8 @@ public class CardNoteService implements ICardNoteService {
     private UserNoteTagAssocMapper noteTagAssocMapper;
 
     @Override
-    public PageInfo<CardNoteListVo> queryForPage(UserCardNoteQueryObject qo) {
-        PageHelper.startPage(qo.getPage(), qo.getLimit());
-        List<CardNoteListVo> userCardNotes = cardNoteMapper.queryForPage(qo);
-        return new PageInfo<>(userCardNotes);
+    public List<CardNoteListVo> list(UserCardNoteQueryObject qo) {
+        return cardNoteMapper.queryForPage(qo);
     }
 
     @Override

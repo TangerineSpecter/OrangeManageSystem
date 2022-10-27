@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.io.Serializable;
-
 /**
  * 系统消息高级查询
  *
@@ -18,16 +16,10 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SystemNoticeQueryObject extends QueryObject {
+public class SystemNoticeQueryObject extends BaseQueryObject {
 
     private Integer readStatus;
 
     private Integer isDel;
 
-    public SystemNoticeQueryObject(boolean allPage) {
-        super();
-        if (allPage) {
-            super.initAllPage();
-        }
-    }
 }

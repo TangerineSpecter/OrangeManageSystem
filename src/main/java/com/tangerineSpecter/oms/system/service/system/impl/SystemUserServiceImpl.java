@@ -5,8 +5,6 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.text.CharSequenceUtil;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.google.common.base.Splitter;
 import com.tangerinespecter.oms.common.config.CosConfig;
 import com.tangerinespecter.oms.common.constants.RetCode;
@@ -94,9 +92,11 @@ public class SystemUserServiceImpl implements ISystemUserService {
     }
 
     @Override
-    public PageInfo<SystemUserListDto> querySystemUserList(SystemUserQueryObject qo) {
-        PageHelper.startPage(qo.getPage(), qo.getLimit());
-        List<SystemUserListDto> pageList = systemUserMapper.queryForPage(qo);
+    public List<SystemUserListDto> list(SystemUserQueryObject qo) {
+        return this.querySystemUserList(systemUserMapper.queryForPage(qo));
+    }
+
+    public List<SystemUserListDto> querySystemUserList(List<SystemUserListDto> pageList) {
         List<SystemRole> allRoles = systemRoleMapper.selectAllList();
         pageList.forEach(u -> {
             List<SystemRole> haveRoles = systemRoleMapper.selectRoleByUid(u.getUid());
@@ -106,7 +106,7 @@ public class SystemUserServiceImpl implements ISystemUserService {
             u.setHaveRoleIds(haveRoleIds);
         });
         // 得到分页结果对象
-        return new PageInfo<>(pageList);
+        return pageList;
     }
 
     @Override

@@ -15,6 +15,7 @@ import com.tangerinespecter.oms.common.constants.ParamUtils;
 import com.tangerinespecter.oms.common.constants.SystemConstant;
 import com.tangerinespecter.oms.common.context.UserContext;
 import com.tangerinespecter.oms.common.netty.ChatHandler;
+import com.tangerinespecter.oms.common.query.QueryObject;
 import com.tangerinespecter.oms.common.query.SystemNoticeQueryObject;
 import com.tangerinespecter.oms.common.utils.CollUtils;
 import com.tangerinespecter.oms.common.utils.DateUtils;
@@ -302,7 +303,7 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
     @Override
     public List<MessageDto> message() {
         //获取当前用户消息
-        PageInfo<SystemNotice> pageInfo = noticeService.queryForPage(new SystemNoticeQueryObject(true));
+        PageInfo<SystemNotice> pageInfo = noticeService.queryForPage(new QueryObject<>(new SystemNoticeQueryObject(), 1, Integer.MAX_VALUE));
         return CollUtils.forEach(MessageEnum.initMessageList(), messageDto -> messageDto.setChildren(MessageConvert.INSTANCE.convert(pageInfo.getList())));
     }
 }

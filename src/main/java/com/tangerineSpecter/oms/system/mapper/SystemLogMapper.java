@@ -13,8 +13,8 @@ public interface SystemLogMapper extends BaseMapper<SystemLog> {
     /**
      * 日志列表
      *
-     * @param qo
-     * @return
+     * @param qo 高级查询参数
+     * @return 分页列表
      */
     List<LoggerListDto> queryForPage(SystemLogQueryObject qo);
 }

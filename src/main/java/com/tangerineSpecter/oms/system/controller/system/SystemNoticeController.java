@@ -2,9 +2,9 @@ package com.tangerinespecter.oms.system.controller.system;
 
 import com.github.pagehelper.PageInfo;
 import com.tangerinespecter.oms.common.anno.ReWriteBody;
+import com.tangerinespecter.oms.common.query.QueryObject;
 import com.tangerinespecter.oms.common.query.SystemNoticeQueryObject;
 import com.tangerinespecter.oms.common.result.ServiceResult;
-import com.tangerinespecter.oms.common.utils.ParamUtils;
 import com.tangerinespecter.oms.system.domain.entity.SystemNotice;
 import com.tangerinespecter.oms.system.domain.vo.system.MessageVo;
 import com.tangerinespecter.oms.system.domain.vo.system.NoticeUpdateStatusVo;
@@ -46,8 +46,8 @@ public class SystemNoticeController {
     }
 
     @ApiOperation(value = "消息中心列表")
-    @GetMapping("/list")
-    public PageInfo<SystemNotice> listInfo(SystemNoticeQueryObject qo) {
+    @PostMapping("/list")
+    public PageInfo<SystemNotice> listInfo(@RequestBody QueryObject<SystemNoticeQueryObject> qo) {
         return systemNoticeService.queryForPage(qo);
     }
 

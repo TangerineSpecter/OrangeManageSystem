@@ -191,7 +191,7 @@ var OmsTable = new function () {
                     , icon: 'layui-icon-tips'
                 }],
                 cellMinWidth: 100,
-                totalRow: true,
+                // totalRow: true,
                 cols: cols,
                 limits: [10, 15, 20, 25, 50, 100],
                 limit: 10,

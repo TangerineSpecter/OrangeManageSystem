@@ -147,9 +147,6 @@
 
         // 监听搜索操作
         form.on('submit(data-search-btn)', function (data) {
-            const test = [131, 40, 228, 541, 412, 109, 70];
-            console.log(test);
-            initTradeRecordCharts(test);
             return false;
         });
 
@@ -164,48 +161,6 @@
         });
     });
 
-    $(function () {
-        initIncomeStatisCharts();
-    });
-
-    /**
-     * 收益曲线图表初始化
-     */
-    function initIncomeStatisCharts() {
-
-        $.post("/statis/trade/income-info", function (result) {
-            if (result.success) {
-                const options = {
-                    series: [{
-                        name: '收益值',
-                        data: result.data.totalIncome.reverse()
-                    }],
-                    chart: {
-                        height: 350,
-                        type: 'area'
-                    },
-                    dataLabels: {
-                        enabled: false
-                    },
-                    stroke: {
-                        curve: 'smooth'
-                    },
-                    xaxis: {
-                        type: 'date',
-                        categories: result.data.date.reverse()
-                    },
-                    tooltip: {
-                        x: {
-                            format: 'yyyy-MM-dd'
-                        }
-                    },
-                };
-
-                const chart = new ApexCharts(document.querySelector("#echarts-records"), options);
-                chart.render();
-            }
-        }, "JSON");
-    }
 </script>
 </body>
 </html>

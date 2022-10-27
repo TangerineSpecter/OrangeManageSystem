@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('食物库')"/>
+    <style>
+        .layui-table-cell {
+            display: table-cell;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body class="pear-container">
+<div class="layui-card">
+    <div class="layui-card-body">
+        <form id="search-from" class="layui-form layui-form-pane" action="">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="name" name="name" autocomplete="off" class="layui-input"
+                               placeholder="在此输入食物名称">
+                    </div>
+                </div>
+                <button class="pear-btn pear-btn-md pear-btn-primary" lay-submit lay-filter="data-search-btn">
+                    <i class="layui-icon layui-icon-search"></i>
+                    查询
+                </button>
+                <button type="reset" class="pear-btn pear-btn-md" lay-submit lay-filter="data-reset-btn">
+                    <i class="layui-icon layui-icon-refresh"></i>
+                    重置
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="layui-card">
+    <div class="layui-card-body">
+        <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+    </div>
+</div>
+<th:block th:include="include :: footer"/>
+<script type="text/html" id="toolbar">
+    <div class="layui-btn-container">
+        <button class="pear-btn pear-btn-primary pear-btn-md" lay-event="addFood">
+            <i class="layui-icon layui-icon-add-1"></i>
+            添加食物
+        </button>
+    </div>
+</script>
+<script type="text/html" id="operationBar">
+    <button class="pear-btn pear-btn-primary pear-btn-sm" lay-event="edit">
+        <i class="layui-icon layui-icon-edit"></i>
+    </button>
+    <button class="pear-btn pear-btn-danger pear-btn-sm" lay-event="del">
+        <i class="layui-icon layui-icon-delete"></i>
+    </button>
+</script>
+<script>
+    layui.use(['table', 'layer'], function () {
+        const table = layui.table,
+            layer = layui.layer;
+
+        const
+            cols = [
+                [
+                    {field: 'id', title: 'ID', sort: true, width: 80, type: 'numbers'},
+                    {
+                        field: 'logo', title: '图片', width: 200, templet: function (row) {
+                            return "<img src='" + row.logo + "'/>";
+                        }
+                    },
+                    {field: 'name', title: '食物名称', width: 100},
+                    {
+                        field: 'calories', title: '卡路里', templet: function (row) {
+                            return "<span class=\"layui-badge layui-bg-black\" style='width:50px'>" + row.calories + "</span>";
+                        }
+                    },
+                    {
+                        field: 'protein', title: '蛋白质', templet: function (row) {
+                            return "<span class=\"layui-badge layui-bg-orange\" style='width:50px'>" + row.protein + "</span>";
+                        }
+                    },
+                    {
+                        field: 'fat', title: '脂肪', templet: function (row) {
+                            return "<span class=\"layui-badge\" style='width:50px'>" + row.fat + "</span>";
+                        }
+                    },
+                    {
+                        field: 'carbs', title: '碳水化合物', templet: function (row) {
+                            return "<span class=\"layui-badge layui-bg-blue\" style='width:50px'>" + row.carbs + "</span>";
+                        }
+                    },
+                    {
+                        field: 'dietaryFiber', title: '膳食纤维', templet: function (row) {
+                            return "<span class=\"layui-badge layui-bg-green\" style='width:50px'>" + row.dietaryFiber + "</span>";
+                        }
+                    },
+                    {
+                        field: 'energy', title: '供能比', width: 300, templet: function (row) {
+                            //能量比，脂肪9：蛋白质4：碳水4
+                            const fat = calEnergyPercent(row.calories, row.fat * 9, "layui-bg-red");
+                            const protein = calEnergyPercent(row.calories, row.protein * 4, "layui-bg-orange");
+                            const carbs = calEnergyPercent(row.calories, row.carbs * 4, "layui-bg-blue");
+                            return protein + fat + carbs;
+                        }
+                    },
+                    {
+                        toolbar: '#operationBar', align: 'center', title: '操作', fixed: "right", width: 200
+                    }
+                ]
+            ];
+
+        /**
+         * 计算能量百分比
+         * @param total 总能量
+         * @param value 单位能量
+         * @param color 进度条颜色
+         */
+        function calEnergyPercent(total, value, color) {
+            const percent = Math.round(value / total * 100).toFixed(0) + '%';
+            return "<div class=\"layui-progress layui-progress-big\" lay-showPercent=\"true\" style='margin-top: 10px'>\n" +
+                "  <div class=\"layui-progress-bar " + color + "\" lay-percent='" + percent + "'></div>\n" +
+                "</div>";
+        }
+
+        OmsTable.init('#currentTableId', '/data/food-library/list', cols);
+
+        //监听表格复选框选择
+        table.on('checkbox(currentTableFilter)', function (obj) {
+            console.log(obj)
+        });
+
+        //头工具栏事件
+        table.on('toolbar(currentTableFilter)', function (obj) {
+            switch (obj.event) {
+                //添加交易数据
+                case 'addFood':
+                    loadFormHeightModel("添加食物", {href: "/data/food-library/insert"}, '/data/food-library/addPage', '600px');
+                    break;
+                //自定义头工具栏右侧图标 - 提示
+                case 'LAYTABLE_TIPS':
+                    layer.alert('这里是进行问题记录的地方');
+                    break;
+            }
+        });
+
+        //监听工具条
+        table.on('tool(currentTableFilter)', function (obj) {
+            const data = obj.data;
+            if (obj.event === 'detail') {
+                layer.msg('ID：' + data.id + ' 的查看操作');
+            } else if (obj.event === 'del') {
+                layer.confirm('是否进行食物记录删除？', {icon: 3, title: "提示"}, function (index) {
+                    Ajax.delete('/data/food-library/delete', {id: data.id}, false);
+                });
+            } else if (obj.event === 'edit') {
+                data.href = "/data/food-library/update";
+                loadFormHeightModel("编辑食物", data, '/data/food-library/addPage', '600px');
+            }
+        });
+
+    });
+</script>
+<script>
+</script>
+</body>
+</html>

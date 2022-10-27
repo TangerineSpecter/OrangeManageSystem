@@ -174,8 +174,9 @@ var OmsTable = new function () {
      * @param cols 表格数据
      */
     this.init = function (id, url, cols) {
-        layui.use(['table'], function () {
-            const table = layui.table;
+        layui.use(['table', 'element'], function () {
+            const table = layui.table,
+                element = layui.element;
             table.render({
                 elem: id,
                 url: url,
@@ -195,7 +196,10 @@ var OmsTable = new function () {
                 cols: cols,
                 limits: [10, 15, 20, 25, 50, 100],
                 limit: 10,
-                page: true
+                page: true,
+                done: function () {
+                    element.render();
+                }
             });
         });
     }

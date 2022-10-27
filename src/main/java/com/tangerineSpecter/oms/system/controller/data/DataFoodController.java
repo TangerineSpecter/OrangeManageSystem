@@ -53,8 +53,8 @@ public class DataFoodController {
 
     @ApiOperation("食物记录列表")
     @AccessLimit(maxCount = 10)
-    @GetMapping("/list")
-    public PageInfo<DataFoodLibrary> listInfo(QueryObject<FoodLibraryQueryObject> qo) {
+    @PostMapping("/list")
+    public PageInfo<DataFoodLibrary> listInfo(@RequestBody QueryObject<FoodLibraryQueryObject> qo) {
         return dataFoodLibraryService.queryForPage(qo);
     }
 

@@ -41,7 +41,7 @@ public class DataFoodLibrary extends BaseEntity implements Serializable {
     private String logo;
 
     @ApiModelProperty("卡路里/100g")
-    private Integer calories;
+    private BigDecimal calories;
 
     @ApiModelProperty("蛋白质/100g")
     private BigDecimal protein;

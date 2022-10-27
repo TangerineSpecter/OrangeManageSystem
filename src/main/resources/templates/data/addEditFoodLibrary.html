@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('添加编辑食物记录')"/>
+</head>
+<body>
+<form class="layui-form layui-form-pane" action="" lay-filter="data-form">
+    <div class="mainBox">
+        <div class="main-container">
+            <div class="main-container">
+                <input type="text" id="id" name="id" class="layui-input" style="display: none;">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">食物名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="name" name="name" autocomplete="off" class="layui-input"
+                               placeholder="在此输入食物名称">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">食物图片</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="logo" name="logo" autocomplete="off" class="layui-input"
+                               placeholder="在此输入图片地址">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">卡路里</label>
+                    <div class="layui-input-block">
+                        <input type="number" id="calories" name="calories" autocomplete="off" class="layui-input"
+                               min="0" value="0">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">蛋白质</label>
+                    <div class="layui-input-block">
+                        <input type="number" id="protein" name="protein" autocomplete="off" class="layui-input"
+                               min="0" value="0">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">脂肪</label>
+                    <div class="layui-input-block">
+                        <input type="number" id="fat" name="fat" autocomplete="off" class="layui-input"
+                               min="0" value="0">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">碳水化合物</label>
+                    <div class="layui-input-block">
+                        <input type="number" id="carbs" name="carbs" autocomplete="off" class="layui-input"
+                               min="0" value="0">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">膳食纤维</label>
+                    <div class="layui-input-block">
+                        <input type="number" id="dietaryFiber" name="dietaryFiber" autocomplete="off"
+                               class="layui-input"
+                               min="0" value="0">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="pear-btn pear-btn-primary pear-btn-sm" lay-submit=""
+                    lay-filter="submitBtn">
+                <i class="layui-icon layui-icon-ok"></i>
+                提交
+            </button>
+            <button type="reset" class="pear-btn pear-btn-sm">
+                <i class="layui-icon layui-icon-refresh"></i>
+                重置
+            </button>
+        </div>
+    </div>
+</form>
+
+<th:block th:include="include :: footer"/>
+<script>
+
+    //初始化页面数据
+    function initData(data) {
+        if (data.id !== undefined) {
+            initForm(data);
+        }
+        requestUrl = data.href;
+    }
+
+    /**
+     * 初始化表单
+     * @param data
+     */
+    function initForm(data) {
+        layui.use(['form'], function () {
+            const form = layui.form;
+            form.val("data-form", {
+                "id": data.id,
+                "name": data.name,
+                "logo": data.logo,
+                "calories": data.calories,
+                "protein": data.protein,
+                "fat": data.fat,
+                "carbs": data.carbs,
+                "dietaryFiber": data.dietaryFiber,
+            });
+            form.render();
+        });
+    }
+
+    layui.use(['form', 'layer'], function () {
+        const form = layui.form,
+            layer = layui.layer;
+
+        //自定义验证规则
+        form.verify({
+            name: function (value) {
+                if (value == null || value === "") {
+                    return '请输入食物名称';
+                }
+            },
+        });
+
+        //监听提交
+        form.on('submit(submitBtn)', function (data) {
+            if (data.field.id === undefined || data.field.id === "") {
+                Ajax.post(requestUrl, data.field, true);
+            } else {
+                Ajax.put(requestUrl, data.field, true);
+            }
+            return false;
+        });
+
+    });
+
+</script>
+
+</body>
+</html>

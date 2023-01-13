@@ -54,15 +54,17 @@ public class FundAnalysisTradeInfo implements Serializable {
      *
      * @param maxCount 允许最大买入次数
      * @param netValue 目前买入基金净值
+     * @return 买入结果，true：买入成功
      */
-    public void buyFund(Integer maxCount, BigDecimal netValue) {
+    public boolean buyFund(Integer maxCount, BigDecimal netValue) {
         //停止加仓
         if (this.buyCount >= maxCount) {
-            return;
+            return false;
         }
         //加仓份额，每次加仓金钱 / 当前净值，加上之前份额
         BigDecimal addNumber = NumChainCal.startOf(this.perMoney).div(netValue).getBigDecimal();
         this.buyCount++;
         this.number = this.number.add(addNumber);
+        return true;
     }
 }

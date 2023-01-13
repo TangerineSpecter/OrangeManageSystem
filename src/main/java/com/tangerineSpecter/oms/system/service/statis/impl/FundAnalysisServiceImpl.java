@@ -65,9 +65,11 @@ public class FundAnalysisServiceImpl implements IFundAnalysisService {
                 info.setOperation(2);
             } else if (info.getRate().compareTo(vo.getGridSetting().getBuyRate()) <= 0) {
                 //低于买入比例则加仓
-                tradeInfo.buyFund(vo.getGridSetting().getNumber(), data.getNetValue());
-                info.setOperation(1);
-                info.setNumber(tradeInfo.getNumber());
+                final boolean buyResult = tradeInfo.buyFund(vo.getGridSetting().getNumber(), data.getNetValue());
+                if (buyResult) {
+                    info.setOperation(1);
+                    info.setNumber(tradeInfo.getNumber());
+                }
             }
             if (info.getRate().compareTo(BigDecimal.ZERO) < 0) {
                 lossDay.getAndIncrement();
@@ -91,7 +93,7 @@ public class FundAnalysisServiceImpl implements IFundAnalysisService {
     private void calFundIncome(FundAnalysisInfoDto.AnalysisInfo info, FundAnalysisTradeInfo tradeInfo, BigDecimal netValue, BigDecimal money) {
         //当前本金 = 每份金钱 * 买入次数
         BigDecimal thisMoney = NumChainCal.startOf(tradeInfo.getPerMoney()).mul(tradeInfo.getBuyCount()).getBigDecimal();
-        //目前持有收益 = 份额 * 净值 - （当前本金）
+        //当前持有收益 = 份额 * 净值 - （当前本金）
         BigDecimal thisIncome = NumChainCal.startOf(tradeInfo.getNumber()).mul(netValue).sub(thisMoney).getBigDecimal(2);
         //目前累计收益 = 累计收益 + 本次收益
         final BigDecimal thisTotalIncome = NumChainCal.startOf(tradeInfo.getTotalIncome()).add(thisIncome).getBigDecimal();

@@ -85,8 +85,8 @@ public class FundAnalysisInfoDto implements Serializable {
         private BigDecimal totalRate = BigDecimal.ZERO;
         @ApiModelProperty("操作，0：无操作；1：买入；2：卖出")
         private Integer operation = 0;
-        @ApiModelProperty("成交份额")
-        private BigDecimal number;
+        @ApiModelProperty("买入总额")
+        private BigDecimal money;
 
         public AnalysisInfo(String date) {
             this.date = date;

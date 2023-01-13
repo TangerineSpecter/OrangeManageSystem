@@ -1,6 +1,5 @@
 package com.tangerinespecter.oms.system.domain.dto.statis;
 
-import com.tangerinespecter.oms.common.utils.NumChainCal;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -23,6 +22,8 @@ public class FundAnalysisTradeInfo implements Serializable {
 
     @ApiModelProperty("每份金钱")
     private BigDecimal perMoney = BigDecimal.ZERO;
+    @ApiModelProperty("当前持仓金额")
+    private BigDecimal amount = BigDecimal.ZERO;
     @ApiModelProperty("持有份额")
     private BigDecimal number = BigDecimal.ZERO;
     @ApiModelProperty("累计收益")
@@ -44,8 +45,8 @@ public class FundAnalysisTradeInfo implements Serializable {
         this.totalIncome = totalIncome;
         //购买次数回到1
         this.buyCount = 1;
-        //清空份额
-        this.number = BigDecimal.ZERO;
+        //清空账户
+        this.amount = BigDecimal.ZERO;
         this.perMoney = perMoney;
     }
 
@@ -53,18 +54,23 @@ public class FundAnalysisTradeInfo implements Serializable {
      * 买入基金
      *
      * @param maxCount 允许最大买入次数
-     * @param netValue 目前买入基金净值
      * @return 买入结果，true：买入成功
      */
-    public boolean buyFund(Integer maxCount, BigDecimal netValue) {
+    public boolean buyFund(Integer maxCount) {
         //停止加仓
         if (this.buyCount >= maxCount) {
             return false;
         }
         //加仓份额，每次加仓金钱 / 当前净值，加上之前份额
-        BigDecimal addNumber = NumChainCal.startOf(this.perMoney).div(netValue).getBigDecimal();
         this.buyCount++;
-        this.number = this.number.add(addNumber);
+        this.amount = this.amount.add(this.perMoney);
         return true;
+    }
+
+    /**
+     * 初始化账户
+     */
+    public void initAmount() {
+        this.amount = this.perMoney;
     }
 }

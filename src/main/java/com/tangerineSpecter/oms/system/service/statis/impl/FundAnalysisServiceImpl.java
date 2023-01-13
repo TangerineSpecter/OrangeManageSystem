@@ -37,26 +37,17 @@ public class FundAnalysisServiceImpl implements IFundAnalysisService {
         FundAnalysisTradeInfo tradeInfo = new FundAnalysisTradeInfo(NumChainCal.startOf(vo.getMoney()).div(vo.getGridSetting().getNumber()).getBigDecimal());
         AtomicInteger lossDay = new AtomicInteger();
         CollUtils.forEach(fundHistories, data -> {
-            //基金拆分日未持仓不支持买入跳过
-            if (data.getSplit().compareTo(BigDecimal.ZERO) > 0 && tradeInfo.getNumber().compareTo(BigDecimal.ZERO) == 0) {
-                return;
-            }
             FundAnalysisInfoDto.AnalysisInfo info = new FundAnalysisInfoDto.AnalysisInfo(DateUtil.format(data.getDate(), DatePattern.NORM_DATE_PATTERN));
             result.getList().add(info);
-            //基金拆分
-            if (data.getSplit().compareTo(BigDecimal.ZERO) > 0) {
-                tradeInfo.setNumber(NumChainCal.startOf(tradeInfo.getNumber()).mul(data.getSplit()).getBigDecimal());
-                this.calFundIncome(info, tradeInfo, data.getNetValue(), vo.getMoney());
-                return;
-            }
-            //份额为0则买入
-            if (tradeInfo.getNumber().compareTo(BigDecimal.ZERO) == 0) {
-                //买入份额 = 每份金钱 / 单位净值
-                tradeInfo.setNumber(NumChainCal.startOf(tradeInfo.getPerMoney()).div(data.getNetValue()).getBigDecimal());
+            //账户为0则买入
+            if (tradeInfo.getAmount().compareTo(BigDecimal.ZERO) == 0) {
+                tradeInfo.initAmount();
                 info.setOperation(1);
-                info.setNumber(tradeInfo.getNumber());
+                info.setMoney(tradeInfo.getPerMoney());
             }
-            this.calFundIncome(info, tradeInfo, data.getNetValue(), vo.getMoney());
+            //账户金额 * 收益率 + 账户金额
+            tradeInfo.setAmount(NumChainCal.startOf(tradeInfo.getAmount()).mul(data.getEarningsRate()).div(100).add(tradeInfo.getAmount()).getBigDecimal());
+            this.calFundIncome(info, tradeInfo, vo.getMoney());
             //收益率超过卖出比例则卖出，卖出后隔日再买
             if (info.getRate().compareTo(vo.getGridSetting().getSellRate()) >= 0) {
                 //重置每份钱数 = 起始资金 + 累计收益 / 份额
@@ -65,10 +56,10 @@ public class FundAnalysisServiceImpl implements IFundAnalysisService {
                 info.setOperation(2);
             } else if (info.getRate().compareTo(vo.getGridSetting().getBuyRate()) <= 0) {
                 //低于买入比例则加仓
-                final boolean buyResult = tradeInfo.buyFund(vo.getGridSetting().getNumber(), data.getNetValue());
+                boolean buyResult = tradeInfo.buyFund(vo.getGridSetting().getNumber());
                 if (buyResult) {
                     info.setOperation(1);
-                    info.setNumber(tradeInfo.getNumber());
+                    info.setMoney(tradeInfo.getPerMoney());
                 }
             }
             if (info.getRate().compareTo(BigDecimal.ZERO) < 0) {
@@ -87,20 +78,19 @@ public class FundAnalysisServiceImpl implements IFundAnalysisService {
      *
      * @param info      当天统计信息
      * @param tradeInfo 本次交易信息
-     * @param netValue  当天基金净值
      * @param money     起始本金
      */
-    private void calFundIncome(FundAnalysisInfoDto.AnalysisInfo info, FundAnalysisTradeInfo tradeInfo, BigDecimal netValue, BigDecimal money) {
-        //当前本金 = 每份金钱 * 买入次数
-        BigDecimal thisMoney = NumChainCal.startOf(tradeInfo.getPerMoney()).mul(tradeInfo.getBuyCount()).getBigDecimal();
-        //当前持有收益 = 份额 * 净值 - （当前本金）
-        BigDecimal thisIncome = NumChainCal.startOf(tradeInfo.getNumber()).mul(netValue).sub(thisMoney).getBigDecimal(2);
+    private void calFundIncome(FundAnalysisInfoDto.AnalysisInfo info, FundAnalysisTradeInfo tradeInfo, BigDecimal money) {
+        //投入资金 = 每份金额 * 买入次数
+        final BigDecimal buyMoney = NumChainCal.startOf(tradeInfo.getPerMoney()).mul(tradeInfo.getBuyCount()).getBigDecimal();
+        //当前持有收益 = 账户金额 - 投入金额
+        BigDecimal thisIncome = NumChainCal.startOf(tradeInfo.getAmount()).sub(buyMoney).getBigDecimal(2);
         //目前累计收益 = 累计收益 + 本次收益
         final BigDecimal thisTotalIncome = NumChainCal.startOf(tradeInfo.getTotalIncome()).add(thisIncome).getBigDecimal();
         //目前累计收益率 = (累计收益 + 目前持有收益 / 起始资金) * 100
         BigDecimal thisTotalRate = NumChainCal.startOf(thisTotalIncome).div(money).mul(100).getBigDecimal(2);
-        //本次持仓收益率
-        BigDecimal rate = NumChainCal.startOf(thisIncome).div(thisMoney).mul(100).getBigDecimal(2);
+        //当前持仓收益率 = 当前持有收益 / 投入资金
+        BigDecimal rate = NumChainCal.startOf(thisIncome).div(buyMoney).mul(100).getBigDecimal(2);
         info.setIncome(thisIncome).setTotalIncome(thisTotalIncome).setRate(rate).setTotalRate(thisTotalRate);
     }
 

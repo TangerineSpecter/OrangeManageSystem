@@ -19,11 +19,24 @@
     </select>
 
     <select id="queryForPage" resultType="com.tangerinespecter.oms.system.domain.entity.DataFundHistory">
-        select id, code, date, earnings_rate, net_value
+        select id, code, date, earnings_rate, net_value, split
         from data_fund_history
         <where>
             code = #{code}
+            <if test="startTime != null and endTime != null">
+                <![CDATA[
+                and date >= #{startTime}
+                and date <= #{endTime}
+                ]]>
+            </if>
         </where>
         order by date desc
     </select>
+
+    <update id="updateSplitRateByDate">
+        update data_fund_history
+        set split = #{split}
+        where date = #{date}
+          and code = #{code}
+    </update>
 </mapper>

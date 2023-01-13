@@ -229,6 +229,31 @@ var Ajax = new function () {
     };
 
     /**
+     * post请求
+     * @param url 请求地址
+     * @param data 请求数据
+     * @param iframe 是否iframe请求
+     * @param callback
+     */
+    this.postBack = function (url, data, iframe, callback) {
+        $.ajax({
+            url: url,
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            type: 'post',
+            success: function (result) {
+                if (typeof callback == "function") {
+                    callback(result);
+                }
+            },
+            error: function () {
+                window.failInfo(iframe);
+            }
+        })
+    };
+
+    /**
      * post表单请求
      * @param url 请求地址
      * @param data 请求数据

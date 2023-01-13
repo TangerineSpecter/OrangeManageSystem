@@ -1,7 +1,6 @@
 package com.tangerinespecter.oms.common.constants;
 
 import com.tangerinespecter.oms.system.domain.entity.SystemConfig;
-import org.springframework.beans.factory.annotation.Value;
 
 /**
  * 系统相关常量类

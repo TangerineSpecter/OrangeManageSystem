@@ -19,10 +19,11 @@ CREATE TABLE `data_fund`
 DROP TABLE IF EXISTS `data_fund_history`;
 CREATE TABLE `data_fund_history`
 (
-    `id`            BIGINT(13) NOT NULL AUTO_INCREMENT,
+    `id`            BIGINT NOT NULL AUTO_INCREMENT,
     `code`          varchar(16)   DEFAULT NULL COMMENT '基金代码',
     `date`          date          DEFAULT null COMMENT '时间',
-    `earnings_rate` DECIMAL(8, 2) DEFAULT null COMMENT '收益率',
+    `earnings_rate` DECIMAL(8, 2) DEFAULT null COMMENT '收益率（百分比）',
+    `net_value`     DECIMAL(8, 4) DEFAULT 0 COMMENT '净值',
     PRIMARY KEY (`id`)
 ) ENGINE = INNODB
   DEFAULT CHARSET = utf8mb4

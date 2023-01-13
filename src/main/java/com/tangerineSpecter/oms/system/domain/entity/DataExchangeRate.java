@@ -1,5 +1,6 @@
 package com.tangerinespecter.oms.system.domain.entity;
 
+import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -9,6 +10,7 @@ import org.apache.ibatis.type.Alias;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * 货币汇率表
@@ -47,6 +49,13 @@ public class DataExchangeRate extends BaseEntity {
      */
     @TableField("record_time")
     private LocalDateTime recordTime;
+
+    public DataExchangeRate(String name, String code, BigDecimal price) {
+        this.name = name;
+        this.code = code;
+        this.price = price;
+        this.recordTime = DateUtil.toLocalDateTime(new Date());
+    }
 }
 
 

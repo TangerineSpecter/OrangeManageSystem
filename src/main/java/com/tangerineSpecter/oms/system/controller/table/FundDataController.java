@@ -8,6 +8,7 @@ import com.tangerinespecter.oms.common.query.FundHistoryQueryObject;
 import com.tangerinespecter.oms.common.query.FundQueryObject;
 import com.tangerinespecter.oms.common.query.QueryObject;
 import com.tangerinespecter.oms.common.redis.PageModelKey;
+import com.tangerinespecter.oms.system.domain.dto.data.FundInitDataDto;
 import com.tangerinespecter.oms.system.domain.entity.DataFund;
 import com.tangerinespecter.oms.system.domain.entity.DataFundHistory;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
@@ -76,12 +77,20 @@ public class FundDataController {
     @ApiOperation("基金数据初始化")
     @PostMapping("/init-fund")
     public int initFund() {
-        return CollUtil.size(dataFundService.initFund().getAllFundData());
+        FundInitDataDto fundInitDataDto = dataFundService.initFund();
+
+        return CollUtil.size(fundInitDataDto.getInsertFundData());
+    }
+
+    @ApiOperation("基金全部历史数据")
+    @PostMapping("/init-all-history")
+    public void initAllFundHistory() {
+        dataFundHistoryService.initAllFundHistory();
     }
 
     @ApiOperation("基金历史数据初始化")
-    @PostMapping("/init-fund-history")
+    @PostMapping("/init-history")
     public void initFundHistory(@ApiParam("基金代码") @RequestBody List<String> fundCode) {
-        dataFundService.initFundHistory(fundCode);
+        dataFundHistoryService.initFundHistory(fundCode);
     }
 }

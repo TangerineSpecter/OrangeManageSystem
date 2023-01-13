@@ -279,23 +279,28 @@
         //资金数据
         initGridLineEcharts("echarts-records", pointLineStyle('#77e19d', '#13ce66'), '#13ce66', [[${statisInfo.lastThirtyDate}]], [[${statisInfo.lastThirtyTotalMoney}]], '当前资金');
         //收益数据
-        initStrokeColumnCharts("echarts-income", pointLineStyle('#A9F387', '#48D8BF'), date, [[${incomeInfo.totalIncome}]]);
+        initBorderColumnCharts("echarts-income", date, [[${incomeInfo.totalIncome}]]);
+        // initStrokeColumnCharts("echarts-income", pointLineStyle('#A9F387', '#48D8BF'), date, [[${incomeInfo.totalIncome}]]);
         //股票数据
-        initStrokeColumnCharts("echarts-stock", pointLineStyle('#A9F387', '#48D8BF'), [[${incomeInfo.stockDate}]], [[${incomeInfo.stockIncome}]]);
+        initBorderColumnCharts("echarts-stock", [[${incomeInfo.stockDate}]], [[${incomeInfo.stockIncome}]]);
+        // initStrokeColumnCharts("echarts-stock", pointLineStyle('#A9F387', '#48D8BF'), [[${incomeInfo.stockDate}]], [[${incomeInfo.stockIncome}]]);
         //股票累计数据
-        initGridLineEcharts("echarts-stock-total", simpleLineStyle('#9effff', '#9E87FF'), '#9E87FF', [[${incomeInfo.stockDate}]], [[${incomeInfo.stockTotalIncome}]], '收益');
+        initGridLineEcharts("echarts-stock-total", simpleLineStyle('#9E87FF', '#9E87FF'), '#9E87FF', [[${incomeInfo.stockDate}]], [[${incomeInfo.stockTotalIncome}]], '收益');
         //期货数据
-        initStrokeColumnCharts("echarts-futures", pointLineStyle('#A9F387', '#48D8BF'), [[${incomeInfo.futuresDate}]], [[${incomeInfo.futuresIncome}]]);
+        initBorderColumnCharts("echarts-futures", [[${incomeInfo.futuresDate}]], [[${incomeInfo.futuresIncome}]]);
+        // initStrokeColumnCharts("echarts-futures", pointLineStyle('#A9F387', '#48D8BF'), [[${incomeInfo.futuresDate}]], [[${incomeInfo.futuresIncome}]]);
         //期货累计数据
-        initGridLineEcharts("echarts-futures-total", simpleLineStyle('#73DD39', '#73DDFF'), '#73DDFF', [[${incomeInfo.futuresDate}]], [[${incomeInfo.futuresTotalIncome}]], '收益');
+        initGridLineEcharts("echarts-futures-total", simpleLineStyle('#73DD39', '#73DD39'), '#73DD39', [[${incomeInfo.futuresDate}]], [[${incomeInfo.futuresTotalIncome}]], '收益');
         //外汇数据
-        initStrokeColumnCharts("echarts-foreign-exchange", pointLineStyle('#A9F387', '#48D8BF'), [[${incomeInfo.foreignDate}]], [[${incomeInfo.foreignIncome}]]);
+        initBorderColumnCharts("echarts-foreign-exchange", [[${incomeInfo.foreignDate}]], [[${incomeInfo.foreignIncome}]]);
+        // initStrokeColumnCharts("echarts-foreign-exchange", pointLineStyle('#A9F387', '#48D8BF'), [[${incomeInfo.foreignDate}]], [[${incomeInfo.foreignIncome}]]);
         //外汇累计数据
-        initGridLineEcharts("echarts-foreign-exchange-total", simpleLineStyle('#fe9a', '#fe9a8b'), '#fe9a8b', [[${incomeInfo.foreignDate}]], [[${incomeInfo.foreignTotalIncome}]], '收益');
+        initGridLineEcharts("echarts-foreign-exchange-total", simpleLineStyle('#f7bc47', '#f7bc47'), '#f7bc47', [[${incomeInfo.foreignDate}]], [[${incomeInfo.foreignTotalIncome}]], '收益');
         //基金数据
-        initStrokeColumnCharts("echarts-funds", pointLineStyle('#A9F387', '#48D8BF'), [[${incomeInfo.fundsDate}]], [[${incomeInfo.fundsIncome}]]);
+        initBorderColumnCharts("echarts-funds", [[${incomeInfo.fundsDate}]], [[${incomeInfo.fundsIncome}]]);
+        // initStrokeColumnCharts("echarts-funds", pointLineStyle('#A9F387', '#48D8BF'), [[${incomeInfo.fundsDate}]], [[${incomeInfo.fundsIncome}]]);
         //基金累计数据
-        initGridLineEcharts("echarts-funds-total", simpleLineStyle('#ff99cc', '#ff3366'), '#ff3366', [[${incomeInfo.fundsDate}]], [[${incomeInfo.fundsTotalIncome}]], '收益');
+        initGridLineEcharts("echarts-funds-total", simpleLineStyle('#ff3366', '#ff3366'), '#ff3366', [[${incomeInfo.fundsDate}]], [[${incomeInfo.fundsTotalIncome}]], '收益');
 
     });
 
@@ -325,7 +330,8 @@
             async: false,
             success: function (result) {
                 //收益数据
-                initStrokeColumnCharts("echarts-income", pointLineStyle('#A9F387', '#48D8BF'), result.data.date, result.data.totalIncome);
+                initBorderColumnCharts("echarts-income", result.data.date, result.data.totalIncome);
+                // initStrokeColumnCharts("echarts-income", pointLineStyle('#A9F387', '#48D8BF'), result.data.date, result.data.totalIncome);
             }
         });
     }

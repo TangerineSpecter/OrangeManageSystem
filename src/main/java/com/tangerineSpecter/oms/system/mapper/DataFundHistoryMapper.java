@@ -42,4 +42,13 @@ public interface DataFundHistoryMapper extends BaseMapper<DataFundHistory> {
      * @return 分页结果
      */
     List<DataFundHistory> queryForPage(FundHistoryQueryObject qo);
+
+    /**
+     * 根据时间更新拆分比例
+     *
+     * @param date      时间
+     * @param code      基金代码
+     * @param splitRate 拆分比例
+     */
+    void updateSplitRateByDate(@Param("date") String date, @Param("code") String code, @Param("split") Double splitRate);
 }

@@ -151,7 +151,8 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
     @Override
     public StatisticsInfo getStatisticsInfo() {
         //获取今年~至今（偏移天数）的交易数据，因为要做资金累计，需要最后一次记录的数据，如果采用时间查询会遗漏今年没有进行记录的资金数据
-        long thisYearOfDay = DateUtil.betweenDay(DateUtil.beginOfYear(new Date()), new Date(), false);
+//        long thisYearOfDay = DateUtil.betweenDay(DateUtil.beginOfYear(new Date()), new Date(), false);
+        long thisYearOfDay = 30;
         List<DataTradeRecord> thisYearTradeRecords = dataTradeRecordMapper.selectRecentListByType(UserContext.getUid(), thisYearOfDay);
         //根据时间分组
         Map<String, List<DataTradeRecord>> tradeRecordMap = CollUtils.convertMultiLinkedHashMap(thisYearTradeRecords, DataTradeRecord::getDate);

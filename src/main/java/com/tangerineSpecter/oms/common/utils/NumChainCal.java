@@ -1,6 +1,7 @@
 package com.tangerinespecter.oms.common.utils;
 
 import cn.hutool.core.convert.Convert;
+import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.NumberUtil;
 
 import java.math.BigDecimal;
@@ -85,7 +86,7 @@ public class NumChainCal {
      */
     public NumChainCal div(Object otherValue) {
         BigDecimal convertValue = Convert.toBigDecimal(otherValue);
-        if (convertValue.equals(BigDecimal.ZERO)) {
+        if (convertValue == null || convertValue.compareTo(BigDecimal.ZERO) == 0) {
             return this;
         }
         this.value = NumberUtil.div(this.value, Convert.toBigDecimal(otherValue));
@@ -101,7 +102,7 @@ public class NumChainCal {
      */
     public NumChainCal div(Object otherValue, int scale) {
         BigDecimal convertValue = Convert.toBigDecimal(otherValue);
-        if (convertValue.equals(BigDecimal.ZERO)) {
+        if (convertValue == null || convertValue.equals(BigDecimal.ZERO)) {
             return this;
         }
         this.value = NumberUtil.div(this.value, convertValue, scale);

@@ -1,14 +1,14 @@
 package com.tangerinespecter.oms.system.convert.data;
 
+import com.tangerinespecter.oms.common.query.FundHistoryQueryObject;
 import com.tangerinespecter.oms.job.model.FundHistoryData;
 import com.tangerinespecter.oms.system.convert.BaseConvert;
 import com.tangerinespecter.oms.system.domain.entity.DataFundHistory;
+import com.tangerinespecter.oms.system.domain.vo.statis.FundAnalysisInfoVo;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
-
-import java.util.List;
 
 /**
  * @author 丢失的橘子
@@ -28,4 +28,6 @@ public interface FundConvert extends BaseConvert {
             @Mapping(target = "netValue", expression = "java(data.getNav())")
     })
     DataFundHistory convert(String code, FundHistoryData data);
+
+    FundHistoryQueryObject convert(FundAnalysisInfoVo vo);
 }

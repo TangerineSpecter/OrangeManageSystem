@@ -51,4 +51,7 @@ public class DataFundHistory implements Serializable {
 
     @ApiModelProperty("净值")
     private BigDecimal netValue;
+
+    @ApiModelProperty("拆分折算比例")
+    private BigDecimal split;
 }

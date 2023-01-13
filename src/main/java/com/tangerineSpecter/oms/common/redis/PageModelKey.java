@@ -111,4 +111,9 @@ public class PageModelKey extends BasePrefixKey {
      * 食物库页面缓存
      */
     public static final PageModelKey getFoodLibraryPageKey = new PageModelKey("data_food_library:", EXPIRE_TIME);
+
+    /**
+     * 基金分析页面缓存
+     */
+    public static final PageModelKey getFundAnalysisPageKey = new PageModelKey("fund_analysis_page:", EXPIRE_TIME);
 }

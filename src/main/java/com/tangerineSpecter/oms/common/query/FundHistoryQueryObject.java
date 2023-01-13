@@ -25,4 +25,10 @@ public class FundHistoryQueryObject implements Serializable {
     @NotNull(message = "基金代码不能为空")
     @ApiModelProperty("基金代码")
     private String code;
+
+    @ApiModelProperty("起始时间")
+    private String startTime;
+
+    @ApiModelProperty("结束时间")
+    private String endTime;
 }

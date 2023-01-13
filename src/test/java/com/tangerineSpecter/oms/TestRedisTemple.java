@@ -11,14 +11,15 @@ import com.tangerinespecter.oms.common.utils.CollUtils;
 import com.tangerinespecter.oms.common.utils.NumChainCal;
 import com.tangerinespecter.oms.job.service.FundDataQuartzService;
 import com.tangerinespecter.oms.system.domain.entity.DataExchangeRate;
-import com.tangerinespecter.oms.system.domain.entity.DataFund;
-import com.tangerinespecter.oms.system.domain.entity.DataFundHistory;
 import com.tangerinespecter.oms.system.domain.entity.DataTradeRecord;
 import com.tangerinespecter.oms.system.domain.pojo.SystemVersionInfo;
+import com.tangerinespecter.oms.system.domain.vo.statis.FundAnalysisInfoVo;
 import com.tangerinespecter.oms.system.mapper.DataExchangeRateMapper;
 import com.tangerinespecter.oms.system.mapper.DataFundHistoryMapper;
 import com.tangerinespecter.oms.system.mapper.DataTradeRecordMapper;
 import com.tangerinespecter.oms.system.service.data.impl.DataTradeRecordServiceImpl;
+import com.tangerinespecter.oms.system.service.statis.IFundAnalysisService;
+import com.tangerinespecter.oms.system.service.table.impl.DataFundHistoryServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -54,6 +55,10 @@ public class TestRedisTemple {
     private DataFundHistoryMapper dataFundHistoryMapper;
     @Resource
     private SystemVersionInfo versionInfo;
+    @Resource
+    private IFundAnalysisService analysisService;
+    @Resource
+    private DataFundHistoryServiceImpl fundHistoryService;
 
     @Test
     public void version() {
@@ -115,11 +120,19 @@ public class TestRedisTemple {
 
     @Test
     public void fundData() {
-//        final List<DataFund> allFunds = fundDataQuartzService.getAllFunds();
-//        System.out.println(JSON.toJSONString(allFunds));
-//        final List<DataFundHistory> fundHistory = fundDataQuartzService.getFundHistory("162703");
-//        System.out.println(JSON.toJSONString(fundHistory));
-        final List<String> codes = dataFundHistoryMapper.selectNotHistoryFundCodeList();
-//        fundDataQuartzService.handleFundHistoryData(codes);
+        FundAnalysisInfoVo vo = new FundAnalysisInfoVo();
+        vo.setCode("161725");
+        vo.setStartTime("2010-10-01");
+        vo.setEndTime("2022-01-01");
+        vo.setMoney(new BigDecimal(100000));
+        analysisService.analysis(vo);
     }
+
+    @Test
+    public void daydayFund() throws Exception {
+        String fundCode1 = "000072";
+        String fundCode2 = "162703";
+        fundHistoryService.handleFundSplitRate(fundCode2);
+    }
+
 }

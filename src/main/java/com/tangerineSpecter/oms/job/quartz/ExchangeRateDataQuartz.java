@@ -1,6 +1,5 @@
 package com.tangerinespecter.oms.job.quartz;
 
-import com.tangerinespecter.oms.job.service.ConstellationQuartzService;
 import com.tangerinespecter.oms.job.service.ExchangeRateQuartzService;
 import org.jetbrains.annotations.NotNull;
 import org.quartz.JobExecutionContext;

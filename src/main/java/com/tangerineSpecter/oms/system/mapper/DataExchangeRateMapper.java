@@ -4,6 +4,7 @@ import cn.hutool.core.text.CharSequenceUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.tangerinespecter.oms.system.domain.entity.DataExchangeRate;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -42,4 +43,11 @@ public interface DataExchangeRateMapper extends BaseMapper<DataExchangeRate> {
      * @return 汇率数据
      */
     List<DataExchangeRate> selectListByLastRecordTime();
+
+    /**
+     * 插入数据存在则忽略
+     * @param insertData 插入数据
+     * @return 成功条数
+     */
+    int insertIgnore(@Param("data") DataExchangeRate insertData);
 }

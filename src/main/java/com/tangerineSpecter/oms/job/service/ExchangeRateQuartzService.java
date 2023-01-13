@@ -2,10 +2,10 @@ package com.tangerinespecter.oms.job.service;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.convert.Convert;
-import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSON;
 import com.tangerinespecter.oms.common.config.JuheApiConfig;
@@ -40,7 +40,7 @@ public class ExchangeRateQuartzService {
     public void init() {
         List<DataExchangeRate> dataExchangeRates = dataExchangeRateMapper.selectListByLastRecordTime();
         CollUtils.forEach(dataExchangeRates, exchangeRate -> CommonConstant.EXCHANGE_RATE_MAP.put(exchangeRate.getCode(), NumChainCal.startOf(exchangeRate.getPrice()).div(100).getBigDecimal()));
-
+        log.info("[初始化货币汇率完毕]数量：{}", dataExchangeRates.size());
     }
 
     public void runData() {
@@ -83,21 +83,21 @@ public class ExchangeRateQuartzService {
     private void updateExchangeData(List<DataExchange> exchangeList) {
         log.info("[汇率信息写入任务]");
         //获取最近一次汇率，避免凌晨时分数据没更新而失效
-        List<DataExchangeRate> dataExchangeRates = dataExchangeRateMapper.selectListByLastRecordTime();
+//        List<DataExchangeRate> dataExchangeRates = dataExchangeRateMapper.selectListByLastRecordTime();
         try {
             //早上8点前不更新数据
-            DateTime morning = DateUtil.offsetHour(DateUtil.beginOfDay(new Date()), 8);
-            if (DateUtil.compare(new Date(), morning) == -1) {
-                log.info("[当前时间为8.AM之前，不进行汇率更新]");
-//                CollUtils.forEach(dataExchangeRates, exchangeRate -> CommonConstant.EXCHANGE_RATE_MAP.put(exchangeRate.getCode(), NumChainCal.startOf(exchangeRate.getPrice()).div(100).getBigDecimal()));
-                return;
-            }
+//            DateTime morning = DateUtil.offsetHour(DateUtil.beginOfDay(new Date()), 8);
+//            if (DateUtil.compare(new Date(), morning) == -1) {
+//                log.info("[当前时间为8.AM之前，不进行汇率更新]");
+////                CollUtils.forEach(dataExchangeRates, exchangeRate -> CommonConstant.EXCHANGE_RATE_MAP.put(exchangeRate.getCode(), NumChainCal.startOf(exchangeRate.getPrice()).div(100).getBigDecimal()));
+//                return;
+//            }
             //当天数据则不更新数据
-            if (Objects.equals(CollUtil.getFirst(dataExchangeRates).getRecordTime().toLocalDate().toString(), DateUtil.today())) {
-                log.info("[当天汇率数据已更新，不进行数据处理]");
-                CollUtils.forEach(dataExchangeRates, exchangeRate -> CommonConstant.EXCHANGE_RATE_MAP.put(exchangeRate.getCode(), NumChainCal.startOf(exchangeRate.getPrice()).div(100).getBigDecimal()));
-                return;
-            }
+//            if (Objects.equals(CollUtil.getFirst(dataExchangeRates).getRecordTime().toLocalDate().toString(), DateUtil.today())) {
+//                log.info("[当天汇率数据已更新，不进行数据处理]");
+//                CollUtils.forEach(dataExchangeRates, exchangeRate -> CommonConstant.EXCHANGE_RATE_MAP.put(exchangeRate.getCode(), NumChainCal.startOf(exchangeRate.getPrice()).div(100).getBigDecimal()));
+//                return;
+//            }
             HashMap<String, Object> params = MapUtil.newHashMap();
             params.put("key", JuheApiConfig.JUHE_EXCHANGE_API_KEY);
             String result = HttpUtil.post(JuheApiConfig.JUHE_EXCHANGE_API_URL, params);
@@ -106,7 +106,7 @@ public class ExchangeRateQuartzService {
             List<List<String>> exchangeRateList = Optional.of(response).map(ExchangeRateResponse::getResult)
                     .map(ExchangeRateResponse::getList).orElseThrow(() -> new BusinessException(RetCode.DATA_EXCEPTION));
             List<DataExchangeRate> responseRateDate = this.convert2DbData(exchangeRateList, exchangeList);
-            CollUtils.forEach(responseRateDate, dataExchangeRateMapper::insert);
+            CollUtils.forEach(responseRateDate, dataExchangeRateMapper::insertIgnore);
             CollUtils.forEach(responseRateDate, exchangeRate -> CommonConstant.EXCHANGE_RATE_MAP.put(exchangeRate.getCode(), NumChainCal.startOf(exchangeRate.getPrice()).div(100).getBigDecimal()));
         } catch (Exception e) {
             log.error("[货币汇率接口请求数据异常],异常信息： " + e);
@@ -125,21 +125,17 @@ public class ExchangeRateQuartzService {
         List<DataExchangeRate> result = CollUtil.newArrayList();
         Map<String, String> exchangeMap = CollUtils.convertMap(exchangeList, DataExchange::getName, DataExchange::getCode);
         for (List<String> list : exchangeRateList) {
-            //index:5为中行折算价
-            BigDecimal price = Convert.toBigDecimal(list.get(5));
             //index:0为货币名称
             String name = list.get(0);
-            //价格未更新则跳过
-            if (price == null) {
-                log.info("[{}汇率未更新，跳过入库]", name);
+            //index:5为中行折算价
+            BigDecimal price = Convert.toBigDecimal(list.get(5));
+            final String code = exchangeMap.get(name);
+            //价格未更新 或者 货币列表不存在货币代码跳过 则跳过
+            if (price == null || code == null) {
+                log.info("[{}汇率数据异常，跳过入库]", name);
                 continue;
             }
-            DataExchangeRate dbData = new DataExchangeRate();
-            dbData.setName(name);
-            dbData.setCode(exchangeMap.get(name));
-            dbData.setPrice(price);
-            dbData.setRecordTime(DateUtil.toLocalDateTime(new Date()));
-            result.add(dbData);
+            result.add(new DataExchangeRate(name, code, price));
         }
         return result;
     }

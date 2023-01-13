@@ -47,7 +47,11 @@
 <script type="text/html" id="currentTableToolbar">
     <button class="pear-btn pear-btn-primary pear-btn-md" lay-event="init">
         <i class="layui-icon layui-icon-add-1"></i>
-        初始化
+        基金数据
+    </button>
+    <button class="pear-btn pear-btn-primary pear-btn-md" lay-event="initAllHistory">
+        <i class="layui-icon layui-icon-add-1"></i>
+        全部历史数据
     </button>
 </script>
 
@@ -60,7 +64,7 @@
 <script type="text/html" id="historyTableToolbar">
     <button class="pear-btn pear-btn-primary pear-btn-md" lay-event="initHistoryData">
         <i class="layui-icon layui-icon-add-1"></i>
-        初始化
+        历史数据
     </button>
 </script>
 <th:block th:include="include :: footer"/>
@@ -112,7 +116,7 @@
                     width: 120
                 },
                 {
-                    title: '净值',
+                    title: '单位净值',
                     field: 'netValue',
                     align: 'center'
                 },
@@ -181,13 +185,15 @@
         table.on('toolbar(currentTableId)', function (obj) {
             if (obj.event === 'init') {
                 Ajax.post("/table/fund/init-fund", {}, false);
+            } else if (obj.event === 'initAllHistory') {
+                Ajax.post("/table/fund/init-all-history", {}, false);
             }
         });
 
         table.on('toolbar(historyTableId)', function (obj) {
             if (obj.event === 'initHistoryData') {
                 const code = obj.config.where.searchParams.code;
-                Ajax.post("/table/fund/init-fund-history", [code], false);
+                Ajax.post("/table/fund/init-history", [code], false);
             }
         });
 

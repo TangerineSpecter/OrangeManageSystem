@@ -10,4 +10,9 @@
             limit 1
         )
     </select>
+
+    <insert id="insertIgnore">
+        insert ignore into data_exchange_rate(`name`, `code`, `price`, `record_time`)
+        values (#{data.name}, #{data.code}, #{data.price}, #{data.recordTime})
+    </insert>
 </mapper>

@@ -385,6 +385,100 @@ window.initStrokeColumnCharts = function (echartsId, lineStyle, xData, yData) {
 }
 
 /**
+ * 描边圆角柱状图
+ * @param echartsId 图表ID
+ * @param xData x轴数据
+ * @param yData y轴数据
+ */
+window.initBorderColumnCharts = function (echartsId, xData, yData) {
+    const column = echarts.init(document.getElementById(echartsId));
+    const emphasisStyle = {
+        itemStyle: {
+            shadowBlur: 100,
+            shadowColor: 'rgba(0,0,0,0.3)'
+        }
+    };
+    let upData = [];
+    let downData = [];
+    //拆分数据为正和负
+    $.each(yData, function (index, item) {
+        if (item > 0) {
+            upData.push(item);
+            downData.push(0);
+        } else if (item < 0) {
+            upData.push(0);
+            downData.push(item);
+        } else {
+            upData.push(0);
+            downData.push(0);
+        }
+    })
+    const option = {
+        legend: {
+            data: ['bar', 'bar2'],
+            left: '10%'
+        },
+        // brush: {
+        //     toolbox: ['rect', 'polygon', 'lineX', 'lineY', 'keep', 'clear'],
+        //     xAxisIndex: 0
+        // },
+        // toolbox: {
+        //     feature: {
+        //         magicType: {
+        //             type: ['stack']
+        //         },
+        //         dataView: {}
+        //     }
+        // },
+        tooltip: {},
+        xAxis: {
+            data: xData,
+            // name: '时间',
+            axisLine: {onZero: true},
+            splitLine: {show: false},
+            splitArea: {show: true},
+            //反转
+            inverse: true
+        },
+        yAxis: {
+            // interval: [0, 500, 2000, 5000, 10000, 20000, 50000, 200000]
+            splitNumber: 10,
+        },
+        grid: {
+            bottom: 100
+        },
+        series: [
+            {
+                name: '收益',
+                type: 'bar',
+                stack: 'one',
+                emphasis: emphasisStyle,
+                data: upData,
+                color: 'rgb(232,110,106)',
+                itemStyle: {
+                    borderRadius: [5, 5, 0, 0]
+                },
+            },
+            {
+                name: '亏损',
+                type: 'bar',
+                stack: 'one',
+                emphasis: emphasisStyle,
+                data: downData,
+                color: 'rgb(129,196,99)',
+                itemStyle: {
+                    borderRadius: [0, 0, 5, 5]
+                },
+            }
+        ]
+    };
+    column.setOption(option);
+    window.onresize = function () {
+        column.resize();
+    }
+}
+
+/**
  * 简单渐变折线样式
  * @param startColor 起始颜色
  * @param endColor 结束颜色
@@ -446,5 +540,72 @@ window.pointLineStyle = function (startColor, endColor) {
         shadowColor: 'rgba(72,216,191, 0.7)',
         shadowBlur: 10,
         shadowOffsetY: 20
+    }
+}
+
+/**
+ * 时间轴折线图
+ * @param echartsId 图表id
+ * @param title 图表标题
+ * @param seriesName 标记名称
+ * @param data 数据 - 数组[时间，y值]
+ */
+window.timeLineCharts = function (echartsId, title, seriesName, data) {
+    const line = echarts.init(document.getElementById(echartsId));
+    const option = {
+        tooltip: {
+            trigger: 'axis',
+            position: function (pt) {
+                return [pt[0], '10%'];
+            }
+        },
+        title: {
+            left: 'center',
+            text: title
+        },
+        toolbox: {
+            feature: {
+                dataZoom: {
+                    yAxisIndex: 'none'
+                },
+                restore: {},
+                saveAsImage: {}
+            }
+        },
+        xAxis: {
+            type: 'time',
+            boundaryGap: false
+        },
+        yAxis: {
+            type: 'value',
+            boundaryGap: [0, '100%']
+        },
+        dataZoom: [
+            {
+                type: 'inside',
+                start: 0,
+                end: 10
+            },
+            {
+                start: 0,
+                end: 10
+            }
+        ],
+        series: [
+            {
+                name: seriesName,
+                type: 'line',
+                color: '#73c0de',
+                smooth: true,
+                symbol: 'none',
+                areaStyle: {},
+                data: data,
+            }
+        ]
+    };
+    line.setOption(option);
+
+    window.onresize = function () {
+        line.resize();
     }
 }

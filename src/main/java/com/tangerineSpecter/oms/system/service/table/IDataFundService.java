@@ -16,10 +16,4 @@ public interface IDataFundService extends BaseService<FundQueryObject, DataFund>
      */
     FundInitDataDto initFund();
 
-    /**
-     * 基金历史数据初始化
-     *
-     * @param fundCodes 基金代码集合
-     */
-    void initFundHistory(List<String> fundCodes);
 }

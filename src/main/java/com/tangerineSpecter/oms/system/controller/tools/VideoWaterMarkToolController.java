@@ -20,7 +20,7 @@ import javax.annotation.Resource;
 /**
  * 视频水印处理小工具
  *
- * @author liangjun.zhou
+ * @author 丢失的橘子
  * @version 0.5.0
  * @date 2022年01月20日17:30:35
  */

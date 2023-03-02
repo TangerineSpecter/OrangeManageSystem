@@ -142,11 +142,15 @@ public class RetCode {
      * 健康记录已存在
      */
     public static final RetCode HEALTH_RECORD_EXIST = new RetCode(2000, "健康记录已存在");
-    
+
     /**
      * 视频地址有误
      */
     public static final RetCode VIDEO_URL_ERROR = new RetCode(3000, "视频地址有误");
+    /**
+     * 分析内容不存在
+     */
+    public static final RetCode NLP_CONTENT_NOT_EXIST = new RetCode(3001, "缺少分析内容");
 
     public RetCode fillArgs(Object... args) {
         int errorCode = this.errorCode;

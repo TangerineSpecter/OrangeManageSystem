@@ -4,6 +4,10 @@ system:
 # 版本历史信息，0：新增；1：优化；2：改善；3：修复；4：重构；-1：未知
 version:
   history:
+    - code: v0.5.2
+      date: 2023-03-02
+      content:
+        - info: 新增：NLP语义分析小工具
     - code: v0.5.1
       date: 2022-10-17
       content:
@@ -13,6 +17,7 @@ version:
         - info: 重构：版本历史记录加载方式
         - info: 优化：定时器执行方式
         - info: 重构：表格数据加载方式
+        - info: 新增：基金数据分析
     - code: v0.5.0
       date: 2022-05-17
       content:

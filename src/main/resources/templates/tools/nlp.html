@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('NLP语义分析')"/>
+    <style>
+        .setting {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div class="pear-container">
+    <div class="layui-fluid">
+        <div class="layui-card">
+            <div class="layui-card-body" style="padding-top: 40px;">
+                <div class="layui-carousel" id="stepForm" lay-filter="stepForm" style="margin: 0 auto;">
+                    <div carousel-item>
+                        <div>
+                            <form class="layui-form" style="margin: 0 auto;max-width: 460px;padding-top: 40px;" enctype="multipart/form-data">
+                                <div class="layui-form-item" id="setting1">
+                                    <label class="layui-form-label">分析内容:</label>
+                                    <div class="layui-input-block">
+                                            <textarea placeholder="分析的内容" name="content" value=""
+                                                      class="layui-textarea"></textarea>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item setting" id="setting2">
+                                    <label class="layui-form-label">分析文件:</label>
+                                    <div class="layui-input-block">
+                                        <input type="file" class="pear-btn pear-btn-primary" name="file">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">分析方式:</label>
+                                    <div class="layui-input-block">
+                                        <select id="analysisType" name="analysisType" class="layui-select"
+                                                lay-filter="analysisType">
+                                            <option value="1" selected>内容</option>
+                                            <option value="2">文件</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <div class="layui-input-block">
+                                        <button class="pear-btn pear-btn-primary" lay-submit=""
+                                                lay-filter="formStep">
+                                            分析
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div>
+                            <form class="layui-form" style="margin: 0 auto;max-width: 460px;padding-top: 40px;">
+                                <div class="layui-form-item">
+                                    <div class="layui-card">
+                                        <div class="layui-card-header">关键词</div>
+                                        <div class="layui-card-body">
+                                            <div id="keyword" class="layui-btn-container tag">
+                                            </div>
+                                        </div>
+                                        <div class="layui-card-header">摘要</div>
+                                        <div id="summary" class="layui-card-body"
+                                             style="max-height: 300px; overflow: auto">
+                                        </div>
+                                        <div class="layui-card-header">词云</div>
+                                        <div id="wordCloud" class="layui-card-body">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <div class="layui-input-block">
+                                        <button type="button" class="pear-btn pear-btn-primary next">重新分析</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div style="color: #666;margin-top: 30px;margin-bottom: 40px;padding-left: 30px;">
+                    <h3>说明</h3><br>
+                    <h4>NLP语义分析</h4>
+                    <p>支持进行文件内容分析、输入内容分析</p>
+                    <p>进行关键词、纪要提取，生成词频分析词云</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<th:block th:include="include :: footer"/>
+<script th:src="@{/oms/js/wordCloud2.js}"></script>
+<script th:src="@{/oms/js/echarts-wordcloud.js}"></script>
+<script th:src="@{/oms/js/echarts.js}"></script>
+<script th:inline="none">
+    layui.use(['form', 'step', 'toast'], function () {
+        var $ = layui.$,
+            form = layui.form,
+            toast = layui.toast,
+            step = layui.step;
+
+        step.render({
+            elem: '#stepForm',
+            filter: 'stepForm',
+            width: '100%', //设置容器宽度
+            stepWidth: '750px',
+            height: '1000px',
+            stepItems: [{
+                title: '填写分析内容'
+            }, {
+                title: '分析内容结果'
+            }]
+        });
+
+        //监听下拉框变动
+        form.on('select(analysisType)', function (data) {
+            const selectValue = data.value;
+            //获取所有策略的值
+            $("#analysisType option").each(function () {
+                const optionValue = $(this).val();
+                if (optionValue !== selectValue) {
+                    $("#setting" + optionValue).hide();
+                } else {
+                    $("#setting" + selectValue).show();
+                }
+            });
+        })
+
+        //自定义验证规则
+        form.verify({});
+
+        form.on('submit(formStep)', function (data) {
+            $.post("/tools/nlp/analysis", data.field, function (result) {
+                if (result.success) {
+                    $("#keyword").children().remove();
+                    const resultData = result.data;
+                    console.log(resultData)
+                    $.each(resultData.keyword, function (index, item) {
+                        const element = "<button type='button' class='tag-item layui-btn layui-btn-primary layui-btn-sm'>" + item + "</button>";
+                        $("#keyword").append(element);
+                    });
+                    $.each(resultData.summary, function (index, item) {
+                        const summary = "<blockquote class='layui-elem-quote'>" + item + "</blockquote>";
+                        $("#summary").append(summary);
+                    });
+                    initCharts();
+                    step.next('#stepForm');
+                } else {
+                    toast.error({message: result.msg, position: 'topCenter'});
+                }
+            }, "JSON");
+            return false;
+        });
+
+        $('.pre').click(function () {
+            step.pre('#stepForm');
+        });
+
+        $('.next').click(function () {
+            step.next('#stepForm');
+        });
+
+        /**
+         * 初始化词云
+         */
+        function initCharts() {
+            // var list = [['建筑', 36341], ['建材', 36341], ['工程', 36341], ['生物工程', 36075], ['制药', 36075], ['房地产', 35683], ['快速消费品', 35201], ['重工', 33120], ['设备', 33120], ['机械', 33120], ['院校', 29208], ['教育', 29208], ['培训', 29208], ['电子商务', 28047], ['互联网', 28047], ['计算机软件', 27370], ['集成电路', 27066], ['电子技术', 27066], ['半导体', 27066], ['汽车', 18948], ['专业服务', 16932], ['器械', 15413], ['医疗设备', 15413], ['进出口', 15017], ['贸易', 15017], ['运输', 13830], ['物流', 13830], ['交通', 13830], ['零售', 11493], ['批发', 11493], ['矿产', 10738], ['石油', 10738], ['地质', 10738], ['化工', 10738], ['工业自动化', 10381], ['仪器仪表', 10381], ['金融', 10273], ['证券', 10273], ['投资', 10273], ['物业管理', 9991], ['商业中心', 9991], ['纺织', 9974], ['皮革', 9974], ['服装', 9974], ['多元化业务集团公司', 9458], ['通信', 9382], ['新能源', 9193], ['原材料和加工', 8634], ['礼品', 8367], ['玩具', 8367], ['家电', 8367], ['家具', 8367], ['环保', 8124], ['护理', 7468], ['卫生', 7468], ['医疗', 7468], ['牧', 6917], ['渔', 6917], ['林', 6917], ['农', 6917], ['网络设备', 6439], ['电信', 6439], ['电气', 5588], ['电力', 5588], ['水利', 5588], ['艺术', 5465], ['文化传播', 5465], ['影视', 5465], ['媒体', 5465], ['装潢', 5094], ['家居', 5094], ['室内设计', 5094], ['餐饮业', 4668], ['计算机服务', 4657], ['酒店', 4352], ['旅游', 4352], ['保险', 3993], ['检测，认证', 3135], ['电信运营、增值服务', 2943], ['造纸', 2856], ['印刷', 2856], ['包装', 2856], ['汽车零配件', 2824], ['银行', 2354], ['计算机硬件', 1888], ['珠宝', 1870], ['收藏品', 1870], ['工艺品', 1870], ['奢侈品', 1870], ['娱乐', 1777], ['体育', 1777], ['休闲', 1777], ['广告', 1745], ['生活服务', 1621], ['美容', 1436], ['保健', 1436], ['政府', 1418], ['公共事业', 1418], ['科研', 1403], ['学术', 1403], ['中介服务', 1279], ['外包服务', 1251], ['办公用品及设备', 1208], ['审计', 1075], ['会计', 1075], ['航空', 965], ['航天', 965], ['法律', 949], ['文字媒体', 807], ['出版', 807], ['市场推广', 761], ['公关', 761], ['会展', 761], ['网络游戏', 639], ['采掘业', 607], ['冶炼', 607], ['租赁服务', 449], ['非营利组织', 289], ['拍卖', 179], ['担保', 179], ['典当', 179], ['信托', 179]];
+            // WordCloud(document.getElementById('wordCloud'), {list: list});
+            var myChart = echarts.init(document.getElementById('wordCloud'));
+            var keywords = [{"name": "男神", "value": 2.64},
+                {"name": "好身材", "value": 4.03},
+                {"name": "校草", "value": 24.95},
+                {"name": "酷", "value": 4.04},
+                {"name": "时尚", "value": 5.27},
+                {"name": "阳光活力", "value": 5.80},
+                {"name": "初恋", "value": 3.09},
+                {"name": "英俊潇洒", "value": 24.71},
+                {"name": "霸气", "value": 6.33},
+                {"name": "腼腆", "value": 2.55},
+                {"name": "蠢萌", "value": 3.88},
+                {"name": "青春", "value": 8.04},
+                {"name": "网红", "value": 5.87},
+                {"name": "萌", "value": 6.97},
+                {"name": "认真", "value": 2.53},
+                {"name": "古典", "value": 2.49},
+                {"name": "温柔", "value": 3.91},
+                {"name": "有个性", "value": 3.25},
+                {"name": "可爱", "value": 9.93},
+                {"name": "幽默诙谐", "value": 3.65}]
+
+            var option = {
+                series: [{
+                    type: 'wordCloud',
+                    //maskImage: maskImage,
+                    sizeRange: [15, 80],
+                    rotationRange: [0, 0],
+                    rotationStep: 45,
+                    gridSize: 8,
+                    shape: 'pentagon',
+                    width: '100%',
+                    height: '100%',
+                    textStyle: {
+                        normal: {
+                            color: function () {
+                                return 'rgb(' + [
+                                    Math.round(Math.random() * 160),
+                                    Math.round(Math.random() * 160),
+                                    Math.round(Math.random() * 160)
+                                ].join(',') + ')';
+                            },
+                            fontFamily: 'sans-serif',
+                            fontWeight: 'normal'
+                        },
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowColor: '#333'
+                        }
+                    },
+                    data: keywords
+                }]
+            };
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+            window.addEventListener("resize", function () {
+                myChart.resize();
+            });
+
+        }
+    })
+</script>
+</body>
+</html>

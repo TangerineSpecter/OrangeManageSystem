@@ -3,6 +3,7 @@ package com.tangerinespecter.oms;
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.io.file.FileReader;
 import cn.hutool.core.map.MapUtil;
 import com.alibaba.fastjson.JSON;
 import com.tangerinespecter.oms.common.config.JuheApiConfig;
@@ -20,6 +21,7 @@ import com.tangerinespecter.oms.system.mapper.DataTradeRecordMapper;
 import com.tangerinespecter.oms.system.service.data.impl.DataTradeRecordServiceImpl;
 import com.tangerinespecter.oms.system.service.statis.IFundAnalysisService;
 import com.tangerinespecter.oms.system.service.table.impl.DataFundHistoryServiceImpl;
+import com.tangerinespecter.oms.system.service.tools.INlpToolService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -59,6 +61,8 @@ public class TestRedisTemple {
     private IFundAnalysisService analysisService;
     @Resource
     private DataFundHistoryServiceImpl fundHistoryService;
+    @Resource
+    private INlpToolService nlpToolService;
 
     @Test
     public void version() {
@@ -135,4 +139,9 @@ public class TestRedisTemple {
         fundHistoryService.handleFundSplitRate(fundCode2);
     }
 
+    @Test
+    public void nlpDemo() {
+        final FileReader fileReader = new FileReader("");
+        nlpToolService.analysis(null, fileReader.readString());
+    }
 }

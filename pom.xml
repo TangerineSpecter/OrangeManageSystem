@@ -22,7 +22,7 @@
         <guava.version>31.1-jre</guava.version>
         <netty.version>4.1.77.Final</netty.version>
         <hutool.version>5.8.11</hutool.version>
-        <shiro-core.version>1.9.0</shiro-core.version>
+        <shiro-core.version>1.10.0</shiro-core.version>
         <shiro-spring.version>1.9.0</shiro-spring.version>
         <shiro-thymeleaf.version>2.1.0</shiro-thymeleaf.version>
         <rabbitmq.version>2.7.0</rabbitmq.version>

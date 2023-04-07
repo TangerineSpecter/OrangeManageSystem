@@ -136,6 +136,7 @@ public class TestRedisTemple {
     public void daydayFund() throws Exception {
         String fundCode1 = "000072";
         String fundCode2 = "162703";
+        
         fundHistoryService.handleFundSplitRate(fundCode2);
     }
 

@@ -8,6 +8,7 @@ version:
       date: 2023-03-02
       content:
         - info: 新增：NLP语义分析小工具
+        - info: 新增：令牌管理功能
     - code: v0.5.1
       date: 2022-10-17
       content:

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('令牌管理')"/>
+</head>
+<body class="pear-container">
+<div class="layui-card">
+    <div class="layui-card-body">
+        <form id="search-from" class="layui-form layui-form-pane" action="">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="name" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">类型</label>
+                    <div class="layui-input-inline">
+                        <select name="type" class="layui-select">
+                            <option value="">全部</option>
+                            <option value="0">通知机器人</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="pear-btn pear-btn-md pear-btn-primary" lay-submit lay-filter="data-search-btn">
+                    <i class="layui-icon layui-icon-search"></i>
+                    查询
+                </button>
+                <button type="reset" class="pear-btn pear-btn-md" lay-submit lay-filter="data-reset-btn">
+                    <i class="layui-icon layui-icon-refresh"></i>
+                    重置
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="layui-card">
+    <div class="layui-card-body">
+        <table id="currentTableId" lay-filter="currentTableFilter"></table>
+    </div>
+</div>
+<th:block th:include="include :: footer"/>
+<script type="text/html" id="toolbar">
+    <div class="layui-btn-container">
+        <button class="pear-btn pear-btn-primary pear-btn-md" lay-event="addSystemToken">
+            <i class="layui-icon layui-icon-add-1"></i>
+            新增令牌
+        </button>
+    </div>
+</script>
+<script type="text/html" id="operationBar">
+    <button class="pear-btn pear-btn-warming pear-btn-sm" lay-event="editSystemToken">
+        <i class="layui-icon layui-icon-edit"></i>
+    </button>
+    <button class="pear-btn pear-btn-danger pear-btn-sm" lay-event="delSystemToken">
+        <i class="layui-icon layui-icon-delete"></i>
+    </button>
+</script>
+<script>
+    layui.use(['form', 'table', 'laydate'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table,
+            laydate = layui.laydate;
+
+        //日期
+        laydate.render({
+            elem: '#queryDay'
+        });
+
+        const cols = [
+            [
+                {type: "checkbox", fixed: "left"},
+                {field: 'id', title: 'ID', width: 80, sort: true},
+                {field: 'name', title: '名称', width: 300},
+                {
+                    field: 'type', title: '类型', width: 120, templet: function (row) {
+                        switch (row.type) {
+                            case 0:
+                                return '通知机器人';
+                            default:
+                                return '未知';
+                        }
+                    }, unresize: true
+                },
+                {toolbar: '#operationBar', align: 'center', title: '操作', width: 120, fixed: "right"}
+            ]
+        ];
+
+        OmsTable.init('#currentTableId', '/system/token/list', cols);
+
+        //头工具栏事件
+        table.on('toolbar(currentTableFilter)', function (obj) {
+            switch (obj.event) {
+                //添加系统角色
+                case 'addSystemToken':
+                    loadFormHeightModel("添加令牌", {href: "/system/token/insert"}, '/system/token/addPage', '600px');
+                    break;
+                //自定义头工具栏右侧图标 - 提示
+                case 'LAYTABLE_TIPS':
+                    layer.alert('这里是进行角色管理的地方');
+                    break;
+            }
+        });
+
+        //监听工具条
+        table.on('tool(currentTableFilter)', function (obj) {
+            const data = obj.data;
+            switch (obj.event) {
+                case 'editSystemToken':
+                    data.href = "/system/role/editSystemToken";
+                    loadFormHeightModel("编辑令牌", data, '/system/token/addPage', "600px");
+                    break;
+                case 'delSystemToken':
+                    layer.confirm('是否删除该令牌？', function (index) {
+                        Ajax.delete("/system/token/delete", {id: data.id}, false);
+                    });
+                    break;
+            }
+        });
+
+        //监听表格复选框选择
+        table.on('checkbox(currentTableFilter)', function (obj) {
+            console.log(obj)
+        });
+
+    });
+</script>
+</body>
+</html>

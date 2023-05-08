@@ -116,4 +116,9 @@ public class PageModelKey extends BasePrefixKey {
      * 基金分析页面缓存
      */
     public static final PageModelKey getFundAnalysisPageKey = new PageModelKey("fund_analysis_page:", EXPIRE_TIME);
+
+    /**
+     * 令牌管理菜单缓存
+     */
+    public static final PageModelKey getSystemTokenPageKey = new PageModelKey("system_token_page:", EXPIRE_TIME);
 }

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('添加编辑令牌')"/>
+</head>
+<body>
+<form class="layui-form layui-form-pane" action="" lay-filter="data-form">
+    <div class="mainBox">
+        <div class="main-container">
+            <div class="main-container">
+                <input type="text" id="id" name="id" class="layui-input" style="display: none;">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="name" name="name" autocomplete="off"
+                               placeholder="请输入令牌名称" lay-verify="name"
+                               class="layui-input"/>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">类型</label>
+                    <div class="layui-input-block">
+                        <label>
+                            <select name="type" class="layui-select">
+                                <option value="0" selected>通知机器人</option>
+                            </select>
+                        </label>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">令牌</label>
+                    <div class="layui-input-block">
+                    <textarea id="token" name="token" autocomplete="off"
+                              placeholder="请输入令牌信息" lay-filter="token"
+                              class="layui-textarea" style="height: 280px;resize: none;"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="pear-btn pear-btn-primary pear-btn-sm" lay-submit=""
+                    lay-filter="submitBtn">
+                <i class="layui-icon layui-icon-ok"></i>
+                提交
+            </button>
+            <button type="reset" class="pear-btn pear-btn-sm">
+                <i class="layui-icon layui-icon-refresh"></i>
+                重置
+            </button>
+        </div>
+    </div>
+</form>
+<th:block th:include="include :: footer"/>
+<script>
+
+    //初始化页面数据
+    function initData(data) {
+        if (data.id !== undefined) {
+            initForm(data);
+        }
+        requestUrl = data.href;
+    }
+
+    /**
+     * 初始化表单
+     * @param data 数据
+     */
+    function initForm(data) {
+        layui.use(['form'], function () {
+            const form = layui.form;
+            form.val("data-form", {
+                "id": data.id,
+                "name": data.name,
+                "type": data.type
+            });
+            form.render();
+        });
+    }
+
+    layui.use(['form', 'layedit', 'layer'], function () {
+        const form = layui.form,
+            layedit = layui.layedit,
+            layer = layui.layer;
+
+
+        //自定义验证规则
+        form.verify({
+            name: function (value) {
+                if (value == null || value === "") {
+                    return '请输入令牌名称';
+                }
+            },
+            token: function (value) {
+                if (value == null || value === "") {
+                    return '请输入令牌信息';
+                }
+            },
+        });
+
+        //监听提交
+        form.on('submit(submitBtn)', function (data) {
+            if (data.field.id === undefined || data.field.id === "") {
+                Ajax.post(requestUrl, data.field, true);
+            } else {
+                Ajax.put(requestUrl, data.field, true);
+            }
+            return false;
+        });
+
+        //构建一个默认的编辑器
+        //var index = layedit.build('content');
+    });
+
+</script>
+</body>
+</html>

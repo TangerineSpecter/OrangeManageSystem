@@ -101,13 +101,13 @@
                p.code,
                p.url
         from system_user u
-                 INNER JOIN system_user_role ur
+                 LEFT JOIN system_user_role ur
                             ON ur.uid = u.uid
-                 INNER JOIN system_role r
+                 LEFT JOIN system_role r
                             ON r.id = ur.rid
-                 INNER JOIN system_permission_role pr
+                 LEFT JOIN system_permission_role pr
                             ON pr.rid = r.id
-                 INNER JOIN system_permission p
+                 LEFT JOIN system_permission p
                             ON p.id = pr.pid
         where u.username = #{userName}
           and u.is_del = 0

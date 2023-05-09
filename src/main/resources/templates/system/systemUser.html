@@ -51,6 +51,9 @@
     <button class="pear-btn pear-btn-warming pear-btn-sm" lay-event="edit">
         <i class="layui-icon layui-icon-vercode"></i>
     </button>
+    <button class="pear-btn pear-btn-normal pear-btn-sm" lay-event="offline">
+        <i class="layui-icon layui-icon-fire"></i>
+    </button>
 </script>
 <script>
     layui.use(['form', 'table', 'laydate'], function () {
@@ -104,6 +107,15 @@
                         }
                     }
                 },
+                {
+                    field: 'active', title: '是否在线', width: 120, templet: function (d) {
+                        if (d.active) {
+                            return "<span class=\"layui-badge layui-bg-green\">在线</span>";
+                        } else {
+                            return "<span class=\"layui-badge\">离线</span>";
+                        }
+                    }
+                },
                 {field: 'loginCount', title: '登录次数', width: 100},
                 {field: 'lastLoginDate', title: '最后登录时间', width: 200},
                 {field: 'createTime', title: '创建时间', width: 200},
@@ -121,6 +133,11 @@
             if (obj.event === 'edit') {
                 data.href = "/systemUser/update-role";
                 loadFormHeightModel("设置角色", data, '/systemUser/addRolePage', "600px");
+            }
+            if (obj.event === 'offline') {
+                // layer.confirm('是否下线该账号？', {icon: 3, title: '提示'}, function (index) {
+                Ajax.put("/systemUser/offline/" + data.username, null, false);
+                // });
             }
         });
 

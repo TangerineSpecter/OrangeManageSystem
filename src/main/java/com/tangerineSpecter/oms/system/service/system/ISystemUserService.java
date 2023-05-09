@@ -62,4 +62,11 @@ public interface ISystemUserService extends BaseService<SystemUserQueryObject, S
      * @param avatarInfo 头像文件信息
      */
     void updateAvatar(FileInfoBean avatarInfo);
+
+    /**
+     * 下线账号
+     *
+     * @param username 账号名
+     */
+    void offline(String username);
 }

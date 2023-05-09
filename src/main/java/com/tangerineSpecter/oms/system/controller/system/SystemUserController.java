@@ -17,13 +17,14 @@ import com.tangerinespecter.oms.system.service.system.ISystemUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import lombok.RequiredArgsConstructor;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.Resource;
+import javax.validation.constraints.NotNull;
 
 /**
  * 系统用户控制
@@ -34,12 +35,12 @@ import javax.annotation.Resource;
  */
 @ReWriteBody
 @RestController
+@RequiredArgsConstructor
 @Api(tags = "系统用户管理接口")
 @RequestMapping("/systemUser")
 public class SystemUserController {
 
-    @Resource
-    private ISystemUserService systemUserService;
+    private final ISystemUserService systemUserService;
 
     @ApiOperation(value = "后台管理员页面")
     @GetMapping("/page")
@@ -112,6 +113,13 @@ public class SystemUserController {
     @LoggerInfo(value = "更新头像", event = LogOperation.EVENT_UPDATE)
     public void updateAvatar(@ApiParam("头像文件信息") @RequestBody FileInfoBean avatarInfo) {
         systemUserService.updateAvatar(avatarInfo);
+    }
+
+    @ApiOperation(value = "下线账号")
+    @PutMapping("/offline/{username}")
+    @LoggerInfo(value = "下线账号", event = LogOperation.EVENT_USE)
+    public void offline(@NotNull(message = "账号不能为空") @PathVariable("username") String username) {
+        systemUserService.offline(username);
     }
 }
 

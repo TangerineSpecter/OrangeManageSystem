@@ -117,6 +117,10 @@ public class RetCode {
      */
     public static final RetCode PASSWORD_LENGTH_TOO_SHORT = new RetCode(115, "密码不能小于6位");
     /**
+     * 账号未在线
+     */
+    public static final RetCode ACCOUNT_NOT_LOGIN = new RetCode(116, "账号未在线");
+    /**
      * 参数错误
      */
     public static final RetCode PARAM_ERROR = new RetCode(200, "参数错误");

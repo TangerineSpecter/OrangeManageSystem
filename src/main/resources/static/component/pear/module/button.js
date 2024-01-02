@@ -2,6 +2,8 @@ layui.define(['jquery'], function(exports) {
 	"use strict";
 
 	/**
+	 * @since Pear Admin 4.0
+	 * 
 	 * Button component
 	 * */
 	var MOD_NAME = 'button',
@@ -12,35 +14,39 @@ layui.define(['jquery'], function(exports) {
 	};
 
     /**
+	 * @since Pear Admin 4.0
+	 * 
 	 * Button start loading
 	 * */
 	button.prototype.load = function(opt) {
 		
-		var option = {
+		var options = {
 			elem: opt.elem,
 			time: opt.time ? opt.time : false,
 			done: opt.done ? opt.done : function(){}
 		}
-		var text = $(option.elem).html();
+
+		var text = $(options.elem).html();
 		
-		$(option.elem).html("<i class='layui-anim layui-anim-rotate layui-icon layui-anim-loop layui-icon-loading'/>");
+		$(options.elem).html("<i class='layui-anim layui-anim-rotate layui-icon layui-anim-loop layui-icon-loading'/>");
+		$(options.elem).attr("disabled", "disabled");
 		
-		$(option.elem).attr("disabled", "disabled");
+		var $button = $(options.elem);
 		
-		var buttons = $(option.elem);
-		
-		if (option.time != "" || option.time !=false) {
+		if (options.time != "" || options.time != false) {
 			setTimeout(function() {
-				$(option.elem).attr("disabled", false);
-				buttons.html(text);
-				option.done();
-			}, option.time);
+				$button.attr("disabled", false);
+				$button.html(text);
+				options.done();
+			}, options.time);
 		}
-		option.text = text;
-		return new button(option);
+		options.text = text;
+		return new button(options);
 	}
 	
 	/**
+	 * @since Pear Admin 4.0
+	 * 
 	 * Button stop loaded
 	 * */
 	button.prototype.stop = function(success) {

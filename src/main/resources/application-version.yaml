@@ -1,6 +1,6 @@
 system:
   #当前系统版本
-  version: v0.5.1
+  version: v0.5.2
 # 版本历史信息，0：新增；1：优化；2：改善；3：修复；4：重构；-1：未知
 version:
   history:

@@ -73,12 +73,24 @@
             [
                 {type: "checkbox", fixed: "left"},
                 {field: 'id', title: 'ID', width: 80, sort: true},
-                {field: 'name', title: '名称', width: 300},
+                {field: 'name', title: '名称', width: 150},
                 {
-                    field: 'type', title: '类型', width: 120, templet: function (row) {
+                    field: 'type', title: '类型', width: 100, templet: function (row) {
                         switch (row.type) {
                             case 0:
                                 return '通知机器人';
+                            default:
+                                return '未知';
+                        }
+                    }, unresize: true
+                },
+                {
+                    field: 'platform', title: '平台', width: 100, templet: function (row) {
+                        switch (row.platform) {
+                            case 0:
+                                return '飞书';
+                            case 1:
+                                return '企业微信';
                             default:
                                 return '未知';
                         }

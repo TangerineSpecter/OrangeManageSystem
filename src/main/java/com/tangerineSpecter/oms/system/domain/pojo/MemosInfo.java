@@ -1,5 +1,7 @@
 package com.tangerinespecter.oms.system.domain.pojo;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.RandomUtil;
 import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,6 +21,16 @@ import java.util.List;
 public class MemosInfo implements Serializable {
 
     private List<Memos> data;
+
+    /**
+     * 获取随机内容
+     *
+     * @return memo内容
+     */
+    public CharSequence getRandomContent() {
+        final int totalSize = CollUtil.size(this.data);
+        return CollUtil.get(this.data, RandomUtil.randomInt(totalSize)).getContent();
+    }
 
     @Data
     @AllArgsConstructor

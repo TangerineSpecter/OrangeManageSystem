@@ -17,7 +17,7 @@ public class SystemConstant {
     /**
      * 系统信息
      */
-    public static SystemConfig systemConfig;
+    public static final SystemConfig SYSTEM_CONFIG = new SystemConfig();
     /**
      * 不设置缓存
      */

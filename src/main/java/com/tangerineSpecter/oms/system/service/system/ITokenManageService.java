@@ -1,7 +1,7 @@
 package com.tangerinespecter.oms.system.service.system;
 
 import com.tangerinespecter.oms.common.query.SystemTokenQueryObject;
-import com.tangerinespecter.oms.system.domain.dto.system.SystemTokenVo;
+import com.tangerinespecter.oms.system.domain.vo.system.SystemTokenVo;
 import com.tangerinespecter.oms.system.domain.entity.SystemToken;
 import com.tangerinespecter.oms.system.service.BaseService;
 

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <th:block th:include="include :: header('添加编辑令牌')"/>
+    <th:block th:include="include :: header('添加编辑定时任务')"/>
 </head>
 <body>
-<form class="layui-form layui-form-pane" action="" lay-filter="data-form">
+<form id="data-form" class="layui-form layui-form-pane" action="" lay-filter="data-form">
     <div class="mainBox">
         <div class="main-container">
             <div class="main-container">
@@ -13,7 +13,7 @@
                     <label class="layui-form-label">名称</label>
                     <div class="layui-input-block">
                         <input type="text" id="name" name="name" autocomplete="off"
-                               placeholder="请输入名称" lay-verify="name"
+                               placeholder="请输入定时任务名称" lay-verify="name"
                                class="layui-input"/>
                     </div>
                 </div>
@@ -21,43 +21,44 @@
                     <label class="layui-form-label">类型</label>
                     <div class="layui-input-block">
                         <label>
-                            <select name="type" class="layui-select">
-                                <option value="0" selected>通知机器人</option>
+                            <select id="type" name="type" class="layui-select" lay-filter="type">
+                                <option value=0 selected>一般调度</option>
+                                <option value=1>机器人通知</option>
                             </select>
                         </label>
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label">平台</label>
+                    <label class="layui-form-label">cron表达式</label>
                     <div class="layui-input-block">
-                        <select name="platform" class="layui-select">
-                            <option value="0">飞书</option>
-                            <option value="1">企业微信</option>
+                        <input type="text" id="cron" name="cron" autocomplete="off"
+                               placeholder="请输入时间表达式" lay-verify="cron"
+                               class="layui-input"/>
+                    </div>
+                </div>
+                <div id="classPathInput" class="layui-form-item">
+                    <label class="layui-form-label">调度任务</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="classPath" name="classPath" autocomplete="off"
+                               placeholder="请输入class类完整引用路径" lay-verify="classPath"
+                               class="layui-input"/>
+                    </div>
+                </div>
+                <div id="botInput" class="layui-form-item" style="display: none;">
+                    <label class="layui-form-label">通知机器人</label>
+                    <div class="layui-input-block">
+                        <select id="botId" name="botId" class="layui-select" lay-filter="bot">
+                            <option th:each="bot:${botList}" th:text="${bot.name}"
+                                    th:value="${bot.id}"></option>
                         </select>
                     </div>
                 </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">webhook</label>
-                    <div class="layui-input-block">
-                        <input type="text" id="webhook" name="webhook" autocomplete="off"
-                               placeholder="请输入webhook地址" lay-verify="webhook"
-                               class="layui-input"/>
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">token</label>
-                    <div class="layui-input-block">
-                        <input type="text" id="token" name="token" autocomplete="off"
-                               placeholder="请输入token令牌，如无则不填写" lay-verify="webhook"
-                               class="layui-input"/>
-                    </div>
-                </div>
                 <div class="layui-form-item layui-form-text">
-                    <label class="layui-form-label">消息体</label>
+                    <label class="layui-form-label">描述</label>
                     <div class="layui-input-block">
-                    <textarea id="messageInfo" name="messageInfo" autocomplete="off"
-                              placeholder="请输入消息体" lay-filter="token"
-                              class="layui-textarea" style="height: 165px;resize: none;"></textarea>
+                    <textarea id="description" name="description" autocomplete="off"
+                              placeholder="请输入定时任务描述" lay-filter="description"
+                              class="layui-textarea" style="height: 200px;resize: none;"></textarea>
                     </div>
                 </div>
             </div>
@@ -78,7 +79,7 @@
     </div>
 </form>
 <th:block th:include="include :: footer"/>
-<script>
+<script th:inline="javascript">
 
     //初始化页面数据
     function initData(data) {
@@ -88,42 +89,67 @@
         requestUrl = data.href;
     }
 
+    //展示输入框
+    const showInput = function (selectValue) {
+        $("#data-form .layui-form-item").show();
+        switch (selectValue) {
+            case 0:
+                $("#botInput").hide();
+                break;
+            case 1:
+                $("#classPathInput").hide();
+                break;
+        }
+    };
+
     /**
      * 初始化表单
      * @param data 数据
      */
     function initForm(data) {
+        console.log(data)
         layui.use(['form'], function () {
             const form = layui.form;
             form.val("data-form", {
                 "id": data.id,
                 "name": data.name,
                 "type": data.type,
-                "platform": data.platform,
-                "token": data.token,
-                "webhook": data.webhook,
-                "messageInfo": data.messageInfo
+                "cron": data.cron,
+                "classPath": data.classPath,
+                "botId": data.extraInfo,
+                "description": data.description,
             });
             form.render();
         });
+        showInput(data.type);
     }
 
     layui.use(['form', 'layedit', 'layer'], function () {
+        //构建一个默认的编辑器
+        //var index = layedit.build('content');
         const form = layui.form,
             layedit = layui.layedit,
             layer = layui.layer;
-
 
         //自定义验证规则
         form.verify({
             name: function (value) {
                 if (value == null || value === "") {
-                    return '请输入令牌名称';
+                    return '请输入定时任务名称';
                 }
             },
-            token: function (value) {
+            classPath: function (value) {
+                const fromData = form.val('data-form');
+                if(fromData.type != 0) {
+                    return null;
+                }
                 if (value == null || value === "") {
-                    return '请输入令牌信息';
+                    return '请输入调度任务路径';
+                }
+            },
+            cron: function (value) {
+                if (value == null || value === "") {
+                    return '请输入时间表达式';
                 }
             },
         });
@@ -138,8 +164,11 @@
             return false;
         });
 
-        //构建一个默认的编辑器
-        //var index = layedit.build('content');
+        //监听下拉框变动，0：一般调度，1：机器人
+        form.on('select(type)', function (data) {
+            showInput(Number(data.value));
+        })
+
     });
 
 </script>

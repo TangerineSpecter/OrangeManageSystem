@@ -86,7 +86,7 @@ public class NumChainCal {
      */
     public NumChainCal div(Object otherValue) {
         BigDecimal convertValue = Convert.toBigDecimal(otherValue);
-        if (convertValue == null || convertValue.compareTo(BigDecimal.ZERO) == 0) {
+        if (convertValue == null || convertValue.equals(BigDecimal.ZERO)) {
             return this;
         }
         this.value = NumberUtil.div(this.value, Convert.toBigDecimal(otherValue));

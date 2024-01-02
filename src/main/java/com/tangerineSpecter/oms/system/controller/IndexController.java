@@ -60,7 +60,7 @@ public class IndexController {
     @GetMapping(value = "/index", produces = "text/html;charset=UTF-8")
     public String index(HttpServletRequest request, HttpServletResponse response, Model model) {
         model.addAttribute("systemUser", UserContext.getCurrentUser());
-        model.addAttribute("webTitle", SystemConstant.systemConfig.getWebTitle());
+        model.addAttribute("webTitle", SystemConstant.SYSTEM_CONFIG.getWebTitle());
         model.addAttribute(ParamUtils.NOT_READ_NOTICE_COUNT, systemNoticeMapper.queryNotReadNoticeCount());
         return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getSystemIndexPageKey, "index");
     }

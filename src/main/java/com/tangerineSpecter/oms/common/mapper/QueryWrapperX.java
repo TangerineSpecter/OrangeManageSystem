@@ -1,8 +1,9 @@
 package com.tangerinespecter.oms.common.mapper;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.ArrayUtils;
-import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.Collection;
@@ -25,56 +26,56 @@ public class QueryWrapperX<T> extends QueryWrapper<T> {
     }
 
     public QueryWrapperX<T> inIfPresent(String column, Collection<?> values) {
-        if (!CollectionUtils.isEmpty(values)) {
+        if (CollUtil.isNotEmpty(values)) {
             return (QueryWrapperX<T>) super.in(column, values);
         }
         return this;
     }
 
     public QueryWrapperX<T> inIfPresent(String column, Object... values) {
-        if (!ArrayUtils.isEmpty(values)) {
+        if (ArrayUtil.isNotEmpty(values)) {
             return (QueryWrapperX<T>) super.in(column, values);
         }
         return this;
     }
 
     public QueryWrapperX<T> eqIfPresent(String column, Object val) {
-        if (val != null) {
+        if (!StrUtil.isEmptyIfStr(val)) {
             return (QueryWrapperX<T>) super.eq(column, val);
         }
         return this;
     }
 
     public QueryWrapperX<T> neIfPresent(String column, Object val) {
-        if (val != null) {
+        if (!StrUtil.isEmptyIfStr(val)) {
             return (QueryWrapperX<T>) super.ne(column, val);
         }
         return this;
     }
 
     public QueryWrapperX<T> gtIfPresent(String column, Object val) {
-        if (val != null) {
+        if (!StrUtil.isEmptyIfStr(val)) {
             return (QueryWrapperX<T>) super.gt(column, val);
         }
         return this;
     }
 
     public QueryWrapperX<T> geIfPresent(String column, Object val) {
-        if (val != null) {
+        if (!StrUtil.isEmptyIfStr(val)) {
             return (QueryWrapperX<T>) super.ge(column, val);
         }
         return this;
     }
 
     public QueryWrapperX<T> ltIfPresent(String column, Object val) {
-        if (val != null) {
+        if (!StrUtil.isEmptyIfStr(val)) {
             return (QueryWrapperX<T>) super.lt(column, val);
         }
         return this;
     }
 
     public QueryWrapperX<T> leIfPresent(String column, Object val) {
-        if (val != null) {
+        if (!StrUtil.isEmptyIfStr(val)) {
             return (QueryWrapperX<T>) super.le(column, val);
         }
         return this;

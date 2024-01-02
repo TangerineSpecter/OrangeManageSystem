@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <th:block th:include="include :: header('角色管理')"/>
+    <th:block th:include="include :: header('定时任务管理')"/>
 </head>
 <body class="pear-container">
 <div class="layui-card">
@@ -9,19 +9,9 @@
         <form id="search-from" class="layui-form layui-form-pane" action="">
             <div class="layui-form-item">
                 <div class="layui-inline">
-                    <label class="layui-form-label">角色名</label>
+                    <label class="layui-form-label">任务名称</label>
                     <div class="layui-input-inline">
                         <input type="text" name="name" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-inline">
-                    <label class="layui-form-label">状态</label>
-                    <div class="layui-input-inline">
-                        <select name="status" class="layui-select">
-                            <option value="">全部</option>
-                            <option value="0">冻结</option>
-                            <option value="1">可用</option>
-                        </select>
                     </div>
                 </div>
                 <button class="pear-btn pear-btn-md pear-btn-primary" lay-submit lay-filter="data-search-btn">
@@ -44,22 +34,26 @@
 <th:block th:include="include :: footer"/>
 <!-- 状态按钮 -->
 <script type="text/html" id="switchTpl">
-    <input type="checkbox" name="status" value="{{d.id}}" lay-skin="switch" lay-text="冻结|可用" lay-filter="statusFun" {{
-           d.status== 0 ? 'checked' : '' }}>
+    <input type="checkbox" name="status" value="{{d.id}}" lay-skin="switch" lay-text="启用|停用" lay-filter="statusFun"
+           {{
+           d.status== 1 ? 'checked' : '' }}>
 </script>
 <script type="text/html" id="toolbar">
     <div class="layui-btn-container">
-        <button class="pear-btn pear-btn-primary pear-btn-md" lay-event="addSystemRole">
+        <button class="pear-btn pear-btn-primary pear-btn-md" lay-event="addSystemToken">
             <i class="layui-icon layui-icon-add-1"></i>
-            新增角色
+            定时任务
         </button>
     </div>
 </script>
 <script type="text/html" id="operationBar">
-    <button class="pear-btn pear-btn-warming pear-btn-sm" lay-event="authorize">
-        <i class="layui-icon layui-icon-vercode"></i>
+    <button class="pear-btn pear-btn-primary pear-btn-sm" lay-event="execute">
+        <i class="layui-icon layui-icon-triangle-r"></i>
     </button>
-    <button class="pear-btn pear-btn-danger pear-btn-sm" lay-event="delSystemRole">
+    <button class="pear-btn pear-btn-warming pear-btn-sm" lay-event="editSystemToken">
+        <i class="layui-icon layui-icon-edit"></i>
+    </button>
+    <button class="pear-btn pear-btn-danger pear-btn-sm" lay-event="delSystemToken">
         <i class="layui-icon layui-icon-delete"></i>
     </button>
 </script>
@@ -78,30 +72,31 @@
         const cols = [
             [
                 {type: "checkbox", fixed: "left"},
-                {field: 'id', title: 'ID', width: 80, sort: true},
-                {field: 'name', title: '角色名'},
-                {field: 'remark', minWidth: 150, title: '备注', fixed: "right"},
+                {field: 'id', title: 'ID', width: 100, sort: true},
+                {field: 'name', title: '任务名称', width: 120},
+                {
+                    field: 'cron', title: '时间表达式', width: 120, templet: function (row) {
+                        return "<span class=\"layui-badge layui-bg-cyan\">" + row.cron + "</span>";
+                    }
+                },
                 {field: 'status', title: '状态', width: 120, templet: '#switchTpl', unresize: true},
-                {toolbar: '#operationBar', align: 'center', title: '操作', width: 150, fixed: "right"}
+                {field: 'description', title: '描述', width: 200},
+                {toolbar: '#operationBar', align: 'center', title: '操作', width: 200, fixed: "right"}
             ]
         ];
 
-        OmsTable.init('#currentTableId', '/system/role/list', cols);
+        OmsTable.init('#currentTableId', '/system/scheduled/list', cols);
 
         //头工具栏事件
         table.on('toolbar(currentTableFilter)', function (obj) {
             switch (obj.event) {
                 //添加系统角色
-                case 'addSystemRole':
-                    layer.prompt({
-                        title: '添加角色'
-                    }, function (value, index) {
-                        Ajax.post("/system/role/insert", {name: value}, false);
-                    });
+                case 'addSystemToken':
+                    loadFormHeightModel("添加定时任务", {href: "/system/scheduled/insert"}, '/system/scheduled/addPage', '600px');
                     break;
                 //自定义头工具栏右侧图标 - 提示
                 case 'LAYTABLE_TIPS':
-                    layer.alert('这里是进行角色管理的地方');
+                    layer.alert('这里是进行定时任务管理的地方');
                     break;
             }
         });
@@ -110,21 +105,19 @@
         table.on('tool(currentTableFilter)', function (obj) {
             const data = obj.data;
             switch (obj.event) {
-                case 'authorize':
-                    data.href = "/system/role/authorize";
-                    loadFormHeightModel("角色授权", data, '/system/role/addPage', "600px");
+                case 'execute':
+                    Ajax.post("/system/scheduled/execute", {id: data.id}, false);
                     break;
-                case 'delSystemRole':
-                    layer.confirm('是否删除该角色？', function (index) {
-                        Ajax.delete("/system/role/delete", {id: data.id}, false);
+                case 'editSystemToken':
+                    data.href = "/system/scheduled/update";
+                    loadFormHeightModel("编辑定时任务", data, '/system/scheduled/addPage', "600px");
+                    break;
+                case 'delSystemToken':
+                    layer.confirm('是否删除该定时任务？', function (index) {
+                        Ajax.delete("/system/scheduled/delete", {id: data.id}, false);
                     });
                     break;
             }
-        });
-
-        //监听状态更改操作
-        form.on('switch(statusFun)', function (obj) {
-            Ajax.put('/system/role/update-status', {id: this.value}, false);
         });
 
         //监听表格复选框选择
@@ -132,9 +125,12 @@
             console.log(obj)
         });
 
+        //监听状态更改操作
+        form.on('switch(statusFun)', function (data) {
+            Ajax.put('/system/scheduled/enable', {id: this.value, enable: data.elem.checked}, false);
+        });
+
     });
-</script>
-<script>
 </script>
 </body>
 </html>

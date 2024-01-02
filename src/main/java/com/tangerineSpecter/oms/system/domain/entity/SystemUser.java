@@ -98,7 +98,7 @@ public class SystemUser implements Serializable {
     private Integer isDel;
     @ApiModelProperty("管理员角色")
     @TableField(exist = false)
-    private List<SystemRole> roles = CollUtil.newArrayList();
+    private transient List<SystemRole> roles = CollUtil.newArrayList();
 
     public SystemUser(String username, String password) {
         this.username = username;

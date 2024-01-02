@@ -62,7 +62,7 @@ public class PageResultService {
         }
         IWebContext ctx = new WebContext(request, response, request.getServletContext(), request.getLocale(), model.asMap());
         html = thymeleafViewResolver.getTemplateEngine().process(pageUrl, ctx);
-        if (CharSequenceUtil.isNotEmpty(html) && !SystemConstant.NO_CACHE.equals(SystemConstant.systemConfig.getCacheTime())) {
+        if (CharSequenceUtil.isNotEmpty(html) && !SystemConstant.NO_CACHE.equals(SystemConstant.SYSTEM_CONFIG.getCacheTime())) {
             redisHelper.set(redisKey, UserContext.getUid(), html);
         }
         return html;

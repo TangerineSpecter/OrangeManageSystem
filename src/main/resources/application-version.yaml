@@ -10,6 +10,7 @@ version:
         - info: 新增：NLP语义分析小工具
         - info: 新增：令牌管理功能
         - info: 新增：用户管理在线状态以及下线功能
+        - info: 新增：动态定时任务管理
     - code: v0.5.1
       date: 2022-10-17
       content:

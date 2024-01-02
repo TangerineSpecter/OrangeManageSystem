@@ -1,17 +1,14 @@
 package com.tangerinespecter.oms.system.domain.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-
-import java.io.Serializable;
-import java.time.LocalDateTime;
-
+import com.baomidou.mybatisplus.annotation.*;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -36,11 +33,20 @@ public class SystemToken implements Serializable {
     @ApiModelProperty("名称描述")
     private String name;
 
+    @ApiModelProperty("webhook地址")
+    private String webhook;
+
     @ApiModelProperty("令牌")
     private String token;
 
-    @ApiModelProperty("类型，1：通知机器人")
+    @ApiModelProperty("平台，0：飞书")
+    private Integer platform;
+
+    @ApiModelProperty("类型，0：机器人")
     private Integer type;
+
+    @ApiModelProperty("消息体")
+    private String messageInfo;
 
     @ApiModelProperty("删除状态（0：未删除；1：已删除）")
     private Integer isDel;
@@ -49,17 +55,7 @@ public class SystemToken implements Serializable {
     private LocalDateTime createTime;
 
     @ApiModelProperty("更新时间")
+    @TableField(fill = FieldFill.UPDATE)
     private LocalDateTime updateTime;
 
-    public SystemToken(String name, String token, Integer type) {
-        this.name = name;
-        this.token = token;
-        this.type = type;
-    }
-
-    public SystemToken(Long id, String name, String token) {
-        this.id = id;
-        this.name = name;
-        this.token = token;
-    }
 }

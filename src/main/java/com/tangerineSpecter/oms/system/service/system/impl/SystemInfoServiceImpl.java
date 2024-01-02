@@ -101,7 +101,7 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
             menuList.addAll(menus);
             info.setMenus(menuList);
             info.setOsName(SystemPropsUtil.get(SystemUtil.OS_NAME))
-                    .setSystemTitle(SystemConstant.systemConfig.getHomeTitle())
+                    .setSystemTitle(SystemConstant.SYSTEM_CONFIG.getHomeTitle())
                     .setVersion(systemVersion);
         } catch (Exception e) {
             log.error("[系统信息获取异常]:", e);

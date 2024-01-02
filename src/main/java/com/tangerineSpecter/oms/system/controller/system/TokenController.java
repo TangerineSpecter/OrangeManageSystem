@@ -8,7 +8,7 @@ import com.tangerinespecter.oms.common.query.QueryObject;
 import com.tangerinespecter.oms.common.query.SystemTokenQueryObject;
 import com.tangerinespecter.oms.common.redis.PageModelKey;
 import com.tangerinespecter.oms.common.result.ServiceResult;
-import com.tangerinespecter.oms.system.domain.dto.system.SystemTokenVo;
+import com.tangerinespecter.oms.system.domain.vo.system.SystemTokenVo;
 import com.tangerinespecter.oms.system.domain.entity.SystemToken;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
 import com.tangerinespecter.oms.system.service.system.ITokenManageService;
@@ -62,14 +62,14 @@ public class TokenController {
 
     @ApiOperation("新增令牌")
     @PostMapping("/insert")
-    @LoggerInfo(value = "新增公告", event = LogOperation.EVENT_ADD)
+    @LoggerInfo(value = "新增令牌", event = LogOperation.EVENT_ADD)
     public void insert(@Validated @RequestBody SystemTokenVo param) {
         tokenManageService.insert(param);
     }
 
     @ApiOperation("编辑令牌")
     @PutMapping("/update")
-    @LoggerInfo(value = "更新公告", event = LogOperation.EVENT_UPDATE)
+    @LoggerInfo(value = "编辑令牌", event = LogOperation.EVENT_UPDATE)
     public void update(@Validated(Update.class) @RequestBody SystemTokenVo param) {
         tokenManageService.update(param);
     }

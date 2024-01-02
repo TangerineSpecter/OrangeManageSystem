@@ -4,10 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
+/**
+ * 系统消息
+ *
+ * @author 丢失的橘子
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Message {
+public class Message implements Serializable {
 
     private Long id;
     /**

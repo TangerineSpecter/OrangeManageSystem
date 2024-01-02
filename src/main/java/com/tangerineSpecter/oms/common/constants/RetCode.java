@@ -121,6 +121,22 @@ public class RetCode {
      */
     public static final RetCode ACCOUNT_NOT_LOGIN = new RetCode(116, "账号未在线");
     /**
+     * 定时任务已存在
+     */
+    public static final RetCode TASK_EXIST = new RetCode(117, "定时任务已存在");
+    /**
+     * 未知的平台
+     */
+    public static final RetCode UNKNOWN_PLATFORM = new RetCode(118, "未知的平台");
+    /**
+     * 任务执行异常
+     */
+    public static final RetCode TASK_EXECUTE_ERROR = new RetCode(119, "任务执行异常");
+    /**
+     * 任务路径不存在
+     */
+    public static final RetCode TASK_EXECUTE_NOT_EXIST = new RetCode(120, "任务路径不存在");
+    /**
      * 参数错误
      */
     public static final RetCode PARAM_ERROR = new RetCode(200, "参数错误");

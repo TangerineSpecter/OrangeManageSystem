@@ -6,9 +6,11 @@ import cn.hutool.core.lang.ClassScanner;
 import cn.hutool.core.util.ReflectUtil;
 import com.tangerinespecter.oms.common.enums.ScheduledTypeEnum;
 import com.tangerinespecter.oms.common.query.SystemScheduledQueryObject;
+import com.tangerinespecter.oms.common.redis.RedisKey;
 import com.tangerinespecter.oms.common.utils.CollUtils;
 import com.tangerinespecter.oms.system.domain.entity.SystemScheduledTask;
 import com.tangerinespecter.oms.system.mapper.SystemScheduledTaskMapper;
+import com.tangerinespecter.oms.system.service.helper.RedisHelper;
 import com.tangerinespecter.oms.system.service.system.IScheduledManageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +42,7 @@ public class ScheduledConfig implements SchedulingConfigurer {
     private final ApplicationContext context;
     private final IScheduledManageService scheduledManageService;
     private final SystemScheduledTaskMapper scheduledTaskMapper;
+    private final RedisHelper redisHelper;
 
     /**
      * 系统默认定时任务包路径
@@ -54,6 +57,8 @@ public class ScheduledConfig implements SchedulingConfigurer {
         CollUtil.addAll(SCHEDULED_LIST, this.initDefaultTask(list));
         //数据库查询到所有的定时任务
         CollUtil.addAll(SCHEDULED_LIST, list);
+        //重置锁，避免重启导致锁未释放
+        CollUtils.forEach(list, data -> redisHelper.releaseLock(RedisKey.getJobLock, data.getId()));
         log.info("[初始化定时任务完毕]，数量：" + CollUtil.size(SCHEDULED_LIST));
     }
 

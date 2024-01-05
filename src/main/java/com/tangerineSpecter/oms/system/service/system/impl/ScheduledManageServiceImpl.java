@@ -128,11 +128,14 @@ public class ScheduledManageServiceImpl implements IScheduledManageService {
             job.execute();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
+            redisHelper.releaseLock(redisKey, param.getId());
             throw new BusinessException(RetCode.TASK_EXECUTE_NOT_EXIST);
         } catch (Exception e) {
             e.printStackTrace();
+            redisHelper.releaseLock(redisKey, param.getId());
             throw new BusinessException(RetCode.TASK_EXECUTE_ERROR);
         }
+        redisHelper.releaseLock(redisKey, param.getId());
     }
 
 }

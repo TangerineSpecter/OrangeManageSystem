@@ -1,8 +1,14 @@
 package com.tangerinespecter.oms.job.schedule;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.convert.Convert;
+import cn.hutool.core.lang.ClassScanner;
+import cn.hutool.core.util.ReflectUtil;
+import com.tangerinespecter.oms.common.enums.ScheduledTypeEnum;
 import com.tangerinespecter.oms.common.query.SystemScheduledQueryObject;
+import com.tangerinespecter.oms.common.utils.CollUtils;
 import com.tangerinespecter.oms.system.domain.entity.SystemScheduledTask;
+import com.tangerinespecter.oms.system.mapper.SystemScheduledTaskMapper;
 import com.tangerinespecter.oms.system.service.system.IScheduledManageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +23,7 @@ import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Scheduled定时任务配置
@@ -32,14 +39,63 @@ public class ScheduledConfig implements SchedulingConfigurer {
 
     private final ApplicationContext context;
     private final IScheduledManageService scheduledManageService;
+    private final SystemScheduledTaskMapper scheduledTaskMapper;
+
+    /**
+     * 系统默认定时任务包路径
+     */
+    private static final String SYSTEM_DEFAULT_TASK_PACKAGE = "com.tangerinespecter.oms.job.quartz";
 
     private static final List<SystemScheduledTask> SCHEDULED_LIST = CollUtil.newArrayList();
 
     @PostConstruct
     public void init() {
+        List<SystemScheduledTask> list = scheduledManageService.list(new SystemScheduledQueryObject());
+        CollUtil.addAll(SCHEDULED_LIST, this.initDefaultTask(list));
         //数据库查询到所有的定时任务
-        CollUtil.addAll(SCHEDULED_LIST, scheduledManageService.list(new SystemScheduledQueryObject()));
-        log.info("[定时任务初始化完毕]，数量：" + CollUtil.size(SCHEDULED_LIST));
+        CollUtil.addAll(SCHEDULED_LIST, list);
+        log.info("[初始化定时任务完毕]，数量：" + CollUtil.size(SCHEDULED_LIST));
+    }
+
+    /**
+     * 初始化系统默认task
+     *
+     * @param list 已有任务列表
+     * @return 新增任务列表
+     */
+    private List<SystemScheduledTask> initDefaultTask(List<SystemScheduledTask> list) {
+        List<SystemScheduledTask> insertTask = CollUtil.newArrayList();
+        final List<SystemScheduledTask> taskList = this.getDefaultTask();
+        final List<String> dbClassPath = CollUtils.convertList(list, SystemScheduledTask::getClassPath);
+        for (SystemScheduledTask task : taskList) {
+            if (dbClassPath.contains(task.getClassPath())) {
+                continue;
+            }
+            scheduledTaskMapper.insert(task);
+            insertTask.add(task);
+        }
+        return insertTask;
+    }
+
+    /**
+     * 系统默认定时任务信息
+     *
+     * @return 系统默认定时任务列表
+     */
+    public List<SystemScheduledTask> getDefaultTask() {
+        final List<SystemScheduledTask> result = CollUtil.newArrayList();
+        final Set<Class<?>> classes = ClassScanner.scanPackage(SYSTEM_DEFAULT_TASK_PACKAGE);
+        for (Class<?> clazz : classes) {
+            final Object jobName = ReflectUtil.getFieldValue(clazz, "JOB_NAME");
+            final Object jobCron = ReflectUtil.getFieldValue(clazz, "JOB_CRON");
+            SystemScheduledTask task = new SystemScheduledTask();
+            task.setClassPath(clazz.getName());
+            task.setCron(Convert.toStr(jobCron));
+            task.setName(Convert.toStr(jobName));
+            task.setType(ScheduledTypeEnum.DEFAULT.getValue());
+            result.add(task);
+        }
+        return result;
     }
 
     @Override

@@ -128,4 +128,5 @@ public class PageModelKey extends BasePrefixKey implements Serializable {
      * 定时任务菜单缓存
      */
     public static final PageModelKey getSystemScheduledPageKey = new PageModelKey("system_scheduled_page:", EXPIRE_TIME);
+
 }

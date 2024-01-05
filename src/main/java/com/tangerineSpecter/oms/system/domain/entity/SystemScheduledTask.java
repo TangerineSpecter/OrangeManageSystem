@@ -30,7 +30,7 @@ public class SystemScheduledTask implements Serializable {
     private String name;
     @ApiModelProperty("时间表达式")
     private String cron;
-    @ApiModelProperty("类型（0：一般调度，1：机器人通知）")
+    @ApiModelProperty("类型（0：系统默认，1：一般调度，2：机器人通知）")
     private Integer type;
     @ApiModelProperty("消息类型：0：简单消息")
     private Integer msgType;

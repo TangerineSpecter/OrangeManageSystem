@@ -73,9 +73,9 @@
             [
                 {type: "checkbox", fixed: "left"},
                 {field: 'id', title: 'ID', width: 80, sort: true},
-                {field: 'name', title: '名称', width: 150},
+                {field: 'name', title: '名称', width: 200},
                 {
-                    field: 'type', title: '类型', width: 100, templet: function (row) {
+                    field: 'type', title: '类型', width: 150, templet: function (row) {
                         switch (row.type) {
                             case 0:
                                 return '通知机器人';
@@ -85,7 +85,7 @@
                     }, unresize: true
                 },
                 {
-                    field: 'platform', title: '平台', width: 100, templet: function (row) {
+                    field: 'platform', title: '平台', width: 150, templet: function (row) {
                         switch (row.platform) {
                             case 0:
                                 return '飞书';
@@ -95,6 +95,13 @@
                                 return '未知';
                         }
                     }, unresize: true
+                },
+                {
+                    field: 'webhook', title: 'webhook地址', templet: function (row) {
+                        return "<span class='layui-badge-rim' style='font-weight: bold;'>"
+                            + row.webhook
+                            + "</span>";
+                    }
                 },
                 {toolbar: '#operationBar', align: 'center', title: '操作', width: 120, fixed: "right"}
             ]
@@ -111,7 +118,7 @@
                     break;
                 //自定义头工具栏右侧图标 - 提示
                 case 'LAYTABLE_TIPS':
-                    layer.alert('这里是进行角色管理的地方');
+                    layer.alert('这里是进行令牌管理的地方');
                     break;
             }
         });

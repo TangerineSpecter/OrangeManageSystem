@@ -174,6 +174,17 @@ var OmsTable = new function () {
      * @param cols 表格数据
      */
     this.init = function (id, url, cols) {
+        this.init(id, url, cols, {});
+    }
+
+    /**
+     * 初始化表格
+     * @param id 表格id
+     * @param url 接口地址
+     * @param cols 表格数据
+     * @param param 查询参数
+     */
+    this.init = function (id, url, cols, param) {
         layui.use(['table', 'element'], function () {
             const table = layui.table,
                 element = layui.element;
@@ -182,7 +193,7 @@ var OmsTable = new function () {
                 url: url,
                 method: 'POST',
                 contentType: 'application/json',
-                where: {searchParams: {}},
+                where: {searchParams: Object.assign({}, param)},
                 toolbar: '#toolbar',//开启头部工具栏
                 skin: 'line',
                 size: 'lg',
@@ -191,6 +202,38 @@ var OmsTable = new function () {
                     , layEvent: 'LAYTABLE_TIPS'
                     , icon: 'layui-icon-tips'
                 }],
+                cellMinWidth: 100,
+                // totalRow: true,
+                cols: cols,
+                limits: [10, 15, 20, 25, 50, 100],
+                limit: 10,
+                page: true,
+                done: function () {
+                    element.render();
+                }
+            });
+        });
+    }
+
+    /**
+     * 初始化基础表格
+     * @param id 表格id
+     * @param url 接口地址
+     * @param cols 表格数据
+     * @param param 查询参数
+     */
+    this.initSimple = function (id, url, cols, param) {
+        layui.use(['table', 'element'], function () {
+            const table = layui.table,
+                element = layui.element;
+            table.render({
+                elem: id,
+                url: url,
+                method: 'POST',
+                contentType: 'application/json',
+                where: {searchParams: Object.assign({}, param)},
+                skin: 'line',
+                size: 'lg',
                 cellMinWidth: 100,
                 // totalRow: true,
                 cols: cols,

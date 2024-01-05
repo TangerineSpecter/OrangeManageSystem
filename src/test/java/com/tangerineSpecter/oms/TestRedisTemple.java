@@ -1,24 +1,29 @@
 package com.tangerinespecter.oms;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.file.FileReader;
+import cn.hutool.core.lang.ClassScanner;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.RandomUtil;
+import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.google.common.base.Splitter;
 import com.tangerinespecter.oms.common.config.JuheApiConfig;
 import com.tangerinespecter.oms.common.constants.CommonConstant;
 import com.tangerinespecter.oms.common.constants.SystemConstant;
+import com.tangerinespecter.oms.common.enums.ScheduledTypeEnum;
 import com.tangerinespecter.oms.common.utils.CollUtils;
 import com.tangerinespecter.oms.common.utils.NumChainCal;
 import com.tangerinespecter.oms.job.service.FundDataQuartzService;
 import com.tangerinespecter.oms.system.domain.entity.DataExchangeRate;
 import com.tangerinespecter.oms.system.domain.entity.DataTradeRecord;
+import com.tangerinespecter.oms.system.domain.entity.SystemScheduledTask;
 import com.tangerinespecter.oms.system.domain.pojo.SystemVersionInfo;
 import com.tangerinespecter.oms.system.domain.vo.statis.FundAnalysisInfoVo;
 import com.tangerinespecter.oms.system.mapper.DataExchangeRateMapper;
@@ -42,10 +47,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Stream;
 
 @Slf4j
@@ -172,7 +174,7 @@ public class TestRedisTemple {
         nlpToolService.analysis(null, fileReader.readString());
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
 //        System.out.println(content);
 //        final List<String> strings = StrUtil.split(content, "\n");
 //        for (String string : strings) {
@@ -186,5 +188,18 @@ public class TestRedisTemple {
 //        final Document document = Jsoup.connect("https://rili-d.jin10.com/open.php?fontSize=14px&theme=primary").get();
 //        System.out.println(document);
 
+        final Set<Class<?>> classes = ClassScanner.scanPackage("com.tangerinespecter.oms.job.quartz");
+        System.out.println(classes);
+        for (Class<?> clazz : classes) {
+            final Object jobName = ReflectUtil.getFieldValue(clazz, "JOB_NAME");
+            final Object jobCron = ReflectUtil.getFieldValue(clazz, "JOB_CRON");
+            SystemScheduledTask task = new SystemScheduledTask();
+            task.setClassPath(clazz.getName());
+            task.setCron(Convert.toStr(jobCron));
+            task.setName(Convert.toStr(jobName));
+            task.setType(ScheduledTypeEnum.DEFAULT.getValue());
+            System.out.println(JSON.toJSONString(task));
+        }
     }
+
 }

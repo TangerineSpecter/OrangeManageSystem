@@ -10,12 +10,12 @@
             <li class="layui-this" lay-id="currentTableId" lay-url="/system/notice/list">
                 全部消息
             </li>
-            <li lay-id="notReadTableId" lay-url="/system/notice/list?readStatus=0">未读消息
+            <li lay-id="notReadTableId" lay-url="/system/notice/list" data-param='{"readStatus":0}'>未读消息
                 <span id="notReadNotice" class="layui-badge" th:text="${notReadNoticeCount}"
                       th:if="${notReadNoticeCount > 0}"></span>
             </li>
-            <li lay-id="isReadTableId" lay-url="/system/notice/list?readStatus=1">已读消息</li>
-            <li lay-id="recycleTableId" lay-url="/system/notice/list?isDel=1">回收站</li>
+            <li lay-id="isReadTableId" lay-url="/system/notice/list" data-param='{"readStatus":1}'>已读消息</li>
+            <li lay-id="recycleTableId" lay-url="/system/notice/list" data-param='{"isDel":1}'>回收站</li>
         </ul>
         <div class="layui-tab-content">
             <div class="layui-tab-item layui-show">
@@ -94,26 +94,6 @@
             $ = layui.jquery,
             element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块;
 
-        /**
-         * 初始化消息表格
-         * @param tableId 表格id
-         * @param url 数据地址
-         */
-        function initNoticeTable(tableId, url) {
-            //加载表格
-            table.render({
-                elem: '#' + tableId,
-                url: url,
-                page: true,
-                cols: cols,
-                skin: 'line',
-                even: true,
-                done: function (res, curr, count) {
-
-                }
-            });
-        }
-
         //表格数据
         let cols = [
             [{
@@ -140,14 +120,16 @@
             ]
         ]
 
-        //初始化
-        initNoticeTable('currentTableId', '/system/notice/list');
+        window.onload = function () {
+            OmsTable.initSimple('#currentTableId', '/system/notice/list', cols, {});
+        }
 
         //监听tab切换
         element.on('tab(notice)', function () {
             const tableId = this.getAttribute('lay-id');
             const url = this.getAttribute('lay-url');
-            initNoticeTable(tableId, url);
+            const param = this.getAttribute('data-param');
+            OmsTable.initSimple('#' + tableId, url, cols, JSON.parse(param));
             globalTableId = tableId;
         });
 

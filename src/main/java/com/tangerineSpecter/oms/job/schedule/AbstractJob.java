@@ -6,6 +6,8 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.support.CronTrigger;
 
 import javax.annotation.Resource;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledFuture;
 
 /**
@@ -20,6 +22,8 @@ public abstract class AbstractJob implements Runnable {
 
     @Resource
     private ThreadPoolTaskScheduler threadPoolTaskScheduler;
+
+    public static final ExecutorService executorService = Executors.newFixedThreadPool(5);
 
     /**
      * 获取任务名称

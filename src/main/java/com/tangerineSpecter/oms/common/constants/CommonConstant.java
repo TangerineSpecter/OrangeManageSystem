@@ -33,6 +33,11 @@ public class CommonConstant {
     public static final String NULL_KEY_STR = "";
 
     /**
+     * 一天
+     */
+    public static final Integer ONE_DAY = 24 * 60 * 60 * 1000;
+
+    /**
      * 一小时
      */
     public static final Integer ONE_HOUR = 60 * 60 * 1000;

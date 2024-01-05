@@ -26,7 +26,7 @@ public class SystemScheduledVo extends IdParamVo implements Serializable {
     @ApiModelProperty(value = "时间表达式", required = true)
     @NotBlank(message = "时间表达式不能为空")
     private String cron;
-    @ApiModelProperty(value = "类型（0：一般调度，1：机器人通知）", required = true)
+    @ApiModelProperty(value = "类型（0：系统默认，1：一般调度，2：机器人通知）", required = true)
     private Integer type;
     //    @NotBlank(message = "任务类名不能为空")
     @ApiModelProperty("任务类名")

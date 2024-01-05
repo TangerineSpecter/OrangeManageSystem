@@ -7,4 +7,6 @@ public interface KeyPrefix {
     String getPrefix();
 
     int getExpireSeconds();
+
+    String join(Object... args);
 }

@@ -28,7 +28,7 @@ CREATE TABLE `system_scheduled_task`
     `class_path`  VARCHAR(128) NOT NULL COMMENT '任务完整类名',
     `name`        VARCHAR(64)  NOT NULL COMMENT '任务名称',
     `cron`        VARCHAR(32)  NOT NULL COMMENT '时间表达式',
-    `type`        tinyint(4)   NOT NULL DEFAULT 0 COMMENT '类型（0：一般调度，1：机器人通知）',
+    `type`        tinyint(4)   NOT NULL DEFAULT 0 COMMENT '类型（0：系统默认，1：一般调度，2：机器人通知）',
     `msg_type`    tinyint(4)            DEFAULT null comment '0：简单消息',
     `extra_info`  VARCHAR(64)           DEFAULT NULL COMMENT '类型对应的额外信息，比如，绑定的机器人id',
     `description` VARCHAR(255)          DEFAULT NULL COMMENT '描述',

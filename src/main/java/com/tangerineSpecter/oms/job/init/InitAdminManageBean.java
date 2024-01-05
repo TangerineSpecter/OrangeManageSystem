@@ -4,6 +4,7 @@ import com.tangerinespecter.oms.common.constants.SystemConstant;
 import com.tangerinespecter.oms.system.domain.entity.SystemConfig;
 import com.tangerinespecter.oms.system.mapper.SystemConfigMapper;
 import com.tangerinespecter.oms.system.service.system.IMenuSettingService;
+import com.tangerinespecter.oms.system.service.system.IScheduledManageService;
 import com.tangerinespecter.oms.system.service.system.ISystemConfigService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,7 @@ public class InitAdminManageBean implements InitializingBean {
 
     private final IMenuSettingService menuSettingService;
     private final ISystemConfigService systemConfigService;
+    private final IScheduledManageService scheduledManageService;
 
     @Override
     public void afterPropertiesSet() {

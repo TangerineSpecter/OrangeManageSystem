@@ -40,7 +40,7 @@ public class ExchangeRateQuartzService {
     public void init() {
         List<DataExchangeRate> dataExchangeRates = dataExchangeRateMapper.selectListByLastRecordTime();
         CollUtils.forEach(dataExchangeRates, exchangeRate -> CommonConstant.EXCHANGE_RATE_MAP.put(exchangeRate.getCode(), NumChainCal.startOf(exchangeRate.getPrice()).div(100).getBigDecimal()));
-        log.info("[初始化货币汇率完毕]数量：{}", dataExchangeRates.size());
+        log.info("[初始化货币汇率完毕]，数量：{}", dataExchangeRates.size());
     }
 
     public void runData() {

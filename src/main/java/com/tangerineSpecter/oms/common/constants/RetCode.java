@@ -137,6 +137,14 @@ public class RetCode {
      */
     public static final RetCode TASK_EXECUTE_NOT_EXIST = new RetCode(120, "任务路径不存在");
     /**
+     * 系统定时任务不支持删除
+     */
+    public static final RetCode DEFAULT_TASK_NOT_DELETE = new RetCode(121, "系统定时任务不支持删除");
+    /**
+     * 定时任务执行中
+     */
+    public static final RetCode TASK_EXECUTE_RUNNING = new RetCode(122, "任务执行中，请稍后尝试...");
+    /**
      * 参数错误
      */
     public static final RetCode PARAM_ERROR = new RetCode(200, "参数错误");

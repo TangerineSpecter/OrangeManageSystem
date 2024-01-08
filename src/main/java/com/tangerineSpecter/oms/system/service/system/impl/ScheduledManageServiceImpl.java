@@ -125,7 +125,7 @@ public class ScheduledManageServiceImpl implements IScheduledManageService {
         try {
             SystemScheduledTask systemScheduledTask = scheduledTaskMapper.selectById(param.getId());
             AbstractJob job = (AbstractJob) context.getBean(Class.forName(systemScheduledTask.getClassPath()));
-            job.execute();
+            job.run();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
             redisHelper.releaseLock(redisKey, param.getId());

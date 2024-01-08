@@ -44,4 +44,7 @@ public class SystemConfig {
     @ApiModelProperty("版权信息")
     @TableField("copyright")
     private String copyright;
+    @ApiModelProperty("告警推送机器人地址，目前支持（飞书）")
+    @TableField("error_webhook")
+    private String errorWebhook;
 }

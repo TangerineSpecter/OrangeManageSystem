@@ -8,17 +8,17 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 /**
- * 机器人消息
+ * 机器人告警通知
  *
  * @author 丢失的橘子
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BotMessage implements IBaseMessage, Serializable {
+public class BotErrorMsg implements IBaseMessage, Serializable {
 
     @ApiModelProperty("通知标题")
-    private String title;
+    private String title = "服务异常告警";
     @ApiModelProperty("通知内容")
     private String content;
 }

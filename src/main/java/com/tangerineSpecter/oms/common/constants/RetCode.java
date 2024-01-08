@@ -131,7 +131,7 @@ public class RetCode {
     /**
      * 任务执行异常
      */
-    public static final RetCode TASK_EXECUTE_ERROR = new RetCode(119, "任务执行异常");
+    public static final RetCode TASK_EXECUTE_ERROR = new RetCode(119, "定时任务执行异常");
     /**
      * 任务路径不存在
      */

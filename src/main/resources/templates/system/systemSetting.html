@@ -46,6 +46,13 @@
                 <div class="layui-form-mid layui-word-aux">设置为 0 表示无缓存。</div>
             </div>
             <div class="layui-form-item">
+                <label class="layui-form-label">异常告警机器人webhook</label>
+                <div class="layui-input-block">
+                    <input type="text" name="errorWebhook" class="layui-input"
+                           th:value="${systemConfigInfo.errorWebhook}">
+                </div>
+            </div>
+            <div class="layui-form-item">
                 <label class="layui-form-label">最大文件上传</label>
                 <div class="layui-input-inline" style="width: 80px;">
                         <input type="number" name="fileSize" lay-verify="number" class="layui-input"

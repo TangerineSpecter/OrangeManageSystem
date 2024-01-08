@@ -7,6 +7,7 @@ import com.tangerinespecter.oms.common.constants.RetCode;
 import com.tangerinespecter.oms.common.enums.BotMsgTypeEnum;
 import com.tangerinespecter.oms.common.enums.BotPlatformEnum;
 import com.tangerinespecter.oms.common.exception.BusinessException;
+import com.tangerinespecter.oms.system.domain.pojo.FsMarkdownCardMessage;
 import com.tangerinespecter.oms.system.domain.pojo.FsSimpleCardMessage;
 
 import java.util.Map;
@@ -20,7 +21,7 @@ import java.util.function.BiFunction;
  */
 public class BotMessageFactory {
 
-    private static final Map<BotPlatformEnum, BiFunction<BotMsgTypeEnum, BotMessage, String>> BOT_MSG_FUNCTION_MAP = MapUtil.newHashMap();
+    private static final Map<BotPlatformEnum, BiFunction<BotMsgTypeEnum, IBaseMessage, String>> BOT_MSG_FUNCTION_MAP = MapUtil.newHashMap();
 
     static {
         BOT_MSG_FUNCTION_MAP.put(BotPlatformEnum.FS, BotMessageFactory::getFsMsgBody);
@@ -35,13 +36,16 @@ public class BotMessageFactory {
      * @param botMsg   机器人消息参数
      * @return 消息体
      */
-    public static String getMsgBody(BotPlatformEnum platform, BotMsgTypeEnum type, BotMessage botMsg) {
+    public static String getMsgBody(BotPlatformEnum platform, BotMsgTypeEnum type, IBaseMessage botMsg) {
         return Optional.ofNullable(BOT_MSG_FUNCTION_MAP.get(platform)).orElseThrow(() -> new BusinessException(RetCode.UNKNOWN_PLATFORM)).apply(type, botMsg);
     }
 
-    private static String getFsMsgBody(BotMsgTypeEnum type, BotMessage botMsg) {
+    private static String getFsMsgBody(BotMsgTypeEnum type, IBaseMessage botMsg) {
         if (BotMsgTypeEnum.SIMPLE.equals(type)) {
             FsSimpleCardMessage message = new FsSimpleCardMessage(botMsg.getTitle(), botMsg.getContent());
+            return JSON.toJSONString(message);
+        } else if (BotMsgTypeEnum.SIMPLE_MARKDOWN.equals(type)) {
+            FsMarkdownCardMessage message = new FsMarkdownCardMessage(botMsg.getTitle(), botMsg.getContent());
             return JSON.toJSONString(message);
         }
         return null;

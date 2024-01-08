@@ -75,8 +75,8 @@ public class RoleManageServiceImpl implements IRoleManageService {
 
     @Override
     public Set<SystemPermission> getRolePermission(Long roleId) {
-        return Optional.ofNullable(systemRoleMapper.selectRoleById(roleId))
-                .map(SystemRole::getPermissions).orElse(CollUtil.newHashSet());
+        return Optional.ofNullable(systemRoleMapper.selectRoleById(roleId)).map(SystemRole::getPermissions)
+                .orElse(CollUtil.newHashSet());
     }
 
     @Override
@@ -93,7 +93,8 @@ public class RoleManageServiceImpl implements IRoleManageService {
         }
         List<SystemPermissionRole> systemPermissionRoles = systemPermissionRoleMapper.selectList(new QueryWrapper<SystemPermissionRole>().eq("rid", vo.getId()));
         List<Long> alreadyPermissionIds = CollUtils.convertList(systemPermissionRoles, SystemPermissionRole::getPid);
-        List<Long> addPermissionIds = CollUtils.convertList(Splitter.on(",").omitEmptyStrings().splitToList(vo.getPermissionIds()), Long::parseLong);
+        List<Long> addPermissionIds = CollUtils.convertList(Splitter.on(",").omitEmptyStrings()
+                .splitToList(vo.getPermissionIds()), Long::parseLong);
         Collection<Long> permissionIds = CollUtil.unionDistinct(alreadyPermissionIds, addPermissionIds);
         systemPermissionRoleMapper.batchInsert(vo.getId(), permissionIds);
     }

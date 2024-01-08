@@ -621,7 +621,7 @@ public class RedisHelper {
     public void releaseLock(KeyPrefix prefix, Object key) {
         String redisKey = prefix.join(key);
         redisTemplate.delete(redisKey);
-        log.info("releaseLock success!");
+//        log.info("releaseLock success!");
     }
 
 }

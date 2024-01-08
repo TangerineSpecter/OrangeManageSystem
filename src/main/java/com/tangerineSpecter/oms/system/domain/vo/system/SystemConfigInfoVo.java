@@ -1,6 +1,5 @@
 package com.tangerinespecter.oms.system.domain.vo.system;
 
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,4 +27,6 @@ public class SystemConfigInfoVo {
     private String homeTitle;
     @ApiModelProperty("版权申明")
     private String copyright;
+    @ApiModelProperty("告警推送机器人地址")
+    private String errorWebhook;
 }

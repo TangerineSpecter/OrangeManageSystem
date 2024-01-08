@@ -8,17 +8,19 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 /**
- * 机器人消息
+ * 机器人消息推送响应结果
  *
  * @author 丢失的橘子
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BotMessage implements IBaseMessage, Serializable {
+public class BotResponse implements Serializable {
 
-    @ApiModelProperty("通知标题")
-    private String title;
-    @ApiModelProperty("通知内容")
-    private String content;
+    @ApiModelProperty("响应错误码")
+    private Integer code;
+    @ApiModelProperty("响应信息")
+    private String msg;
+    @ApiModelProperty("响应数据")
+    private String data;
 }

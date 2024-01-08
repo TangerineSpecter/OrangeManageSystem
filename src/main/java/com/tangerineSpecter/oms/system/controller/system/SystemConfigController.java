@@ -29,9 +29,6 @@ public class SystemConfigController {
 
     private final ISystemConfigService systemConfigServer;
 
-    /**
-     * 添加系统配置
-     */
     @ApiOperation("添加系统配置")
     @PostMapping("/insert")
     @LoggerInfo(value = "添加系统配置", event = LogOperation.EVENT_ADD)

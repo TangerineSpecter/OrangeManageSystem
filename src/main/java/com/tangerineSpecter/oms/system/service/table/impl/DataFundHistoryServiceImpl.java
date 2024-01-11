@@ -6,10 +6,12 @@ import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSON;
 import com.tangerinespecter.oms.common.config.FundApiConfig;
+import com.tangerinespecter.oms.common.constants.RetCode;
 import com.tangerinespecter.oms.common.query.FundHistoryQueryObject;
 import com.tangerinespecter.oms.common.utils.CollUtils;
 import com.tangerinespecter.oms.job.model.FundHistoryData;
 import com.tangerinespecter.oms.job.model.FundHistoryResponse;
+import com.tangerinespecter.oms.job.schedule.SendMsgBot;
 import com.tangerinespecter.oms.system.convert.data.FundConvert;
 import com.tangerinespecter.oms.system.domain.entity.DataFund;
 import com.tangerinespecter.oms.system.domain.entity.DataFundHistory;
@@ -18,6 +20,9 @@ import com.tangerinespecter.oms.system.mapper.DataFundMapper;
 import com.tangerinespecter.oms.system.service.table.IDataFundHistoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.session.ExecutorType;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -26,6 +31,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -36,6 +42,8 @@ public class DataFundHistoryServiceImpl implements IDataFundHistoryService {
 
     private final DataFundMapper dataFundMapper;
     private final DataFundHistoryMapper dataFundHistoryMapper;
+    private final SendMsgBot botService;
+    private final SqlSessionFactory sqlSessionFactory;
 
     ExecutorService executorService = Executors.newFixedThreadPool(5);
 
@@ -51,23 +59,44 @@ public class DataFundHistoryServiceImpl implements IDataFundHistoryService {
 
     @Override
     public void initFundHistory(List<String> fundCodes) {
-        CollUtils.forEach(fundCodes, fundCode ->
-                executorService.execute(() -> {
-                    try {
-                        List<DataFundHistory> existFundHistory = dataFundHistoryMapper.selectListByCode(fundCode);
-                        List<LocalDateTime> existDate = CollUtils.convertList(existFundHistory, DataFundHistory::getDate);
-                        List<DataFundHistory> fundHistory = this.getFundHistory(fundCode);
-                        List<DataFundHistory> insertHistoryData = CollUtils.filterList(fundHistory, data -> !existDate.contains(data.getDate()));
-                        log.info("基金[{}]，新增历史数据：[{}]条", fundCode, insertHistoryData.size());
-                        if (CollUtil.isNotEmpty(insertHistoryData)) {
-                            dataFundHistoryMapper.batchInsert(insertHistoryData);
-                        }
-                        this.handleFundSplitRate(fundCode);
-                    } catch (Exception e) {
-                        log.error("基金[{}]数据处理异常，异常信息：[{}]，" + e, fundCode, e.getMessage());
+        CollUtils.forEach(fundCodes, fundCode -> executorService.execute(() -> {
+            try {
+                final long startTime = System.currentTimeMillis();
+                int page = 1;
+                DataFundHistory existFundHistory = dataFundHistoryMapper.selectOneByCode(fundCode);
+                //如果存在数据，则按照数据维护，否则从2000年开始处理
+                LocalDateTime existDate = existFundHistory == null ? LocalDateTime.of(2000, 1, 1, 0, 0) : existFundHistory.getDate();
+                //总新增入库数据
+                List<DataFundHistory> insertTotalData = CollUtil.newArrayList();
+
+                //遍历数据直到没有新增数据
+                while (true) {
+                    List<DataFundHistory> fundHistory = this.getFundHistory(fundCode, page);
+                    //过滤出爬取数据日期在数据库已存在日期之后的数据
+                    List<DataFundHistory> insertHistoryData = CollUtils.filterList(fundHistory, data -> data.getDate()
+                            .isAfter(existDate));
+                    CollUtil.addAll(insertTotalData, insertHistoryData);
+                    //爬取数据为空 or 增长数据非实际查询数据，说明存在已入库数据，则终止循环
+                    if (CollUtil.isEmpty(fundHistory) || !Objects.equals(CollUtil.size(insertHistoryData), CollUtil.size(fundHistory))) {
+                        break;
                     }
-                })
-        );
+                    log.info("基金[{}]当前页[{}]无旧数据，继续进行数据获取", fundCode, page);
+                    page++;
+                }
+                log.info("基金[{}]，新增历史数据：[{}]条", fundCode, insertTotalData.size());
+                SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH, false);
+                CollUtils.forEach(insertTotalData, data -> {
+                    DataFundHistoryMapper mapper = sqlSession.getMapper(DataFundHistoryMapper.class);
+                    mapper.insert(data);
+                });
+                sqlSession.commit();
+                this.handleFundSplitRate(fundCode);
+                log.info("基金[{}]，数据处理完毕，耗时：{}ms", fundCode, System.currentTimeMillis() - startTime);
+            } catch (Exception e) {
+                log.error("基金[{}]数据处理异常，异常信息：[{}]，" + e, fundCode, e.getMessage());
+                botService.sendErrorMsg(RetCode.FUND_DATA_ERROR, e.getMessage());
+            }
+        }));
     }
 
     @Override
@@ -79,8 +108,8 @@ public class DataFundHistoryServiceImpl implements IDataFundHistoryService {
     /**
      * 获取基金历史净值
      */
-    public List<DataFundHistory> getFundHistory(String code) {
-        String requestUrl = CharSequenceUtil.format(FundApiConfig.DJ_FUND_HISTORY_API, code, DEFAULT_FUND_HISTORY_SIZE);
+    public List<DataFundHistory> getFundHistory(String code, int page) {
+        String requestUrl = CharSequenceUtil.format(FundApiConfig.DJ_FUND_HISTORY_API, code, page, DEFAULT_FUND_HISTORY_SIZE);
         String result = HttpUtil.get(requestUrl);
         FundHistoryResponse response = JSON.parseObject(result, FundHistoryResponse.class);
         List<FundHistoryData> resHistoryDatas = response.getData().getItems();
@@ -97,7 +126,8 @@ public class DataFundHistoryServiceImpl implements IDataFundHistoryService {
         //表头列数：年份、拆分折算日、拆分类型、拆分折算比例
         final int rowCount = 4;
         Document document = Jsoup.connect(url).get();
-        final Elements elements = document.getElementsByClass("w782 comm fhxq").get(0).getElementsByTag("tbody").get(0).getElementsByTag("tr");
+        final Elements elements = document.getElementsByClass("w782 comm fhxq").get(0).getElementsByTag("tbody").get(0)
+                .getElementsByTag("tr");
         CollUtils.forEach(elements, element -> {
             Elements tdElements = element.getElementsByTag("td");
             if (tdElements.size() != rowCount) {

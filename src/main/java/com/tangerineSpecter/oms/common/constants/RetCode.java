@@ -178,6 +178,10 @@ public class RetCode {
      * 健康记录已存在
      */
     public static final RetCode HEALTH_RECORD_EXIST = new RetCode(2000, "健康记录已存在");
+    /**
+     * 基金数据处理异常
+     */
+    public static final RetCode FUND_DATA_ERROR = new RetCode(2001, "基金数据处理异常");
 
     /**
      * 视频地址有误

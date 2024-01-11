@@ -20,7 +20,7 @@ public class FundApiConfig {
      * 蛋卷基金-历史净值api
      * 通过基金code查询，默认查20条
      */
-    public static final String DJ_FUND_HISTORY_API = "https://danjuanfunds.com/djapi/fund/nav/history/{}?page=1&size={}";
+    public static final String DJ_FUND_HISTORY_API = "https://danjuanfunds.com/djapi/fund/nav/history/{}?page={}&size={}";
 
 
 }

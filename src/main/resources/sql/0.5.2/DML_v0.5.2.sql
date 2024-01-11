@@ -31,15 +31,15 @@ CREATE TABLE `system_scheduled_task`
     `description` VARCHAR(255)          DEFAULT NULL COMMENT '描述',
     `status`      TINYINT(2)   NOT NULL DEFAULT 1 COMMENT '状态，0：停用；1：启用',
     `result`      TINYINT(2)            DEFAULT NULL COMMENT '任务执行结果，0：失败；1：成功',
-    `timestamp`   BIGINT(13)            DEFAULT NULL COMMENT '执行耗时，单位：ms',
+    `timestamp`   VARCHAR(16)           DEFAULT NULL COMMENT '格式化时间',
     `is_del`      TINYINT(2)   NOT NULL DEFAULT 0 COMMENT '删除状态（0：未删除；1：已删除）',
     `create_time` DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time` DATETIME              DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY (`id`)
 ) ENGINE = INNODB
   DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_unicode_ci COMMENT = '系统定时任务表';
-
-# 系统配置增加机器人推送地址字段
+  COLLATE = utf8mb4_unicode_ci COMMENT = '系统定时任务表';# 系统配置增加机器人推送地址字段\推送开关
 ALTER TABLE `system_config`
     ADD error_webhook VARCHAR(256) DEFAULT NULL COMMENT '告警推送机器人地址' AFTER `copyright`;
+ALTER TABLE `system_config`
+    ADD error_enable TINYINT(2) DEFAULT 1 COMMENT '告警推送开关（0：关闭；1：开启）' AFTER `error_webhook`;

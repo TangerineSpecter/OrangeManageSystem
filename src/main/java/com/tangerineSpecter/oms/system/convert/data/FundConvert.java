@@ -23,9 +23,9 @@ public interface FundConvert extends BaseConvert {
 
     @Mappings({
             @Mapping(target = "code", source = "code"),
-            @Mapping(target = "date", expression = "java(data.getDate())"),
-            @Mapping(target = "earningsRate", expression = "java(data.getPercentage())"),
-            @Mapping(target = "netValue", expression = "java(data.getNav())")
+            @Mapping(target = "date", source = "data.date"),
+            @Mapping(target = "earningsRate", source = "data.percentage"),
+            @Mapping(target = "netValue", source = "data.nav")
     })
     DataFundHistory convert(String code, FundHistoryData data);
 

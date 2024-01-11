@@ -1,6 +1,7 @@
 package com.tangerinespecter.oms.common.exception;
 
 import cn.hutool.core.date.DateUtil;
+import com.tangerinespecter.oms.common.constants.RetCode;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.job.schedule.SendMsgBot;
 import lombok.RequiredArgsConstructor;
@@ -51,6 +52,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = Exception.class)
     public ServiceResult<Object> exceptionHandler(Exception exception) {
+        botService.sendErrorMsg(RetCode.FAIL.getErrorCode(), RetCode.FAIL.getErrorDesc(), null, exception);
         log.error(exception.getMessage(), exception);
         return ServiceResult.systemError();
     }

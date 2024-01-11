@@ -22,7 +22,10 @@ public class BusinessException extends RuntimeException {
      * 错误描述
      */
     protected final String message;
-
+    /**
+     * 异常告警
+     */
+    protected final boolean errorNotify;
     /**
      * 额外信息
      */
@@ -34,17 +37,20 @@ public class BusinessException extends RuntimeException {
     public BusinessException(RetCode retCode) {
         this.code = retCode.getErrorCode();
         this.message = retCode.getErrorDesc();
+        this.errorNotify = retCode.isErrorNotify();
     }
 
     public BusinessException(RetCode retCode, String extraInfo) {
         this.code = retCode.getErrorCode();
         this.message = retCode.getErrorDesc();
+        this.errorNotify = retCode.isErrorNotify();
         this.extraInfo = extraInfo;
     }
 
     public BusinessException(RetCode retCode, String extraInfo, Object... param) {
         this.code = retCode.getErrorCode();
         this.message = retCode.getErrorDesc();
+        this.errorNotify = retCode.isErrorNotify();
         this.extraInfo = StrUtil.format(extraInfo, param);
     }
 

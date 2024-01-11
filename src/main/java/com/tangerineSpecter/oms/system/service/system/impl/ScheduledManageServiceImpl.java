@@ -7,7 +7,6 @@ import com.tangerinespecter.oms.common.enums.ScheduledTypeEnum;
 import com.tangerinespecter.oms.common.exception.BusinessException;
 import com.tangerinespecter.oms.common.mapper.QueryWrapperX;
 import com.tangerinespecter.oms.common.query.SystemScheduledQueryObject;
-import com.tangerinespecter.oms.common.redis.KeyPrefix;
 import com.tangerinespecter.oms.common.redis.RedisKey;
 import com.tangerinespecter.oms.job.schedule.AbstractJob;
 import com.tangerinespecter.oms.system.convert.system.ScheduledConvert;
@@ -24,6 +23,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * @author TangerineSpecter
@@ -37,6 +38,7 @@ public class ScheduledManageServiceImpl implements IScheduledManageService {
     private final SystemScheduledTaskMapper scheduledTaskMapper;
     private final ApplicationContext context;
     private final RedisHelper redisHelper;
+    private ExecutorService executorService = Executors.newFixedThreadPool(5);
 
     @Override
     public List<SystemScheduledTask> list(SystemScheduledQueryObject qo) {
@@ -125,7 +127,7 @@ public class ScheduledManageServiceImpl implements IScheduledManageService {
         try {
             SystemScheduledTask systemScheduledTask = scheduledTaskMapper.selectById(param.getId());
             AbstractJob job = (AbstractJob) context.getBean(Class.forName(systemScheduledTask.getClassPath()));
-            job.run();
+            executorService.execute(job);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
             redisHelper.releaseLock(redisKey, param.getId());

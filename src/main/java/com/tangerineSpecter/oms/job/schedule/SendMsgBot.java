@@ -8,6 +8,7 @@ import com.tangerinespecter.oms.common.constants.RetCode;
 import com.tangerinespecter.oms.common.constants.SystemConstant;
 import com.tangerinespecter.oms.common.enums.BotMsgTypeEnum;
 import com.tangerinespecter.oms.common.enums.BotPlatformEnum;
+import com.tangerinespecter.oms.common.enums.GlobalBoolEnum;
 import com.tangerinespecter.oms.common.enums.IBaseDbEnum;
 import com.tangerinespecter.oms.common.exception.BusinessException;
 import com.tangerinespecter.oms.job.message.*;
@@ -17,6 +18,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import java.util.Objects;
 
 /**
  * 消息推送机器人
@@ -89,6 +92,10 @@ public class SendMsgBot extends AbstractJob {
      * 推送告警信息
      */
     public void sendErrorMsg(Integer code, String message, String extraInfo, Exception e) {
+        //未开启推送则终止
+        if (Objects.equals(SystemConstant.SYSTEM_CONFIG.getErrorEnable(), GlobalBoolEnum.FALSE.getValue())) {
+            return;
+        }
         try {
             String webhook = SystemConstant.SYSTEM_CONFIG.getErrorWebhook();
             if (StrUtil.isBlank(webhook)) {

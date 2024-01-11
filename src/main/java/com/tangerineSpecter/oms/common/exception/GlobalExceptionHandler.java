@@ -1,5 +1,6 @@
 package com.tangerinespecter.oms.common.exception;
 
+import cn.hutool.core.date.DateUtil;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.job.schedule.SendMsgBot;
 import lombok.RequiredArgsConstructor;
@@ -74,7 +75,9 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = BusinessException.class)
     public ServiceResult<Object> businessExceptionHandler(BusinessException exception) {
-        botService.sendErrorMsg(exception.getCode(), exception.getMessage(), exception.getExtraInfo(), exception);
+        if (exception.errorNotify) {
+            botService.sendErrorMsg(exception.getCode(), exception.getMessage(), exception.getExtraInfo(), exception);
+        }
         log.error(exception.getMessage() + "额外信息：" + exception.getExtraInfo(), exception);
         return ServiceResult.error(exception.getMessage());
     }

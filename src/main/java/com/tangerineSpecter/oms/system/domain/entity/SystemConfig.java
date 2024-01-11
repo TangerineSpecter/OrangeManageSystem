@@ -47,4 +47,7 @@ public class SystemConfig {
     @ApiModelProperty("告警推送机器人地址，目前支持（飞书）")
     @TableField("error_webhook")
     private String errorWebhook;
+    @ApiModelProperty("告警推送开关，0：关闭；1：开启")
+    @TableField("error_enable")
+    private Integer errorEnable;
 }

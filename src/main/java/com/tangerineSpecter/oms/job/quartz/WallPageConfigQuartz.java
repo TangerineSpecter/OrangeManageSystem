@@ -43,6 +43,6 @@ public class WallPageConfigQuartz extends AbstractJob {
 
     @Override
     public void execute() {
-        executorService.execute(wallPageQuartzService::runData);
+        wallPageQuartzService.runData();
     }
 }

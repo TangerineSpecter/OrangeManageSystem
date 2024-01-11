@@ -1,13 +1,18 @@
 package com.tangerinespecter.oms.job.schedule;
 
+import cn.hutool.core.date.BetweenFormatter;
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
+import com.tangerinespecter.oms.common.constants.RetCode;
+import com.tangerinespecter.oms.common.enums.GlobalBoolEnum;
+import com.tangerinespecter.oms.common.exception.BusinessException;
+import com.tangerinespecter.oms.system.mapper.SystemScheduledTaskMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.support.CronTrigger;
 
 import javax.annotation.Resource;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledFuture;
 
 /**
@@ -21,9 +26,10 @@ public abstract class AbstractJob implements Runnable {
     private ScheduledFuture<?> scheduledFuture;
 
     @Resource
-    private ThreadPoolTaskScheduler threadPoolTaskScheduler;
-
-    public static final ExecutorService executorService = Executors.newFixedThreadPool(5);
+    private SystemScheduledTaskMapper taskMapper;
+    @Resource
+    @Lazy
+    private SendMsgBot botService;
 
     /**
      * 获取任务名称
@@ -48,6 +54,8 @@ public abstract class AbstractJob implements Runnable {
 
     /**
      * 开始执行任务
+     *
+     * @throws Exception 异常信息
      */
     public abstract void execute();
 
@@ -63,6 +71,9 @@ public abstract class AbstractJob implements Runnable {
             return;
         }
         try {
+            ThreadPoolTaskScheduler threadPoolTaskScheduler = new ThreadPoolTaskScheduler();
+            threadPoolTaskScheduler.setPoolSize(5);
+            threadPoolTaskScheduler.initialize();
             //取消之前的定时任务
             if (scheduledFuture != null) {
                 scheduledFuture.cancel(true);
@@ -105,8 +116,21 @@ public abstract class AbstractJob implements Runnable {
 
     @Override
     public void run() {
-        begin();
-        execute();
-        end();
+        long startTime = DateUtil.current();
+        String classPath = this.getClass().getName();
+        try {
+            begin();
+            execute();
+            end();
+            taskMapper.updateByClassPath(classPath, GlobalBoolEnum.TRUE.getValue(), DateUtil.formatBetween(DateUtil.current() - startTime, BetweenFormatter.Level.MILLISECOND));
+        } catch (Exception e) {
+            if (e instanceof BusinessException) {
+                BusinessException exception = (BusinessException) e;
+                botService.sendErrorMsg(exception.getCode(), exception.getMessage(), exception.getExtraInfo(), exception);
+            } else {
+                botService.sendErrorMsg(RetCode.TASK_EXECUTE_ERROR.getErrorCode(), RetCode.TASK_EXECUTE_ERROR.getErrorDesc(), e.getMessage(), e);
+            }
+            taskMapper.updateByClassPath(classPath, GlobalBoolEnum.FALSE.getValue(), DateUtil.formatBetween(DateUtil.current() - startTime, BetweenFormatter.Level.MILLISECOND));
+        }
     }
 }

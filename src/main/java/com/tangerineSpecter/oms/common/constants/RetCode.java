@@ -16,6 +16,14 @@ public class RetCode {
 
     private int errorCode;
     private String errorDesc;
+    //是否通知，默认不通知
+    private boolean errorNotify;
+
+    public RetCode(int errorCode, String errorDesc) {
+        this.errorCode = errorCode;
+        this.errorDesc = errorDesc;
+        this.errorNotify = false;
+    }
 
     /**
      * 成功
@@ -25,15 +33,15 @@ public class RetCode {
     /**
      * 失败
      */
-    public static final RetCode FAIL = new RetCode(1, "操作失败");
+    public static final RetCode FAIL = new RetCode(1, "操作失败", true);
     /**
      * 操作频繁
      */
     public static final RetCode BUSY = new RetCode(2, "操作频繁");
     /**
-     * 操作频繁
+     * 服务器错误
      */
-    public static final RetCode SYSTEM_ERROR = new RetCode(3, "服务器错误，请联系管理员");
+    public static final RetCode SYSTEM_ERROR = new RetCode(3, "服务器错误，请联系管理员", true);
 
     /**
      * 验证失败
@@ -102,7 +110,7 @@ public class RetCode {
     /**
      * 文件上传异常
      */
-    public static final RetCode FILE_UPLOAD_EXCEPTION = new RetCode(112, "文件上传异常！");
+    public static final RetCode FILE_UPLOAD_EXCEPTION = new RetCode(112, "文件上传异常！", true);
     /**
      * 存在同名角色
      */
@@ -131,11 +139,11 @@ public class RetCode {
     /**
      * 任务执行异常
      */
-    public static final RetCode TASK_EXECUTE_ERROR = new RetCode(119, "定时任务执行异常");
+    public static final RetCode TASK_EXECUTE_ERROR = new RetCode(119, "定时任务执行异常", true);
     /**
      * 任务路径不存在
      */
-    public static final RetCode TASK_EXECUTE_NOT_EXIST = new RetCode(120, "任务路径不存在");
+    public static final RetCode TASK_EXECUTE_NOT_EXIST = new RetCode(120, "任务路径不存在", true);
     /**
      * 系统定时任务不支持删除
      */
@@ -147,11 +155,11 @@ public class RetCode {
     /**
      * 参数错误
      */
-    public static final RetCode PARAM_ERROR = new RetCode(200, "参数错误");
+    public static final RetCode PARAM_ERROR = new RetCode(200, "参数错误", true);
     /**
      * 数据异常
      */
-    public static final RetCode DATA_EXCEPTION = new RetCode(201, "数据异常");
+    public static final RetCode DATA_EXCEPTION = new RetCode(201, "数据异常", true);
 
     /**
      * 交易记录不存在

@@ -1,11 +1,14 @@
 package com.tangerinespecter.oms.system.domain.entity;
 
+import cn.hutool.core.date.DatePattern;
 import com.baomidou.mybatisplus.annotation.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -40,9 +43,17 @@ public class SystemScheduledTask implements Serializable {
     private String description;
     @ApiModelProperty("状态，0：停用；1：启用")
     private Integer status;
+    @ApiModelProperty("任务执行结果，0：失败；1：成功")
+    private Integer result;
+    @ApiModelProperty("执行耗时，单位：秒")
+    private String timestamp;
     @ApiModelProperty("创建时间")
+    @DateTimeFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
+    @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
     private LocalDateTime createTime;
     @ApiModelProperty("更新时间")
+    @DateTimeFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
+    @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
     @TableField(fill = FieldFill.UPDATE)
     private LocalDateTime updateTime;
 

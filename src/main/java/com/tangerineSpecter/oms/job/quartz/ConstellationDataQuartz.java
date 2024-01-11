@@ -43,6 +43,6 @@ public class ConstellationDataQuartz extends AbstractJob {
 
     @Override
     public void execute() {
-        executorService.execute(constellationQuartzService::runData);
+        constellationQuartzService.runData();
     }
 }

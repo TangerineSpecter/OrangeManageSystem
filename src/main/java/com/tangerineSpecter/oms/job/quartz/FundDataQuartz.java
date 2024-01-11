@@ -44,6 +44,6 @@ public class FundDataQuartz extends AbstractJob {
 
     @Override
     public void execute() {
-        executorService.execute(fundDataQuartzService::runData);
+        fundDataQuartzService.runData();
     }
 }

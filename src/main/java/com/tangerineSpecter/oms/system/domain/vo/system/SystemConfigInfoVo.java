@@ -29,4 +29,6 @@ public class SystemConfigInfoVo {
     private String copyright;
     @ApiModelProperty("告警推送机器人地址")
     private String errorWebhook;
+    @ApiModelProperty("告警推送开关，0：关闭；1：开启")
+    private Integer errorEnable;
 }

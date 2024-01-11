@@ -44,6 +44,6 @@ public class ExchangeRateDataQuartz extends AbstractJob {
 
     @Override
     public void execute() {
-        executorService.execute(exchangeRateQuartzService::runData);
+        exchangeRateQuartzService.runData();
     }
 }

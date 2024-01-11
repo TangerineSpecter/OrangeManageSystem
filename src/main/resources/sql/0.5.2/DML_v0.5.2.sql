@@ -38,7 +38,9 @@ CREATE TABLE `system_scheduled_task`
     PRIMARY KEY (`id`)
 ) ENGINE = INNODB
   DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_unicode_ci COMMENT = '系统定时任务表';# 系统配置增加机器人推送地址字段\推送开关
+  COLLATE = utf8mb4_unicode_ci COMMENT = '系统定时任务表';
+
+# 系统配置增加机器人推送地址字段\推送开关
 ALTER TABLE `system_config`
     ADD error_webhook VARCHAR(256) DEFAULT NULL COMMENT '告警推送机器人地址' AFTER `copyright`;
 ALTER TABLE `system_config`

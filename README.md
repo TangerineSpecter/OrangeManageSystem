@@ -92,8 +92,6 @@ v0.5.2
 1.执行resources目录下的oms.sql初始化系统表格
 2.执行system_menu.sql初始化系统菜单
 3.执行data_constellation.sql初始化一部分数据查看
-4.执行system_version_history初始化系统版本信息
-5.执行system_version_history_content初始化更新内容信息
 ```
 
 ### 4.代码生成器的使用

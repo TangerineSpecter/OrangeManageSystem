@@ -3,15 +3,15 @@
 
  Source Server         : 本地连接
  Source Server Type    : MySQL
- Source Server Version : 80028
+ Source Server Version : 80028 (8.0.28)
  Source Host           : localhost:3306
  Source Schema         : oms
 
  Target Server Type    : MySQL
- Target Server Version : 80028
+ Target Server Version : 80028 (8.0.28)
  File Encoding         : 65001
 
- Date: 13/09/2022 16:58:09
+ Date: 11/01/2024 15:45:43
 */
 
 SET NAMES utf8mb4;
@@ -37,7 +37,7 @@ CREATE TABLE `data_constellation` (
   `work_luck` int DEFAULT '0' COMMENT '工作指数',
   `create_time` date DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=3020 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='星座信息表';
+) ENGINE=InnoDB AUTO_INCREMENT=3976 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='星座信息表';
 
 -- ----------------------------
 -- Table structure for data_exchange
@@ -64,8 +64,63 @@ CREATE TABLE `data_exchange_rate` (
   `record_time` date NOT NULL COMMENT '记录时间',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_code_time` (`code`,`record_time`)
+) ENGINE=InnoDB AUTO_INCREMENT=4362 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='货币汇率数据';
+
+-- ----------------------------
+-- Table structure for data_food_library
+-- ----------------------------
+DROP TABLE IF EXISTS `data_food_library`;
+CREATE TABLE `data_food_library` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `name` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '名称',
+  `logo` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '图片地址',
+  `calories` decimal(8,2) DEFAULT '0.00' COMMENT '卡路里/100g',
+  `protein` decimal(8,2) DEFAULT '0.00' COMMENT '蛋白质/100g',
+  `fat` decimal(8,2) DEFAULT '0.00' COMMENT '脂肪/100g',
+  `carbs` decimal(8,2) DEFAULT '0.00' COMMENT '碳水化合物/100g',
+  `dietary_fiber` decimal(8,2) DEFAULT '0.00' COMMENT '膳食纤维/100g',
+  `is_del` tinyint NOT NULL DEFAULT '0' COMMENT '删除状态（0：未删除；1：已删除）',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=345 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='货币汇率数据';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='食物资料库';
+
+-- ----------------------------
+-- Table structure for data_fund
+-- ----------------------------
+DROP TABLE IF EXISTS `data_fund`;
+CREATE TABLE `data_fund` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `name` varchar(128) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '基金名称',
+  `simple_name` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '基金名称（简拼）',
+  `full_name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '基金名称（全称）',
+  `code` varchar(16) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '基金代码',
+  `type` varchar(16) COLLATE utf8mb4_unicode_ci DEFAULT '未知' COMMENT '基金类型',
+  `is_del` tinyint NOT NULL DEFAULT '0' COMMENT '删除状态（0：未删除；1：已删除）',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `code` (`code`),
+  KEY `idx_del` (`is_del`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=48858 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='基金数据表';
+
+-- ----------------------------
+-- Table structure for data_fund_history
+-- ----------------------------
+DROP TABLE IF EXISTS `data_fund_history`;
+CREATE TABLE `data_fund_history` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `code` varchar(16) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '基金代码',
+  `date` date DEFAULT NULL COMMENT '时间',
+  `earnings_rate` decimal(8,2) DEFAULT NULL COMMENT '收益率（百分比）',
+  `net_value` decimal(8,4) DEFAULT '0.0000' COMMENT '净值',
+  `split` decimal(8,4) DEFAULT '0.0000' COMMENT '拆分折算比例',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `code` (`code`,`date`),
+  KEY `idx_code_date` (`code`,`date`)
+) ENGINE=InnoDB AUTO_INCREMENT=16190948 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='基金历史数据';
 
 -- ----------------------------
 -- Table structure for data_question
@@ -174,7 +229,7 @@ CREATE TABLE `data_trade_record` (
   `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `create_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=697 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='交易记录表';
+) ENGINE=InnoDB AUTO_INCREMENT=704 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='交易记录表';
 
 -- ----------------------------
 -- Table structure for data_wall_page
@@ -184,14 +239,14 @@ CREATE TABLE `data_wall_page` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `start_date` bigint DEFAULT NULL COMMENT '开始时间（yyyyMMdd）',
   `end_date` bigint DEFAULT NULL COMMENT '结束时间（yyyyMMdd）',
-  `url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '壁纸url',
+  `url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '壁纸url',
   `full_start_date` bigint DEFAULT NULL COMMENT '完整开始时间',
-  `copyright` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '版权信息',
-  `copyright_link` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '跳转搜索链接',
-  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '标题',
-  `hash` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '哈希值',
+  `copyright` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '版权信息',
+  `copyright_link` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '跳转搜索链接',
+  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '标题',
+  `hash` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '哈希值',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=159 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='每日壁纸表';
+) ENGINE=InnoDB AUTO_INCREMENT=299 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='每日壁纸表';
 
 -- ----------------------------
 -- Table structure for system_bulletin
@@ -221,9 +276,11 @@ CREATE TABLE `system_config` (
   `home_title` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '首页标题',
   `file_suffix` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '上传文件格式限制',
   `copyright` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '版权信息',
+  `error_webhook` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '告警推送机器人地址',
+  `error_enable` tinyint DEFAULT '1' COMMENT '告警推送开关（0：关闭；1：开启）',
   `is_del` tinyint NOT NULL DEFAULT '0' COMMENT '删除状态（0：未删除；1：已删除）',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='系统配置表';
+) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='系统配置表';
 
 -- ----------------------------
 -- Table structure for system_dept
@@ -254,7 +311,7 @@ CREATE TABLE `system_log` (
   `ip` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '操作IP',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '操作时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=5972 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='系统日志记录表';
+) ENGINE=InnoDB AUTO_INCREMENT=7505 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='系统日志记录表';
 
 -- ----------------------------
 -- Table structure for system_menu
@@ -273,7 +330,7 @@ CREATE TABLE `system_menu` (
   `top` tinyint DEFAULT '0' COMMENT '是否在首页（0：否；1：是）',
   `top_sort` int DEFAULT '0' COMMENT '首页排序',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=92 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='系统菜单表';
+) ENGINE=InnoDB AUTO_INCREMENT=98 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='系统菜单表';
 
 -- ----------------------------
 -- Table structure for system_notice
@@ -318,7 +375,7 @@ CREATE TABLE `system_permission_role` (
   PRIMARY KEY (`id`) USING BTREE,
   KEY `idx_rid` (`rid`) USING BTREE,
   KEY `idx_pid` (`pid`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=335 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='权限角色关系表';
+) ENGINE=InnoDB AUTO_INCREMENT=677 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='权限角色关系表';
 
 -- ----------------------------
 -- Table structure for system_permisson_log
@@ -345,7 +402,47 @@ CREATE TABLE `system_role` (
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='角色表';
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='角色表';
+
+-- ----------------------------
+-- Table structure for system_scheduled_task
+-- ----------------------------
+DROP TABLE IF EXISTS `system_scheduled_task`;
+CREATE TABLE `system_scheduled_task` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `class_path` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '任务完整类名',
+  `name` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '任务名称',
+  `cron` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '时间表达式',
+  `type` tinyint NOT NULL DEFAULT '0' COMMENT '类型（0：系统默认，1：一般调度，2：机器人通知）',
+  `msg_type` tinyint DEFAULT NULL COMMENT '0：简单消息\n',
+  `extra_info` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '类型对应的额外信息，比如，绑定的机器人id',
+  `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '描述',
+  `status` tinyint NOT NULL DEFAULT '1' COMMENT '状态，0：停用；1：启用',
+  `result` tinyint DEFAULT NULL COMMENT '任务执行结果，0：失败；1：成功',
+  `timestamp` varchar(16) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '执行耗时，单位：秒',
+  `is_del` tinyint NOT NULL DEFAULT '0' COMMENT '删除状态（0：未删除；1：已删除）',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统定时任务表';
+
+-- ----------------------------
+-- Table structure for system_token
+-- ----------------------------
+DROP TABLE IF EXISTS `system_token`;
+CREATE TABLE `system_token` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `name` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '名称描述',
+  `webhook` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'webhook地址',
+  `token` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '令牌',
+  `type` tinyint NOT NULL COMMENT '类型，0：机器人',
+  `platform` tinyint NOT NULL COMMENT '平台，0：飞书',
+  `message_info` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '信息体',
+  `is_del` tinyint NOT NULL DEFAULT '0' COMMENT '删除状态（0：未删除；1：已删除）',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='令牌记录表';
 
 -- ----------------------------
 -- Table structure for system_user
@@ -373,7 +470,7 @@ CREATE TABLE `system_user` (
   `admin` tinyint DEFAULT '0' COMMENT '是否超级管理员（0：不是；1：是）',
   `is_del` tinyint DEFAULT '0' COMMENT '删除状态（0：未删除；1：已删除）',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='系统用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='系统用户表';
 
 -- ----------------------------
 -- Table structure for system_user_role
@@ -410,7 +507,7 @@ CREATE TABLE `system_version_history_content` (
   `type` tinyint DEFAULT NULL COMMENT '功能类型（0：新增；1：优化；2：改善；3：修复；4：重构）',
   `content` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '更新内容',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='系统版本更新内容';
+) ENGINE=InnoDB AUTO_INCREMENT=92 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='系统版本更新内容';
 
 -- ----------------------------
 -- Table structure for user_card_note
@@ -424,7 +521,7 @@ CREATE TABLE `user_card_note` (
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='用户卡片笔记表';
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='用户卡片笔记表';
 
 -- ----------------------------
 -- Table structure for user_card_note_tag
@@ -472,7 +569,7 @@ CREATE TABLE `user_health` (
   `uid` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `is_del` tinyint DEFAULT '0' COMMENT '删除状态（0：未删除；1：已删除）',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='健康记录表';
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='健康记录表';
 
 -- ----------------------------
 -- Table structure for user_note_tag_assoc

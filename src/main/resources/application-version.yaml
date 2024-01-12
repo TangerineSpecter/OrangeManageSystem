@@ -1,9 +1,21 @@
 system:
   #当前系统版本
-  version: v0.5.1
+  version: v0.5.2
 # 版本历史信息，0：新增；1：优化；2：改善；3：修复；4：重构；-1：未知
 version:
   history:
+    - code: v0.5.2
+      date: 2023-03-02
+      content:
+        - info: 新增：NLP语义分析小工具
+        - info: 新增：令牌管理功能
+        - info: 新增：用户管理在线状态以及下线功能
+        - info: 新增：动态定时任务管理
+        - info: 新增：机器人异常告警推送配置
+        - info: 改善：系统定时任务采用动态初始化
+        - info: 改善：异常增加通知类型
+        - info: 优化：基金历史数据维护逻辑
+        - info: 修复：消息中心列表查询bug
     - code: v0.5.1
       date: 2022-10-17
       content:
@@ -13,6 +25,7 @@ version:
         - info: 重构：版本历史记录加载方式
         - info: 优化：定时器执行方式
         - info: 重构：表格数据加载方式
+        - info: 新增：基金数据分析
     - code: v0.5.0
       date: 2022-05-17
       content:

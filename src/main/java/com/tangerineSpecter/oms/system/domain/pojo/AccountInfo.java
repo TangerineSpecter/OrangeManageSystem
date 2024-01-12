@@ -17,6 +17,6 @@ public class AccountInfo {
     @NotNull(message = "密码不能为空")
     private String password;
 
-    @NotNull(message = "验证码不能为空")
+//    @NotNull(message = "验证码不能为空")
     private String captcha;
 }

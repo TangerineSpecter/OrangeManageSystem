@@ -7,7 +7,7 @@ import javax.servlet.http.HttpSessionListener;
 /**
  * Session在线人数监听器
  *
- * @author liangjun.zhou
+ * @author 丢失的橘子
  * @version 0.2.1
  * @date 2020年05月02日22:52:04
  */

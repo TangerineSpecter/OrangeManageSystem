@@ -13,7 +13,8 @@ public enum LogOperation implements IBaseDbEnum {
     EVENT_VISIT(2, "访问"),
     EVENT_ADD(3, "添加"),
     EVENT_UPDATE(4, "编辑"),
-    EVENT_DELETE(5, "删除");
+    EVENT_DELETE(5, "删除"),
+    EVENT_USE(6, "使用");
 
     private Integer value;
     private String desc;

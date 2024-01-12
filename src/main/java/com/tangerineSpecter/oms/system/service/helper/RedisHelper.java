@@ -592,4 +592,36 @@ public class RedisHelper {
         }
     }
 
+    /**
+     * 加锁
+     *
+     * @param prefix 前缀
+     * @param key    后缀key
+     * @param value  值
+     * @return true：加锁成功
+     */
+    public boolean lock(KeyPrefix prefix, Object key, String value) {
+        String redisKey = prefix.join(key);
+        Boolean flag = redisTemplate.opsForValue()
+                .setIfAbsent(redisKey, value, prefix.getExpireSeconds(), TimeUnit.SECONDS);
+        if (flag != null && flag) {
+            return true;
+        } else {
+            log.info("lock error!");
+        }
+        return false;
+    }
+
+    /**
+     * 释放锁
+     *
+     * @param prefix 前缀
+     * @param key    后缀key
+     */
+    public void releaseLock(KeyPrefix prefix, Object key) {
+        String redisKey = prefix.join(key);
+        redisTemplate.delete(redisKey);
+//        log.info("releaseLock success!");
+    }
+
 }

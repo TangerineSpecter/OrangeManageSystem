@@ -42,6 +42,7 @@
     </div>
 </div>
 <th:block th:include="include :: footer"/>
+<!-- 状态按钮 -->
 <script type="text/html" id="switchTpl">
     <input type="checkbox" name="status" value="{{d.id}}" lay-skin="switch" lay-text="冻结|可用" lay-filter="statusFun" {{
            d.status== 0 ? 'checked' : '' }}>

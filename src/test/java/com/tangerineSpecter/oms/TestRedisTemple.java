@@ -1,17 +1,29 @@
 package com.tangerinespecter.oms;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.io.file.FileReader;
+import cn.hutool.core.lang.ClassScanner;
 import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.NumberUtil;
+import cn.hutool.core.util.RandomUtil;
+import cn.hutool.core.util.ReflectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
+import com.google.common.base.Splitter;
 import com.tangerinespecter.oms.common.config.JuheApiConfig;
 import com.tangerinespecter.oms.common.constants.CommonConstant;
+import com.tangerinespecter.oms.common.constants.SystemConstant;
+import com.tangerinespecter.oms.common.enums.ScheduledTypeEnum;
 import com.tangerinespecter.oms.common.utils.CollUtils;
 import com.tangerinespecter.oms.common.utils.NumChainCal;
 import com.tangerinespecter.oms.job.service.FundDataQuartzService;
 import com.tangerinespecter.oms.system.domain.entity.DataExchangeRate;
 import com.tangerinespecter.oms.system.domain.entity.DataTradeRecord;
+import com.tangerinespecter.oms.system.domain.entity.SystemScheduledTask;
 import com.tangerinespecter.oms.system.domain.pojo.SystemVersionInfo;
 import com.tangerinespecter.oms.system.domain.vo.statis.FundAnalysisInfoVo;
 import com.tangerinespecter.oms.system.mapper.DataExchangeRateMapper;
@@ -20,7 +32,10 @@ import com.tangerinespecter.oms.system.mapper.DataTradeRecordMapper;
 import com.tangerinespecter.oms.system.service.data.impl.DataTradeRecordServiceImpl;
 import com.tangerinespecter.oms.system.service.statis.IFundAnalysisService;
 import com.tangerinespecter.oms.system.service.table.impl.DataFundHistoryServiceImpl;
+import com.tangerinespecter.oms.system.service.tools.INlpToolService;
 import lombok.extern.slf4j.Slf4j;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,19 +43,27 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Stream;
 
 @Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class TestRedisTemple {
 
+    private static final String content = "黄金P点：2064.59，R1:2109.14，S1:1984.58\n" +
+            "白银P点：24.93，R1:25.46，S1:23.95\n" +
+            "原油P点：73.63，R1:74.64，S1:72.25\n" +
+            "欧美P点：1.0844，R1:1.0885：S1:1.0794\n" +
+            "镑美P点：1.2653，R1:1.2703，S1:1.2582\n" +
+            "澳美P点：0.6638，R1:0.6671，S1:0.6586\n" +
+            "美加P点：1.3525，R1:1.3572，S1:1.3489\n" +
+            "美日P点：146.95，R1:147.69，S1:146.46\n" +
+            "纽美P点：0.6178，R1:0.6206，S1:0.6135";
     @Resource
     private RedisTemplate<String, BigDecimal> redisTemplate;
     @Resource
@@ -59,6 +82,8 @@ public class TestRedisTemple {
     private IFundAnalysisService analysisService;
     @Resource
     private DataFundHistoryServiceImpl fundHistoryService;
+    @Resource
+    private INlpToolService nlpToolService;
 
     @Test
     public void version() {
@@ -103,6 +128,13 @@ public class TestRedisTemple {
     }
 
     @Test
+    public void testSystemInfo() {
+        System.out.println(JSON.toJSONString(SystemConstant.SYSTEM_CONFIG));
+        SystemConstant.SYSTEM_CONFIG.setId(1L);
+        System.out.println(JSON.toJSONString(SystemConstant.SYSTEM_CONFIG));
+    }
+
+    @Test
     public void numberCal() {
         long startTime = System.currentTimeMillis();
         for (int i = 0; i < 10000; i++) {
@@ -132,7 +164,42 @@ public class TestRedisTemple {
     public void daydayFund() throws Exception {
         String fundCode1 = "000072";
         String fundCode2 = "162703";
-        fundHistoryService.handleFundSplitRate(fundCode2);
+        fundHistoryService.getFundHistory(fundCode2, 1);
+//        fundHistoryService.handleFundSplitRate(fundCode2);
+    }
+
+    @Test
+    public void nlpDemo() {
+        final FileReader fileReader = new FileReader("");
+        nlpToolService.analysis(null, fileReader.readString());
+    }
+
+    public static void main(String[] args) throws Exception {
+//        System.out.println(content);
+//        final List<String> strings = StrUtil.split(content, "\n");
+//        for (String string : strings) {
+////            System.out.println(string);
+//            final List<String> split = StrUtil.split(string, "，");
+////            System.out.println(split);
+//            for (String s : split) {
+//                System.out.println(s);
+//            }
+//        }
+//        final Document document = Jsoup.connect("https://rili-d.jin10.com/open.php?fontSize=14px&theme=primary").get();
+//        System.out.println(document);
+
+        final Set<Class<?>> classes = ClassScanner.scanPackage("com.tangerinespecter.oms.job.quartz");
+        System.out.println(classes);
+        for (Class<?> clazz : classes) {
+            final Object jobName = ReflectUtil.getFieldValue(clazz, "JOB_NAME");
+            final Object jobCron = ReflectUtil.getFieldValue(clazz, "JOB_CRON");
+            SystemScheduledTask task = new SystemScheduledTask();
+            task.setClassPath(clazz.getName());
+            task.setCron(Convert.toStr(jobCron));
+            task.setName(Convert.toStr(jobName));
+            task.setType(ScheduledTypeEnum.DEFAULT.getValue());
+            System.out.println(JSON.toJSONString(task));
+        }
     }
 
 }

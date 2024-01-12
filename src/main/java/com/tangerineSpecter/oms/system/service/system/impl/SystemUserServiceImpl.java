@@ -13,6 +13,7 @@ import com.tangerinespecter.oms.common.context.UserContext;
 import com.tangerinespecter.oms.common.enums.GlobalBoolEnum;
 import com.tangerinespecter.oms.common.exception.BusinessException;
 import com.tangerinespecter.oms.common.query.SystemUserQueryObject;
+import com.tangerinespecter.oms.common.utils.CollUtils;
 import com.tangerinespecter.oms.common.utils.CosClient;
 import com.tangerinespecter.oms.common.utils.SystemUtils;
 import com.tangerinespecter.oms.system.domain.dto.system.SystemUserListDto;
@@ -27,6 +28,7 @@ import com.tangerinespecter.oms.system.mapper.SystemRoleMapper;
 import com.tangerinespecter.oms.system.mapper.SystemUserMapper;
 import com.tangerinespecter.oms.system.mapper.SystemUserRoleMapper;
 import com.tangerinespecter.oms.system.service.helper.RedisHelper;
+import com.tangerinespecter.oms.system.service.helper.SystemHelper;
 import com.tangerinespecter.oms.system.service.system.ISystemUserService;
 import com.wf.captcha.utils.CaptchaUtil;
 import lombok.RequiredArgsConstructor;
@@ -62,6 +64,7 @@ public class SystemUserServiceImpl implements ISystemUserService {
     private final SystemUserRoleMapper systemUserRoleMapper;
     private final CosClient cosClient;
     private final RedisHelper redisHelper;
+    private final SystemHelper systemHelper;
 
     @Override
     public void verifyLogin(HttpServletRequest request, HttpServletResponse response, @Validated AccountInfo model) {
@@ -74,6 +77,7 @@ public class SystemUserServiceImpl implements ISystemUserService {
             UsernamePasswordToken token = new UsernamePasswordToken(model.getUsername(), md5Pwd);
             Subject subject = SecurityUtils.getSubject();
             subject.login(token);
+            SystemHelper.ACTIVE_USERS_MANAGE.put(model.getUsername(), subject.getSession());
         } catch (UnknownAccountException e) {
             log.error("[帐号登录异常]:", e);
             throw new BusinessException(RetCode.REGISTER_ACCOUNTS_NOT_EXIST);
@@ -97,13 +101,14 @@ public class SystemUserServiceImpl implements ISystemUserService {
     }
 
     public List<SystemUserListDto> querySystemUserList(List<SystemUserListDto> pageList) {
+        final List<String> activeUsers = systemHelper.getActiveUsers();
         List<SystemRole> allRoles = systemRoleMapper.selectAllList();
-        pageList.forEach(u -> {
-            List<SystemRole> haveRoles = systemRoleMapper.selectRoleByUid(u.getUid());
-            u.setRoles(allRoles);
-            u.setHaveRoles(haveRoles);
-            List<Long> haveRoleIds = haveRoles.stream().map(SystemRole::getId).collect(Collectors.toList());
-            u.setHaveRoleIds(haveRoleIds);
+        CollUtils.forEach(pageList, user -> {
+            List<SystemRole> haveRoles = systemRoleMapper.selectRoleByUid(user.getUid());
+            user.setRoles(allRoles);
+            user.setHaveRoles(haveRoles);
+            user.setHaveRoleIds(CollUtils.convertList(haveRoles, SystemRole::getId));
+            user.setActive(activeUsers.contains(user.getUsername()));
         });
         // 得到分页结果对象
         return pageList;
@@ -134,14 +139,7 @@ public class SystemUserServiceImpl implements ISystemUserService {
         Assert.isTrue(user == null, () -> new BusinessException(RetCode.REGISTER_REPEAT));
         String userSalt = SystemUtils.createUserSalt();
         String password = SystemUtils.handleUserPassword(systemUser.getPassword(), userSalt);
-        SystemUser userInfo = SystemUser.builder().uid(SystemUtils.createUid(userSalt))
-                .username(systemUser.getUsername()).password(password)
-                .admin(systemUser.getAdmin()).avatar(systemUser.getAvatar())
-                .city(systemUser.getCity()).birthday(systemUser.getBirthday())
-                .email(systemUser.getEmail()).brief(systemUser.getBrief())
-                .nickName(systemUser.getNickName()).sex(systemUser.getSex())
-                .phoneNumber(systemUser.getPhoneNumber()).isDel(GlobalBoolEnum.FALSE.getValue())
-                .salt(userSalt).build();
+        SystemUser userInfo = SystemUser.builder().uid(SystemUtils.createUid(userSalt)).username(systemUser.getUsername()).password(password).admin(systemUser.getAdmin()).avatar(systemUser.getAvatar()).city(systemUser.getCity()).birthday(systemUser.getBirthday()).email(systemUser.getEmail()).brief(systemUser.getBrief()).nickName(systemUser.getNickName()).sex(systemUser.getSex()).phoneNumber(systemUser.getPhoneNumber()).isDel(GlobalBoolEnum.FALSE.getValue()).salt(userSalt).build();
         systemUserMapper.insert(userInfo);
         return userInfo;
     }
@@ -164,8 +162,7 @@ public class SystemUserServiceImpl implements ISystemUserService {
         }
         Set<Long> haveRoleIds = systemUserRoleMapper.getHaveRoleIdsByUid(vo.getId());
         //请求roleIds
-        List<Long> rolesReq = Splitter.on(",").omitEmptyStrings().splitToList(vo.getRoleIds())
-                .parallelStream().map(Long::parseLong).collect(Collectors.toList());
+        List<Long> rolesReq = Splitter.on(",").omitEmptyStrings().splitToList(vo.getRoleIds()).parallelStream().map(Long::parseLong).collect(Collectors.toList());
         Collection<Long> intersectionIds = CollUtil.intersection(rolesReq, haveRoleIds);
         //移除共同部分
         rolesReq.removeAll(intersectionIds);
@@ -203,5 +200,10 @@ public class SystemUserServiceImpl implements ISystemUserService {
         systemUser.setBirthday(info.getBirthday());
         systemUser.setNickName(info.getNickName());
         cosClient.initAvatar(info);
+    }
+
+    @Override
+    public void offline(String username) {
+        systemHelper.offline(username);
     }
 }

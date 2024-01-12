@@ -24,7 +24,7 @@ public interface UserCardNoteTagMapper extends BaseMapper<UserCardNoteTag> {
         }
         return selectCount(new QueryWrapper<UserCardNoteTag>()
                 .eq("uid", uid)
-                .eq("is_del", 0));
+                .eq("is_del", GlobalBoolEnum.FALSE.getValue()));
     }
 
     /**

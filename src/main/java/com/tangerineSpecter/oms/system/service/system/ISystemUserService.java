@@ -1,6 +1,5 @@
 package com.tangerinespecter.oms.system.service.system;
 
-import com.github.pagehelper.PageInfo;
 import com.tangerinespecter.oms.common.query.SystemUserQueryObject;
 import com.tangerinespecter.oms.system.domain.dto.system.SystemUserListDto;
 import com.tangerinespecter.oms.system.domain.entity.SystemUser;
@@ -62,4 +61,11 @@ public interface ISystemUserService extends BaseService<SystemUserQueryObject, S
      * @param avatarInfo 头像文件信息
      */
     void updateAvatar(FileInfoBean avatarInfo);
+
+    /**
+     * 下线账号
+     *
+     * @param username 账号名
+     */
+    void offline(String username);
 }

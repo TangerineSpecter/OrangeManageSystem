@@ -16,6 +16,14 @@ public class RetCode {
 
     private int errorCode;
     private String errorDesc;
+    //是否通知，默认不通知
+    private boolean errorNotify;
+
+    public RetCode(int errorCode, String errorDesc) {
+        this.errorCode = errorCode;
+        this.errorDesc = errorDesc;
+        this.errorNotify = false;
+    }
 
     /**
      * 成功
@@ -25,15 +33,15 @@ public class RetCode {
     /**
      * 失败
      */
-    public static final RetCode FAIL = new RetCode(1, "操作失败");
+    public static final RetCode FAIL = new RetCode(1, "操作失败", true);
     /**
      * 操作频繁
      */
     public static final RetCode BUSY = new RetCode(2, "操作频繁");
     /**
-     * 操作频繁
+     * 服务器错误
      */
-    public static final RetCode SYSTEM_ERROR = new RetCode(3, "服务器错误，请联系管理员");
+    public static final RetCode SYSTEM_ERROR = new RetCode(3, "服务器错误，请联系管理员", true);
 
     /**
      * 验证失败
@@ -102,7 +110,7 @@ public class RetCode {
     /**
      * 文件上传异常
      */
-    public static final RetCode FILE_UPLOAD_EXCEPTION = new RetCode(112, "文件上传异常！");
+    public static final RetCode FILE_UPLOAD_EXCEPTION = new RetCode(112, "文件上传异常！", true);
     /**
      * 存在同名角色
      */
@@ -117,13 +125,41 @@ public class RetCode {
      */
     public static final RetCode PASSWORD_LENGTH_TOO_SHORT = new RetCode(115, "密码不能小于6位");
     /**
+     * 账号未在线
+     */
+    public static final RetCode ACCOUNT_NOT_LOGIN = new RetCode(116, "账号未在线");
+    /**
+     * 定时任务已存在
+     */
+    public static final RetCode TASK_EXIST = new RetCode(117, "定时任务已存在");
+    /**
+     * 未知的平台
+     */
+    public static final RetCode UNKNOWN_PLATFORM = new RetCode(118, "未知的平台");
+    /**
+     * 任务执行异常
+     */
+    public static final RetCode TASK_EXECUTE_ERROR = new RetCode(119, "定时任务执行异常", true);
+    /**
+     * 任务路径不存在
+     */
+    public static final RetCode TASK_EXECUTE_NOT_EXIST = new RetCode(120, "任务路径不存在", true);
+    /**
+     * 系统定时任务不支持删除
+     */
+    public static final RetCode DEFAULT_TASK_NOT_DELETE = new RetCode(121, "系统定时任务不支持删除");
+    /**
+     * 定时任务执行中
+     */
+    public static final RetCode TASK_EXECUTE_RUNNING = new RetCode(122, "任务执行中，请稍后尝试...");
+    /**
      * 参数错误
      */
-    public static final RetCode PARAM_ERROR = new RetCode(200, "参数错误");
+    public static final RetCode PARAM_ERROR = new RetCode(200, "参数错误", true);
     /**
      * 数据异常
      */
-    public static final RetCode DATA_EXCEPTION = new RetCode(201, "数据异常");
+    public static final RetCode DATA_EXCEPTION = new RetCode(201, "数据异常", true);
 
     /**
      * 交易记录不存在
@@ -142,11 +178,19 @@ public class RetCode {
      * 健康记录已存在
      */
     public static final RetCode HEALTH_RECORD_EXIST = new RetCode(2000, "健康记录已存在");
-    
+    /**
+     * 基金数据处理异常
+     */
+    public static final RetCode FUND_DATA_ERROR = new RetCode(2001, "基金数据处理异常");
+
     /**
      * 视频地址有误
      */
     public static final RetCode VIDEO_URL_ERROR = new RetCode(3000, "视频地址有误");
+    /**
+     * 分析内容不存在
+     */
+    public static final RetCode NLP_CONTENT_NOT_EXIST = new RetCode(3001, "缺少分析内容");
 
     public RetCode fillArgs(Object... args) {
         int errorCode = this.errorCode;

@@ -2,15 +2,17 @@ package com.tangerinespecter.oms.common.redis;
 
 import com.tangerinespecter.oms.common.constants.SystemConstant;
 
+import java.io.Serializable;
+
 /**
  * 页面模板缓存Key
  */
-public class PageModelKey extends BasePrefixKey {
+public class PageModelKey extends BasePrefixKey implements Serializable {
 
     /**
      * 过期时间（单位：秒）
      */
-    private static final Integer EXPIRE_TIME = SystemConstant.systemConfig.getCacheTime();
+    private static final Integer EXPIRE_TIME = SystemConstant.SYSTEM_CONFIG.getCacheTime();
 
     private PageModelKey(String prefix) {
         super(prefix);
@@ -116,4 +118,15 @@ public class PageModelKey extends BasePrefixKey {
      * 基金分析页面缓存
      */
     public static final PageModelKey getFundAnalysisPageKey = new PageModelKey("fund_analysis_page:", EXPIRE_TIME);
+
+    /**
+     * 令牌管理菜单缓存
+     */
+    public static final PageModelKey getSystemTokenPageKey = new PageModelKey("system_token_page:", EXPIRE_TIME);
+
+    /**
+     * 定时任务菜单缓存
+     */
+    public static final PageModelKey getSystemScheduledPageKey = new PageModelKey("system_scheduled_page:", EXPIRE_TIME);
+
 }

@@ -13,7 +13,7 @@ public class LogoInfo {
     /**
      * 系统标题
      */
-    private String title = SystemConstant.systemConfig.getHomeTitle();
+    private String title = SystemConstant.SYSTEM_CONFIG.getHomeTitle();
     /**
      * 系统logo
      */

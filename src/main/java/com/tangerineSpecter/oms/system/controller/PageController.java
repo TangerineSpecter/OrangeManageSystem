@@ -1,5 +1,6 @@
 package com.tangerinespecter.oms.system.controller;
 
+import com.tangerinespecter.oms.common.constants.SystemConstant;
 import com.tangerinespecter.oms.common.context.UserContext;
 import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.entity.SystemConfig;
@@ -34,8 +35,7 @@ public class PageController {
     @RequiresPermissions("page:systemSetting")
     @GetMapping("/systemSetting")
     public String systemSetting(Model model) {
-        SystemConfig systemConfig = systemConfigServer.configInfo();
-        model.addAttribute("systemConfigInfo", systemConfig);
+        model.addAttribute("systemConfigInfo", SystemConstant.SYSTEM_CONFIG);
         return "system/systemSetting";
     }
 

@@ -53,4 +53,6 @@ public class SystemUserListDto {
     private List<SystemRole> haveRoles = CollUtil.newArrayList();
     @ApiModelProperty("管理员角色Id")
     private List<Long> haveRoleIds = CollUtil.newArrayList();
+    @ApiModelProperty("是否在线，true：是；false：否")
+    private boolean active;
 }

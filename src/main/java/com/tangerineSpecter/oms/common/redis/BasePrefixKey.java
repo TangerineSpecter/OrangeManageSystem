@@ -1,5 +1,6 @@
 package com.tangerinespecter.oms.common.redis;
 
+import com.google.common.base.Joiner;
 import lombok.Data;
 
 /**
@@ -40,5 +41,10 @@ public abstract class BasePrefixKey implements KeyPrefix {
     @Override
     public int getExpireSeconds() {
         return expireSeconds;
+    }
+
+    @Override
+    public String join(Object... args) {
+        return this.getPrefix() + Joiner.on(":").join(args);
     }
 }

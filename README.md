@@ -19,7 +19,7 @@
 ## 当前系统版本
 
 ```
-v0.5.1
+v0.5.2
 ```
 
 ## 相关技术
@@ -27,7 +27,7 @@ v0.5.1
 **使用JDK版本：** 1.8
 
 **搭建框架：** 
-- 基础框架：Spring Boot 2.5.3
+- 基础框架：Spring Boot 2.7.17
 - 持久层框架：MyBatis-Plus 3.4.3 
 - 模版引擎：Thymeleaf 3.0.9
 - 依赖管理：Maven 3.3.9
@@ -40,7 +40,7 @@ v0.5.1
 
 **前端框架：**
 - 基础框架：Bootstrap 4.1.3
-- 后台框架：Layui 2.5.6
+- 后台框架：Layui 2.9.0
 - JavaScript框架：Jquery 3.3.1
 - 分页插件：Bootstrap-Paginator 1.0
 
@@ -92,8 +92,6 @@ v0.5.1
 1.执行resources目录下的oms.sql初始化系统表格
 2.执行system_menu.sql初始化系统菜单
 3.执行data_constellation.sql初始化一部分数据查看
-4.执行system_version_history初始化系统版本信息
-5.执行system_version_history_content初始化更新内容信息
 ```
 
 ### 4.代码生成器的使用
@@ -125,11 +123,15 @@ v0.5.1
     | -- 二维码生成（生成二维码方便分享）
     | -- 每日壁纸（必应每日推荐壁纸）
     | -- 视频去水印（对视频平台进行无水印下载）
+    | -- NLP语义分析（对文字内容进行归纳）
 数据列表
     | -- 星座列表（每日星座数据记录）
+    | -- 食物库（食物数据的记录）
+    | -- 基金数据（基金的数据记录）
 数据分析
     | -- 交易统计（交易数据图表分析）
     | -- 健康统计（健康信息图表分析）
+    | -- 基金分析（基金数据回测分析）
 系统设置
     | -- 后台管理员（进行后台管理员管理）
     | -- 系统公告（对系统公告进行配置）
@@ -139,6 +141,8 @@ v0.5.1
     | -- 角色管理（管理员角色管理和权限分配）
     | -- 菜单管理（系统菜单的管理）
     | -- 权限管理（角色权限的管理）
+    | -- 令牌管理（鉴权token的管理）
+    | -- 定时任务（进行定时任务的管理）
 
 功能持续更新中...
 ```
@@ -157,6 +161,6 @@ v0.5.1
 
 ## 相关参考资源
 
-- [Pear Admin Layui v3.9.14](https://gitee.com/pear-admin/Pear-Admin-Layui#https://github.com/PearAdmin/pear-admin-layui)
+- [Pear Admin Layui v3.5.0](https://gitee.com/pear-admin/Pear-Admin-Layui#https://github.com/PearAdmin/pear-admin-layui)
 - [wangEditor V4 富文本编辑器](https://github.com/wangeditor-team/wangEditor/tree/v4.7.13)
 - [第一星座网](https://www.d1xz.net/)

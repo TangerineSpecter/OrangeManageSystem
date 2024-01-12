@@ -60,6 +60,7 @@ public class DataFundHistoryServiceImpl implements IDataFundHistoryService {
     @Override
     public void initFundHistory(List<String> fundCodes) {
         CollUtils.forEach(fundCodes, fundCode -> executorService.execute(() -> {
+            SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH, false);
             try {
                 final long startTime = System.currentTimeMillis();
                 int page = 1;
@@ -84,7 +85,6 @@ public class DataFundHistoryServiceImpl implements IDataFundHistoryService {
                     page++;
                 }
                 log.info("基金[{}]，新增历史数据：[{}]条", fundCode, insertTotalData.size());
-                SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH, false);
                 CollUtils.forEach(insertTotalData, data -> {
                     DataFundHistoryMapper mapper = sqlSession.getMapper(DataFundHistoryMapper.class);
                     mapper.insert(data);
@@ -93,8 +93,11 @@ public class DataFundHistoryServiceImpl implements IDataFundHistoryService {
                 this.handleFundSplitRate(fundCode);
                 log.info("基金[{}]，数据处理完毕，耗时：{}ms", fundCode, System.currentTimeMillis() - startTime);
             } catch (Exception e) {
+                sqlSession.rollback();
                 log.error("基金[{}]数据处理异常，异常信息：[{}]，" + e, fundCode, e.getMessage());
                 botService.sendErrorMsg(RetCode.FUND_DATA_ERROR, e.getMessage());
+            } finally {
+                sqlSession.close();
             }
         }));
     }

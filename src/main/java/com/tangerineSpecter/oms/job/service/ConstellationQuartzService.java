@@ -53,13 +53,13 @@ public class ConstellationQuartzService {
      */
     private static final String D1XZ_URL = "https://www.d1xz.net/yunshi/today/{}";
 
-    private final String TODAY = "today";
+    private static final String TODAY = "today";
     @Resource
     private DataConstellationMapper dataConstellationMapper;
     /**
      * 成功错误码
      */
-    private final String SUCCESS_CODE = "0";
+    private static final String SUCCESS_CODE = "0";
 
     /**
      * 执行星座数据
@@ -213,6 +213,7 @@ public class ConstellationQuartzService {
      * @return 数值
      */
     public static Integer getStarInfoNumber(Elements luckElements, int code) {
-        return Convert.toInt(CharSequenceUtil.replace(luckElements.get(code).getElementsByTag("strong").text(), "%", CommonConstant.NULL_KEY_STR));
+        return Convert.toInt(CharSequenceUtil.replace(luckElements.get(code).getElementsByTag("strong")
+                .text(), "%", CommonConstant.NULL_KEY_STR));
     }
 }

@@ -6,7 +6,6 @@ import com.tangerinespecter.oms.common.redis.KeyPrefix;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -84,8 +83,7 @@ public class RedisHelper {
      *
      * @param key 可以传一个值 或多个
      */
-    @SuppressWarnings("unchecked")
-    public void del(String... key) {
+    public void delete(String... key) {
         if (key != null && key.length > 0) {
             if (key.length == 1) {
                 redisTemplate.delete(key[0]);
@@ -102,16 +100,21 @@ public class RedisHelper {
      * @param key 键
      * @return 值
      */
-    public Object get(KeyPrefix prefix, String key) {
-        if (StrUtil.isBlank(key)) {
-            return null;
+    public <T> T get(KeyPrefix prefix, String key) {
+        try {
+            if (StrUtil.isBlank(key)) {
+                return null;
+            }
+            String realKey = prefix.getPrefix() + key;
+            return (T) redisTemplate.opsForValue().get(realKey);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        String realKey = prefix.getPrefix() + key;
-        return redisTemplate.opsForValue().get(realKey);
+        return null;
     }
 
     /**
-     * 普通缓存放入
+     * 普通缓存放入(过期时间为key设置时间)
      *
      * @param key   键
      * @param value 值
@@ -603,7 +606,7 @@ public class RedisHelper {
     public boolean lock(KeyPrefix prefix, Object key, String value) {
         String redisKey = prefix.join(key);
         Boolean flag = redisTemplate.opsForValue()
-                .setIfAbsent(redisKey, value, prefix.getExpireSeconds(), TimeUnit.SECONDS);
+            .setIfAbsent(redisKey, value, prefix.getExpireSeconds(), TimeUnit.SECONDS);
         if (flag != null && flag) {
             return true;
         } else {
@@ -621,7 +624,6 @@ public class RedisHelper {
     public void releaseLock(KeyPrefix prefix, Object key) {
         String redisKey = prefix.join(key);
         redisTemplate.delete(redisKey);
-//        log.info("releaseLock success!");
     }
 
 }

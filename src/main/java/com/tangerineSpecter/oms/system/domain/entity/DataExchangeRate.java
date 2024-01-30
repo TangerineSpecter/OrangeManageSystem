@@ -9,8 +9,6 @@ import lombok.*;
 import org.apache.ibatis.type.Alias;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  * 货币汇率表
@@ -48,13 +46,13 @@ public class DataExchangeRate extends BaseEntity {
      * 汇率记录时间
      */
     @TableField("record_time")
-    private LocalDateTime recordTime;
+    private String recordTime;
 
     public DataExchangeRate(String name, String code, BigDecimal price) {
         this.name = name;
         this.code = code;
         this.price = price;
-        this.recordTime = DateUtil.toLocalDateTime(new Date());
+        this.recordTime = DateUtil.today();
     }
 }
 

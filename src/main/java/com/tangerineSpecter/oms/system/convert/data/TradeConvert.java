@@ -1,6 +1,7 @@
 package com.tangerinespecter.oms.system.convert.data;
 
-import cn.hutool.core.convert.Convert;
+import com.tangerinespecter.oms.common.constants.CommonConstant;
+import com.tangerinespecter.oms.common.utils.NumChainCal;
 import com.tangerinespecter.oms.system.convert.BaseConvert;
 import com.tangerinespecter.oms.system.domain.entity.DataTradeLogic;
 import com.tangerinespecter.oms.system.domain.entity.DataTradeRecord;
@@ -13,6 +14,8 @@ import org.mapstruct.Mappings;
 import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
+import java.math.BigDecimal;
+
 /**
  * @author 丢失的橘子
  */
@@ -22,10 +25,9 @@ public interface TradeConvert extends BaseConvert {
     TradeConvert INSTANCE = Mappers.getMapper(TradeConvert.class);
 
     @Mappings({
-            @Mapping(target = "startMoney", expression = "java(convertDbMoneyData(vo.getStartMoney()))"),
-            @Mapping(target = "endMoney", expression = "java(convertDbMoneyData(vo.getEndMoney()))"),
-            @Mapping(target = "deposit", expression = "java(convertDbMoneyData(vo.getDeposit()))"),
-            @Mapping(target = "withdrawal", expression = "java(convertDbMoneyData(vo.getWithdrawal()))")
+        @Mapping(target = "endMoney", expression = "java(convertDbMoneyData(vo.getEndMoney()))"),
+        @Mapping(target = "deposit", expression = "java(convertDbMoneyData(vo.getDeposit()))"),
+        @Mapping(target = "withdrawal", expression = "java(convertDbMoneyData(vo.getWithdrawal()))")
     })
     DataTradeRecord convert(TradeRecordInfoVo vo);
 
@@ -44,7 +46,7 @@ public interface TradeConvert extends BaseConvert {
      * @return 交易逻辑model
      */
     @Mappings({
-            @Mapping(target = "uid", expression = "java(uid())")
+        @Mapping(target = "uid", expression = "java(uid())")
     })
     DataTradeLogic convert(AddTradeLogicVo vo);
 
@@ -59,7 +61,6 @@ public interface TradeConvert extends BaseConvert {
         if (moneyData == null) {
             return null;
         }
-        return Convert.toInt(moneyData * 100);
+        return NumChainCal.startOf(moneyData).mul(100).getInteger();
     }
-
 }

@@ -12,6 +12,7 @@ import com.tangerinespecter.oms.common.result.ServiceResult;
 import com.tangerinespecter.oms.system.domain.entity.SystemScheduledTask;
 import com.tangerinespecter.oms.system.domain.vo.base.EnableParam;
 import com.tangerinespecter.oms.system.domain.vo.base.IdParamVo;
+import com.tangerinespecter.oms.system.domain.vo.system.ExecuteJobVo;
 import com.tangerinespecter.oms.system.domain.vo.system.SystemScheduledVo;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
 import com.tangerinespecter.oms.system.service.system.IScheduledManageService;
@@ -83,7 +84,7 @@ public class ScheduledController {
     @ApiOperation("立刻执行")
     @PostMapping("/execute")
     @LoggerInfo(value = "执行定时任务", event = LogOperation.EVENT_USE)
-    public void executeJob(@RequestBody IdParamVo param) {
+    public void executeJob(@RequestBody ExecuteJobVo param) {
         scheduledManageService.executeJob(param);
     }
 

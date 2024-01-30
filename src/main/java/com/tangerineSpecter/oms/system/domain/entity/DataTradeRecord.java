@@ -60,44 +60,22 @@ public class DataTradeRecord extends AdminEntity {
     @ApiModelProperty("转入金额")
     @TableField("deposit")
     private Integer deposit = 0;
+    @TableField("deposit_rate")
+    @ApiModelProperty("转入金额汇率，每元兑换")
+    private BigDecimal depositRate = BigDecimal.ZERO;
     @ApiModelProperty("转出金额")
     @TableField("withdrawal")
     private Integer withdrawal = 0;
+    @TableField("withdrawal_rate")
+    @ApiModelProperty("转出金额汇率，每元兑换")
+    private BigDecimal withdrawalRate = BigDecimal.ZERO;
     @ApiModelProperty("备注")
     @TableField("remark")
     private String remark;
 
-    /**
-     * 初始化数据
-     *
-     * @param prevData 上一条数据
-     * @return 数据
-     */
-    public DataTradeRecord initData(DataTradeRecord prevData) {
-        this.initIncome();
-        if (prevData == null) {
-            return this;
-        }
-        //累计收益
-        this.totalIncomeValue = prevData.getTotalIncomeValue() + this.incomeValue;
-        //前后金额差值
-        int subtractMoney = this.startMoney - prevData.getEndMoney();
-        if (subtractMoney > 0) {
-            this.deposit = subtractMoney;
-        } else if (subtractMoney < 0) {
-            this.withdrawal = Math.abs(subtractMoney);
-        }
-        return this;
-    }
-
-    /**
-     * 初始化收益差值
-     */
-    private void initIncome() {
-        this.totalIncomeValue = 0;
-        this.withdrawal = 0;
-        this.deposit = 0;
-    }
+    @ApiModelProperty("当前汇率，用于计算出入金")
+    @TableField(exist = false)
+    private BigDecimal exchangeRate;
 
     /**
      * 总资金计算
@@ -116,7 +94,8 @@ public class DataTradeRecord extends AdminEntity {
      * @return 总资金
      */
     public int sumIncome(List<DataTradeRecord> tradeRecords) {
-        return CollUtils.convertSumList(tradeRecords, tradeRecord -> this.sumMoney(tradeRecord.getIncomeValue(), tradeRecord.getCurrency()).getInteger());
+        return CollUtils.convertSumList(tradeRecords, tradeRecord -> this
+            .sumMoney(tradeRecord.getIncomeValue(), tradeRecord.getCurrency()).getInteger());
     }
 
     /**
@@ -163,7 +142,7 @@ public class DataTradeRecord extends AdminEntity {
      */
     public Integer sumInputMoney() {
         return NumChainCal.startOf(this.sumMoney(this.getDeposit(), this.getCurrency()).getInteger())
-                .sub(this.sumMoney(this.getWithdrawal(), this.getCurrency()).getInteger()).getInteger();
+            .sub(this.sumMoney(this.getWithdrawal(), this.getCurrency()).getInteger()).getInteger();
     }
 
     /**
@@ -183,9 +162,19 @@ public class DataTradeRecord extends AdminEntity {
      * @return 计算结果
      */
     public NumChainCal sumMoney(Integer money, String currency) {
-        return NumChainCal.startOf(money)
-                .mul(CommonConstant.EXCHANGE_RATE_MAP.getOrDefault(currency, new BigDecimal(1)))
-                //单位分转元 除100
-                .div(100);
+        //如果设置了计算用利率则使用设置值，否则按照当前最新利率计算
+        BigDecimal rate = this.exchangeRate != null && this.exchangeRate.compareTo(BigDecimal.ZERO) > 0 ? this.exchangeRate : CommonConstant.EXCHANGE_RATE_MAP.getOrDefault(currency, new BigDecimal(1));
+        return NumChainCal.startOf(money).mul(rate);
+    }
+
+    /**
+     * 单条数据计算
+     *
+     * @param money        资金数据
+     * @param exchangeRate 自定义汇率
+     * @return 计算结果
+     */
+    public NumChainCal sumMoney(Integer money, BigDecimal exchangeRate) {
+        return NumChainCal.startOf(money).mul(exchangeRate);
     }
 }

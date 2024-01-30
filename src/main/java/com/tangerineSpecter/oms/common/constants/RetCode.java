@@ -173,6 +173,10 @@ public class RetCode {
      * 交易逻辑不存在
      */
     public static final RetCode TRADE_LOGIC_NOT_EXIST = new RetCode(1002, "交易逻辑不存在");
+    /**
+     * 当日交易记录已存在
+     */
+    public static final RetCode TODAY_TRADE_RECORD_EXIST = new RetCode(1003, "当日交易记录已存在");
 
     /**
      * 健康记录已存在

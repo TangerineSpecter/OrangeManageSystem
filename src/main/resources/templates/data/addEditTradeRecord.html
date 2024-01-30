@@ -17,18 +17,10 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label">开盘资金</label>
-                    <div class="layui-input-block">
-                        <input type="number" lay-filter="startMoney" name="startMoney" autocomplete="off"
-                               placeholder="请输入开盘资金，不输入则默认以上次收盘资金为准" lay-verify="startMoney"
-                               class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">收盘资金</label>
+                    <label class="layui-form-label">当日资金</label>
                     <div class="layui-input-block">
                         <input type="text" lay-filter="endMoney" name="endMoney" autocomplete="off"
-                               placeholder="请输入收盘资金" lay-verify="endMoney"
+                               placeholder="请输入收盘资金，无出入金记录则差额为当日收益" lay-verify="endMoney"
                                class="layui-input" style="position: absolute;width: 84%"/>
                         <button type="button" class="pear-btn pear-btn-warming pear-btn-sm" onclick="calculateFun()"
                                 style="position: absolute;height: 100%;margin-left: 366px">
@@ -66,7 +58,10 @@
                     <div class="layui-input-block">
                         <input type="number" lay-filter="deposit" name="deposit" autocomplete="off"
                                placeholder="请输入账户转入金额" lay-verify="deposit"
-                               class="layui-input" th:value="0">
+                               class="layui-input" th:value="0" style="position: absolute;width: 60%">
+                        <input type="number" lay-verify="required" name="depositRate" autocomplete="off"
+                               placeholder="请输入转入利率" th:value="0"
+                               class="layui-input" style="position: absolute;width: 35%;margin-left: 275px">
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -74,14 +69,18 @@
                     <div class="layui-input-block">
                         <input type="number" lay-filter="withdrawal" name="withdrawal" autocomplete="off"
                                placeholder="请输入账户转出金额" lay-verify="withdrawal"
-                               class="layui-input" th:value="0">
+                               class="layui-input" th:value="0" style="position: absolute;width: 60%">
+                        <input type="number" lay-verify="required" name="withdrawalRate" autocomplete="off"
+                               placeholder="请输入转出利率"
+                               class="layui-input" th:value="0"
+                               style="position: absolute;width: 35%;margin-left: 275px">
                     </div>
                 </div>
                 <div class="layui-form-item layui-form-text">
                     <label class="layui-form-label">备注</label>
                     <div class="layui-input-block">
                     <textarea name="remark" placeholder="在此输入交易备注"
-                              class="layui-textarea" style="height: 100px;"></textarea>
+                              class="layui-textarea" style="height: 150px;resize:none;"></textarea>
                     </div>
                 </div>
             </div>
@@ -129,7 +128,9 @@
                 "currency": data.currency,
                 "deposit": data.deposit / 100,
                 "withdrawal": data.withdrawal / 100,
-                "remark": data.remark
+                "remark": data.remark,
+                "depositRate": data.depositRate,
+                "withdrawalRate": data.withdrawalRate
             });
             form.render();
         });
@@ -179,11 +180,6 @@
                     return '请选择交易时间';
                 }
             },
-            // startMoney: function (value) {
-            //     if (value == null || value === "") {
-            //         return '请输入开盘资金';
-            //     }
-            // },
             endMoney: function (value) {
                 if (value == null || value === "") {
                     return '请输入收盘资金';

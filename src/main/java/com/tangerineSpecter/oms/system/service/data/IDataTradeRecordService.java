@@ -49,4 +49,11 @@ public interface IDataTradeRecordService extends BaseService<TradeRecordQueryObj
      */
     DataTradeRecord detailInfo(Long id);
 
+    /**
+     * 计算填充单笔交易数据信息
+     *
+     * @param data 当前交易数据
+     * @return 返回处理过的数据
+     */
+    DataTradeRecord fillSingleTradeData(DataTradeRecord data);
 }

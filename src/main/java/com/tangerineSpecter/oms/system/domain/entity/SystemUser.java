@@ -36,7 +36,7 @@ public class SystemUser implements Serializable {
     private Long id;
     @ApiModelProperty("管理员id")
     @TableField("uid")
-    private String uid;
+    private String uid = "8a279e62b91c0518";
     @NotBlank(message = "账号名不能为空")
     @ApiModelProperty("账号名")
     @TableField("username")

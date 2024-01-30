@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
  * 聚合数据api配置
  */
 @Configuration
+@SuppressWarnings("all")
 public class JuheApiConfig {
 
     /**

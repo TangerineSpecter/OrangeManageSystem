@@ -13,6 +13,9 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class AdminEntity extends BaseEntity {
 
+    /**
+     * 通过EntityInterceptor自定义填充
+     */
     @ApiModelProperty("创建人")
     @TableField(value = "uid", fill = FieldFill.INSERT)
     private String uid;

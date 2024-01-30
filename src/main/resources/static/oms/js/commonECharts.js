@@ -15,29 +15,16 @@ window.initSimpleLineEcharts = function (echartsId, title, color, xData, yData) 
 
     // const colorList = ["#9E87FF", '#73DDFF', '#fe9a8b', '#F56948', '#9E87FF']
     const option = {
-        backgroundColor: '#fff',
-        title: {
-            text: title,
-            textStyle: {
-                fontSize: 12,
-                fontWeight: 400
-            },
-            left: 'center',
-            top: '5%'
-        },
-        legend: {
-            icon: 'circle',
-            top: '5%',
-            right: '5%',
-            itemWidth: 6,
-            itemGap: 20,
-            textStyle: {
+        backgroundColor: '#fff', title: {
+            text: title, textStyle: {
+                fontSize: 12, fontWeight: 400
+            }, left: 'center', top: '5%'
+        }, legend: {
+            icon: 'circle', top: '5%', right: '5%', itemWidth: 6, itemGap: 20, textStyle: {
                 color: '#556677'
             }
-        },
-        tooltip: {
-            trigger: 'axis',
-            axisPointer: {
+        }, tooltip: {
+            trigger: 'axis', axisPointer: {
                 label: {
                     show: true,
                     backgroundColor: '#fff',
@@ -45,142 +32,90 @@ window.initSimpleLineEcharts = function (echartsId, title, color, xData, yData) 
                     borderColor: 'rgba(0,0,0,0)',
                     shadowColor: 'rgba(0,0,0,0)',
                     shadowOffsetY: 0
-                },
-                lineStyle: {
+                }, lineStyle: {
                     width: 0
                 }
-            },
-            backgroundColor: '#fff',
-            textStyle: {
+            }, backgroundColor: '#fff', textStyle: {
                 color: '#5c6c7c'
-            },
-            padding: [10, 10],
-            extraCssText: 'box-shadow: 1px 0 2px 0 rgba(163,163,163,0.5)'
-        },
-        grid: {
+            }, padding: [10, 10], extraCssText: 'box-shadow: 1px 0 2px 0 rgba(163,163,163,0.5)'
+        }, grid: {
             top: '15%'
-        },
-        xAxis: [{
-            type: 'category',
-            data: xData,
-            axisLine: {
+        }, xAxis: [{
+            type: 'category', data: xData, axisLine: {
                 lineStyle: {
                     color: '#DCE2E8'
                 }
-            },
-            axisTick: {
+            }, axisTick: {
                 show: false
-            },
-            axisLabel: {
+            }, axisLabel: {
                 interval: 1, //自定间隔x轴坐标数据
                 textStyle: {
                     color: '#556677'
-                },
-                // 默认x轴字体大小
-                fontSize: 12,
-                // margin:文字到x轴的距离
+                }, // 默认x轴字体大小
+                fontSize: 12, // margin:文字到x轴的距离
                 margin: 15
-            },
-            axisPointer: {
+            }, axisPointer: {
                 label: {
                     // padding: [11, 5, 7],
                     padding: [0, 0, 10, 0],
 
                     // 这里的margin和axisLabel的margin要一致!
-                    margin: 15,
-                    // 移入时的字体大小
-                    fontSize: 12,
-                    backgroundColor: {
-                        type: 'linear',
-                        x: 0,
-                        y: 0,
-                        x2: 0,
-                        y2: 1,
-                        colorStops: [{
-                            offset: 0,
-                            color: '#fff' // 0% 处的颜色
+                    margin: 15, // 移入时的字体大小
+                    fontSize: 12, backgroundColor: {
+                        type: 'linear', x: 0, y: 0, x2: 0, y2: 1, colorStops: [{
+                            offset: 0, color: '#fff' // 0% 处的颜色
                         }, {
                             // offset: 0.9,
-                            offset: 0.86,
-                            color: '#fff' // 0% 处的颜色
+                            offset: 0.86, color: '#fff' // 0% 处的颜色
                         }, {
-                            offset: 0.86,
-                            color: '#33c0cd' // 0% 处的颜色
+                            offset: 0.86, color: '#33c0cd' // 0% 处的颜色
                         }, {
-                            offset: 1,
-                            color: '#33c0cd' // 100% 处的颜色
-                        }],
-                        global: false // 缺省为 false
+                            offset: 1, color: '#33c0cd' // 100% 处的颜色
+                        }], global: false // 缺省为 false
                     }
                 }
-            },
-            boundaryGap: false,
-            inverse: true //反转坐标轴
-        }],
-        yAxis: [{
+            }, boundaryGap: false, inverse: true //反转坐标轴
+        }], yAxis: [{
             type: 'value', //y轴刻度自适应
             scale: true, //y轴刻度自适应最大最小值，可以不包含0值
             axisTick: {
                 show: false
-            },
-            axisLine: {
-                show: true,
-                lineStyle: {
+            }, axisLine: {
+                show: true, lineStyle: {
                     color: '#DCE2E8'
                 }
-            },
-            axisLabel: {
+            }, axisLabel: {
                 textStyle: {
                     color: '#556677'
                 }
-            },
-            splitLine: {
+            }, splitLine: {
                 show: false
             }
         }, {
-            type: 'value',
-            position: 'right',
-            axisTick: {
+            type: 'value', position: 'right', axisTick: {
                 show: false
-            },
-            axisLabel: {
+            }, axisLabel: {
                 textStyle: {
                     color: '#556677'
-                },
-                formatter: '{value}'
-            },
-            axisLine: {
-                show: true,
-                lineStyle: {
+                }, formatter: '{value}'
+            }, axisLine: {
+                show: true, lineStyle: {
                     color: '#DCE2E8'
                 }
-            },
-            splitLine: {
+            }, splitLine: {
                 show: false
             }
-        }],
-        series: [{
-            type: 'line',
-            data: yData,
-            smooth: true,
-            yAxisIndex: 0,
-            showSymbol: true,
-            lineStyle: simpleLineStyle(color),
-            //实心圆点
-            symbol: 'circle',
-            //标记大小
-            symbolSize: 12,
-            //阶梯图
+        }], series: [{
+            type: 'line', data: yData, smooth: true, yAxisIndex: 0, showSymbol: true, lineStyle: simpleLineStyle(color), //实心圆点
+            symbol: 'circle', //标记大小
+            symbolSize: 12, //阶梯图
             // step: true,
             itemStyle: {
-                color: color,
-                borderWidth: 4,
-                // shadowColor: 'rgba(72,216,191, 0.3)',
+                color: color, borderWidth: 4, // shadowColor: 'rgba(72,216,191, 0.3)',
                 // shadowBlur: 100,
                 borderColor: "#FFF"
             },
-        }
-        ]
+        }]
     };
 
     line.setOption(option);
@@ -204,67 +139,42 @@ window.initGridLineEcharts = function (echartsId, lineStyle, pointColor, xData, 
     const option = {
         tooltip: {
             trigger: 'axis'
-        },
-        xAxis: [{
-            type: 'category',
-            data: xData,
-            //坐标轴轴线
+        }, xAxis: [{
+            type: 'category', data: xData, //坐标轴轴线
             axisLine: {
                 lineStyle: {
                     color: "#999"
                 }
-            },
-            //分割线
+            }, //分割线
             splitLine: {
                 show: true
-            },
-            inverse: true //反转坐标轴
-        }],
-        yAxis: [{
-            type: 'value',
-            //分割数量
-            splitNumber: 5,
-            splitLine: {
-                show: false,
-                lineStyle: {
-                    type: 'dashed',
-                    color: '#DDD'
+            }, inverse: true //反转坐标轴
+        }], yAxis: [{
+            type: 'value', //分割数量
+            splitNumber: 5, splitLine: {
+                show: false, lineStyle: {
+                    type: 'dashed', color: '#DDD'
                 }
-            },
-            axisLine: {
-                show: false,
-                lineStyle: {
+            }, axisLine: {
+                show: false, lineStyle: {
                     color: "#333"
                 },
-            },
-            nameTextStyle: {
+            }, nameTextStyle: {
                 color: "#999"
-            },
-            splitArea: {
+            }, splitArea: {
                 show: false
-            },
-            //是否脱离0轴
+            }, //是否脱离0轴
             scale: true
-        }],
-        series: [{
-            name: dataName,
-            type: 'line',
-            data: yData,
-            lineStyle: lineStyle,
-            //实心圆点
-            symbol: 'circle',
-            //标记大小
-            symbolSize: 12,
-            //阶梯图
+        }], series: [{
+            name: dataName, type: 'line', data: yData, lineStyle: lineStyle, //实心圆点
+            symbol: 'circle', //标记大小
+            symbolSize: 12, //阶梯图
             // step: true,
             itemStyle: {
-                color: pointColor,
-                borderWidth: 4,
-                // shadowColor: 'rgba(72,216,191, 0.3)',
+                color: pointColor, borderWidth: 4, // shadowColor: 'rgba(72,216,191, 0.3)',
                 // shadowBlur: 100,
                 borderColor: "#FFF"
-            },
-            //开启平滑
+            }, //开启平滑
             // smooth: true,
             //平滑单调性，仅针对x处理，默认是xy
             // smoothMonotone: 'x'
@@ -287,76 +197,46 @@ window.initGridLineEcharts = function (echartsId, lineStyle, pointColor, xData, 
 window.initStrokeColumnCharts = function (echartsId, lineStyle, xData, yData) {
     const column4 = echarts.init(document.getElementById(echartsId));
     const option = {
-        backgroundColor: '#fff',
-        title: {
-            top: 10,
-            left: 15,
-            textStyle: {
-                color: "#35598d",
-                fontSize: 16,
-                fontWeight: 'normal'
+        backgroundColor: '#fff', title: {
+            top: 10, left: 15, textStyle: {
+                color: "#35598d", fontSize: 16, fontWeight: 'normal'
             }
-        },
-        tooltip: {
-            trigger: 'axis',
-            formatter: '{b}：{c}',
-        },
-        grid: {
-            left: '5%',
-            right: '6%',
-            bottom: '3%',
-            top: '20%',
-            containLabel: true
-        },
-        xAxis: {
-            type: 'category',
-            data: xData,
-            axisLabel: {          //坐标轴字体颜色
+        }, tooltip: {
+            trigger: 'axis', formatter: '{b}：{c}',
+        }, grid: {
+            left: '5%', right: '6%', bottom: '3%', top: '20%', containLabel: true
+        }, xAxis: {
+            type: 'category', data: xData, axisLabel: {          //坐标轴字体颜色
                 textStyle: {
                     color: '#9eaaba'
                 }
-            },
-            axisLine: {
+            }, axisLine: {
                 lineStyle: {
                     color: "#e5e5e5"
                 }
-            },
-            axisTick: {       //y轴刻度线
+            }, axisTick: {       //y轴刻度线
                 show: false
-            },
-            splitLine: {    //网格
+            }, splitLine: {    //网格
                 show: false,
 
-            },
-            inverse: true //反转坐标轴
-        },
-        yAxis: {
-            type: 'value',
-            axisLabel: {        //坐标轴字体颜色
+            }, inverse: true //反转坐标轴
+        }, yAxis: {
+            type: 'value', axisLabel: {        //坐标轴字体颜色
                 textStyle: {
                     color: '#9eaaba'
                 }
-            },
-            axisLine: {
+            }, axisLine: {
                 show: false,
-            },
-            axisTick: {       //y轴刻度线
+            }, axisTick: {       //y轴刻度线
                 show: false
-            },
-            splitLine: {    //网格
-                show: true,
-                lineStyle: {
-                    color: '#dadde4',
-                    type: "dashed" //坐标网线类型
+            }, splitLine: {    //网格
+                show: true, lineStyle: {
+                    color: '#dadde4', type: "dashed" //坐标网线类型
                 }
             }
-        },
-        series: {
-            name: '收益',
-            type: 'bar',
-            barWidth: '80%',  //柱子宽度
-            barGap: 0,
-            itemStyle: {  //柱子颜色
+        }, series: {
+            name: '收益', type: 'bar', barWidth: '80%',  //柱子宽度
+            barGap: 0, itemStyle: {  //柱子颜色
                 normal: {
                     // borderWidth: 2,
                     // borderColor: 'rgb(79, 116, 223)',
@@ -372,8 +252,7 @@ window.initStrokeColumnCharts = function (echartsId, lineStyle, xData, yData) {
                         }
                     },
                 }
-            },
-            data: yData
+            }, data: yData
         }
     };
 
@@ -394,8 +273,7 @@ window.initBorderColumnCharts = function (echartsId, xData, yData) {
     const column = echarts.init(document.getElementById(echartsId));
     const emphasisStyle = {
         itemStyle: {
-            shadowBlur: 100,
-            shadowColor: 'rgba(0,0,0,0.3)'
+            shadowBlur: 100, shadowColor: 'rgba(0,0,0,0.3)'
         }
     };
     let upData = [];
@@ -415,10 +293,8 @@ window.initBorderColumnCharts = function (echartsId, xData, yData) {
     })
     const option = {
         legend: {
-            data: ['bar', 'bar2'],
-            left: '10%'
-        },
-        // brush: {
+            data: ['bar', 'bar2'], left: '10%'
+        }, // brush: {
         //     toolbox: ['rect', 'polygon', 'lineX', 'lineY', 'keep', 'clear'],
         //     xAxisIndex: 0
         // },
@@ -430,47 +306,36 @@ window.initBorderColumnCharts = function (echartsId, xData, yData) {
         //         dataView: {}
         //     }
         // },
-        tooltip: {},
-        xAxis: {
-            data: xData,
-            // name: '时间',
-            axisLine: {onZero: true},
-            splitLine: {show: false},
-            splitArea: {show: true},
-            //反转
+        tooltip: {}, xAxis: {
+            data: xData, // name: '时间',
+            axisLine: {onZero: true}, splitLine: {show: false}, splitArea: {show: true}, //反转
             inverse: true
-        },
-        yAxis: {
+        }, yAxis: {
             // interval: [0, 500, 2000, 5000, 10000, 20000, 50000, 200000]
             splitNumber: 10,
-        },
-        grid: {
+        }, grid: {
             bottom: 100
-        },
-        series: [
-            {
-                name: '收益',
-                type: 'bar',
-                stack: 'one',
-                emphasis: emphasisStyle,
-                data: upData,
-                color: 'rgb(232,110,106)',
-                itemStyle: {
-                    borderRadius: [5, 5, 0, 0]
-                },
+        }, series: [{
+            name: '收益',
+            type: 'bar',
+            stack: 'one',
+            emphasis: emphasisStyle,
+            data: upData,
+            color: 'rgb(232,110,106)',
+            itemStyle: {
+                borderRadius: [5, 5, 0, 0]
             },
-            {
-                name: '亏损',
-                type: 'bar',
-                stack: 'one',
-                emphasis: emphasisStyle,
-                data: downData,
-                color: 'rgb(129,196,99)',
-                itemStyle: {
-                    borderRadius: [0, 0, 5, 5]
-                },
-            }
-        ]
+        }, {
+            name: '亏损',
+            type: 'bar',
+            stack: 'one',
+            emphasis: emphasisStyle,
+            data: downData,
+            color: 'rgb(129,196,99)',
+            itemStyle: {
+                borderRadius: [0, 0, 5, 5]
+            },
+        }]
     };
     column.setOption(option);
     window.onresize = function () {
@@ -486,19 +351,11 @@ window.initBorderColumnCharts = function (echartsId, xData, yData) {
  */
 window.simpleLineStyle = function (startColor, endColor) {
     return {
-        width: 5,
-        color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [{
-            offset: 0,
-            color: startColor
-        },
-            {
-                offset: 1,
-                color: endColor
-            }
-        ]),
-        shadowColor: 'rgba(158,135,255, 0.3)',
-        shadowBlur: 10,
-        shadowOffsetY: 20
+        width: 5, color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [{
+            offset: 0, color: startColor
+        }, {
+            offset: 1, color: endColor
+        }]), shadowColor: 'rgba(158,135,255, 0.3)', shadowBlur: 10, shadowOffsetY: 20
     }
 }
 
@@ -509,11 +366,7 @@ window.simpleLineStyle = function (startColor, endColor) {
  */
 window.simpleLineStyle = function (color) {
     return {
-        width: 5,
-        color: color,
-        shadowColor: 'rgba(158,135,255, 0.3)',
-        shadowBlur: 10,
-        shadowOffsetY: 20
+        width: 5, color: color, shadowColor: 'rgba(158,135,255, 0.3)', shadowBlur: 10, shadowOffsetY: 20
     }
 }
 
@@ -525,21 +378,13 @@ window.simpleLineStyle = function (color) {
  */
 window.pointLineStyle = function (startColor, endColor) {
     return {
-        width: 5,
-        color: {
-            type: 'linear',
-            colorStops: [{
-                offset: 0,
-                color: startColor // 0% 处的颜色
+        width: 5, color: {
+            type: 'linear', colorStops: [{
+                offset: 0, color: startColor // 0% 处的颜色
             }, {
-                offset: 1,
-                color: endColor // 100% 处的颜色
-            }],
-            globalCoord: false // 缺省为 false
-        },
-        shadowColor: 'rgba(72,216,191, 0.7)',
-        shadowBlur: 10,
-        shadowOffsetY: 20
+                offset: 1, color: endColor // 100% 处的颜色
+            }], globalCoord: false // 缺省为 false
+        }, shadowColor: 'rgba(72,216,191, 0.7)', shadowBlur: 10, shadowOffsetY: 20
     }
 }
 
@@ -554,58 +399,63 @@ window.timeLineCharts = function (echartsId, title, seriesName, data) {
     const line = echarts.init(document.getElementById(echartsId));
     const option = {
         tooltip: {
-            trigger: 'axis',
-            position: function (pt) {
+            trigger: 'axis', position: function (pt) {
                 return [pt[0], '10%'];
             }
-        },
-        title: {
-            left: 'center',
-            text: title
-        },
-        toolbox: {
+        }, title: {
+            left: 'center', text: title
+        }, toolbox: {
             feature: {
                 dataZoom: {
                     yAxisIndex: 'none'
-                },
-                restore: {},
-                saveAsImage: {}
+                }, restore: {}, saveAsImage: {}
             }
-        },
-        xAxis: {
-            type: 'time',
-            boundaryGap: false
-        },
-        yAxis: {
-            type: 'value',
-            boundaryGap: [0, '100%']
-        },
-        dataZoom: [
-            {
-                type: 'inside',
-                start: 0,
-                end: 10
-            },
-            {
-                start: 0,
-                end: 10
-            }
-        ],
-        series: [
-            {
-                name: seriesName,
-                type: 'line',
-                color: '#73c0de',
-                smooth: true,
-                symbol: 'none',
-                areaStyle: {},
-                data: data,
-            }
-        ]
+        }, xAxis: {
+            type: 'time', boundaryGap: false
+        }, yAxis: {
+            type: 'value', boundaryGap: [0, '100%']
+        }, dataZoom: [{
+            type: 'inside', start: 0, end: 10
+        }, {
+            start: 0, end: 10
+        }], series: [{
+            name: seriesName, type: 'line', color: '#73c0de', smooth: true, symbol: 'none', areaStyle: {}, data: data,
+        }]
     };
     line.setOption(option);
 
     window.onresize = function () {
         line.resize();
+    }
+}
+
+/**
+ * 简单饼图
+ * @param echartsId 图id
+ * @param data 数据，格式：[{value: 1048, name: '苹果'}]
+ */
+window.simplePieCharts = function (echartsId, data) {
+    const pie = echarts.init(document.getElementById(echartsId));
+    const option = {
+        tooltip: {
+            trigger: 'item', formatter: '<b>{b}</b>: {c} ({d}%)' // 显示饼图占比
+        }, series: [{
+            name: 'Access From',
+            type: 'pie',
+            radius: '50%',
+            data: data,
+            label: {
+                formatter: '{b} ({d}%)' // 显示名称和百分比
+            },
+            emphasis: {
+                itemStyle: {
+                    shadowBlur: 10, shadowOffsetX: 0, shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+            }
+        }]
+    };
+    pie.setOption(option);
+    window.onresize = function () {
+        pie.resize();
     }
 }

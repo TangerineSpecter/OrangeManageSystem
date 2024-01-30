@@ -2,13 +2,48 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tangerinespecter.oms.system.mapper.DataExchangeRateMapper">
     <select id="selectListByLastRecordTime" resultType="com.tangerinespecter.oms.system.domain.entity.DataExchangeRate">
+        select rs.id, rs.`name`, rs.`code`, rs.`price`, rs.record_time
+        from (
+        SELECT row_number() over (partition by dr.`code` order by dr.`record_time` desc) row_num,
+        dr.*
+        FROM data_exchange_rate dr
+        <where>
+            <if test="date != null">
+                <![CDATA[record_time <= #{date}]]>
+            </if>
+            <if test="code">
+                and `code` = #{code}
+            </if>
+        </where>
+        GROUP BY dr.`code`, dr.`record_time`
+        order by dr.`record_time` desc) as rs
+        <![CDATA[where rs.row_num <= 1]]>
+        <!--        select id, name, code, price, record_time-->
+        <!--        from data_exchange_rate-->
+        <!--        where record_time = (-->
+        <!--            select MAX(record_time)-->
+        <!--            from data_exchange_rate-->
+        <!--            <where>-->
+        <!--                <if test="date != null">-->
+        <!--                    <![CDATA[ record_time <= #{date} ]]>-->
+        <!--                </if>-->
+        <!--            </where>-->
+        <!--            limit 1-->
+        <!--        )-->
+        <!--        <if test="code">-->
+        <!--            and `code` = #{code}-->
+        <!--        </if>-->
+    </select>
+
+    <select id="selectOneByLastRecordTime" resultType="com.tangerinespecter.oms.system.domain.entity.DataExchangeRate">
+        <![CDATA[
         select id, name, code, price, record_time
         from data_exchange_rate
-        where record_time = (
-            select MAX(record_time)
-            from data_exchange_rate
-            limit 1
-        )
+        where record_time <= #{date}
+          and `code` = #{code}
+        order by record_time desc
+        limit 1
+        ]]>
     </select>
 
     <insert id="insertIgnore">

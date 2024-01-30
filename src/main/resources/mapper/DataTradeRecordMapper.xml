@@ -26,7 +26,7 @@
         <![CDATA[
         select count(id)
         from data_trade_record
-        where (end_money - start_money + deposit - withdrawal) >= 0
+        where income_value >= 0
           and type = #{type}
           and `date` <= #{date}
           and uid = #{uid}
@@ -119,6 +119,20 @@
                  GROUP BY tr.type, tr.date
                  order by tr.date desc) as rs
         where rs.row_num <= #{limit}
+        ]]>
+    </select>
+
+    <select id="selectRecentListByDate" resultType="com.tangerinespecter.oms.system.domain.entity.DataTradeRecord">
+        <![CDATA[
+        select rs.*
+        from (SELECT row_number() over (partition by tr.type order by tr.date desc) row_num,
+                     tr.*
+              FROM data_trade_record tr
+              where tr.uid = #{uid}
+                and date <= #{date}
+              GROUP BY tr.type, tr.date
+              order by tr.date desc) as rs
+        where rs.row_num <= 1
         ]]>
     </select>
 </mapper>

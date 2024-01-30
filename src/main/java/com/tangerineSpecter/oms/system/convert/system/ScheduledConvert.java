@@ -21,9 +21,9 @@ public interface ScheduledConvert extends BaseConvert {
     ScheduledConvert INSTANCE = Mappers.getMapper(ScheduledConvert.class);
 
     @Mappings({
-            @Mapping(target = "msgType", constant = "0"),
-            @Mapping(target = "classPath", expression = "java(getClassPath(param.getType(), param.getClassPath()))"),
-            @Mapping(target = "extraInfo", expression = "java(getExtraInfo(param))")
+        @Mapping(target = "msgType", constant = "0"),
+        @Mapping(target = "classPath", expression = "java(getClassPath(param.getType(), param.getClassPath()))"),
+        @Mapping(target = "extraInfo", expression = "java(getExtraInfo(param))")
     })
     SystemScheduledTask convert(SystemScheduledVo param);
 
@@ -40,7 +40,8 @@ public interface ScheduledConvert extends BaseConvert {
     default String getExtraInfo(SystemScheduledVo param) {
         if (ScheduledTypeEnum.BOT_NOTIFY.getValue().equals(param.getType())) {
             return Convert.toStr(param.getBotId());
+        } else {
+            return param.getParams();
         }
-        return null;
     }
 }

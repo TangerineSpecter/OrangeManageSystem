@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * @author TangerineSpecter
@@ -68,4 +69,12 @@ public interface ISystemUserService extends BaseService<SystemUserQueryObject, S
      * @param username 账号名
      */
     void offline(String username);
+
+    /**
+     * 获取账号uid列表
+     *
+     * @param uid 不传返回全部，uid存在则返回，不存在则空
+     * @return 账号uid列表
+     */
+    List<String> getUseridList(String uid);
 }

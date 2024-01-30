@@ -22,7 +22,7 @@
                     <div class="layui-input-block">
                         <label>
                             <select id="type" name="type" class="layui-select" lay-filter="type">
-                                <option value=0>系统任务</option>
+                                <option value=0 hidden="hidden">系统任务</option>
                                 <option value=1 selected>一般任务</option>
                                 <option value=2>机器人通知</option>
                             </select>
@@ -34,6 +34,14 @@
                     <div class="layui-input-block">
                         <input type="text" id="cron" name="cron" autocomplete="off"
                                placeholder="请输入时间表达式" lay-verify="cron"
+                               class="layui-input"/>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">任务参数</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="params" name="params" autocomplete="off"
+                               placeholder="请输入调度参数，多个参数逗号间隔，无则使用默认参数" lay-verify="cron"
                                class="layui-input"/>
                     </div>
                 </div>
@@ -59,7 +67,7 @@
                     <div class="layui-input-block">
                     <textarea id="description" name="description" autocomplete="off"
                               placeholder="请输入定时任务描述" lay-filter="description"
-                              class="layui-textarea" style="height: 200px;resize: none;"></textarea>
+                              class="layui-textarea" style="height: 150px;resize: none;"></textarea>
                     </div>
                 </div>
             </div>
@@ -127,6 +135,7 @@
                 "cron": data.cron,
                 "classPath": data.classPath,
                 "botId": data.extraInfo,
+                "params": data.extraInfo,
                 "description": data.description,
             });
             form.render();

@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.lang.ClassScanner;
 import cn.hutool.core.util.ReflectUtil;
+import com.tangerinespecter.oms.common.enums.GlobalBoolEnum;
 import com.tangerinespecter.oms.common.enums.ScheduledTypeEnum;
 import com.tangerinespecter.oms.common.query.SystemScheduledQueryObject;
 import com.tangerinespecter.oms.common.redis.RedisKey;
@@ -53,12 +54,14 @@ public class ScheduledConfig implements SchedulingConfigurer {
 
     @PostConstruct
     public void init() {
-        List<SystemScheduledTask> list = scheduledManageService.list(new SystemScheduledQueryObject());
+        final SystemScheduledQueryObject queryObject = new SystemScheduledQueryObject();
+        queryObject.setStatus(GlobalBoolEnum.TRUE.getValue());
+        List<SystemScheduledTask> list = scheduledManageService.list(queryObject);
         CollUtil.addAll(SCHEDULED_LIST, this.initDefaultTask(list));
         //数据库查询到所有的定时任务
         CollUtil.addAll(SCHEDULED_LIST, list);
         //重置锁，避免重启导致锁未释放
-        CollUtils.forEach(list, data -> redisHelper.releaseLock(RedisKey.getJobLock, data.getId()));
+        CollUtils.forEach(list, data -> redisHelper.releaseLock(RedisKey.JOB_LOCK, data.getId()));
         log.info("[初始化定时任务完毕]，数量：" + CollUtil.size(SCHEDULED_LIST));
     }
 

@@ -25,4 +25,6 @@ public class SystemScheduledQueryObject implements Serializable {
     private String name;
     @ApiModelProperty("类型（0：系统默认，1：一般调度，2：机器人通知）")
     private Integer type;
+    @ApiModelProperty("任务启用状态（0：停用；1：启用）")
+    private Integer status;
 }

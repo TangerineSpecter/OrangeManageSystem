@@ -35,4 +35,6 @@ public class SystemScheduledVo extends IdParamVo implements Serializable {
     private String description;
     @ApiModelProperty("机器人id")
     private Long botId;
+    @ApiModelProperty("任务参数")
+    private String params;
 }

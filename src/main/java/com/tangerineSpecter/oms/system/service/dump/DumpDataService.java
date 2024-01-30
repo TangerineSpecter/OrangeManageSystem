@@ -21,7 +21,6 @@ import java.util.List;
 @Service
 public class DumpDataService {
 
-    public static final String DATA_ROOT_DIR = "/Users/zhouliangjun/Desktop/imooc_data/mysql_data";
 
     //各个表的数据存储文件名
     public static final String DATA_CONSTELLATION = "data_constellation.data";

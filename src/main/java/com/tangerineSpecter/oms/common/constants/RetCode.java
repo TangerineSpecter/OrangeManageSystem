@@ -16,7 +16,9 @@ public class RetCode {
 
     private int errorCode;
     private String errorDesc;
-    //是否通知，默认不通知
+    /**
+     * 是否通知，默认不通知
+     */
     private boolean errorNotify;
 
     public RetCode(int errorCode, String errorDesc) {

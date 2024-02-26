@@ -45,7 +45,7 @@ public class TokenController {
     @RequiresPermissions("system:token:page")
     @GetMapping(value = "/page", produces = "text/html;charset=UTF-8")
     public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
-        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getSystemTokenPageKey, "system/tokenManage");
+        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.SYSTEM_TOKEN_PAGE_KEY, "system/tokenManage");
     }
 
     @ApiOperation("添加编辑令牌页面")

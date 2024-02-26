@@ -6,8 +6,10 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.math.BigDecimal;
 
+/**
+ * @author 丢失的橘子
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

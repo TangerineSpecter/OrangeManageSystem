@@ -15,21 +15,22 @@ import com.tangerinespecter.oms.system.mapper.UserCardNoteMapper;
 import com.tangerinespecter.oms.system.mapper.UserCardNoteTagMapper;
 import com.tangerinespecter.oms.system.mapper.UserNoteTagAssocMapper;
 import com.tangerinespecter.oms.system.service.user.ICardNoteService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * @author 丢失的橘子
+ */
 @Service
-public class CardNoteService implements ICardNoteService {
+@RequiredArgsConstructor
+public class CardNoteServiceImpl implements ICardNoteService {
 
-    @Resource
-    private UserCardNoteMapper cardNoteMapper;
-    @Resource
-    private UserCardNoteTagMapper cardNoteTagMapper;
-    @Resource
-    private UserNoteTagAssocMapper noteTagAssocMapper;
+    private final UserCardNoteMapper cardNoteMapper;
+    private final UserCardNoteTagMapper cardNoteTagMapper;
+    private final UserNoteTagAssocMapper noteTagAssocMapper;
 
     @Override
     public List<CardNoteListVo> list(UserCardNoteQueryObject qo) {

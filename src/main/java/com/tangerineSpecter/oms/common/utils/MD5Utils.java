@@ -7,9 +7,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class MD5Utils {
-    protected final static String MD5_KEY = "MD5";
+    protected static final String MD5_KEY = "MD5";
 
-    protected final static String SHA_KEY = "SHA1";
+    protected static final String SHA_KEY = "SHA1";
 
     /**
      * 加密
@@ -98,9 +98,9 @@ public class MD5Utils {
     public static String getMd5Pwd(String password, String salt) throws NoSuchAlgorithmException {
         String result;
         if (StringUtils.isNotBlank(salt)) {
-            result = getMD5(getMD5(password) + salt);
+            result = getMd5(getMd5(password) + salt);
         } else {
-            result = getMD5(password);
+            result = getMd5(password);
         }
         return result;
     }
@@ -108,7 +108,7 @@ public class MD5Utils {
     /**
      * 获取MD5加密数据
      */
-    private static String getMD5(String input) throws NoSuchAlgorithmException {
+    private static String getMd5(String input) throws NoSuchAlgorithmException {
         StringBuilder result = new StringBuilder(input);
         // or "SHA-1"
         MessageDigest md = MessageDigest.getInstance("MD5");

@@ -6,6 +6,7 @@ import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSON;
 import com.tangerinespecter.oms.common.config.FundApiConfig;
+import com.tangerinespecter.oms.common.config.ThreadPoolConfig;
 import com.tangerinespecter.oms.common.constants.RetCode;
 import com.tangerinespecter.oms.common.query.FundHistoryQueryObject;
 import com.tangerinespecter.oms.common.utils.CollUtils;
@@ -33,7 +34,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 @Slf4j
 @Service
@@ -44,8 +44,7 @@ public class DataFundHistoryServiceImpl implements IDataFundHistoryService {
     private final DataFundHistoryMapper dataFundHistoryMapper;
     private final SendMsgBot botService;
     private final SqlSessionFactory sqlSessionFactory;
-
-    ExecutorService executorService = Executors.newFixedThreadPool(5);
+    private final ThreadPoolConfig threadPoolConfig;
 
     /**
      * 基金默认历史数据条数
@@ -59,6 +58,7 @@ public class DataFundHistoryServiceImpl implements IDataFundHistoryService {
 
     @Override
     public void initFundHistory(List<String> fundCodes) {
+        final ExecutorService executorService = threadPoolConfig.getExecutorService();
         CollUtils.forEach(fundCodes, fundCode -> executorService.execute(() -> {
             SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH, false);
             try {
@@ -75,7 +75,7 @@ public class DataFundHistoryServiceImpl implements IDataFundHistoryService {
                     List<DataFundHistory> fundHistory = this.getFundHistory(fundCode, page);
                     //过滤出爬取数据日期在数据库已存在日期之后的数据
                     List<DataFundHistory> insertHistoryData = CollUtils.filterList(fundHistory, data -> data.getDate()
-                            .isAfter(existDate));
+                        .isAfter(existDate));
                     CollUtil.addAll(insertTotalData, insertHistoryData);
                     //爬取数据为空 or 增长数据非实际查询数据，说明存在已入库数据，则终止循环
                     if (CollUtil.isEmpty(fundHistory) || !Objects.equals(CollUtil.size(insertHistoryData), CollUtil.size(fundHistory))) {
@@ -100,6 +100,7 @@ public class DataFundHistoryServiceImpl implements IDataFundHistoryService {
                 sqlSession.close();
             }
         }));
+        executorService.shutdown();
     }
 
     @Override
@@ -130,7 +131,7 @@ public class DataFundHistoryServiceImpl implements IDataFundHistoryService {
         final int rowCount = 4;
         Document document = Jsoup.connect(url).get();
         final Elements elements = document.getElementsByClass("w782 comm fhxq").get(0).getElementsByTag("tbody").get(0)
-                .getElementsByTag("tr");
+            .getElementsByTag("tr");
         CollUtils.forEach(elements, element -> {
             Elements tdElements = element.getElementsByTag("td");
             if (tdElements.size() != rowCount) {

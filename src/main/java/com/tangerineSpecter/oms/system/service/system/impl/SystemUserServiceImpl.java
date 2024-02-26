@@ -5,6 +5,7 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.extra.servlet.ServletUtil;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.google.common.base.Splitter;
 import com.tangerinespecter.oms.common.config.CosConfig;
@@ -73,7 +74,7 @@ public class SystemUserServiceImpl implements ISystemUserService {
         SystemUser systemUser = systemUserMapper.selectOneByUserName(model.getUsername());
         Assert.isTrue(systemUser != null, () -> new BusinessException(RetCode.REGISTER_ACCOUNTS_NOT_EXIST));
         Assert.isTrue(model.getPassword()
-                .length() >= SystemConstant.PASSWORD_DEFAULT_MIN_LENGTH, () -> new BusinessException(RetCode.PASSWORD_LENGTH_TOO_SHORT));
+            .length() >= SystemConstant.PASSWORD_DEFAULT_MIN_LENGTH, () -> new BusinessException(RetCode.PASSWORD_LENGTH_TOO_SHORT));
         try {
             String md5Pwd = SystemUtils.handleUserPassword(model.getPassword(), systemUser.getSalt());
             UsernamePasswordToken token = new UsernamePasswordToken(model.getUsername(), md5Pwd);
@@ -88,6 +89,7 @@ public class SystemUserServiceImpl implements ISystemUserService {
             throw new BusinessException(RetCode.ACCOUNTS_PASSWORD_ERROR);
         }
         systemUserMapper.updateLoginCountById(systemUser.getId(), DateUtil.now(), DateUtil.now());
+        log.info("用户：{}在时间{}进行了登录,登录地址{}", systemUser.getUsername(), DateUtil.now(), ServletUtil.getClientIP(request));
         //生成Cookie
 //        String token = IdUtil.simpleUUID();
 //        redisHelper.set(token, systemUser);
@@ -142,11 +144,11 @@ public class SystemUserServiceImpl implements ISystemUserService {
         String userSalt = SystemUtils.createUserSalt();
         String password = SystemUtils.handleUserPassword(systemUser.getPassword(), userSalt);
         SystemUser userInfo = SystemUser.builder().uid(SystemUtils.createUid(userSalt))
-                .username(systemUser.getUsername()).password(password).admin(systemUser.getAdmin())
-                .avatar(systemUser.getAvatar()).city(systemUser.getCity()).birthday(systemUser.getBirthday())
-                .email(systemUser.getEmail()).brief(systemUser.getBrief()).nickName(systemUser.getNickName())
-                .sex(systemUser.getSex()).phoneNumber(systemUser.getPhoneNumber())
-                .isDel(GlobalBoolEnum.FALSE.getValue()).salt(userSalt).build();
+            .username(systemUser.getUsername()).password(password).admin(systemUser.getAdmin())
+            .avatar(systemUser.getAvatar()).city(systemUser.getCity()).birthday(systemUser.getBirthday())
+            .email(systemUser.getEmail()).brief(systemUser.getBrief()).nickName(systemUser.getNickName())
+            .sex(systemUser.getSex()).phoneNumber(systemUser.getPhoneNumber())
+            .isDel(GlobalBoolEnum.FALSE.getValue()).salt(userSalt).build();
         systemUserMapper.insert(userInfo);
         return userInfo;
     }
@@ -157,7 +159,7 @@ public class SystemUserServiceImpl implements ISystemUserService {
         Assert.isTrue(systemUser != null, () -> new BusinessException(RetCode.ACCOUNTS_NOT_EXIST));
         String oldPassword = SystemUtils.handleUserPassword(vo.getOldPassword(), systemUser.getSalt());
         Assert.isTrue(systemUser.getPassword()
-                .equals(oldPassword), () -> new BusinessException(RetCode.ACCOUNTS_PASSWORD_OLD_ERROR));
+            .equals(oldPassword), () -> new BusinessException(RetCode.ACCOUNTS_PASSWORD_OLD_ERROR));
         String newPassword = SystemUtils.handleUserPassword(vo.getPassword(), systemUser.getSalt());
         systemUserMapper.updatePassword(systemUser.getId(), newPassword);
     }
@@ -171,7 +173,7 @@ public class SystemUserServiceImpl implements ISystemUserService {
         Set<Long> haveRoleIds = systemUserRoleMapper.getHaveRoleIdsByUid(vo.getId());
         //请求roleIds
         List<Long> rolesReq = Splitter.on(",").omitEmptyStrings().splitToList(vo.getRoleIds()).parallelStream()
-                .map(Long::parseLong).collect(Collectors.toList());
+            .map(Long::parseLong).collect(Collectors.toList());
         Collection<Long> intersectionIds = CollUtil.intersection(rolesReq, haveRoleIds);
         //移除共同部分
         rolesReq.removeAll(intersectionIds);
@@ -180,7 +182,7 @@ public class SystemUserServiceImpl implements ISystemUserService {
         rolesReq.forEach(r -> systemUserRoleMapper.insert(SystemUserRole.builder().rid(r).uid(vo.getUid()).build()));
         //移除角色
         haveRoleIds.forEach(r -> systemUserRoleMapper.delete(new UpdateWrapper<SystemUserRole>().eq("rid", r)
-                .eq("uid", vo.getId())));
+            .eq("uid", vo.getId())));
     }
 
     @Override

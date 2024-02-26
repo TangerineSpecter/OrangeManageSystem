@@ -46,7 +46,7 @@ public class RoleManageController {
     @RequiresPermissions("system:role:page")
     @GetMapping(value = "/page", produces = "text/html;charset=UTF-8")
     public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
-        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getSystemRolePageKey, "system/roleManage");
+        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.SYSTEM_ROLE_PAGE_KEY, "system/roleManage");
     }
 
     @ApiOperation("添加编辑角色页面")

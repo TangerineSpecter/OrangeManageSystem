@@ -10,6 +10,8 @@ public interface IBaseDbEnum {
 
     /**
      * 获取存储在数据库中的值
+     *
+     * @return 获取存储在数据库中的值
      */
     Integer getValue();
 

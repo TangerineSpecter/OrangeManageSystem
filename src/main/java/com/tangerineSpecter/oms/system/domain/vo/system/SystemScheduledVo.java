@@ -6,7 +6,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -28,7 +27,6 @@ public class SystemScheduledVo extends IdParamVo implements Serializable {
     private String cron;
     @ApiModelProperty(value = "类型（0：系统默认，1：一般调度，2：机器人通知）", required = true)
     private Integer type;
-    //    @NotBlank(message = "任务类名不能为空")
     @ApiModelProperty("任务类名")
     private String classPath;
     @ApiModelProperty("任务描述")

@@ -54,33 +54,3 @@ CREATE UNIQUE INDEX `uk_uid_date` ON statis_trade_record (`uid`, `date`);
 #交易记录表新增索引
 alter table `data_trade_record`
     add index idx_uid_date_type (`uid`, `date`, `type`);
-
-#根据当日汇率更新出入金汇率，无则默认使用7
-update data_trade_record dtr
-    left join data_exchange_rate der
-    on dtr.date = der.record_time
-        and dtr.currency = code
-set deposit_rate = (IFNULL(der.price, 700) / 100)
-where deposit > 0
-  and currency = 'USD';
-
-update data_trade_record dtr
-    left join data_exchange_rate der
-    on dtr.date = der.record_time
-        and dtr.currency = code
-set withdrawal_rate = (IFNULL(der.price, 700) / 100)
-where withdrawal > 0
-  and currency = 'USD';
-
-update data_trade_record dtr
-set deposit_rate = 1
-where deposit > 0
-  and currency = 'CNY';
-
-update data_trade_record dtr
-set withdrawal_rate = 1
-where withdrawal > 0
-  and currency = 'CNY';
-
-
-		

@@ -16,7 +16,9 @@ import java.util.regex.Pattern;
 @Slf4j
 public class IsMobileValidator implements ConstraintValidator<IsMobile, String> {
 
-    //默认不校验
+    /**
+     * 默认不校验
+     */
     private boolean required = false;
 
     /**

@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.text.CharSequenceUtil;
+import cn.hutool.extra.servlet.ServletUtil;
 import cn.hutool.system.SystemUtil;
 import com.tangerinespecter.oms.common.constants.CommonConstant;
 import com.tangerinespecter.oms.common.constants.RetCode;
@@ -87,7 +88,6 @@ public class MyShiroRealm extends AuthorizingRealm {
         SystemUser systemUser = systemUserMapper.getUserByUserName(userName);
         Assert.isTrue(systemUser != null, () -> new UnknownAccountException(RetCode.REGISTER_ACCOUNTS_NOT_EXIST.getErrorDesc()));
         Assert.isTrue(Objects.equals(password, systemUser.getPassword()), () -> new IncorrectCredentialsException(RetCode.ACCOUNTS_PASSWORD_ERROR.getErrorDesc()));
-        log.info("用户：{}在时间{}进行了登录,登录地址{}", userName, DateUtil.now(), SystemUtils.getLocalhostIP());
         cosClient.initAvatar(systemUser);
         stopPreviousSession(systemUser.getUid());
         return new SimpleAuthenticationInfo(systemUser, password, userName);

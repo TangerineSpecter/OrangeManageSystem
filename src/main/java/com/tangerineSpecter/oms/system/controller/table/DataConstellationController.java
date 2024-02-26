@@ -44,7 +44,7 @@ public class DataConstellationController {
     @RequiresPermissions("table:constellation:page")
     @GetMapping(value = "/page", produces = "text/html;charset=UTF-8")
     public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
-        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getConstellationPageKey, "data/constellation");
+        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.CONSTELLATION_PAGE_KEY, "data/constellation");
     }
 
     /**

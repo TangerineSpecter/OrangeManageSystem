@@ -1,5 +1,6 @@
 package com.tangerinespecter.oms.common.config;
 
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -16,7 +17,9 @@ import java.util.concurrent.*;
 public class ThreadPoolConfig {
 
     @Bean
-    public ExecutorService getThreadPool() {
+    public ExecutorService getExecutorService() {
+//        ThreadFactory namedThreadFactory = new ThreadFactoryBuilder()
+//            .setNameFormat("pool-%d").build();
         return new ThreadPoolExecutor(5, 8,
             60L, TimeUnit.SECONDS,
             new LinkedBlockingQueue<>(200),

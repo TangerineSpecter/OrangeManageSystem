@@ -38,7 +38,7 @@ public class FundAnalysisController {
     @RequiresPermissions("analysis:fund:page")
     @GetMapping(value = "/page", produces = "text/html;charset=UTF-8")
     public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
-        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getFundAnalysisPageKey, "statis/fundAnalysis");
+        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.FUND_ANALYSIS_PAGE_KEY, "statis/fundAnalysis");
     }
 
     @ApiOperation("基金分析")

@@ -42,7 +42,7 @@ public class TradeStatisController {
     public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
         model.addAttribute("statisInfo", systemInfoService.getStatisticsInfo());
         model.addAttribute("incomeInfo", tradeStatisService.incomeValueStatisInfo(1, TradeRecordTypeEnum.STOCK_TYPE));
-        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getTradeStatisPageKey, "statis/tradeStatis");
+        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.TRADE_STATIS_PAGE_KEY, "statis/tradeStatis");
     }
 
     @ApiOperation("收益数据统计")

@@ -3,11 +3,13 @@ package com.tangerinespecter.oms.common.redis;
 import com.google.common.base.Joiner;
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * Redis base key
  */
 @Data
-public abstract class BasePrefixKey implements KeyPrefix {
+public abstract class BasePrefixKey implements KeyPrefix, Serializable {
 
     /**
      * 过期时间

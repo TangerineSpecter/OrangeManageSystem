@@ -24,7 +24,7 @@ public class VersionHistoryListDto implements Serializable {
     private List<History> historyInfos;
 
     @Data
-    public static class History {
+    public static class History implements Serializable {
 
         private Integer type;
 

@@ -51,7 +51,7 @@ public class ScheduledController {
     @RequiresPermissions("system:scheduled:page")
     @GetMapping(value = "/page", produces = "text/html;charset=UTF-8")
     public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
-        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getSystemScheduledPageKey, "system/scheduledManage");
+        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.SYSTEM_SCHEDULED_PAGE_KEY, "system/scheduledManage");
     }
 
     @ApiOperation("添加编辑定时任务页面")

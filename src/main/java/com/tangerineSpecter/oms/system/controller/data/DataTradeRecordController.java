@@ -48,7 +48,7 @@ public class DataTradeRecordController {
     @RequiresPermissions("data:trade-record:page")
     @GetMapping(value = "/page", produces = "text/html;charset=UTF-8")
     public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
-        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getTradeRecordPageKey, "data/tradeRecord");
+        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.TRADE_RECORD_PAGE_KEY, "data/tradeRecord");
     }
 
     @ApiOperation("交易记录列表")

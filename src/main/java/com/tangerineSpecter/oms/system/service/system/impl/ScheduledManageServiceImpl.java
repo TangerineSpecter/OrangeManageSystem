@@ -125,12 +125,12 @@ public class ScheduledManageServiceImpl implements IScheduledManageService {
             throw new BusinessException(RetCode.TASK_EXECUTE_RUNNING);
         }
 
+        final ExecutorService executorService = threadPoolConfig.getExecutorService();
         try {
             SystemScheduledTask systemScheduledTask = scheduledTaskMapper.selectById(vo.getId());
             AbstractJob job = (AbstractJob) context.getBean(Class.forName(systemScheduledTask.getClassPath()));
-            final ExecutorService threadPool = threadPoolConfig.getThreadPool();
             job.setExtraInfo(StrUtil.isBlank(vo.getParam()) ? systemScheduledTask.getExtraInfo() : vo.getParam());
-            threadPool.execute(job);
+            executorService.execute(job);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
             redisHelper.releaseLock(redisKey, vo.getId());
@@ -139,6 +139,8 @@ public class ScheduledManageServiceImpl implements IScheduledManageService {
             e.printStackTrace();
             redisHelper.releaseLock(redisKey, vo.getId());
             throw new BusinessException(RetCode.TASK_EXECUTE_ERROR);
+        } finally {
+            executorService.shutdown();
         }
         redisHelper.releaseLock(redisKey, vo.getId());
     }

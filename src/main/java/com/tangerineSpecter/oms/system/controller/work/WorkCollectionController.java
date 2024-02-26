@@ -50,7 +50,7 @@ public class WorkCollectionController {
     @RequiresPermissions("work:collection:page")
     @GetMapping(value = "/page", produces = "text/html;charset=UTF-8")
     public String collectionPage(HttpServletRequest request, HttpServletResponse response, Model model) {
-        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getWorkCollectionPageKey, "work/collection");
+        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.WORK_COLLECTION_PAGE_KEY, "work/collection");
     }
 
     /**

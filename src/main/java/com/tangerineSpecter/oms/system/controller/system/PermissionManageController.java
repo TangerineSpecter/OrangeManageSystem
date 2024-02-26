@@ -40,7 +40,7 @@ public class PermissionManageController {
     @RequiresPermissions("system:permission:page")
     @GetMapping(value = "/page", produces = "text/html;charset=UTF-8")
     public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
-        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getSystemPermissionPageKey, "system/permissionManage");
+        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.SYSTEM_PERMISSION_PAGE_KEY, "system/permissionManage");
     }
 
     @ApiOperation("权限管理列表")

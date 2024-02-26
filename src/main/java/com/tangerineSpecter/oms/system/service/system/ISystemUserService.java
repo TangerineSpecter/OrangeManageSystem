@@ -22,16 +22,25 @@ public interface ISystemUserService extends BaseService<SystemUserQueryObject, S
 
     /**
      * 校验登录
+     *
+     * @param request  请求
+     * @param response 响应
+     * @param model    模型
      */
     void verifyLogin(HttpServletRequest request, HttpServletResponse response, @Valid AccountInfo model);
 
     /**
      * 获取管理员信息
+     *
+     * @param model 模型
+     * @param id    账号id
      */
     void getSystemInfo(Model model, Long id);
 
     /**
      * 修改系统用户信息
+     *
+     * @param systemUser 系统用户信息
      */
     void updateSystemUserInfo(SystemUserInfoVo systemUser);
 
@@ -45,14 +54,15 @@ public interface ISystemUserService extends BaseService<SystemUserQueryObject, S
 
     /**
      * 修改密码
+     *
+     * @param vo 请求参数
      */
     void updatePassword(SystemUserPwdVo vo);
 
     /**
      * 更新角色
      *
-     * @param vo
-     * @return
+     * @param vo 请求参数
      */
     void updateSystemUserRole(SystemUserInfoVo vo);
 

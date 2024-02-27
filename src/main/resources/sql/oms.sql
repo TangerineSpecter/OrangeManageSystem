@@ -11,7 +11,7 @@
  Target Server Version : 80028 (8.0.28)
  File Encoding         : 65001
 
- Date: 11/01/2024 15:45:43
+ Date: 27/02/2024 11:34:07
 */
 
 SET NAMES utf8mb4;
@@ -37,7 +37,7 @@ CREATE TABLE `data_constellation` (
   `work_luck` int DEFAULT '0' COMMENT '工作指数',
   `create_time` date DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=3976 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='星座信息表';
+) ENGINE=InnoDB AUTO_INCREMENT=3999 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='星座信息表';
 
 -- ----------------------------
 -- Table structure for data_exchange
@@ -66,7 +66,7 @@ CREATE TABLE `data_exchange_rate` (
   `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_code_time` (`code`,`record_time`)
-) ENGINE=InnoDB AUTO_INCREMENT=4362 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='货币汇率数据';
+) ENGINE=InnoDB AUTO_INCREMENT=58095 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='货币汇率数据';
 
 -- ----------------------------
 -- Table structure for data_food_library
@@ -104,7 +104,7 @@ CREATE TABLE `data_fund` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `code` (`code`),
   KEY `idx_del` (`is_del`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=48858 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='基金数据表';
+) ENGINE=InnoDB AUTO_INCREMENT=48925 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='基金数据表';
 
 -- ----------------------------
 -- Table structure for data_fund_history
@@ -120,7 +120,7 @@ CREATE TABLE `data_fund_history` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `code` (`code`,`date`),
   KEY `idx_code_date` (`code`,`date`)
-) ENGINE=InnoDB AUTO_INCREMENT=16190948 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='基金历史数据';
+) ENGINE=InnoDB AUTO_INCREMENT=16281633 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='基金历史数据';
 
 -- ----------------------------
 -- Table structure for data_question
@@ -224,12 +224,16 @@ CREATE TABLE `data_trade_record` (
   `uid` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `currency` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'CNY' COMMENT '币种',
   `deposit` int NOT NULL DEFAULT '0' COMMENT '转入金额',
+  `deposit_rate` decimal(5,4) NOT NULL DEFAULT '0.0000' COMMENT '转入金额汇率',
   `withdrawal` int NOT NULL DEFAULT '0' COMMENT '转出金额',
-  `remark` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '备注',
-  `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `withdrawal_rate` decimal(5,4) NOT NULL DEFAULT '0.0000' COMMENT '转出金额汇率',
+  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '备注',
   `create_time` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=704 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='交易记录表';
+  `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_uid_date_type` (`uid`,`date`,`type`),
+  KEY `idx_uid_date_type` (`uid`,`date`,`type`)
+) ENGINE=InnoDB AUTO_INCREMENT=1307 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='交易记录表';
 
 -- ----------------------------
 -- Table structure for data_wall_page
@@ -246,7 +250,37 @@ CREATE TABLE `data_wall_page` (
   `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '标题',
   `hash` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '哈希值',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=299 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='每日壁纸表';
+) ENGINE=InnoDB AUTO_INCREMENT=310 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='每日壁纸表';
+
+-- ----------------------------
+-- Table structure for statis_trade_record
+-- ----------------------------
+DROP TABLE IF EXISTS `statis_trade_record`;
+CREATE TABLE `statis_trade_record` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `date` date NOT NULL COMMENT '统计时间',
+  `uid` varchar(64) NOT NULL COMMENT '用户id',
+  `money` bigint DEFAULT NULL COMMENT '当前资金（单位分），（按照当日汇率合并）',
+  `income_value` bigint DEFAULT NULL COMMENT '当日收益（单位分），（按照当日汇率合并）',
+  `income_rate` decimal(7,2) DEFAULT NULL COMMENT '当日收益率（百分比）',
+  `total_income_value` int DEFAULT NULL COMMENT '累计总收益（单位分），（按照当日汇率合并）',
+  `week` int DEFAULT NULL COMMENT '周数',
+  `week_income_value` bigint DEFAULT NULL COMMENT '本周收益（单位分），（按照当日汇率合并）',
+  `week_income_rate` decimal(7,2) DEFAULT NULL COMMENT '本周收益率（百分比）',
+  `month` int DEFAULT NULL COMMENT '月份',
+  `month_income_value` bigint DEFAULT NULL COMMENT '本月收益（单位分），（按照当日汇率合并）',
+  `month_income_rate` decimal(7,2) DEFAULT NULL COMMENT '本月收益率（百分比）',
+  `year` int DEFAULT NULL COMMENT '年份',
+  `year_income_value` bigint DEFAULT NULL COMMENT '本年收益（单位分），（按照当日汇率合并）',
+  `year_income_rate` decimal(7,2) DEFAULT NULL COMMENT '本年收益率（百分比）',
+  `deposit` bigint DEFAULT NULL COMMENT '当日转入（单位分），（按照汇率合并）',
+  `withdrawal` bigint DEFAULT NULL COMMENT '当日转出（单位分），（按照汇率合并）',
+  `total_deposit` bigint DEFAULT NULL COMMENT '累计转入（单位分），（按照汇率合并）',
+  `total_withdrawal` bigint DEFAULT NULL COMMENT '累计转出（单位分），（按照汇率合并）',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=569 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='交易记录统计表';
 
 -- ----------------------------
 -- Table structure for system_bulletin
@@ -311,7 +345,7 @@ CREATE TABLE `system_log` (
   `ip` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '操作IP',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '操作时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=7505 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='系统日志记录表';
+) ENGINE=InnoDB AUTO_INCREMENT=7718 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='系统日志记录表';
 
 -- ----------------------------
 -- Table structure for system_menu
@@ -424,7 +458,7 @@ CREATE TABLE `system_scheduled_task` (
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统定时任务表';
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统定时任务表';
 
 -- ----------------------------
 -- Table structure for system_token
@@ -484,30 +518,6 @@ CREATE TABLE `system_user_role` (
   KEY `idx_uid` (`uid`) USING BTREE,
   KEY `idx_pid` (`rid`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='用户角色关系表';
-
--- ----------------------------
--- Table structure for system_version_history
--- ----------------------------
-DROP TABLE IF EXISTS `system_version_history`;
-CREATE TABLE `system_version_history` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `version` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '版本号',
-  `version_number` int DEFAULT NULL COMMENT '版本号数字',
-  `create_time` date DEFAULT NULL COMMENT '版本创建时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='系统版本历史记录表';
-
--- ----------------------------
--- Table structure for system_version_history_content
--- ----------------------------
-DROP TABLE IF EXISTS `system_version_history_content`;
-CREATE TABLE `system_version_history_content` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `version_id` bigint DEFAULT NULL COMMENT '版本ID',
-  `type` tinyint DEFAULT NULL COMMENT '功能类型（0：新增；1：优化；2：改善；3：修复；4：重构）',
-  `content` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '更新内容',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=92 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='系统版本更新内容';
 
 -- ----------------------------
 -- Table structure for user_card_note

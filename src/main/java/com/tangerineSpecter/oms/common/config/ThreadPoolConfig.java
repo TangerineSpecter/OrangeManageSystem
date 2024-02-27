@@ -38,7 +38,7 @@ public class ThreadPoolConfig {
         // 设置线程池最大容量
         executor.setMaxPoolSize(8);
         // 设置任务队列长度
-        executor.setQueueCapacity(200);
+        executor.setQueueCapacity(2000);
         // 设置线程超时时间
         executor.setKeepAliveSeconds(60);
         // 设置线程名称前缀

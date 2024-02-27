@@ -33,14 +33,26 @@ public class CommonConstant {
     public static final String NULL_KEY_STR = "";
 
     /**
-     * 一天
+     * 一天(秒)
      */
-    public static final Integer ONE_DAY = 24 * 60 * 60 * 1000;
+    public static final Integer ONE_DAY_BY_SECOND = 24 * 60 * 60;
 
     /**
-     * 一小时
+     * 一天(毫秒)
      */
-    public static final Integer ONE_HOUR = 60 * 60 * 1000;
+    public static final Integer ONE_DAY = ONE_DAY_BY_SECOND * 1000;
+
+
+    /**
+     * 一小时(秒)
+     */
+    public static final Integer ONE_HOUR_BY_SECOND = 60 * 60;
+
+    /**
+     * 一小时(毫秒)
+     */
+    public static final Integer ONE_HOUR = ONE_HOUR_BY_SECOND * 1000;
+
 
     /**
      * 冻结
@@ -60,6 +72,10 @@ public class CommonConstant {
      */
     public static final Integer IS_TOP = 1;
 
+    /**
+     * 默认币种
+     */
+    public static final String DEFAULT_CURRENCY = "CNY";
     /**
      * 汇率map，将100R换算存储为1R换算
      */

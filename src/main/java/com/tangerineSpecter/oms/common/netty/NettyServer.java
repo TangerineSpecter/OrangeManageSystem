@@ -28,11 +28,11 @@ public class NettyServer {
     }
 
     private static class SingletonWsServer {
-        static final NettyServer instance = new NettyServer();
+        static final NettyServer INSTANCE = new NettyServer();
     }
 
     public static NettyServer getInstance() {
-        return SingletonWsServer.instance;
+        return SingletonWsServer.INSTANCE;
     }
 
     private EventLoopGroup mainGroup;
@@ -44,9 +44,7 @@ public class NettyServer {
         mainGroup = new NioEventLoopGroup();
         sunGroup = new NioEventLoopGroup();
         server = new ServerBootstrap();
-        server.group(mainGroup, sunGroup)
-                .channel(NioServerSocketChannel.class)
-                .childHandler(new WsServerInitalizer());
+        server.group(mainGroup, sunGroup).channel(NioServerSocketChannel.class).childHandler(new WsServerInitalizer());
     }
 
     public void start() {

@@ -2,10 +2,8 @@ package com.tangerinespecter.oms.job.service;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.convert.Convert;
-import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.map.MapUtil;
-import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSON;
 import com.tangerinespecter.oms.common.config.JuheApiConfig;
@@ -26,7 +24,10 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -38,9 +39,12 @@ public class ExchangeRateQuartzService {
 
     @PostConstruct
     public void init() {
-        List<DataExchangeRate> dataExchangeRates = dataExchangeRateMapper.selectListByLastRecordTime();
-        CollUtils.forEach(dataExchangeRates, exchangeRate -> CommonConstant.EXCHANGE_RATE_MAP.put(exchangeRate.getCode(), NumChainCal.startOf(exchangeRate.getPrice()).div(100).getBigDecimal()));
-        log.info("[初始化货币汇率完毕]，数量：{}", dataExchangeRates.size());
+        List<DataExchangeRate> dataExchangeRates = dataExchangeRateMapper.selectListByLastRecordTime(null, null);
+        CollUtils.forEach(dataExchangeRates, exchangeRate -> CommonConstant.EXCHANGE_RATE_MAP.put(exchangeRate.getCode(), NumChainCal
+            .startOf(exchangeRate.getPrice()).div(100).getBigDecimal()));
+        //默认CNY利率
+        CommonConstant.EXCHANGE_RATE_MAP.put(CommonConstant.DEFAULT_CURRENCY, BigDecimal.ONE);
+        log.info("[初始化货币汇率完毕]，数量：{}", CommonConstant.EXCHANGE_RATE_MAP.keySet().size());
     }
 
     public void runData() {
@@ -63,8 +67,10 @@ public class ExchangeRateQuartzService {
                 String result = HttpUtil.post(JuheApiConfig.JUHE_CURRENCY_API_URL, params);
                 ExchangeListResponse response = JSON.parseObject(result, ExchangeListResponse.class);
                 Assert.isTrue(response.isSuccess(), "[货币列表接口请求失败],error_code:{}; reason:{}", response.getErrorCode(), response.getReason());
+                //数据处理
                 List<DataExchange> dataExchangeList = Optional.of(response).map(ExchangeListResponse::getResult)
-                        .map(ExchangeListResponse::getList).orElseThrow(() -> new BusinessException(RetCode.DATA_EXCEPTION));
+                    .map(ExchangeListResponse::getList)
+                    .orElseThrow(() -> new BusinessException(RetCode.DATA_EXCEPTION));
                 CollUtils.forEach(dataExchangeList, dataExchangeMapper::insert);
                 exchangeList = dataExchangeList;
             } catch (Exception e) {
@@ -104,10 +110,12 @@ public class ExchangeRateQuartzService {
             ExchangeRateResponse response = JSON.parseObject(result, ExchangeRateResponse.class);
             Assert.isTrue(response.isSuccess(), "[汇率接口请求失败],error_code:{}; reason:{}", response.getErrorCode(), response.getReason());
             List<List<String>> exchangeRateList = Optional.of(response).map(ExchangeRateResponse::getResult)
-                    .map(ExchangeRateResponse::getList).orElseThrow(() -> new BusinessException(RetCode.DATA_EXCEPTION));
+                .map(ExchangeRateResponse::getList)
+                .orElseThrow(() -> new BusinessException(RetCode.DATA_EXCEPTION));
             List<DataExchangeRate> responseRateDate = this.convert2DbData(exchangeRateList, exchangeList);
             CollUtils.forEach(responseRateDate, dataExchangeRateMapper::insertIgnore);
-            CollUtils.forEach(responseRateDate, exchangeRate -> CommonConstant.EXCHANGE_RATE_MAP.put(exchangeRate.getCode(), NumChainCal.startOf(exchangeRate.getPrice()).div(100).getBigDecimal()));
+            CollUtils.forEach(responseRateDate, exchangeRate -> CommonConstant.EXCHANGE_RATE_MAP.put(exchangeRate.getCode(), NumChainCal
+                .startOf(exchangeRate.getPrice()).div(100).getBigDecimal()));
         } catch (Exception e) {
             log.error("[货币汇率接口请求数据异常],异常信息： " + e);
         }
@@ -121,7 +129,8 @@ public class ExchangeRateQuartzService {
      * @param exchangeList     货币列表
      * @return db模型
      */
-    private List<DataExchangeRate> convert2DbData(List<List<String>> exchangeRateList, List<DataExchange> exchangeList) {
+    private List<DataExchangeRate> convert2DbData(List<List<String>> exchangeRateList,
+                                                  List<DataExchange> exchangeList) {
         List<DataExchangeRate> result = CollUtil.newArrayList();
         Map<String, String> exchangeMap = CollUtils.convertMap(exchangeList, DataExchange::getName, DataExchange::getCode);
         for (List<String> list : exchangeRateList) {

@@ -106,9 +106,9 @@ public class TestRedisTemple {
 //        final String post = HttpUtil.post(JuheApiConfig.JUHE_CURRENCY_API_URL, objectObjectHashMap);
 //        System.out.println(post);
         final List<DataExchangeRate> dataExchangeRates = dataExchangeRateMapper.selectListByRecordTime(DateUtil.today());
-        LocalDateTime recordTime = dataExchangeRates.get(0).getRecordTime();
-        System.out.println(dataExchangeRates);
-        System.out.println(DateUtil.compare(new Date(), DateUtil.date(recordTime), DatePattern.NORM_DATE_PATTERN));
+//        LocalDateTime recordTime = dataExchangeRates.get(0).getRecordTime();
+//        System.out.println(dataExchangeRates);
+//        System.out.println(DateUtil.compare(new Date(), DateUtil.date(recordTime), DatePattern.NORM_DATE_PATTERN));
     }
 
     @Test

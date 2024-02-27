@@ -1,6 +1,8 @@
 package com.tangerinespecter.oms.system.service.system.impl;
 
 import cn.hutool.core.convert.Convert;
+import cn.hutool.core.util.StrUtil;
+import com.tangerinespecter.oms.common.config.ThreadPoolConfig;
 import com.tangerinespecter.oms.common.constants.RetCode;
 import com.tangerinespecter.oms.common.enums.GlobalBoolEnum;
 import com.tangerinespecter.oms.common.enums.ScheduledTypeEnum;
@@ -11,7 +13,7 @@ import com.tangerinespecter.oms.common.redis.RedisKey;
 import com.tangerinespecter.oms.job.schedule.AbstractJob;
 import com.tangerinespecter.oms.system.convert.system.ScheduledConvert;
 import com.tangerinespecter.oms.system.domain.entity.SystemScheduledTask;
-import com.tangerinespecter.oms.system.domain.vo.base.IdParamVo;
+import com.tangerinespecter.oms.system.domain.vo.system.ExecuteJobVo;
 import com.tangerinespecter.oms.system.domain.vo.system.SystemScheduledVo;
 import com.tangerinespecter.oms.system.mapper.SystemScheduledTaskMapper;
 import com.tangerinespecter.oms.system.service.helper.RedisHelper;
@@ -24,7 +26,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * @author TangerineSpecter
@@ -38,13 +39,13 @@ public class ScheduledManageServiceImpl implements IScheduledManageService {
     private final SystemScheduledTaskMapper scheduledTaskMapper;
     private final ApplicationContext context;
     private final RedisHelper redisHelper;
-    private ExecutorService executorService = Executors.newFixedThreadPool(5);
+    private final ThreadPoolConfig threadPoolConfig;
 
     @Override
     public List<SystemScheduledTask> list(SystemScheduledQueryObject qo) {
         return scheduledTaskMapper.selectList(new QueryWrapperX<SystemScheduledTask>()
-                .likeIfPresent("name", qo.getName()).eqIfPresent("type", qo.getType())
-                .eq("is_del", GlobalBoolEnum.FALSE.getValue()));
+            .likeIfPresent("name", qo.getName()).eqIfPresent("type", qo.getType()).eqIfPresent("status", qo.getStatus())
+            .eq("is_del", GlobalBoolEnum.FALSE.getValue()));
     }
 
     /**
@@ -117,27 +118,31 @@ public class ScheduledManageServiceImpl implements IScheduledManageService {
     }
 
     @Override
-    public void executeJob(IdParamVo param) {
-        final RedisKey redisKey = RedisKey.getJobLock;
+    public void executeJob(ExecuteJobVo vo) {
+        final RedisKey redisKey = RedisKey.JOB_LOCK;
 
-        if (!redisHelper.lock(redisKey, param.getId(), "lock")) {
+        if (!redisHelper.lock(redisKey, vo.getId(), "lock")) {
             throw new BusinessException(RetCode.TASK_EXECUTE_RUNNING);
         }
 
+        final ExecutorService executorService = threadPoolConfig.getExecutorService();
         try {
-            SystemScheduledTask systemScheduledTask = scheduledTaskMapper.selectById(param.getId());
+            SystemScheduledTask systemScheduledTask = scheduledTaskMapper.selectById(vo.getId());
             AbstractJob job = (AbstractJob) context.getBean(Class.forName(systemScheduledTask.getClassPath()));
+            job.setExtraInfo(StrUtil.isBlank(vo.getParam()) ? systemScheduledTask.getExtraInfo() : vo.getParam());
             executorService.execute(job);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-            redisHelper.releaseLock(redisKey, param.getId());
+            redisHelper.releaseLock(redisKey, vo.getId());
             throw new BusinessException(RetCode.TASK_EXECUTE_NOT_EXIST);
         } catch (Exception e) {
             e.printStackTrace();
-            redisHelper.releaseLock(redisKey, param.getId());
+            redisHelper.releaseLock(redisKey, vo.getId());
             throw new BusinessException(RetCode.TASK_EXECUTE_ERROR);
+        } finally {
+            executorService.shutdown();
         }
-        redisHelper.releaseLock(redisKey, param.getId());
+        redisHelper.releaseLock(redisKey, vo.getId());
     }
 
 }

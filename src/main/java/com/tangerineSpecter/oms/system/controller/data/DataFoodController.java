@@ -48,7 +48,7 @@ public class DataFoodController {
     @RequiresPermissions("data:food-library:page")
     @GetMapping(value = "/page", produces = "text/html;charset=UTF-8")
     public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
-        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getFoodLibraryPageKey, "data/foodLibrary");
+        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.FOOD_LIBRARY_PAGE_KEY, "data/foodLibrary");
     }
 
     @ApiOperation("食物记录列表")

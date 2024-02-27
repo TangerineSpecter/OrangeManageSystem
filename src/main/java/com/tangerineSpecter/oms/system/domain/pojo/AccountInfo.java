@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 
+/**
+ * @author 丢失的橘子
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,6 +20,6 @@ public class AccountInfo {
     @NotNull(message = "密码不能为空")
     private String password;
 
-//    @NotNull(message = "验证码不能为空")
+    @NotNull(message = "验证码不能为空")
     private String captcha;
 }

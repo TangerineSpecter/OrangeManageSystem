@@ -3,6 +3,7 @@ package com.tangerinespecter.oms.system.controller.statis;
 import com.tangerinespecter.oms.common.anno.ReWriteBody;
 import com.tangerinespecter.oms.common.redis.PageModelKey;
 import com.tangerinespecter.oms.system.domain.dto.statis.TradeStatisIncomeInfoDto;
+import com.tangerinespecter.oms.system.domain.enums.TradeRecordTypeEnum;
 import com.tangerinespecter.oms.system.service.page.PageResultService;
 import com.tangerinespecter.oms.system.service.statis.ITradeStatisService;
 import com.tangerinespecter.oms.system.service.system.ISystemInfoService;
@@ -12,10 +13,7 @@ import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -43,13 +41,15 @@ public class TradeStatisController {
     @GetMapping(value = "/page", produces = "text/html;charset=UTF-8")
     public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
         model.addAttribute("statisInfo", systemInfoService.getStatisticsInfo());
-        model.addAttribute("incomeInfo", tradeStatisService.incomeValueStatisInfo(1));
-        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getTradeStatisPageKey, "statis/tradeStatis");
+        model.addAttribute("incomeInfo", tradeStatisService.incomeValueStatisInfo(1, TradeRecordTypeEnum.STOCK_TYPE));
+        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.TRADE_STATIS_PAGE_KEY, "statis/tradeStatis");
     }
 
     @ApiOperation("收益数据统计")
-    @GetMapping(value = "income-data/{type}")
-    public TradeStatisIncomeInfoDto incomeInfo(@ApiParam("类型，1：每日；2：每月，默认1") @PathVariable(name = "type") Integer type) {
-        return tradeStatisService.incomeValueStatisInfo(type);
+    @GetMapping(value = "income-data")
+    public TradeStatisIncomeInfoDto incomeInfo(
+        @ApiParam("类型，1：每日；2：每月；3：每年，默认1，参照PeriodEnum") @RequestParam(name = "type") Integer type,
+        @ApiParam("交易类型") @RequestParam("tradeType") Integer tradeType) {
+        return tradeStatisService.incomeValueStatisInfo(type, TradeRecordTypeEnum.getType(tradeType));
     }
 }

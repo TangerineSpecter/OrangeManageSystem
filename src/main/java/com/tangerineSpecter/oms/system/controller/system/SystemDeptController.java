@@ -38,7 +38,7 @@ public class SystemDeptController {
 	@ApiOperation(value = "部门管理页面")
 	@GetMapping(value = "/page", produces = "text/html;charset=UTF-8")
 	public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
-		return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getSystemDeptPageKey, "system/systemDept");
+		return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.SYSTEM_DEPT_PAGE_KEY, "system/systemDept");
 	}
 	
 	/**

@@ -47,7 +47,7 @@ public enum FuturesChargesEnum {
     /**
      * 玉米
      */
-    C_CHARGES("c", "玉米", p -> new BigDecimal(7.2)),
+    C_CHARGES("c", "玉米", p -> BigDecimal.valueOf(7.2)),
     /**
      * 玉米淀粉
      */
@@ -91,7 +91,7 @@ public enum FuturesChargesEnum {
     /**
      * 棉花
      */
-    CF_CHARGES("cf", "棉花", p -> new BigDecimal(25.8)),
+    CF_CHARGES("cf", "棉花", p -> BigDecimal.valueOf(25.8)),
     /**
      * 棉纱
      */

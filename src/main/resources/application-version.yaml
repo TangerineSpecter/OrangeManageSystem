@@ -1,9 +1,17 @@
 system:
   #当前系统版本
-  version: v0.5.2
+  version: v0.5.3
 # 版本历史信息，0：新增；1：优化；2：改善；3：修复；4：重构；-1：未知
 version:
   history:
+    - code: v0.5.3
+      date: 2024-01-12
+      content:
+        - info: 新增：交易统计定时任务
+        - info: 新增：交易记录支持单独设置出入金汇率
+        - info: 重构：交易统计查询逻辑
+        - info: 优化：统计数据增加缓存
+        - info: 修复：中途修改交易记录数据未重置后面累计bug
     - code: v0.5.2
       date: 2023-03-02
       content:

@@ -14,7 +14,7 @@ import java.util.Collection;
  * 1. 拼接条件的方法，增加 xxxIfPresent 方法，用于判断值不存在的时候，不要拼接到条件中。
  *
  * @param <T> 数据类型
- * @author zhouliangjun
+ * @author 丢失的橘子
  */
 public class QueryWrapperX<T> extends QueryWrapper<T> {
 
@@ -90,6 +90,13 @@ public class QueryWrapperX<T> extends QueryWrapper<T> {
         }
         if (val2 != null) {
             return (QueryWrapperX<T>) le(column, val2);
+        }
+        return this;
+    }
+
+    public QueryWrapperX<T> limitIfPresent(Object val) {
+        if (!StrUtil.isEmptyIfStr(val)) {
+            return (QueryWrapperX<T>) super.last("limit " + val);
         }
         return this;
     }

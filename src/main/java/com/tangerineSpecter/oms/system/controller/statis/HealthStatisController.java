@@ -40,7 +40,7 @@ public class HealthStatisController {
 	@GetMapping(value = "/page", produces = "text/html;charset=UTF-8")
 	public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
 		model.addAttribute("healthInfo", healthStatisService.healthStatisInfo());
-		return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getHealthStatisPageKey, "statis/healthStatis");
+		return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.HEALTH_STATIS_PAGE_KEY, "statis/healthStatis");
 	}
 	
 }

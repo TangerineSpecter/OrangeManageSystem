@@ -47,7 +47,7 @@ public class SystemBulletinController {
     @RequiresPermissions("system:bulletin:page")
     @GetMapping(value = "/page", produces = "text/html;charset=UTF-8")
     public String bulletinPage(HttpServletRequest request, HttpServletResponse response, Model model) {
-        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getSystemBulletinPageKey, "system/systemBulletin");
+        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.SYSTEM_BULLETIN_PAGE_KEY, "system/systemBulletin");
     }
 
     @ApiOperation("添加编辑公告页面")

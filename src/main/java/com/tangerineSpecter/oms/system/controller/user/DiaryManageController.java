@@ -35,6 +35,6 @@ public class DiaryManageController {
     @RequiresPermissions("user:diary:page")
     @GetMapping(value = "/page", produces = "text/html;charset=UTF-8")
     public String userHealthPage(HttpServletRequest request, HttpServletResponse response, Model model) {
-        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getUserDiaryPageKey, "user/diaryManage");
+        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.USER_DIARY_PAGE_KEY, "user/diaryManage");
     }
 }

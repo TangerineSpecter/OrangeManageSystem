@@ -56,7 +56,7 @@ public class PageResultService {
      * @return html模板内容
      */
     public String getPageHtmlContent(HttpServletRequest request, HttpServletResponse response, Model model, KeyPrefix redisKey, String pageUrl) {
-        String html = (String) redisHelper.get(redisKey, UserContext.getUid());
+        String html = redisHelper.get(redisKey, UserContext.getUid());
         if (CharSequenceUtil.isNotEmpty(html)) {
             return html;
         }

@@ -47,7 +47,7 @@ public class IndexController {
     @ApiOperation("登录页")
     @GetMapping(value = "/login", produces = "text/html;charset=UTF-8")
     public String loginPage(HttpServletRequest request, HttpServletResponse response, Model model) {
-        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getLoginPageKey, "login");
+        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.LOGIN_PAGE_KEY, "login");
     }
 
     @ApiOperation("默认页")
@@ -62,7 +62,7 @@ public class IndexController {
         model.addAttribute("systemUser", UserContext.getCurrentUser());
         model.addAttribute("webTitle", SystemConstant.SYSTEM_CONFIG.getWebTitle());
         model.addAttribute(ParamUtils.NOT_READ_NOTICE_COUNT, systemNoticeMapper.queryNotReadNoticeCount());
-        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getSystemIndexPageKey, "index");
+        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.SYSTEM_INDEX_PAGE_KEY, "index");
     }
 
     @ApiOperation("首页页面")
@@ -71,7 +71,7 @@ public class IndexController {
     public String homePage(HttpServletRequest request, HttpServletResponse response, Model model) {
         model.addAttribute("systemInfo", systemInfoService.getSystemInfo());
         model.addAttribute("noticeInfo", systemInfoService.getNoticeInfo());
-        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getSystemHomePageKey, "common/home");
+        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.SYSTEM_HOME_PAGE_KEY, "common/home");
     }
 
     @ApiOperation("用户登录")

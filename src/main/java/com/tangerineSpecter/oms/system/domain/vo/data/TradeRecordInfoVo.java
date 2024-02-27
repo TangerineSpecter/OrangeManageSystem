@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * @author 丢失的橘子
@@ -23,8 +24,6 @@ public class TradeRecordInfoVo implements Serializable {
     @NotNull(groups = {Update.class}, message = "更新时，id不能为空")
     @ApiModelProperty("交易数据id")
     private Long id;
-    @ApiModelProperty("开盘资金")
-    private Double startMoney;
     @NotNull(message = "收盘资金不能为空")
     @ApiModelProperty("收盘资金")
     private Double endMoney;
@@ -39,8 +38,12 @@ public class TradeRecordInfoVo implements Serializable {
     private String currency;
     @ApiModelProperty("转入金额")
     private Double deposit;
+    @ApiModelProperty("转入金额汇率")
+    private BigDecimal depositRate;
     @ApiModelProperty("转出金额")
     private Double withdrawal;
+    @ApiModelProperty("转出金额汇率")
+    private BigDecimal withdrawalRate;
     @ApiModelProperty("备注")
     private String remark;
 }

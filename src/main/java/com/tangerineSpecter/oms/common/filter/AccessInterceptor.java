@@ -30,7 +30,8 @@ public class AccessInterceptor implements HandlerInterceptor {
      * 方法执行前
      */
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
+                             Object handler) throws Exception {
         if (handler instanceof HandlerMethod) {
             HandlerMethod method = (HandlerMethod) handler;
             AccessLimit accessLimit = method.getMethodAnnotation(AccessLimit.class);
@@ -39,7 +40,7 @@ public class AccessInterceptor implements HandlerInterceptor {
             }
             String requestUrl = request.getRequestURI();
             String key = requestUrl + "_" + UserContext.getUid();
-            Integer count = (Integer) redisHelper.get(AccessKey.access, key);
+            Integer count = redisHelper.get(AccessKey.access, key);
             if (count == null) {
                 redisHelper.set(AccessKey.access, key, 1, accessLimit.seconds());
             } else if (count < accessLimit.maxCount()) {

@@ -43,7 +43,7 @@ public class DataStockController {
     @RequiresPermissions("data:stock:page")
     @GetMapping(value = "/page", produces = "text/html;charset=UTF-8")
     public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
-        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getStockPageKey, "data/stock");
+        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.STOCK_PAGE_KEY, "data/stock");
     }
 
     @ApiOperation("股票池列表")

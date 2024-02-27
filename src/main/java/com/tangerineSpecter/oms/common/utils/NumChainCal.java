@@ -3,6 +3,7 @@ package com.tangerinespecter.oms.common.utils;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.NumberUtil;
+import com.tangerinespecter.oms.common.constants.CommonConstant;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -138,4 +139,14 @@ public class NumChainCal {
         return Convert.toBigDecimal(this.value).setScale(scale, RoundingMode.CEILING);
     }
 
+    /**
+     * 将金额转成RMB，并且分转成元
+     *
+     * @param fenValue 值，单位：分
+     * @param currency 币种
+     * @return 值，单位：元
+     */
+    public static BigDecimal fen2Yuan(Integer fenValue, String currency) {
+        return NumChainCal.startOf(fenValue).mul(CommonConstant.EXCHANGE_RATE_MAP.get(currency)).div(100).getBigDecimal(2);
+    }
 }

@@ -2,7 +2,7 @@ package com.tangerinespecter.oms.system.service.system;
 
 import com.tangerinespecter.oms.common.query.SystemScheduledQueryObject;
 import com.tangerinespecter.oms.system.domain.entity.SystemScheduledTask;
-import com.tangerinespecter.oms.system.domain.vo.base.IdParamVo;
+import com.tangerinespecter.oms.system.domain.vo.system.ExecuteJobVo;
 import com.tangerinespecter.oms.system.domain.vo.system.SystemScheduledVo;
 import com.tangerinespecter.oms.system.service.BaseService;
 
@@ -42,5 +42,5 @@ public interface IScheduledManageService extends BaseService<SystemScheduledQuer
      *
      * @param param 参数
      */
-    void executeJob(IdParamVo param);
+    void executeJob(ExecuteJobVo param);
 }

@@ -1,10 +1,12 @@
 package com.tangerinespecter.oms.common.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.deser.DeserializationProblemHandler;
+import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.cache.jcache.config.JCacheConfigurerSupport;
@@ -35,14 +37,11 @@ public class RedisConfig extends JCacheConfigurerSupport {
 
     @Bean
     public RedisCacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
-        return RedisCacheManager.RedisCacheManagerBuilder
-                .fromConnectionFactory(redisConnectionFactory)
-                // 默认策略，未配置的 key 会使用这个
-                .cacheDefaults(this.getRedisCacheConfigurationWithTtl(60 * 60))
-                // 指定 key 策略
-                .withInitialCacheConfigurations(this.getRedisCacheConfigurationMap())
-                .transactionAware()
-                .build();
+        return RedisCacheManager.RedisCacheManagerBuilder.fromConnectionFactory(redisConnectionFactory)
+            // 默认策略，未配置的 key 会使用这个
+            .cacheDefaults(this.getRedisCacheConfigurationWithTtl(60 * 60))
+            // 指定 key 策略
+            .withInitialCacheConfigurations(this.getRedisCacheConfigurationMap()).transactionAware().build();
     }
 
     private Map<String, RedisCacheConfiguration> getRedisCacheConfigurationMap() {
@@ -56,16 +55,16 @@ public class RedisConfig extends JCacheConfigurerSupport {
     private RedisCacheConfiguration getRedisCacheConfigurationWithTtl(Integer seconds) {
         RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig();
         return redisCacheConfiguration
-                //序列化key
-                .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
-                //序列化缓存值
-                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(jackson2JsonRedisSerializer()))
-                //缓存超时时间
-                .entryTtl(Duration.ofSeconds(seconds))
-                //变双冒号为单冒号
-                .computePrefixWith(name -> name + ":")
-                //返回值为null，则不允许存储到Cache中
-                .disableCachingNullValues();
+            //序列化key
+            .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
+            //序列化缓存值
+            .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(jackson2JsonRedisSerializer()))
+            //缓存超时时间
+            .entryTtl(Duration.ofSeconds(seconds))
+            //变双冒号为单冒号
+            .computePrefixWith(name -> name + ":")
+            //返回值为null，则不允许存储到Cache中
+            .disableCachingNullValues();
     }
 
     /**
@@ -86,11 +85,10 @@ public class RedisConfig extends JCacheConfigurerSupport {
     }
 
     private Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer() {
-        Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(
-                Object.class);
+        Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
         ObjectMapper om = new ObjectMapper();
         om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-        om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
+        om.activateDefaultTyping(LaissezFaireSubTypeValidator.instance, ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
         om.addHandler(new DeserializationProblemHandler() {
             @Override
             public Object handleWeirdStringValue(DeserializationContext context, Class<?> targetType,

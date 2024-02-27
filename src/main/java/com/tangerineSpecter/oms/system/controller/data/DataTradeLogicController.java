@@ -48,7 +48,7 @@ public class DataTradeLogicController {
     @RequiresPermissions("data:trade-logic:page")
     @GetMapping(value = "/page", produces = "text/html;charset=UTF-8")
     public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
-        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getTradeLogicPageKey, "data/tradeLogic");
+        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.TRADE_LOGIC_PAGE_KEY, "data/tradeLogic");
     }
 
     @ApiOperation("添加页面")

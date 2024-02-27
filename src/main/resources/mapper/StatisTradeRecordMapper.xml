@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tangerinespecter.oms.system.mapper.StatisTradeRecordMapper">
+    <select id="sumIncomeValueByYear" resultType="java.lang.Integer">
+        <![CDATA[
+        select IFNULL(sum(income_value), 0)
+        from statis_trade_record
+        where year = #{year}
+          and uid = #{uid}
+          and date < #{date}
+        ]]>
+    </select>
+    <select id="sumIncomeValueByMonth" resultType="java.lang.Integer">
+        <![CDATA[
+        select IFNULL(sum(income_value), 0)
+        from statis_trade_record
+        where year = #{year}
+          and month = #{month}
+          and uid = #{uid}
+          and date < #{date}
+        ]]>
+    </select>
+    <select id="sumIncomeValueByWeek" resultType="java.lang.Integer">
+        <![CDATA[
+        select IFNULL(sum(income_value), 0)
+        from statis_trade_record
+        where year = #{year}
+          and month = #{month}
+          and week = #{week}
+          and uid = #{uid}
+          and date < #{date}
+        ]]>
+    </select>
+
+    <select id="queryForPage" resultType="com.tangerinespecter.oms.system.domain.entity.StatisTradeRecord">
+        select *
+        from statis_trade_record
+        where uid = #{uid}
+        <if test="startDay != '' and startDay != null">
+            <![CDATA[
+                and `date` >= #{startDay}
+                ]]>
+        </if>
+        <if test="endDay != '' and endDay != null">
+            <![CDATA[
+                and `date` <= #{endDay}
+                ]]>
+        </if>
+        order by date desc
+    </select>
+    <select id="selectListByType" resultType="com.tangerinespecter.oms.system.domain.entity.StatisTradeRecord">
+        select
+        <choose>
+            <when test="type == 2">
+                DATE_FORMAT(date, '%Y-%m') AS date, month_income_value as income_value
+            </when>
+            <when test="type == 3">
+                DATE_FORMAT(date, '%Y') AS date, year_income_value as income_value
+            </when>
+            <otherwise>
+                date ,income_value
+            </otherwise>
+        </choose>
+        from statis_trade_record
+        where uid = #{uid}
+        <if test="type == 2 or type == 3">
+            and date IN (
+            select max(date)
+            from statis_trade_record
+            where uid = #{uid}
+            GROUP BY `year`
+            <if test="type == 2">
+                ,`month`
+            </if>
+            )
+        </if>
+        order by date desc
+        limit 60
+    </select>
+</mapper>

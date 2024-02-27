@@ -50,7 +50,7 @@ public class DataQuestionController {
     @RequiresPermissions("data:question:page")
     @GetMapping(value = "/page", produces = "text/html;charset=UTF-8")
     public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
-        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getQuestionPageKey, "data/question");
+        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.QUESTION_PAGE_KEY, "data/question");
     }
 
     @ApiOperation("添加编辑问题管理")

@@ -52,7 +52,7 @@ public class CardNoteController {
         int offsetDay = 7 - DateUtil.thisDayOfWeek();
         model.addAttribute("rangeDate", new String[]{DateUtil.formatDate(DateUtil.offsetDay(new Date(), -90 + offsetDay)), DateUtil.formatDate(DateUtil.offsetDay(new Date(), offsetDay))});
         model.addAttribute("noteInfo", cardNoteService.noteInfo());
-        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getCardNotePageKey, "user/cardNoteManage");
+        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.CARD_NOTE_PAGE_KEY, "user/cardNoteManage");
     }
 
     /**

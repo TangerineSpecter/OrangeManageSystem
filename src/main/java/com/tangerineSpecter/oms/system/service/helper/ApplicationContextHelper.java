@@ -19,7 +19,7 @@ public class ApplicationContextHelper implements ApplicationContextAware, Priori
     /**
      * bean存储Map
      */
-    private static final Map<Class, Object> beanTableMap = new ConcurrentHashMap<>();
+    private static final Map<Class, Object> BEAN_TABLE_MAP = new ConcurrentHashMap<>();
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
@@ -77,12 +77,12 @@ public class ApplicationContextHelper implements ApplicationContextAware, Priori
      */
     @SuppressWarnings("all")
     public static <T> T of(Class<T> clazz) {
-        T instance = (T) beanTableMap.get(clazz);
+        T instance = (T) BEAN_TABLE_MAP.get(clazz);
         if (instance != null) {
             return instance;
         }
-        beanTableMap.put(clazz, bean(clazz));
-        return (T) beanTableMap.get(clazz);
+        BEAN_TABLE_MAP.put(clazz, bean(clazz));
+        return (T) BEAN_TABLE_MAP.get(clazz);
     }
 
     @Override

@@ -23,7 +23,7 @@ public class BingImageResponse implements Serializable {
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class ImageInfo {
+    public static class ImageInfo implements Serializable{
         /**
          * 开始时间
          */

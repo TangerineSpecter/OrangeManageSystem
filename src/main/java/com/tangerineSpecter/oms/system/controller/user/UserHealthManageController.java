@@ -48,7 +48,7 @@ public class UserHealthManageController {
     @RequiresPermissions("user:health:page")
     @GetMapping(value = "/page", produces = "text/html;charset=UTF-8")
     public String userHealthPage(HttpServletRequest request, HttpServletResponse response, Model model) {
-        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getUserHealthPageKey, "user/healthManage");
+        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.USER_HEALTH_PAGE_KEY, "user/healthManage");
     }
 
     /**

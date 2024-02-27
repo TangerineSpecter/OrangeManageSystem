@@ -14,7 +14,9 @@ import javax.servlet.http.HttpSessionListener;
 @WebListener
 public class OnlineListener implements HttpSessionListener {
 
-    //记录当前登录用户数
+    /**
+     * 记录当前登录用户数
+     */
     private int onlineNumber = 0;
 
     @Override

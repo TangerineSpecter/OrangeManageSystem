@@ -40,7 +40,7 @@ public class DataStockPortfolioController {
 	@RequiresPermissions("data:stock-portfolio:page")
 	@GetMapping(value = "/page", produces = "text/html;charset=UTF-8")
 	public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
-		return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getStockPortfolioPageKey, "data/tradeRecord");
+		return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.STOCK_PORTFOLIO_PAGE_KEY, "data/tradeRecord");
 	}
 	
 	/**

@@ -6,7 +6,7 @@ import java.io.Serializable;
  * 排序字段 DTO
  * 类名 ing 避免和 ES SortField 重名。
  *
- * @author zhouliangjun
+ * @author 丢失的橘子
  */
 public class SortingField implements Serializable {
 
@@ -30,7 +30,9 @@ public class SortingField implements Serializable {
      */
     private String order;
 
-    // 空构造方法，解决反序列化
+    /**
+     * 空构造方法，解决反序列化
+     */
     public SortingField() {
     }
 

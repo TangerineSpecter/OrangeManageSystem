@@ -46,7 +46,7 @@ public class MenuSettingController {
     @RequiresPermissions("system:menu:page")
     @GetMapping(value = "/page", produces = "text/html;charset=UTF-8")
     public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
-        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getSystemMenuPageKey, "system/menuSetting");
+        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.SYSTEM_MENU_PAGE_KEY, "system/menuSetting");
     }
 
     @ApiOperation("添加编辑菜单页面")

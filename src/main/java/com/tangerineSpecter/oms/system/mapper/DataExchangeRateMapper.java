@@ -32,22 +32,48 @@ public interface DataExchangeRateMapper extends BaseMapper<DataExchangeRate> {
             return new DataExchangeRate();
         }
         return selectOne(new QueryWrapper<DataExchangeRate>()
-                .eq("code", code)
-                .orderByDesc("record_time")
-                .last("limit 1"));
+            .eq("code", code)
+            .orderByDesc("record_time")
+            .last("limit 1"));
     }
 
     /**
      * 获取最近记录的汇率数据
      *
+     * @param date 指定最近时间，不指定则取最新数据
+     * @param code 代码，无则查全部代码
      * @return 汇率数据
      */
-    List<DataExchangeRate> selectListByLastRecordTime();
+    List<DataExchangeRate> selectListByLastRecordTime(@Param("date") String date, @Param("code") String code);
+
+    /**
+     * 获取最近记录的汇率数据
+     *
+     * @param date 指定最近时间，不指定则取最新数据
+     * @param code 代码，无则查全部代码
+     * @return 汇率数据
+     */
+    DataExchangeRate selectOneByLastRecordTime(@Param("date") String date, @Param("code") String code);
 
     /**
      * 插入数据存在则忽略
+     *
      * @param insertData 插入数据
      * @return 成功条数
      */
     int insertIgnore(@Param("data") DataExchangeRate insertData);
+
+    /**
+     * 根据时间和code查询汇率信息
+     *
+     * @param code       代码
+     * @param recordTime 记录时间
+     * @return 汇率信息
+     */
+    default DataExchangeRate selectOneByRecordTime(String code, String recordTime) {
+        return selectOne(new QueryWrapper<DataExchangeRate>()
+            .eq("code", code)
+            .eq("recode_time", recordTime)
+            .last("limit 1"));
+    }
 }

@@ -51,7 +51,7 @@ public class FundDataController {
     @RequiresPermissions("table:fund:page")
     @GetMapping(value = "/page", produces = "text/html;charset=UTF-8")
     public String pageInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
-        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.getFundPageKey, "data/fund");
+        return pageResultService.getPageHtmlContent(request, response, model, PageModelKey.FUND_PAGE_KEY, "data/fund");
     }
 
     /**
